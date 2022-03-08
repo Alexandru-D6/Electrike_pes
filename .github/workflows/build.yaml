@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.10.3'
+          flutter-version: '2.3.0'
           channel: 'dev'
       # This action sets up a java environment
       # https://github.com/actions/setup-java
