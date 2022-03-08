@@ -2,10 +2,12 @@
 name:  Test, build and deploy
 # Trigger the workflow on push or pull request
 on: 
-  [push,pull_request]:
+  push:
     branches:
       - 'main'
-      - 'master'
+  pull_request:
+    branches:
+      - 'main'
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
   build_deploy:
@@ -13,7 +15,6 @@ jobs:
     if: github.event_name != 'pull_request'
     runs-on: macos-latest
     #Identifies any jobs that must complete successfully before this job will run.
-    needs: [drive_ios,drive_android,test]
     name: Build  apk  and web
     steps:
       - uses: actions/checkout@v2
