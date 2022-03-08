@@ -42,7 +42,7 @@ jobs:
       - name: Create a Release APK
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ github.ref }}
+          tag: Realease 0.1v
           artifacts: "build/app/outputs/apk/debug/*.apk,build/macos/Build/Products/Release/*.app"
           token: ${{ secrets.GITHUB_TOKEN }}
       # build Flutter web version
@@ -52,6 +52,6 @@ jobs:
       - uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-          BASE_BRANCH: master
+          BASE_BRANCH: main
           BRANCH: gh-pages
           FOLDER: build/web
