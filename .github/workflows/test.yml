@@ -1,7 +1,17 @@
 #The name of your workflow.
 name:  Test, build and deploy
 # Trigger the workflow on push or pull request
-on: [push,pull_request]:
+on: 
+  push:
+    branches:
+      - 'Alexandru'
+      - 'Alvaro'
+      - 'Eloi'
+      - 'Ferran'
+      - 'Peilin'
+      - 'Victor'
+      - 'Xavi'
+  pull_request:
     branches:
       - 'Alexandru'
       - 'Alvaro'
