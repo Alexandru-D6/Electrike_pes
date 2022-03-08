@@ -42,6 +42,7 @@ jobs:
       - name: Create a Release APK
         uses: ncipollo/release-action@v1
         with:
+          tag: ${{ github.ref }}
           artifacts: "build/app/outputs/apk/debug/*.apk,build/macos/Build/Products/Release/*.app"
           token: ${{ secrets.GITHUB_TOKEN }}
       # build Flutter web version
