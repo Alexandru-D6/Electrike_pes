@@ -25,8 +25,8 @@ jobs:
       - run: flutter test --coverage
       # Upload coverage reports to Codecov
       # https://github.com/marketplace/actions/codecov
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+      - uses: 5monkeys/cobertura-action@master
         with:
-          token: a266b35c-84af-492b-a6d9-425f83a6d3ea
-          file: coverage/lcov.info
+          path: src/test.xml
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          minimum_coverage: 75
