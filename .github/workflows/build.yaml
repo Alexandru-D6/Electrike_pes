@@ -12,7 +12,7 @@ jobs:
     needs: [drive_ios,drive_android,test]
     name: Build  apk  and web
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
