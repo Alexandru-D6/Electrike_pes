@@ -27,6 +27,7 @@ jobs:
         with:
           java-version: '12.x'
       #enable linux,macos,windows   and  web
+      - run: flutter create --platforms=windows,macos,linux
       - run: flutter  config --enable-web
       - run: flutter  config --enable-linux-desktop
       - run: flutter  config --enable-macos-desktop
