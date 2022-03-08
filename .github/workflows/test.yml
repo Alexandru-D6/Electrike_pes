@@ -1,7 +1,15 @@
 #The name of your workflow.
 name:  Test, build and deploy
 # Trigger the workflow on push or pull request
-on: [push]
+on: [push,pull_request]:
+    branches:
+      - 'Alexandru'
+      - 'Alvaro'
+      - 'Eloi'
+      - 'Ferran'
+      - 'Peilin'
+      - 'Victor'
+      - 'Xavi'
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
 
