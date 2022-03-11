@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: _resetCounter,
-              child: const Text('Reset Counter'),
+              child: const Text('Reset Counter Testing another Main file'),
             ),
           ],
         ),
