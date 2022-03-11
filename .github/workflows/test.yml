@@ -16,6 +16,8 @@ jobs:
     runs-on: self-hosted
     #sequence of tasks called
     steps:
+      - name: Clean Workspace
+        run: sudo rm -rf $GITHUB_WORKSPACE
       # The branch or tag ref that triggered the workflow will be checked out.
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2
