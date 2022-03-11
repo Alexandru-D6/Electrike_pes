@@ -4,22 +4,10 @@ name:  Test, build and deploy
 on: 
   push:
     branches:
-      - 'Alexandru'
-      - 'Alvaro'
-      - 'Eloi'
-      - 'Ferran'
-      - 'Peilin'
-      - 'Victor'
-      - 'Xavi'
+      - ''
   pull_request:
     branches:
-      - 'Alexandru'
-      - 'Alvaro'
-      - 'Eloi'
-      - 'Ferran'
-      - 'Peilin'
-      - 'Victor'
-      - 'Xavi'
+      - ''
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
 
