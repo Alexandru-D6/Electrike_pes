@@ -10,7 +10,7 @@ jobs:
   build_deploy:
     #if conditional to prevent a job from running
     if: github.event_name != 'pull_request'
-    runs-on: macos-latest
+    runs-on: self-hosted
     #Identifies any jobs that must complete successfully before this job will run.
     name: Build  apk  and web
     steps:
@@ -25,24 +25,24 @@ jobs:
           java-version: '12.x'
       #enable linux,macos,windows   and  web
       - run: flutter  config --enable-web
-      - run: flutter  config --enable-linux-desktop
-      - run: flutter  config --enable-macos-desktop
       - run: flutter  config --enable-windows-desktop
       - run: flutter pub get
-      - run: flutter create --platforms=windows,macos,linux .
-      # build macOS desktop version
-      - run: flutter build macos --release
+      - run: flutter create --platforms=windows .
+
       # build Android version
-      - run: flutter build apk --debug --split-per-abi
+      - run: flutter build apk --split-per-abi
+      - run: flutter build appbundle
       # This action will create a github release and optionally upload an artifact to it.
       # https://github.com/ncipollo/release-action
       - name: Create a Release APK
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/debug/*.apk,build/macos/Build/Products/Release/*.app"
+          artifacts: "build/app/outputs/apk/release/*.apk,build/app/outputs/bundle/release/*.aab"
           token: ${{ secrets.GITHUB_TOKEN }}
       # build Flutter web version
-      - run: flutter build web
+      - run: flutter channel stable
+      - run: flutter upgrade
+      - run: flutter build web --web-renderer html
       # Handle the deploy process of your project to GitHub Pages.
       # https://github.com/JamesIves/github-pages-deploy-action
       - uses: JamesIves/github-pages-deploy-action@releases/v3
