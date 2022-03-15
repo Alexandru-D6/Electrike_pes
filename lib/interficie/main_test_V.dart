@@ -14,13 +14,16 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static final String title = 'Navigation Drawer';
+  static final String title = 'Electrike';
 
   @override
   Widget build(BuildContext context) => MaterialApp(
     debugShowCheckedModeBanner: false,
     title: title,
-    theme: ThemeData(primarySwatch: Colors.blue),
+    theme: ThemeData(
+        primarySwatch: Colors.green,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+    ),
     home: MainPage(),
   );
 }
@@ -28,18 +31,6 @@ class MyApp extends StatelessWidget {
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
-}
-
-class MyrApp extends StatelessWidget {
-  static final String title = 'Navigation Drawer';
-
-  @override
-  Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: title,
-    theme: ThemeData(primarySwatch: Colors.blue),
-    home: MainPage(),
-  );
 }
 
 class MainPager extends StatefulWidget {
