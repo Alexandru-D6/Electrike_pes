@@ -4,15 +4,13 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
       home: MyMap(),
   ));
 }
 
 
 class MyMap extends StatefulWidget {
-  const MyMap({Key? key}) : super(key: key);
-
 
   @override
   State<MyMap> createState() => _MyMapState();
