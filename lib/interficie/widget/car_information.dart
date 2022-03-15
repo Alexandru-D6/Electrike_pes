@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../domini/car.dart';
 import '../constants.dart';
+import 'attribute.dart';
 
 
 class CarInfomation extends StatelessWidget {
   const CarInfomation({
-    Key key,
-    @required this.car,
+    Key? key,
+    required this.car,
   }) : super(key: key);
 
   final Car car;

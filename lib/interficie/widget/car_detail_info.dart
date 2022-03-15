@@ -1,11 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../domini/car.dart';
+import '../constants.dart';
+import 'attribute.dart';
 
 class CarDetailInfomation extends StatelessWidget {
   const CarDetailInfomation({
-    Key key,
-    @required this.car,
+    Key? key,
+    required this.car,
   }) : super(key: key);
 
   final Car car;
@@ -28,7 +31,7 @@ class CarDetailInfomation extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                'assets/images/av.png',
+                'assets/images/bentley.png',
                 height: 120,
               ),
               SizedBox(
@@ -59,7 +62,7 @@ class CarDetailInfomation extends StatelessWidget {
 
 class DriverCall extends StatelessWidget {
   const DriverCall({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -100,7 +103,7 @@ class DriverCall extends StatelessWidget {
 
 class DiverAppraise extends StatelessWidget {
   const DiverAppraise({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -114,11 +117,6 @@ class DiverAppraise extends StatelessWidget {
         SizedBox(
           width: 6,
         ),
-        RatingBar(
-          onRatingUpdate: (value) {},
-          size: 14,
-          selectColor: Colors.white,
-        ),
       ],
     );
   }
@@ -126,7 +124,7 @@ class DiverAppraise extends StatelessWidget {
 
 class DriverInfo extends StatelessWidget {
   const DriverInfo({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -178,8 +176,8 @@ class DriverInfo extends StatelessWidget {
 
 class CarInfo extends StatelessWidget {
   const CarInfo({
-    Key key,
-    @required this.car,
+    Key? key,
+    required this.car,
   }) : super(key: key);
 
   final Car car;

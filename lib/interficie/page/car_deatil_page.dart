@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
-class CarDetailScreen extends StatelessWidget {
+import '../../domini/car.dart';
+import '../widget/car_detail_info.dart';
+import '../widget/lateral_menu_widget.dart';
+
+class CarDetailPage extends StatelessWidget {
   final Car car;
 
-  CarDetailScreen(this.car);
+  CarDetailPage(this.car);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavigationDrawerWidget(),
       body: Container(
         child: Stack(
           children: [
@@ -16,7 +21,6 @@ class CarDetailScreen extends StatelessWidget {
               width: double.infinity,
               fit: BoxFit.fill,
             ),
-            MyAppbar(),
             Positioned(
               left: 24,
               right: 24,

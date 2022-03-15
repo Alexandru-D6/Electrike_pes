@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../widget/car_list_item.dart';
+import '../widget/lateral_menu_widget.dart';
 
 
 class GaragePage extends StatelessWidget {
@@ -9,6 +11,7 @@ class GaragePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: mPrimaryColor,
       appBar: buildAppBar(),
+      drawer: NavigationDrawerWidget(),
       body: ListView.builder(
         itemCount: carList.length,
         itemBuilder: (context, index) => CarListItem(index),
@@ -20,11 +23,11 @@ class GaragePage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: Text('Available Car'),
+      title: Text('Garage'),
       actions: [
         IconButton(
           icon: Icon(
-            Icons.menu,
+            Icons.add_circle_rounded,
             color: Colors.white,
           ),
           onPressed: () {},

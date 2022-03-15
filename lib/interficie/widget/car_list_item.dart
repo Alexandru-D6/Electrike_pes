@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../domini/car.dart';
 import '../constants.dart';
+import '../page/car_deatil_page.dart';
+import 'car_information.dart';
 
 
 class CarListItem extends StatelessWidget {
   const CarListItem(
       this.index, {
-        Key key,
+        Key? key,
       }) : super(key: key);
 
   final int index;
@@ -21,7 +23,7 @@ class CarListItem extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return CarDetailScreen(car);
+              return CarDetailPage(car);
             },
           ),
         );

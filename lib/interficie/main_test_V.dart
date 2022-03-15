@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/interficie/constants.dart';
 
 import 'widget/lateral_menu_widget.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     debugShowCheckedModeBanner: false,
     title: title,
     theme: ThemeData(
-        primarySwatch: Colors.green,
+        primaryColor: mPrimaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
     home: MainPage(),
