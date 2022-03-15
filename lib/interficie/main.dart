@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'page/garage_page.dart';
+
+
 void main() {
   runApp(MaterialApp(
       home: MyMap(),
   ));
 }
-
 
 class MyMap extends StatefulWidget {
 
@@ -20,6 +22,22 @@ class _MyMapState extends State<MyMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.apps),
+            tooltip: 'Menú principal',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => garage_page()),
+                );
+              }
+          )
+        ],
+        title: const Text('Electrike'),
+        backgroundColor: Colors.greenAccent,
+      ),
       body: Center(
           child: Container(
             child: Column(
@@ -41,7 +59,7 @@ class _MyMapState extends State<MyMap> {
                           Marker(
                           point: LatLng(41.390205, 2.154007),
                           builder: (ctx) => const Icon(
-                            Icons.pin_drop,
+                            Icons.pin_drop_outlined,
                             color: Colors.deepPurpleAccent,
                             size: 45,
                           ),
