@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/main_test_V.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
+import 'package:flutter_project/interficie/page/garage_page.dart';
 
+import '../page/information_app_page.dart';
+import '../page/rewards_page.dart';
 import '../page/user_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
@@ -8,14 +13,14 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = 'Username';
-    final email = 'sarah@abs.com';
+    final name = 'Víctor';
+    final email = 'victorasenj@gmail.com';
     final urlImage =
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
+        'https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=634&q=80';
 
     return Drawer(
       child: Material(
-        color: Color.fromRGBO(50, 75, 205, 1),
+        color: mPrimaryColor,
         //definim el color de fons del menú lateral
         child: ListView(
           children: <Widget>[
@@ -36,42 +41,55 @@ class NavigationDrawerWidget extends StatelessWidget {
               padding: padding,
               child: Column(
                 children: [
+                  const SizedBox(height: 12),
+                  const SizedBox(height: 24),
+                  buildMenuItem(
+                    text: 'Map',
+                    icon: Icons.map_outlined,
+                    onClicked: () => selectedItem(context, 0),
+                  ),
                   const SizedBox(height: 24),
                   buildMenuItem(
                     text: 'Garage',
                     icon: Icons.garage,
-                    onClicked: () => selectedItem(context, 0),
+                    onClicked: () => selectedItem(context, 1),
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
                     text: 'Favourites',
                     icon: Icons.favorite_border,
-                    onClicked: () => selectedItem(context, 1),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    text: 'Workflow',
-                    icon: Icons.workspaces_outline,
                     onClicked: () => selectedItem(context, 2),
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'Updates',
-                    icon: Icons.update,
+                    text: 'Achievements',
+                    icon: Icons.emoji_events,
                     onClicked: () => selectedItem(context, 3),
+                  ),
+                  const SizedBox(height: 16),
+                  buildMenuItem(
+                    text: 'Information',
+                    icon: Icons.info,
+                    onClicked: () => selectedItem(context, 4),
                   ),
                   const SizedBox(height: 24),
                   Divider(color: Colors.white70),
                   const SizedBox(height: 24),
                   buildMenuItem(
-                    text: 'Plugins',
-                    icon: Icons.account_tree_outlined,
-                    onClicked: () => selectedItem(context, 4),
+                    text: 'Contact us',
+                    icon: Icons.phone,
+                    onClicked: () => selectedItem(context, 5),
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'Notifications',
-                    icon: Icons.notifications_outlined,
+                    /*new DropdownButton(
+                      value: _currentLanguage,
+                      items: _dropDownMenuItems,
+                      onChanged: changedLanguage,
+                    )*/
+                    //aquí va un desplegable
+                    text: 'Language',
+                    icon: Icons.translate,
                     onClicked: () => selectedItem(context, 5),
                   ),
                 ],
@@ -170,13 +188,62 @@ class NavigationDrawerWidget extends StatelessWidget {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FavouritesPage(),
+          builder: (context) => MainPage(),
         ));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => GaragePage(),
+        ));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => FavouritesPage(),
         ));
         break;
+      case 3:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => RewardsPage(),
+        ));
+        break;
+      case 4:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => InformationAppPage(),
+        ));
+        break;
+      case 5:
+        break;
     }
   }
+/*
+List _languages =
+["Català", "Español", "English"];
+
+List<DropdownMenuItem<String>> _dropDownMenuItems;
+String _currentLanguage;
+
+@override
+void initState() {
+  _dropDownMenuItems = getDropDownMenuItems();
+  _currentLanguage = _dropDownMenuItems[0].value;
+  super.initState();
+}
+// here we are creating the list needed for the DropDownButton
+List<DropdownMenuItem<String>> getDropDownMenuItems() {
+  List<DropdownMenuItem<String>> items = new List();
+  for (String city in _languages) {
+    // here we are creating the drop down menu items, you can customize the item right here
+    // but I'll just use a simple text for this
+    items.add(new DropdownMenuItem(
+        value: city,
+        child: new Text(city)
+    ));
+  }
+  return items;
+}
+
+void changedLanguage(String selectedLanguage) {
+  setState(() {
+    _currentLanguage = selectedLanguage;
+  });
+}*/

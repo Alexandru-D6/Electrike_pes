@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/interficie/constants.dart';
 
 import 'widget/lateral_menu_widget.dart';
 
@@ -18,11 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: title,
-    theme: ThemeData(primarySwatch: Colors.blue),
-    home: MainPage(),
-  );
+        debugShowCheckedModeBanner: false,
+        title: title,
+        theme: ThemeData(
+          primaryColor: mPrimaryColor,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: MainPage(),
+      );
 }
 
 class MainPage extends StatefulWidget {
@@ -35,11 +39,11 @@ class MyrApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: title,
-    theme: ThemeData(primarySwatch: Colors.blue),
-    home: MainPage(),
-  );
+        debugShowCheckedModeBanner: false,
+        title: title,
+        theme: ThemeData(primarySwatch: Colors.blue),
+        home: MainPage(),
+      );
 }
 
 class MainPager extends StatefulWidget {
@@ -50,10 +54,10 @@ class MainPager extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-    drawer: NavigationDrawerWidget(),
-    // endDrawer: NavigationDrawerWidget(),
-    appBar: AppBar(
-      title: Text(MyApp.title),
-    ),
-  );
+        drawer: NavigationDrawerWidget(),
+        // endDrawer: NavigationDrawerWidget(),
+        appBar: AppBar(
+          title: Text(MyApp.title),
+        ),
+      );
 }

@@ -32,7 +32,7 @@ class _MyMapState extends State<MyMap> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => garage_page()),
+                  MaterialPageRoute(builder: (context) => GaragePage()),
                 );
               }
           )
@@ -61,7 +61,7 @@ class _MyMapState extends State<MyMap> {
                           Marker(
                           point: LatLng(41.390205, 2.154007),
                           builder: (ctx) => const Icon(
-                            Icons.pin_drop_outlined,
+                            Icons.place,
                             color: Colors.deepPurpleAccent,
                             size: 45,
                           ),
