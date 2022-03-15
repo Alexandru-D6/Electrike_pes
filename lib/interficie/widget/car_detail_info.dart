@@ -30,25 +30,19 @@ class CarDetailInfomation extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                'assets/images/bentley.png',
-                height: 120,
-              ),
               SizedBox(
                 width: 16,
               ),
               Expanded(
                 child: Column(
                   children: [
-                    DriverInfo(),
                     SizedBox(
                       height: 12,
                     ),
-                    DiverAppraise(),
                     SizedBox(
                       height: 12,
                     ),
-                    DriverCall(),
+                    EditInfoCar(),
                   ],
                 ),
               )
@@ -60,8 +54,8 @@ class CarDetailInfomation extends StatelessWidget {
   }
 }
 
-class DriverCall extends StatelessWidget {
-  const DriverCall({
+class EditInfoCar extends StatelessWidget {
+  const EditInfoCar({
     Key? key,
   }) : super(key: key);
 
@@ -77,7 +71,7 @@ class DriverCall extends StatelessWidget {
             borderRadius: BorderRadius.circular(36),
           ),
           child: Text(
-            'Call',
+            'Edit',
             style: TextStyle(
               color: Colors.white,
             ),
@@ -90,7 +84,7 @@ class DriverCall extends StatelessWidget {
             borderRadius: BorderRadius.circular(36),
           ),
           child: Text(
-            'Book Now',
+            'Delete',
             style: TextStyle(
               color: Colors.white,
             ),
@@ -101,55 +95,13 @@ class DriverCall extends StatelessWidget {
   }
 }
 
-class DiverAppraise extends StatelessWidget {
-  const DiverAppraise({
-    Key? key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          '5.0',
-          style: TextStyle(),
-        ),
-        SizedBox(
-          width: 6,
-        ),
-      ],
-    );
-  }
-}
-
-class DriverInfo extends StatelessWidget {
-  const DriverInfo({
-    Key? key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Jesica Smith',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Text(
-              'License NWR 369852',
-              style: TextStyle(
-                fontSize: 10,
-              ),
-            ),
-          ],
-        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -172,7 +124,7 @@ class DriverInfo extends StatelessWidget {
       ],
     );
   }
-}
+
 
 class CarInfo extends StatelessWidget {
   const CarInfo({

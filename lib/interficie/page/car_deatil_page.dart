@@ -16,11 +16,6 @@ class CarDetailPage extends StatelessWidget {
       body: Container(
         child: Stack(
           children: [
-            Image.asset(
-              'assets/images/map.png',
-              width: double.infinity,
-              fit: BoxFit.fill,
-            ),
             Positioned(
               left: 24,
               right: 24,
