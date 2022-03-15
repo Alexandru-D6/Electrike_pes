@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/interficie/page/favourites_page.dart';
+
+import '../page/user_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);
+
   @override
   Widget build(BuildContext context) {
-    final name = 'Sarah Abs';
+    final name = 'Username';
     final email = 'sarah@abs.com';
     final urlImage =
         'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
@@ -12,25 +16,26 @@ class NavigationDrawerWidget extends StatelessWidget {
     return Drawer(
       child: Material(
         color: Color.fromRGBO(50, 75, 205, 1),
+        //definim el color de fons del menú lateral
         child: ListView(
           children: <Widget>[
             buildHeader(
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => UserPage(
-                  name: 'Sarah Abs',
-                  urlImage: urlImage,
-                ),
-              )),
+              onClicked: () =>
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        UserPage(
+                          name: name,
+                          urlImage: urlImage,
+                        ),
+                  )),
             ),
             Container(
               padding: padding,
               child: Column(
                 children: [
-                  const SizedBox(height: 12),
-                  buildSearchField(),
                   const SizedBox(height: 24),
                   buildMenuItem(
                     text: 'Garage',
@@ -116,6 +121,7 @@ class NavigationDrawerWidget extends StatelessWidget {
           ),
         ),
       );
+}
 
   Widget buildSearchField() {
     final color = Colors.white;
@@ -157,13 +163,14 @@ class NavigationDrawerWidget extends StatelessWidget {
     );
   }
 
+  //definimos dónde navega cada item del menú lateral
   void selectedItem(BuildContext context, int index) {
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
 
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PeoplePage(),
+          builder: (context) => FavouritesPage(),
         ));
         break;
       case 1:
@@ -173,4 +180,3 @@ class NavigationDrawerWidget extends StatelessWidget {
         break;
     }
   }
-}
