@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'my_cars.dart';
+import 'garage_page.dart';
+
 
 void main() {
   runApp(const MaterialApp(
@@ -32,7 +33,7 @@ class _MyMapState extends State<MyMap> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => my_cars()),
+                  MaterialPageRoute(builder: (context) => garage_page()),
                 );
               }
           )

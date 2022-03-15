@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 final Color backgroundColor = Color(0xFF4A4A58);
 
-class my_cars extends StatefulWidget {
+class garage_page extends StatefulWidget {
   @override
-  _my_carsState createState() => _my_carsState();
+  _garage_pageState createState() => _garage_pageState();
 }
 
-class _my_carsState extends State<my_cars> with SingleTickerProviderStateMixin {
+class _garage_pageState extends State<garage_page> with SingleTickerProviderStateMixin {
   bool isCollapsed = true;
   late double screenWidth, screenHeight;
   final Duration duration = const Duration(milliseconds: 300);
