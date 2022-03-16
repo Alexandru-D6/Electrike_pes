@@ -28,14 +28,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () =>
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        UserPage(
-                          name: name,
-                          urlImage: urlImage,
-                        ),
-                  )),
+              onClicked: () => selectedItem(context, 22),
             ),
             Container(
               padding: padding,
@@ -213,6 +206,10 @@ class NavigationDrawerWidget extends StatelessWidget {
         break;
       case 5:
         break;
+      case 22:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => login_page(),
+        ));
     }
   }
 /*
