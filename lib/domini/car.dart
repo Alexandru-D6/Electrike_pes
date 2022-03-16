@@ -1,6 +1,7 @@
 class Car {
   String image;
   int price;
+  String brand;
   String model;
   String co2;
   String fuelCons;
