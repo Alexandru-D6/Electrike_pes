@@ -15,7 +15,7 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static final String title = 'Navigation Drawer';
+  static final String title = 'Electrike';
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -35,7 +35,7 @@ class MainPage extends StatefulWidget {
 }
 
 class MyrApp extends StatelessWidget {
-  static final String title = 'Navigation Drawer';
+  static final String title = 'Electrike';
 
   @override
   Widget build(BuildContext context) => MaterialApp(

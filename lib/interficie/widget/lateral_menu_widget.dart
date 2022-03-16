@@ -3,6 +3,7 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/main_test_V.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
+import 'package:flutter_project/interficie/page/login_page.dart';
 
 import '../page/information_app_page.dart';
 import '../page/rewards_page.dart';
@@ -208,7 +209,7 @@ class NavigationDrawerWidget extends StatelessWidget {
         break;
       case 22:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => login_page(),
+          builder: (context) => LoginPage(),
         ));
     }
   }
