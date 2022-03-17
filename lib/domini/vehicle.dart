@@ -8,7 +8,7 @@ class Vehicle {
 
   int _idVechicleSistema = 0;
 
-  // Constructora
+   // Constructora
   Vehicle.marcaModel(this.marca, this.model) {
     id = _idVechicleSistema;
     incrementaIdSistema();
@@ -29,5 +29,8 @@ class Vehicle {
   // GETTERS
 
   // SETTERS
+  set idVechicleSistema(int value) {
+    _idVechicleSistema = value;
+  }
 
 }
