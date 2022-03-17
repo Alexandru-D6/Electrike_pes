@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/widget/charge_point_detail_info.dart';
 import 'package:latlong2/latlong.dart';
+
+import '../../domini/charge_point.dart';
 
 class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
@@ -62,9 +65,10 @@ class _MyMapState extends State<MyMap> {
     for (var i = 0; i < chargePointList.length; ++i) {
       chargePoints.add(
           buildMarker(
+            index: i,
             lat: chargePointList[i].lat,
             long: chargePointList[i].long,
-            charger: chargePointList[i].chargerType,
+            charger: chargePointList[i].tipus,
           )
       );
     }
@@ -76,10 +80,12 @@ class _MyMapState extends State<MyMap> {
 }
 
 Marker buildMarker({
+  required int index,
   required double lat,
   required double long,
   required String charger,
 }){
+  ChargePoint point = chargePointList[index];
   return Marker(
     width: 50.0,
     height: 50.0,
@@ -92,11 +98,29 @@ Marker buildMarker({
           onPressed: (){
             showModalBottomSheet(
                 context: ctx,
+                backgroundColor: const Color(0x00000000),
                 builder: (builder){
                   return Container(
-                    color: Colors.white,
-                    child: Center(
-                      child: Text(charger),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 24,
+                          right: 24,
+                          bottom: 24,
+                          child: Stack(
+                            children: [
+                              PointDetailInformation(point: point),
+                              Positioned(
+                                right: 16,
+                                child: Image.asset(
+                                  "assets/images/charge_point.png",
+                                  height: 125,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 });
