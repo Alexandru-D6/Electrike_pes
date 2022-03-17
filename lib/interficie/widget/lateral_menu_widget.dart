@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/interficie/main_test_V.dart';
+import 'package:flutter_project/interficie/main.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
+import 'package:flutter_project/interficie/page/login_page.dart';
+import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
 
 import '../page/information_app_page.dart';
 import '../page/login_page.dart';
@@ -29,61 +31,51 @@ class NavigationDrawerWidget extends StatelessWidget {
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => selectedItem(context, 22),
+              onClicked: () => selectedItem(context, 16),
             ),
             Container(
               padding: padding,
               child: Column(
                 children: [
-                  const SizedBox(height: 12),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Map',
                     icon: Icons.map_outlined,
                     onClicked: () => selectedItem(context, 0),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Garage',
                     icon: Icons.garage,
                     onClicked: () => selectedItem(context, 1),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Favourites',
                     icon: Icons.favorite_border,
                     onClicked: () => selectedItem(context, 2),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Achievements',
                     icon: Icons.emoji_events,
                     onClicked: () => selectedItem(context, 3),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
+                  Divider(color: Colors.white70),
+                  const SizedBox(height: 10),
+                  const MyStatefulWidget(),
+
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Information',
                     icon: Icons.info,
                     onClicked: () => selectedItem(context, 4),
                   ),
-                  const SizedBox(height: 24),
-                  Divider(color: Colors.white70),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Contact us',
                     icon: Icons.phone,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-                  const SizedBox(height: 16),
-                  buildMenuItem(
-                    /*new DropdownButton(
-                      value: _currentLanguage,
-                      items: _dropDownMenuItems,
-                      onChanged: changedLanguage,
-                    )*/
-                    //aquí va un desplegable
-                    text: 'Language',
-                    icon: Icons.translate,
                     onClicked: () => selectedItem(context, 5),
                   ),
                 ],
@@ -135,30 +127,6 @@ class NavigationDrawerWidget extends StatelessWidget {
       );
 }
 
-  Widget buildSearchField() {
-    final color = Colors.white;
-
-    return TextField(
-      style: TextStyle(color: color),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        hintText: 'Search',
-        hintStyle: TextStyle(color: color),
-        prefixIcon: Icon(Icons.search, color: color),
-        filled: true,
-        fillColor: Colors.white12,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
-        ),
-      ),
-    );
-  }
-
   Widget buildMenuItem({
     required String text,
     required IconData icon,
@@ -169,7 +137,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
     return ListTile(
       leading: Icon(icon, color: color),
-      title: Text(text, style: TextStyle(color: color)),
+      title: Text(text, style: TextStyle(fontSize: 18, color: color)),
       hoverColor: hoverColor,
       onTap: onClicked,
     );
@@ -213,35 +181,3 @@ class NavigationDrawerWidget extends StatelessWidget {
         ));
     }
   }
-/*
-List _languages =
-["Català", "Español", "English"];
-
-List<DropdownMenuItem<String>> _dropDownMenuItems;
-String _currentLanguage;
-
-@override
-void initState() {
-  _dropDownMenuItems = getDropDownMenuItems();
-  _currentLanguage = _dropDownMenuItems[0].value;
-  super.initState();
-}
-// here we are creating the list needed for the DropDownButton
-List<DropdownMenuItem<String>> getDropDownMenuItems() {
-  List<DropdownMenuItem<String>> items = new List();
-  for (String city in _languages) {
-    // here we are creating the drop down menu items, you can customize the item right here
-    // but I'll just use a simple text for this
-    items.add(new DropdownMenuItem(
-        value: city,
-        child: new Text(city)
-    ));
-  }
-  return items;
-}
-
-void changedLanguage(String selectedLanguage) {
-  setState(() {
-    _currentLanguage = selectedLanguage;
-  });
-}*/
