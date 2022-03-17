@@ -1,12 +1,12 @@
 import 'package:flutter_project/domini/vehicle.dart';
 
-class vh_electric extends vehicle {
-  late double capacitat_bateria;
+class VhElectric extends Vehicle {
+  late double capacitatBateria;
   late Set endolls ;
 
 
-  vh_electric.buit() : super.buit();
-  vh_electric.complet(this.capacitat_bateria, double potencia, double consum, String marca, String model)
+  VhElectric.buit() : super.buit();
+  VhElectric.complet(this.capacitatBateria, double potencia, double consum, String marca, String model)
   : super.complet(potencia, consum, marca, model);
 
   // GETTERS
@@ -33,14 +33,14 @@ class vh_electric extends vehicle {
     super.model = model;
   }
 
-  void afegir_endoll(String endoll) {
+  void afegirEndoll(String endoll) {
     endolls.add(endoll);
   }
 
   // BOOLEANS
   
    /// @post: retorna cert si l'endoll es troba dins de la llista dels endolls que pot utilitzar el cotxe.
-  bool cerca_endoll(String endoll) {
+  bool cercaEndoll(String endoll) {
     bool trobat = false;
     if (endolls.lookup(endoll)) trobat = true;
     return trobat;

@@ -1,14 +1,14 @@
 import 'package:flutter_project/domini/vehicle.dart';
 
-class vh_combustible extends vehicle {
-  late double capacitat_deposit;
+class VhCombustible extends Vehicle {
+  late double capacitatDeposit;
 
-  late double emissio_co2;
+  late double emissioCo2;
 
-  vh_combustible.complet (this.capacitat_deposit, this.emissio_co2, double potencia, double consum, String marca, String model)
+  VhCombustible.complet (this.capacitatDeposit, this.emissioCo2, double potencia, double consum, String marca, String model)
   : super.complet(potencia, consum, marca, model);
 
-  vh_combustible.only_comb(this.capacitat_deposit, this.emissio_co2): super.buit();
+  VhCombustible.onlyComb(this.capacitatDeposit, this.emissioCo2): super.buit();
 
   // getter
 
