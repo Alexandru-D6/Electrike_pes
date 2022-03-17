@@ -1,7 +1,7 @@
-class coordenada{
+class Coordenada{
   late double latitud;
   late double longitud;
-  coordenada(double lat, double long){
+  Coordenada(double lat, double long){
     latitud = lat;
     longitud = long;
   }

@@ -1,16 +1,16 @@
 import 'package:flutter_project/domini/coordenada.dart';
 
-class punt_bicing{
+class PuntBicing{
   late int id;
   late int numB;
-  late coordenada coord;
+  late Coordenada coord;
 
-  punt_bicing.origin(){
+  PuntBicing.origin(){
     id = 0;
     numB = 0;
-    coord =  coordenada(0.0, 0.0);
+    coord =  Coordenada(0.0, 0.0);
   }
-  punt_bicing(int ident, int numBic, coordenada cord){
+  PuntBicing(int ident, int numBic, Coordenada cord){
     id = ident;
     numB = numBic;
     coord = cord;

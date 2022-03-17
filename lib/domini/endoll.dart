@@ -1,16 +1,17 @@
-import 'package:flutter_project/domini/coordenada.dart';
 
-class endoll{
+import 'coordenada.dart';
+
+class Endoll{
   late int id;
   late bool ocupat;
-  late coordenada cord;
+  late Coordenada cord;
   //late tipus_endoll tendoll;
-  endoll.origin(){
+  Endoll.origin(){
     id =-1;
     ocupat = false;
-    cord =  coordenada(0.0, 0.0);
+    cord =  Coordenada(0.0, 0.0);
   }
-  endoll(int id, bool ocupat, coordenada cord){
+  Endoll(int id, bool ocupat, Coordenada cord){
     id = id;
     ocupat = ocupat;
     cord = cord;

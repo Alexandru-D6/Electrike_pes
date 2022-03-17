@@ -1,22 +1,22 @@
 import 'package:flutter_project/domini/coordenada.dart';
 
-class estacio_carrega{
+class EstacioCarrega{
    late int id;
    late Set<int> endolls;
-   late coordenada coord;
+   late Coordenada coord;
 
-  estacio_carrega.origin(){
+  EstacioCarrega.origin(){
      id = -1;
      endolls = <int>{};
-     coord = coordenada(0.0, 0.0);
+     coord = Coordenada(0.0, 0.0);
   }
-   estacio_carrega.senseendolls(int ident, coordenada cord){
+   EstacioCarrega.senseendolls(int ident, Coordenada cord){
      id = ident;
      endolls = <int>{};
      coord = cord;
 
    }
-   estacio_carrega.ambendolls(int ident, Set<int> endollsS, coordenada cord ){
+   EstacioCarrega.ambendolls(int ident, Set<int> endollsS, Coordenada cord ){
      id = ident;
      endolls = endollsS;
      coord = cord;
