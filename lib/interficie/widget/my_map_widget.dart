@@ -11,7 +11,7 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMapState extends State<MyMap> {
-  double currentZoom = 13.0;
+  double currentZoom = 11.0;
   MapController mapController = MapController();
   LatLng currentCenter = LatLng(41.390205, 2.154007);
   void _zoom() {
@@ -60,7 +60,7 @@ class _MyMapState extends State<MyMap> {
       floatingActionButton: FloatingActionButton(
         onPressed: _zoom,
         tooltip: 'Zoom',
-        child: Icon(Icons.remove_circle_outline_rounded),
+        child: Icon(Icons.my_location),
       ),
     );
   }
