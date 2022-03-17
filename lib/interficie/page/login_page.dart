@@ -3,6 +3,8 @@ import 'package:sign_button/sign_button.dart';
 
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   login_page createState() => login_page();
 }
@@ -18,8 +20,8 @@ class login_page extends State<LoginPage> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlutterLogo(size: 150),
-              SizedBox(height: 50),
+              const FlutterLogo(size: 150),
+              const SizedBox(height: 50),
               SignInButton(
                   buttonType: ButtonType.google,
                   onPressed: () {

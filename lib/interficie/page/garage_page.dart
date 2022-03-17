@@ -6,6 +6,8 @@ import '../widget/lateral_menu_widget.dart';
 
 
 class GaragePage extends StatelessWidget {
+  const GaragePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,10 +25,10 @@ class GaragePage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: Text('Garage'),
+      title: const Text('Garage'),
       actions: [
         IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.add_circle_rounded,
             color: Colors.white,
           ),

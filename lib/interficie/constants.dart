@@ -4,9 +4,9 @@ import '../domini/car.dart';
 import '../domini/charge_point.dart';
 
 
-Color mPrimaryColor = Color(0xFF40ac9c);
+Color mPrimaryColor = const Color(0xFF40ac9c);
 
-Color mCardColor = Color(0xFF203e5a);
+Color mCardColor = const Color(0xFF203e5a);
 
 List<Car> carList = [
   Car('assets/images/bentley.png', 120, 'Bentley', '3A 9200', '77/km', '5,5 L'),
