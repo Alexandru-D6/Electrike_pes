@@ -1,0 +1,3 @@
+class vh_combustible {
+
+}
