@@ -51,7 +51,7 @@ class _MyMapState extends State<MyMap> {
         title: const Text('Electrike'),
         backgroundColor: Colors.greenAccent,
       ),
-      body: Center(
+        body: Center(
           child: Container(
             child: Column(
               children: [
