@@ -10,9 +10,5 @@ class PuntBicing{
     numB = 0;
     coord =  Coordenada(0.0, 0.0);
   }
-  PuntBicing(int ident, int numBic, Coordenada cord){
-    id = ident;
-    numB = numBic;
-    coord = cord;
-  }
+  PuntBicing(this.id, this.numB, this.coord);
 }

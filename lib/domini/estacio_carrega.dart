@@ -10,17 +10,10 @@ class EstacioCarrega{
      endolls = <int>{};
      coord = Coordenada(0.0, 0.0);
   }
-   EstacioCarrega.senseendolls(int ident, Coordenada cord){
-     id = ident;
+   EstacioCarrega.senseendolls(this.id, this.coord){
      endolls = <int>{};
-     coord = cord;
-
    }
-   EstacioCarrega.ambendolls(int ident, Set<int> endollsS, Coordenada cord ){
-     id = ident;
-     endolls = endollsS;
-     coord = cord;
-   }
+   EstacioCarrega.ambendolls(this.id, this.endolls, this.coord);
 
    void addEndoll(int id){
       endolls.add(id);
