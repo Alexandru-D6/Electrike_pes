@@ -16,7 +16,6 @@ class vehicle {
     incrementa_id_sistema();
   }
 
-  // Constructora
   vehicle.complet(double potencia, double consum, String marca, String model) {
     this._id = _id_vechicle_sistema;
     this._potencia = potencia;
@@ -25,6 +24,8 @@ class vehicle {
     this._model = model;
     incrementa_id_sistema();
   }
+
+  vehicle.buit() {}
 
   //post: incremanta el id_vehicle sistema
   void incrementa_id_sistema () {
@@ -51,7 +52,6 @@ class vehicle {
   String get vh_model {
     return this._model;
   }
-
 
 
   // SETTERS
