@@ -7,12 +7,12 @@ class estacio_carrega{
 
   estacio_carrega.origin(){
      id = -1;
-     endolls = Set.from([]);
-     coord = new coordenada(0.0, 0.0);
+     endolls = <int>{};
+     coord = coordenada(0.0, 0.0);
   }
    estacio_carrega.senseendolls(int ident, coordenada cord){
      id = ident;
-     endolls = Set();
+     endolls = <int>{};
      coord = cord;
 
    }
@@ -22,4 +22,16 @@ class estacio_carrega{
      coord = cord;
    }
 
+   void addEndoll(int id){
+      endolls.add(id);
+   }
+   bool isEndoll(int id){
+     return endolls.contains(id);
+   }
+   void deleteEndoll(int id){
+      endolls.remove(id);
+  }
+  int numEndolls(){
+      return endolls.length;
+  }
 }

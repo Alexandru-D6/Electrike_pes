@@ -8,7 +8,7 @@ class endoll{
   endoll.origin(){
     id =-1;
     ocupat = false;
-    cord = new coordenada(0.0, 0.0);
+    cord =  coordenada(0.0, 0.0);
   }
   endoll(int id, bool ocupat, coordenada cord){
     id = id;

@@ -8,7 +8,7 @@ class punt_bicing{
   punt_bicing.origin(){
     id = 0;
     numB = 0;
-    coord = new coordenada(0.0, 0.0);
+    coord =  coordenada(0.0, 0.0);
   }
   punt_bicing(int ident, int numBic, coordenada cord){
     id = ident;
