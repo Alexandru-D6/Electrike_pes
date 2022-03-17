@@ -1,3 +1,5 @@
+import 'package:flutter_project/domini/trofeu.dart';
+
 class usuari {
   late String _correu;
   late String _name;
@@ -5,16 +7,19 @@ class usuari {
   late int _token;
   late int _kmRecorregut;
   late int _co2Estalviat;
+  late trofeu t;
 
   usuari(String correu, int token, String foto) {
     _correu = correu;
     _token = token;
     _foto = foto;
+    _co2Estalviat = 0;
   }
 
   afegir_kmRecorregut(int kmRecorregut) {
     _kmRecorregut = kmRecorregut;
-    //co2Estalviat =
+    //co2Estalviat = calcular!!
+    //if (co2Estalviat > .. or kMRecorregut > .. ) otorgar premis!
   }
 
   String get correu {
