@@ -1,77 +1,28 @@
 
-class vehicle {
-  late int _id;
-  double _potencia = 0.0;
-  double _consum = 0.0;
-  late String _marca;
-  late String _model;
+class Vehicle {
+  late int id;
+  double potencia = 0.0;
+  double consum = 0.0;
+  late String marca;
+  late String model;
 
-  int _id_vechicle_sistema = 0;
+  final int _idVechicleSistema = 0;
 
   // Constructora
-  vehicle.marca_model(String marca, String model) {
-    this._id = _id_vechicle_sistema;
-    this._marca = marca;
-    this._model = model;
-    incrementa_id_sistema();
+  Vehicle.marcaModel(this.marca, this.model) {
+    id = _idVechicleSistema;
+    incrementaIdSistema();
   }
 
-  vehicle.complet(double potencia, double consum, String marca, String model) {
-    this._id = _id_vechicle_sistema;
-    this._potencia = potencia;
-    this._consum = consum;
-    this._marca = marca;
-    this._model = model;
-    incrementa_id_sistema();
+  Vehicle.complet(this.potencia, this.consum, this.marca, this.model) {
+    id = _idVechicleSistema;
+    incrementaIdSistema();
   }
 
-  vehicle.buit() {}
+  Vehicle.buit();
 
-  //post: incremanta el id_vehicle sistema
-  void incrementa_id_sistema () {
-    _id_vechicle_sistema + 1;
+  //post: incrementa el id_vehicle sistema
+  void incrementaIdSistema () {
+    _idVechicleSistema + 1;
   }
-
-  // GETTERS
-  int get id_vh {
-    return this._id;
-  }
-
-  double get vh_potencia {
-    return this._potencia;
-  }
-
-  double get vh_consum {
-    return this._consum;
-  }
-
-  String get vh_marca {
-    return this._marca;
-  }
-
-  String get vh_model {
-    return this._model;
-  }
-
-
-  // SETTERS
-  set id(int id) {
-    this._id = id;
-  }
-
-  set potencia (double potencia) {
-    this._potencia = potencia;
-  }
-
-  set consum (double consum) {
-    this._consum = consum;
-  }
-
-   set marca (String marca) {
-    this._marca = marca;
-   }
-
-   set model (String model) {
-    this._model = model;
-   }
 }
