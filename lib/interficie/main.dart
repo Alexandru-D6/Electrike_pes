@@ -4,7 +4,7 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/my_map_widget.dart';
 
 import 'widget/lateral_menu_widget.dart';
-
+import 'widget/floating_text_field.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -48,7 +48,9 @@ class _MainPageState extends State<MainPage> {
           title: const Text(MyApp.title),
           backgroundColor: mPrimaryColor,
         ),
-        body: const MyMap(),
+        body:
+          const MyMap(),
+          //const FloatingSearchAppBarExample(),
       );
 
 }

@@ -3,6 +3,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:latlong2/latlong.dart';
 
+import 'floating_text_field.dart';
+
 class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
 
