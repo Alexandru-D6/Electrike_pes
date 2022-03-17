@@ -30,6 +30,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final color = Colors.white;
+
     return DropdownButton<String>(
       value: dropdownValue,
       icon: const Icon(Icons.translate),
@@ -47,10 +49,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         });
       },
       items: <String>['Català', 'Español', 'English']
-          .map<DropdownMenuItem<String>>((String value) {
+        .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value),
+          child: Text(value, style: TextStyle(fontSize: 18, color: color)),
         );
       }).toList(),
     );

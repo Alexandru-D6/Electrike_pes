@@ -30,63 +30,51 @@ class NavigationDrawerWidget extends StatelessWidget {
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => selectedItem(context, 22),
+              onClicked: () => selectedItem(context, 16),
             ),
             Container(
               padding: padding,
               child: Column(
                 children: [
-                  const SizedBox(height: 12),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Map',
                     icon: Icons.map_outlined,
                     onClicked: () => selectedItem(context, 0),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Garage',
                     icon: Icons.garage,
                     onClicked: () => selectedItem(context, 1),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Favourites',
                     icon: Icons.favorite_border,
                     onClicked: () => selectedItem(context, 2),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Achievements',
                     icon: Icons.emoji_events,
                     onClicked: () => selectedItem(context, 3),
                   ),
+                  const SizedBox(height: 10),
+                  Divider(color: Colors.white70),
+                  const SizedBox(height: 10),
                   const MyStatefulWidget(),
 
-                  const SizedBox(height: 24),
-                  Divider(color: Colors.white70),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Information',
                     icon: Icons.info,
                     onClicked: () => selectedItem(context, 4),
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Contact us',
                     icon: Icons.phone,
-                    onClicked: () => selectedItem(context, 5),
-                  ),
-
-                  buildMenuItem(
-                    /*new DropdownButton(
-                      value: _currentLanguage,
-                      items: _dropDownMenuItems,
-                      onChanged: changedLanguage,
-                    )*/
-                    //aquí va un desplegable
-                    text: 'Language',
-                    icon: Icons.translate,
                     onClicked: () => selectedItem(context, 5),
                   ),
                 ],
@@ -138,30 +126,6 @@ class NavigationDrawerWidget extends StatelessWidget {
       );
 }
 
-  Widget buildSearchField() {
-    final color = Colors.white;
-
-    return TextField(
-      style: TextStyle(color: color),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        hintText: 'Search',
-        hintStyle: TextStyle(color: color),
-        prefixIcon: Icon(Icons.search, color: color),
-        filled: true,
-        fillColor: Colors.white12,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
-          borderSide: BorderSide(color: color.withOpacity(0.7)),
-        ),
-      ),
-    );
-  }
-
   Widget buildMenuItem({
     required String text,
     required IconData icon,
@@ -172,7 +136,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
     return ListTile(
       leading: Icon(icon, color: color),
-      title: Text(text, style: TextStyle(color: color)),
+      title: Text(text, style: TextStyle(fontSize: 18, color: color)),
       hoverColor: hoverColor,
       onTap: onClicked,
     );
