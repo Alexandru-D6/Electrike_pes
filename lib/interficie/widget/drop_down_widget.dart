@@ -33,8 +33,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final color = Colors.white;
 
     return DropdownButton<String>(
-      value: dropdownValue,
       icon: const Icon(Icons.translate),
+      iconEnabledColor: Colors.white,
+      value: dropdownValue,
       elevation: 16,
       style: const TextStyle(color: Colors.white),
       dropdownColor: mCardColor,
@@ -55,6 +56,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           child: Text(value, style: TextStyle(fontSize: 18, color: color)),
         );
       }).toList(),
+      isExpanded: true,
     );
   }
 }
