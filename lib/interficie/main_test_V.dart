@@ -58,6 +58,7 @@ class _MainPageState extends State<MainPage> {
         // endDrawer: NavigationDrawerWidget(),
         appBar: AppBar(
           title: Text(MyApp.title),
+          backgroundColor: mPrimaryColor,
         ),
       );
 }
