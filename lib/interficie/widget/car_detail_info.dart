@@ -64,7 +64,7 @@ class EditInfoCar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
-          onPressed: () {},//to-do EditInfoCar
+          onPressed: () {},//TODO: EditInfoCar
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -82,7 +82,7 @@ class EditInfoCar extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {},//to-do EditInfoCar
+          onPressed: () {},//TODO: EditInfoCar
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(

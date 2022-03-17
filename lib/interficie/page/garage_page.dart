@@ -32,7 +32,7 @@ class GaragePage extends StatelessWidget {
             Icons.add_circle_rounded,
             color: Colors.white,
           ),
-          onPressed: () {}, //to-do: form de nuevo coche
+          onPressed: () {}, //TODO: form de nuevo coche
         )
       ],
     );

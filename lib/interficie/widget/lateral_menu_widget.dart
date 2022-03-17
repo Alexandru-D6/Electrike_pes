@@ -78,6 +78,17 @@ class NavigationDrawerWidget extends StatelessWidget {
                     icon: Icons.phone,
                     onClicked: () => selectedItem(context, 5),
                   ),
+
+                  const SizedBox(height: 10),
+                  const Divider(color: Colors.white70),
+                  const SizedBox(height: 10),
+
+                  const SizedBox(height: 10),
+                  buildMenuItem(
+                    text: 'Logout',
+                    icon: Icons.logout,
+                    onClicked: () => selectedItem(context, 5), //TODO: reference logout routine
+                  ),
                 ],
               ),
             ),
