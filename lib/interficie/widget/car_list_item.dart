@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../domini/car.dart';
 import '../constants.dart';
-import '../page/car_deatil_page.dart';
+import 'car_detail_info.dart';
 import 'car_information.dart';
 
 
@@ -19,17 +19,35 @@ class CarListItem extends StatelessWidget {
     Car car = carList[index];
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return CarDetailPage(car);
-            },
-          ),
-        );
+      showModalBottomSheet(
+        context: context,
+        backgroundColor: const Color(0x00000000), //color transparente
+        builder: (builder){
+          return Stack(
+            children: [
+              Positioned(
+                left: 24,
+                right: 24,
+                bottom: 24,
+                child: Stack(
+                  children: [
+                    CarDetailInfomation(car: car),
+                    Positioned(
+                      right: 16,
+                      child: Image.asset(
+                        car.image,
+                        height: 100,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          );
+        });
       },
       child: Container(
-        margin: EdgeInsets.only(bottom: 20),
+        margin: const EdgeInsets.only(bottom: 20),
         child: Stack(
           children: [
             CarInfomation(car: car),

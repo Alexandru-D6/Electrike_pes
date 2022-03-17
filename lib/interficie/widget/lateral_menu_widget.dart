@@ -8,7 +8,6 @@ import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
 
 import '../page/information_app_page.dart';
 import '../page/rewards_page.dart';
-import '../page/user_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);
