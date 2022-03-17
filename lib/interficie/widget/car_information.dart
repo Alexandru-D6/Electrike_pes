@@ -17,8 +17,8 @@ class CarInfomation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(left: 24, right: 24,top: 50),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.only(left: 24, right: 24,top: 50),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: mCardColor,
         borderRadius: BorderRadius.circular(16),
@@ -28,19 +28,19 @@ class CarInfomation extends StatelessWidget {
         children: [
           Text(
             '\$${car.price}',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
-          Text(
+          const Text(
             'price/hr',
             style: TextStyle(
               color: Colors.white,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           Row(

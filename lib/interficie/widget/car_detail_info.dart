@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../domini/car.dart';
@@ -16,26 +15,26 @@ class CarDetailInfomation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.only(top: 50),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(top: 50),
       decoration: BoxDecoration(
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: [
           CarInfo(car: car),
-          Divider(
+          const Divider(
             height: 16,
             color: Colors.black54,
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
               Expanded(
                 child: Column(
-                  children: [
+                  children: const [
                     SizedBox(
                       height: 12,
                     ),
@@ -64,32 +63,42 @@ class EditInfoCar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        FlatButton(
-          onPressed: () {},//to-do EditInfoCar
-          color: mCardColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(36),
+        TextButton(
+          onPressed: () {},//TODO: EditInfoCar
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(36.0),
+                side: BorderSide(color: mCardColor)
+              )
+            )
           ),
-          child: Text(
+          child: const Text(
             'Edit',
             style: TextStyle(
               color: Colors.white,
             ),
           ),
         ),
-        FlatButton(
-          onPressed: () {},
-          color: mCardColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(36),
+        TextButton(
+          onPressed: () {},//TODO: EditInfoCar
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(36.0),
+                      side: BorderSide(color: mCardColor)
+                  )
+              )
           ),
-          child: Text(
+          child: const Text(
             'Delete',
             style: TextStyle(
               color: Colors.white,
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -104,7 +113,7 @@ class EditInfoCar extends StatelessWidget {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: const [
             Text(
               '369',
               style: TextStyle(
@@ -141,19 +150,19 @@ class CarInfo extends StatelessWidget {
       children: [
         Text(
           '\$${car.price}',
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(
+        const Text(
           'price/hr',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Row(

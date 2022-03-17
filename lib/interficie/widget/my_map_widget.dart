@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-//import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_project/domini/charge_point.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:sign_button/constants.dart';
-
-import '../page/garage_page.dart';
 
 class MyMap extends StatefulWidget {
+  const MyMap({Key? key}) : super(key: key);
+
   @override
   State<MyMap> createState() => _MyMapState();
 }
@@ -29,36 +26,34 @@ class _MyMapState extends State<MyMap> {
     chargePoints = buildMarkers();
     return Scaffold(
       body: Center(
-          child: Container(
-            child: Column(
-              children: [
-                Flexible(
-                  child: FlutterMap(
-                    options: MapOptions(
-                      center: currentCenter,
-                      zoom: currentZoom,
-                    ),
-                    layers: [
-                    TileLayerOptions(
-                    urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    subdomains: ['a', 'b', 'c'],
-                    ),
-                    MarkerLayerOptions(
-                        markers: chargePoints,
-                          //iterar marcadores por aqui
-                          //buildMarker(),
-                      ),
-                    ],
+          child: Column(
+            children: [
+              Flexible(
+                child: FlutterMap(
+                  options: MapOptions(
+                    center: currentCenter,
+                    zoom: currentZoom,
                   ),
+                  layers: [
+                  TileLayerOptions(
+                  urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                  subdomains: ['a', 'b', 'c'],
+                  ),
+                  MarkerLayerOptions(
+                      markers: chargePoints,
+                        //iterar marcadores por aqui
+                        //buildMarker(),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _getMyLocation,
         tooltip: 'Zoom',
-        child: Icon(Icons.my_location),
+        child: const Icon(Icons.my_location),
       ),
     );
   }
@@ -86,28 +81,26 @@ Marker buildMarker({
   required String charger,
 }){
   return Marker(
-    width: 80.0,
-    height: 80.0,
+    width: 50.0,
+    height: 50.0,
     point: LatLng(lat, long),
     builder: (ctx)=>
-        Container(
-          child:IconButton(
-            icon: Icon(Icons.place),
-            color: Color(0xFF203e5a),
-            iconSize: 45.0,
-            onPressed: (){
-              showModalBottomSheet(
-                  context: ctx,
-                  builder: (builder){
-                    return Container(
-                      color: Colors.white,
-                      child: Center(
-                        child: Text(charger),
-                      ),
-                    );
-                  });
-            },
-          ),
+        IconButton(
+          icon: const Icon(Icons.place),
+          color: const Color(0xFF203e5a),
+          iconSize: 45.0,
+          onPressed: (){
+            showModalBottomSheet(
+                context: ctx,
+                builder: (builder){
+                  return Container(
+                    color: Colors.white,
+                    child: Center(
+                      child: Text(charger),
+                    ),
+                  );
+                });
+          },
         ),
   );
 }

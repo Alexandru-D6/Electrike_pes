@@ -8,9 +8,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        body: const Center(
+        body: Center(
           child: MyStatefulWidget(),
         ),
       ),
@@ -30,7 +30,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final color = Colors.white;
+    const color = Colors.white;
 
     return DropdownButton<String>(
       icon: const Icon(Icons.translate),
@@ -53,7 +53,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value, style: TextStyle(fontSize: 18, color: color)),
+          child: Text(value, style: const TextStyle(fontSize: 18, color: color)),
         );
       }).toList(),
       isExpanded: true,

@@ -9,16 +9,17 @@ import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
 import '../page/information_app_page.dart';
 import '../page/login_page.dart';
 import '../page/rewards_page.dart';
-import '../page/user_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
-  final padding = EdgeInsets.symmetric(horizontal: 20);
+  final padding = const EdgeInsets.symmetric(horizontal: 20);
+
+  const NavigationDrawerWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final name = 'Víctor';
-    final email = 'victorasenj@gmail.com';
-    final urlImage =
+    const name = 'Víctor';
+    const email = 'victorasenj@gmail.com';
+    const urlImage =
         'https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=634&q=80';
 
     return Drawer(
@@ -31,7 +32,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => selectedItem(context, 16),
+              onClicked: () => selectedItem(context, 22),
             ),
             Container(
               padding: padding,
@@ -62,7 +63,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                     onClicked: () => selectedItem(context, 3),
                   ),
                   const SizedBox(height: 10),
-                  Divider(color: Colors.white70),
+                  const Divider(color: Colors.white70),
                   const SizedBox(height: 10),
                   const MyStatefulWidget(),
 
@@ -77,6 +78,17 @@ class NavigationDrawerWidget extends StatelessWidget {
                     text: 'Contact us',
                     icon: Icons.phone,
                     onClicked: () => selectedItem(context, 5),
+                  ),
+
+                  const SizedBox(height: 10),
+                  const Divider(color: Colors.white70),
+                  const SizedBox(height: 10),
+
+                  const SizedBox(height: 10),
+                  buildMenuItem(
+                    text: 'Logout',
+                    icon: Icons.logout,
+                    onClicked: () => selectedItem(context, 5), //TODO: reference logout routine
                   ),
                 ],
               ),
@@ -96,27 +108,27 @@ class NavigationDrawerWidget extends StatelessWidget {
       InkWell(
         onTap: onClicked,
         child: Container(
-          padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
+          padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
           child: Row(
             children: [
               CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage)),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    style: const TextStyle(fontSize: 20, color: Colors.white),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     email,
-                    style: TextStyle(fontSize: 14, color: Colors.white),
+                    style: const TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ],
               ),
-              Spacer(),
-              CircleAvatar(
+              const Spacer(),
+              const CircleAvatar(
                 radius: 24,
                 backgroundColor: Color.fromRGBO(30, 60, 168, 1),
                 child: Icon(Icons.add_comment_outlined, color: Colors.white),
@@ -132,12 +144,12 @@ class NavigationDrawerWidget extends StatelessWidget {
     required IconData icon,
     VoidCallback? onClicked,
   }) {
-    final color = Colors.white;
-    final hoverColor = Colors.white70;
+    const color = Colors.white;
+    const hoverColor = Colors.white70;
 
     return ListTile(
       leading: Icon(icon, color: color),
-      title: Text(text, style: TextStyle(fontSize: 18, color: color)),
+      title: Text(text, style: const TextStyle(fontSize: 18, color: color)),
       hoverColor: hoverColor,
       onTap: onClicked,
     );
@@ -150,34 +162,34 @@ class NavigationDrawerWidget extends StatelessWidget {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MainPage(),
+          builder: (context) => const MainPage(),
         ));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => GaragePage(),
+          builder: (context) => const GaragePage(),
         ));
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FavouritesPage(),
+          builder: (context) => const FavouritesPage(),
         ));
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => RewardsPage(),
+          builder: (context) => const RewardsPage(),
         ));
         break;
       case 4:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => InformationAppPage(),
+          builder: (context) => const InformationAppPage(),
         ));
         break;
       case 5:
         break;
       case 22:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => LoginPage(),
+          builder: (context) => const LoginPage(),
         ));
     }
   }

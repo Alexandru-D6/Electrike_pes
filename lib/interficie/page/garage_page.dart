@@ -6,12 +6,14 @@ import '../widget/lateral_menu_widget.dart';
 
 
 class GaragePage extends StatelessWidget {
+  const GaragePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mPrimaryColor,
       appBar: buildAppBar(),
-      drawer: NavigationDrawerWidget(),
+      drawer: const NavigationDrawerWidget(),
       body: ListView.builder(
         itemCount: carList.length,
         itemBuilder: (context, index) => CarListItem(index),
@@ -23,14 +25,14 @@ class GaragePage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: Text('Garage'),
+      title: const Text('Garage'),
       actions: [
         IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.add_circle_rounded,
             color: Colors.white,
           ),
-          onPressed: () {}, //to-do: form de nuevo coche
+          onPressed: () {}, //TODO: form de nuevo coche
         )
       ],
     );

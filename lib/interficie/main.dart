@@ -12,11 +12,13 @@ Future main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static final String title = 'Electrike';
+  static const String title = 'Electrike';
+
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -26,11 +28,13 @@ class MyApp extends StatelessWidget {
           primaryColor: mPrimaryColor,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: MainPage(),
+        home: const MainPage(),
       );
 }
 
 class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -38,13 +42,13 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        drawer: NavigationDrawerWidget(),
+        drawer: const NavigationDrawerWidget(),
         // endDrawer: NavigationDrawerWidget(),
         appBar: AppBar(
-          title: Text(MyApp.title),
+          title: const Text(MyApp.title),
           backgroundColor: mPrimaryColor,
         ),
-        body: MyMap(),
+        body: const MyMap(),
       );
 
 }
