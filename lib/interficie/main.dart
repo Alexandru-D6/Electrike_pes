@@ -14,9 +14,6 @@ void main() {
 }
 
 class MyMap extends StatefulWidget {
-
-
-
   @override
   State<MyMap> createState() => _MyMapState();
 }
@@ -81,6 +78,16 @@ class _MyMapState extends State<MyMap> {
                       ),
                     ],
                   ),
+                    Padding(
+                    padding: const EdgeInsets.symetric(vertical: 34.0,horizontal: 16.0),
+                    child: Column(
+                      children: [
+                        Card(
+                          child: TextField(),
+                        ),
+                      ],
+                    ),
+                  )
                 ),
               ],
             ),
