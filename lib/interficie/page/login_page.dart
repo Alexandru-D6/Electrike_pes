@@ -6,10 +6,10 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  login_page createState() => login_page();
+  LogPage createState() => LogPage();
 }
 
-class login_page extends State<LoginPage> {
+class LogPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +25,7 @@ class login_page extends State<LoginPage> {
               SignInButton(
                   buttonType: ButtonType.google,
                   onPressed: () {
-                    print('click');
+                    //print('click');
                   }),
             ],
           ),

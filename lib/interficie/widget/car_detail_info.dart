@@ -63,11 +63,16 @@ class EditInfoCar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        FlatButton(
+        TextButton(
           onPressed: () {},//to-do EditInfoCar
-          color: mCardColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(36),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(36.0),
+                side: BorderSide(color: mCardColor)
+              )
+            )
           ),
           child: const Text(
             'Edit',
@@ -76,11 +81,16 @@ class EditInfoCar extends StatelessWidget {
             ),
           ),
         ),
-        FlatButton(
-          onPressed: () {},
-          color: mCardColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(36),
+        TextButton(
+          onPressed: () {},//to-do EditInfoCar
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(36.0),
+                      side: BorderSide(color: mCardColor)
+                  )
+              )
           ),
           child: const Text(
             'Delete',
@@ -88,7 +98,7 @@ class EditInfoCar extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-        )
+        ),
       ],
     );
   }

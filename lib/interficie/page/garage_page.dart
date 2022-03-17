@@ -13,7 +13,7 @@ class GaragePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: mPrimaryColor,
       appBar: buildAppBar(),
-      drawer: NavigationDrawerWidget(),
+      drawer: const NavigationDrawerWidget(),
       body: ListView.builder(
         itemCount: carList.length,
         itemBuilder: (context, index) => CarListItem(index),

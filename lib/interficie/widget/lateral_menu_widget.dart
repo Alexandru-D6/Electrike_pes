@@ -31,7 +31,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => selectedItem(context, 16),
+              onClicked: () => selectedItem(context, 22),
             ),
             Container(
               padding: padding,
@@ -150,7 +150,7 @@ class NavigationDrawerWidget extends StatelessWidget {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MainPage(),
+          builder: (context) => const MainPage(),
         ));
         break;
       case 1:

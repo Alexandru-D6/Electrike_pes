@@ -6,7 +6,7 @@ class RewardsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    drawer: NavigationDrawerWidget(), //esto es para que aparezca el botón de menú lateral
+    drawer: const NavigationDrawerWidget(), //esto es para que aparezca el botón de menú lateral
     appBar: AppBar(
       title: const Text('Rewards'),
       centerTitle: true,
