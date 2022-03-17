@@ -3,43 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'page/garage_page.dart';
-
-
-void main() {
-  runApp(MaterialApp(
-      home: MyMap(),
-  ));
-}
+import '../page/garage_page.dart';
 
 class MyMap extends StatefulWidget {
-
-
-
   @override
   State<MyMap> createState() => _MyMapState();
 }
 
 class _MyMapState extends State<MyMap> {
+  double currentZoom = 13.0;
+  MapController mapController = MapController();
+  LatLng currentCenter = LatLng(41.390205, 2.154007);
+  void _zoom() {
+    currentZoom = currentZoom - 1;
+    mapController.move(currentCenter, currentZoom);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.apps),
-            tooltip: 'Menú principal',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => GaragePage()),
-                );
-              }
-          )
-        ],
-        title: const Text('Electrike'),
-        backgroundColor: Colors.greenAccent,
-      ),
       body: Center(
           child: Container(
             child: Column(
@@ -47,8 +29,8 @@ class _MyMapState extends State<MyMap> {
                 Flexible(
                   child: FlutterMap(
                     options: MapOptions(
-                      center: LatLng(41.390205, 2.154007),
-                      zoom: 11
+                      center: currentCenter,
+                      zoom: currentZoom,
                     ),
                     layers: [
                     TileLayerOptions(
@@ -74,6 +56,11 @@ class _MyMapState extends State<MyMap> {
               ],
             ),
           ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _zoom,
+        tooltip: 'Zoom',
+        child: Icon(Icons.remove_circle_outline_rounded),
       ),
     );
   }

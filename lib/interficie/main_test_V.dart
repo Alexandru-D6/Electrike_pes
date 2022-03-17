@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/widget/my_map_widget.dart';
 
 import 'widget/lateral_menu_widget.dart';
 
@@ -34,23 +35,6 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class MyrApp extends StatelessWidget {
-  static final String title = 'Electrike';
-
-  @override
-  Widget build(BuildContext context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: MainPage(),
-      );
-}
-
-class MainPager extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -60,5 +44,7 @@ class _MainPageState extends State<MainPage> {
           title: Text(MyApp.title),
           backgroundColor: mPrimaryColor,
         ),
+        body: MyMap(),
       );
+
 }
