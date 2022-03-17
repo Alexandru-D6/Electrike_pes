@@ -13,4 +13,3 @@ List<Car> carList = [
   Car('assets/images/maserati.png', 100, 'Maserati', '3A 9200', '77/km', '5,5 L'),
   Car('assets/images/cadillac.png', 90, 'Cadillac', '3A 9200', '77/km', '5,5 L'),
 ];
-

@@ -4,6 +4,7 @@ import 'package:flutter_project/interficie/main_test_V.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/page/login_page.dart';
+import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
 
 import '../page/information_app_page.dart';
 import '../page/rewards_page.dart';
@@ -60,6 +61,10 @@ class NavigationDrawerWidget extends StatelessWidget {
                     icon: Icons.emoji_events,
                     onClicked: () => selectedItem(context, 3),
                   ),
+                  const MyStatefulWidget(),
+
+                  const SizedBox(height: 24),
+                  Divider(color: Colors.white70),
                   const SizedBox(height: 16),
                   buildMenuItem(
                     text: 'Information',
@@ -67,14 +72,12 @@ class NavigationDrawerWidget extends StatelessWidget {
                     onClicked: () => selectedItem(context, 4),
                   ),
                   const SizedBox(height: 24),
-                  Divider(color: Colors.white70),
-                  const SizedBox(height: 24),
                   buildMenuItem(
                     text: 'Contact us',
                     icon: Icons.phone,
                     onClicked: () => selectedItem(context, 5),
                   ),
-                  const SizedBox(height: 16),
+
                   buildMenuItem(
                     /*new DropdownButton(
                       value: _currentLanguage,
@@ -213,35 +216,3 @@ class NavigationDrawerWidget extends StatelessWidget {
         ));
     }
   }
-/*
-List _languages =
-["Català", "Español", "English"];
-
-List<DropdownMenuItem<String>> _dropDownMenuItems;
-String _currentLanguage;
-
-@override
-void initState() {
-  _dropDownMenuItems = getDropDownMenuItems();
-  _currentLanguage = _dropDownMenuItems[0].value;
-  super.initState();
-}
-// here we are creating the list needed for the DropDownButton
-List<DropdownMenuItem<String>> getDropDownMenuItems() {
-  List<DropdownMenuItem<String>> items = new List();
-  for (String city in _languages) {
-    // here we are creating the drop down menu items, you can customize the item right here
-    // but I'll just use a simple text for this
-    items.add(new DropdownMenuItem(
-        value: city,
-        child: new Text(city)
-    ));
-  }
-  return items;
-}
-
-void changedLanguage(String selectedLanguage) {
-  setState(() {
-    _currentLanguage = selectedLanguage;
-  });
-}*/
