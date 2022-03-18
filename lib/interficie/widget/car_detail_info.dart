@@ -66,7 +66,7 @@ class EditInfoCar extends StatelessWidget {
         TextButton(
           onPressed: () {},//TODO: EditInfoCar
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
+            backgroundColor: MaterialStateProperty.all<Color>(mCardColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(36.0),
@@ -84,7 +84,7 @@ class EditInfoCar extends StatelessWidget {
         TextButton(
           onPressed: () {},//TODO: EditInfoCar
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
+              backgroundColor: MaterialStateProperty.all<Color>(mPrimaryColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(36.0),

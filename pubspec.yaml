@@ -40,8 +40,6 @@ dependencies:
   latlong: ^0.6.1
   latlong2: ^0.8.1
   sign_button: ^2.0.2
-  material_floating_search_bar: ^0.3.7
-  open_route_service: ^1.2.1
 
 dev_dependencies:
   flutter_test:
