@@ -6,6 +6,7 @@ import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/page/login_page.dart';
 import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
 
+//import '../../domini/traductor.dart';
 import '../page/information_app_page.dart';
 import '../page/rewards_page.dart';
 
@@ -13,6 +14,8 @@ class NavigationDrawerWidget extends StatelessWidget {
   final padding = const EdgeInsets.symmetric(horizontal: 20);
 
   const NavigationDrawerWidget({Key? key}) : super(key: key);
+
+  //LanguagesEnum get selectedLanguage => userLanguage; //TODO: getUserLang
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +77,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Contact us',
+                    text: 'Contact us',//Translator().translate(selectedLanguage, 'Contact us'),
                     icon: Icons.phone,
                     onClicked: () => selectedItem(context, 5),
                   ),

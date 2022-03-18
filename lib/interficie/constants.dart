@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/traductor.dart';
 
 import '../domini/bicing_point.dart';
 import '../domini/car.dart';
