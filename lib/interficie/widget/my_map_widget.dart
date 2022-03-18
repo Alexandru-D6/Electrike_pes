@@ -5,7 +5,9 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/charge_point_detail_info.dart';
 import 'package:latlong2/latlong.dart';
 
+import '../../domini/bicing_point.dart';
 import '../../domini/charge_point.dart';
+import 'bicing_point_detail_info.dart';
 
 class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
@@ -79,11 +81,12 @@ class _MyMapState extends State<MyMap> {
         onPressed: _getMyLocation,
         tooltip: 'My Location',
         child: const Icon(Icons.my_location),
-    ),
+      ),
     );
   }
 
   List<Marker> buildChargerMarkers() {
+    chargePoints = [];
     for (var i = 0; i < chargePointList.length; ++i) {
       chargePoints.add(
           buildChargerMarker(
@@ -97,19 +100,21 @@ class _MyMapState extends State<MyMap> {
     });
     return chargePoints;
   }
+
   List<Marker> buildBicingMarkers() {
-    for (var i = 0; i < chargePointList.length; ++i) {
-      chargePoints.add(
-          buildChargerMarker(
+    bicingPoints = [];
+    for (var i = 0; i < bicingPointList.length; ++i) {
+      bicingPoints.add(
+          buildBicingMarker(
             index: i,
-            lat: chargePointList[i].lat,
-            long: chargePointList[i].long,
+            lat: bicingPointList[i].lat,
+            long: bicingPointList[i].long,
           )
       );
     }
     setState(() {
     });
-    return chargePoints;
+    return bicingPoints;
   }
 }
 
@@ -131,7 +136,7 @@ Marker buildChargerMarker({
           onPressed: (){
             showModalBottomSheet(
                 context: ctx,
-                backgroundColor: const Color(0x00000000),
+                backgroundColor: cTransparent,
                 builder: (builder){
                   return Stack(
                     children: [
@@ -141,7 +146,7 @@ Marker buildChargerMarker({
                         bottom: 24,
                         child: Stack(
                           children: [
-                            PointDetailInformation(point: point),
+                            ChargePointDetailInformation(point: point),
                             Positioned(
                               right: 16,
                               child: Image.asset(
@@ -165,20 +170,20 @@ Marker buildBicingMarker({
   required double lat,
   required double long,
 }) {
-  ChargePoint point = chargePointList[index];
+  BicingPoint point = bicingPointList[index];
   return Marker(
     width: 50.0,
     height: 50.0,
     point: LatLng(lat, long),
     builder: (ctx) =>
         IconButton(
-          icon: const Icon(Icons.place),
-          color: mCardColor,
+          icon: const Icon(Icons.pedal_bike),
+          color: Colors.red,
           iconSize: 45.0,
           onPressed: () {
             showModalBottomSheet(
                 context: ctx,
-                backgroundColor: const Color(0x00000000),
+                backgroundColor: cTransparent,
                 builder: (builder) {
                   return Stack(
                     children: [
@@ -188,14 +193,13 @@ Marker buildBicingMarker({
                         bottom: 24,
                         child: Stack(
                           children: [
-                            PointDetailInformation(point: point),
-                            Positioned(
+                            BicingPointDetailInformation(point: point),
+                            /*const Positioned(
                               right: 16,
-                              child: Image.asset(
-                                "assets/images/charge_point.png",
-                                height: 125,
-                              ),
-                            )
+                              /*child: Icon(
+
+                              ),*/
+                            )*/
                           ],
                         ),
                       ),
@@ -206,4 +210,3 @@ Marker buildBicingMarker({
         ),
   );
 }
-

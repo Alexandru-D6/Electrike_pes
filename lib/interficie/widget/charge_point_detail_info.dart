@@ -4,8 +4,8 @@ import '../../domini/charge_point.dart';
 import '../constants.dart';
 import 'attribute.dart';
 
-class PointDetailInformation extends StatelessWidget {
-  const PointDetailInformation({
+class ChargePointDetailInformation extends StatelessWidget {
+  const ChargePointDetailInformation({
     Key? key,
     required this.point,
   }) : super(key: key);
