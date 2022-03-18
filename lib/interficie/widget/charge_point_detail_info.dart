@@ -29,6 +29,7 @@ class PointDetailInformation extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              EditInfoPoint(point: point),
               const SizedBox(
                 width: 16,
               ),
@@ -41,7 +42,6 @@ class PointDetailInformation extends StatelessWidget {
                     SizedBox(
                       height: 12,
                     ),
-                    EditInfoCar(),
                   ],
                 ),
               )
@@ -53,51 +53,36 @@ class PointDetailInformation extends StatelessWidget {
   }
 }
 
-class EditInfoCar extends StatelessWidget {
-  const EditInfoCar({
+class EditInfoPoint extends StatelessWidget {
+  const EditInfoPoint({
     Key? key,
+    required this.point,
   }) : super(key: key);
+
+  final ChargePoint point;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        TextButton(
-          onPressed: () {},//TODO: EditInfoCar
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(36.0),
-                      side: BorderSide(color: mCardColor)
-                  )
-              )
-          ),
-          child: const Text(
-            'Edit',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
+        IconButton(
+          onPressed: () {
+            point.fav = !point.fav;
+          },
+          color: point.fav ? Colors.red : Colors.black45,
+          icon: point.fav ?
+          const Icon(
+            Icons.favorite,
+          ) : const Icon(
+            Icons.favorite_border,
+          ) ,//TODO: Add like
         ),
-        TextButton(
-          onPressed: () {},//TODO: EditInfoCar
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF203e5a)),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(36.0),
-                      side: BorderSide(color: mCardColor)
-                  )
-              )
-          ),
-          child: const Text(
-            'Delete',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.share,
+          ),//TODO: Share
         ),
       ],
     );
@@ -140,13 +125,17 @@ class PointInfo extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Attribute(
               value: point.potencia.toString() + " (kW)",
               name: 'Potència',
               textColor: Colors.black87,
+            ),
+            const SizedBox(
+              height: 16,
             ),
             Attribute(
               value: point.tipus,

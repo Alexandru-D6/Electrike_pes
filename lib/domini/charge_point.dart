@@ -7,6 +7,7 @@ class ChargePoint {
   String tipus;
   double lat;
   double long;
+  bool fav;
 
   ChargePoint(
       this.nom,
@@ -17,5 +18,6 @@ class ChargePoint {
       this.tipus,
       this.lat,
       this.long,
+      this.fav,
       );
 }

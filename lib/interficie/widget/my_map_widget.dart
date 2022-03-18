@@ -100,28 +100,26 @@ Marker buildMarker({
                 context: ctx,
                 backgroundColor: const Color(0x00000000),
                 builder: (builder){
-                  return Container(
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 24,
-                          right: 24,
-                          bottom: 24,
-                          child: Stack(
-                            children: [
-                              PointDetailInformation(point: point),
-                              Positioned(
-                                right: 16,
-                                child: Image.asset(
-                                  "assets/images/charge_point.png",
-                                  height: 125,
-                                ),
-                              )
-                            ],
-                          ),
+                  return Stack(
+                    children: [
+                      Positioned(
+                        left: 24,
+                        right: 24,
+                        bottom: 24,
+                        child: Stack(
+                          children: [
+                            PointDetailInformation(point: point),
+                            Positioned(
+                              right: 16,
+                              child: Image.asset(
+                                "assets/images/charge_point.png",
+                                height: 125,
+                              ),
+                            )
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 });
           },
