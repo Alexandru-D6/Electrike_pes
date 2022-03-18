@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/charge_point_detail_info.dart';
 import 'package:latlong2/latlong.dart';
@@ -27,37 +28,38 @@ class _MyMapState extends State<MyMap> {
   @override
   Widget build(BuildContext context) {
     chargePoints = buildMarkers();
-    return Scaffold(
-      body: Center(
-          child: Column(
-            children: [
-              Flexible(
-                child: FlutterMap(
-                  options: MapOptions(
-                    center: currentCenter,
-                    zoom: currentZoom,
-                  ),
-                  layers: [
-                  TileLayerOptions(
-                  urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                  subdomains: ['a', 'b', 'c'],
-                  ),
-                  MarkerLayerOptions(
-                      markers: chargePoints,
-                        //iterar marcadores por aqui
-                        //buildMarker(),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return FlutterMap(
+      options: MapOptions(
+        center: currentCenter,
+        zoom: currentZoom,
+        plugins: [
+          MarkerClusterPlugin(),
+        ],
+      ),
+      layers: [
+        TileLayerOptions(
+          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          subdomains: ['a', 'b', 'c'],
+        ),
+        MarkerClusterLayerOptions(
+          maxClusterRadius: 120,
+          size: const Size(40, 40),
+          fitBoundsOptions: const FitBoundsOptions(
+            padding: EdgeInsets.all(50),
           ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _getMyLocation,
-        tooltip: 'Zoom',
-        child: const Icon(Icons.my_location),
-      ),
+          markers: chargePoints,
+          polygonOptions: const PolygonOptions(
+              borderColor: Colors.blueAccent,
+              color: Colors.black12,
+              borderStrokeWidth: 3),
+          builder: (context, markers) {
+            return FloatingActionButton(
+              child: Text(markers.length.toString()),
+              onPressed: null,
+            );
+          },
+        ),
+      ],
     );
   }
 
