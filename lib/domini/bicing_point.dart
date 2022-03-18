@@ -2,7 +2,7 @@ class BicingPoint {
   String nom;
   int estaciones;
   int bicicletas;
-  int bicicletas_E;
+  int bicicletasE;
   double lat;
   double long;
 
@@ -10,7 +10,7 @@ class BicingPoint {
       this.nom,
       this.estaciones,
       this.bicicletas,
-      this.bicicletas_E,
+      this.bicicletasE,
       this.lat,
       this.long,
       );

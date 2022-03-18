@@ -65,7 +65,7 @@ class PointInfo extends StatelessWidget {
                 num: point.bicicletas,
                 assetName: Icons.pedal_bike),
             buildBicingPointInfo(
-                num: point.bicicletas_E,
+                num: point.bicicletasE,
                 assetName: Icons.electric_bike),
           ],
         )
