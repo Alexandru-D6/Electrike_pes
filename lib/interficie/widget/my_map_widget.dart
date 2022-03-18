@@ -4,6 +4,7 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/charge_point_detail_info.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:open_route_service/open_route_service.dart';
 
 import '../../domini/charge_point.dart';
 
@@ -30,6 +31,7 @@ class _MyMapState extends State<MyMap> {
     chargePoints = buildMarkers();
     return FlutterMap(
       options: MapOptions(
+        maxZoom: 18.25,
         center: currentCenter,
         zoom: currentZoom,
         plugins: [
