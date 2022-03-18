@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../domini/bicing_point.dart';
 import '../constants.dart';
 
-class BicingPointDetailInformation extends StatelessWidget {
-  const BicingPointDetailInformation({
+class PointDetailInformation extends StatelessWidget {
+  const PointDetailInformation({
     Key? key,
     required this.point,
   }) : super(key: key);
@@ -21,8 +21,65 @@ class BicingPointDetailInformation extends StatelessWidget {
       child: Column(
         children: [
           PointInfo(point: point),
+          const Divider(
+            height: 16,
+            color: Colors.black54,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              EditInfoPoint(point: point),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Column(
+                  children: const [
+                    SizedBox(
+                      height: 12,
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
         ],
       ),
+    );
+  }
+}
+
+class EditInfoPoint extends StatelessWidget {
+  const EditInfoPoint({
+    Key? key,
+    required this.point,
+  }) : super(key: key);
+
+  final BicingPoint point;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        /*const Icon(
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.directions,
+          ),//TODO: how to arrive
+        ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.share,
+          ),//TODO: Share
+        ),*/
+      ],
     );
   }
 }
@@ -40,7 +97,6 @@ class PointInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         ListTile(
           leading: const Icon(Icons.pedal_bike, color: Colors.white, size: 45,),
           title: Text(
@@ -51,22 +107,21 @@ class PointInfo extends StatelessWidget {
             ),
           ),
         ),
-        const Divider(
+        const SizedBox(
           height: 16,
-          color: Colors.black54,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildBicingPointInfo(
               num: point.estaciones,
-              assetName: 'assets/icon/estacions.svg'),
+              assetName: Icons.logout),
             buildBicingPointInfo(
                 num: point.bicicletas,
-                assetName: 'assets/icon/bike.svg'),
+                assetName: Icons.logout),
             buildBicingPointInfo(
                 num: point.bicicletas_E,
-                assetName: 'assets/icon/bicicleta-electrica.svg'),
+                assetName: Icons.logout),
           ],
         )
       ],
@@ -76,12 +131,11 @@ class PointInfo extends StatelessWidget {
 
 Widget buildBicingPointInfo({
   required int num,
-  required String assetName,
+  required IconData assetName,
 }) {
-
   return Column(
       children: [
-        Image.asset(
+        Icon(
             assetName
         ),
         Text(

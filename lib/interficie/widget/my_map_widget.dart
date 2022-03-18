@@ -5,9 +5,7 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/charge_point_detail_info.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../../domini/bicing_point.dart';
 import '../../domini/charge_point.dart';
-import 'bicing_point_detail_info.dart';
 
 class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
@@ -100,9 +98,9 @@ class _MyMapState extends State<MyMap> {
     return chargePoints;
   }
   List<Marker> buildBicingMarkers() {
-    for (var i = 0; i < bicingPointList.length; ++i) {
-      bicingPoints.add(
-          buildBicingMarker(
+    for (var i = 0; i < chargePointList.length; ++i) {
+      chargePoints.add(
+          buildChargerMarker(
             index: i,
             lat: chargePointList[i].lat,
             long: chargePointList[i].long,
@@ -111,7 +109,7 @@ class _MyMapState extends State<MyMap> {
     }
     setState(() {
     });
-    return bicingPoints;
+    return chargePoints;
   }
 }
 
@@ -133,7 +131,7 @@ Marker buildChargerMarker({
           onPressed: (){
             showModalBottomSheet(
                 context: ctx,
-                backgroundColor: cTransparent,
+                backgroundColor: const Color(0x00000000),
                 builder: (builder){
                   return Stack(
                     children: [
@@ -143,7 +141,7 @@ Marker buildChargerMarker({
                         bottom: 24,
                         child: Stack(
                           children: [
-                            ChargePointDetailInformation(point: point),
+                            PointDetailInformation(point: point),
                             Positioned(
                               right: 16,
                               child: Image.asset(
@@ -167,20 +165,20 @@ Marker buildBicingMarker({
   required double lat,
   required double long,
 }) {
-  BicingPoint point = bicingPointList[index];
+  ChargePoint point = chargePointList[index];
   return Marker(
     width: 50.0,
     height: 50.0,
     point: LatLng(lat, long),
     builder: (ctx) =>
         IconButton(
-          icon: Image.asset("assets/icon/bicingPoint.png"),
-          color: Colors.red,
+          icon: const Icon(Icons.place),
+          color: mCardColor,
           iconSize: 45.0,
           onPressed: () {
             showModalBottomSheet(
                 context: ctx,
-                backgroundColor: cTransparent,
+                backgroundColor: const Color(0x00000000),
                 builder: (builder) {
                   return Stack(
                     children: [
@@ -190,13 +188,14 @@ Marker buildBicingMarker({
                         bottom: 24,
                         child: Stack(
                           children: [
-                            BicingPointDetailInformation(point: point),
-                            /*const Positioned(
+                            PointDetailInformation(point: point),
+                            Positioned(
                               right: 16,
-                              /*child: Icon(
-
-                              ),*/
-                            )*/
+                              child: Image.asset(
+                                "assets/images/charge_point.png",
+                                height: 125,
+                              ),
+                            )
                           ],
                         ),
                       ),
