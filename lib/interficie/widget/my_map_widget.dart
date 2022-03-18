@@ -130,8 +130,8 @@ Marker buildChargerMarker({
     point: LatLng(lat, long),
     builder: (ctx)=>
         IconButton(
-          icon: const Icon(Icons.place),
-          color: mCardColor,
+          icon: const Icon(Icons.power_rounded),
+          color: mPrimaryColor,
           iconSize: 45.0,
           onPressed: (){
             showModalBottomSheet(
@@ -178,7 +178,7 @@ Marker buildBicingMarker({
     builder: (ctx) =>
         IconButton(
           icon: const Icon(Icons.pedal_bike),
-          color: Colors.red,
+          color: cBicingRed,
           iconSize: 45.0,
           onPressed: () {
             showModalBottomSheet(
