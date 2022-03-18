@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_maps_flutter: ^2.1.2
   flutter_map: ^0.14.0
+  flutter_map_marker_cluster: any # or the latest version on Pub
   latlong: ^0.6.1
   latlong2: ^0.8.1
   sign_button: ^2.0.2

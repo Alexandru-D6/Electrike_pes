@@ -16,10 +16,9 @@ List<Car> carList = [
 ];
 
 List<ChargePoint> chargePointList = [
-  ChargePoint(41.392247, 2.151061, 'Type A'),
-  ChargePoint(41.402008, 2.160465, 'Type B'),
-  ChargePoint(41.415588, 2.204216, 'Type C'),
-  ChargePoint(41.409573, 2.223974, 'Type D'),
-  ChargePoint(41.412950, 2.221481, 'Type E'),
-  ChargePoint(41.388806, 2.111990, 'Type F'),
+  ChargePoint('Pedralbes', "Calle Loco", 'BCN', 0, 77.0, 'Schuko', 41.392247, 2.151061, true),
+  ChargePoint('Barça', "Calle D", 'BCN', 1, 22.5, 'Mennekes (Type 2)', 41.402008, 2.160465, true),
+  ChargePoint('Puerto', "Calle A", 'BCN', 2, 4, 'Mennekes (Type 2 sense cable)', 41.415588, 2.204216, false),
+  ChargePoint('Andamio', "Calle F", 'BCN',0, 10.75, 'CHAdeMO (DC)', 41.409573, 2.223974, false),
+  ChargePoint('FIB', "Calle V", 'BCN', 2, 54, 'CCS Combo (DC)', 41.388806, 2.111990, true),
 ];

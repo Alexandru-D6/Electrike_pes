@@ -48,9 +48,12 @@ class _MainPageState extends State<MainPage> {
           title: const Text(MyApp.title),
           backgroundColor: mPrimaryColor,
         ),
-        body:
-          const MyMap(),
-          //const FloatingSearchAppBarExample(),
+        body: const MyMap(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){},//_getMyLocation,
+          tooltip: 'Zoom',
+          child: const Icon(Icons.my_location),
+        ),
       );
 
 }
