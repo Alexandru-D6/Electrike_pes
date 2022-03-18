@@ -5,10 +5,14 @@ class VhCombustible extends Vehicle {
 
   late double emissioCo2;
 
-  VhCombustible.complet (this.capacitatDeposit, this.emissioCo2, double potencia, double consum, String marca, String model) :
-  super.complet(potencia, consum, marca, model);
+  VhCombustible.complet (this.capacitatDeposit, this.emissioCo2, double potencia, double consum, String marca, String model)
+  : super.complet(potencia, consum, marca, model);
 
   VhCombustible.onlyComb(this.capacitatDeposit, this.emissioCo2): super.buit();
+
+  // getter
+
+  // setters
 
   @override
   set potencia(double potencia) {

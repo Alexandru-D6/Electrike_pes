@@ -1,14 +1,14 @@
 
 class Vehicle {
-  late int id;
+  late final int id;
   double potencia = 0.0;
   double consum = 0.0;
   late String marca;
   late String model;
 
-  final int _idVechicleSistema = 0;
+  int _idVechicleSistema = 0;
 
-  // Constructora
+   // Constructora
   Vehicle.marcaModel(this.marca, this.model) {
     id = _idVechicleSistema;
     incrementaIdSistema();
@@ -21,8 +21,16 @@ class Vehicle {
 
   Vehicle.buit();
 
-  //post: incrementa el id_vehicle sistema
+  /// @post: incremanta el id_vehicle sistema
   void incrementaIdSistema () {
     _idVechicleSistema + 1;
   }
+
+  // GETTERS
+
+  // SETTERS
+  set idVechicleSistema(int value) {
+    _idVechicleSistema = value;
+  }
+
 }
