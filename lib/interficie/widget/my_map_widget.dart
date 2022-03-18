@@ -72,7 +72,7 @@ class _MyMapState extends State<MyMap> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _getMyLocation,
-        tooltip: 'Zoom',
+        tooltip: 'My Location',
         child: const Icon(Icons.my_location),
     ),
     );
