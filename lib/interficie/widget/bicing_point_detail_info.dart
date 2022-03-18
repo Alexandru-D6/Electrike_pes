@@ -48,7 +48,6 @@ class PointInfo extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
-              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -89,7 +88,7 @@ Widget buildBicingPointInfo({
           num.toString(),
           style: const TextStyle(
             color: Colors.white,
-            fontSize: 19,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
