@@ -49,11 +49,6 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: mPrimaryColor,
         ),
         body: const MyMap(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){},//_getMyLocation,
-          tooltip: 'Zoom',
-          child: const Icon(Icons.my_location),
-        ),
       );
 
 }

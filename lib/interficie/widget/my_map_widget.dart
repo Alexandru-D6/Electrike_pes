@@ -28,38 +28,53 @@ class _MyMapState extends State<MyMap> {
   @override
   Widget build(BuildContext context) {
     chargePoints = buildMarkers();
-    return FlutterMap(
-      options: MapOptions(
-        center: currentCenter,
-        zoom: currentZoom,
-        plugins: [
-          MarkerClusterPlugin(),
-        ],
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            Flexible(
+              child: FlutterMap(
+                options: MapOptions(
+                  center: currentCenter,
+                  zoom: currentZoom,
+                  plugins: [
+                    MarkerClusterPlugin(),
+                  ],
+                ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    subdomains: ['a', 'b', 'c'],
+                  ),
+                  MarkerClusterLayerOptions(
+                    maxClusterRadius: 120,
+                    size: const Size(40, 40),
+                    fitBoundsOptions: const FitBoundsOptions(
+                      padding: EdgeInsets.all(50),
+                    ),
+                    markers: chargePoints,
+                    polygonOptions: const PolygonOptions(
+                        borderColor: Colors.blueAccent,
+                        color: Colors.black12,
+                        borderStrokeWidth: 3),
+                    builder: (context, markers) {
+                      return FloatingActionButton(
+                        child: Text(markers.length.toString()),
+                        onPressed: null,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-      layers: [
-        TileLayerOptions(
-          urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          subdomains: ['a', 'b', 'c'],
-        ),
-        MarkerClusterLayerOptions(
-          maxClusterRadius: 120,
-          size: const Size(40, 40),
-          fitBoundsOptions: const FitBoundsOptions(
-            padding: EdgeInsets.all(50),
-          ),
-          markers: chargePoints,
-          polygonOptions: const PolygonOptions(
-              borderColor: Colors.blueAccent,
-              color: Colors.black12,
-              borderStrokeWidth: 3),
-          builder: (context, markers) {
-            return FloatingActionButton(
-              child: Text(markers.length.toString()),
-              onPressed: null,
-            );
-          },
-        ),
-      ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: _getMyLocation,
+        tooltip: 'Zoom',
+        child: const Icon(Icons.my_location),
+    ),
     );
   }
 
