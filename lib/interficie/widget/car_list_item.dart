@@ -21,7 +21,7 @@ class CarListItem extends StatelessWidget {
       onTap: () {
       showModalBottomSheet(
         context: context,
-        backgroundColor: const Color(0x00000000), //color transparente
+        backgroundColor: cTransparent, //color transparente
         builder: (builder){
           return Stack(
             children: [

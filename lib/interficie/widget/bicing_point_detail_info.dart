@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../domini/bicing_point.dart';
 import '../constants.dart';
-import 'attribute.dart';
 
-class PointDetailInformation extends StatelessWidget {
-  const PointDetailInformation({
+class BicingPointDetailInformation extends StatelessWidget {
+  const BicingPointDetailInformation({
     Key? key,
     required this.point,
   }) : super(key: key);
@@ -22,65 +21,8 @@ class PointDetailInformation extends StatelessWidget {
       child: Column(
         children: [
           PointInfo(point: point),
-          const Divider(
-            height: 16,
-            color: Colors.black54,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              EditInfoPoint(point: point),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                child: Column(
-                  children: const [
-                    SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          )
         ],
       ),
-    );
-  }
-}
-
-class EditInfoPoint extends StatelessWidget {
-  const EditInfoPoint({
-    Key? key,
-    required this.point,
-  }) : super(key: key);
-
-  final BicingPoint point;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        /*const Icon(
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.directions,
-          ),//TODO: how to arrive
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.share,
-          ),//TODO: Share
-        ),*/
-      ],
     );
   }
 }
@@ -98,29 +40,34 @@ class PointInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          point.nom,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+
+        ListTile(
+          leading: const Icon(Icons.pedal_bike, color: Colors.white, size: 45,),
+          title: Text(
+            point.nom,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        const SizedBox(
+        const Divider(
           height: 16,
+          color: Colors.black54,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildBicingPointInfo(
-              text: point.estaciones,
-              icon: Icons.logout),
+              num: point.estaciones,
+              assetName: 'assets/icon/estacions.svg'),
             buildBicingPointInfo(
-                text: point.bicicletas,
-                icon: Icons.logout),
+                num: point.bicicletas,
+                assetName: 'assets/icon/bike.svg'),
             buildBicingPointInfo(
-                text: point.bicicletas_E,
-                icon: Icons.logout),
+                num: point.bicicletas_E,
+                assetName: 'assets/icon/bicicleta-electrica.svg'),
           ],
         )
       ],
@@ -129,15 +76,23 @@ class PointInfo extends StatelessWidget {
 }
 
 Widget buildBicingPointInfo({
-  required int text,
-  required IconData icon,
+  required int num,
+  required String assetName,
 }) {
-  const color = Colors.white;
-  const hoverColor = Colors.white70;
 
-  return ListTile(
-    leading: Icon(icon, color: color),
-    title: Text(text.toString(), style: const TextStyle(fontSize: 18, color: color)),
-    hoverColor: hoverColor,
+  return Column(
+      children: [
+        Image.asset(
+            assetName
+        ),
+        Text(
+          num.toString(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 19,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
   );
 }

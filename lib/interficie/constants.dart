@@ -6,8 +6,8 @@ import '../domini/charge_point.dart';
 
 
 Color mPrimaryColor = const Color(0xFF40ac9c);
-
 Color mCardColor = const Color(0xFF203e5a);
+Color cTransparent = const Color(0x00000000);
 
 
 //Harcoded tests to play
