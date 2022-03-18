@@ -14,7 +14,7 @@ class Usuari {
   }
 
   afegirkmRecorregut(int kmRecorregut) {
-    kmRecorregut = kmRecorregut;
+    this.kmRecorregut = kmRecorregut;
     //co2Estalviat = calcular!!
     //if (co2Estalviat > .. or kMRecorregut > .. ) otorgar premis!
   }
