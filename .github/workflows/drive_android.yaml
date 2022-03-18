@@ -2,9 +2,9 @@
 name:  Test, build and deploy
 # Trigger the workflow on push or pull request
 on: 
-  create:
-    tags:
-      - v*
+  push:
+    branches:
+      - ''
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
   drive_android:
@@ -29,4 +29,4 @@ jobs:
           target: ${{ matrix.target }}
           arch: x86_64
           profile: Nexus 6
-          script: flutter drive --target=lib/main.dart
+          script: flutter drive --target=lib/my_map_widget.dart
