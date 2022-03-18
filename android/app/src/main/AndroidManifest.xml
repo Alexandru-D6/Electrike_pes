@@ -7,6 +7,10 @@
         android:label="Electrike"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
