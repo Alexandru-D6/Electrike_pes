@@ -1,71 +1,21 @@
 import 'package:flutter_project/domini/trofeu.dart';
 
-class usuari {
-  late String _correu;
-  late String _name;
-  late String _foto;
-  late int _token;
-  late int _kmRecorregut;
-  late int _co2Estalviat;
-  late trofeu t;
+class Usuari {
+  late String correu;
+  late String name;
+  late String foto;
+  late int token;
+  late int kmRecorregut;
+  late int co2Estalviat;
+  late Trofeu t;
 
-  usuari(String correu, int token, String foto) {
-    _correu = correu;
-    _token = token;
-    _foto = foto;
-    _co2Estalviat = 0;
+  Usuari(this.correu, this.token, this.foto) {
+    co2Estalviat = 0;
   }
 
   afegir_kmRecorregut(int kmRecorregut) {
-    _kmRecorregut = kmRecorregut;
+    kmRecorregut = kmRecorregut;
     //co2Estalviat = calcular!!
     //if (co2Estalviat > .. or kMRecorregut > .. ) otorgar premis!
   }
-
-  String get correu {
-    return _correu;
-  }
-
-  String get name {
-    return _name;
-  }
-
-  String get foto {
-    return _foto;
-  }
-
-  int get token {
-    return _token;
-  }
-
-  int get kmRecorregut {
-    return _kmRecorregut;
-  }
-
-  int get co2Estalviat {
-    return _co2Estalviat;
-  }
-
-  set name(String name) {
-    _name = name;
-  }
-
-  set foto(String foto) {
-    _foto = foto;
-  }
-
-  set token(int token) {
-    _token = token;
-  }
-
-  set kmRecorregut(int kmRecorregut) {
-    _kmRecorregut = kmRecorregut;
-  }
-
-  set co2Estalviat(int co2Estalviat) {
-    _co2Estalviat = co2Estalviat;
-  }
-
-
-
 }

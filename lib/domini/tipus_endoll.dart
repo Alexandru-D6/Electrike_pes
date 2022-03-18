@@ -1,15 +1,5 @@
-class tipus_endoll {
-  late String _tipus;
+class TipusEndoll {
+  late String tipus;
 
-  tipus_endoll(String tipus) {
-    _tipus = tipus;
-  }
-
-  String get tipus {
-    return _tipus;
-  }
-
-  set tipus(String tipus) {
-    _tipus = tipus;
-  }
+  TipusEndoll(this.tipus);
 }
