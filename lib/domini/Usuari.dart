@@ -13,7 +13,7 @@ class Usuari {
     co2Estalviat = 0;
   }
 
-  afegir_kmRecorregut(int kmRecorregut) {
+  afegirkmRecorregut(int kmRecorregut) {
     kmRecorregut = kmRecorregut;
     //co2Estalviat = calcular!!
     //if (co2Estalviat > .. or kMRecorregut > .. ) otorgar premis!
