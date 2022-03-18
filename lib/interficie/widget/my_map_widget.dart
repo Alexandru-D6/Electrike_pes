@@ -16,6 +16,8 @@ class MyMap extends StatefulWidget {
 
 class _MyMapState extends State<MyMap> {
   List<Marker> chargePoints = [];
+  List<Marker> bicingPoints = [];
+  List<Marker> markers = [];
   double currentZoom = 11.0;
   MapController mapController = MapController();
   LatLng currentCenter = LatLng(41.390205, 2.154007);
@@ -27,7 +29,9 @@ class _MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
-    chargePoints = buildMarkers();
+    chargePoints = buildChargerMarkers();
+    bicingPoints = buildBicingMarkers();
+    markers = chargePoints + bicingPoints;
     return Scaffold(
       body: Center(
         child: Column(
@@ -35,6 +39,7 @@ class _MyMapState extends State<MyMap> {
             Flexible(
               child: FlutterMap(
                 options: MapOptions(
+                  maxZoom: 18.25,
                   center: currentCenter,
                   zoom: currentZoom,
                   plugins: [
@@ -52,7 +57,7 @@ class _MyMapState extends State<MyMap> {
                     fitBoundsOptions: const FitBoundsOptions(
                       padding: EdgeInsets.all(50),
                     ),
-                    markers: chargePoints,
+                    markers: markers,
                     polygonOptions: const PolygonOptions(
                         borderColor: Colors.blueAccent,
                         color: Colors.black12,
@@ -78,29 +83,40 @@ class _MyMapState extends State<MyMap> {
     );
   }
 
-  List<Marker> buildMarkers() {
+  List<Marker> buildChargerMarkers() {
     for (var i = 0; i < chargePointList.length; ++i) {
       chargePoints.add(
-          buildMarker(
+          buildChargerMarker(
             index: i,
             lat: chargePointList[i].lat,
             long: chargePointList[i].long,
-            charger: chargePointList[i].tipus,
           )
       );
     }
     setState(() {
-
+    });
+    return chargePoints;
+  }
+  List<Marker> buildBicingMarkers() {
+    for (var i = 0; i < chargePointList.length; ++i) {
+      chargePoints.add(
+          buildChargerMarker(
+            index: i,
+            lat: chargePointList[i].lat,
+            long: chargePointList[i].long,
+          )
+      );
+    }
+    setState(() {
     });
     return chargePoints;
   }
 }
 
-Marker buildMarker({
+Marker buildChargerMarker({
   required int index,
   required double lat,
   required double long,
-  required String charger,
 }){
   ChargePoint point = chargePointList[index];
   return Marker(
@@ -117,6 +133,53 @@ Marker buildMarker({
                 context: ctx,
                 backgroundColor: const Color(0x00000000),
                 builder: (builder){
+                  return Stack(
+                    children: [
+                      Positioned(
+                        left: 24,
+                        right: 24,
+                        bottom: 24,
+                        child: Stack(
+                          children: [
+                            PointDetailInformation(point: point),
+                            Positioned(
+                              right: 16,
+                              child: Image.asset(
+                                "assets/images/charge_point.png",
+                                height: 125,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                });
+          },
+        ),
+  );
+}
+
+Marker buildBicingMarker({
+  required int index,
+  required double lat,
+  required double long,
+}) {
+  ChargePoint point = chargePointList[index];
+  return Marker(
+    width: 50.0,
+    height: 50.0,
+    point: LatLng(lat, long),
+    builder: (ctx) =>
+        IconButton(
+          icon: const Icon(Icons.place),
+          color: mCardColor,
+          iconSize: 45.0,
+          onPressed: () {
+            showModalBottomSheet(
+                context: ctx,
+                backgroundColor: const Color(0x00000000),
+                builder: (builder) {
                   return Stack(
                     children: [
                       Positioned(
