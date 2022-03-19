@@ -17,21 +17,17 @@ Future main() async {
   runApp(const MyApp());
 }
 
+GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+
 class MyApp extends StatelessWidget {
   static const String title = 'Electrike';
 
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(
-          primaryColor: mPrimaryColor,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: const MainPage(),
-      );
+  Widget build(BuildContext context) => GoogleMap(
+    key: _key,
+  );
 }
 
 class MainPage extends StatefulWidget {
