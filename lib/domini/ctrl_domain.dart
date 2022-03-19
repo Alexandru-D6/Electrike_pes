@@ -19,14 +19,26 @@ class CtrlDomain {
     for(var it in resp){
       print(it['_id']);
     }
+  }
+
+  Future<void> getAllBrands() async {
+    var url = urlorg +'cars_brands';
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    for(var it in resp){
+      print(it);
+    }
 
   }
-  void getAllModels(String brand){
-    var url = urlorg +'cars_models';
-    http.get(Uri.parse(url)).then( (res){
-      final body = jsonDecode(res.body);
-      print(body);
-    });
+
+  Future<void> getAllModels(String brand) async {
+    var url = urlorg +'cars_models?Brand='+brand;
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    print(resp);
+    for(var it in resp){
+      print(it);
+    }
   }
 
 }
