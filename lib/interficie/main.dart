@@ -1,60 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
-
-import 'widget/lateral_menu_widget.dart';
 
 Future main() async {
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
-
-GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
 
 class MyApp extends StatelessWidget {
   static const String title = 'Electrike';
-
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => GoogleMap(
-    key: _key,
-  );
-}
+  Widget build(BuildContext context) => MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: title,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage()
+    );
+  }
 
-class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MyHomePageState extends State<MyHomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _key = GlobalKey<GoogleMapStateBase>();
-  bool _polygonAdded = false;
-  bool _darkMapStyle = false;
-  String _mapStyle = "";
+  GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+
+  GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
 
   List<Widget> _buildClearButtons() => [
-    RaisedButton.icon(
-      color: Colors.red,
-      textColor: Colors.white,
-      icon: Icon(Icons.bubble_chart),
-      label: Text('CLEAR POLYGONS'),
-      onPressed: () {
-        GoogleMap.of(_key).clearPolygons();
-        setState(() => _polygonAdded = false);
-      },
-    ),
     const SizedBox(width: 16),
     RaisedButton.icon(
       color: Colors.red,
@@ -78,50 +61,13 @@ class _MainPageState extends State<MainPage> {
   ];
 
   List<Widget> _buildAddButtons() => [
-    FloatingActionButton(
-      child: Icon(_polygonAdded ? Icons.edit : Icons.bubble_chart),
-      backgroundColor: _polygonAdded ? Colors.orange : null,
-      onPressed: () {
-        if (!_polygonAdded) {
-          GoogleMap.of(_key).addPolygon(
-            '1',
-            polygon,
-            onTap: (polygonId) async {
-              await showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  content: Text(
-                    'This dialog was opened by tapping on the polygon!\n'
-                        'Polygon ID is $polygonId',
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      onPressed: Navigator.of(context).pop,
-                      child: Text('CLOSE'),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        } else {
-          GoogleMap.of(_key).editPolygon(
-            '1',
-            polygon,
-            fillColor: Colors.purple,
-            strokeColor: Colors.purple,
-          );
-        }
-
-        setState(() => _polygonAdded = true);
-      },
-    ),
     const SizedBox(width: 16),
     FloatingActionButton(
       child: Icon(Icons.pin_drop),
       onPressed: () {
         GoogleMap.of(_key).addMarkerRaw(
-          GeoCoord(33.875513, -117.550257),
+          lastCoord,
+          icon: 'assets/images/estation.png',
           info: 'test info',
           onInfoWindowTap: () async {
             await showDialog(
@@ -150,14 +96,16 @@ class _MainPageState extends State<MainPage> {
     FloatingActionButton(
       child: Icon(Icons.directions),
       onPressed: () {
+        GoogleMap.of(_key).addPolygon(id, points);
+        /*
         GoogleMap.of(_key).addDirection(
-          'San Francisco, CA',
-          'San Jose, CA',
+          const GeoCoord(41.385983, 2.118057),
+          const GeoCoord(41.375034, 2.163633),
           startLabel: '1',
-          startInfo: 'San Francisco, CA',
-          endIcon: 'assets/images/map-marker-warehouse.png',
-          endInfo: 'San Jose, CA',
-        );
+          startInfo: 'bbbbbbbb',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'aaaaaa',
+        );*/
       },
     ),
   ];
@@ -180,15 +128,11 @@ class _MainPageState extends State<MainPage> {
             },
             initialZoom: 12,
             initialPosition:
-            GeoCoord(34.0469058, -118.3503948), // Los Angeles, CA
-            mapType: MapType.roadmap,
-            mapStyle: _mapStyle,
+            GeoCoord(40.0469058, 1.3503948), // Los Angeles, CA
+            mapType: MapType.satellite,
+            mapStyle: null,
             interactive: true,
-            onTap: (coord) =>
-                _scaffoldKey.currentState?.showSnackBar(SnackBar(
-                  content: Text("coord?.toString()"),
-                  duration: const Duration(seconds: 2),
-                )),
+            onTap: (coord) => lastCoord = coord,
             mobilePreferences: const MobileMapPreferences(
               trafficEnabled: true,
               zoomControlsEnabled: false,
@@ -237,28 +181,6 @@ class _MainPageState extends State<MainPage> {
                 },
               );
             },
-          ),
-        ),
-        Positioned(
-          top: 16,
-          right: kIsWeb ? 60 : 16,
-          child: FloatingActionButton(
-            onPressed: () {
-              if (_darkMapStyle) {
-                GoogleMap.of(_key).changeMapStyle(null);
-                _mapStyle = "";
-              } else {
-                GoogleMap.of(_key).changeMapStyle(darkMapStyle);
-                _mapStyle = darkMapStyle;
-              }
-
-              setState(() => _darkMapStyle = !_darkMapStyle);
-            },
-            backgroundColor: _darkMapStyle ? Colors.black : Colors.white,
-            child: Icon(
-              _darkMapStyle ? Icons.wb_sunny : Icons.brightness_3,
-              color: _darkMapStyle ? Colors.white : Colors.black,
-            ),
           ),
         ),
         Positioned(
@@ -556,3 +478,4 @@ const polygon = <GeoCoord>[
   GeoCoord(32.713053, -117.189703),
   GeoCoord(32.707868, -117.191018),
 ];
+
