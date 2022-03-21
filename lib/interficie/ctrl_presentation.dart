@@ -16,44 +16,49 @@ class CtrlPresentation {
   CtrlPresentation._internal();
 
   //intercambiar vista
-  void selectedItem(BuildContext context, int index) {
+  void toMainPage(BuildContext context){
     Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-
-    switch (index) {
-      case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const MainPage(),
-        ));
-        break;
-      case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const GaragePage(),
-        ));
-        break;
-      case 2:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const FavouritesPage(),
-        ));
-        break;
-      case 3:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const RewardsPage(),
-        ));
-        break;
-      case 4:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const InformationAppPage(),
-        ));
-        break;
-      case 5:
-        break;
-      case 22:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ));
-    }
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const MainPage(),
+    ));
   }
 
+  void toGaragePage(BuildContext context){
+    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const GaragePage(),
+    ));
+  }
+
+  void toFavouritesPage(BuildContext context){
+    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const FavouritesPage(),
+    ));
+  }
+
+  void toRewardsPage(BuildContext context){
+    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const RewardsPage(),
+    ));
+  }
+
+  void toInfoAppPage(BuildContext context){
+    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const InformationAppPage(),
+    ));
+  }
+
+  void toLoginPage(BuildContext context){
+    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const LoginPage(),
+    ));
+  }
+
+  //USER INFO FUNCTIONS
   String getCurrentUsername(){
     return "bobi";
     //TODO: CALL DOMAIN FUNCTION

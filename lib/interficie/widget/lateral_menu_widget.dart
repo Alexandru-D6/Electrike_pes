@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
-import 'package:flutter_project/interficie/constants.dart';
 
 //import '../../domini/traductor.dart';
 
@@ -29,7 +28,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => ctrlPresentation.selectedItem(context, 22),
+              onClicked: () => ctrlPresentation.toLoginPage(context),
             ),
             Container(
               padding: padding,
@@ -39,25 +38,25 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Map', //TODO: translator
                     icon: Icons.map_outlined,
-                    onClicked: () => ctrlPresentation.selectedItem(context, 0),
+                    onClicked: () => ctrlPresentation.toMainPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Garage', //TODO: translator
                     icon: Icons.garage,
-                    onClicked: () => ctrlPresentation.selectedItem(context, 1),
+                    onClicked: () => ctrlPresentation.toGaragePage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Favourites', //TODO: translator
                     icon: Icons.favorite_border,
-                    onClicked: () => ctrlPresentation.selectedItem(context, 2),
+                    onClicked: () => ctrlPresentation.toFavouritesPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Achievements', //TODO: translator
                     icon: Icons.emoji_events,
-                    onClicked: () => ctrlPresentation.selectedItem(context, 3),
+                    onClicked: () => ctrlPresentation.toRewardsPage(context),
                   ),
                   const SizedBox(height: 10),
                   const Divider(color: Colors.white70),
@@ -68,13 +67,13 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Information', //TODO: translator
                     icon: Icons.info,
-                    onClicked: () => ctrlPresentation.selectedItem(context, 4),
+                    onClicked: () => ctrlPresentation.toInfoAppPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Contact us',//Translator().translate(selectedLanguage, 'Contact us'),
                     icon: Icons.phone,
-                    onClicked: () => ctrlPresentation.selectedItem(context, 5),
+                    onClicked: () => (){},//ctrlPresentation.to(context, 5),
                   ),
 
                   const SizedBox(height: 10),
@@ -85,7 +84,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Logout', //TODO: translator
                     icon: Icons.logout,
-                    onClicked: () => ctrlPresentation.selectedItem(context, 5), //TODO: reference logout routine
+                    onClicked: () => (){},//ctrlPresentation.selectedItem(context, 5), //TODO: reference logout routine
                   ),
                 ],
               ),
