@@ -94,6 +94,4 @@ class CtrlPresentation {
   getCarsList() {
     return carList; //TODO: call domain carListUser será lista de lista de strings (List<Car>)
   }
-
-
 }
