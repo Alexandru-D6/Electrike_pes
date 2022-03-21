@@ -43,8 +43,8 @@ jobs:
       - run: flutter test --coverage
       # Upload coverage reports to Codecov
       # https://github.com/marketplace/actions/codecov
-      #- name: Upload coverage to Codecov
-      #  uses: codecov/codecov-action@v2
-      #  with:
-      #    token: ${{ secrets.CODECOV_TOKEN }}
-      #    file: coverage/lcov.info
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage/lcov.info
