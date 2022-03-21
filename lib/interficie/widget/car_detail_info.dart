@@ -181,6 +181,11 @@ class CarInfo extends StatelessWidget {
               name: 'Potència', //TODO: TRANSLATOR
               textColor: Colors.black87,
             ),
+            Attribute(
+              value: car[5],
+              name: 'Eficiencia',
+              textColor: Colors.black87,
+            ),
           ],
         )
       ],

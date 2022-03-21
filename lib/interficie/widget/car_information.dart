@@ -48,11 +48,15 @@ class CarInfomation extends StatelessWidget {
               ),
               Attribute(
                 value: car[4],
-                name: 'CO2',
+                name: 'Bateria',
               ),
               Attribute(
                 value: car[5],
-                name: 'Fule Cons.',
+                name: 'Potència',
+              ),
+              Attribute(
+                value: car[5],
+                name: 'Eficiencia',
               ),
             ],
           )
