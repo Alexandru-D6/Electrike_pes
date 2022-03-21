@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
+import '../ctrl_presentation.dart';
 import '../widget/car_list_item.dart';
 import '../widget/lateral_menu_widget.dart';
 
@@ -10,13 +11,15 @@ class GaragePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    List<List<String>> userCarList = ctrlPresentation.getCarsList();
     return Scaffold(
       backgroundColor: mPrimaryColor,
       appBar: buildAppBar(),
       drawer: const NavigationDrawerWidget(),
       body: ListView.builder(
-        itemCount: carList.length, //TODO: call domain carListUser
-        itemBuilder: (context, index) => CarListItem(index),
+        itemCount: userCarList.length,
+        itemBuilder: (context, index) => CarListItem(userCarList[index]),
       ),
     );
   }

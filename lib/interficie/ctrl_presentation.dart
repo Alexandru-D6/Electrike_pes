@@ -8,6 +8,8 @@ import 'package:flutter_project/interficie/page/login_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'constants.dart';
+
 class CtrlPresentation {
   static final CtrlPresentation _singleton = CtrlPresentation._internal();
   CtrlDomain ctrlDomain = CtrlDomain();
@@ -87,6 +89,10 @@ class CtrlPresentation {
   void mailto() async {
     String _url = "mailto:electrike.official@gmail.com?subject=Help&body=Hi%20Electrike%20team!";
     if (!await launch(_url)) throw 'Could not launch $_url';
+  }
+
+  getCarsList() {
+    return carList; //TODO: call domain carListUser será lista de lista de strings (List<Car>)
   }
 
 

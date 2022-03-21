@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../domini/car.dart';
 import '../constants.dart';
 import 'attribute.dart';
 
@@ -10,7 +9,7 @@ class CarDetailInfomation extends StatelessWidget {
     required this.car,
   }) : super(key: key);
 
-  final Car car;
+  final List<String> car;
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +140,7 @@ class CarInfo extends StatelessWidget {
     required this.car,
   }) : super(key: key);
 
-  final Car car;
+  final List<String> car;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +148,7 @@ class CarInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '\$${car.price}',
+          '\$${car[1]}',
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -169,22 +168,22 @@ class CarInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Attribute(
-              value: car.brand,
+              value: car[2],
               name: 'Brand',
               textColor: Colors.black87,
             ),
             Attribute(
-              value: car.model,
+              value: car[3],
               name: 'Model No',
               textColor: Colors.black87,
             ),
             Attribute(
-              value: car.co2,
+              value: car[4],
               name: 'CO2',
               textColor: Colors.black87,
             ),
             Attribute(
-              value: car.fuelCons,
+              value: car[5],
               name: 'Fule Cons.',
               textColor: Colors.black87,
             ),

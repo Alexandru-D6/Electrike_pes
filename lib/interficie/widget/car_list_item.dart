@@ -8,20 +8,20 @@ import 'car_information.dart';
 
 class CarListItem extends StatelessWidget {
   const CarListItem(
-      this.index, {
+      this.car, {
         Key? key,
       }) : super(key: key);
 
-  final int index;
+  final List<String> car;
 
   @override
   Widget build(BuildContext context) {
-    Car car = carList[index];
+    String carImage = car[0]; //pos 0 es la fot del coche
     return GestureDetector(
       onTap: () {
       showModalBottomSheet(
         context: context,
-        backgroundColor: const Color(0x00000000), //color transparente
+        backgroundColor: cTransparent, //color transparente
         builder: (builder){
           return Stack(
             children: [
@@ -35,7 +35,7 @@ class CarListItem extends StatelessWidget {
                     Positioned(
                       right: 16,
                       child: Image.asset(
-                        car.image,
+                        carImage,
                         height: 100,
                       ),
                     )
@@ -54,7 +54,7 @@ class CarListItem extends StatelessWidget {
             Positioned(
               right: 40,
               child: Image.asset(
-                car.image,
+                carImage,
                 height: 100,
               ),
             )
