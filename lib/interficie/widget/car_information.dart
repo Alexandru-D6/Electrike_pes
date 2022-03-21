@@ -32,12 +32,6 @@ class CarInfomation extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Text(
-            'price/hr',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
           const SizedBox(
             height: 16,
           ),
