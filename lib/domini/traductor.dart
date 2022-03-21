@@ -36,15 +36,15 @@ class Translator{
 
   dynamic to(LanguagesEnum selectedLanguage){
     // english language
-    if(selectedLanguage==LanguagesEnum.Catalan){
+    if(selectedLanguage==LanguagesEnum.catalan){
       return ca;
     }
     // 2nd language
-    else if(selectedLanguage==LanguagesEnum.Spanish){
+    else if(selectedLanguage==LanguagesEnum.spanish){
       return es;
     }
     // 3rd language
-    else if(selectedLanguage==LanguagesEnum.English){
+    else if(selectedLanguage==LanguagesEnum.english){
       return en;
     }
     // any other language can be added in same way..
@@ -60,4 +60,4 @@ class Translator{
 }
 
 // you can add languages as much as you want..
-enum LanguagesEnum {Catalan, Spanish, English}
+enum LanguagesEnum {catalan, spanish, english}

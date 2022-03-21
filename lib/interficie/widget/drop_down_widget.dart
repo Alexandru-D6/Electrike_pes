@@ -26,7 +26,7 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  LanguagesEnum selectedLanguage = LanguagesEnum.English; //TODO: user language
+  LanguagesEnum selectedLanguage = LanguagesEnum.english; //TODO: user language
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +63,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
  String setGoodStringLang(LanguagesEnum selectedLanguage) {
     String language;
-    if(selectedLanguage==LanguagesEnum.Catalan){
+    if(selectedLanguage==LanguagesEnum.catalan){
       language = "Català";
     }
     // 2nd language
-    else if(selectedLanguage==LanguagesEnum.Spanish){
+    else if(selectedLanguage==LanguagesEnum.spanish){
       language = "Español";
     }
     // 3rd language
@@ -80,15 +80,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   LanguagesEnum newValueToLangEnum(String s) {
     LanguagesEnum langEnum;
     if(s=="Català"){
-      langEnum = LanguagesEnum.Catalan;
+      langEnum = LanguagesEnum.catalan;
     }
     // 2nd language
     else if(s=="Español"){
-      langEnum = LanguagesEnum.Spanish;
+      langEnum = LanguagesEnum.spanish;
     }
     // 3rd language
     else{
-      langEnum = LanguagesEnum.English;
+      langEnum = LanguagesEnum.english;
     }
     return langEnum;
   }

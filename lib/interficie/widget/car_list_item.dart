@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../domini/car.dart';
 import '../constants.dart';
 import 'car_detail_info.dart';
 import 'car_information.dart';
