@@ -85,7 +85,7 @@ class CtrlPresentation {
   }
 
   void mailto() async {
-    String _url = "mailto:electrike.official@gmail.com?subject=Help&body=New%20plugin";
+    String _url = "mailto:electrike.official@gmail.com?subject=Help&body=Hi%20team%20of%20Electrike!";
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
