@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
+import 'package:sign_button/sign_button.dart';
 
 //import '../../domini/traductor.dart';
+CtrlPresentation ctrlPresentation = CtrlPresentation();
 
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
@@ -13,11 +15,10 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CtrlPresentation ctrlPresentation = CtrlPresentation();
-    String name = ctrlPresentation.getCurrentUsername();
-    String email = ctrlPresentation.getCurrentUserMail();
+    String? name = ctrlPresentation.getCurrentUsername();
+    String? email = ctrlPresentation.getCurrentUserMail();
     const urlImage =
-        'https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=634&q=80'; //TODO: qué me pasa domain para la foto??
+        'https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=5&q=80'; //TODO: qué me pasa domain para la foto??
 
     return Drawer(
       child: Material(
@@ -97,8 +98,8 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   Widget buildHeader({
     required String urlImage,
-    required String name,
-    required String email,
+    String? name,
+    String? email,
     required VoidCallback onClicked,
   }) =>
       InkWell(
@@ -107,28 +108,28 @@ class NavigationDrawerWidget extends StatelessWidget {
           padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
           child: Row(
             children: [
-              CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage)),
+              if (name != null) CircleAvatar(radius: 5, backgroundImage: NetworkImage(urlImage))
+              else
+                SignInButton.mini(
+                  buttonType: ButtonType.googleDark,
+                  onPressed: (){},
+                ),
               const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    name ?? "Click to login",
                     style: const TextStyle(fontSize: 20, color: Colors.white),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    email,
+                    email ?? "",
                     style: const TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ],
               ),
-              const Spacer(),
-              const CircleAvatar(
-                radius: 24,
-                backgroundColor: Color.fromRGBO(30, 60, 168, 1),
-                child: Icon(Icons.add_comment_outlined, color: Colors.white),
-              )
+              //const Spacer(),
             ],
           ),
         ),

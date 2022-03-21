@@ -62,8 +62,8 @@ class CtrlPresentation {
   }
 
   //USER INFO FUNCTIONS
-  String getCurrentUsername(){
-    return "bobi";
+  String? getCurrentUsername(){
+    return null;
     //TODO: CALL DOMAIN FUNCTION
     /*
     String username = ctrlDomain.getCurrentUsername();
@@ -82,10 +82,6 @@ class CtrlPresentation {
      */
   }
 
-  String getBrandCar(){
-    return "";
-  }
-
   void mailto() async {
     String _url = "mailto:electrike.official@gmail.com?subject=Help&body=Hi%20Electrike%20team!";
     if (!await launch(_url)) throw 'Could not launch $_url';
@@ -93,5 +89,9 @@ class CtrlPresentation {
 
   getCarsList() {
     return carList; //TODO: call domain carListUser será lista de lista de strings (List<Car>)
+  }
+  
+  void signInRoutine(String? name){
+    name = "Bobi"; //TODO: signin
   }
 }
