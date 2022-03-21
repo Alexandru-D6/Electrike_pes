@@ -73,4 +73,8 @@ class CtrlPresentation {
     return mail;
      */
   }
+
+  String getBrandCar(){
+    return "";
+  }
 }

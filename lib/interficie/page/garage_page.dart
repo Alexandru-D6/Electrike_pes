@@ -15,7 +15,7 @@ class GaragePage extends StatelessWidget {
       appBar: buildAppBar(),
       drawer: const NavigationDrawerWidget(),
       body: ListView.builder(
-        itemCount: carList.length,
+        itemCount: carList.length, //TODO: call domain carListUser
         itemBuilder: (context, index) => CarListItem(index),
       ),
     );
@@ -25,7 +25,7 @@ class GaragePage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: const Text('Garage'),
+      title: const Text('Garage'), //TODO: translator
       actions: [
         IconButton(
           icon: const Icon(
