@@ -57,5 +57,20 @@ class CtrlPresentation {
   String getCurrentUsername(){
     return "bobi";
     //TODO: CALL DOMAIN FUNCTION
+    /*
+    String username = ctrlDomain.getCurrentUsername();
+    if (username == Null) username = "Click to log-in";
+    return username;
+     */
+  }
+
+  String getCurrentUserMail() {
+    return 'victorasenj@gmail.com';
+    //TODO: CALL DOMAIN FUNCTION
+    /*
+    String mail = ctrlDomain.getCurrentUserMail();
+    if (username == Null) mail = "Click to log-in";
+    return mail;
+     */
   }
 }

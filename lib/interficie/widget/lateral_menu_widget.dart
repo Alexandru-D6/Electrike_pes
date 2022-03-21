@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
+import 'package:flutter_project/interficie/constants.dart';
 
 //import '../../domini/traductor.dart';
 
@@ -14,15 +15,14 @@ class NavigationDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    const name = 'Víctor';
-    const email = 'victorasenj@gmail.com';
+    String name = ctrlPresentation.getCurrentUsername();
+    String email = ctrlPresentation.getCurrentUserMail();
     const urlImage =
-        'https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=634&q=80';
+        'https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=634&q=80'; //TODO: qué me pasa domain para la foto??
 
     return Drawer(
       child: Material(
         color: mPrimaryColor,
-        //definim el color de fons del menú lateral
         child: ListView(
           children: <Widget>[
             buildHeader(
@@ -37,25 +37,25 @@ class NavigationDrawerWidget extends StatelessWidget {
                 children: [
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Map',
+                    text: 'Map', //TODO: translator
                     icon: Icons.map_outlined,
                     onClicked: () => ctrlPresentation.selectedItem(context, 0),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Garage',
+                    text: 'Garage', //TODO: translator
                     icon: Icons.garage,
                     onClicked: () => ctrlPresentation.selectedItem(context, 1),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Favourites',
+                    text: 'Favourites', //TODO: translator
                     icon: Icons.favorite_border,
                     onClicked: () => ctrlPresentation.selectedItem(context, 2),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Achievements',
+                    text: 'Achievements', //TODO: translator
                     icon: Icons.emoji_events,
                     onClicked: () => ctrlPresentation.selectedItem(context, 3),
                   ),
@@ -66,7 +66,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Information',
+                    text: 'Information', //TODO: translator
                     icon: Icons.info,
                     onClicked: () => ctrlPresentation.selectedItem(context, 4),
                   ),
@@ -83,7 +83,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Logout',
+                    text: 'Logout', //TODO: translator
                     icon: Icons.logout,
                     onClicked: () => ctrlPresentation.selectedItem(context, 5), //TODO: reference logout routine
                   ),
