@@ -6,6 +6,7 @@ import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/login_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CtrlPresentation {
   static final CtrlPresentation _singleton = CtrlPresentation._internal();
@@ -82,4 +83,11 @@ class CtrlPresentation {
   String getBrandCar(){
     return "";
   }
+
+  void mailto() async {
+    String _url = "mailto:electrike.official@gmail.com?subject=Help&body=New%20plugin";
+    if (!await launch(_url)) throw 'Could not launch $_url';
+  }
+
+
 }

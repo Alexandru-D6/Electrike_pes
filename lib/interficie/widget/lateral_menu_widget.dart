@@ -73,7 +73,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Contact us',//Translator().translate(selectedLanguage, 'Contact us'),
                     icon: Icons.phone,
-                    onClicked: () => (){},//ctrlPresentation.to(context, 5),
+                    onClicked: () => ctrlPresentation.mailto(),
                   ),
 
                   const SizedBox(height: 10),
@@ -84,7 +84,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Logout', //TODO: translator
                     icon: Icons.logout,
-                    onClicked: () => (){},//ctrlPresentation.selectedItem(context, 5), //TODO: reference logout routine
+                    onClicked: () => (){},//ctrlPresentation.logout(), //TODO: reference logout routine
                   ),
                 ],
               ),
