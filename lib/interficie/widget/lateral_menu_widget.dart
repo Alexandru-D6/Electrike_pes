@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/interficie/main.dart';
-import 'package:flutter_project/interficie/page/favourites_page.dart';
-import 'package:flutter_project/interficie/page/garage_page.dart';
-import 'package:flutter_project/interficie/page/login_page.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
 
 //import '../../domini/traductor.dart';
-import '../page/information_app_page.dart';
-import '../page/rewards_page.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
-  final padding = const EdgeInsets.symmetric(horizontal: 20);
-
   const NavigationDrawerWidget({Key? key}) : super(key: key);
+  final padding = const EdgeInsets.symmetric(horizontal: 20);
 
   //LanguagesEnum get selectedLanguage => userLanguage; //TODO: getUserLang
 
   @override
   Widget build(BuildContext context) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
     const name = 'Víctor';
     const email = 'victorasenj@gmail.com';
     const urlImage =
@@ -34,7 +29,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => selectedItem(context, 22),
+              onClicked: () => ctrlPresentation.selectedItem(context, 22),
             ),
             Container(
               padding: padding,
@@ -44,25 +39,25 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Map',
                     icon: Icons.map_outlined,
-                    onClicked: () => selectedItem(context, 0),
+                    onClicked: () => ctrlPresentation.selectedItem(context, 0),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Garage',
                     icon: Icons.garage,
-                    onClicked: () => selectedItem(context, 1),
+                    onClicked: () => ctrlPresentation.selectedItem(context, 1),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Favourites',
                     icon: Icons.favorite_border,
-                    onClicked: () => selectedItem(context, 2),
+                    onClicked: () => ctrlPresentation.selectedItem(context, 2),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Achievements',
                     icon: Icons.emoji_events,
-                    onClicked: () => selectedItem(context, 3),
+                    onClicked: () => ctrlPresentation.selectedItem(context, 3),
                   ),
                   const SizedBox(height: 10),
                   const Divider(color: Colors.white70),
@@ -73,13 +68,13 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Information',
                     icon: Icons.info,
-                    onClicked: () => selectedItem(context, 4),
+                    onClicked: () => ctrlPresentation.selectedItem(context, 4),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
                     text: 'Contact us',//Translator().translate(selectedLanguage, 'Contact us'),
                     icon: Icons.phone,
-                    onClicked: () => selectedItem(context, 5),
+                    onClicked: () => ctrlPresentation.selectedItem(context, 5),
                   ),
 
                   const SizedBox(height: 10),
@@ -90,7 +85,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Logout',
                     icon: Icons.logout,
-                    onClicked: () => selectedItem(context, 5), //TODO: reference logout routine
+                    onClicked: () => ctrlPresentation.selectedItem(context, 5), //TODO: reference logout routine
                   ),
                 ],
               ),
@@ -155,43 +150,4 @@ class NavigationDrawerWidget extends StatelessWidget {
       hoverColor: hoverColor,
       onTap: onClicked,
     );
-  }
-
-  //definimos dónde navega cada item del menú lateral
-  void selectedItem(BuildContext context, int index) {
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-
-    switch (index) {
-      case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const MainPage(),
-        ));
-        break;
-      case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const GaragePage(),
-        ));
-        break;
-      case 2:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const FavouritesPage(),
-        ));
-        break;
-      case 3:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const RewardsPage(),
-        ));
-        break;
-      case 4:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const InformationAppPage(),
-        ));
-        break;
-      case 5:
-        break;
-      case 22:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ));
-    }
   }
