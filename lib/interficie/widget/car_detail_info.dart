@@ -148,17 +148,11 @@ class CarInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '\$${car[1]}',
+          '\$${car[1]}', //TODO: name NO EL PRECIO
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-        const Text(
-          'price/hr',
-          style: TextStyle(
-            color: Colors.white,
           ),
         ),
         const SizedBox(
@@ -178,13 +172,13 @@ class CarInfo extends StatelessWidget {
               textColor: Colors.black87,
             ),
             Attribute(
-              value: car[4],
-              name: 'CO2',
+              value: car[4], //TODO: BATERIA
+              name: 'Bateria', //TODO: TRANSLATOR
               textColor: Colors.black87,
             ),
             Attribute(
-              value: car[5],
-              name: 'Fule Cons.',
+              value: car[5], //TODO: POTENCIA
+              name: 'Potència', //TODO: TRANSLATOR
               textColor: Colors.black87,
             ),
           ],
