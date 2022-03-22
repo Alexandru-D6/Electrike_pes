@@ -12,7 +12,7 @@ class MyMap extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: title,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
       ),
       home: const MyHomePage()
   );
@@ -26,28 +26,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
 
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
 
   List<Widget> _buildClearButtons() => [
     const SizedBox(width: 16),
-    RaisedButton.icon(
-      color: Colors.red,
-      textColor: Colors.white,
-      icon: Icon(Icons.pin_drop),
-      label: Text('CLEAR MARKERS'),
+    ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(primary: Colors.green),
+      icon: const Icon(Icons.pin_drop),
+      label: const Text('CLEAR MARKERS'),
       onPressed: () {
         GoogleMap.of(_key).clearMarkers();
       },
     ),
     const SizedBox(width: 16),
-    RaisedButton.icon(
-      color: Colors.red,
-      textColor: Colors.white,
-      icon: Icon(Icons.directions),
-      label: Text('CLEAR DIRECTIONS'),
+    ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(primary: Colors.green),
+      icon: const Icon(Icons.directions),
+      label: const Text('CLEAR DIRECTIONS'),
       onPressed: () {
         GoogleMap.of(_key).clearDirections();
       },
@@ -57,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> _buildAddButtons() => [
     const SizedBox(width: 16),
     FloatingActionButton(
-      child: Icon(Icons.pin_drop),
+      child: const Icon(Icons.pin_drop),
       onPressed: () {
         GoogleMap.of(_key).addMarkerRaw(
           lastCoord,
@@ -67,12 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
             await showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                content: Text(
+                content: const Text(
                     'This dialog was opened by tapping on the InfoWindow!'),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     onPressed: Navigator.of(context).pop,
-                    child: Text('CLOSE'),
+                    child: const Text('CLOSE'),
                   ),
                 ],
               ),
@@ -80,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         );
         GoogleMap.of(_key).addMarkerRaw(
-          GeoCoord(33.775513, -117.450257),
+          const GeoCoord(33.775513, -117.450257),
           icon: 'assets/images/map-marker-warehouse.png',
           info: contentString,
         );
@@ -88,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
     const SizedBox(width: 16),
     FloatingActionButton(
-      child: Icon(Icons.directions),
+      child: const Icon(Icons.directions),
       onPressed: () {
         //GoogleMap.of(_key).addPolygon(id, points);
         /*
@@ -111,14 +108,14 @@ class _MyHomePageState extends State<MyHomePage> {
         Positioned.fill(
           child: GoogleMap(
             key: _key,
-            markers: {
+            markers: const {
               Marker(
                 GeoCoord(34.0469058, -118.3503948),
               ),
             },
             initialZoom: 9,
             initialPosition:
-            GeoCoord(41.8204600, 1.8676800), // Catalunya
+            const GeoCoord(41.8204600, 1.8676800), // Catalunya
             mapType: MapType.roadmap,
             mapStyle: null,
             interactive: true,
@@ -127,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
               trafficEnabled: true,
               zoomControlsEnabled: false,
             ),
-            webPreferences: WebMapPreferences(
+            webPreferences: const WebMapPreferences(
               fullscreenControl: true,
               zoomControl: true,
             ),
@@ -137,11 +134,11 @@ class _MyHomePageState extends State<MyHomePage> {
           top: 16,
           left: 16,
           child: FloatingActionButton(
-            child: Icon(Icons.person_pin_circle),
+            child: const Icon(Icons.person_pin_circle),
             onPressed: () {
               final bounds = GeoCoordBounds(
-                northeast: GeoCoord(41.8204600, 1.8676800),
-                southwest: GeoCoord(41.8204600, 1.8676800),
+                northeast: const GeoCoord(41.8204600, 1.8676800),
+                southwest: const GeoCoord(41.8204600, 1.8676800),
               );
               GoogleMap.of(_key).moveCameraBounds(bounds);
               GoogleMap.of(_key).addMarkerRaw(
@@ -161,9 +158,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             'Marker ID is $markerId',
                       ),
                       actions: <Widget>[
-                        FlatButton(
+                        TextButton(
                           onPressed: Navigator.of(context).pop,
-                          child: Text('CLOSE'),
+                          child: const Text('CLOSE'),
                         ),
                       ],
                     ),
@@ -188,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: _buildClearButtons(),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               ..._buildAddButtons(),
             ],
           ),
