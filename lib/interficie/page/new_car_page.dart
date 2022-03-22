@@ -13,11 +13,12 @@ class NewCarPage extends StatefulWidget {
 
 class _NewCarPageState extends State<NewCarPage> {
   final formKey = GlobalKey<FormState>();
-  final controllerBrandCar = TextEditingController();
-  final controllerFood = TextEditingController();
 
+  //controllers for each value
+  final controllerBrandCar = TextEditingController();
+
+  //here goes the values of inputs that has to input
   String? selectedBrandCar;
-  String? selectedFood;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -76,7 +77,7 @@ class _NewCarPageState extends State<NewCarPage> {
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
             content: Text(
-                'Your Favourite Brand is $selectedBrandCar\nYour Favourite Food is $selectedFood'),
+                'Your Favourite Brand is $selectedBrandCar\n'),
           ));
       }
     }, icon: Icons.add_circle_rounded,
