@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widget/button_widget.dart';
-import '../widget/city_data.dart';
+import '../../domini/brand_data.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class NewCarPage extends StatefulWidget {
@@ -13,10 +13,10 @@ class NewCarPage extends StatefulWidget {
 
 class _NewCarPageState extends State<NewCarPage> {
   final formKey = GlobalKey<FormState>();
-  final controllerCity = TextEditingController();
+  final controllerBrandCar = TextEditingController();
   final controllerFood = TextEditingController();
 
-  String? selectedCity;
+  String? selectedBrandCar;
   String? selectedFood;
 
   @override
@@ -34,7 +34,7 @@ class _NewCarPageState extends State<NewCarPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                buildCity(),
+                buildBrandCar(),
                 const SizedBox(height: 12),
                 buildSubmit(context)
               ],
@@ -45,23 +45,23 @@ class _NewCarPageState extends State<NewCarPage> {
     ),
   );
 
-  Widget buildCity() => TypeAheadFormField<String?>(
+  Widget buildBrandCar() => TypeAheadFormField<String?>(
     textFieldConfiguration: TextFieldConfiguration(
-      controller: controllerCity,
+      controller: controllerBrandCar,
       decoration: const InputDecoration(
-        labelText: 'City',
+        labelText: 'Brand Car', //todo: translator
         border: OutlineInputBorder(),
       ),
     ),
-    suggestionsCallback: CityData.getSuggestions,
+    suggestionsCallback: BrandData.getSuggestions,
     itemBuilder: (context, String? suggestion) => ListTile(
       title: Text(suggestion!),
     ),
     onSuggestionSelected: (String? suggestion) =>
-    controllerCity.text = suggestion!,
+    controllerBrandCar.text = suggestion!,
     validator: (value) =>
-    value != null && value.isEmpty ? 'Please select a city' : null,
-    onSaved: (value) => selectedCity = value,
+    value != null && value.isEmpty ? 'Please select a brand' : null,
+    onSaved: (value) => selectedBrandCar = value,
   );
 
   Widget buildSubmit(BuildContext context) => ButtonWidget(
@@ -76,7 +76,7 @@ class _NewCarPageState extends State<NewCarPage> {
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
             content: Text(
-                'Your Favourite City is $selectedCity\nYour Favourite Food is $selectedFood'),
+                'Your Favourite Brand is $selectedBrandCar\nYour Favourite Food is $selectedFood'),
           ));
       }
     }, icon: Icons.add_circle_rounded,

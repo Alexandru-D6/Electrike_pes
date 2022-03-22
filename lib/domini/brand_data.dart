@@ -1,7 +1,7 @@
-class CityData {
+class BrandData {
   //static final faker = Faker();
 
-  static final List<String> cities =
+  static final List<String> brands =
   [
     "Abarth",
     "Alfa Romeo",
@@ -70,10 +70,10 @@ class CityData {
   ];
 
   static List<String> getSuggestions(String query) =>
-      List.of(cities).where((city) {
-        final cityLower = city.toLowerCase();
+      List.of(brands).where((brand) {
+        final brandLower = brand.toLowerCase();
         final queryLower = query.toLowerCase();
 
-        return cityLower.contains(queryLower);
+        return brandLower.contains(queryLower);
       }).toList();
 }
