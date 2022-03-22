@@ -9,6 +9,7 @@ class Usuari {
   late int co2Estalviat;
   late Trofeu t;
 
+
   //crear un usuari null
   usuarinull() {
     correu = "";
