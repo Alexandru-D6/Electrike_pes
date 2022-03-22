@@ -19,7 +19,7 @@ class _NewCarPageState extends State<NewCarPage> {
 
   //controllers for each value
   final controllerBrandCar = TextEditingController();
-
+//TODO: CONTROLLER FOR EACH FIELD
   //here goes the values of inputs that has to input
   String? selectedBrandCar;
   List<String>? selectedPlugs;
