@@ -42,6 +42,7 @@ dependencies:
   sign_button: ^2.0.2
   url_launcher: ^6.0.20
   flutter_typeahead: ^3.2.4
+  checkbox_formfield: ^0.2.0
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:checkbox_formfield/checkbox_list_tile_formfield.dart';
 import 'package:flutter/material.dart';
 
 import '../widget/button_widget.dart';
@@ -19,6 +20,7 @@ class _NewCarPageState extends State<NewCarPage> {
 
   //here goes the values of inputs that has to input
   String? selectedBrandCar;
+  List<String>? selectedPlugs;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -37,6 +39,26 @@ class _NewCarPageState extends State<NewCarPage> {
               children: [
                 buildBrandCar(),
                 const SizedBox(height: 12),
+
+                
+
+                CheckboxListTileFormField(
+                  title: Text('Check!'),
+                  onSaved: (bool? value) {
+                    print(value);
+                  },
+                  onChanged: (value) {
+                    if (value) {
+                      print("ListTile Checked :)");
+                    } else {
+                      print("ListTile Not Checked :(");
+                    }
+                  },
+                  autovalidateMode: AutovalidateMode.always,
+                  contentPadding: EdgeInsets.all(1),
+                ),
+
+
                 buildSubmit(context)
               ],
             ),
@@ -77,7 +99,7 @@ class _NewCarPageState extends State<NewCarPage> {
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
             content: Text(
-                'Your Favourite Brand is $selectedBrandCar\n'),
+                'Your Favourite Brand is $selectedBrandCar\nAnd your car uses $selectedPlugs'),
           ));
       }
     }, icon: Icons.add_circle_rounded,
