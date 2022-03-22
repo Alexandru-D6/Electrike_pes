@@ -6,8 +6,8 @@ class VhElectric extends Vehicle {
 
 
   VhElectric.buit() : super.buit();
-  VhElectric.complet(this.capacitatBateria, double potencia, double consum, String marca, String model)
-  : super.complet(potencia, consum, marca, model);
+  VhElectric.complet(String id,String marca, String model,  double potencia, double consum, this.capacitatBateria)
+  : super.complet(id, marca, model, potencia, consum );
 
   // GETTERS
 

@@ -5,8 +5,8 @@ class VhCombustible extends Vehicle {
 
   late double emissioCo2;
 
-  VhCombustible.complet (this.capacitatDeposit, this.emissioCo2, double potencia, double consum, String marca, String model)
-  : super.complet(potencia, consum, marca, model);
+  VhCombustible.complet (String id, String marca, String model,double potencia, double consum, this.capacitatDeposit, this.emissioCo2)
+  : super.complet(id,  marca, model, potencia, consum,);
 
   VhCombustible.onlyComb(this.capacitatDeposit, this.emissioCo2): super.buit();
 
