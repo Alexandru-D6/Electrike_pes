@@ -99,6 +99,6 @@ class CtrlPresentation {
   }
   
   void signInRoutine(){
-    name = "Bobi"; //TODO: signin
+    //name = "Bobi"; //TODO: signin
   }
 }
