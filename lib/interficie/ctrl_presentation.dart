@@ -5,6 +5,7 @@ import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/login_page.dart';
+import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -60,6 +61,12 @@ class CtrlPresentation {
       builder: (context) => const LoginPage(),
     ));
   }
+
+  void toFormCar(BuildContext context) {
+    //Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
+    Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => const NewCarPage(),
+  ));}
 
   //USER INFO FUNCTIONS
   String? getCurrentUsername(){

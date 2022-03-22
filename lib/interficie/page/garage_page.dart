@@ -15,7 +15,7 @@ class GaragePage extends StatelessWidget {
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
     return Scaffold(
       backgroundColor: mPrimaryColor,
-      appBar: buildAppBar(),
+      appBar: buildAppBar(context),
       drawer: const NavigationDrawerWidget(),
       body: ListView.builder(
         itemCount: userCarList.length,
@@ -24,7 +24,7 @@ class GaragePage extends StatelessWidget {
     );
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
@@ -35,7 +35,9 @@ class GaragePage extends StatelessWidget {
             Icons.add_circle_rounded,
             color: Colors.white,
           ),
-          onPressed: () {}, //TODO: form de nuevo coche
+          onPressed: (){
+            ctrlPresentation.toFormCar(context);
+             },
         )
       ],
     );
