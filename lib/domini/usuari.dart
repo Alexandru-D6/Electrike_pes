@@ -10,7 +10,7 @@ class Usuari {
   late Trofeu t;
 
   //crear un usuari null
-  Usuari_null() {
+  usuarinull() {
     correu = "";
     name = "";
     foto = "";
