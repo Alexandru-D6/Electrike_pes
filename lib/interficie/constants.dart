@@ -31,3 +31,9 @@ List<BicingPoint> bicingPointList = [
   BicingPoint("C/ JORDI GIRONA, 29", 21, 8, 7, 41.388004, 2.112299),
   BicingPoint("C/ Ramon Llull, 521", 15, 1, 10, 41.387995, 2.127390),
 ];
+
+const List<String> kOptions = <String>[
+  'aardvark',
+  'bobcat',
+  'chameleon',
+];
