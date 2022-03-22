@@ -37,3 +37,10 @@ const List<String> kOptions = <String>[
   'bobcat',
   'chameleon',
 ];
+
+const List<String> allPlugTypeList = [
+  'Schuko',
+  'Mennekes (Type 2)',
+  'CHAdeMO (DC)',
+  'CCS Combo (DC)',
+];

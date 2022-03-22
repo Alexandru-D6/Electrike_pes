@@ -65,7 +65,7 @@ class CtrlPresentation {
   void toFormCar(BuildContext context) {
     //Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
     Navigator.of(context).push(MaterialPageRoute(
-    builder: (context) => NewCarPage(),
+    builder: (context) => const NewCarPage(),
   ));}
 
   //USER INFO FUNCTIONS
