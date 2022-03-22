@@ -1,38 +1,79 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/interficie/widget/charge_point_detail_info.dart';
-import 'package:latlong2/latlong.dart';
 
-import '../../domini/bicing_point.dart';
-import '../../domini/charge_point.dart';
-import 'bicing_point_detail_info.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class MyMap extends StatefulWidget {
-  const MyMap({Key? key}) : super(key: key);
 
+class MyApp extends StatelessWidget {
   @override
-  State<MyMap> createState() => _MyMapState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Google Maps',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Colors.white,
+      ),
+      home: MapScreen(),
+    );
+    // TODO: implement build
+    throw UnimplementedError();
+  }
 }
 
-class _MyMapState extends State<MyMap> {
-  List<Marker> chargePoints = [];
+class MapScreen extends StatefulWidget {
+  const MapScreen({Key? key}) : super(key: key);
+
+  @override
+  _MapScreenState createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  /*List<Marker> chargePoints = [];
   List<Marker> bicingPoints = [];
   List<Marker> markers = [];
   double currentZoom = 11.0;
   MapController mapController = MapController();
   LatLng currentCenter = LatLng(41.390205, 2.154007);
-
   void _getMyLocation() {
     //getMyLocation();
     mapController.move(currentCenter, currentZoom);
   }
+*/
+  static const _initialCameraPosition = CameraPosition(target: LatLng(41.390205, 2.154007),
+                                    zoom: 11.5,
+  );
 
+  late GoogleMapController _googleMapController;
+  @override
+  void dispose() {
+    _googleMapController.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext constext) {
+    return Scaffold(
+      body: GoogleMap(
+        myLocationButtonEnabled: false,
+        zoomControlsEnabled: false,
+        initialCameraPosition: _initialCameraPosition,
+        onMapCreated: (controller) => _googleMapController = controller,
+      ),
+          floatingActionButton: FloatingActionButton (
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.black,
+            onPressed: () => _googleMapController.animateCamera(
+              CameraUpdate.newCameraPosition(_initialCameraPosition),
+    ),
+    child: const Icon(Icons.center_focus_strong),
+    ),
+    );
+  }
+
+
+  /*
   @override
   Widget build(BuildContext context) {
-    chargePoints = buildChargerMarkers();
-    bicingPoints = buildBicingMarkers();
+    //chargePoints = buildChargerMarkers();
+    //bicingPoints = buildBicingMarkers();
     markers = chargePoints + bicingPoints;
     return Scaffold(
       body: Center(
@@ -84,8 +125,9 @@ class _MyMapState extends State<MyMap> {
       ),
     );
   }
+*/
 
-  List<Marker> buildChargerMarkers() {
+  /*List<Marker> buildChargerMarkers() {
     chargePoints = [];
     for (var i = 0; i < chargePointList.length; ++i) {
       chargePoints.add(
@@ -99,9 +141,9 @@ class _MyMapState extends State<MyMap> {
     setState(() {
     });
     return chargePoints;
-  }
+  }*/
 
-  List<Marker> buildBicingMarkers() {
+  /*List<Marker> buildBicingMarkers() {
     bicingPoints = [];
     for (var i = 0; i < bicingPointList.length; ++i) {
       bicingPoints.add(
@@ -116,8 +158,8 @@ class _MyMapState extends State<MyMap> {
     });
     return bicingPoints;
   }
-}
-
+}*/
+/*
 Marker buildChargerMarker({
   required int index,
   required double lat,
@@ -208,5 +250,5 @@ Marker buildBicingMarker({
                 });
           },
         ),
-  );
+  );*/
 }
