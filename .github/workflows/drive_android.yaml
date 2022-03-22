@@ -29,4 +29,4 @@ jobs:
           target: ${{ matrix.target }}
           arch: x86_64
           profile: Nexus 6
-          script: flutter drive --target=lib/my_map_widget.dart
+          script: flutter drive --target=lib/(OUTDATED)OSM_map.dart
