@@ -64,7 +64,7 @@ class _NewCarPageState extends State<NewCarPage> {
     onSaved: (value) => selectedBrandCar = value,
   );
 
-  Widget buildSubmit(BuildContext context) => ButtonWidget(
+  Widget buildSubmit(BuildContext context) => ButtonWidget(//todo: collect info car and submit to ctrlPres to domain
     text: 'Add', //todo: translator
     onClicked: () {
       final form = formKey.currentState!;
