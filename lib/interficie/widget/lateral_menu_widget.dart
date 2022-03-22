@@ -112,7 +112,9 @@ class NavigationDrawerWidget extends StatelessWidget {
               else
                 SignInButton.mini(
                   buttonType: ButtonType.googleDark,
-                  onPressed: (){},
+                  onPressed: (){
+                    //ctrlPresentation.signInRoutine();  TODO: SIGNUP SETTER
+                  },
                 ),
               const SizedBox(width: 20),
               Column(
