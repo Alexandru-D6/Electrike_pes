@@ -59,7 +59,7 @@ class _NewCarPageState extends State<NewCarPage> {
                       hint: 'Coche rojo',
                       label: 'Car name',
                       controller: controllerNameCar,
-                      returnable: selectedNameCar,
+                      returnable: "selectedNameCar",
                     ),
                     const SizedBox(height: 13),
                     buildTextSuggestorField(
@@ -68,7 +68,7 @@ class _NewCarPageState extends State<NewCarPage> {
                         label: 'Brand Car',
                         controller: controllerBrandCar,
                         suggester: BrandData.getSuggestions, //todo
-                        returnable: selectedBrandCar,
+                        returnable: "selectedBrandCar",
                     ),
                     const SizedBox(height: 13),
                     buildTextFieldNoSuggest(
@@ -77,7 +77,7 @@ class _NewCarPageState extends State<NewCarPage> {
                       label: 'Model',
                       controller: controllerModelCar,
                       //suggester: BrandData.getSuggestions, //todo
-                      returnable: selectedModelCar,
+                      returnable: "selectedModelCar",
                     ),
                     const SizedBox(height: 13),
                     buildNumField(
@@ -85,7 +85,7 @@ class _NewCarPageState extends State<NewCarPage> {
                       hint: '107.8',
                       label: 'Battery(kWh)',
                       controller: controllerBatteryCar,
-                      returnable: selectedBatteryCar,
+                      returnable: "selectedBatteryCar",
                     ),
                     const SizedBox(height: 13),
                     buildNumField(
@@ -93,6 +93,7 @@ class _NewCarPageState extends State<NewCarPage> {
                       hint: '168',
                       label: 'Effciency(Wh/Km)',
                       controller: controllerEffciencyCar,
+                      returnable: "selectedEffciencyCar",
                     ),
 
                     const SizedBox(height: 30),
@@ -124,7 +125,7 @@ class _NewCarPageState extends State<NewCarPage> {
     required IconData icon,
     required TextEditingController controller,
     required List<String> Function(String query) suggester,
-    String? returnable,
+    required var returnable,
   }) {
     return TypeAheadFormField<String?>(
     textFieldConfiguration: TextFieldConfiguration(
@@ -145,7 +146,9 @@ class _NewCarPageState extends State<NewCarPage> {
     validator: (value) {
         return value != null && value.isEmpty ? 'Please select a brand' : null;
     },
-    onSaved: (value) => returnable = value,
+    onSaved: (value) {
+      saveRoutine(value, returnable);
+    },
   );
 }
 
@@ -153,7 +156,8 @@ class _NewCarPageState extends State<NewCarPage> {
     required String hint,
     required String label,
     required IconData icon,
-    required TextEditingController controller, String? returnable,
+    required TextEditingController controller,
+    required var returnable,
   }) {
     return TextFormField(
       controller: controller,
@@ -166,7 +170,9 @@ class _NewCarPageState extends State<NewCarPage> {
       validator: (value) {
         return value != null && value.isEmpty ? 'Please select a brand' : null;
       },
-      onSaved: (value) => returnable = value,
+      onSaved: (value) {
+        saveRoutine(value, returnable);
+      },
     );
   }
 
@@ -220,7 +226,9 @@ class _NewCarPageState extends State<NewCarPage> {
         }
         return null;
       },
-      onSaved: (value) => returnable = value,
+      onSaved: (value) {
+        saveRoutine(value, returnable);
+      },
     );
   }
 
@@ -242,9 +250,40 @@ class _NewCarPageState extends State<NewCarPage> {
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
             content: Text(
-                'Your Favourite Brand is $selectedBrandCar\nAnd your car uses $selectedPlugs\nBattery $selectedBatteryCar kWh\nEffciency $selectedEffciencyCar Wh/Km'),
+                '''
+                Your name car is $selectedNameCar\n
+                Your Brand is $selectedBrandCar\n
+                Your model car uses $selectedModelCar\n
+                Battery $selectedBatteryCar kWh\n
+                Effciency $selectedEffciencyCar Wh/Km\n
+                Your car uses $selectedPlugs\n'''),
           ));
       }
     }, icon: Icons.add_circle_rounded,
   );
+
+  void saveRoutine(String? value, returnable) {
+    switch(returnable) {
+      case "selectedModelCar": {
+        selectedModelCar = value;
+        break;
+      }
+      case "selectedBrandCar": {
+        selectedBrandCar = value;
+        break;
+      }
+      case "selectedNameCar": {
+        selectedNameCar = value;
+        break;
+      }
+      case "selectedBatteryCar": {
+        selectedBatteryCar = value;
+        break;
+      }
+      case "selectedEffciencyCar": {
+        selectedEffciencyCar = value;
+        break;
+      }
+    }
+  }
 }
