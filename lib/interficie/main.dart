@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 
 import 'widget/lateral_menu_widget.dart';
