@@ -114,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             },
             initialZoom: 9,
+            minZoom: 3,
             initialPosition:
             const GeoCoord(41.8204600, 1.8676800), // Catalunya
             mapType: MapType.roadmap,
