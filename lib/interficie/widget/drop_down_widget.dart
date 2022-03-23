@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 
-void main() => runApp(const MyApp());
+import '../../domini/traductor.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  String dropdownValue = 'English';
+  LanguagesEnum selectedLanguage = LanguagesEnum.english; //TODO: user language
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return DropdownButton<String>(
       icon: const Icon(Icons.translate),
       iconEnabledColor: Colors.white,
-      value: dropdownValue,
+      value: setGoodStringLang(selectedLanguage),
       elevation: 16,
       style: const TextStyle(color: Colors.white),
       dropdownColor: mCardColor,
@@ -44,9 +44,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         color: mCardColor,
       ),
       onChanged: (String? newValue) {
-        //llamar para set _currentLanguage o languageUser
+        //TODO: llamar para set _currentLanguage o languageUser
+
         setState(() {
-          dropdownValue = newValue!;
+          selectedLanguage = newValueToLangEnum(newValue!);
         });
       },
       items: <String>['Català', 'Español', 'English']
@@ -58,5 +59,37 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       }).toList(),
       isExpanded: true,
     );
+  }
+
+ String setGoodStringLang(LanguagesEnum selectedLanguage) {
+    String language;
+    if(selectedLanguage==LanguagesEnum.catalan){
+      language = "Català";
+    }
+    // 2nd language
+    else if(selectedLanguage==LanguagesEnum.spanish){
+      language = "Español";
+    }
+    // 3rd language
+    else{
+      language = "English";
+    }
+    return language;
+ }
+
+  LanguagesEnum newValueToLangEnum(String s) {
+    LanguagesEnum langEnum;
+    if(s=="Català"){
+      langEnum = LanguagesEnum.catalan;
+    }
+    // 2nd language
+    else if(s=="Español"){
+      langEnum = LanguagesEnum.spanish;
+    }
+    // 3rd language
+    else{
+      langEnum = LanguagesEnum.english;
+    }
+    return langEnum;
   }
 }
