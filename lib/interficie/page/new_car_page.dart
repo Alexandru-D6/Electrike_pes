@@ -216,7 +216,14 @@ class _NewCarPageState extends State<NewCarPage> {
             prefixIcon: Icon(icon)
         ),
       validator: (value) {
-        return value != null && value.isEmpty ? 'Please select a brand' : null;
+        if(value == null) {
+          return null;
+        }
+        final n = num.tryParse(value);
+        if(n == null) {
+          return '"$value" is not a valid number';
+        }
+        return null;
       },
       onSaved: (value) => returnable = value,
     );
