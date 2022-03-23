@@ -253,7 +253,7 @@ class _NewCarPageState extends State<NewCarPage> {
                 '''
                 Your name car is $selectedNameCar\n
                 Your Brand is $selectedBrandCar\n
-                Your model car uses $selectedModelCar\n
+                Your model car is $selectedModelCar\n
                 Battery $selectedBatteryCar kWh\n
                 Effciency $selectedEffciencyCar Wh/Km\n
                 Your car uses $selectedPlugs\n'''),
