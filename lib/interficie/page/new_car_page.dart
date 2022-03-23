@@ -1,5 +1,6 @@
 import 'package:checkbox_formfield/checkbox_list_tile_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 
@@ -19,9 +20,19 @@ class _NewCarPageState extends State<NewCarPage> {
 
   //controllers for each value
   final controllerBrandCar = TextEditingController();
+  final controllerModelCar = TextEditingController();
+  final controllerNameCar = TextEditingController();
+  final controllerBatteryCar = TextEditingController();
+  final controllerEffciencyCar = TextEditingController();
+
 //TODO: CONTROLLER FOR EACH FIELD
   //here goes the values of inputs that has to input
+  String? selectedNameCar;
   String? selectedBrandCar;
+  String? selectedModelCar;
+  String? selectedBatteryCar;
+  String? selectedEffciencyCar;
+
   List<String>? selectedPlugs;
 
   @override
@@ -41,34 +52,46 @@ class _NewCarPageState extends State<NewCarPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  buildBrandCar(
+                  buildTextSuggestorField(
                     icon: Icons.badge,
                     hint: 'Coche rojo',
                     label: 'Car name',
+                    controller: controllerNameCar,
+                    suggester: BrandData.getSuggestions,
+                    returnable: selectedNameCar,
                   ),
                   const SizedBox(height: 13),
-                  buildBrandCar(
+                  buildTextSuggestorField(
                       icon: Icons.policy,
                       hint: 'Tesla',
                       label: 'Brand Car',
+                      controller: controllerBrandCar,
+                      suggester: BrandData.getSuggestions,
+                      returnable: selectedBrandCar,
                   ),
                   const SizedBox(height: 13),
-                  buildBrandCar(
+                  buildTextSuggestorField(
                     icon: Icons.sort,
                     hint: 'Model 3 Long Range Dual Motor',
                     label: 'Model',
+                    controller: controllerModelCar,
+                    suggester: BrandData.getSuggestions,
+                    returnable: selectedModelCar,
                   ),
                   const SizedBox(height: 13),
-                  buildBrandCar(
+                  buildNumField(
                     icon: Icons.battery_charging_full,
                     hint: '107.8',
                     label: 'Battery(kWh)',
+                    controller: controllerBatteryCar,
+                    returnable: selectedBatteryCar,
                   ),
                   const SizedBox(height: 13),
-                  buildBrandCar(
+                  buildNumField(
                     icon: Icons.battery_unknown,
                     hint: '168',
                     label: 'Effciency(Wh/Km)',
+                    controller: controllerEffciencyCar,
                   ),
 
                   const SizedBox(height: 30),
@@ -93,15 +116,17 @@ class _NewCarPageState extends State<NewCarPage> {
     );
   }
 
-  Widget buildBrandCar({
+  Widget buildTextSuggestorField({
     required String hint,
     required String label,
     required IconData icon,
-
+    required TextEditingController controller,
+    required List<String> Function(String query) suggester,
+    String? returnable,
   }) {
-        return TypeAheadFormField<String?>(
+    return TypeAheadFormField<String?>(
     textFieldConfiguration: TextFieldConfiguration(
-        controller: controllerBrandCar,
+        controller: controller,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),
           hintText: hint,
@@ -109,7 +134,7 @@ class _NewCarPageState extends State<NewCarPage> {
           border: const OutlineInputBorder(),
         ),
     ),
-    suggestionsCallback: BrandData.getSuggestions,
+    suggestionsCallback: suggester,
     itemBuilder: (context, String? suggestion) => ListTile(
         title: Text(suggestion!),
     ),
@@ -118,31 +143,38 @@ class _NewCarPageState extends State<NewCarPage> {
     validator: (value) {
         return value != null && value.isEmpty ? 'Please select a brand' : null;
     },
-    onSaved: (value) => selectedBrandCar = value,
+    onSaved: (value) => returnable = value,
   );
 }
 
-  Widget buildModelCar() => TypeAheadFormField<String?>(
-    textFieldConfiguration: TextFieldConfiguration(
-      controller: controllerBrandCar,
-      decoration: const InputDecoration(
-        prefixIcon: Icon(Icons.lock),
-        hintText: 'Model 3 Long Range Dual Motor',
-        labelText: 'Model Car', //todo: translator
-        border: OutlineInputBorder(),
+  Widget buildTextFieldNoSuggest({
+    required String hint,
+    required String label,
+    required IconData icon,
+    required TextEditingController controller,
+  }) {
+    return TypeAheadFormField<String?>(
+      textFieldConfiguration: TextFieldConfiguration(
+        controller: controller,
+        decoration: InputDecoration(
+          prefixIcon: Icon(icon),
+          hintText: hint,
+          labelText: label, //todo: translator
+          border: const OutlineInputBorder(),
+        ),
       ),
-    ),
-    suggestionsCallback: BrandData.getSuggestions,
-    itemBuilder: (context, String? suggestion) => ListTile(
-      title: Text(suggestion!),
-    ),
-    onSuggestionSelected: (String? suggestion) =>
-    controllerBrandCar.text = suggestion!,
-    validator: (value) {
-      return value != null && value.isEmpty ? 'Please select a brand' : null;
-    },
-    onSaved: (value) => selectedBrandCar = value,
-  );
+      suggestionsCallback: BrandData.getSuggestions,
+      itemBuilder: (context, String? suggestion) => ListTile(
+        title: Text(suggestion!),
+      ),
+      onSuggestionSelected: (String? suggestion) =>
+      controllerBrandCar.text = suggestion!,
+      validator: (value) {
+        return value != null && value.isEmpty ? 'Please select a brand' : null;
+      },
+      onSaved: (value) => selectedBrandCar = value,
+    );
+  }
 
   Widget buildCheckbox(String plugName) => CheckboxListTileFormField(
     title: Text(plugName),
@@ -165,6 +197,30 @@ class _NewCarPageState extends State<NewCarPage> {
     autovalidateMode: AutovalidateMode.always,
     contentPadding: const EdgeInsets.all(1),
   );
+
+  Widget buildNumField({
+    required String hint,
+    required String label,
+    required IconData icon,
+    required TextEditingController controller, String? returnable,
+  }) {
+    return TextFormField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+        ],
+        decoration: InputDecoration(
+            labelText: label,
+            hintText: hint,
+            prefixIcon: Icon(icon)
+        ),
+      validator: (value) {
+        return value != null && value.isEmpty ? 'Please select a brand' : null;
+      },
+      onSaved: (value) => returnable = value,
+    );
+  }
 
 
   Widget buildSubmit(BuildContext context) => ButtonWidget(//todo: collect info car and submit to ctrlPres to domain
