@@ -50,63 +50,66 @@ class _NewCarPageState extends State<NewCarPage> {
           child: Form(
             key: formKey,
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  buildTextFieldNoSuggest(
-                    icon: Icons.badge,
-                    hint: 'Coche rojo',
-                    label: 'Car name',
-                    controller: controllerNameCar,
-                    returnable: selectedNameCar,
-                  ),
-                  const SizedBox(height: 13),
-                  buildTextSuggestorField(
-                      icon: Icons.policy,
-                      hint: 'Tesla',
-                      label: 'Brand Car',
-                      controller: controllerBrandCar,
-                      suggester: BrandData.getSuggestions, //todo
-                      returnable: selectedBrandCar,
-                  ),
-                  const SizedBox(height: 13),
-                  buildTextFieldNoSuggest(
-                    icon: Icons.sort,
-                    hint: 'Model 3 Long Range Dual Motor',
-                    label: 'Model',
-                    controller: controllerModelCar,
-                    //suggester: BrandData.getSuggestions, //todo
-                    returnable: selectedModelCar,
-                  ),
-                  const SizedBox(height: 13),
-                  buildNumField(
-                    icon: Icons.battery_charging_full,
-                    hint: '107.8',
-                    label: 'Battery(kWh)',
-                    controller: controllerBatteryCar,
-                    returnable: selectedBatteryCar,
-                  ),
-                  const SizedBox(height: 13),
-                  buildNumField(
-                    icon: Icons.battery_unknown,
-                    hint: '168',
-                    label: 'Effciency(Wh/Km)',
-                    controller: controllerEffciencyCar,
-                  ),
-
-                  const SizedBox(height: 30),
-                  const ListTile(
-                    leading: Icon(Icons.settings_input_svideo, color: Colors.black, size: 24,),
-                    title: Text(
-                      'Select your charger/s type/s',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    buildTextFieldNoSuggest(
+                      icon: Icons.badge,
+                      hint: 'Coche rojo',
+                      label: 'Car name',
+                      controller: controllerNameCar,
+                      returnable: selectedNameCar,
                     ),
-                  ),
-                  for(var i = 0; i < allPlugTypeList.length; i++) buildCheckbox(allPlugTypeList[i]), //TODO: CALL TO DOMAIN TO GET THE PLUG TYPES
-                  const SizedBox(height: 30),
-                  buildSubmit(context)
-                ],
+                    const SizedBox(height: 13),
+                    buildTextSuggestorField(
+                        icon: Icons.policy,
+                        hint: 'Tesla',
+                        label: 'Brand Car',
+                        controller: controllerBrandCar,
+                        suggester: BrandData.getSuggestions, //todo
+                        returnable: selectedBrandCar,
+                    ),
+                    const SizedBox(height: 13),
+                    buildTextFieldNoSuggest(
+                      icon: Icons.sort,
+                      hint: 'Model 3 Long Range Dual Motor',
+                      label: 'Model',
+                      controller: controllerModelCar,
+                      //suggester: BrandData.getSuggestions, //todo
+                      returnable: selectedModelCar,
+                    ),
+                    const SizedBox(height: 13),
+                    buildNumField(
+                      icon: Icons.battery_charging_full,
+                      hint: '107.8',
+                      label: 'Battery(kWh)',
+                      controller: controllerBatteryCar,
+                      returnable: selectedBatteryCar,
+                    ),
+                    const SizedBox(height: 13),
+                    buildNumField(
+                      icon: Icons.battery_unknown,
+                      hint: '168',
+                      label: 'Effciency(Wh/Km)',
+                      controller: controllerEffciencyCar,
+                    ),
+
+                    const SizedBox(height: 30),
+                    const ListTile(
+                      leading: Icon(Icons.settings_input_svideo, color: Colors.black, size: 24,),
+                      title: Text(
+                        'Select your charger/s type/s',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    for(var i = 0; i < allPlugTypeList.length; i++) buildCheckbox(allPlugTypeList[i]), //TODO: CALL TO DOMAIN TO GET THE PLUG TYPES
+                    const SizedBox(height: 30),
+                    buildSubmit(context)
+                  ],
+                ),
               ),
             ),
           ),
