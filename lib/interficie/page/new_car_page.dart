@@ -52,12 +52,11 @@ class _NewCarPageState extends State<NewCarPage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  buildTextSuggestorField(
+                  buildTextFieldNoSuggest(
                     icon: Icons.badge,
                     hint: 'Coche rojo',
                     label: 'Car name',
                     controller: controllerNameCar,
-                    suggester: BrandData.getSuggestions,
                     returnable: selectedNameCar,
                   ),
                   const SizedBox(height: 13),
@@ -66,16 +65,16 @@ class _NewCarPageState extends State<NewCarPage> {
                       hint: 'Tesla',
                       label: 'Brand Car',
                       controller: controllerBrandCar,
-                      suggester: BrandData.getSuggestions,
+                      suggester: BrandData.getSuggestions, //todo
                       returnable: selectedBrandCar,
                   ),
                   const SizedBox(height: 13),
-                  buildTextSuggestorField(
+                  buildTextFieldNoSuggest(
                     icon: Icons.sort,
                     hint: 'Model 3 Long Range Dual Motor',
                     label: 'Model',
                     controller: controllerModelCar,
-                    suggester: BrandData.getSuggestions,
+                    //suggester: BrandData.getSuggestions, //todo
                     returnable: selectedModelCar,
                   ),
                   const SizedBox(height: 13),
@@ -151,28 +150,20 @@ class _NewCarPageState extends State<NewCarPage> {
     required String hint,
     required String label,
     required IconData icon,
-    required TextEditingController controller,
+    required TextEditingController controller, String? returnable,
   }) {
-    return TypeAheadFormField<String?>(
-      textFieldConfiguration: TextFieldConfiguration(
-        controller: controller,
-        decoration: InputDecoration(
-          prefixIcon: Icon(icon),
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+          labelText: label,
           hintText: hint,
-          labelText: label, //todo: translator
-          border: const OutlineInputBorder(),
-        ),
+          prefixIcon: Icon(icon),
+        border: const OutlineInputBorder(),
       ),
-      suggestionsCallback: BrandData.getSuggestions,
-      itemBuilder: (context, String? suggestion) => ListTile(
-        title: Text(suggestion!),
-      ),
-      onSuggestionSelected: (String? suggestion) =>
-      controllerBrandCar.text = suggestion!,
       validator: (value) {
         return value != null && value.isEmpty ? 'Please select a brand' : null;
       },
-      onSaved: (value) => selectedBrandCar = value,
+      onSaved: (value) => returnable = value,
     );
   }
 
@@ -213,7 +204,8 @@ class _NewCarPageState extends State<NewCarPage> {
         decoration: InputDecoration(
             labelText: label,
             hintText: hint,
-            prefixIcon: Icon(icon)
+            prefixIcon: Icon(icon),
+          border: const OutlineInputBorder(),
         ),
       validator: (value) {
         if(value == null) {
@@ -221,7 +213,7 @@ class _NewCarPageState extends State<NewCarPage> {
         }
         final n = num.tryParse(value);
         if(n == null) {
-          return '"$value" is not a valid number';
+          return 'Put a number';
         }
         return null;
       },
@@ -247,7 +239,7 @@ class _NewCarPageState extends State<NewCarPage> {
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
             content: Text(
-                'Your Favourite Brand is $selectedBrandCar\nAnd your car uses $selectedPlugs'),
+                'Your Favourite Brand is $selectedBrandCar\nAnd your car uses $selectedPlugs\nBattery $selectedBatteryCar kWh\nEffciency $selectedEffciencyCar Wh/Km'),
           ));
       }
     }, icon: Icons.add_circle_rounded,
