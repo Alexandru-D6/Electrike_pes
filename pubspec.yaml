@@ -43,6 +43,7 @@ dependencies:
   flutter_google_maps: ^4.0.0
   flutter_typeahead: ^2.0.0
   checkbox_formfield: ^0.2.0
+  url_launcher: ^6.0.0
 
 dev_dependencies:
   flutter_test:
