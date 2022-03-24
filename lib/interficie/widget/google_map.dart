@@ -1,4 +1,4 @@
-import 'dart:html';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -26,7 +26,6 @@ class _MyMapState extends State<MyMap> {
   List<Marker> markers = [];
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
-  late ImageBitmap iconMarker;
   late BuildContext ctx;
 
 
