@@ -158,6 +158,7 @@ Marker buildChargerMarker({
   ChargePoint point = chargePointList[index];
   return Marker(
       GeoCoord(lat, long),
+      //icon: Icon(Icons.power),
       onTap: (markerId)=>
           showModalBottomSheet(
               context: context,
@@ -188,16 +189,20 @@ Marker buildChargerMarker({
   );
 }
 
-Marker buildBicingMarker({
+Future<Marker> buildBicingMarker({
   required int index,
   required double lat,
   required double long,
   required BuildContext context,
-}) {
+}) async {
   BicingPoint point = bicingPointList[index];
+  /*BitmapDescriptor markerbitmap = await BitmapDescriptor.fromAssetImage(
+    const ImageConfiguration(size: Size(48, 48)),
+    "assets/icon/bike.png");*/
   return Marker(
-      GeoCoord(lat, long),
-      onTap: (ctx) =>
+    GeoCoord(lat, long),
+    //icon: markerbitmap,
+    onTap: (ctx) =>
               showModalBottomSheet(
                   context: context,
                   backgroundColor: cTransparent,
