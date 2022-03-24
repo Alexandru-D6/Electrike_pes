@@ -232,12 +232,9 @@ Marker buildBicingMarker({
   required BuildContext context,
 }) {
   BicingPoint point = bicingPointList[index];
-  /*BitmapDescriptor markerbitmap = BitmapDescriptor.fromAssetImage(
-    const ImageConfiguration(size: Size(48, 48)),
-    "assets/icon/bike.png");*/
   return Marker(
     GeoCoord(lat, long),
-    //icon: markerbitmap,
+    icon: "assets/images/bike.png",
     onTap: (ctx) =>
               showModalBottomSheet(
                   context: context,
