@@ -1,8 +1,9 @@
 
 
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:location/location.dart';
@@ -66,7 +67,6 @@ class _MyMapState extends State<MyMap> {
     markers = chargePoints + bicingPoints;
 
     location.onLocationChanged.listen((LocationData currentLocation) {
-      print("heyyyy");
       GoogleMap.of(_key).removeMarker(lastPosition);
       lastPosition = GeoCoord(currentLocation.latitude, currentLocation.longitude);
       GoogleMap.of(_key).addMarker(Marker(lastPosition, icon: "assets/images/bentley.png"));
