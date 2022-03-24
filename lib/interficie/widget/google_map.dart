@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
+
 
 import '../../domini/bicing_point.dart';
 import '../../domini/charge_point.dart';
@@ -53,7 +55,7 @@ class _MyMapState extends State<MyMap> {
   Widget build(BuildContext context){
     chargePoints = buildChargerMarkers(context);
     bicingPoints = buildBicingMarkers(context);
-    initMarkers("all");
+    markers = chargePoints + bicingPoints;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -228,7 +230,7 @@ Marker buildBicingMarker({
   required BuildContext context,
 }) {
   BicingPoint point = bicingPointList[index];
-  /*BitmapDescriptor markerbitmap = await BitmapDescriptor.fromAssetImage(
+  /*BitmapDescriptor markerbitmap = BitmapDescriptor.fromAssetImage(
     const ImageConfiguration(size: Size(48, 48)),
     "assets/icon/bike.png");*/
   return Marker(
