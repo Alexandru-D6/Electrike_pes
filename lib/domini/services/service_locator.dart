@@ -5,8 +5,8 @@ import 'package:get_it/get_it.dart';
 final serviceLocator = GetIt.instance;
 
 void setUpLocator () {
-  serviceLocator.registerLazySingleton<GoogleMapsAdpt>(() => (GoogleMapsAdpt()));
-  serviceLocator.registerFactory<GoogleLoginAdpt>(() => GoogleLoginAdpt());
+  serviceLocator.registerLazySingleton<GoogleMapsAdpt>(() => GoogleMapsAdpt());
+  serviceLocator.registerLazySingleton<GoogleLoginAdpt>(() => GoogleLoginAdpt());
 }
 
 GoogleMapsAdpt get getMapsService {
