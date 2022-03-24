@@ -111,6 +111,8 @@ class _MyMapState extends State<MyMap> {
 
           //getMyLocationButton
           Positioned(
+            right: 60,
+            bottom: 16,
             child: Row(
               children: <Widget>[
                 LayoutBuilder(
