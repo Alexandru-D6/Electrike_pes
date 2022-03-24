@@ -42,8 +42,8 @@ dependencies:
   latlong2: ^0.8.1
   sign_button: ^2.0.2
   get_it: ^7.2.0
-  google_geocoding: ^0.2.0
   tuple: ^2.0.0
+  geocoder2: ^1.1.0
 
 
 dev_dependencies:

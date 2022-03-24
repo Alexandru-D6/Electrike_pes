@@ -144,6 +144,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  geocoder2:
+    dependency: "direct main"
+    description:
+      name: geocoder2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   get_it:
     dependency: "direct main"
     description:
@@ -151,13 +158,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.2.0"
-  google_geocoding:
-    dependency: "direct main"
-    description:
-      name: google_geocoding
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   google_maps_flutter:
     dependency: "direct main"
     description:
