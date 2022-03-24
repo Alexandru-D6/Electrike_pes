@@ -1,8 +1,9 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_google_maps/flutter_google_maps.dart';
-import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 
 
 import '../../domini/bicing_point.dart';
@@ -19,13 +20,15 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMapState extends State<MyMap> {
-  late BuildContext ctx;
   final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
   List<Marker> chargePoints = [];
   List<Marker> bicingPoints = [];
   List<Marker> markers = [];
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
+  late ImageBitmap iconMarker;
+  late BuildContext ctx;
+
 
   void initMarkers(String? show){
     switch(show){
