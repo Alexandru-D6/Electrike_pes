@@ -25,11 +25,35 @@ class _MyMapState extends State<MyMap> {
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
 
+  void initMarkers(String? show){
+    switch(show){
+      case "chargers":
+        markers = chargePoints;
+        for (int i = 0; i < markers.length; ++i){
+          GoogleMap.of(_key).addMarker(markers[i]);
+        }
+        break;
+      case "bicing":
+        markers = bicingPoints;
+        for (int i = 0; i < markers.length; ++i){
+          GoogleMap.of(_key).addMarker(markers[i]);
+        }
+        break;
+      default:
+        markers = chargePoints + bicingPoints;
+        for (int i = 0; i < markers.length; ++i){
+          GoogleMap.of(_key).addMarker(markers[i]);
+        }
+        break;
+    }
+    //super.initState();
+  }
+
   @override
   Widget build(BuildContext context){
     chargePoints = buildChargerMarkers(context);
     bicingPoints = buildBicingMarkers(context);
-    markers = chargePoints + bicingPoints;
+    initMarkers("all");
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -38,20 +62,28 @@ class _MyMapState extends State<MyMap> {
               key: _key,
               markers: markers.toSet(),
               initialZoom: 9,
+              //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
               //minZoom: 3, //todo min zoom en web??
               initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
               mapType: MapType.roadmap,
               mapStyle: null,
               interactive: true,
+
               onTap: (coord) => lastCoord = coord,
+
+
               mobilePreferences: const MobileMapPreferences(
                 trafficEnabled: true,
                 zoomControlsEnabled: true,
               ),
+
+
               webPreferences: const WebMapPreferences(
                 fullscreenControl: true,
                 zoomControl: true,
               ),
+
+
             ),
           ),
           Positioned(
@@ -85,7 +117,7 @@ class _MyMapState extends State<MyMap> {
         child: const Icon(Icons.filter_alt_off),
         onPressed: () {
           GoogleMap.of(_key).clearMarkers();
-          buildChargerMarkers(context);
+          initMarkers("all");
         },
       ),
     ),
@@ -96,7 +128,7 @@ class _MyMapState extends State<MyMap> {
         child: const Icon(Icons.power),
         onPressed: () {
           GoogleMap.of(_key).clearMarkers();
-          buildChargerMarkers(context);
+          initMarkers("chargers");
         },
       ),
     ),
@@ -107,7 +139,7 @@ class _MyMapState extends State<MyMap> {
         child: const Icon(Icons.pedal_bike),
         onPressed: () {
           GoogleMap.of(_key).clearMarkers();
-          buildBicingMarkers(context);
+          initMarkers("bicing");
         },
       ),
     ),
@@ -189,12 +221,12 @@ Marker buildChargerMarker({
   );
 }
 
-Future<Marker> buildBicingMarker({
+Marker buildBicingMarker({
   required int index,
   required double lat,
   required double long,
   required BuildContext context,
-}) async {
+}) {
   BicingPoint point = bicingPointList[index];
   /*BitmapDescriptor markerbitmap = await BitmapDescriptor.fromAssetImage(
     const ImageConfiguration(size: Size(48, 48)),
