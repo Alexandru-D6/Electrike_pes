@@ -101,4 +101,8 @@ class CtrlPresentation {
   void signInRoutine(){
     //name = "Bobi"; //TODO: signin
   }
+
+  getChargePointList() {
+    return chargePointList;
+  }
 }

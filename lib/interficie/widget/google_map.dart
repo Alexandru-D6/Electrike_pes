@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 
 
 import '../../domini/bicing_point.dart';
@@ -11,6 +12,8 @@ import '../../domini/charge_point.dart';
 import '../constants.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
+
+CtrlPresentation ctrlPresentation = CtrlPresentation();
 
 class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
@@ -185,7 +188,7 @@ class _MyMapState extends State<MyMap> {
 
   List<Marker> buildChargerMarkers(BuildContext context) {
     chargePoints = [];
-    for (var i = 0; i < chargePointList.length; ++i) {
+    for (var i = 0; i < ctrlPresentation.getChargePointList().length; ++i) {
       chargePoints.add(
           buildChargerMarker(
             index: i,
@@ -225,6 +228,7 @@ Marker buildChargerMarker({
   required BuildContext context,
 }){
   ChargePoint point = chargePointList[index];
+  //List<String> cPoint = ctrlPresentation.getChargePoint(lat, long); //todo
   return Marker(
       GeoCoord(lat, long),
       //icon: Icon(Icons.power),
