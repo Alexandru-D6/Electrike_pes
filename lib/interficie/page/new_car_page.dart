@@ -6,6 +6,7 @@ import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 
 import '../widget/button_widget.dart';
 import '../../domini/brand_data.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class NewCarPage extends StatefulWidget {
@@ -144,7 +145,7 @@ class _NewCarPageState extends State<NewCarPage> {
     onSuggestionSelected: (String? suggestion) =>
     controllerBrandCar.text = suggestion!,
     validator: (value) {
-        return value != null && value.isEmpty ? 'Please select a brand' : null;
+        return value.isEmpty ? 'Please select a brand' : null;
     },
     onSaved: (value) {
       saveRoutine(value, returnable);
