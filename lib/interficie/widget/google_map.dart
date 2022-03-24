@@ -108,10 +108,41 @@ class _MyMapState extends State<MyMap> {
               ],
             ),
           ),
+
+          //getMyLocationButton
+          Positioned(
+            child: Row(
+              children: <Widget>[
+                LayoutBuilder(
+                  builder: (context, constraints) =>
+                  constraints.maxWidth < 1000
+                      ? Row(children: _buildMyLocButton())
+                      : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _buildMyLocButton(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+
         ],
       ),
     );
   }
+
+  List<Widget> _buildMyLocButton() => [
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        onPressed: (){},//_getMyLocation,
+        tooltip: 'My Location',
+        child: const Icon(Icons.my_location),
+        backgroundColor: mCardColor,
+  ),
+    ),
+  ];
 
   List<Widget> _buildClearButtons() => [
     Padding(
