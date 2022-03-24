@@ -12,6 +12,8 @@ class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
   static var urlorg = 'http://electrike.ddns.net:3784/';
+  List<Coordenada> coordBicings = <Coordenada>[];
+  List<Coordenada> coordPuntsCarrega = <Coordenada>[];
   List<VhElectric> vhElectrics = <VhElectric>[];
   List<EstacioCarrega> puntscarrega= <EstacioCarrega>[];
   List<PuntBicing> puntsBicing= <PuntBicing>[];
@@ -37,7 +39,7 @@ class CtrlDomain {
     var url = urlorg +'cars';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
-    for(var it in resp){
+    for(var it in resp['items']){
       /*var effciency;
       var battery;
       var rage;
@@ -50,7 +52,7 @@ class CtrlDomain {
 
       if(it['Rage(Km)'].toString() == '')rage = '0.0';
       else rage = it['Rage(Km)'];*/
-      VhElectric vh = VhElectric.complet(it['id'], it['Brand'], it['Vehicle'],double.parse(it['Effciency(Wh/Km)']), double.parse(it['Rage(Km)']), double.parse(it['Battery(kWh)']));
+      VhElectric vh = VhElectric.complet(it['_id'], it['Brand'], it['Vehicle'],double.parse(it['Effciency(Wh/Km)']), double.parse(it['Rage(Km)']), double.parse(it['Battery(kWh)']));
       vhElectrics.add(vh);
     }
   }
@@ -59,7 +61,7 @@ class CtrlDomain {
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     List<String> brands = <String>[];
-    for(var it in resp){
+    for(var it in resp['items']){
       brands.add(it);
     }
     brands.sort();
@@ -69,7 +71,7 @@ class CtrlDomain {
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     List<String> models = <String>[];
-    for(var it in resp){
+    for(var it in resp['items']){
       models.add(it);
     }
     models.sort();
@@ -78,7 +80,7 @@ class CtrlDomain {
     var url = urlorg +'car_info?Vehicle='+model;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
-    for(var it in resp){
+    for(var it in resp['items']){
       //conflicto, puede haber más de uno
       VhElectric vhselected = VhElectric.complet(it['id'], it['Brand'], it['Vehicle'],double.parse(it['Effciency(Wh/Km)']), double.parse(it['Rage(Km)']), double.parse(it['Battery(kWh)']));
       vhElectricsInfo.add(vhselected);
@@ -98,7 +100,7 @@ class CtrlDomain {
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
-      print(it['ADREÇA']);
+      coordPuntsCarrega.add(Coordenada(double.parse(it['LATITUD'].toString()),double.parse(it['LONGITUD'].toString())));
       EstacioCarrega estacioCarrega = EstacioCarrega.senseendolls(it['_id'], it['DESIGNACIÓ-DESCRIPTIVA'], it['ADREÇA'].toString(), Coordenada(double.parse(it['LATITUD'].toString()),double.parse(it['LONGITUD'].toString())));
       puntscarrega.add(estacioCarrega);
     }
@@ -120,7 +122,8 @@ class CtrlDomain {
         }
         endolls.add(endoll);
       }
-       EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'], endollsPunt, Coordenada(double.parse(it['LATITUD'].toString()),double.parse(it['LONGITUD'].toString())));
+      coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+       EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'], endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
       puntscarrega.add(estCarrega);
     }
   }
@@ -128,7 +131,7 @@ class CtrlDomain {
     var url = urlorg +'charger_info?longitud='+ coord.longitud.toString() +'&latitud='+coord.latitud.toString();
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
-    for(var it in resp){
+    for(var it in resp['items']){
       print(it);
     }
   }
@@ -182,16 +185,27 @@ class CtrlDomain {
     var url = urlorg +'bicings';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
-    for(var it in resp[0]){
-      PuntBicing puntB = PuntBicing(it['id'], 'Bicing' +it['name'], it['capacity'], it['address'], Coordenada(double.parse(it['lat'].toString()),double.parse(it['lon'].toString())));
+    for(var it in resp['items']){
+      coordBicings.add(Coordenada(double.parse(it['lat'].toString()),double.parse(it['lon'].toString())));
+      PuntBicing puntB = PuntBicing(it['station_id'], 'Bicing ' +it['name'], it['capacity'], it['address'], Coordenada(double.parse(it['lat'].toString()),double.parse(it['lon'].toString())));
       puntsBicing.add(puntB);
     }
   }
-
-
-
-
-
+  Future<void> getInfoBicing(double lat, double long) async{
+    for(var pB in puntsBicing){
+      if(pB.coord.latitud == lat && pB.coord.longitud== long){
+        var url = urlorg +'bicing_status?id='+pB.id.toString();
+        var response = (await http.get(Uri.parse(url)));
+        var resp = jsonDecode(response.body);
+        for(var it in resp['items']){
+          print(it['num_bikes_available']);
+          print(it['num_bikes_available_types']['mechanical']);
+          print(it['num_bikes_available_types']['ebike']);
+          print(it['num_docks_available']);
+        }
+      }
+    }
+  }
 
 }
 
