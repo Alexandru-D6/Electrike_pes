@@ -158,12 +158,7 @@ Marker buildChargerMarker({
   ChargePoint point = chargePointList[index];
   return Marker(
       GeoCoord(lat, long),
-      onTap: (ctx)=>
-      IconButton(
-        icon: const Icon(Icons.power_rounded),
-        color: mPrimaryColor,
-        iconSize: 45.0,
-        onPressed: (){
+      onTap: (markerId)=>
           showModalBottomSheet(
               context: context,
               backgroundColor: cTransparent,
@@ -189,9 +184,7 @@ Marker buildChargerMarker({
                     ),
                   ],
                 );
-              });
-        },
-      ),
+              }),
   );
 }
 
@@ -205,11 +198,6 @@ Marker buildBicingMarker({
   return Marker(
       GeoCoord(lat, long),
       onTap: (ctx) =>
-          IconButton(
-            icon: const Icon(Icons.pedal_bike),
-            color: cBicingRed,
-            iconSize: 45.0,
-            onPressed: () {
               showModalBottomSheet(
                   context: context,
                   backgroundColor: cTransparent,
@@ -233,9 +221,7 @@ Marker buildBicingMarker({
                         ),
                       ],
                     );
-                  });
-            },
-          ),
+                  }),
   );
 }
 
