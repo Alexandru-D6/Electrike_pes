@@ -3,197 +3,239 @@ import 'package:flutter/foundation.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 
+import '../../domini/bicing_point.dart';
+import '../../domini/charge_point.dart';
+import '../constants.dart';
+import 'bicing_point_detail_info.dart';
+import 'charge_point_detail_info.dart';
 
-class MyMap extends StatelessWidget {
-  static const String title = 'Electrike';
+class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: title,
-      theme: ThemeData(
-        primarySwatch: Colors.yellow,
+  _MyMapState createState() => _MyMapState();
+}
+
+class _MyMapState extends State<MyMap> {
+  late BuildContext ctx;
+  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+  List<Marker> chargePoints = [];
+  List<Marker> bicingPoints = [];
+  List<Marker> markers = [];
+  double currentZoom = 11.0;
+  GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
+
+  @override
+  Widget build(BuildContext context){
+    chargePoints = buildChargerMarkers(context);
+    bicingPoints = buildBicingMarkers(context);
+    markers = chargePoints + bicingPoints;
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: GoogleMap(
+              key: _key,
+              markers: markers.toSet(),
+              initialZoom: 9,
+              //minZoom: 3, //todo min zoom en web??
+              initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
+              mapType: MapType.roadmap,
+              mapStyle: null,
+              interactive: true,
+              onTap: (coord) => lastCoord = coord,
+              mobilePreferences: const MobileMapPreferences(
+                trafficEnabled: true,
+                zoomControlsEnabled: true,
+              ),
+              webPreferences: const WebMapPreferences(
+                fullscreenControl: true,
+                zoomControl: true,
+              ),
+            ),
+          ),
+          Positioned(
+            left: 16,
+            right: kIsWeb ? 60 : 16,
+            bottom: 16,
+            child: Row(
+              children: <Widget>[
+                LayoutBuilder(
+                  builder: (context, constraints) =>
+                  constraints.maxWidth < 1000
+                      ? Row(children: _buildClearButtons())
+                      : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _buildClearButtons(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-      home: const MyHomePage()
+    );
+  }
+
+  List<Widget> _buildClearButtons() => [
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        backgroundColor: mCardColor,
+        child: const Icon(Icons.filter_alt_off),
+        onPressed: () {
+          GoogleMap.of(_key).clearMarkers();
+          buildChargerMarkers(context);
+        },
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        backgroundColor: mCardColor,
+        child: const Icon(Icons.power),
+        onPressed: () {
+          GoogleMap.of(_key).clearMarkers();
+          buildChargerMarkers(context);
+        },
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        backgroundColor: mCardColor,
+        child: const Icon(Icons.pedal_bike),
+        onPressed: () {
+          GoogleMap.of(_key).clearMarkers();
+          buildBicingMarkers(context);
+        },
+      ),
+    ),
+  ];
+
+
+  List<Marker> buildChargerMarkers(BuildContext context) {
+    chargePoints = [];
+    for (var i = 0; i < chargePointList.length; ++i) {
+      chargePoints.add(
+          buildChargerMarker(
+            index: i,
+            lat: chargePointList[i].lat,
+            long: chargePointList[i].long,
+            context: context,
+          )
+      );
+    }
+    setState(() {
+    });
+    return chargePoints;
+  }
+
+  List<Marker> buildBicingMarkers(BuildContext context) {
+    bicingPoints = [];
+    for (var i = 0; i < bicingPointList.length; ++i) {
+      bicingPoints.add(
+          buildBicingMarker(
+            index: i,
+            lat: bicingPointList[i].lat,
+            long: bicingPointList[i].long,
+            context: context,
+          )
+      );
+    }
+    setState(() {
+    });
+    return bicingPoints;
+  }
+}
+
+Marker buildChargerMarker({
+  required int index,
+  required double lat,
+  required double long,
+  required BuildContext context,
+}){
+  ChargePoint point = chargePointList[index];
+  return Marker(
+      GeoCoord(lat, long),
+      onTap: (ctx)=>
+      IconButton(
+        icon: const Icon(Icons.power_rounded),
+        color: mPrimaryColor,
+        iconSize: 45.0,
+        onPressed: (){
+          showModalBottomSheet(
+              context: context,
+              backgroundColor: cTransparent,
+              builder: (builder){
+                return Stack(
+                  children: [
+                    Positioned(
+                      left: 24,
+                      right: 24,
+                      bottom: 24,
+                      child: Stack(
+                        children: [
+                          ChargePointDetailInformation(point: point),
+                          Positioned(
+                            right: 16,
+                            child: Image.asset(
+                              "assets/images/charge_point.png",
+                              height: 125,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              });
+        },
+      ),
   );
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
-
-  GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
-
-  List<Widget> _buildClearButtons() => [
-    const SizedBox(width: 16),
-    ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(primary: Colors.green),
-      icon: const Icon(Icons.pin_drop),
-      label: const Text('CLEAR MARKERS'),
-      onPressed: () {
-        GoogleMap.of(_key).clearMarkers();
-      },
-    ),
-    const SizedBox(width: 16),
-    ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(primary: Colors.green),
-      icon: const Icon(Icons.directions),
-      label: const Text('CLEAR DIRECTIONS'),
-      onPressed: () {
-        GoogleMap.of(_key).clearDirections();
-      },
-    ),
-  ];
-
-  List<Widget> _buildAddButtons() => [
-    const SizedBox(width: 16),
-    FloatingActionButton(
-      child: const Icon(Icons.pin_drop),
-      onPressed: () {
-        GoogleMap.of(_key).addMarkerRaw(
-          lastCoord,
-          icon: 'assets/images/estation.png',
-          info: 'test info',
-          onInfoWindowTap: () async {
-            await showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                content: const Text(
-                    'This dialog was opened by tapping on the InfoWindow!'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: Navigator.of(context).pop,
-                    child: const Text('CLOSE'),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-        GoogleMap.of(_key).addMarkerRaw(
-          const GeoCoord(33.775513, -117.450257),
-          icon: 'assets/images/map-marker-warehouse.png',
-          info: contentString,
-        );
-      },
-    ),
-    const SizedBox(width: 16),
-    FloatingActionButton(
-      child: const Icon(Icons.directions),
-      onPressed: () {
-        //GoogleMap.of(_key).addPolygon(id, points);
-        /*
-        GoogleMap.of(_key).addDirection(
-          const GeoCoord(41.385983, 2.118057),
-          const GeoCoord(41.375034, 2.163633),
-          startLabel: '1',
-          startInfo: 'bbbbbbbb',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'aaaaaa',
-        );*/
-      },
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    body: Stack(
-      children: <Widget>[
-        Positioned.fill(
-          child: GoogleMap(
-            key: _key,
-            markers: const {
-              Marker(
-                GeoCoord(34.0469058, -118.3503948),
-              ),
-            },
-            initialZoom: 9,
-            minZoom: 3,
-            initialPosition:
-            const GeoCoord(41.8204600, 1.8676800), // Catalunya
-            mapType: MapType.roadmap,
-            mapStyle: null,
-            interactive: true,
-            onTap: (coord) => lastCoord = coord,
-            mobilePreferences: const MobileMapPreferences(
-              trafficEnabled: true,
-              zoomControlsEnabled: false,
-            ),
-            webPreferences: const WebMapPreferences(
-              fullscreenControl: true,
-              zoomControl: true,
-            ),
-          ),
-        ),
-        Positioned(
-          top: 16,
-          left: 16,
-          child: FloatingActionButton(
-            child: const Icon(Icons.person_pin_circle),
+Marker buildBicingMarker({
+  required int index,
+  required double lat,
+  required double long,
+  required BuildContext context,
+}) {
+  BicingPoint point = bicingPointList[index];
+  return Marker(
+      GeoCoord(lat, long),
+      onTap: (ctx) =>
+          IconButton(
+            icon: const Icon(Icons.pedal_bike),
+            color: cBicingRed,
+            iconSize: 45.0,
             onPressed: () {
-              final bounds = GeoCoordBounds(
-                northeast: const GeoCoord(41.8204600, 1.8676800),
-                southwest: const GeoCoord(41.8204600, 1.8676800),
-              );
-              GoogleMap.of(_key).moveCameraBounds(bounds);
-              GoogleMap.of(_key).addMarkerRaw(
-                GeoCoord(
-                  (bounds.northeast.latitude + bounds.southwest.latitude) /
-                      2,
-                  (bounds.northeast.longitude +
-                      bounds.southwest.longitude) /
-                      2,
-                ),
-                onTap: (markerId) async {
-                  await showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      content: Text(
-                        'This dialog was opened by tapping on the marker!\n'
-                            'Marker ID is $markerId',
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: Navigator.of(context).pop,
-                          child: const Text('CLOSE'),
+              showModalBottomSheet(
+                  context: context,
+                  backgroundColor: cTransparent,
+                  builder: (builder) {
+                    return Stack(
+                      children: [
+                        Positioned(
+                          left: 24,
+                          right: 24,
+                          bottom: 24,
+                          child: Stack(
+                            children: [
+                              BicingPointDetailInformation(point: point),
+                              /*const Positioned(
+                              right: 16,
+                              /*child: Icon(
+                              ),*/
+                            )*/
+                            ],
+                          ),
                         ),
                       ],
-                    ),
-                  );
-                },
-              );
+                    );
+                  });
             },
           ),
-        ),
-        Positioned(
-          left: 16,
-          right: kIsWeb ? 60 : 16,
-          bottom: 16,
-          child: Row(
-            children: <Widget>[
-              LayoutBuilder(
-                builder: (context, constraints) =>
-                constraints.maxWidth < 1000
-                    ? Row(children: _buildClearButtons())
-                    : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _buildClearButtons(),
-                ),
-              ),
-              const Spacer(),
-              ..._buildAddButtons(),
-            ],
-          ),
-        ),
-      ],
-    ),
   );
 }
 
