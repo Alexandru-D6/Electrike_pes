@@ -1,14 +1,14 @@
 import 'package:flutter_project/domini/coordenada.dart';
 
 class EstacioCarrega{
-   late int id;
+   late String id;
    late String nom;
    late String direccio;
    late Set<String> endolls;
    late Coordenada coord;
 
   EstacioCarrega.origin(){
-     id = -1;
+     id = "1";
      nom = "nom";
      direccio ="carrer";
      endolls = <String>{};
@@ -25,7 +25,7 @@ class EstacioCarrega{
    bool isEndoll(String id){
      return endolls.contains(id);
    }
-   void deleteEndoll(int id){
+   void deleteEndoll(String id){
       endolls.remove(id);
   }
   int numEndolls(){
