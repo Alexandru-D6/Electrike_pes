@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:location/location.dart';
 
 
 import '../../domini/bicing_point.dart';
@@ -27,9 +28,11 @@ class _MyMapState extends State<MyMap> {
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
   late BuildContext ctx;
-
+  Location location = Location();
+  GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
+    GoogleMap.of(_key).addMarker(Marker(lastPosition, icon: "assets/images/bentley.png"));
     switch(show){
       case "chargers":
         markers = chargePoints;
@@ -58,6 +61,14 @@ class _MyMapState extends State<MyMap> {
     chargePoints = buildChargerMarkers(context);
     bicingPoints = buildBicingMarkers(context);
     markers = chargePoints + bicingPoints;
+
+    location.onLocationChanged.listen((LocationData currentLocation) {
+      print("heyyyy");
+      GoogleMap.of(_key).removeMarker(lastPosition);
+      lastPosition = GeoCoord(currentLocation.latitude, currentLocation.longitude);
+      GoogleMap.of(_key).addMarker(Marker(lastPosition, icon: "assets/images/bentley.png"));
+    });
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -138,7 +149,10 @@ class _MyMapState extends State<MyMap> {
     Padding(
       padding: const EdgeInsets.all(5.0),
       child: FloatingActionButton(
-        onPressed: (){},//_getMyLocation,
+        onPressed: (){
+          GoogleMap.of(_key).moveCamera(lastPosition);
+          GoogleMap.of(_key).zoomCamera(1.0);
+        },//_getMyLocation,
         tooltip: 'My Location',
         child: const Icon(Icons.my_location),
         backgroundColor: mCardColor,
