@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../domini/car.dart';
 import '../constants.dart';
 import 'attribute.dart';
 
@@ -10,7 +9,7 @@ class CarDetailInfomation extends StatelessWidget {
     required this.car,
   }) : super(key: key);
 
-  final Car car;
+  final List<String> car;
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +140,7 @@ class CarInfo extends StatelessWidget {
     required this.car,
   }) : super(key: key);
 
-  final Car car;
+  final List<String> car;
 
   @override
   Widget build(BuildContext context) {
@@ -149,17 +148,11 @@ class CarInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '\$${car.price}',
+          '\$${car[1]}', //TODO: name NO EL PRECIO
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-        const Text(
-          'price/hr',
-          style: TextStyle(
-            color: Colors.white,
           ),
         ),
         const SizedBox(
@@ -169,23 +162,28 @@ class CarInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Attribute(
-              value: car.brand,
+              value: car[2],
               name: 'Brand',
               textColor: Colors.black87,
             ),
             Attribute(
-              value: car.model,
+              value: car[3],
               name: 'Model No',
               textColor: Colors.black87,
             ),
             Attribute(
-              value: car.co2,
-              name: 'CO2',
+              value: car[4], //TODO: BATERIA
+              name: 'Bateria', //TODO: TRANSLATOR
               textColor: Colors.black87,
             ),
             Attribute(
-              value: car.fuelCons,
-              name: 'Fule Cons.',
+              value: car[5], //TODO: POTENCIA
+              name: 'Potència', //TODO: TRANSLATOR
+              textColor: Colors.black87,
+            ),
+            Attribute(
+              value: car[5],
+              name: 'Eficiencia',
               textColor: Colors.black87,
             ),
           ],

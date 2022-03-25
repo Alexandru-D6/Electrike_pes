@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/interficie/widget/my_map_widget.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:flutter_google_maps/flutter_google_maps.dart';
 
 import 'widget/lateral_menu_widget.dart';
 
 Future main() async {
+  GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
+  setUpLocator();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -42,12 +47,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        drawer: const NavigationDrawerWidget(),
-        // endDrawer: NavigationDrawerWidget(),
-        appBar: AppBar(
-          title: const Text(MyApp.title),
-          backgroundColor: mPrimaryColor,
-        ),
+    drawer: const NavigationDrawerWidget(),
+    appBar: AppBar(
+      title: const Text(MyApp.title),
+      backgroundColor: mPrimaryColor,
+    ),
         body: const MyMap(),
       );
 

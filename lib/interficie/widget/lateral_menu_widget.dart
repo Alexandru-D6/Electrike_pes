@@ -1,37 +1,41 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/interficie/main.dart';
-import 'package:flutter_project/interficie/page/favourites_page.dart';
-import 'package:flutter_project/interficie/page/garage_page.dart';
-import 'package:flutter_project/interficie/page/login_page.dart';
-import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
+// ignore_for_file: import_of_legacy_library_into_null_safe
 
-import '../page/information_app_page.dart';
-import '../page/rewards_page.dart';
+import 'dart:js';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/services/google_login_adpt.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
+import 'package:sign_button/sign_button.dart';
+
+//import '../../domini/traductor.dart';
+CtrlPresentation ctrlPresentation = CtrlPresentation();
 
 class NavigationDrawerWidget extends StatelessWidget {
+  const NavigationDrawerWidget({Key? key}) : super(key: key);
   final padding = const EdgeInsets.symmetric(horizontal: 20);
 
-  const NavigationDrawerWidget({Key? key}) : super(key: key);
+  //LanguagesEnum get selectedLanguage => userLanguage; //TODO: getUserLang
 
   @override
   Widget build(BuildContext context) {
-    const name = 'Víctor';
-    const email = 'victorasenj@gmail.com';
+    String? name = ctrlPresentation.getCurrentUsername();
+    String? email = ctrlPresentation.getCurrentUserMail();
     const urlImage =
-        'https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=634&q=80';
+        'https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=5&q=80'; //TODO: qué me pasa domain para la foto??
 
     return Drawer(
       child: Material(
         color: mPrimaryColor,
-        //definim el color de fons del menú lateral
         child: ListView(
           children: <Widget>[
             buildHeader(
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => selectedItem(context, 22),
+              onClicked: () => ctrlPresentation.toProfilePage(context),//ctrlPresentation.toLoginPage(context),
             ),
             Container(
               padding: padding,
@@ -39,27 +43,27 @@ class NavigationDrawerWidget extends StatelessWidget {
                 children: [
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Map',
+                    text: 'Map', //TODO: translator
                     icon: Icons.map_outlined,
-                    onClicked: () => selectedItem(context, 0),
+                    onClicked: () => ctrlPresentation.toMainPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Garage',
+                    text: 'Garage', //TODO: translator
                     icon: Icons.garage,
-                    onClicked: () => selectedItem(context, 1),
+                    onClicked: () => ctrlPresentation.toGaragePage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Favourites',
+                    text: 'Favourites', //TODO: translator
                     icon: Icons.favorite_border,
-                    onClicked: () => selectedItem(context, 2),
+                    onClicked: () => ctrlPresentation.toFavouritesPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Achievements',
+                    text: 'Achievements', //TODO: translator
                     icon: Icons.emoji_events,
-                    onClicked: () => selectedItem(context, 3),
+                    onClicked: () => ctrlPresentation.toRewardsPage(context),
                   ),
                   const SizedBox(height: 10),
                   const Divider(color: Colors.white70),
@@ -68,15 +72,15 @@ class NavigationDrawerWidget extends StatelessWidget {
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Information',
+                    text: 'Information', //TODO: translator
                     icon: Icons.info,
-                    onClicked: () => selectedItem(context, 4),
+                    onClicked: () => ctrlPresentation.toInfoAppPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Contact us',
+                    text: 'Contact us',//Translator().translate(selectedLanguage, 'Contact us'),
                     icon: Icons.phone,
-                    onClicked: () => selectedItem(context, 5),
+                    onClicked: () => ctrlPresentation.mailto(),
                   ),
 
                   const SizedBox(height: 10),
@@ -85,9 +89,12 @@ class NavigationDrawerWidget extends StatelessWidget {
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Logout',
+                    text: 'Logout', //TODO: translator
                     icon: Icons.logout,
-                    onClicked: () => selectedItem(context, 5), //TODO: reference logout routine
+                    onClicked: () async {
+                      await serviceLocator<GoogleLoginAdpt>().logout();
+                      ctrlPresentation.toMainPage(context);
+                    }, //TODO: reference logout routine
                   ),
                 ],
               ),
@@ -100,8 +107,8 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   Widget buildHeader({
     required String urlImage,
-    required String name,
-    required String email,
+    String? name,
+    String? email,
     required VoidCallback onClicked,
   }) =>
       InkWell(
@@ -110,28 +117,30 @@ class NavigationDrawerWidget extends StatelessWidget {
           padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
           child: Row(
             children: [
-              CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage)),
+              if (name != null) CircleAvatar(radius: 5, backgroundImage: NetworkImage(urlImage))
+              else
+                SignInButton.mini(
+                  buttonType: ButtonType.googleDark,
+                  onPressed: (){
+                    //ctrlPresentation.signInRoutine();  TODO: SIGNUP SETTER
+                  },
+                ),
               const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    name ?? "Click to login",
                     style: const TextStyle(fontSize: 20, color: Colors.white),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    email,
+                    email ?? "",
                     style: const TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ],
               ),
-              const Spacer(),
-              const CircleAvatar(
-                radius: 24,
-                backgroundColor: Color.fromRGBO(30, 60, 168, 1),
-                child: Icon(Icons.add_comment_outlined, color: Colors.white),
-              )
+              //const Spacer(),
             ],
           ),
         ),
@@ -152,43 +161,4 @@ class NavigationDrawerWidget extends StatelessWidget {
       hoverColor: hoverColor,
       onTap: onClicked,
     );
-  }
-
-  //definimos dónde navega cada item del menú lateral
-  void selectedItem(BuildContext context, int index) {
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-
-    switch (index) {
-      case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const MainPage(),
-        ));
-        break;
-      case 1:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const GaragePage(),
-        ));
-        break;
-      case 2:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const FavouritesPage(),
-        ));
-        break;
-      case 3:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const RewardsPage(),
-        ));
-        break;
-      case 4:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const InformationAppPage(),
-        ));
-        break;
-      case 5:
-        break;
-      case 22:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ));
-    }
   }
