@@ -11,7 +11,7 @@ class FavouritesPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     drawer: const NavigationDrawerWidget(),
     appBar: AppBar(
-      title: Text("Favourites"),
+      title: const Text("Favourites"),
       backgroundColor: mPrimaryColor,
     ),
   );
