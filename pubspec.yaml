@@ -44,6 +44,7 @@ dependencies:
   get_it: ^7.2.0
   tuple: ^2.0.0
   geocoder2: ^1.1.0
+  google_sign_in: ^5.2.4
 
 
 dev_dependencies:

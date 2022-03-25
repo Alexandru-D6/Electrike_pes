@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sign_button/sign_button.dart';
 
+//treure aquest import quan es tregui la funcion signIn()
+import '../../domini/services/google_login_adpt.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -24,13 +27,21 @@ class LogPage extends State<LoginPage> {
               const SizedBox(height: 50),
               SignInButton(
                   buttonType: ButtonType.google,
-                  onPressed: () {
-                    //print('click');
-                  }),
+                  onPressed: signIn)
+                    //print('click'),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+
+//esta funcion iria al controlador de capa de presentacion
+//que llamaria al controlador de la capa de dominio esta llamaria
+//la clase google log in adapter
+
+Future signIn() async {
+  await GoogleLoginAdpt.login();
 }
