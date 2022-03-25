@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/interficie/widget/appbar.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 
 import '../constants.dart';

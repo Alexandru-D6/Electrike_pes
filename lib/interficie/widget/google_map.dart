@@ -21,33 +21,33 @@ class MyMap extends StatefulWidget {
 
 class _MyMapState extends State<MyMap> {
   final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
-  List<Marker> chargePoints = [];
-  List<Marker> bicingPoints = [];
-  List<Marker> markers = [];
+  Set<Marker> chargePoints = {};
+  Set<Marker> bicingPoints = {};
+  Set<Marker> markers = {};
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
   late BuildContext ctx;
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
-    //GoogleMap.of(_key).addMarker(Marker(lastPosition, icon: "assets/images/me.png"));
+    //GoogleMap.of(_key)arker(lastPosition, icon: "assets/images/me.png"));
     switch(show){
       case "chargers":
         markers = chargePoints;
         for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(_key).addMarker(markers[i]);
+          GoogleMap.of(_key).addMarker(markers.elementAt(i));
         }
         break;
       case "bicing":
         markers = bicingPoints;
         for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(_key).addMarker(markers[i]);
+          GoogleMap.of(_key).addMarker(markers.elementAt(i));
         }
         break;
       default:
-        markers = chargePoints + bicingPoints;
+        markers = chargePoints.union(bicingPoints);
         for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(_key).addMarker(markers[i]);
+          GoogleMap.of(_key).addMarker(markers.elementAt(i));
         }
         break;
     }
@@ -58,7 +58,6 @@ class _MyMapState extends State<MyMap> {
   Widget build(BuildContext context){
     chargePoints = buildChargerMarkers(context);
     bicingPoints = buildBicingMarkers(context);
-    markers = bicingPoints + chargePoints;
 
     return Scaffold(
       body: Stack(
@@ -66,7 +65,7 @@ class _MyMapState extends State<MyMap> {
           Positioned.fill(
             child: GoogleMap(
               key: _key,
-              markers: markers.toSet(),
+              markers: chargePoints.union(bicingPoints),
               initialZoom: 9,
               //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
               //minZoom: 3, //todo min zoom en web??
@@ -181,8 +180,8 @@ class _MyMapState extends State<MyMap> {
   ];
 
 
-  List<Marker> buildChargerMarkers(BuildContext context) {
-    chargePoints = [];
+  Set<Marker> buildChargerMarkers(BuildContext context) {
+    chargePoints = {};
     for (var i = 0; i < ctrlPresentation.getChargePointList().length; ++i) {
       chargePoints.add(
           buildChargerMarker(
@@ -198,8 +197,8 @@ class _MyMapState extends State<MyMap> {
     return chargePoints;
   }
 
-  List<Marker> buildBicingMarkers(BuildContext context) {
-    bicingPoints = [];
+  Set<Marker> buildBicingMarkers(BuildContext context) {
+    bicingPoints = {};
     for (var i = 0; i < ctrlPresentation.getBicingPointList().length; ++i) {
       bicingPoints.add(
           buildBicingMarker(
@@ -226,7 +225,7 @@ Marker buildChargerMarker({
   //List<String> cPoint = ctrlPresentation.getChargePoint(lat, long); //todo
   return Marker(
       GeoCoord(lat, long),
-      //icon: Icon(Icons.power),
+      icon: "assets/images/charge_point.png",
       onTap: (markerId)=>
           showModalBottomSheet(
               context: context,
@@ -266,7 +265,7 @@ Marker buildBicingMarker({
   BicingPoint point = bicingPointList[index];
   return Marker(
     GeoCoord(lat, long),
-    icon: "assets/images/bike.png",
+    icon: "assets/images/bike.png", //todo: al poner custom marker no sale en la primera carga
     onTap: (ctx) =>
               showModalBottomSheet(
                   context: context,
