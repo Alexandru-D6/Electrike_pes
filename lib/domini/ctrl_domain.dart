@@ -1,7 +1,6 @@
 //import 'dart:convert';
-import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 
 class CtrlDomain {
   static final CtrlDomain _singleton =  CtrlDomain._internal();
@@ -13,20 +12,20 @@ class CtrlDomain {
   CtrlDomain._internal();
 
   Future<void> getAllCars() async {
-    var url = urlorg +'cars';
+    /*var url = urlorg +'cars';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp){
       print(it['_id']);
-    }
+    }*/
 
   }
   void getAllModels(String brand){
-    var url = urlorg +'cars_models';
+    /*var url = urlorg +'cars_models';
     http.get(Uri.parse(url)).then( (res){
       final body = jsonDecode(res.body);
       print(body);
-    });
+    });*/
   }
 
 }
