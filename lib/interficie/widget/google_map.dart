@@ -202,14 +202,7 @@ class _MyMapState extends State<MyMap> {
 
   Set<Marker> buildBicingMarkers(BuildContext context) {
     bicingPoints = {};
-    Marker bPoint;
     for (var i = 0; i < ctrlPresentation.getBicingPointList().length; ++i) {
-      bPoint = buildBicingMarker(
-        index: i,
-        lat: bicingPointList[i].lat,
-        long: bicingPointList[i].long,
-        context: context,
-      );
       bicingPoints.add(
           buildBicingMarker(
             index: i,
