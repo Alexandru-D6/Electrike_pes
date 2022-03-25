@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -15,6 +16,7 @@ Future main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  setUpLocator(); //Iniciar el service locator con sus servicios (hacerlo aquí es más eficiente)
   runApp(const MyApp());
 }
 
@@ -46,12 +48,12 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         drawer: const NavigationDrawerWidget(),
-        // endDrawer: NavigationDrawerWidget(),
+        //endDrawer: NavigationDrawerWidget(),
         appBar: AppBar(
           title: const Text(MyApp.title),
           backgroundColor: mPrimaryColor,
         ),
-        body: const MyMap(),
+        body: MapScreen(),
       );
 
 }
