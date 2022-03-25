@@ -1,12 +1,12 @@
 
 class Vehicle {
-  late final int id;
+  late final String id;
   double potencia = 0.0;
   double consum = 0.0;
   late String marca;
   late String model;
 
-  int _idVechicleSistema = 0;
+  String _idVechicleSistema = '0';
 
    // Constructora
   Vehicle.marcaModel(this.marca, this.model) {
@@ -14,8 +14,7 @@ class Vehicle {
     incrementaIdSistema();
   }
 
-  Vehicle.complet(this.potencia, this.consum, this.marca, this.model) {
-    id = _idVechicleSistema;
+  Vehicle.complet(this.id,this.marca, this.model, this.potencia, this.consum) {
     incrementaIdSistema();
   }
 
@@ -23,14 +22,14 @@ class Vehicle {
 
   /// @post: incremanta el id_vehicle sistema
   void incrementaIdSistema () {
-    _idVechicleSistema + 1;
+    _idVechicleSistema = (int.parse(_idVechicleSistema) + 1).toString();
   }
 
   // GETTERS
 
   // SETTERS
   set idVechicleSistema(int value) {
-    _idVechicleSistema = value;
+    _idVechicleSistema = value.toString();
   }
 
 }
