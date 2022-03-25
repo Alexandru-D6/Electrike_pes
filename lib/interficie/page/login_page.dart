@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/interficie/constants.dart';
 import 'package:sign_button/sign_button.dart';
+
+import '../widget/lateral_menu_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,6 +16,12 @@ class LogPage extends State<LoginPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      drawer: const NavigationDrawerWidget(), //esto es para que aparezca el botón de menú lateral
+      appBar: AppBar(
+        title: const Text('Profile'),
+        centerTitle: true,
+        backgroundColor: mPrimaryColor,
+      ),
       body: Container(
         color: Colors.white,
         child: Center(
