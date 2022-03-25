@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
+import 'package:flutter_project/domini/tipus_endoll.dart';
+import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
+import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
 import 'package:http/http.dart' as http;
-
 import 'coordenada.dart';
 
 class CtrlDomain {
@@ -14,17 +16,35 @@ class CtrlDomain {
   static var urlorg = 'http://electrike.ddns.net:3784/';
   List<Coordenada> coordBicings = <Coordenada>[];
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
+
   List<VhElectric> vhElectrics = <VhElectric>[];
   List<EstacioCarrega> puntscarrega= <EstacioCarrega>[];
   List<PuntBicing> puntsBicing= <PuntBicing>[];
+  Set<Endoll> endolls = <Endoll>{};
+  List<TipusEndoll> typesendolls = <TipusEndoll>[];
+
   List<VhElectric> vhElectricsInfo = <VhElectric>[];
-  List<VhElectric> vhElectricsBrand = <VhElectric>[];
-  List<Endoll> endolls = <Endoll>[];
   VhElectric vhselected = VhElectric.buit();
   Usuari usuari = Usuari('elpepe', 1, 'soyHUAppo?');
+  List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   factory CtrlDomain() {
     return _singleton;
   }
+  //SYSTEM
+  Future<void> initializeSystem() async {
+    initializeTypes();
+    await getAllCars();
+    await getChargers('cat');
+    await getChargers('bcn');
+
+  }
+  void initializeTypes(){
+    List<TipusEndollEnum> types= TipusEndollEnum.values;
+    for(var t in types){
+      typesendolls.add(TipusEndoll(t));
+    }
+  }
+
   //USER
   String getLanguageUser(){
     //PONER IDIOMAAAAAAA
@@ -33,6 +53,44 @@ class CtrlDomain {
   String getCurrentUserName(){
     return usuari.name;
   }
+  void addVUser(String name, String idV, List<int> lEndolls){
+    vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, idV));
+    for(int num in lEndolls){
+      typesendolls[num].endolls.add(idV);
+    }
+  }
+  void editVUser(String name, String idV, List<int> lEndolls){
+    for(var car in vehiclesUsuari) {
+      if (car.idVE == idV && car.name == name) {
+        for (var num in car.endolls) {
+          typesendolls[int.parse(num)].endolls.remove(idV);
+        }
+        for (var num in lEndolls) {
+          typesendolls[num].endolls.add(idV);
+        }
+      }
+    }
+  }
+  void removeVUser(String name, String idV){
+    VehicleUsuari vdelete = VehicleUsuari("", "", "");
+    for(var vhu in vehiclesUsuari){
+      if(vhu.name == name && vhu.idVE == idV){
+        vdelete = vhu;
+      }
+    }
+    vehiclesUsuari.remove(vdelete);
+  }
+  List<List<String>> infoAllVUser(){
+    List<List<String>> datacars = <List<String>>[];
+    for(var vhU in vehiclesUsuari){
+      List<String> ucar = getInfoCar(vhU.idVE);
+      for(var type in vhU.endolls){
+        ucar.add(type);
+      }
+      datacars.add(ucar);
+    }
+    return datacars;
+  }
 
   //CARS
   Future<void> getAllCars() async {
@@ -40,23 +98,11 @@ class CtrlDomain {
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
-      /*var effciency;
-      var battery;
-      var rage;
-
-      if(it['Effciency(Wh/Km)'].toString() == '')effciency = '0.0';
-      else effciency = it['Effciency(Wh/Km)'];
-
-      if(it['Battery(kWh)'].toString() == '')battery = '0.0';
-      else battery = it['Battery(kWh)'];
-
-      if(it['Rage(Km)'].toString() == '')rage = '0.0';
-      else rage = it['Rage(Km)'];*/
       VhElectric vh = VhElectric.complet(it['_id'], it['Brand'], it['Vehicle'],double.parse(it['Effciency(Wh/Km)']), double.parse(it['Rage(Km)']), double.parse(it['Battery(kWh)']));
       vhElectrics.add(vh);
     }
   }
-  Future<void> getAllBrands() async {
+  Future<List<String>> getAllBrands() async {
     var url = urlorg +'cars_brands';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
@@ -65,8 +111,9 @@ class CtrlDomain {
       brands.add(it);
     }
     brands.sort();
+    return brands;
   }
-  Future<void> getAllModels(String brand) async {
+  Future<List<String>> getAllModels(String brand) async {
     var url = urlorg +'cars_models?Brand='+brand;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
@@ -75,6 +122,7 @@ class CtrlDomain {
       models.add(it);
     }
     models.sort();
+    return models;
   }
   Future<void> getCarModelInfo(String model) async {
     var url = urlorg +'car_info?Vehicle='+model;
@@ -86,16 +134,30 @@ class CtrlDomain {
       vhElectricsInfo.add(vhselected);
     }
   }
-  void printCars(){
+  List<String> getInfoCar(String id){
+    List<String> car = <String>[];
+    for(var v in vhElectrics){
+      if(v.id == id){
+        car.add(id);
+        car.add(v.marca);
+        car.add(v.model);
+        car.add(v.capacitatBateria.toString());
+        car.add(v.consum.toString());
+        car.add(v.potencia.toString());
+      }
+    }
+    return car;
+  }
+  /*void printCars(){
     for(var car in vhElectricsInfo){
       print(car.model);
       print(car.potencia);
       print(car.consum);
     }
-  }
+  }*/
 
   //CHARGERS
-  /*Future<void> getChargers() async{
+  /*VERSION BETA Future<void> getChargers() async{
     var url = urlorg +'chargers_cat';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
@@ -107,7 +169,7 @@ class CtrlDomain {
     getChargersBCN();
   }*/
   Future<void> getChargers(String where) async {
-    var url = urlorg +where;
+    var url = urlorg +'chargers_'+where;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
@@ -117,8 +179,13 @@ class CtrlDomain {
         Endoll endoll = Endoll(en['Connector_id'].toString(), it['_id'], en['State']);
         var list = en['Connector_types'].toString().split(',');
         for(var num in list){
-          if(num == "1" || num == "2" || num == "3" || num == "4")
-          endoll.tipus.add(int.parse(num));
+          if(num == "1" || num == "2" || num == "3" || num== "4"){
+            int n = int.parse(num);
+            n = n-1;
+            typesendolls[n].endolls.add(it['_id']);
+            endoll.tipus.add(num);
+          }
+
         }
         endolls.add(endoll);
       }
@@ -129,12 +196,27 @@ class CtrlDomain {
       puntscarrega.add(estCarrega);
     }
   }
-  Future<void> getChargerInfo(Coordenada coord) async {
-    var url = urlorg +'charger_info?longitud='+ coord.longitud.toString() +'&latitud='+coord.latitud.toString();
+  Future<void> getInfoChargerCoord(Coordenada coord) async {
+    var url = urlorg +'charger_info_cat?longitud='+ coord.longitud.toString() +'&latitud='+coord.latitud.toString();
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
-      print(it);
+      Set<String>endollsPunt = <String>{};
+      for(var en in it['Sockets']){
+        endollsPunt.add(en['Connector_id'].toString());
+        Endoll endoll = Endoll(en['Connector_id'].toString(), it['_id'], en['State']);
+        var list = en['Connector_types'].toString().split(',');
+        for(var num in list){
+          typesendolls[int.parse(num)].endolls.add(it['_id']);
+            endoll.tipus.add(num);
+        }
+        endolls.add(endoll);
+      }
+      if(it['Station_name']== null)it['Station_name']="Unknown";
+      if(it['Station_address']== null)it['Station_address']="Unknown";
+      coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+      EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'], endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+      puntscarrega.add(estCarrega);
     }
   }
   Future<void> getEndollInfo(Coordenada coord) async {
@@ -145,6 +227,10 @@ class CtrlDomain {
       it;
     }
   }
+  /*Future<List<List<String>>> getInfoCharger(String id){
+    List<List<String>> infocharger = List<List<String>>[];
+    return infocharger;
+  }*/
   /*Future<void> getMunicipiChargers(String municipi) async {
     var url = urlorg +'city_chargers?municipi='+ municipi;
     var response = (await http.get(Uri.parse(url)));
@@ -164,7 +250,7 @@ class CtrlDomain {
       print(it);
     }*/
   }*/
-  void printChargers(){
+  /*void printChargers(){
     for(var chargep in puntscarrega){
       print(chargep.id);
       print(chargep.nom);
@@ -181,7 +267,7 @@ class CtrlDomain {
         }
       }
     }
-  }
+  }*/
 
   //BICING
   Future<void> getBicings()async{
