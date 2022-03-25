@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import 'package:location/location.dart';
-
 
 import '../../domini/bicing_point.dart';
 import '../../domini/charge_point.dart';
@@ -29,7 +27,6 @@ class _MyMapState extends State<MyMap> {
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
   late BuildContext ctx;
-  Location location = Location();
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
