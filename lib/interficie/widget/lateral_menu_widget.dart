@@ -1,7 +1,4 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
-
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
