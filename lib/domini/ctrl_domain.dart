@@ -1,3 +1,4 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
 import 'dart:convert';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
@@ -227,10 +228,35 @@ class CtrlDomain {
       it;
     }
   }
-  /*Future<List<List<String>>> getInfoCharger(String id){
-    List<List<String>> infocharger = List<List<String>>[];
+  List<String> getInfoCharger(double lat, double long){
+    List<String> infocharger = <String>[];
+    for(var charg in puntscarrega){
+      if(charg.coord.latitud == lat && charg.coord.longitud == long){
+        infocharger.add(charg.id);
+        infocharger.add(charg.nom);
+        infocharger.add(charg.direccio);
+        for(var end in charg.endolls){
+          for(var endoll in endolls){
+            if(end == endoll.id && endoll.idPuntC == charg.id){
+              String type = "";
+              for(int i = 0; i<endoll.tipus.length;i++) {
+                  int num = int.parse(endoll.tipus.elementAt(i));
+                  num = num-1;
+                  if(i == 0) {
+                    type = typesendolls[num].tipus.name;
+                  } else{
+                    type = type+','+typesendolls[num].tipus.name;
+                }
+              }
+              infocharger.add(type);
+              infocharger.add(endoll.ocupat.toString());
+            }
+          }
+        }
+      }
+    }
     return infocharger;
-  }*/
+  }
   /*Future<void> getMunicipiChargers(String municipi) async {
     var url = urlorg +'city_chargers?municipi='+ municipi;
     var response = (await http.get(Uri.parse(url)));
