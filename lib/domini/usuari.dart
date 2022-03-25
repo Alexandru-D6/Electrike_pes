@@ -1,6 +1,12 @@
 import 'package:flutter_project/domini/trofeu.dart';
 
 class Usuari {
+  Usuari._internal();
+  static final Usuari _singleton = Usuari._internal();
+  factory Usuari() {
+    return _singleton;
+  }
+
   late String correu;
   late String name;
   late String foto;
@@ -20,7 +26,7 @@ class Usuari {
     co2Estalviat = -1;
   }
 
-  Usuari(this.correu, this.token, this.foto) {
+  Usuari.origin(this.correu, this.token, this.foto) {
     co2Estalviat = 0;
   }
 
