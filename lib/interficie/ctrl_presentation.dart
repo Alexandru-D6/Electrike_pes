@@ -1,6 +1,8 @@
 // @dart=2.10
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/services/google_login_adpt.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/main.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
@@ -20,6 +22,20 @@ class CtrlPresentation {
     return _singleton;
   }
   CtrlPresentation._internal();
+
+  String email = "";
+  String name = "";
+  String photoUrl = "";
+
+  Future logOut() async {
+    await serviceLocator<GoogleLoginAdpt>().logout();
+    ctrlPresentation.toProfilePage(null);
+  }
+
+  Future signIn() async {
+    await serviceLocator<GoogleLoginAdpt>().login();
+    ctrlPresentation.toProfilePage(null);
+  }
 
   //intercambiar vista
   void toMainPage(BuildContext context){

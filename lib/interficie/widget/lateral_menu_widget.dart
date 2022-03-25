@@ -1,6 +1,10 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/services/google_login_adpt.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
@@ -87,7 +91,10 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Logout', //TODO: translator
                     icon: Icons.logout,
-                    onClicked: () => (){},//ctrlPresentation.logout(), //TODO: reference logout routine
+                    onClicked: () async {
+                      await serviceLocator<GoogleLoginAdpt>().logout();
+                      ctrlPresentation.toMainPage(context);
+                    }, //TODO: reference logout routine
                   ),
                 ],
               ),

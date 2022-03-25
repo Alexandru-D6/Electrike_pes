@@ -49,16 +49,15 @@ class LogPage extends State<LoginPage> {
               const SizedBox(height: 50),
               SignInButton(
                   buttonType: ButtonType.google,
-                  onPressed: signIn,
+                  onPressed: () async {
+                    await serviceLocator<GoogleLoginAdpt>().login();
+                    ctrlPresentation.toProfilePage(context);
+                  },
               )
             ],
           ),
         ),
       ),
     );
-  }
-
-  Future signIn() async {
-    await serviceLocator<GoogleLoginAdpt>().login();
   }
 }

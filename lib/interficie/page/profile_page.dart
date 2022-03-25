@@ -18,7 +18,7 @@ CtrlPresentation ctrlPresentation = CtrlPresentation();
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    const user = UserPreferences.myUser;
+    User user = User(imagePath: ctrlPresentation.photoUrl, name: ctrlPresentation.name, email: ctrlPresentation.email, about: "", isDarkMode: false);
 
     return  Builder(
         builder: (context) => Scaffold(
