@@ -9,6 +9,17 @@ class Usuari {
   late int co2Estalviat;
   late Trofeu t;
 
+
+  //crear un usuari null
+  usuarinull() {
+    correu = "";
+    name = "";
+    foto = "";
+    token = -1;
+    kmRecorregut = -1;
+    co2Estalviat = -1;
+  }
+
   Usuari(this.correu, this.token, this.foto) {
     co2Estalviat = 0;
   }
