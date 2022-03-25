@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -10,6 +11,7 @@ import 'widget/lateral_menu_widget.dart';
 Future main() async {
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
+  setUpLocator();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

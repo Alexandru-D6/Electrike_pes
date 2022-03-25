@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/services/google_login_adpt.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:sign_button/sign_button.dart';
 
@@ -12,6 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class LogPage extends State<LoginPage> {
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -46,13 +49,16 @@ class LogPage extends State<LoginPage> {
               const SizedBox(height: 50),
               SignInButton(
                   buttonType: ButtonType.google,
-                  onPressed: () {
-                    //print('click');
-                  }),
+                  onPressed: signIn,
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future signIn() async {
+    await serviceLocator<GoogleLoginAdpt>().login();
   }
 }
