@@ -1,198 +1,316 @@
+
+
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:location/location.dart';
 
 
-class MyMap extends StatelessWidget {
-  static const String title = 'Electrike';
+import '../../domini/bicing_point.dart';
+import '../../domini/charge_point.dart';
+import '../constants.dart';
+import 'bicing_point_detail_info.dart';
+import 'charge_point_detail_info.dart';
+
+CtrlPresentation ctrlPresentation = CtrlPresentation();
+
+class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: title,
-      theme: ThemeData(
-        primarySwatch: Colors.yellow,
+  _MyMapState createState() => _MyMapState();
+}
+
+class _MyMapState extends State<MyMap> {
+  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+  List<Marker> chargePoints = [];
+  List<Marker> bicingPoints = [];
+  List<Marker> markers = [];
+  double currentZoom = 11.0;
+  GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
+  late BuildContext ctx;
+  Location location = Location();
+  GeoCoord lastPosition = const GeoCoord(0.0,0.0);
+
+  void initMarkers(String? show){
+    GoogleMap.of(_key).addMarker(Marker(lastPosition, icon: "assets/images/bentley.png"));
+    switch(show){
+      case "chargers":
+        markers = chargePoints;
+        for (int i = 0; i < markers.length; ++i){
+          GoogleMap.of(_key).addMarker(markers[i]);
+        }
+        break;
+      case "bicing":
+        markers = bicingPoints;
+        for (int i = 0; i < markers.length; ++i){
+          GoogleMap.of(_key).addMarker(markers[i]);
+        }
+        break;
+      default:
+        markers = chargePoints + bicingPoints;
+        for (int i = 0; i < markers.length; ++i){
+          GoogleMap.of(_key).addMarker(markers[i]);
+        }
+        break;
+    }
+    //super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    chargePoints = buildChargerMarkers(context);
+    bicingPoints = buildBicingMarkers(context);
+    markers = chargePoints + bicingPoints;
+
+    location.onLocationChanged.listen((LocationData currentLocation) {
+      GoogleMap.of(_key).removeMarker(lastPosition);
+      lastPosition = GeoCoord(currentLocation.latitude, currentLocation.longitude);
+      GoogleMap.of(_key).addMarker(Marker(lastPosition, icon: "assets/images/bentley.png"));
+    });
+
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: GoogleMap(
+              key: _key,
+              markers: markers.toSet(),
+              initialZoom: 9,
+              //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
+              //minZoom: 3, //todo min zoom en web??
+              initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
+              mapType: MapType.roadmap,
+              mapStyle: null,
+              interactive: true,
+
+              onTap: (coord) => lastCoord = coord,
+
+
+              mobilePreferences: const MobileMapPreferences(
+                trafficEnabled: true,
+                zoomControlsEnabled: true,
+              ),
+
+
+              webPreferences: const WebMapPreferences(
+                fullscreenControl: true,
+                zoomControl: true,
+              ),
+
+
+            ),
+          ),
+          Positioned(
+            left: 16,
+            right: kIsWeb ? 60 : 16,
+            bottom: 16,
+            child: Row(
+              children: <Widget>[
+                LayoutBuilder(
+                  builder: (context, constraints) =>
+                  constraints.maxWidth < 1000
+                      ? Row(children: _buildClearButtons())
+                      : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _buildClearButtons(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          //getMyLocationButton
+          Positioned(
+            right: 60,
+            bottom: 16,
+            child: Row(
+              children: <Widget>[
+                LayoutBuilder(
+                  builder: (context, constraints) =>
+                  constraints.maxWidth < 1000
+                      ? Row(children: _buildMyLocButton())
+                      : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _buildMyLocButton(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+
+        ],
       ),
-      home: const MyHomePage()
+    );
+  }
+
+  List<Widget> _buildMyLocButton() => [
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        onPressed: (){
+          GoogleMap.of(_key).moveCamera(lastPosition);
+          GoogleMap.of(_key).zoomCamera(1.0);
+        },//_getMyLocation,
+        tooltip: 'My Location',
+        child: const Icon(Icons.my_location),
+        backgroundColor: mCardColor,
+  ),
+    ),
+  ];
+
+  List<Widget> _buildClearButtons() => [
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        backgroundColor: mCardColor,
+        child: const Icon(Icons.filter_alt_off),
+        onPressed: () {
+          GoogleMap.of(_key).clearMarkers();
+          initMarkers("all");
+        },
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        backgroundColor: mCardColor,
+        child: const Icon(Icons.power),
+        onPressed: () {
+          GoogleMap.of(_key).clearMarkers();
+          initMarkers("chargers");
+        },
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        backgroundColor: mCardColor,
+        child: const Icon(Icons.pedal_bike),
+        onPressed: () {
+          GoogleMap.of(_key).clearMarkers();
+          initMarkers("bicing");
+        },
+      ),
+    ),
+  ];
+
+
+  List<Marker> buildChargerMarkers(BuildContext context) {
+    chargePoints = [];
+    for (var i = 0; i < ctrlPresentation.getChargePointList().length; ++i) {
+      chargePoints.add(
+          buildChargerMarker(
+            index: i,
+            lat: chargePointList[i].lat,
+            long: chargePointList[i].long,
+            context: context,
+          )
+      );
+    }
+    setState(() {
+    });
+    return chargePoints;
+  }
+
+  List<Marker> buildBicingMarkers(BuildContext context) {
+    bicingPoints = [];
+    for (var i = 0; i < bicingPointList.length; ++i) {
+      bicingPoints.add(
+          buildBicingMarker(
+            index: i,
+            lat: bicingPointList[i].lat,
+            long: bicingPointList[i].long,
+            context: context,
+          )
+      );
+    }
+    setState(() {
+    });
+    return bicingPoints;
+  }
+}
+
+Marker buildChargerMarker({
+  required int index,
+  required double lat,
+  required double long,
+  required BuildContext context,
+}){
+  ChargePoint point = chargePointList[index];
+  //List<String> cPoint = ctrlPresentation.getChargePoint(lat, long); //todo
+  return Marker(
+      GeoCoord(lat, long),
+      //icon: Icon(Icons.power),
+      onTap: (markerId)=>
+          showModalBottomSheet(
+              context: context,
+              backgroundColor: cTransparent,
+              builder: (builder){
+                return Stack(
+                  children: [
+                    Positioned(
+                      left: 24,
+                      right: 24,
+                      bottom: 24,
+                      child: Stack(
+                        children: [
+                          ChargePointDetailInformation(point: point),
+                          Positioned(
+                            right: 16,
+                            child: Image.asset(
+                              "assets/images/charge_point.png",
+                              height: 125,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }),
   );
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
-
-  GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
-
-  List<Widget> _buildClearButtons() => [
-    const SizedBox(width: 16),
-    ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(primary: Colors.green),
-      icon: const Icon(Icons.pin_drop),
-      label: const Text('CLEAR MARKERS'),
-      onPressed: () {
-        GoogleMap.of(_key).clearMarkers();
-      },
-    ),
-    const SizedBox(width: 16),
-    ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(primary: Colors.green),
-      icon: const Icon(Icons.directions),
-      label: const Text('CLEAR DIRECTIONS'),
-      onPressed: () {
-        GoogleMap.of(_key).clearDirections();
-      },
-    ),
-  ];
-
-  List<Widget> _buildAddButtons() => [
-    const SizedBox(width: 16),
-    FloatingActionButton(
-      child: const Icon(Icons.pin_drop),
-      onPressed: () {
-        GoogleMap.of(_key).addMarkerRaw(
-          lastCoord,
-          icon: 'assets/images/estation.png',
-          info: 'test info',
-          onInfoWindowTap: () async {
-            await showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                content: const Text(
-                    'This dialog was opened by tapping on the InfoWindow!'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: Navigator.of(context).pop,
-                    child: const Text('CLOSE'),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-        GoogleMap.of(_key).addMarkerRaw(
-          const GeoCoord(33.775513, -117.450257),
-          icon: 'assets/images/map-marker-warehouse.png',
-          info: contentString,
-        );
-      },
-    ),
-    const SizedBox(width: 16),
-    FloatingActionButton(
-      child: const Icon(Icons.directions),
-      onPressed: () {
-        //GoogleMap.of(_key).addPolygon(id, points);
-        /*
-        GoogleMap.of(_key).addDirection(
-          const GeoCoord(41.385983, 2.118057),
-          const GeoCoord(41.375034, 2.163633),
-          startLabel: '1',
-          startInfo: 'bbbbbbbb',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'aaaaaa',
-        );*/
-      },
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    body: Stack(
-      children: <Widget>[
-        Positioned.fill(
-          child: GoogleMap(
-            key: _key,
-            markers: const {
-              Marker(
-                GeoCoord(34.0469058, -118.3503948),
-              ),
-            },
-            initialZoom: 9,
-            minZoom: 3,
-            initialPosition:
-            const GeoCoord(41.8204600, 1.8676800), // Catalunya
-            mapType: MapType.roadmap,
-            mapStyle: null,
-            interactive: true,
-            onTap: (coord) => lastCoord = coord,
-            mobilePreferences: const MobileMapPreferences(
-              trafficEnabled: true,
-              zoomControlsEnabled: false,
-            ),
-            webPreferences: const WebMapPreferences(
-              fullscreenControl: true,
-              zoomControl: true,
-            ),
-          ),
-        ),
-        Positioned(
-          top: 16,
-          left: 16,
-          child: FloatingActionButton(
-            child: const Icon(Icons.person_pin_circle),
-            onPressed: () {
-              final bounds = GeoCoordBounds(
-                northeast: const GeoCoord(41.8204600, 1.8676800),
-                southwest: const GeoCoord(41.8204600, 1.8676800),
-              );
-              GoogleMap.of(_key).moveCameraBounds(bounds);
-              GoogleMap.of(_key).addMarkerRaw(
-                GeoCoord(
-                  (bounds.northeast.latitude + bounds.southwest.latitude) /
-                      2,
-                  (bounds.northeast.longitude +
-                      bounds.southwest.longitude) /
-                      2,
-                ),
-                onTap: (markerId) async {
-                  await showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      content: Text(
-                        'This dialog was opened by tapping on the marker!\n'
-                            'Marker ID is $markerId',
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: Navigator.of(context).pop,
-                          child: const Text('CLOSE'),
+Marker buildBicingMarker({
+  required int index,
+  required double lat,
+  required double long,
+  required BuildContext context,
+}) {
+  BicingPoint point = bicingPointList[index];
+  return Marker(
+    GeoCoord(lat, long),
+    icon: "assets/images/bike.png",
+    onTap: (ctx) =>
+              showModalBottomSheet(
+                  context: context,
+                  backgroundColor: cTransparent,
+                  builder: (builder) {
+                    return Stack(
+                      children: [
+                        Positioned(
+                          left: 24,
+                          right: 24,
+                          bottom: 24,
+                          child: Stack(
+                            children: [
+                              BicingPointDetailInformation(point: point),
+                              /*const Positioned(
+                              right: 16,
+                              /*child: Icon(
+                              ),*/
+                            )*/
+                            ],
+                          ),
                         ),
                       ],
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ),
-        Positioned(
-          left: 16,
-          right: kIsWeb ? 60 : 16,
-          bottom: 16,
-          child: Row(
-            children: <Widget>[
-              LayoutBuilder(
-                builder: (context, constraints) =>
-                constraints.maxWidth < 1000
-                    ? Row(children: _buildClearButtons())
-                    : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _buildClearButtons(),
-                ),
-              ),
-              const Spacer(),
-              ..._buildAddButtons(),
-            ],
-          ),
-        ),
-      ],
-    ),
+                    );
+                  }),
   );
 }
 

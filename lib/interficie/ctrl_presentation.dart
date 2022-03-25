@@ -1,3 +1,4 @@
+// @dart=2.10
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/interficie/main.dart';
@@ -69,7 +70,7 @@ class CtrlPresentation {
   ));}
 
   //USER INFO FUNCTIONS
-  String? getCurrentUsername(){
+  String getCurrentUsername(){
     return null;
     //TODO: CALL DOMAIN FUNCTION
     /*
@@ -100,5 +101,9 @@ class CtrlPresentation {
   
   void signInRoutine(){
     //name = "Bobi"; //TODO: signin
+  }
+
+  getChargePointList() {
+    return chargePointList;
   }
 }
