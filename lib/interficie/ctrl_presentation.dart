@@ -27,16 +27,6 @@ class CtrlPresentation {
   String name = "";
   String photoUrl = "";
 
-  Future logOut() async {
-    await serviceLocator<GoogleLoginAdpt>().logout();
-    ctrlPresentation.toProfilePage(null);
-  }
-
-  Future signIn() async {
-    await serviceLocator<GoogleLoginAdpt>().login();
-    ctrlPresentation.toProfilePage(null);
-  }
-
   //intercambiar vista
   void toMainPage(BuildContext context){
     Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
