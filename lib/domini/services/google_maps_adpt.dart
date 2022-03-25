@@ -1,4 +1,4 @@
-import 'package:geocoder2/geocoder2.dart';
+import 'package:geocode/geocode.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tuple/tuple.dart';
 
