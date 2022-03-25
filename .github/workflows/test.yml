@@ -38,7 +38,7 @@ jobs:
           channel: 'stable'
       - run: flutter pub get
       # run static analys code
-      - run: flutter  analyze --no-sound-null-safety
+      - run: flutter  analyze
       # run  flutter widgets tests  and unit tests
       - run: flutter test --coverage
       # Upload coverage reports to Codecov
