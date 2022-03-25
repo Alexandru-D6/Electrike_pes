@@ -21,19 +21,19 @@ class CtrlDomain {
   List<VhElectric> vhElectricsBrand = <VhElectric>[];
   List<Endoll> endolls = <Endoll>[];
   VhElectric vhselected = VhElectric.buit();
-  late Usuari usuari;
+  Usuari usuari = Usuari('elpepe', 1, 'soyHUAppo?');
   factory CtrlDomain() {
     return _singleton;
   }
-
+  //USER
   String getLanguageUser(){
     //PONER IDIOMAAAAAAA
     return usuari.correu;
   }
-
   String getCurrentUserName(){
     return usuari.name;
   }
+
   //CARS
   Future<void> getAllCars() async {
     var url = urlorg +'cars';
@@ -95,7 +95,7 @@ class CtrlDomain {
   }
 
   //CHARGERS
-  Future<void> getChargers() async{
+  /*Future<void> getChargers() async{
     var url = urlorg +'chargers_cat';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
@@ -105,9 +105,9 @@ class CtrlDomain {
       puntscarrega.add(estacioCarrega);
     }
     getChargersBCN();
-  }
-  Future<void> getChargersBCN() async {
-    var url = urlorg +'chargers_bcn';
+  }*/
+  Future<void> getChargers(String where) async {
+    var url = urlorg +where;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
@@ -122,6 +122,8 @@ class CtrlDomain {
         }
         endolls.add(endoll);
       }
+      if(it['Station_name']== null)it['Station_name']="Unknown";
+      if(it['Station_address']== null)it['Station_address']="Unknown";
       coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
        EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'], endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
       puntscarrega.add(estCarrega);
@@ -162,12 +164,13 @@ class CtrlDomain {
       print(it);
     }*/
   }*/
-
   void printChargers(){
     for(var chargep in puntscarrega){
       print(chargep.id);
       print(chargep.nom);
       print(chargep.direccio);
+      print(chargep.coord.latitud);
+      print(chargep.coord.longitud);
       for(var idend in chargep.endolls) {
         for(var end in endolls){
           if(end.id == idend && end.idPuntC == chargep.id){
@@ -187,24 +190,31 @@ class CtrlDomain {
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
       coordBicings.add(Coordenada(double.parse(it['lat'].toString()),double.parse(it['lon'].toString())));
-      PuntBicing puntB = PuntBicing(it['station_id'], 'Bicing ' +it['name'], it['capacity'], it['address'], Coordenada(double.parse(it['lat'].toString()),double.parse(it['lon'].toString())));
+      PuntBicing puntB = PuntBicing(it['station_id'], 'Bicing ' +it['name'], it['address'],it['capacity'], Coordenada(double.parse(it['lat'].toString()),double.parse(it['lon'].toString())));
       puntsBicing.add(puntB);
     }
   }
-  Future<void> getInfoBicing(double lat, double long) async{
+  Future<List<String>> getInfoBicing(double lat, double long) async{
+    List<String> lpb = <String>[];
     for(var pB in puntsBicing){
       if(pB.coord.latitud == lat && pB.coord.longitud== long){
         var url = urlorg +'bicing_status?id='+pB.id.toString();
         var response = (await http.get(Uri.parse(url)));
         var resp = jsonDecode(response.body);
         for(var it in resp['items']){
-          print(it['num_bikes_available']);
-          print(it['num_bikes_available_types']['mechanical']);
-          print(it['num_bikes_available_types']['ebike']);
-          print(it['num_docks_available']);
+          pB.numBm = it['num_bikes_available_types']['mechanical'];
+          pB.numBe = it['num_bikes_available_types']['ebike'];
+          pB.numDock = it['num_docks_available'];
         }
+        lpb.add(pB.nom);
+        lpb.add(pB.direccio);
+        lpb.add(pB.numB.toString());
+        lpb.add(pB.numBm.toString());
+        lpb.add(pB.numBe.toString());
+        lpb.add(pB.numDock.toString());
       }
     }
+    return lpb;
   }
 
 }
