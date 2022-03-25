@@ -29,7 +29,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => ctrlPresentation.toLoginPage(context),
+              onClicked: () => ctrlPresentation.toProfilePage(context),//ctrlPresentation.toLoginPage(context),
             ),
             Container(
               padding: padding,

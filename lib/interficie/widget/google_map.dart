@@ -1,7 +1,4 @@
-
-
 // ignore_for_file: import_of_legacy_library_into_null_safe
-
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
@@ -36,7 +33,7 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
-    GoogleMap.of(_key).addMarker(Marker(lastPosition, icon: "assets/images/bentley.png"));
+    //GoogleMap.of(_key).addMarker(Marker(lastPosition, icon: "assets/images/me.png"));
     switch(show){
       case "chargers":
         markers = chargePoints;
@@ -64,13 +61,7 @@ class _MyMapState extends State<MyMap> {
   Widget build(BuildContext context){
     chargePoints = buildChargerMarkers(context);
     bicingPoints = buildBicingMarkers(context);
-    markers = chargePoints + bicingPoints;
-
-    location.onLocationChanged.listen((LocationData currentLocation) {
-      GoogleMap.of(_key).removeMarker(lastPosition);
-      lastPosition = GeoCoord(currentLocation.latitude, currentLocation.longitude);
-      GoogleMap.of(_key).addMarker(Marker(lastPosition, icon: "assets/images/bentley.png"));
-    });
+    markers = bicingPoints + chargePoints;
 
     return Scaffold(
       body: Stack(
@@ -87,23 +78,51 @@ class _MyMapState extends State<MyMap> {
               mapStyle: null,
               interactive: true,
 
-              onTap: (coord) => lastCoord = coord,
+              onLongPress: (coord) => GoogleMap.of(_key).addMarker(Marker(coord, icon: "assets/images/me.png")),
+
+              onTap: (coord) async {
+                await showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: const Text(
+                      'This dialog was opened by tapping on the marker!\n'
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: Navigator.of(context).pop,
+                        child: const Text('CLOSE'),
+                      ),
+                    ],
+                  ),
+                );
+              },
 
 
               mobilePreferences: const MobileMapPreferences(
+                myLocationEnabled:true,
+                myLocationButtonEnabled: true,
+                rotateGesturesEnabled: true,
+                zoomGesturesEnabled:true,
+
                 trafficEnabled: true,
                 zoomControlsEnabled: true,
               ),
 
 
               webPreferences: const WebMapPreferences(
+                streetViewControl:true,
+                mapTypeControl: true,
+                scrollwheel: true,
+                panControl: true,
+                overviewMapControl:true,
+
                 fullscreenControl: true,
                 zoomControl: true,
               ),
-
-
             ),
           ),
+
+
           Positioned(
             left: 16,
             right: kIsWeb ? 60 : 16,
@@ -123,45 +142,10 @@ class _MyMapState extends State<MyMap> {
             ),
           ),
 
-          //getMyLocationButton
-          Positioned(
-            right: 60,
-            bottom: 16,
-            child: Row(
-              children: <Widget>[
-                LayoutBuilder(
-                  builder: (context, constraints) =>
-                  constraints.maxWidth < 1000
-                      ? Row(children: _buildMyLocButton())
-                      : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: _buildMyLocButton(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-
         ],
       ),
     );
   }
-
-  List<Widget> _buildMyLocButton() => [
-    Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: FloatingActionButton(
-        onPressed: (){
-          GoogleMap.of(_key).moveCamera(lastPosition);
-          GoogleMap.of(_key).zoomCamera(1.0);
-        },//_getMyLocation,
-        tooltip: 'My Location',
-        child: const Icon(Icons.my_location),
-        backgroundColor: mCardColor,
-  ),
-    ),
-  ];
 
   List<Widget> _buildClearButtons() => [
     Padding(
@@ -219,7 +203,7 @@ class _MyMapState extends State<MyMap> {
 
   List<Marker> buildBicingMarkers(BuildContext context) {
     bicingPoints = [];
-    for (var i = 0; i < bicingPointList.length; ++i) {
+    for (var i = 0; i < ctrlPresentation.getBicingPointList().length; ++i) {
       bicingPoints.add(
           buildBicingMarker(
             index: i,

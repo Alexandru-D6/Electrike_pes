@@ -45,12 +45,11 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-        drawer: const NavigationDrawerWidget(),
-        // endDrawer: NavigationDrawerWidget(),
-        appBar: AppBar(
-          title: const Text(MyApp.title),
-          backgroundColor: mPrimaryColor,
-        ),
+    drawer: const NavigationDrawerWidget(),
+    appBar: AppBar(
+      title: const Text(MyApp.title),
+      backgroundColor: mPrimaryColor,
+    ),
         body: const MyMap(),
       );
 
