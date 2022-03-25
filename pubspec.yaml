@@ -37,6 +37,7 @@ dependencies:
   latlong: ^0.6.1
   latlong2: ^0.8.1
   sign_button: ^2.0.2
+<<<<<<< Updated upstream
   provider: ^6.0.2
   uuid: ^2.1.0
   http: ^0.12.1
@@ -44,6 +45,13 @@ dependencies:
   flutter_typeahead: ^2.0.0
   checkbox_formfield: ^0.2.0
   url_launcher: ^6.0.0
+=======
+  get_it: ^7.2.0
+  tuple: ^2.0.0
+  geocoder2: ^1.1.0
+  google_sign_in: ^5.2.4
+
+>>>>>>> Stashed changes
 
 dev_dependencies:
   flutter_test:
