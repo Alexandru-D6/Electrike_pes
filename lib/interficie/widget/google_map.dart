@@ -29,7 +29,7 @@ class _MyMapState extends State<MyMap> {
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
   late BuildContext ctx;
-  Location location = new Location();
+  Location location = Location();
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
