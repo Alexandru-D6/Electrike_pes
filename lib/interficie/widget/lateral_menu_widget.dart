@@ -126,22 +126,25 @@ class NavigationDrawerWidget extends StatelessWidget {
                     ctrlPresentation.signInRoutine(context);  //TODO: SIGNUP SETTER
                   },
                 ),
-              const SizedBox(width: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    email ?? "",
-                    style: const TextStyle(fontSize: 14, color: Colors.white),
-                  ),
-                ],
+              const SizedBox(width: 15),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      email!,
+                      style: const TextStyle(fontSize: 14, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    )
+                  ],
               ),
-              //const Spacer(),
+              ), //const Spacer(),
             ],
           ),
         ),
