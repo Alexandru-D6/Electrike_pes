@@ -145,9 +145,12 @@ class _NewCarPageState extends State<NewCarPage> {
         ),
     ),
     suggestionsCallback: suggester,
-    itemBuilder: (context, String? suggestion) => ListTile(
+    itemBuilder: (context, String? suggestion) {
+      modelList.clear();
+      return ListTile(
         title: Text(suggestion!),
-    ),
+    );
+    },
     onSuggestionSelected: (String? suggestion) {
       controller.text = suggestion!;
       ctrlPresentation.getModelList(controllerBrandCar.text).then((element){
