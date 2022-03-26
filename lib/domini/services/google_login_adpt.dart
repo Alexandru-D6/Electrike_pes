@@ -19,33 +19,14 @@ class GoogleLoginAdpt {
   Future<GoogleSignInAccount?> login() {
       final user = _googleSignIn.signIn();
       user.then((u) {
-        var _name = u?.displayName;
-        var _email = u?.email;
-        var _photoUrl = u?.photoUrl;
-
-        if(_name != null) {
-          ctrlPresentation.name = _name;
-        } else {
-          ctrlPresentation.name = "";
-        }
-
-        if(_email != null) {
-          ctrlPresentation.email = _email;
-        } else {
-          ctrlPresentation.email = "";
-        }
-
-        if(_photoUrl != null) {
-          ctrlPresentation.photoUrl = _photoUrl;
-        } else {
-          ctrlPresentation.photoUrl = "https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=5&q=80";
-        }
+        if(u?.displayName != null) ctrlPresentation.name = u!.displayName.toString();
+        if(u?.email != null) ctrlPresentation.email = u!.email.toString();
+        if(u?.photoUrl != null) ctrlPresentation.photoUrl = u!.photoUrl.toString();
       });
       return user;
   }
 
   Future<GoogleSignInAccount?> logout() {
-    _googleSignIn.disconnect();
     final user = _googleSignIn.signOut();
     return user;
   }
