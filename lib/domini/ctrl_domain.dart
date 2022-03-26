@@ -28,7 +28,6 @@ class CtrlDomain {
   VhElectric vhselected = VhElectric.buit();
   Usuari usuari = Usuari.origin('elpepe', 1, 'soyHUAppo?');
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
-  List<String> carBrands=<String>[];
   factory CtrlDomain() {
     return _singleton;
   }
@@ -38,7 +37,7 @@ class CtrlDomain {
     await getAllCars();
     await getChargers('cat');
     await getChargers('bcn');
-    await getAllBrands();
+    //await getAllBrands();
 
   }
   void initializeTypes(){
@@ -105,14 +104,16 @@ class CtrlDomain {
       vhElectrics.add(vh);
     }
   }
-  Future<void> getAllBrands() async {
+  Future<List<String>> getAllBrands() async {
     var url = urlorg +'cars_brands';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
+    List<String> carBrands=<String>[];
     for(var it in resp['items']){
       carBrands.add(it);
     }
     carBrands.sort();
+    return carBrands;
   }
   Future<List<String>> getAllModels(String brand) async {
     var url = urlorg +'cars_models?Brand='+brand;

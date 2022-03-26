@@ -35,9 +35,15 @@ class _NewCarPageState extends State<NewCarPage> {
   String? selectedEffciencyCar;
 
   List<String>? selectedPlugs;
+  List<String> brandList = <String>[];
+  List<String> modelList = <String>[];
+
 
   @override
   Widget build(BuildContext context) {
+    ctrlPresentation.getBrandList().then((element){
+      brandList = element;
+    });
     selectedPlugs = [];
     return Scaffold(
       appBar: AppBar(
@@ -142,12 +148,14 @@ class _NewCarPageState extends State<NewCarPage> {
     itemBuilder: (context, String? suggestion) => ListTile(
         title: Text(suggestion!),
     ),
-    onSuggestionSelected: (String? suggestion) =>
-    controllerBrandCar.text = suggestion!,
+    onSuggestionSelected: (String? suggestion) => controller.text = suggestion!,
     validator: (value) {
         return value.isEmpty ? 'Please select a brand' : null;
     },
     onSaved: (value) {
+      ctrlPresentation.getModelList(controllerBrandCar.text).then((element){
+        modelList = element;
+      });
       saveRoutine(value, returnable);
     },
   );
@@ -288,8 +296,7 @@ class _NewCarPageState extends State<NewCarPage> {
     }
   }
 
-  static final List<String> brandList = ctrlPresentation.getBrandList();
-  static List<String> getBrandSuggestions(String query) =>
+  List<String> getBrandSuggestions(String query) =>
     List.of(brandList).where((brand) {
       final brandLower = brand.toLowerCase();
       final queryLower = query.toLowerCase();
@@ -297,8 +304,7 @@ class _NewCarPageState extends State<NewCarPage> {
       return brandLower.contains(queryLower);
     }).toList();
 
-  static final List<String> modelList = ctrlPresentation.getModelList(controllerBrandCar.text);
-  static List<String> getModelSuggestions(String query) =>
+  List<String> getModelSuggestions(String query) =>
       List.of(modelList).where((brand) {
         final brandLower = brand.toLowerCase();
         final queryLower = query.toLowerCase();
