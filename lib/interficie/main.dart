@@ -56,7 +56,6 @@ class _MainPageState extends State<MainPage> {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
-    LocationData _locationData;
 
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -78,7 +77,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
 
-    Location location = new Location();
+    Location location = Location();
     askForPermission(location, context);
 
     return Scaffold(
