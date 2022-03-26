@@ -1,5 +1,4 @@
-// @dart=2.10
-import 'dart:js';
+// ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
@@ -24,9 +23,9 @@ class CtrlPresentation {
   }
   CtrlPresentation._internal();
 
-  String email;
-  String name;
-  String photoUrl;
+  late String email;
+  late String name;
+  late String photoUrl;
 
   //intercambiar vista
   void toMainPage(BuildContext context){
@@ -82,14 +81,15 @@ class CtrlPresentation {
   String getCurrentUsername(){
     //TODO: CALL DOMAIN FUNCTION
     //String username = ctrlDomain.getCurrentUsername();
-    return name ??= "Click to log-in";
+    if(name == "") name = "Click to log-in";
+    return name;
   }
 
   String getCurrentUserMail() {
     //return 'victorasenj@gmail.com';
     //TODO: CALL DOMAIN FUNCTION
     //String mail = ctrlDomain.getCurrentUserMail();
-    return email ??= "";
+    return email;
   }
 
   void mailto() async {
@@ -114,7 +114,8 @@ class CtrlPresentation {
   }
 
   String getUserImage() {
-    return photoUrl ??= "https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=5&q=80";
+    if(photoUrl == "") photoUrl = "https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=5&q=80";
+    return photoUrl;
   }
 
   void signInRoutine(BuildContext context) async {
@@ -129,8 +130,8 @@ class CtrlPresentation {
   }
 
   void resetUserValues() {
-    email = null;
-    name= null;
-    photoUrl= null;
+    email = "";
+    name= "";
+    photoUrl= "";
   }
 }

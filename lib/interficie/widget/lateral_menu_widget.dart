@@ -124,7 +124,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buttonType: ButtonType.googleDark,
                   buttonSize: ButtonSize.large,
                   onPressed: (){
-                    ctrlPresentation.signInRoutine(context);  //TODO: SIGNUP SETTER
+                    ctrlPresentation.signInRoutine(context);
                   },
                 ),
               const SizedBox(width: 15),
