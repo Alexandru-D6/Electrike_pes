@@ -76,7 +76,7 @@ class _MyMapState extends State<MyMap> {
 
               onLongPress: (coord) => GoogleMap.of(_key).addMarker(Marker(coord, icon: "assets/images/me.png")),
 
-              /*onTap: (coord) async {
+              onTap: null,/*(coord) async {
                 await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(

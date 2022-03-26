@@ -23,9 +23,9 @@ class CtrlPresentation {
   }
   CtrlPresentation._internal();
 
-  late String email;
-  late String name;
-  late String photoUrl;
+  String email = "";
+  String name = "";
+  String photoUrl = "";
 
   //intercambiar vista
   void toMainPage(BuildContext context){

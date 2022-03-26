@@ -141,11 +141,15 @@ class NavigationDrawerWidget extends StatelessWidget {
                       if(email != "")
                       const SizedBox(height: 6),
                       if(email != "")
-                      Text(
-                        email!,
-                        style: const TextStyle(fontSize: 14, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      )
+                        FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              email!,
+                              style: const TextStyle(color: Colors.white),
+                              textAlign: TextAlign.center,
+                            )
+                        ),
+
                     ],),
                   ],
               ),
