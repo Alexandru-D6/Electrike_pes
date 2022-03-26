@@ -1,4 +1,5 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
@@ -9,6 +10,7 @@ import '../../domini/charge_point.dart';
 import '../constants.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
+import 'package:location/location.dart';
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
 
@@ -27,6 +29,7 @@ class _MyMapState extends State<MyMap> {
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
   late BuildContext ctx;
+  Location location = new Location();
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
