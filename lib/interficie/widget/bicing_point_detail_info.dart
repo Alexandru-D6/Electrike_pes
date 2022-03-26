@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../domini/bicing_point.dart';
 import '../constants.dart';
 
 class BicingPointDetailInformation extends StatelessWidget {
