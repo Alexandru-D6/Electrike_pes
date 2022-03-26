@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// ignore_for_file: public_member_api_docs
+// ignore_for_file: public_member_api_docs, import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/services/google_maps_adpt.dart';
 import 'package:google_geocoding/google_geocoding.dart';
