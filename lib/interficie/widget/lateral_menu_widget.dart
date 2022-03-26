@@ -1,4 +1,5 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
@@ -108,7 +109,7 @@ class NavigationDrawerWidget extends StatelessWidget {
   Widget buildHeader({
     String? urlImage,
     required String name,
-    String? email,
+    required String email,
     required BuildContext context,
     required VoidCallback onClicked,
   }) =>
@@ -132,25 +133,27 @@ class NavigationDrawerWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    AutoSizeText(
                       name,
-                      style: const TextStyle(fontSize: 20, color: Colors.white),
+                      style: const TextStyle(fontSize: 80, color: Colors.white), //letra real a 20 pero como tenemos autoSizeText... 80 para que rellene
                       textAlign: TextAlign.center,
+                      maxLines: 1,
                     ),
-                    Row(children:[
-                      if(email != "")
-                      const SizedBox(height: 6),
-                      if(email != "")
-                        FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              email!,
-                              style: const TextStyle(color: Colors.white),
+                    Row(
+                      children:<Widget>[
+                        if(email != "")
+                        const SizedBox(height: 10),
+                        if(email != "")
+                          Expanded(
+                            child: AutoSizeText(
+                              email,
+                              style: const TextStyle(fontSize: 14, color: Colors.white),
                               textAlign: TextAlign.center,
-                            )
-                        ),
-
-                    ],),
+                              maxLines: 1,
+                            ),
+                          )
+                      ],
+                    ),
                   ],
               ),
               ), //const Spacer(),
