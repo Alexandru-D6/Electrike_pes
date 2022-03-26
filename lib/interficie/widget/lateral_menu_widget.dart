@@ -19,6 +19,7 @@ class NavigationDrawerWidget extends StatelessWidget {
     String name = ctrlPresentation.getCurrentUsername();
     String email = ctrlPresentation.getCurrentUserMail();
     String urlImage = ctrlPresentation.getUserImage();
+    print(urlImage);
 
     return Drawer(
       child: Material(
@@ -137,16 +138,11 @@ class NavigationDrawerWidget extends StatelessWidget {
                       style: const TextStyle(fontSize: 20, color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
-                    Row(children:[
-                      if(email != "")
-                      const SizedBox(height: 6),
-                      if(email != "")
-                      Text(
-                        email!,
-                        style: const TextStyle(fontSize: 14, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      )
-                    ],),
+                    Text(
+                      email!,
+                      style: const TextStyle(fontSize: 14, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
                   ],
               ),
               ), //const Spacer(),
