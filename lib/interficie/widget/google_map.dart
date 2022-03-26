@@ -76,7 +76,7 @@ class _MyMapState extends State<MyMap> {
 
               onLongPress: (coord) => GoogleMap.of(_key).addMarker(Marker(coord, icon: "assets/images/me.png")),
 
-              onTap: (coord) async {
+              /*onTap: (coord) async {
                 await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -91,7 +91,7 @@ class _MyMapState extends State<MyMap> {
                     ],
                   ),
                 );
-              },
+              },*/
 
 
               mobilePreferences: const MobileMapPreferences(
@@ -148,7 +148,17 @@ class _MyMapState extends State<MyMap> {
       padding: const EdgeInsets.all(5.0),
       child: FloatingActionButton(
         backgroundColor: mCardColor,
-        child: const Icon(Icons.filter_alt_off),
+        child: const Icon(Icons.visibility_off),
+        onPressed: () {
+          GoogleMap.of(_key).clearMarkers();
+        },
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        backgroundColor: mCardColor,
+        child: const Icon(Icons.visibility),
         onPressed: () {
           GoogleMap.of(_key).clearMarkers();
           initMarkers("all");
@@ -225,7 +235,7 @@ Marker buildChargerMarker({
   //List<String> cPoint = ctrlPresentation.getChargePoint(lat, long); //todo
   return Marker(
       GeoCoord(lat, long),
-      icon: "assets/images/charge_point.png",
+      icon: "assets/images/me.png",
       onTap: (markerId)=>
           showModalBottomSheet(
               context: context,

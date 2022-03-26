@@ -287,4 +287,14 @@ class _NewCarPageState extends State<NewCarPage> {
       }
     }
   }
+
+  static List<String> getSuggestions(String query) {
+    Future<List<String>> brandList = ctrlPresentation.getBrandList();
+    List.of(brandList).where((brandList) {
+      final brandLower = brandList.toLowerCase();
+      final queryLower = query.toLowerCase();
+
+      return brandLower.contains(queryLower);
+    }).toList();
+  }
 }
