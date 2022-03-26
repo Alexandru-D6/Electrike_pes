@@ -27,9 +27,9 @@ class GoogleLoginAdpt {
 
       final user = _googleSignIn.signIn();
       user.then((u) {
-        ctrlPresentation.name = u?.displayName;
-        ctrlPresentation.email = u?.email;
-        ctrlPresentation.photoUrl = u?.photoUrl;
+        if(u?.displayName != null) ctrlPresentation.name = u!.displayName.toString();
+        if(u?.email != null) ctrlPresentation.email = u!.email.toString();
+        if(u?.photoUrl != null) ctrlPresentation.photoUrl = u!.photoUrl.toString();
       });
       return user;
   }

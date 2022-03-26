@@ -1,16 +1,19 @@
-// @dart=2.10
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/interficie/main.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/page/information_app_page.dart';
-import 'package:flutter_project/interficie/page/login_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../domini/services/google_login_adpt.dart';
+import '../domini/services/service_locator.dart';
 import 'constants.dart';
 
 class CtrlPresentation {
@@ -61,13 +64,6 @@ class CtrlPresentation {
     ));
   }
 
-  void toLoginPage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const LoginPage(),
-    ));
-  }
-
   void toFormCar(BuildContext context) {
     //Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
     Navigator.of(context).push(MaterialPageRoute(
@@ -84,23 +80,16 @@ class CtrlPresentation {
 
   //USER INFO FUNCTIONS
   String getCurrentUsername(){
-    return null;
     //TODO: CALL DOMAIN FUNCTION
-    /*
-    String username = ctrlDomain.getCurrentUsername();
-    if (username == Null) username = "Click to log-in";
-    return username;
-     */
+    //String username = ctrlDomain.getCurrentUsername();
+    if(name == "") name = "Click to log-in";
+    return name;
   }
 
   String getCurrentUserMail() {
-    return 'victorasenj@gmail.com';
     //TODO: CALL DOMAIN FUNCTION
-    /*
-    String mail = ctrlDomain.getCurrentUserMail();
-    if (username == Null) mail = "Click to log-in";
-    return mail;
-     */
+    //String mail = ctrlDomain.getCurrentUserMail();
+    return email;
   }
 
   void mailto() async {
@@ -111,16 +100,51 @@ class CtrlPresentation {
   getCarsList() {
     return carList; //TODO: call domain carListUser será lista de lista de strings (List<Car>)
   }
-  
-  void signInRoutine(){
-    //name = "Bobi"; //TODO: signin
-  }
 
-  getChargePointList() {
-    return chargePointList;
+  List<Coordenada> getChargePointList() {
+    //return chargePointList;
+    return ctrlDomain.coordPuntsCarrega;
   }
 
   getBicingPointList() {
-    return bicingPointList;
+    return ctrlDomain.coordBicings;
+  }
+
+  Future<List<String>> getBrandList() {
+    return ctrlDomain.getAllBrands();
+  }
+
+  String getUserImage() {
+    if(photoUrl == "") photoUrl = "https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=5&q=80";
+    return photoUrl;
+  }
+
+  void signInRoutine(BuildContext context) async {
+    Navigator.of(context).pop();
+    await serviceLocator<GoogleLoginAdpt>().login();
+  }
+
+  void logoutRoutine(BuildContext context) async {
+    resetUserValues();
+    await serviceLocator<GoogleLoginAdpt>().logout();
+    ctrlPresentation.toMainPage(context);
+  }
+
+  void resetUserValues() {
+    email = "";
+    name= "";
+    photoUrl= "";
+  }
+
+  Future<List<String>> getModelList(String brand) {
+    return ctrlDomain.getAllModels(brand);
+  }
+
+  Future<List<String>> getInfoBicing(double lat, double long) {
+    return ctrlDomain.getInfoBicing(lat, long);
+  }
+
+  List<String> getInfoCharger(double lat, double long) {
+    return ctrlDomain.getInfoCharger(lat, long);
   }
 }

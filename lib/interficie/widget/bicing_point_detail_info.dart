@@ -1,15 +1,21 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-
-import '../../domini/bicing_point.dart';
 import '../constants.dart';
 
 class BicingPointDetailInformation extends StatelessWidget {
   const BicingPointDetailInformation({
     Key? key,
-    required this.point,
+    required this.name,
+    required this.docks,
+    required this.bicisE,
+    required this.bicisM,
   }) : super(key: key);
 
-  final BicingPoint point;
+  //final BicingPoint point;
+  final String name;
+  final String docks;
+  final String bicisE;
+  final String bicisM;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,12 @@ class BicingPointDetailInformation extends StatelessWidget {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: [
-          PointInfo(point: point),
+          PointInfo(
+            name: name,
+            docks: docks,
+            bicisE: bicisE,
+            bicisM: bicisM,
+          ),
         ],
       ),
     );
@@ -30,10 +41,16 @@ class BicingPointDetailInformation extends StatelessWidget {
 class PointInfo extends StatelessWidget {
   const PointInfo({
     Key? key,
-    required this.point,
+    required this.name,
+    required this.docks,
+    required this.bicisE,
+    required this.bicisM,
   }) : super(key: key);
 
-  final BicingPoint point;
+  final String name;
+  final String docks;
+  final String bicisE;
+  final String bicisM;
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +60,13 @@ class PointInfo extends StatelessWidget {
 
         ListTile(
           leading: const Icon(Icons.pedal_bike, color: Colors.white, size: 45,),
-          title: Text(
-            point.nom,
+          title: AutoSizeText(
+            name,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
             ),
+            maxLines: 1,
           ),
         ),
         const Divider(
@@ -59,13 +77,13 @@ class PointInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildBicingPointInfo(
-                num: point.estaciones,
-                assetName: Icons.assistant_navigation),
+                num: docks,
+                assetName: Icons.local_parking),
             buildBicingPointInfo(
-                num: point.bicicletas,
+                num: bicisM,
                 assetName: Icons.pedal_bike),
             buildBicingPointInfo(
-                num: point.bicicletasE,
+                num: bicisE,
                 assetName: Icons.electric_bike),
           ],
         )
@@ -75,7 +93,7 @@ class PointInfo extends StatelessWidget {
 }
 
 Widget buildBicingPointInfo({
-  required int num,
+  required String num,
   required IconData assetName,
 }) {
 
@@ -83,13 +101,14 @@ Widget buildBicingPointInfo({
 
     children: <Widget>[
       Icon(assetName, size: 45, color: mCardColor),
-      Text(
-        num.toString(),
+      AutoSizeText(
+        num,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
+        maxLines: 1,
       ),
     ],
   );

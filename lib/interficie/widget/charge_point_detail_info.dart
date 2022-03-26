@@ -1,16 +1,16 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import '../../domini/charge_point.dart';
 import '../constants.dart';
 import 'attribute.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
     Key? key,
-    required this.point,
+    required this.chargePoint,
   }) : super(key: key);
 
-  final ChargePoint point;
+  final List<String> chargePoint;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class ChargePointDetailInformation extends StatelessWidget {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: [
-          PointInfo(point: point),
+          PointInfo(point: chargePoint),
           const Divider(
             height: 16,
             color: Colors.black54,
@@ -29,7 +29,7 @@ class ChargePointDetailInformation extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              EditInfoPoint(point: point),
+              EditInfoPoint(point: chargePoint),
               const SizedBox(
                 width: 16,
               ),
@@ -59,14 +59,14 @@ class EditInfoPoint extends StatelessWidget {
     required this.point,
   }) : super(key: key);
 
-  final ChargePoint point;
+  final List<String> point;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
+        /*IconButton(
           onPressed: () {
             point.fav = !point.fav;
           },
@@ -77,7 +77,7 @@ class EditInfoPoint extends StatelessWidget {
           ) : const Icon(
             Icons.favorite_border,
           ) ,//TODO: Add like
-        ),
+        ),*/
         IconButton(
           onPressed: () {},
           icon: const Icon(
@@ -95,55 +95,62 @@ class PointInfo extends StatelessWidget {
     required this.point,
   }) : super(key: key);
 
-  final ChargePoint point;
+  final List<String> point;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          point.nom,
+        AutoSizeText(
+          point[1],//name
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
+          maxLines: 1,
         ),
-        Text(
-          point.carrer,
+        AutoSizeText(
+          point[3], //calle
           style: const TextStyle(
             color: Colors.white,
           ),
+          maxLines: 1,
         ),
-        Text(
-          point.ciutat,
-          style: const TextStyle(
+        const AutoSizeText(
+          "Barcelona",//todo: point[?]
+          style: TextStyle(
             color: Colors.white,
           ),
+          maxLines: 1,
         ),
         const SizedBox(
           height: 16,
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Attribute(
-              value: point.potencia.toString() + " (kW)",
-              name: 'Potència',
-              textColor: Colors.black87,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Attribute(
-              value: point.tipus,
-              name: 'Tipus',
-              textColor: Colors.black87,
-            ),
-          ],
-        )
+        //todo: not working properly
+        SingleChildScrollView(
+          child:Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+
+            children: [
+              for(var i = 3; i < point.length; i+=2) ...[
+                Row(
+                  children: [
+                    if (point[i+1] == "6") const Icon(Icons.power, color: Colors.amber,)
+                    else  const Icon(Icons.power, color: Colors.green,),
+                    Attribute(
+                      value: point[i],
+                      name: 'Tipus',
+                      textColor: Colors.black87,
+                    ),
+                  ]
+                )
+              ],
+            ],
+          ),
+        ),
       ],
     );
   }

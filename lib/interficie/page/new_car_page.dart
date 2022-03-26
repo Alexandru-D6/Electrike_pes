@@ -1,3 +1,5 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:checkbox_formfield/checkbox_list_tile_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,8 +7,6 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 
 import '../widget/button_widget.dart';
-import '../../domini/brand_data.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class NewCarPage extends StatefulWidget {
@@ -35,9 +35,15 @@ class _NewCarPageState extends State<NewCarPage> {
   String? selectedEffciencyCar;
 
   List<String>? selectedPlugs;
+  List<String> brandList = <String>[];
+  List<String> modelList = <String>[];
+
 
   @override
   Widget build(BuildContext context) {
+    ctrlPresentation.getBrandList().then((element){
+      brandList = element;
+    });
     selectedPlugs = [];
     return Scaffold(
       appBar: AppBar(
@@ -55,7 +61,7 @@ class _NewCarPageState extends State<NewCarPage> {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    buildTextFieldNoSuggest(
+                    buildTextNoSuggestorField(
                       icon: Icons.badge,
                       hint: 'Coche rojo',
                       label: 'Car name',
@@ -68,16 +74,16 @@ class _NewCarPageState extends State<NewCarPage> {
                         hint: 'Tesla',
                         label: 'Brand Car',
                         controller: controllerBrandCar,
-                        suggester: BrandData.getSuggestions, //todo
+                        suggester: getBrandSuggestions, //todo
                         returnable: "selectedBrandCar",
                     ),
                     const SizedBox(height: 13),
-                    buildTextFieldNoSuggest(
+                    buildTextSuggestorField(
                       icon: Icons.sort,
                       hint: 'Model 3 Long Range Dual Motor',
                       label: 'Model',
                       controller: controllerModelCar,
-                      //suggester: BrandData.getSuggestions, //todo
+                      suggester: getModelSuggestions, //todo
                       returnable: "selectedModelCar",
                     ),
                     const SizedBox(height: 13),
@@ -139,11 +145,18 @@ class _NewCarPageState extends State<NewCarPage> {
         ),
     ),
     suggestionsCallback: suggester,
-    itemBuilder: (context, String? suggestion) => ListTile(
+    itemBuilder: (context, String? suggestion) {
+      modelList.clear();
+      return ListTile(
         title: Text(suggestion!),
-    ),
-    onSuggestionSelected: (String? suggestion) =>
-    controllerBrandCar.text = suggestion!,
+    );
+    },
+    onSuggestionSelected: (String? suggestion) {
+      controller.text = suggestion!;
+      ctrlPresentation.getModelList(controllerBrandCar.text).then((element){
+        modelList = element;
+      });
+    },
     validator: (value) {
         return value.isEmpty ? 'Please select a brand' : null;
     },
@@ -153,7 +166,7 @@ class _NewCarPageState extends State<NewCarPage> {
   );
 }
 
-  Widget buildTextFieldNoSuggest({
+  Widget buildTextNoSuggestorField({
     required String hint,
     required String label,
     required IconData icon,
@@ -287,4 +300,23 @@ class _NewCarPageState extends State<NewCarPage> {
       }
     }
   }
+
+  List<String> getBrandSuggestions(String query) {
+    return List.of(brandList).where((brand) {
+      final brandLower = brand.toLowerCase();
+      final queryLower = query.toLowerCase();
+
+      return brandLower.contains(queryLower);
+    }).toList();
+  }
+
+  List<String> getModelSuggestions(String query) {
+    return List.of(modelList).where((brand) {
+        final brandLower = brand.toLowerCase();
+        final queryLower = query.toLowerCase();
+
+        return brandLower.contains(queryLower);
+      }).toList();
+  }
+
 }

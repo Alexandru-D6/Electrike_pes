@@ -3,10 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-
-import '../../domini/bicing_point.dart';
-import '../../domini/charge_point.dart';
 import '../constants.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
@@ -76,24 +74,27 @@ class _MyMapState extends State<MyMap> {
               mapStyle: null,
               interactive: true,
 
-              onLongPress: (coord) => GoogleMap.of(_key).addMarker(Marker(coord, icon: "assets/images/me.png")),
-
-              onTap: (coord) async {
-                await showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content: const Text(
-                      'This dialog was opened by tapping on the marker!\n'
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: Navigator.of(context).pop,
-                        child: const Text('CLOSE'),
-                      ),
-                    ],
-                  ),
-                );
-              },
+              onLongPress: (coord) => GoogleMap.of(_key).addMarker(
+                  Marker(
+                      coord,
+                      icon: "assets/images/me.png"
+                      /*onTap: (markerId) async {
+              await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+              content: const Text(
+              'This dialog was opened by tapping on the marker!\n'
+              ),
+              actions: <Widget>[
+              TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text('CLOSE'),
+              ),
+              ],
+              ),
+              );
+              },*/
+                  )),
 
 
               mobilePreferences: const MobileMapPreferences(
@@ -152,7 +153,17 @@ class _MyMapState extends State<MyMap> {
       padding: const EdgeInsets.all(5.0),
       child: FloatingActionButton(
         backgroundColor: mCardColor,
-        child: const Icon(Icons.filter_alt_off),
+        child: const Icon(Icons.visibility_off),
+        onPressed: () {
+          GoogleMap.of(_key).clearMarkers();
+        },
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: FloatingActionButton(
+        backgroundColor: mCardColor,
+        child: const Icon(Icons.visibility),
         onPressed: () {
           GoogleMap.of(_key).clearMarkers();
           initMarkers("all");
@@ -186,12 +197,13 @@ class _MyMapState extends State<MyMap> {
 
   Set<Marker> buildChargerMarkers(BuildContext context) {
     chargePoints = {};
-    for (var i = 0; i < ctrlPresentation.getChargePointList().length; ++i) {
+    List<Coordenada> coordsChargers = ctrlPresentation.getChargePointList();
+    for (var i = 0; i < coordsChargers.length; ++i) {
       chargePoints.add(
           buildChargerMarker(
             index: i,
-            lat: chargePointList[i].lat,
-            long: chargePointList[i].long,
+            lat: coordsChargers[i].latitud,
+            long: coordsChargers[i].longitud,
             context: context,
           )
       );
@@ -203,12 +215,12 @@ class _MyMapState extends State<MyMap> {
 
   Set<Marker> buildBicingMarkers(BuildContext context) {
     bicingPoints = {};
-    for (var i = 0; i < ctrlPresentation.getBicingPointList().length; ++i) {
+    List<Coordenada> coordsBicing = ctrlPresentation.getBicingPointList();
+    for (var i = 0; i < coordsBicing.length; ++i) {
       bicingPoints.add(
           buildBicingMarker(
-            index: i,
-            lat: bicingPointList[i].lat,
-            long: bicingPointList[i].long,
+            lat: coordsBicing[i].latitud,
+            long: coordsBicing[i].longitud,
             context: context,
           )
       );
@@ -225,11 +237,10 @@ Marker buildChargerMarker({
   required double long,
   required BuildContext context,
 }){
-  ChargePoint point = chargePointList[index];
-  //List<String> cPoint = ctrlPresentation.getChargePoint(lat, long); //todo
+  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
   return Marker(
       GeoCoord(lat, long),
-      icon: "assets/images/charge_point.png",
+      icon: "assets/images/me.png",
       onTap: (markerId)=>
           showModalBottomSheet(
               context: context,
@@ -243,7 +254,9 @@ Marker buildChargerMarker({
                       bottom: 24,
                       child: Stack(
                         children: [
-                          ChargePointDetailInformation(point: point),
+                          ChargePointDetailInformation(
+                              chargePoint: infoChargerPoint,
+                          ),
                           Positioned(
                             right: 16,
                             child: Image.asset(
@@ -261,12 +274,14 @@ Marker buildChargerMarker({
 }
 
 Marker buildBicingMarker({
-  required int index,
   required double lat,
   required double long,
   required BuildContext context,
 }) {
-  BicingPoint point = bicingPointList[index];
+  List<String> infoBicingPoint = <String>[];
+  ctrlPresentation.getInfoBicing(lat, long).then((element){
+    infoBicingPoint = element;
+  });
   return Marker(
     GeoCoord(lat, long),
     icon: "assets/images/bike.png", //todo: al poner custom marker no sale en la primera carga
@@ -283,7 +298,12 @@ Marker buildBicingMarker({
                           bottom: 24,
                           child: Stack(
                             children: [
-                              BicingPointDetailInformation(point: point),
+                              BicingPointDetailInformation(
+                                  name: infoBicingPoint[0],
+                                  docks: infoBicingPoint[5],
+                                  bicisE: infoBicingPoint[4],
+                                  bicisM: infoBicingPoint[3],
+                              ),
                               /*const Positioned(
                               right: 16,
                               /*child: Icon(
@@ -297,32 +317,3 @@ Marker buildBicingMarker({
                   }),
   );
 }
-
-
-const contentString = r'''
-<div id="content">
-  <div id="siteNotice"></div>
-  <h1 id="firstHeading" class="firstHeading">Uluru</h1>
-  <div id="bodyContent">
-    <p>
-      <b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large 
-      sandstone rock formation in the southern part of the 
-      Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) 
-      south west of the nearest large town, Alice Springs; 450&#160;km 
-      (280&#160;mi) by road. Kata Tjuta and Uluru are the two major 
-      features of the Uluru - Kata Tjuta National Park. Uluru is 
-      sacred to the Pitjantjatjara and Yankunytjatjara, the 
-      Aboriginal people of the area. It has many springs, waterholes, 
-      rock caves and ancient paintings. Uluru is listed as a World 
-      Heritage Site.
-    </p>
-    <p>
-      Attribution: Uluru, 
-      <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">
-        http://en.wikipedia.org/w/index.php?title=Uluru
-      </a>
-      (last visited June 22, 2009).
-    </p>
-  </div>
-</div>
-''';

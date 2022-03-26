@@ -1,5 +1,6 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 import 'dart:convert';
+import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
@@ -9,7 +10,6 @@ import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
 import 'package:http/http.dart' as http;
-import 'coordenada.dart';
 
 class CtrlDomain {
   CtrlDomain._internal();
@@ -26,7 +26,7 @@ class CtrlDomain {
 
   List<VhElectric> vhElectricsInfo = <VhElectric>[];
   VhElectric vhselected = VhElectric.buit();
-  Usuari usuari = Usuari('elpepe', 1, 'soyHUAppo?');
+  Usuari usuari = Usuari.origin('elpepe', 1, 'soyHUAppo?');
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   factory CtrlDomain() {
     return _singleton;
@@ -37,7 +37,7 @@ class CtrlDomain {
     await getAllCars();
     await getChargers('cat');
     await getChargers('bcn');
-
+    await getBicings();
   }
   void initializeTypes(){
     List<TipusEndollEnum> types= TipusEndollEnum.values;
@@ -107,12 +107,12 @@ class CtrlDomain {
     var url = urlorg +'cars_brands';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
-    List<String> brands = <String>[];
+    List<String> carBrands=<String>[];
     for(var it in resp['items']){
-      brands.add(it);
+      carBrands.add(it);
     }
-    brands.sort();
-    return brands;
+    carBrands.sort();
+    return carBrands;
   }
   Future<List<String>> getAllModels(String brand) async {
     var url = urlorg +'cars_models?Brand='+brand;
