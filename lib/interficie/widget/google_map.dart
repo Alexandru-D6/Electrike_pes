@@ -275,11 +275,14 @@ Marker buildBicingMarker({
   required double long,
   required BuildContext context,
 }) {
-  //BicingPoint point = bicingPointList[index];
+  List<String> infoBicingPoint = <String>[];
+  ctrlPresentation.getInfoBicing(lat, long).then((element){
+    infoBicingPoint = element;
+  });
   return Marker(
     GeoCoord(lat, long),
     icon: "assets/images/bike.png", //todo: al poner custom marker no sale en la primera carga
-    /*onTap: (ctx) =>
+    onTap: (ctx) =>
               showModalBottomSheet(
                   context: context,
                   backgroundColor: cTransparent,
@@ -292,7 +295,12 @@ Marker buildBicingMarker({
                           bottom: 24,
                           child: Stack(
                             children: [
-                              BicingPointDetailInformation(point: point),
+                              BicingPointDetailInformation(
+                                  name: infoBicingPoint[0],
+                                  docks: infoBicingPoint[5],
+                                  bicisE: infoBicingPoint[4],
+                                  bicisM: infoBicingPoint[3],
+                              ),
                               /*const Positioned(
                               right: 16,
                               /*child: Icon(
@@ -303,6 +311,6 @@ Marker buildBicingMarker({
                         ),
                       ],
                     );
-                  }),*/
+                  }),
   );
 }

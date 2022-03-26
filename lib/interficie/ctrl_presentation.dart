@@ -139,4 +139,8 @@ class CtrlPresentation {
   Future<List<String>> getModelList(String brand) {
     return ctrlDomain.getAllModels(brand);
   }
+
+  Future<List<String>> getInfoBicing(double lat, double long) {
+    return ctrlDomain.getInfoBicing(lat, long);
+  }
 }
