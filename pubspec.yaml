@@ -45,7 +45,6 @@ dependencies:
   get_it: ^7.2.0
   tuple: ^2.0.0
   google_geocoding: ^0.1.4
-  permission_builder: ^0.0.3
   google_sign_in: ^5.2.4
   location: ^3.2.4
   auto_size_text: ^3.0.0
