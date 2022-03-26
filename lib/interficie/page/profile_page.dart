@@ -35,11 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 ProfileWidget(
                   imagePath: user.imagePath,
-                  onClicked: () {
-
-                      ctrlPresentation.toLoginPage(context);
-
-                  },
+                  onClicked: () {  },
                 ),
                 const SizedBox(height: 24),
                 buildName(user),

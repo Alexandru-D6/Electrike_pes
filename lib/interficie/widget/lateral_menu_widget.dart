@@ -1,7 +1,5 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
-import 'package:flutter_project/domini/services/google_login_adpt.dart';
-import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
@@ -18,10 +16,9 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? name = ctrlPresentation.getCurrentUsername();
-    String? email = ctrlPresentation.getCurrentUserMail();
-    const urlImage =
-        'https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=5&q=80'; //TODO: qué me pasa domain para la foto??
+    String name = ctrlPresentation.getCurrentUsername();
+    String email = ctrlPresentation.getCurrentUserMail();
+    String urlImage = ctrlPresentation.getUserImage();
 
     return Drawer(
       child: Material(
@@ -32,7 +29,14 @@ class NavigationDrawerWidget extends StatelessWidget {
               urlImage: urlImage,
               name: name,
               email: email,
-              onClicked: () => ctrlPresentation.toProfilePage(context),//ctrlPresentation.toLoginPage(context),
+              context: context,
+              onClicked: () {
+                if(name == "Click to log-in") {
+                  ctrlPresentation.signInRoutine(context);
+                } else {
+                  ctrlPresentation.toProfilePage(context);
+                }
+              },
             ),
             Container(
               padding: padding,
@@ -88,10 +92,9 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: 'Logout', //TODO: translator
                     icon: Icons.logout,
-                    onClicked: () async {
-                      await serviceLocator<GoogleLoginAdpt>().logout();
-                      ctrlPresentation.toMainPage(context);
-                    }, //TODO: reference logout routine
+                    onClicked: () {
+                      ctrlPresentation.logoutRoutine(context);
+                    },
                   ),
                 ],
               ),
@@ -103,9 +106,10 @@ class NavigationDrawerWidget extends StatelessWidget {
   }
 
   Widget buildHeader({
-    required String urlImage,
-    String? name,
+    String? urlImage,
+    required String name,
     String? email,
+    required BuildContext context,
     required VoidCallback onClicked,
   }) =>
       InkWell(
@@ -114,20 +118,21 @@ class NavigationDrawerWidget extends StatelessWidget {
           padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
           child: Row(
             children: [
-              if (name != null) CircleAvatar(radius: 5, backgroundImage: NetworkImage(urlImage))
+              if (name != "Click to log-in") CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage!))
               else
                 SignInButton.mini(
                   buttonType: ButtonType.googleDark,
                   onPressed: (){
-                    //ctrlPresentation.signInRoutine();  TODO: SIGNUP SETTER
+                    ctrlPresentation.signInRoutine(context);  //TODO: SIGNUP SETTER
                   },
                 ),
               const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  
                   Text(
-                    name ?? "Click to login",
+                    name,
                     style: const TextStyle(fontSize: 20, color: Colors.white),
                   ),
                   const SizedBox(height: 4),
