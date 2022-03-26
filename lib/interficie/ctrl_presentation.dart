@@ -86,7 +86,6 @@ class CtrlPresentation {
   }
 
   String getCurrentUserMail() {
-    //return 'victorasenj@gmail.com';
     //TODO: CALL DOMAIN FUNCTION
     //String mail = ctrlDomain.getCurrentUserMail();
     return email;
