@@ -55,7 +55,7 @@ class _NewCarPageState extends State<NewCarPage> {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    buildTextFieldNoSuggest(
+                    buildTextNoSuggestorField(
                       icon: Icons.badge,
                       hint: 'Coche rojo',
                       label: 'Car name',
@@ -72,7 +72,7 @@ class _NewCarPageState extends State<NewCarPage> {
                         returnable: "selectedBrandCar",
                     ),
                     const SizedBox(height: 13),
-                    buildTextFieldNoSuggest(
+                    buildTextNoSuggestorField(
                       icon: Icons.sort,
                       hint: 'Model 3 Long Range Dual Motor',
                       label: 'Model',
@@ -153,7 +153,7 @@ class _NewCarPageState extends State<NewCarPage> {
   );
 }
 
-  Widget buildTextFieldNoSuggest({
+  Widget buildTextNoSuggestorField({
     required String hint,
     required String label,
     required IconData icon,
