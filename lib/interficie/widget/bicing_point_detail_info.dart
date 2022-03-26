@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
@@ -59,12 +60,13 @@ class PointInfo extends StatelessWidget {
 
         ListTile(
           leading: const Icon(Icons.pedal_bike, color: Colors.white, size: 45,),
-          title: Text(
+          title: AutoSizeText(
             name,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
             ),
+            maxLines: 1,
           ),
         ),
         const Divider(
@@ -99,13 +101,14 @@ Widget buildBicingPointInfo({
 
     children: <Widget>[
       Icon(assetName, size: 45, color: mCardColor),
-      Text(
+      AutoSizeText(
         num,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
+        maxLines: 1,
       ),
     ],
   );

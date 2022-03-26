@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -101,25 +102,28 @@ class PointInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        AutoSizeText(
           point[1],//name
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
+          maxLines: 1,
         ),
-        Text(
+        AutoSizeText(
           point[3], //calle
           style: const TextStyle(
             color: Colors.white,
           ),
+          maxLines: 1,
         ),
-        const Text(
+        const AutoSizeText(
           "Barcelona",//todo: point[?]
           style: TextStyle(
             color: Colors.white,
           ),
+          maxLines: 1,
         ),
         const SizedBox(
           height: 16,
