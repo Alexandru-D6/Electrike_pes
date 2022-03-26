@@ -1,8 +1,9 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 
 import '../../domini/user.dart';
-import '../../misc/user_preferences.dart';
 import '../constants.dart';
 import '../widget/lateral_menu_widget.dart';
 import '../widget/numbers_widget.dart';
