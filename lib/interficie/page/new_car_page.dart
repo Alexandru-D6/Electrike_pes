@@ -68,16 +68,16 @@ class _NewCarPageState extends State<NewCarPage> {
                         hint: 'Tesla',
                         label: 'Brand Car',
                         controller: controllerBrandCar,
-                        suggester: getSuggestions, //todo
+                        suggester: getBrandSuggestions, //todo
                         returnable: "selectedBrandCar",
                     ),
                     const SizedBox(height: 13),
-                    buildTextNoSuggestorField(
+                    buildTextSuggestorField(
                       icon: Icons.sort,
                       hint: 'Model 3 Long Range Dual Motor',
                       label: 'Model',
                       controller: controllerModelCar,
-                      //suggester: BrandData.getSuggestions, //todo
+                      suggester: getModelSuggestions, //todo
                       returnable: "selectedModelCar",
                     ),
                     const SizedBox(height: 13),
@@ -289,12 +289,21 @@ class _NewCarPageState extends State<NewCarPage> {
   }
 
   static final List<String> brandList = ctrlPresentation.getBrandList();
-  static List<String> getSuggestions(String query) =>
+  static List<String> getBrandSuggestions(String query) =>
     List.of(brandList).where((brand) {
       final brandLower = brand.toLowerCase();
       final queryLower = query.toLowerCase();
 
       return brandLower.contains(queryLower);
     }).toList();
+
+  static final List<String> modelList = ctrlPresentation.getModelList(controllerBrandCar.text);
+  static List<String> getModelSuggestions(String query) =>
+      List.of(modelList).where((brand) {
+        final brandLower = brand.toLowerCase();
+        final queryLower = query.toLowerCase();
+
+        return brandLower.contains(queryLower);
+      }).toList();
 
 }

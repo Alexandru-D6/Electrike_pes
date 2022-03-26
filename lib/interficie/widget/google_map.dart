@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 
 import '../../domini/bicing_point.dart';
@@ -192,12 +193,13 @@ class _MyMapState extends State<MyMap> {
 
   Set<Marker> buildChargerMarkers(BuildContext context) {
     chargePoints = {};
-    for (var i = 0; i < ctrlPresentation.getChargePointList().length; ++i) {
+    List<Coordenada> coordsChargers = ctrlPresentation.getChargePointList();
+    for (var i = 0; i < coordsChargers.length; ++i) {
       chargePoints.add(
           buildChargerMarker(
             index: i,
-            lat: chargePointList[i].lat,
-            long: chargePointList[i].long,
+            lat: coordsChargers[i].latitud,
+            long: coordsChargers[i].longitud,
             context: context,
           )
       );
@@ -231,12 +233,12 @@ Marker buildChargerMarker({
   required double long,
   required BuildContext context,
 }){
-  ChargePoint point = chargePointList[index];
+  //ChargePoint point = chargePointList[index];
   //List<String> cPoint = ctrlPresentation.getChargePoint(lat, long); //todo
   return Marker(
       GeoCoord(lat, long),
       icon: "assets/images/me.png",
-      onTap: (markerId)=>
+      /*onTap: (markerId)=>
           showModalBottomSheet(
               context: context,
               backgroundColor: cTransparent,
@@ -262,7 +264,7 @@ Marker buildChargerMarker({
                     ),
                   ],
                 );
-              }),
+              }),*/
   );
 }
 

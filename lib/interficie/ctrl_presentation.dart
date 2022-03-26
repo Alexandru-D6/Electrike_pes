@@ -1,6 +1,7 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/interficie/main.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
@@ -100,8 +101,9 @@ class CtrlPresentation {
     return carList; //TODO: call domain carListUser será lista de lista de strings (List<Car>)
   }
 
-  getChargePointList() {
-    return chargePointList;
+  List<Coordenada> getChargePointList() {
+    //return chargePointList;
+    return ctrlDomain.coordPuntsCarrega;
   }
 
   getBicingPointList() {
@@ -132,5 +134,9 @@ class CtrlPresentation {
     email = "";
     name= "";
     photoUrl= "";
+  }
+
+  Future<List<String>> getModelList(String brand) {
+    return ctrlDomain.getAllModels(brand);
   }
 }
