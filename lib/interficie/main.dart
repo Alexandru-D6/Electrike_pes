@@ -1,10 +1,13 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:location/location.dart';
 
 import 'widget/lateral_menu_widget.dart';
 
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: const MainPage(),
-      );
+  );
 }
 
 class MainPage extends StatefulWidget {
@@ -45,8 +48,37 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+  Future<void> askForPermission(Location location, BuildContext context) async {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted == PermissionStatus.granted) {
+        ctrlPresentation.toMainPage(context);
+      }
+    }
+  }
+
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+
+    Location location = new Location();
+    askForPermission(location, context);
+
+    return Scaffold(
     drawer: const NavigationDrawerWidget(),
     appBar: AppBar(
       title: const Text(MyApp.title),
@@ -54,5 +86,6 @@ class _MainPageState extends State<MainPage> {
     ),
         body: const MyMap(),
       );
+  }
 
 }

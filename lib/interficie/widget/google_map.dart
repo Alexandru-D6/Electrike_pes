@@ -10,7 +10,7 @@ import '../../domini/charge_point.dart';
 import '../constants.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
-import 'package:location/location.dart';
+
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
 
@@ -29,7 +29,6 @@ class _MyMapState extends State<MyMap> {
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
   late BuildContext ctx;
-  Location location = Location();
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
@@ -58,7 +57,7 @@ class _MyMapState extends State<MyMap> {
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     chargePoints = buildChargerMarkers(context);
     bicingPoints = buildBicingMarkers(context);
 
@@ -101,6 +100,7 @@ class _MyMapState extends State<MyMap> {
                 myLocationEnabled:true,
                 myLocationButtonEnabled: true,
                 rotateGesturesEnabled: true,
+                compassEnabled: true,
                 zoomGesturesEnabled:true,
 
                 trafficEnabled: true,
@@ -113,10 +113,11 @@ class _MyMapState extends State<MyMap> {
                 mapTypeControl: true,
                 scrollwheel: true,
                 panControl: true,
-                overviewMapControl:true,
+                overviewMapControl:false,
 
                 fullscreenControl: true,
                 zoomControl: true,
+                dragGestures: false,
               ),
             ),
           ),
