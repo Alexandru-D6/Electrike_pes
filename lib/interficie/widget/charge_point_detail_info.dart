@@ -124,25 +124,28 @@ class PointInfo extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        //todo: not working properly
+        SingleChildScrollView(
+          child:Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
 
-          children: [
-            for(var i = 3; i < point.length; i+=2) ...[
-              Row(
-                children: [
-                  if (point[i+1] == "6") const Icon(Icons.power, color: Colors.amber,)
-                  else  const Icon(Icons.power, color: Colors.green,),
-                  Attribute(
-                    value: point[i],
-                    name: 'Tipus',
-                    textColor: Colors.black87,
-                  ),
-                ]
-              )
+            children: [
+              for(var i = 3; i < point.length; i+=2) ...[
+                Row(
+                  children: [
+                    if (point[i+1] == "6") const Icon(Icons.power, color: Colors.amber,)
+                    else  const Icon(Icons.power, color: Colors.green,),
+                    Attribute(
+                      value: point[i],
+                      name: 'Tipus',
+                      textColor: Colors.black87,
+                    ),
+                  ]
+                )
+              ],
             ],
-          ],
+          ),
         ),
       ],
     );
