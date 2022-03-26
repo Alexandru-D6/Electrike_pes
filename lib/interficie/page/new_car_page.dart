@@ -148,14 +148,16 @@ class _NewCarPageState extends State<NewCarPage> {
     itemBuilder: (context, String? suggestion) => ListTile(
         title: Text(suggestion!),
     ),
-    onSuggestionSelected: (String? suggestion) => controller.text = suggestion!,
+    onSuggestionSelected: (String? suggestion) {
+      controller.text = suggestion!;
+      ctrlPresentation.getModelList(controllerBrandCar.text).then((element){
+        modelList = element;
+      });
+    },
     validator: (value) {
         return value.isEmpty ? 'Please select a brand' : null;
     },
     onSaved: (value) {
-      ctrlPresentation.getModelList(controllerBrandCar.text).then((element){
-        modelList = element;
-      });
       saveRoutine(value, returnable);
     },
   );
@@ -296,20 +298,22 @@ class _NewCarPageState extends State<NewCarPage> {
     }
   }
 
-  List<String> getBrandSuggestions(String query) =>
-    List.of(brandList).where((brand) {
+  List<String> getBrandSuggestions(String query) {
+    return List.of(brandList).where((brand) {
       final brandLower = brand.toLowerCase();
       final queryLower = query.toLowerCase();
 
       return brandLower.contains(queryLower);
     }).toList();
+  }
 
-  List<String> getModelSuggestions(String query) =>
-      List.of(modelList).where((brand) {
+  List<String> getModelSuggestions(String query) {
+    return List.of(modelList).where((brand) {
         final brandLower = brand.toLowerCase();
         final queryLower = query.toLowerCase();
 
         return brandLower.contains(queryLower);
       }).toList();
+  }
 
 }
