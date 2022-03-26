@@ -130,7 +130,6 @@ class NavigationDrawerWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   Text(
                     name,
                     style: const TextStyle(fontSize: 20, color: Colors.white),
