@@ -107,7 +107,7 @@ class CtrlPresentation {
   }
 
   getBicingPointList() {
-    return bicingPointList;
+    return ctrlDomain.coordBicings;
   }
 
   Future<List<String>> getBrandList() {

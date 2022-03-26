@@ -37,8 +37,7 @@ class CtrlDomain {
     await getAllCars();
     await getChargers('cat');
     await getChargers('bcn');
-    //await getAllBrands();
-
+    await getBicings();
   }
   void initializeTypes(){
     List<TipusEndollEnum> types= TipusEndollEnum.values;

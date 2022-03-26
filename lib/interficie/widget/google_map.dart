@@ -211,12 +211,13 @@ class _MyMapState extends State<MyMap> {
 
   Set<Marker> buildBicingMarkers(BuildContext context) {
     bicingPoints = {};
-    for (var i = 0; i < ctrlPresentation.getBicingPointList().length; ++i) {
+    List<Coordenada> coordsBicing = ctrlPresentation.getBicingPointList();
+    for (var i = 0; i < coordsBicing.length; ++i) {
       bicingPoints.add(
           buildBicingMarker(
             index: i,
-            lat: bicingPointList[i].lat,
-            long: bicingPointList[i].long,
+            lat: coordsBicing[i].latitud,
+            long: coordsBicing[i].longitud,
             context: context,
           )
       );
@@ -274,11 +275,11 @@ Marker buildBicingMarker({
   required double long,
   required BuildContext context,
 }) {
-  BicingPoint point = bicingPointList[index];
+  //BicingPoint point = bicingPointList[index];
   return Marker(
     GeoCoord(lat, long),
     icon: "assets/images/bike.png", //todo: al poner custom marker no sale en la primera carga
-    onTap: (ctx) =>
+    /*onTap: (ctx) =>
               showModalBottomSheet(
                   context: context,
                   backgroundColor: cTransparent,
@@ -302,6 +303,6 @@ Marker buildBicingMarker({
                         ),
                       ],
                     );
-                  }),
+                  }),*/
   );
 }
