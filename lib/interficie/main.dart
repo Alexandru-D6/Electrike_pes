@@ -6,9 +6,12 @@ import 'package:flutter_project/interficie/widget/google_map.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 
+import '../domini/ctrl_domain.dart';
 import 'widget/lateral_menu_widget.dart';
 
 Future main() async {
+  CtrlDomain ctrlDomain = CtrlDomain();
+  ctrlDomain.initializeSystem();
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
   setUpLocator();

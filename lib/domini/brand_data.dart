@@ -1,6 +1,7 @@
-class BrandData {
-  //static final faker = Faker();
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
 
+class BrandData {
   static final List<String> brands =
   [
     "Abarth",
@@ -68,6 +69,14 @@ class BrandData {
     "Volkswagen",
     "Volvo"
   ];
+
+  /*static List<String> getSuggestions(String query) =>
+      List.of(brands).where((brand) {
+        final brandLower = brand.toLowerCase();
+        final queryLower = query.toLowerCase();
+
+        return brandLower.contains(queryLower);
+      }).toList();*/
 
   static List<String> getSuggestions(String query) =>
       List.of(brands).where((brand) {

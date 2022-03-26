@@ -124,7 +124,7 @@ class CtrlPresentation {
     return bicingPointList;
   }
 
-  Future<List<String>> getBrandList() {
-    return ctrlDomain.getAllBrands();
+  List<String> getBrandList() {
+    return ctrlDomain.carBrands;
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:checkbox_formfield/checkbox_list_tile_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,8 +7,6 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 
 import '../widget/button_widget.dart';
-import '../../domini/brand_data.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class NewCarPage extends StatefulWidget {
@@ -68,7 +68,7 @@ class _NewCarPageState extends State<NewCarPage> {
                         hint: 'Tesla',
                         label: 'Brand Car',
                         controller: controllerBrandCar,
-                        suggester: BrandData.getSuggestions, //todo
+                        suggester: getSuggestions, //todo
                         returnable: "selectedBrandCar",
                     ),
                     const SizedBox(height: 13),
@@ -288,13 +288,13 @@ class _NewCarPageState extends State<NewCarPage> {
     }
   }
 
-  static List<String> getSuggestions(String query) {
-    Future<List<String>> brandList = ctrlPresentation.getBrandList();
-    List.of(brandList).where((brandList) {
-      final brandLower = brandList.toLowerCase();
+  static final List<String> brandList = ctrlPresentation.getBrandList();
+  static List<String> getSuggestions(String query) =>
+    List.of(brandList).where((brand) {
+      final brandLower = brand.toLowerCase();
       final queryLower = query.toLowerCase();
 
       return brandLower.contains(queryLower);
     }).toList();
-  }
+
 }
