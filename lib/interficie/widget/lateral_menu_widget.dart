@@ -122,6 +122,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               else
                 SignInButton.mini(
                   buttonType: ButtonType.googleDark,
+                  buttonSize: ButtonSize.large,
                   onPressed: (){
                     ctrlPresentation.signInRoutine(context);  //TODO: SIGNUP SETTER
                   },
@@ -136,12 +137,16 @@ class NavigationDrawerWidget extends StatelessWidget {
                       style: const TextStyle(fontSize: 20, color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 6),
-                    Text(
-                      email!,
-                      style: const TextStyle(fontSize: 14, color: Colors.white),
-                      textAlign: TextAlign.center,
-                    )
+                    Row(children:[
+                      if(email != "")
+                      const SizedBox(height: 6),
+                      if(email != "")
+                      Text(
+                        email!,
+                        style: const TextStyle(fontSize: 14, color: Colors.white),
+                        textAlign: TextAlign.center,
+                      )
+                    ],),
                   ],
               ),
               ), //const Spacer(),
