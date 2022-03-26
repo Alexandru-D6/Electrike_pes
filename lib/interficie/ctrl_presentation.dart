@@ -143,4 +143,8 @@ class CtrlPresentation {
   Future<List<String>> getInfoBicing(double lat, double long) {
     return ctrlDomain.getInfoBicing(lat, long);
   }
+
+  List<String> getInfoCharger(double lat, double long) {
+    return ctrlDomain.getInfoCharger(lat, long);
+  }
 }

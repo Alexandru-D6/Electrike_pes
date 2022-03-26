@@ -5,7 +5,6 @@ import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 
-import '../../domini/bicing_point.dart';
 import '../../domini/charge_point.dart';
 import '../constants.dart';
 import 'bicing_point_detail_info.dart';
@@ -75,24 +74,27 @@ class _MyMapState extends State<MyMap> {
               mapStyle: null,
               interactive: true,
 
-              onLongPress: (coord) => GoogleMap.of(_key).addMarker(Marker(coord, icon: "assets/images/me.png")),
-
-              onTap: null,/*(coord) async {
-                await showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    content: const Text(
-                      'This dialog was opened by tapping on the marker!\n'
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: Navigator.of(context).pop,
-                        child: const Text('CLOSE'),
-                      ),
-                    ],
-                  ),
-                );
+              onLongPress: (coord) => GoogleMap.of(_key).addMarker(
+                  Marker(
+                      coord,
+                      icon: "assets/images/me.png"
+                      /*onTap: (markerId) async {
+              await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+              content: const Text(
+              'This dialog was opened by tapping on the marker!\n'
+              ),
+              actions: <Widget>[
+              TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text('CLOSE'),
+              ),
+              ],
+              ),
+              );
               },*/
+                  )),
 
 
               mobilePreferences: const MobileMapPreferences(
@@ -215,7 +217,6 @@ class _MyMapState extends State<MyMap> {
     for (var i = 0; i < coordsBicing.length; ++i) {
       bicingPoints.add(
           buildBicingMarker(
-            index: i,
             lat: coordsBicing[i].latitud,
             long: coordsBicing[i].longitud,
             context: context,
@@ -234,12 +235,11 @@ Marker buildChargerMarker({
   required double long,
   required BuildContext context,
 }){
-  //ChargePoint point = chargePointList[index];
-  //List<String> cPoint = ctrlPresentation.getChargePoint(lat, long); //todo
+  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
   return Marker(
       GeoCoord(lat, long),
       icon: "assets/images/me.png",
-      /*onTap: (markerId)=>
+      onTap: (markerId)=>
           showModalBottomSheet(
               context: context,
               backgroundColor: cTransparent,
@@ -252,7 +252,9 @@ Marker buildChargerMarker({
                       bottom: 24,
                       child: Stack(
                         children: [
-                          ChargePointDetailInformation(point: point),
+                          ChargePointDetailInformation(
+                              chargePoint: infoChargerPoint,
+                          ),
                           Positioned(
                             right: 16,
                             child: Image.asset(
@@ -265,12 +267,11 @@ Marker buildChargerMarker({
                     ),
                   ],
                 );
-              }),*/
+              }),
   );
 }
 
 Marker buildBicingMarker({
-  required int index,
   required double lat,
   required double long,
   required BuildContext context,
