@@ -26,7 +26,7 @@ class CtrlDomain {
 
   List<VhElectric> vhElectricsInfo = <VhElectric>[];
   VhElectric vhselected = VhElectric.buit();
-  Usuari usuari = Usuari.origin('elpepe', 1, 'soyHUAppo?');
+  Usuari usuari = Usuari.origin('elpepe', 'soyHUAppo?');
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   factory CtrlDomain() {
     return _singleton;
