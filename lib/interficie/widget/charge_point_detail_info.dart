@@ -232,9 +232,7 @@ Widget buildConnectorInfo({
   numUnknownState, 
   logoConnector, 
   nameConnector}) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Column(
+  return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
@@ -281,7 +279,6 @@ Widget buildConnectorInfo({
         ],
       ),
     ],
-    ),
   );
 }
 
