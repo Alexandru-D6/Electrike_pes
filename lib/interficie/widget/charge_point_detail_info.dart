@@ -99,33 +99,33 @@ class PointInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-          padding: const EdgeInsets.symmetric(vertical: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
 
-            children: [
-              buildHeader(
-                name: point[1],
-                calle: point[2],
-                city: "Barcelona", //todo: call point[4]
-                context: context,
-              ),
-              for(var i = 3; i < point.length; i+=2) ...[
-                Row(
-                    children: [
-                      getChargerState(point[i+1]),
-                      Attribute(
-                        value: point[i],
-                        name: 'Tipus',
-                        textColor: Colors.black87,
-                      ),
-                    ]
-                )
-              ],
-            ],
-          ),
+      children: [
+        buildHeader(
+          name: point[1],
+          calle: point[2],
+          city: "Barcelona", //todo: call point[4]
+          context: context,
+        ),
+        buildConnectors(
+          context: context,
+        ),
+        /*for(var i = 3; i < point.length; i+=2) ...[
+          Row(
+              children: [
+                getChargerState(point[i+1]),
+                Attribute(
+                  value: point[i],
+                  name: 'Tipus',
+                  textColor: Colors.black87,
+                ),
+              ]
+          )
+        ],*/
+      ],
     );
   }
 
@@ -134,51 +134,73 @@ class PointInfo extends StatelessWidget {
     required String calle,
     required String city,
     required BuildContext context,
-  }) => Container(
-        padding: const EdgeInsets.symmetric(vertical: 40),
-        child: Row(
-                children: [
-                    /*Image.asset(
-                      "assets/images/charge_point.png",
-                      height: 125,
-                    ),*/
-                    const Icon(Icons.ev_station),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AutoSizeText(
-                            name,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                          ),
-                          AutoSizeText(
-                            calle,
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                            maxLines: 1,
-                          ),
-                          const AutoSizeText(
-                            "Barcelona",//todo: point[?]
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            maxLines: 1,
-                          ),
-                          const SizedBox(height: 16),
-                        ],
+  }) => Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+              /*Image.asset(
+                "assets/images/charge_point.png",
+                height: 125,
+              ),*/
+              const Icon(Icons.ev_station, size: 50, color: Colors.white,),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AutoSizeText(
+                      name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
                     ),
-                ],
-        ),
+                    AutoSizeText(
+                      calle,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      maxLines: 1,
+                    ),
+                    const AutoSizeText(
+                      "Barcelona",//todo: point[?]
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      maxLines: 1,
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+          ],
+  );
+
+  Widget buildConnectors({
+    required BuildContext context,
+  }) =>  SingleChildScrollView(
+      child: Column(
+          children: <Widget>[
+            for(var i = 3; i < point.length; i+=2) ...[
+              Row(
+                  children: [
+                    getChargerState(point[i+1]),
+                    Attribute(
+                      value: point[i],
+                      name: 'Tipus',
+                      textColor: Colors.black87,
+                    ),
+                  ]
+              )
+            ],
+          ]
+      )
   );
 }
+
+
 
 getChargerState(param) {
   //0 -> Available, 1 -> Occupied, 2 -> Faulted, 3 -> Unavailable, 4 -> Reserved, 5 -> Charging
