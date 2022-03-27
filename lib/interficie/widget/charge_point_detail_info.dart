@@ -30,21 +30,6 @@ class ChargePointDetailInformation extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               EditInfoPoint(point: chargePoint),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                child: Column(
-                  children: const [
-                    SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                  ],
-                ),
-              )
             ],
           )
         ],
@@ -124,7 +109,7 @@ class PointInfo extends StatelessWidget {
     required BuildContext context,
   }) => Row(
     mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.start,
           children: [
               const Icon(Icons.ev_station, size: 60, color: Colors.white,),
               const SizedBox(width: 6),
@@ -185,7 +170,6 @@ class PointInfo extends StatelessWidget {
     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ResponsiveGridCol(
-          //lg: 12,
           xs: 6,
           md: 3,
           child: buildConnectorInfo(
@@ -197,7 +181,6 @@ class PointInfo extends StatelessWidget {
           ),
         ),
         ResponsiveGridCol(
-          //lg: 12,
           xs: 6,
           md: 3,
           child: buildConnectorInfo(
@@ -209,7 +192,6 @@ class PointInfo extends StatelessWidget {
           ),
         ),
         ResponsiveGridCol(
-          //lg: 12,
           xs: 6,
           md: 3,
           child: buildConnectorInfo(
@@ -221,7 +203,6 @@ class PointInfo extends StatelessWidget {
           ),
         ),
         ResponsiveGridCol(
-          //lg: 12,
           xs: 6,
           md: 3,
           child: buildConnectorInfo(
@@ -251,45 +232,56 @@ Widget buildConnectorInfo({
   numUnknownState, 
   logoConnector, 
   nameConnector}) {
-  return Column(
-  mainAxisAlignment: MainAxisAlignment.center,
-  crossAxisAlignment: CrossAxisAlignment.center,
-  children: <Widget>[
-    Image.asset(
-      logoConnector,
-      height: 50,
-    ),
-    const SizedBox(width: 10),
-    AutoSizeText(
-      nameConnector,
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 14,
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      Image.asset(
+        logoConnector,
+        height: 50,
       ),
+      const SizedBox(width: 10),
+      AutoSizeText(
+        nameConnector,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+        ),
+      ),
+      const SizedBox(width: 25),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          buildSummary(
+            icon: Icons.check_circle_rounded,
+            color: Colors.greenAccent,
+            info: numAvailable,
+          ),
+          const SizedBox(width: 10),
+          buildSummary(
+            icon: Icons.help,
+            color: Colors.yellow,
+            info: numAvailable,
+          ),
+          const SizedBox(width: 10),
+          buildSummary(
+            icon: Icons.warning,
+            color: Colors.amber,
+            info: numAvailable,
+          ),
+          const SizedBox(width: 10),
+          buildSummary(
+            icon: Icons.stop_circle,
+            color: Colors.red,
+            info: numAvailable,
+          ),
+        ],
+      ),
+    ],
     ),
-    const SizedBox(width: 25),
-    Row(
-      children: [
-        buildSummary(
-          icon: Icons.check_circle_rounded,
-          color: Colors.greenAccent,
-          info: numAvailable,
-        ),
-        const SizedBox(width: 10),
-        buildSummary(
-          icon: Icons.warning,
-          color: Colors.amber,
-          info: numAvailable,
-        ),
-        const SizedBox(width: 10),
-        buildSummary(
-          icon: Icons.stop_circle,
-          color: Colors.red,
-          info: numAvailable,
-        ),
-      ],
-    ),
-  ],
   );
 }
 
