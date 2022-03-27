@@ -27,6 +27,7 @@ class CtrlPresentation {
   String email = "";
   String name = "";
   String photoUrl = "";
+  List<Coordenada> favs = <Coordenada>[];
 
   //intercambiar vista
   void toMainPage(BuildContext context){
