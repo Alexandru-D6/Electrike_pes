@@ -125,11 +125,7 @@ class PointInfo extends StatelessWidget {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-              /*Image.asset(
-                "assets/images/charge_point.png",
-                height: 125,
-              ),*/
-              const Icon(Icons.ev_station, size: 50, color: Colors.white,),
+              const Icon(Icons.ev_station, size: 60, color: Colors.white,),
               const SizedBox(width: 6),
               Expanded(
                 child: Column(
@@ -161,7 +157,6 @@ class PointInfo extends StatelessWidget {
 
                     Row(
                       children: [
-                        const Icon(Icons.local_parking),
                         AutoSizeText(
                           numChargePlaces.toString(),
                           style: const TextStyle(
@@ -170,6 +165,10 @@ class PointInfo extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                           maxLines: 1,
+                        ),
+                        const Icon(
+                          Icons.local_parking,
+                          color: Colors.white,
                         ),
                       ],
                     ),
@@ -234,10 +233,19 @@ Widget buildConnectorInfo({
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
-      //Image(image: logoConnector,),
+      Image.asset(
+        logoConnector,
+        height: 50,
+      ),
+      const SizedBox(width: 10),
       AutoSizeText(
         nameConnector,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+        ),
       ),
+      const SizedBox(width: 25),
       Row(
         children: [
           buildSummary(
@@ -245,13 +253,13 @@ Widget buildConnectorInfo({
             color: Colors.greenAccent,
             info: numAvailable,
           ),
-
+          const SizedBox(width: 10),
           buildSummary(
             icon: Icons.warning,
             color: Colors.amber,
             info: numAvailable,
           ),
-
+          const SizedBox(width: 10),
           buildSummary(
             icon: Icons.stop_circle,
             color: Colors.red,
@@ -274,7 +282,7 @@ buildSummary({
         info,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 24,
+          fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
         maxLines: 1,
