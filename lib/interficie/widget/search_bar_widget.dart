@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
-import 'package:implicitly_animated_reorderable_list/transitions.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:provider/provider.dart';
 
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({Key? key}) : super(key: key);
@@ -67,9 +63,9 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           element) {
         recomendations.clear();
         setState(() {
-          element.predictions.forEach((e) {
+          for (var e in element.predictions) {
             recomendations.add(e.description);
-          });
+          }
         });
       });
     }
@@ -79,12 +75,12 @@ class _SearchBarWidget extends State<SearchBarWidget> {
     required List<String> text
   }) {
     List<ListTile> list = <ListTile>[];
-    text.forEach((element) {
+    for (var element in text) {
       list.add(ListTile(
         title: Text(element, style: const TextStyle(fontSize: 18, color: Colors.black)),
-        onTap: () => { print(element) },
+        onTap: () => { },//TODO: llamar aqui que hacer con cada boton de la lista
       ));
-    });
+    }
     return Column(children: list);
 
   }
