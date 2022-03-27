@@ -4,6 +4,7 @@ class EstacioCarrega{
    late String id;
    late String nom;
    late String direccio;
+   late String ciutat;
    late Set<String> endolls;
    late Coordenada coord;
 
@@ -11,13 +12,14 @@ class EstacioCarrega{
      id = "1";
      nom = "nom";
      direccio ="carrer";
+     ciutat = "ciutat";
      endolls = <String>{};
      coord = Coordenada(0.0, 0.0);
   }
-   EstacioCarrega.senseendolls(this.id,this.nom, this.direccio, this.coord){
+   EstacioCarrega.senseendolls(this.id,this.nom, this.direccio, this.ciutat,this.coord){
      endolls = <String>{};
    }
-   EstacioCarrega.ambendolls(this.id,this.nom, this.direccio, this.endolls, this.coord);
+   EstacioCarrega.ambendolls(this.id,this.nom, this.direccio, this.ciutat, this.endolls, this.coord);
 
    void addEndoll(String id){
       endolls.add(id);
