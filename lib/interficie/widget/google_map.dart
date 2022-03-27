@@ -237,33 +237,35 @@ Marker buildChargerMarker({
   required double long,
   required BuildContext context,
 }){
-  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
   return Marker(
       GeoCoord(lat, long),
       icon: "assets/images/me.png",
-      onTap: (markerId)=>
-          showModalBottomSheet(
-              context: context,
-              backgroundColor: cTransparent,
-              builder: (builder){
-                return Stack(
-                  children: [
-                    Positioned(
-                      left: 24,
-                      right: 24,
-                      bottom: 24,
-                      child: Stack(
-                        children: [
-                          ChargePointDetailInformation(
-                              chargePoint: infoChargerPoint,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              }),
+      onTap: (markerId)=>showInfoCharger(context, lat, long),
   );
+}
+
+showInfoCharger(BuildContext context, double lat, double long) {
+  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
+  //print(infoChargerPoint);
+  showModalBottomSheet(
+      context: context,
+      backgroundColor: cTransparent,
+      builder: (builder){
+        return Stack(
+          children: [
+            Positioned(
+              left: 24,
+              right: 24,
+              bottom: 24,
+              child: Stack(
+                children: [
+                  ChargePointDetailInformation(chargePoint: infoChargerPoint),
+                ],
+              ),
+            ),
+          ],
+        );
+      });
 }
 
 Marker buildBicingMarker({
