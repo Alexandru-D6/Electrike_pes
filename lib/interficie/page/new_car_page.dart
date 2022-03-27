@@ -26,7 +26,6 @@ class _NewCarPageState extends State<NewCarPage> {
   final controllerBatteryCar = TextEditingController();
   final controllerEffciencyCar = TextEditingController();
 
-//TODO: CONTROLLER FOR EACH FIELD
   //here goes the values of inputs that has to input
   String? selectedNameCar;
   String? selectedBrandCar;

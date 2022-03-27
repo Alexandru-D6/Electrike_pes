@@ -92,7 +92,7 @@ class PointInfo extends StatelessWidget {
         buildHeader(
           name: point[1],
           calle: point[2],
-          city: "Barcelona", //todo: call point[4]
+          city: point[3],
           numChargePlaces: getNumChargePlaces(),
           context: context,
         ),
@@ -134,7 +134,7 @@ class PointInfo extends StatelessWidget {
                       maxLines: 1,
                     ),
                     AutoSizeText(
-                      city,//todo: point[?]
+                      city,
                       style: const TextStyle(
                         color: Colors.white,
                       ),
