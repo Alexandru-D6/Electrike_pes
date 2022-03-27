@@ -147,4 +147,10 @@ class CtrlPresentation {
   List<String> getInfoCharger(double lat, double long) {
     return ctrlDomain.getInfoCharger(lat, long);;
   }
+
+  List<String> getInfoModel(String text) {
+    return ctrlDomain.getCarModelInfo(text);
+  }
+
+
 }
