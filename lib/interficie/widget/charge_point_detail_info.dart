@@ -1,16 +1,22 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
+import '../../domini/coordenada.dart';
 import '../constants.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
     Key? key,
     required this.chargePoint,
+    required this.latitude,
+    required this.longitude,
   }) : super(key: key);
 
   final List<String> chargePoint;
+  final double latitude;
+  final double longitude;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,7 @@ class ChargePointDetailInformation extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              EditInfoPoint(point: chargePoint),
+              EditInfoPoint(point: chargePoint, latitude: latitude, longitude: longitude,),
             ],
           )
         ],
@@ -42,27 +48,36 @@ class EditInfoPoint extends StatelessWidget {
   const EditInfoPoint({
     Key? key,
     required this.point,
+    required this.latitude,
+    required this.longitude,
   }) : super(key: key);
 
   final List<String> point;
+  final double latitude;
+  final double longitude;
 
   @override
   Widget build(BuildContext context) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    Coordenada word = Coordenada(latitude, longitude);
+    print(word);
+    bool isSaved = ctrlPresentation.favs.contains(word);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        /*IconButton(
+        IconButton(
           onPressed: () {
-            point.fav = !point.fav;
+            if (isSaved) {
+              ctrlPresentation.favs.remove(word);
+            } else {
+              ctrlPresentation.favs.add(word);
+            }
           },
-          color: point.fav ? Colors.red : Colors.black45,
-          icon: point.fav ?
-          const Icon(
-            Icons.favorite,
-          ) : const Icon(
-            Icons.favorite_border,
-          ) ,//TODO: Add like
-        ),*/
+          icon: Icon(
+            isSaved ? Icons.favorite : Icons.favorite_border,
+            color: isSaved ? Colors.red : null,
+          ),
+        ),
         IconButton(
           onPressed: () {},
           icon: const Icon(

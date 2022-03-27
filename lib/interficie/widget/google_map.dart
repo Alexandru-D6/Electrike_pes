@@ -74,11 +74,18 @@ class _MyMapState extends State<MyMap> {
               mapStyle: null,
               interactive: true,
 
-              onLongPress: (coord) => GoogleMap.of(_key).addMarker(
-                  Marker(
-                      coord,
-                      icon: "assets/images/me.png"
-                      /*onTap: (markerId) async {
+              onLongPress: (markerId) {
+                Coordenada word = Coordenada(markerId.latitude, markerId.longitude);
+                bool isSaved = ctrlPresentation.favs.contains(word);
+                if (isSaved) {
+                  ctrlPresentation.favs.remove(word);
+                } else {
+                  ctrlPresentation.favs.add(word);
+                }
+              },
+
+
+                    /*onTap: (markerId) async {
               await showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -94,8 +101,6 @@ class _MyMapState extends State<MyMap> {
               ),
               );
               },*/
-                  )),
-
 
               mobilePreferences: const MobileMapPreferences(
                 myLocationEnabled:true,
@@ -259,7 +264,7 @@ showInfoCharger(BuildContext context, double lat, double long) {
               bottom: 24,
               child: Stack(
                 children: [
-                  ChargePointDetailInformation(chargePoint: infoChargerPoint),
+                  ChargePointDetailInformation(chargePoint: infoChargerPoint, latitude: lat, longitude: long,),
                 ],
               ),
             ),
