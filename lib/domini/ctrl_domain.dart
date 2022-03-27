@@ -26,7 +26,7 @@ class CtrlDomain {
 
   List<VhElectric> vhElectricsInfo = <VhElectric>[];
   VhElectric vhselected = VhElectric.buit();
-  Usuari usuari = Usuari.origin('elpepe', 'soyHUAppo?');
+  Usuari usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   factory CtrlDomain() {
     return _singleton;
@@ -47,6 +47,7 @@ class CtrlDomain {
   }
 
   //USER
+  void initializeUser(){}
   String getLanguageUser(){
     //PONER IDIOMAAAAAAA
     return usuari.correu;
@@ -154,26 +155,8 @@ class CtrlDomain {
     }
     return car;
   }
-  /*void printCars(){
-    for(var car in vhElectricsInfo){
-      print(car.model);
-      print(car.potencia);
-      print(car.consum);
-    }
-  }*/
 
   //CHARGERS
-  /*VERSION BETA Future<void> getChargers() async{
-    var url = urlorg +'chargers_cat';
-    var response = (await http.get(Uri.parse(url)));
-    var resp = jsonDecode(response.body);
-    for(var it in resp['items']){
-      coordPuntsCarrega.add(Coordenada(double.parse(it['LATITUD'].toString()),double.parse(it['LONGITUD'].toString())));
-      EstacioCarrega estacioCarrega = EstacioCarrega.senseendolls(it['_id'], it['DESIGNACIÓ-DESCRIPTIVA'], it['ADREÇA'].toString(), Coordenada(double.parse(it['LATITUD'].toString()),double.parse(it['LONGITUD'].toString())));
-      puntscarrega.add(estacioCarrega);
-    }
-    getChargersBCN();
-  }*/
   Future<void> getChargers(String where) async {
     var url = urlorg +'chargers_'+where;
     var response = (await http.get(Uri.parse(url)));
@@ -240,6 +223,7 @@ class CtrlDomain {
         infocharger.add(charg.nom);
         infocharger.add(charg.direccio);
         infocharger.add(charg.ciutat);
+        infocharger.add(charg.endolls.length.toString());
         List<int> data = getNumDataEndoll(charg);
         for(int i = 0; i < data.length; ++i){
           infocharger.add(data[i].toString());
@@ -248,43 +232,7 @@ class CtrlDomain {
     }
     return infocharger;
   }
-  /*Future<void> getMunicipiChargers(String municipi) async {
-    var url = urlorg +'city_chargers?municipi='+ municipi;
-    var response = (await http.get(Uri.parse(url)));
-    var resp = jsonDecode(response.body);
-    print(resp);
-    /*for(var it in resp[0]){
-      print(it);
-    }*/
-  }*/
-  /*
-  Future<void> getProvinciaChargers(String provincia) async {
-    var url = urlorg +'provincia_chargers?provincia='+ provincia;
-    var response = (await http.get(Uri.parse(url)));
-    var resp = jsonDecode(response.body);
-    print(resp);
-    /*for(var it in resp[0]){
-      print(it);
-    }*/
-  }*/
-  /*void printChargers(){
-    for(var chargep in puntscarrega){
-      print(chargep.id);
-      print(chargep.nom);
-      print(chargep.direccio);
-      print(chargep.coord.latitud);
-      print(chargep.coord.longitud);
-      for(var idend in chargep.endolls) {
-        for(var end in endolls){
-          if(end.id == idend && end.idPuntC == chargep.id){
-            print(end.id);
-            print(end.tipus);
-            break;
-          }
-        }
-      }
-    }
-  }*/
+
   List<int> getNumDataEndoll(EstacioCarrega charg){
     List<int> endollsinfo = List.filled(16, 0);
     for(var end in charg.endolls){
