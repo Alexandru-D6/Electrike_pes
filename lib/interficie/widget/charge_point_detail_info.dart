@@ -259,19 +259,19 @@ Widget buildConnectorInfo({
           buildSummary(
             icon: Icons.help,
             color: Colors.yellow,
-            info: numAvailable,
+            info: numUnknownState,
           ),
           const SizedBox(width: 10),
           buildSummary(
             icon: Icons.warning,
             color: Colors.amber,
-            info: numAvailable,
+            info: numCrashedState,
           ),
           const SizedBox(width: 10),
           buildSummary(
             icon: Icons.stop_circle,
             color: Colors.red,
-            info: numAvailable,
+            info: numNotAvailable,
           ),
         ],
       ),

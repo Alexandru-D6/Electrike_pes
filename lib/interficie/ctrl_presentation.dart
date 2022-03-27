@@ -145,6 +145,8 @@ class CtrlPresentation {
   }
 
   List<String> getInfoCharger(double lat, double long) {
-    return ctrlDomain.getInfoCharger(lat, long);
+    List<String> it = ctrlDomain.getInfoCharger(lat, long);
+    print (it);
+    return it;
   }
 }
