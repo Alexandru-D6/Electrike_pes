@@ -115,8 +115,7 @@ class PointInfo extends StatelessWidget {
               for(var i = 3; i < point.length; i+=2) ...[
                 Row(
                     children: [
-                      if (point[i+1] == "6") const Icon(Icons.power, color: Colors.amber,)
-                      else  const Icon(Icons.power, color: Colors.green,),
+                      getChargerState(point[i+1]),
                       Attribute(
                         value: point[i],
                         name: 'Tipus',
@@ -139,10 +138,11 @@ class PointInfo extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Row(
                 children: [
-                    Image.asset(
+                    /*Image.asset(
                       "assets/images/charge_point.png",
                       height: 125,
-                    ),
+                    ),*/
+                    const Icon(Icons.ev_station),
                     const SizedBox(width: 15),
                     Expanded(
                       child: Column(
@@ -178,4 +178,25 @@ class PointInfo extends StatelessWidget {
                 ],
         ),
   );
+}
+
+getChargerState(param) {
+  //0 -> Available, 1 -> Occupied, 2 -> Faulted, 3 -> Unavailable, 4 -> Reserved, 5 -> Charging
+  switch (param){
+    case "0": //0 -> Available
+      return const Icon(Icons.not_started, color: Colors.greenAccent,);
+    case "1": //1 -> Occupied
+      return const Icon(Icons.stop_circle, color: Colors.red,);
+    case "2": //2 -> Faulted
+      return const Icon(Icons.dangerous, color: Colors.red,);
+    case "3": //3 -> Unavailable
+      return const Icon(Icons.dangerous, color: Colors.red,);
+    case "4": //4 -> Reserved
+      return const Icon(Icons.pause_circle_filled, color: Colors.yellow,);
+    case "5": //5 -> Charging
+      return const Icon(Icons.stop_circle, color: Colors.red,);
+    default: //6 -> ??
+      return const Icon(Icons.help, color: Colors.amber,);
+
+  }
 }
