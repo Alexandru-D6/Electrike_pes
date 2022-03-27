@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
+import 'package:flutter_project/domini/favorit.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
 import 'package:flutter_project/domini/tipus_endoll.dart';
 import 'package:flutter_project/domini/tipus_endoll_enum.dart';
@@ -24,10 +25,14 @@ class CtrlDomain {
   Set<Endoll> endolls = <Endoll>{};
   List<TipusEndoll> typesendolls = <TipusEndoll>[];
 
-  List<VhElectric> vhElectricsInfo = <VhElectric>[];
-  VhElectric vhselected = VhElectric.buit();
+
   Usuari usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
+  VhElectric vhselected = VhElectric.buit();
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
+  List<Favorit> puntsFavCarrega = <Favorit>[];
+  List<Favorit> puntsFavBicing = <Favorit>[];
+
+
   factory CtrlDomain() {
     return _singleton;
   }
@@ -47,14 +52,47 @@ class CtrlDomain {
   }
 
   //USER
-  void initializeUser(){}
-  String getLanguageUser(){
+  void initializeUser(String email, String name, String img)async {
+    var url = urlorg +'exist_user?email='+email;
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    bool newuser = true;
+    if(resp['items'] == email)newuser = false;
+    if(newuser){
+      url = urlorg +'insert_user?name='+name+'&email='+email+'&img='+img;
+      await http.put(Uri.parse(url));
+    }
+    else{
+      usuari.correu = email;
+      usuari.name = name;
+      usuari.foto = img;
+      login(email);
+    }
+  }
+  void login(String email) async{
+    var url = urlorg +'get_user_fav_chargers?email='+email;
+    var responseC = (await http.get(Uri.parse(url)));
+    var respC = jsonDecode(responseC.body);
+    for(var pfc in respC['items']){puntsFavCarrega.add(Favorit(Coordenada(pfc['lat'],pfc['lon']), email));}
+
+    url = urlorg +'get_user_fav_bicing?email='+email;
+    var responseB = (await http.get(Uri.parse(url)));
+    var respB = jsonDecode(responseB.body);
+    for(var pfb in respB['items']){puntsFavBicing.add(Favorit(Coordenada(pfb['lat'],pfb['lon']), email));}
+
+    url = urlorg +'user_fav_cars?email='+email;
+    var responseCars = (await http.get(Uri.parse(url)));
+    var respCars = jsonDecode(responseCars.body);
+    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], email, favcar['model']));}
+  }
+
+  /*String getLanguageUser(){
     //PONER IDIOMAAAAAAA
     return usuari.correu;
   }
   String getCurrentUserName(){
     return usuari.name;
-  }
+  }*/
   void addVUser(String name, String idV, List<int> lEndolls){
     vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, idV));
     for(int num in lEndolls){
@@ -92,6 +130,12 @@ class CtrlDomain {
       datacars.add(ucar);
     }
     return datacars;
+  }
+  void resetUserSystem(){
+    vehiclesUsuari = <VehicleUsuari>[];
+    puntsFavCarrega = <Favorit>[];
+    puntsFavBicing = <Favorit>[];
+    vhselected = VhElectric.buit();
   }
 
   //CARS
