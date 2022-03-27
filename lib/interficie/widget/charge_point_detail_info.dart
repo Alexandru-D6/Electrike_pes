@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
-import 'attribute.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
@@ -108,23 +107,10 @@ class PointInfo extends StatelessWidget {
           name: point[1],
           calle: point[2],
           city: "Barcelona", //todo: call point[4]
+          numChargePlaces: getNumChargePlaces(),
           context: context,
         ),
-        buildConnectors(
-          context: context,
-        ),
-        /*for(var i = 3; i < point.length; i+=2) ...[
-          Row(
-              children: [
-                getChargerState(point[i+1]),
-                Attribute(
-                  value: point[i],
-                  name: 'Tipus',
-                  textColor: Colors.black87,
-                ),
-              ]
-          )
-        ],*/
+        buildConnectors(),
       ],
     );
   }
@@ -133,6 +119,7 @@ class PointInfo extends StatelessWidget {
     required String name,
     required String calle,
     required String city,
+    required String numChargePlaces,
     required BuildContext context,
   }) => Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -164,13 +151,29 @@ class PointInfo extends StatelessWidget {
                       ),
                       maxLines: 1,
                     ),
-                    const AutoSizeText(
-                      "Barcelona",//todo: point[?]
-                      style: TextStyle(
+                    AutoSizeText(
+                      city,//todo: point[?]
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                       maxLines: 1,
                     ),
+
+                    Row(
+                      children: [
+                        const Icon(Icons.local_parking),
+                        AutoSizeText(
+                          numChargePlaces.toString(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                        ),
+                      ],
+                    ),
+
                     const SizedBox(height: 16),
                   ],
                 ),
@@ -178,29 +181,107 @@ class PointInfo extends StatelessWidget {
           ],
   );
 
-  Widget buildConnectors({
-    required BuildContext context,
-  }) =>  SingleChildScrollView(
-      child: Column(
-          children: <Widget>[
-            for(var i = 3; i < point.length; i+=2) ...[
-              Row(
-                  children: [
-                    getChargerState(point[i+1]),
-                    Attribute(
-                      value: point[i],
-                      name: 'Tipus',
-                      textColor: Colors.black87,
-                    ),
-                  ]
-              )
-            ],
-          ]
-      )
+  Widget buildConnectors() => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        buildConnectorInfo(
+          numAvailable: "4",
+          numNotAvailable: "8",
+          numUnknownState: "10",
+          logoConnector: "assets/images/type2.png",
+          nameConnector: "Schuko",
+        ),
+        buildConnectorInfo(
+          numAvailable: "4",
+          numNotAvailable: "5",
+          numUnknownState: "52",
+          logoConnector: "assets/images/type2.png",
+          nameConnector: "Mennekes (Type 2)",
+        ),
+        buildConnectorInfo(
+          numAvailable: "23",
+          numNotAvailable: "54",
+          numUnknownState: "544",
+          logoConnector: "assets/images/type2.png",
+          nameConnector: " CHAdeMO (DC)",
+        ),
+        buildConnectorInfo(
+          numAvailable: "54",
+          numNotAvailable: "24",
+          numUnknownState: "453",
+          logoConnector: "assets/images/type2.png",
+          nameConnector: "CCS Combo (DC)",
+        ),
+    ],
   );
+
+  getSchukoNum(){
+    return "Schuko".allMatches(point.toString()).length;
+  }
+
+  String getNumChargePlaces() {
+    return (point.length/2-3).toString();
+  }
 }
 
 
+Widget buildConnectorInfo({
+  numAvailable, 
+  numNotAvailable, 
+  numUnknownState, 
+  logoConnector, 
+  nameConnector}) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+      //Image(image: logoConnector,),
+      AutoSizeText(
+        nameConnector,
+      ),
+      Row(
+        children: [
+          buildSummary(
+            icon: Icons.check_circle_rounded,
+            color: Colors.greenAccent,
+            info: numAvailable,
+          ),
+
+          buildSummary(
+            icon: Icons.warning,
+            color: Colors.amber,
+            info: numAvailable,
+          ),
+
+          buildSummary(
+            icon: Icons.stop_circle,
+            color: Colors.red,
+            info: numAvailable,
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+buildSummary({
+  required IconData icon,
+  required Color color,
+  required String info,}) {
+  return Column(
+    children: [
+      Icon(icon, color: color,),
+      AutoSizeText(
+        info,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+        maxLines: 1,
+      ),
+    ],
+  );
+}
 
 getChargerState(param) {
   //0 -> Available, 1 -> Occupied, 2 -> Faulted, 3 -> Unavailable, 4 -> Reserved, 5 -> Charging
@@ -219,6 +300,5 @@ getChargerState(param) {
       return const Icon(Icons.stop_circle, color: Colors.red,);
     default: //6 -> ??
       return const Icon(Icons.help, color: Colors.amber,);
-
   }
 }
