@@ -40,7 +40,7 @@ jobs:
       # build Flutter web version
       - run: flutter channel stable
       - run: flutter upgrade
-      - run: flutter build web --web-renderer html -t lib/interficie/main.dart --no-sound-null-safety --web-port=5000
+      - run: flutter build web --web-renderer html -t lib/interficie/main.dart --no-sound-null-safety
       # Handle the deploy process of your project to GitHub Pages.
       # https://github.com/JamesIves/github-pages-deploy-action
       - uses: JamesIves/github-pages-deploy-action@releases/v3
