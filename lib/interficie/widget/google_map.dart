@@ -257,13 +257,6 @@ Marker buildChargerMarker({
                           ChargePointDetailInformation(
                               chargePoint: infoChargerPoint,
                           ),
-                          Positioned(
-                            right: 16,
-                            child: Image.asset(
-                              "assets/images/charge_point.png",
-                              height: 125,
-                            ),
-                          )
                         ],
                       ),
                     ),
