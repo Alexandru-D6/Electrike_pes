@@ -25,12 +25,11 @@ jobs:
           java-version: '12.x'
       #enable linux,macos,windows   and  web
       - run: flutter  config --enable-web
-      - run: flutter  config --enable-windows-desktop
       - run: flutter pub get
 
       # build Android version
-      - run: flutter build apk --split-per-abi
-      - run: flutter build appbundle
+      - run: flutter build apk --split-per-abi -t lib/interficie/main.dart --no-sound-null-safety
+      - run: flutter build appbundle -t lib/interficie/main.dart
       # This action will create a github release and optionally upload an artifact to it.
       # https://github.com/ncipollo/release-action
       - name: Create a Release APK
@@ -41,7 +40,7 @@ jobs:
       # build Flutter web version
       - run: flutter channel stable
       - run: flutter upgrade
-      - run: flutter build web --web-renderer html
+      - run: flutter build web --web-renderer html -t lib/interficie/main.dart --no-sound-null-safety --web-port=5000
       # Handle the deploy process of your project to GitHub Pages.
       # https://github.com/JamesIves/github-pages-deploy-action
       - uses: JamesIves/github-pages-deploy-action@releases/v3
