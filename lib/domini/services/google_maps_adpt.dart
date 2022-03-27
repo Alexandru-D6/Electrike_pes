@@ -4,8 +4,8 @@ import 'package:google_geocoding/google_geocoding.dart';
 
 class GoogleMapsAdpt {
   static final _instance = GoogleMapsAdpt._internal();
-  var googleMapApiKey = "AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY";
-  var googleGeocoding = GoogleGeocoding("AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY");
+  static const googleMapApiKey = "AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY";
+  var googleGeocoding = GoogleGeocoding(googleMapApiKey);
 
   factory GoogleMapsAdpt() {
     return _instance;
@@ -23,6 +23,5 @@ class GoogleMapsAdpt {
     var result = await googleGeocoding.geocoding.get(adreca, null);
     return result.results.first.geometry.location;
   }
-
 
 }
