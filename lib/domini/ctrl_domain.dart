@@ -26,7 +26,7 @@ class CtrlDomain {
 
   List<VhElectric> vhElectricsInfo = <VhElectric>[];
   VhElectric vhselected = VhElectric.buit();
-  Usuari usuari = Usuari.origin('elpepe', 1, 'soyHUAppo?');
+  Usuari usuari = Usuari.origin('elpepe', 'soyHUAppo?');
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   factory CtrlDomain() {
     return _singleton;
@@ -125,15 +125,20 @@ class CtrlDomain {
     models.sort();
     return models;
   }
-  Future<void> getCarModelInfo(String model) async {
-    var url = urlorg +'car_info?Vehicle='+model;
-    var response = (await http.get(Uri.parse(url)));
-    var resp = jsonDecode(response.body);
-    for(var it in resp['items']){
-      //conflicto, puede haber más de uno
-      VhElectric vhselected = VhElectric.complet(it['id'], it['Brand'], it['Vehicle'],double.parse(it['Effciency(Wh/Km)']), double.parse(it['Rage(Km)']), double.parse(it['Battery(kWh)']));
-      vhElectricsInfo.add(vhselected);
+  List<String> getCarModelInfo(String model) {
+    List<String> car = <String>[];
+    for(var v in vhElectrics){
+      if(v.model == model) {
+          car.add(v.id);
+          car.add(v.marca);
+          car.add(v.model);
+          car.add(v.capacitatBateria.toString());
+          car.add(v.consum.toString());
+          car.add(v.potencia.toString());
+          break;
+      }
     }
+    return car;
   }
   List<String> getInfoCar(String id){
     List<String> car = <String>[];
@@ -186,14 +191,13 @@ class CtrlDomain {
             typesendolls[n].endolls.add(it['_id']);
             endoll.tipus.add(num);
           }
-
         }
         endolls.add(endoll);
       }
       if(it['Station_name']== null)it['Station_name']="Unknown";
       if(it['Station_address']== null)it['Station_address']="Unknown";
       coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
-       EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'], endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+       EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'], it['Station_municipi'],endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
       puntscarrega.add(estCarrega);
     }
   }
@@ -216,7 +220,7 @@ class CtrlDomain {
       if(it['Station_name']== null)it['Station_name']="Unknown";
       if(it['Station_address']== null)it['Station_address']="Unknown";
       coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
-      EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'], endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+      EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'],it['Station_municipi'] ,endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
       puntscarrega.add(estCarrega);
     }
   }
@@ -235,23 +239,10 @@ class CtrlDomain {
         infocharger.add(charg.id);
         infocharger.add(charg.nom);
         infocharger.add(charg.direccio);
-        for(var end in charg.endolls){
-          for(var endoll in endolls){
-            if(end == endoll.id && endoll.idPuntC == charg.id){
-              String type = "";
-              for(int i = 0; i<endoll.tipus.length;i++) {
-                  int num = int.parse(endoll.tipus.elementAt(i));
-                  num = num-1;
-                  if(i == 0) {
-                    type = typesendolls[num].tipus.name;
-                  } else{
-                    type = type+','+typesendolls[num].tipus.name;
-                }
-              }
-              infocharger.add(type);
-              infocharger.add(endoll.ocupat.toString());
-            }
-          }
+        infocharger.add(charg.ciutat);
+        List<int> data = getNumDataEndoll(charg);
+        for(int i = 0; i < data.length; ++i){
+          infocharger.add(data[i].toString());
         }
       }
     }
@@ -294,7 +285,26 @@ class CtrlDomain {
       }
     }
   }*/
-
+  List<int> getNumDataEndoll(EstacioCarrega charg){
+    List<int> endollsinfo = List.filled(16, 0);
+    for(var end in charg.endolls){
+      for(var endoll in endolls){
+        if(end == endoll.id && endoll.idPuntC == charg.id){
+          for(int i = 0; i<endoll.tipus.length;i++) {
+            int num = int.parse(endoll.tipus.elementAt(i));
+            num = num-1;
+            switch(endoll.ocupat) {
+              case 0:{endollsinfo[num*4+0]++;}break;
+              case 1: {endollsinfo[num*4+3]++;} break;
+              case 6:{endollsinfo[num*4+1]++; }break;
+              default:{endollsinfo[num*4+2]++;} break;
+            }
+          }
+        }
+      }
+    }
+    return endollsinfo;
+  }
   //BICING
   Future<void> getBicings()async{
     var url = urlorg +'bicings';
