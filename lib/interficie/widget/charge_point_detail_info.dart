@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 import '../constants.dart';
 
@@ -180,36 +181,56 @@ class PointInfo extends StatelessWidget {
           ],
   );
 
-  Widget buildConnectors() => Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget buildConnectors() => ResponsiveGridRow(
+    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        buildConnectorInfo(
-          numAvailable: "4",
-          numNotAvailable: "8",
-          numUnknownState: "10",
-          logoConnector: "assets/images/type2.png",
-          nameConnector: "Schuko",
+        ResponsiveGridCol(
+          //lg: 12,
+          xs: 6,
+          md: 3,
+          child: buildConnectorInfo(
+            numAvailable: "4",
+            numNotAvailable: "8",
+            numUnknownState: "10",
+            logoConnector: "assets/images/type2.png",
+            nameConnector: "Schuko",
+          ),
         ),
-        buildConnectorInfo(
-          numAvailable: "4",
-          numNotAvailable: "5",
-          numUnknownState: "52",
-          logoConnector: "assets/images/type2.png",
-          nameConnector: "Mennekes (Type 2)",
+        ResponsiveGridCol(
+          //lg: 12,
+          xs: 6,
+          md: 3,
+          child: buildConnectorInfo(
+            numAvailable: "4",
+            numNotAvailable: "5",
+            numUnknownState: "52",
+            logoConnector: "assets/images/type2.png",
+            nameConnector: "Mennekes (Type 2)",
+          ),
         ),
-        buildConnectorInfo(
-          numAvailable: "23",
-          numNotAvailable: "54",
-          numUnknownState: "544",
-          logoConnector: "assets/images/type2.png",
-          nameConnector: " CHAdeMO (DC)",
+        ResponsiveGridCol(
+          //lg: 12,
+          xs: 6,
+          md: 3,
+          child: buildConnectorInfo(
+            numAvailable: "23",
+            numNotAvailable: "54",
+            numUnknownState: "544",
+            logoConnector: "assets/images/type2.png",
+            nameConnector: " CHAdeMO (DC)",
+          ),
         ),
-        buildConnectorInfo(
-          numAvailable: "54",
-          numNotAvailable: "24",
-          numUnknownState: "453",
-          logoConnector: "assets/images/type2.png",
-          nameConnector: "CCS Combo (DC)",
+        ResponsiveGridCol(
+          //lg: 12,
+          xs: 6,
+          md: 3,
+          child: buildConnectorInfo(
+            numAvailable: "54",
+            numNotAvailable: "24",
+            numUnknownState: "453",
+            logoConnector: "assets/images/type2.png",
+            nameConnector: "CCS Combo (DC)",
+          ),
         ),
     ],
   );
@@ -231,43 +252,44 @@ Widget buildConnectorInfo({
   logoConnector, 
   nameConnector}) {
   return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: <Widget>[
-      Image.asset(
-        logoConnector,
-        height: 50,
+  mainAxisAlignment: MainAxisAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: <Widget>[
+    Image.asset(
+      logoConnector,
+      height: 50,
+    ),
+    const SizedBox(width: 10),
+    AutoSizeText(
+      nameConnector,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 14,
       ),
-      const SizedBox(width: 10),
-      AutoSizeText(
-        nameConnector,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
+    ),
+    const SizedBox(width: 25),
+    Row(
+      children: [
+        buildSummary(
+          icon: Icons.check_circle_rounded,
+          color: Colors.greenAccent,
+          info: numAvailable,
         ),
-      ),
-      const SizedBox(width: 25),
-      Row(
-        children: [
-          buildSummary(
-            icon: Icons.check_circle_rounded,
-            color: Colors.greenAccent,
-            info: numAvailable,
-          ),
-          const SizedBox(width: 10),
-          buildSummary(
-            icon: Icons.warning,
-            color: Colors.amber,
-            info: numAvailable,
-          ),
-          const SizedBox(width: 10),
-          buildSummary(
-            icon: Icons.stop_circle,
-            color: Colors.red,
-            info: numAvailable,
-          ),
-        ],
-      ),
-    ],
+        const SizedBox(width: 10),
+        buildSummary(
+          icon: Icons.warning,
+          color: Colors.amber,
+          info: numAvailable,
+        ),
+        const SizedBox(width: 10),
+        buildSummary(
+          icon: Icons.stop_circle,
+          color: Colors.red,
+          info: numAvailable,
+        ),
+      ],
+    ),
+  ],
   );
 }
 
