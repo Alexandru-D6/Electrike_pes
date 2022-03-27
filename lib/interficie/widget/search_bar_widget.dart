@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:implicitly_animated_reorderable_list/transitions.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:provider/provider.dart';
+
+class SearchBarWidget extends StatefulWidget {
+  const SearchBarWidget({Key? key}) : super(key: key);
+
+  @override
+  _SearchBarWidget createState() =>_SearchBarWidget();
+}
+
+class _SearchBarWidget extends State<SearchBarWidget> {
+  List<String> recomendations = <String>[];
+
+  @override
+  Widget build(BuildContext context) {
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    return FloatingSearchBar(
+      hint: 'Search and Address...',
+      scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+      transitionDuration: const Duration(milliseconds: 500),
+      transitionCurve: Curves.easeInOut,
+      physics: const BouncingScrollPhysics(),
+      axisAlignment: isPortrait ? 0.0 : -1.0,
+      openAxisAlignment: 0.0,
+      width: isPortrait ? 600 : 500,
+      debounceDelay: const Duration(milliseconds: 200),
+      automaticallyImplyDrawerHamburger: false,
+      onQueryChanged: (query) => updateRecomendations(query),
+      // Specify a custom transition to be used for
+      // animating between opened and closed stated.
+      transition: CircularFloatingSearchBarTransition(),
+      actions: [
+        FloatingSearchBarAction(
+          showIfOpened: false,
+          child: CircularButton(
+            icon: const Icon(Icons.place),
+            onPressed: () {
+              //para la location quiza
+            },
+          ),
+        ),
+        FloatingSearchBarAction.searchToClear(
+          showIfClosed: false,
+        ),
+      ],
+      builder: (context, transition) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Material(
+            color: Colors.white,
+            elevation: 4.0,
+            child: buildRecomendationButtons(text: recomendations),
+          ),
+        );
+      },
+    );
+  }
+
+  void updateRecomendations(String query) {
+    if (query != "") {
+      getPlaceService.autoCompleteAdress(query, 40.3243, 2.4353).then((
+          element) {
+        recomendations.clear();
+        setState(() {
+          element.predictions.forEach((e) {
+            recomendations.add(e.description);
+          });
+        });
+      });
+    }
+  }
+
+  Widget buildRecomendationButtons({
+    required List<String> text
+  }) {
+    List<ListTile> list = <ListTile>[];
+    text.forEach((element) {
+      list.add(ListTile(
+        title: Text(element, style: const TextStyle(fontSize: 18, color: Colors.black)),
+        onTap: () => { print(element) },
+      ));
+    });
+    return Column(children: list);
+
+  }
+
+}
