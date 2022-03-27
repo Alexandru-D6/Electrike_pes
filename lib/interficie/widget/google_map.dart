@@ -30,7 +30,7 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
-    //GoogleMap.of(_key)arker(lastPosition, icon: "assets/images/me.png"));
+    //GoogleMap.of(_key)marker(lastPosition, icon: "assets/images/me.png"));
     switch(show){
       case "chargers":
         markers = chargePoints;
@@ -228,6 +228,11 @@ class _MyMapState extends State<MyMap> {
     setState(() {
     });
     return bicingPoints;
+  }
+
+  void createRoute(String origin, String destination){
+    //TODO quizas meter un clear por aqui, y si no llamar desde fuera
+    GoogleMap.of(_key).addDirection(origin, destination);
   }
 }
 

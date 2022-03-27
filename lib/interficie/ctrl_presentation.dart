@@ -10,6 +10,7 @@ import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart' as mapa;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../domini/services/google_login_adpt.dart';
@@ -160,6 +161,7 @@ class CtrlPresentation {
   List<String> getInfoModel(String text) {
     return ctrlDomain.getCarModelInfo(text);
   }
-
-
+  void makeRoute(String origin, String destination){
+    //createRoute(origin, destination); //TODO falta llamar desde cualquier lado y que acceda al widget de mapState.
+  }
 }
