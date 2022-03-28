@@ -71,7 +71,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        MyStatefulWidget(),
+        StatefulFavouriteButton(),
         IconButton(
           onPressed: () {},
           icon: const Icon(
@@ -85,14 +85,14 @@ class _EditInfoPointState extends State<EditInfoPoint> {
 
 double _volume = 0.0;
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+class StatefulFavouriteButton extends StatefulWidget {
+  const StatefulFavouriteButton({Key? key}) : super(key: key);
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<StatefulFavouriteButton> createState() => _StatefulFavouriteButtonState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
   @override
   Widget build(BuildContext context) {
     return Column(
