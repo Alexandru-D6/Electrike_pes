@@ -74,18 +74,11 @@ class _MyMapState extends State<MyMap> {
               mapStyle: null,
               interactive: true,
 
-              onLongPress: (markerId) {
-                Coordenada word = Coordenada(markerId.latitude, markerId.longitude);
-                bool isSaved = ctrlPresentation.favs.contains(word);
-                if (isSaved) {
-                  ctrlPresentation.favs.remove(word);
-                } else {
-                  ctrlPresentation.favs.add(word);
-                }
-              },
-
-
-                    /*onTap: (markerId) async {
+              onLongPress: (coord) => GoogleMap.of(_key).addMarker(
+                  Marker(
+                      coord,
+                      icon: "assets/images/me.png"
+                      /*onTap: (markerId) async {
               await showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -101,6 +94,8 @@ class _MyMapState extends State<MyMap> {
               ),
               );
               },*/
+                  )),
+
 
               mobilePreferences: const MobileMapPreferences(
                 myLocationEnabled:true,
@@ -242,35 +237,33 @@ Marker buildChargerMarker({
   required double long,
   required BuildContext context,
 }){
+  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
   return Marker(
       GeoCoord(lat, long),
       icon: "assets/images/me.png",
-      onTap: (markerId)=>showInfoCharger(context, lat, long),
+      onTap: (markerId)=>
+          showModalBottomSheet(
+              context: context,
+              backgroundColor: cTransparent,
+              builder: (builder){
+                return Stack(
+                  children: [
+                    Positioned(
+                      left: 24,
+                      right: 24,
+                      bottom: 24,
+                      child: Stack(
+                        children: [
+                          ChargePointDetailInformation(
+                              chargePoint: infoChargerPoint,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }),
   );
-}
-
-showInfoCharger(BuildContext context, double lat, double long) {
-  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
-  //print(infoChargerPoint);
-  showModalBottomSheet(
-      context: context,
-      backgroundColor: cTransparent,
-      builder: (builder){
-        return Stack(
-          children: [
-            Positioned(
-              left: 24,
-              right: 24,
-              bottom: 24,
-              child: Stack(
-                children: [
-                  ChargePointDetailInformation(chargePoint: infoChargerPoint, latitude: lat, longitude: long,),
-                ],
-              ),
-            ),
-          ],
-        );
-      });
 }
 
 Marker buildBicingMarker({
