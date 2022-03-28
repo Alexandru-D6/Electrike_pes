@@ -26,7 +26,9 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 200),
       automaticallyImplyDrawerHamburger: false,
-      onQueryChanged: (query) => updateRecomendations(query),
+      onQueryChanged: (query) {
+        updateRecomendations(query);
+      },
       // Specify a custom transition to be used for
       // animating between opened and closed stated.
       transition: CircularFloatingSearchBarTransition(),
@@ -61,6 +63,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
     if (query != "") {
       getPlaceService.autoCompleteAdress(query, 40.3243, 2.4353).then((
           element) {
+        print(element);
         recomendations.clear();
         setState(() {
           for (var e in element.predictions) {
