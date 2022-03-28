@@ -95,19 +95,30 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     Coordenada word = Coordenada(widget.latitude, widget.longitude);
-    bool isSaved = ctrlPresentation.favs.contains(word);
+    bool _isSaved = ctrlPresentation.favs.contains(word);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
           icon: Icon(
-            isSaved ? Icons.favorite : Icons.favorite_border,
-            color: isSaved ? Colors.red : null,
+            _isSaved ? Icons.favorite : Icons.favorite_border,
+            color: _isSaved ? Colors.red : null,
           ),
           tooltip: 'Add points to favourites', //todo translator
           onPressed: () {
             setState(() {
+              print(word.latitud);
               _volume += 5;
+              _isSaved = ctrlPresentation.favs.contains(word);
+              if (_isSaved) {
+                ctrlPresentation.favs.remove(word);
+                _isSaved = ctrlPresentation.favs.contains(word);
+                print("removed");
+              } else {
+                ctrlPresentation.favs.add(word);
+                _isSaved = ctrlPresentation.favs.contains(word);
+                print("added");
+              }
             });
           },
         ),
