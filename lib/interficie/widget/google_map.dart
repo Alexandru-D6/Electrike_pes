@@ -1,13 +1,10 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import 'package:latlong/latlong.dart';
 import '../constants.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
@@ -76,9 +73,9 @@ class _MyMapState extends State<MyMap> {
               mapType: MapType.roadmap,
               mapStyle: null,
               interactive: true,
-              onTap: (GeoCoord) => GoogleMap.of(_key).getZoom().then((e) {
+              /*onTap: (GeoCoord) => GoogleMap.of(_key).getZoom().then((e) {
                 print(e);
-              }),
+              }),*/
 
               onLongPress: (coord) => GoogleMap.of(_key).addMarker(
                   Marker(
