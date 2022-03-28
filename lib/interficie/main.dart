@@ -79,7 +79,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
 
     Location location = Location();
-    //askForPermission(location, context);
+    askForPermission(location, context);
 
     return Scaffold(
       drawer: const NavigationDrawerWidget(),

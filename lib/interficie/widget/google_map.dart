@@ -30,7 +30,7 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
-    //GoogleMap.of(_key)arker(lastPosition, icon: "assets/images/me.png"));
+    //GoogleMap.of(_key)addMarker(lastPosition, icon: "assets/images/me.png"));
     switch(show){
       case "chargers":
         markers = chargePoints;
@@ -73,6 +73,9 @@ class _MyMapState extends State<MyMap> {
               mapType: MapType.roadmap,
               mapStyle: null,
               interactive: true,
+              onTap: (GeoCoord) => GoogleMap.of(_key).getZoom().then((e) {
+                print(e);
+              }),
 
               onLongPress: (coord) => GoogleMap.of(_key).addMarker(
                   Marker(
