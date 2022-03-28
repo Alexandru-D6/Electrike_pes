@@ -10,6 +10,7 @@ import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/google_map.dart';
+import 'package:google_directions_api/google_directions_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 
@@ -22,30 +23,6 @@ class CtrlPresentation {
     return _singleton;
   }
   CtrlPresentation._internal();
-
-  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
-
-  GlobalKey<GoogleMapStateBase> getMapKey() {
-    return _key;
-  }
-
-  void makeRoute(String destination){
-    Location location = Location();
-
-    location.getLocation().then((value) {
-      String origin = value.latitude.toString() + "," + value.longitude.toString();
-
-      GoogleMap.of(ctrlPresentation.getMapKey())?.addDirection(
-          origin,
-          destination,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination'
-      );
-
-    });
-  }
 
   String email = "";
   String name = "";
@@ -173,5 +150,46 @@ class CtrlPresentation {
 
   List<String> getInfoModel(String text) {
     return ctrlDomain.getCarModelInfo(text);
+  }
+
+  //Map
+  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+
+  GlobalKey<GoogleMapStateBase> getMapKey() {
+    return _key;
+  }
+
+  void makeRoute(String destination){
+    Location location = Location();
+
+    location.getLocation().then((value) {
+      String origin = value.latitude.toString() + "," + value.longitude.toString();
+
+      GoogleMap.of(ctrlPresentation.getMapKey())?.clearDirections();
+      GoogleMap.of(ctrlPresentation.getMapKey())?.addDirection(
+          origin,
+          destination,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endInfo: 'Destination'
+      );
+
+      /*GoogleMap.of(ctrlPresentation.getMapKey())?.addMarkerRaw(GeoCoord(value.latitude!, value.longitude!));
+
+      getMapsService.adressCoding(destination).then((e) {
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarkerRaw(GeoCoord(e!.lat!, e.lng!));
+      });*/
+
+    });
+  }
+
+  void moveCameraToLocation() {
+    Location location = Location();
+
+    location.getLocation().then((value) {
+      GeoCoord coord = GeoCoord(value.latitude!, value.longitude!);
+      GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(coord, zoom: 18);
+
+    });
   }
 }
