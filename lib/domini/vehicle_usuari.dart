@@ -3,12 +3,13 @@ class VehicleUsuari {
   late String name;
   late String image;
   late double battery;
-  late String idVE;
-  late String idU;
-  Set<String> endolls = <String>{};
+  late double efficiency;
+  late double consum;
+  late String model;
+  late String email;
+  List<String> endolls = <String>[];
 
-  VehicleUsuari(this.name, this.idU, this.idVE){
-    battery = 0;
+  VehicleUsuari(this.name, this.email, this.model, this.battery, this.efficiency, this.consum ,this.endolls){
     image = "";
   }
 

@@ -16,16 +16,18 @@ class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
   static var urlorg = 'http://electrike.ddns.net:3784/';
+  //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
 
+  //DATA INFO SYSTEM
   List<VhElectric> vhElectrics = <VhElectric>[];
   List<EstacioCarrega> puntscarrega= <EstacioCarrega>[];
   List<PuntBicing> puntsBicing= <PuntBicing>[];
   Set<Endoll> endolls = <Endoll>{};
   List<TipusEndoll> typesendolls = <TipusEndoll>[];
 
-
+  //DATA USER
   Usuari usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
   VhElectric vhselected = VhElectric.buit();
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
@@ -83,9 +85,25 @@ class CtrlDomain {
     url = urlorg +'user_fav_cars?email='+email;
     var responseCars = (await http.get(Uri.parse(url)));
     var respCars = jsonDecode(responseCars.body);
-    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], email, favcar['model']));}
+    List<String> eend = <String>[];
+    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], email, favcar['model'],2.0,2.0,2.0,eend));}
   }
-
+  void resetUserSystem(){
+    vehiclesUsuari = <VehicleUsuari>[];
+    puntsFavCarrega = <Favorit>[];
+    puntsFavBicing = <Favorit>[];
+    vhselected = VhElectric.buit();
+    for(var t in typesendolls) {
+      t.cars=<String>{};
+    }
+    usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
+  }
+  void deleteaccount()async{
+    var url = urlorg +'delete_user?email='+usuari.correu;
+    var response = (await http.put(Uri.parse(url)));
+    jsonDecode(response.body);
+    resetUserSystem();
+  }
   /*String getLanguageUser(){
     //PONER IDIOMAAAAAAA
     return usuari.correu;
@@ -93,13 +111,16 @@ class CtrlDomain {
   String getCurrentUserName(){
     return usuari.name;
   }*/
-  void addVUser(String name, String idV, List<int> lEndolls){
-    vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, idV));
-    for(int num in lEndolls){
-      typesendolls[num].endolls.add(idV);
+  //USER CARS
+  void addVUser(String name, String modelV,String bat, String eff, String consum ,List<String> lEndolls){
+    vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, modelV, double.parse(bat), double.parse(eff), double.parse(consum), lEndolls));
+    for(var num in lEndolls){
+      for(var type in typesendolls){
+        if(type.tipus.name == num)type.cars.add(name);
+      }
     }
   }
-  void editVUser(String name, String idV, List<int> lEndolls){
+  /*void editVUser(String name, String idV, List<int> lEndolls){
     for(var car in vehiclesUsuari) {
       if (car.idVE == idV && car.name == name) {
         for (var num in car.endolls) {
@@ -110,11 +131,16 @@ class CtrlDomain {
         }
       }
     }
-  }
+  }*/
   void removeVUser(String name, String idV){
-    VehicleUsuari vdelete = VehicleUsuari("", "", "");
+    late VehicleUsuari vdelete;
     for(var vhu in vehiclesUsuari){
-      if(vhu.name == name && vhu.idVE == idV){
+      if(vhu.name == name ){
+        for(var type in vhu.endolls){
+          for(var t in typesendolls){
+            if(t.tipus.name == type)t.cars.remove(name);
+          }
+        }
         vdelete = vhu;
       }
     }
@@ -123,7 +149,7 @@ class CtrlDomain {
   List<List<String>> infoAllVUser(){
     List<List<String>> datacars = <List<String>>[];
     for(var vhU in vehiclesUsuari){
-      List<String> ucar = getInfoCar(vhU.idVE);
+      List<String> ucar = getInfoUserCar(vhU.name);
       for(var type in vhU.endolls){
         ucar.add(type);
       }
@@ -131,13 +157,23 @@ class CtrlDomain {
     }
     return datacars;
   }
-  void resetUserSystem(){
-    vehiclesUsuari = <VehicleUsuari>[];
-    puntsFavCarrega = <Favorit>[];
-    puntsFavBicing = <Favorit>[];
-    vhselected = VhElectric.buit();
+  //USER FAV_CHARGER
+  void addFavCharger(double lat, double long)async{
+
+  }
+  void deleteFavCharger(double lat, double long)async{
+
   }
 
+  //USER FAV_BICING
+  void addFavBicing(double lat, double long)async{
+
+  }
+  void deleteFavBicing(double lat, double long)async{
+    var url = urlorg +'remove_fav_bicing?email='+usuari.correu;
+    var response = (await http.put(Uri.parse(url)));
+    jsonDecode(response.body);
+  }
   //CARS
   Future<void> getAllCars() async {
     var url = urlorg +'cars';
@@ -185,16 +221,14 @@ class CtrlDomain {
     }
     return car;
   }
-  List<String> getInfoCar(String id){
+  List<String> getInfoUserCar(String name){
     List<String> car = <String>[];
-    for(var v in vhElectrics){
-      if(v.id == id){
-        car.add(id);
-        car.add(v.marca);
+    for(var v in vehiclesUsuari){
+      if(v.name == name){
         car.add(v.model);
-        car.add(v.capacitatBateria.toString());
+        car.add(v.battery.toString());
         car.add(v.consum.toString());
-        car.add(v.potencia.toString());
+        car.add(v.efficiency.toString());
       }
     }
     return car;
