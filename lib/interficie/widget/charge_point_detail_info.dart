@@ -44,7 +44,7 @@ class ChargePointDetailInformation extends StatelessWidget {
   }
 }
 
-class EditInfoPoint extends StatelessWidget {
+class EditInfoPoint extends StatefulWidget {
   const EditInfoPoint({
     Key? key,
     required this.point,
@@ -57,11 +57,17 @@ class EditInfoPoint extends StatelessWidget {
   final double longitude;
 
   @override
+  State<EditInfoPoint> createState() => _EditInfoPointState();
+}
+
+class _EditInfoPointState extends State<EditInfoPoint> {
+  @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    Coordenada word = Coordenada(latitude, longitude);
+    Coordenada word = Coordenada(widget.latitude, widget.longitude);
     print(word.latitud);
     bool isSaved = ctrlPresentation.favs.contains(word);
+    var controller;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
