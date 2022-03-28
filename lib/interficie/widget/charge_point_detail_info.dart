@@ -63,15 +63,10 @@ class EditInfoPoint extends StatefulWidget {
 class _EditInfoPointState extends State<EditInfoPoint> {
   @override
   Widget build(BuildContext context) {
-    CtrlPresentation ctrlPresentation = CtrlPresentation();
-    Coordenada word = Coordenada(widget.latitude, widget.longitude);
-    print(word.latitud);
-    bool isSaved = ctrlPresentation.favs.contains(word);
-    var controller;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        StatefulFavouriteButton(),
+        StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
           onPressed: () {},
           icon: const Icon(
@@ -86,7 +81,10 @@ class _EditInfoPointState extends State<EditInfoPoint> {
 double _volume = 0.0;
 
 class StatefulFavouriteButton extends StatefulWidget {
-  const StatefulFavouriteButton({Key? key}) : super(key: key);
+  const StatefulFavouriteButton({Key? key, required this.latitude, required this.longitude}) : super(key: key);
+
+  final double latitude;
+  final double longitude;
 
   @override
   State<StatefulFavouriteButton> createState() => _StatefulFavouriteButtonState();
@@ -95,15 +93,21 @@ class StatefulFavouriteButton extends StatefulWidget {
 class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
   @override
   Widget build(BuildContext context) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    Coordenada word = Coordenada(widget.latitude, widget.longitude);
+    bool isSaved = ctrlPresentation.favs.contains(word);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
-          icon: const Icon(Icons.volume_up),
-          tooltip: 'Increase volume by 10',
+          icon: Icon(
+            isSaved ? Icons.favorite : Icons.favorite_border,
+            color: isSaved ? Colors.red : null,
+          ),
+          tooltip: 'Add points to favourites', //todo translator
           onPressed: () {
             setState(() {
-              _volume += 10;
+              _volume += 5;
             });
           },
         ),
