@@ -75,7 +75,9 @@ class _MyMapState extends State<MyMap> {
               interactive: true,
 
               onLongPress: (markerId) {
+                print("addind long press");
                 Coordenada word = Coordenada(markerId.latitude, markerId.longitude);
+                print(markerId.latitude);
                 bool isSaved = ctrlPresentation.favs.contains(word);
                 if (isSaved) {
                   ctrlPresentation.favs.remove(word);
@@ -256,6 +258,7 @@ showInfoCharger(BuildContext context, double lat, double long) {
       context: context,
       backgroundColor: cTransparent,
       builder: (builder){
+        print(lat);
         return Stack(
           children: [
             Positioned(

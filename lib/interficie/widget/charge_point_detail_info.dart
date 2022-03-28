@@ -66,17 +66,21 @@ class EditInfoPoint extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          onPressed: () {
-            if (isSaved) {
-              ctrlPresentation.favs.remove(word);
-            } else {
-              ctrlPresentation.favs.add(word);
-            }
-          },
           icon: Icon(
             isSaved ? Icons.favorite : Icons.favorite_border,
             color: isSaved ? Colors.red : null,
           ),
+          onPressed: () {
+            print("FUCK");
+            print(isSaved);
+            if (isSaved) {
+              ctrlPresentation.favs.remove(word);
+            } else {
+              ctrlPresentation.favs.add(word);
+              print("haloo, adding");
+            }
+            (context as Element).markNeedsBuild();
+          },
         ),
         IconButton(
           onPressed: () {},
