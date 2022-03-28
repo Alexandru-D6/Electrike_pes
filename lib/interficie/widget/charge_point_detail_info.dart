@@ -71,23 +71,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          icon: Icon(
-            isSaved ? Icons.favorite : Icons.favorite_border,
-            color: isSaved ? Colors.red : null,
-          ),
-          onPressed: () {
-            print("FUCK");
-            print(isSaved);
-            if (isSaved) {
-              ctrlPresentation.favs.remove(word);
-            } else {
-              ctrlPresentation.favs.add(word);
-              print("haloo, adding");
-            }
-            (context as Element).markNeedsBuild();
-          },
-        ),
+        MyStatefulWidget(),
         IconButton(
           onPressed: () {},
           icon: const Icon(
@@ -98,6 +82,37 @@ class _EditInfoPointState extends State<EditInfoPoint> {
     );
   }
 }
+
+double _volume = 0.0;
+
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.volume_up),
+          tooltip: 'Increase volume by 10',
+          onPressed: () {
+            setState(() {
+              _volume += 10;
+            });
+          },
+        ),
+        Text('Volume : $_volume')
+      ],
+    );
+  }
+}
+
 
 class PointInfo extends StatelessWidget {
   const PointInfo({
