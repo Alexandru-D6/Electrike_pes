@@ -90,42 +90,44 @@ class StatefulFavouriteButton extends StatefulWidget {
   State<StatefulFavouriteButton> createState() => _StatefulFavouriteButtonState();
 }
 
+CtrlPresentation ctrlPresentation = CtrlPresentation();
+
 class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
   @override
   Widget build(BuildContext context) {
-    CtrlPresentation ctrlPresentation = CtrlPresentation();
-    Coordenada word = Coordenada(widget.latitude, widget.longitude);
-    bool _isSaved = ctrlPresentation.favs.contains(word);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButton(
           icon: Icon(
-            _isSaved ? Icons.favorite : Icons.favorite_border,
-            color: _isSaved ? Colors.red : null,
+            _volume%2 == 0 ? Icons.favorite : Icons.favorite_border,
+            color: _volume%2 == 0 ? Colors.red : null,
           ),
           tooltip: 'Add points to favourites', //todo translator
           onPressed: () {
             setState(() {
-              print(word.latitud);
+              //todo connect with domain because not works properly
               _volume += 5;
-              _isSaved = ctrlPresentation.favs.contains(word);
-              if (_isSaved) {
-                ctrlPresentation.favs.remove(word);
-                _isSaved = ctrlPresentation.favs.contains(word);
-                print("removed");
+              /*if (check(widget.latitude, widget.longitude)) {
+                ctrlPresentation.favs.remove(Coordenada(widget.latitude, widget.longitude));
+                print("not added");
               } else {
-                ctrlPresentation.favs.add(word);
-                _isSaved = ctrlPresentation.favs.contains(word);
-                print("added");
-              }
+                ctrlPresentation.favs.add(Coordenada(widget.latitude, widget.longitude));
+                print(ctrlPresentation.favs);
+              }*/
             });
           },
         ),
-        Text('Volume : $_volume')
+        Text('$_volume')
       ],
     );
   }
+}
+
+check(double latitude, double longitude) {
+  Coordenada word = Coordenada(latitude, longitude);
+  bool _isSaved = ctrlPresentation.favs.contains(word);
+  return _isSaved;
 }
 
 
