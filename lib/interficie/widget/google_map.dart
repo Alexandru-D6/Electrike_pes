@@ -18,7 +18,6 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMapState extends State<MyMap> {
-  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
   Set<Marker> chargePoints = {};
   Set<Marker> bicingPoints = {};
   Set<Marker> markers = {};
@@ -28,24 +27,24 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
-    //GoogleMap.of(_key)addMarker(lastPosition, icon: "assets/images/me.png"));
+    //GoogleMap.of(ctrlPresentation.getMapKey())addMarker(lastPosition, icon: "assets/images/me.png"));
     switch(show){
       case "chargers":
         markers = chargePoints;
         for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(_key)?.addMarker(markers.elementAt(i));
+          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
         }
         break;
       case "bicing":
         markers = bicingPoints;
         for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(_key)?.addMarker(markers.elementAt(i));
+          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
         }
         break;
       default:
         markers = chargePoints.union(bicingPoints);
         for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(_key)?.addMarker(markers.elementAt(i));
+          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
         }
         break;
     }
@@ -62,7 +61,7 @@ class _MyMapState extends State<MyMap> {
         children: <Widget>[
           Positioned.fill(
             child: GoogleMap(
-              key: _key,
+              key: ctrlPresentation.getMapKey(),
               markers: chargePoints.union(bicingPoints),
               initialZoom: 9,
               //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
@@ -71,7 +70,7 @@ class _MyMapState extends State<MyMap> {
               mapType: MapType.roadmap,
               mapStyle: "",
               interactive: true,
-              onLongPress: (coord) => GoogleMap.of(_key)?.addMarker(
+              onLongPress: (coord) => GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
                   Marker(
                       coord,
                       icon: "assets/images/me.png"
@@ -152,7 +151,7 @@ class _MyMapState extends State<MyMap> {
         backgroundColor: mCardColor,
         child: const Icon(Icons.visibility_off),
         onPressed: () {
-          GoogleMap.of(_key)?.clearMarkers();
+          GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
         },
       ),
     ),
@@ -162,7 +161,7 @@ class _MyMapState extends State<MyMap> {
         backgroundColor: mCardColor,
         child: const Icon(Icons.visibility),
         onPressed: () {
-          GoogleMap.of(_key)?.clearMarkers();
+          GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
           initMarkers("all");
         },
       ),
@@ -173,7 +172,7 @@ class _MyMapState extends State<MyMap> {
         backgroundColor: mCardColor,
         child: const Icon(Icons.power),
         onPressed: () {
-          GoogleMap.of(_key)?.clearMarkers();
+          GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
           initMarkers("chargers");
         },
       ),
@@ -184,7 +183,7 @@ class _MyMapState extends State<MyMap> {
         backgroundColor: mCardColor,
         child: const Icon(Icons.pedal_bike),
         onPressed: () {
-          GoogleMap.of(_key)?.clearMarkers();
+          GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
           initMarkers("bicing");
         },
       ),
@@ -225,18 +224,6 @@ class _MyMapState extends State<MyMap> {
     setState(() {
     });
     return bicingPoints;
-  }
-
-  void createRoute(String origin, String destination) {
-    //TODO quizas meter un clear por aqui, y si no llamar desde fuera
-    //todo cambiar formato de coordenadas a latlng o dejarlo(otros no)
-    GoogleMap.of(_key).addDirection(
-      origin,
-      destination,
-      startLabel: '1',
-      startInfo: 'Origin',
-      endIcon: 'assets/images/rolls_royce.png',
-      endInfo: 'Destination',);
   }
 }
 

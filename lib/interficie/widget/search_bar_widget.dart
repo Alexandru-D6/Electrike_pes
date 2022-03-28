@@ -3,6 +3,8 @@ import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:google_place/google_place.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
+import '../ctrl_presentation.dart';
+
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({Key? key}) : super(key: key);
 
@@ -12,6 +14,7 @@ class SearchBarWidget extends StatefulWidget {
 
 class _SearchBarWidget extends State<SearchBarWidget> {
   List<String?> recomendations = <String?>[];
+  CtrlPresentation ctrlPresentation = CtrlPresentation();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           child: CircularButton(
             icon: const Icon(Icons.place),
             onPressed: () {
-              //para la location quiza
+              //TODO: para la location quiza
             },
           ),
         ),
@@ -85,7 +88,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
     for (var element in text) {
       list.add(ListTile(
         title: Text(element!, style: const TextStyle(fontSize: 18, color: Colors.black)),
-        onTap: () => { },//TODO: llamar aqui que hacer con cada boton de la lista
+        onTap: () => { ctrlPresentation.makeRoute(element) },//TODO: llamar aqui que hacer con cada boton de la lista
       ));
     }
     return Column(children: list);
