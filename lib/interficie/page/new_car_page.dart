@@ -26,7 +26,6 @@ class _NewCarPageState extends State<NewCarPage> {
   final controllerBatteryCar = TextEditingController();
   final controllerEffciencyCar = TextEditingController();
 
-//TODO: CONTROLLER FOR EACH FIELD
   //here goes the values of inputs that has to input
   String? selectedNameCar;
   String? selectedBrandCar;
@@ -158,7 +157,10 @@ class _NewCarPageState extends State<NewCarPage> {
       });
     },
     validator: (value) {
+      if (value != null) {
         return value.isEmpty ? 'Please select a brand' : null;
+      }
+      return "";
     },
     onSaved: (value) {
       saveRoutine(value, returnable);

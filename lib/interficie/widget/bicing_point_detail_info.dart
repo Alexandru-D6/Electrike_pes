@@ -96,9 +96,7 @@ Widget buildBicingPointInfo({
   required String num,
   required IconData assetName,
 }) {
-
   return Column(
-
     children: <Widget>[
       Icon(assetName, size: 45, color: mCardColor),
       AutoSizeText(
