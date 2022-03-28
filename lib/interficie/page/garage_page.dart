@@ -1,4 +1,3 @@
-// @dart=2.10
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -8,7 +7,8 @@ import '../widget/lateral_menu_widget.dart';
 
 
 class GaragePage extends StatelessWidget {
-  const GaragePage({Key key}) : super(key: key);
+  const GaragePage({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {

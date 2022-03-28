@@ -157,7 +157,10 @@ class _NewCarPageState extends State<NewCarPage> {
       });
     },
     validator: (value) {
+      if (value != null) {
         return value.isEmpty ? 'Please select a brand' : null;
+      }
+      return "";
     },
     onSaved: (value) {
       saveRoutine(value, returnable);
