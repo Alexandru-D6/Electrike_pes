@@ -27,6 +27,7 @@ class CtrlPresentation {
   String email = "";
   String name = "";
   String photoUrl = "";
+  List<Coordenada> favs = <Coordenada>[];
 
   //intercambiar vista
   void toMainPage(BuildContext context){
@@ -65,10 +66,19 @@ class CtrlPresentation {
   }
 
   void toFormCar(BuildContext context) {
-    //Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-    builder: (context) => const NewCarPage(),
-  ));
+    if(email == ""){
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+          content: Text(
+          'To add a car you must be logged!\n' //todo: translator
+      )));
+    }
+    else{
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const NewCarPage(),
+      ));
+    }
   }
 
   toProfilePage(BuildContext context) {
@@ -127,7 +137,7 @@ class CtrlPresentation {
   void logoutRoutine(BuildContext context) async {
     resetUserValues();
     await serviceLocator<GoogleLoginAdpt>().logout();
-    ctrlPresentation.toMainPage(context);
+    toMainPage(context);
   }
 
   void resetUserValues() {
@@ -147,4 +157,10 @@ class CtrlPresentation {
   List<String> getInfoCharger(double lat, double long) {
     return ctrlDomain.getInfoCharger(lat, long);
   }
+
+  List<String> getInfoModel(String text) {
+    return ctrlDomain.getCarModelInfo(text);
+  }
+
+
 }
