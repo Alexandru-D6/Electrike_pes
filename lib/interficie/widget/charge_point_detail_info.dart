@@ -60,7 +60,7 @@ class EditInfoPoint extends StatelessWidget {
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     Coordenada word = Coordenada(latitude, longitude);
-    print(word);
+    print(word.latitud);
     bool isSaved = ctrlPresentation.favs.contains(word);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

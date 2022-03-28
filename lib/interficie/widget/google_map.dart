@@ -75,15 +75,6 @@ class _MyMapState extends State<MyMap> {
               interactive: true,
 
               onLongPress: (markerId) {
-                print("addind long press");
-                Coordenada word = Coordenada(markerId.latitude, markerId.longitude);
-                print(markerId.latitude);
-                bool isSaved = ctrlPresentation.favs.contains(word);
-                if (isSaved) {
-                  ctrlPresentation.favs.remove(word);
-                } else {
-                  ctrlPresentation.favs.add(word);
-                }
               },
 
 
