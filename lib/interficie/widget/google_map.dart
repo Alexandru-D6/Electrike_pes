@@ -1,10 +1,13 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:latlong/latlong.dart';
 import '../constants.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
@@ -159,13 +162,6 @@ class _MyMapState extends State<MyMap> {
         child: const Icon(Icons.visibility_off),
         onPressed: () {
           GoogleMap.of(_key).clearMarkers();
-          GoogleMap.of(_key).addDirection(
-            const GeoCoord(41.385983, 2.118057),
-            const GeoCoord(41.375034, 2.163633),
-            startLabel: '1',
-            startInfo: 'bbbbbbbb',
-            endIcon: 'assets/images/rolls_royce.png',
-            endInfo: 'aaaaaa',);
         },
       ),
     ),
@@ -240,9 +236,16 @@ class _MyMapState extends State<MyMap> {
     return bicingPoints;
   }
 
-  void createRoute(String origin, String destination){
+  void createRoute(String origin, String destination) {
     //TODO quizas meter un clear por aqui, y si no llamar desde fuera
-    GoogleMap.of(_key).addDirection(origin, destination);
+    //todo cambiar formato de coordenadas a latlng o dejarlo(otros no)
+    GoogleMap.of(_key).addDirection(
+      origin,
+      destination,
+      startLabel: '1',
+      startInfo: 'Origin',
+      endIcon: 'assets/images/rolls_royce.png',
+      endInfo: 'Destination',);
   }
 }
 
