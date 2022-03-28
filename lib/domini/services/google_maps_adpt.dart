@@ -14,14 +14,15 @@ class GoogleMapsAdpt {
   GoogleMapsAdpt._internal();
 
    ///@post: Retorna la direcció legible donada la coordenada amb la latitud i longitud
-  Future<String> reverseCoding(double lat, double lng) async {
+  Future<String?> reverseCoding(double lat, double lng) async {
     var result = await googleGeocoding.geocoding.getReverse(LatLon(lat, lng));
-    return result.results.first.formattedAddress;
+    return result?.results?.first.formattedAddress;
   }
 
-  Future<Location> adressCoding(String adreca) async {
-    var result = await googleGeocoding.geocoding.get(adreca, null);
-    return result.results.first.geometry.location;
+  Future<Location?> adressCoding(String adreca) async {
+    List<Component> empty = <Component>[];
+    var result = await googleGeocoding.geocoding.get(adreca, empty);
+    return result?.results?.first.geometry?.location;
   }
 
 }

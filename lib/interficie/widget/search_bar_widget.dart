@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:google_place/google_place.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class SearchBarWidget extends StatefulWidget {
@@ -10,7 +11,7 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidget extends State<SearchBarWidget> {
-  List<String> recomendations = <String>[];
+  List<String?> recomendations = <String?>[];
 
   @override
   Widget build(BuildContext context) {
@@ -59,28 +60,31 @@ class _SearchBarWidget extends State<SearchBarWidget> {
     );
   }
 
-  void updateRecomendations(String query) {
+  void updateRecomendations(String? query) {
     if (query != "") {
-      getPlaceService.autoCompleteAdress(query, 40.3243, 2.4353).then((
-          element) {
-        print(element);
-        recomendations.clear();
-        setState(() {
-          for (var e in element.predictions) {
-            recomendations.add(e.description);
-          }
-        });
+      getPlaceService.autoCompleteAdress(query!, 40.3243, 2.4353).then((element) {
+        if (element != null) {
+          recomendations.clear();
+          setState(() {
+            List<AutocompletePrediction>? temp = element.predictions;
+            if (temp != null) {
+              for (var e in temp) {
+                recomendations.add(e.description);
+              }
+            }
+          });
+        }
       });
     }
   }
 
   Widget buildRecomendationButtons({
-    required List<String> text
+    required List<String?> text
   }) {
     List<ListTile> list = <ListTile>[];
     for (var element in text) {
       list.add(ListTile(
-        title: Text(element, style: const TextStyle(fontSize: 18, color: Colors.black)),
+        title: Text(element!, style: const TextStyle(fontSize: 18, color: Colors.black)),
         onTap: () => { },//TODO: llamar aqui que hacer con cada boton de la lista
       ));
     }

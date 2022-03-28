@@ -1,14 +1,9 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
-
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import 'package:latlong/latlong.dart';
-import '../constants.dart';
+import 'package:flutter_project/interficie/constants.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
 
@@ -38,19 +33,19 @@ class _MyMapState extends State<MyMap> {
       case "chargers":
         markers = chargePoints;
         for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(_key).addMarker(markers.elementAt(i));
+          GoogleMap.of(_key)?.addMarker(markers.elementAt(i));
         }
         break;
       case "bicing":
         markers = bicingPoints;
         for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(_key).addMarker(markers.elementAt(i));
+          GoogleMap.of(_key)?.addMarker(markers.elementAt(i));
         }
         break;
       default:
         markers = chargePoints.union(bicingPoints);
         for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(_key).addMarker(markers.elementAt(i));
+          GoogleMap.of(_key)?.addMarker(markers.elementAt(i));
         }
         break;
     }
@@ -74,13 +69,9 @@ class _MyMapState extends State<MyMap> {
               //minZoom: 3, //todo min zoom en web??
               initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
               mapType: MapType.roadmap,
-              mapStyle: null,
+              mapStyle: "",
               interactive: true,
-              /*onTap: (GeoCoord) => GoogleMap.of(_key).getZoom().then((e) {
-                print(e);
-              }),*/
-
-              onLongPress: (coord) => GoogleMap.of(_key).addMarker(
+              onLongPress: (coord) => GoogleMap.of(_key)?.addMarker(
                   Marker(
                       coord,
                       icon: "assets/images/me.png"
@@ -161,7 +152,7 @@ class _MyMapState extends State<MyMap> {
         backgroundColor: mCardColor,
         child: const Icon(Icons.visibility_off),
         onPressed: () {
-          GoogleMap.of(_key).clearMarkers();
+          GoogleMap.of(_key)?.clearMarkers();
         },
       ),
     ),
@@ -171,7 +162,7 @@ class _MyMapState extends State<MyMap> {
         backgroundColor: mCardColor,
         child: const Icon(Icons.visibility),
         onPressed: () {
-          GoogleMap.of(_key).clearMarkers();
+          GoogleMap.of(_key)?.clearMarkers();
           initMarkers("all");
         },
       ),
@@ -182,7 +173,7 @@ class _MyMapState extends State<MyMap> {
         backgroundColor: mCardColor,
         child: const Icon(Icons.power),
         onPressed: () {
-          GoogleMap.of(_key).clearMarkers();
+          GoogleMap.of(_key)?.clearMarkers();
           initMarkers("chargers");
         },
       ),
@@ -193,7 +184,7 @@ class _MyMapState extends State<MyMap> {
         backgroundColor: mCardColor,
         child: const Icon(Icons.pedal_bike),
         onPressed: () {
-          GoogleMap.of(_key).clearMarkers();
+          GoogleMap.of(_key)?.clearMarkers();
           initMarkers("bicing");
         },
       ),
