@@ -33,7 +33,7 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
-    //GoogleMap.of(_key)marker(lastPosition, icon: "assets/images/me.png"));
+    //GoogleMap.of(_key)addMarker(lastPosition, icon: "assets/images/me.png"));
     switch(show){
       case "chargers":
         markers = chargePoints;
@@ -76,6 +76,9 @@ class _MyMapState extends State<MyMap> {
               mapType: MapType.roadmap,
               mapStyle: null,
               interactive: true,
+              onTap: (GeoCoord) => GoogleMap.of(_key).getZoom().then((e) {
+                print(e);
+              }),
 
               onLongPress: (coord) => GoogleMap.of(_key).addMarker(
                   Marker(
@@ -252,35 +255,33 @@ Marker buildChargerMarker({
   required double long,
   required BuildContext context,
 }){
+  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
   return Marker(
       GeoCoord(lat, long),
       icon: "assets/images/me.png",
-      onTap: (markerId)=>showInfoCharger(context, lat, long),
+      onTap: (markerId)=>
+          showModalBottomSheet(
+              context: context,
+              backgroundColor: cTransparent,
+              builder: (builder){
+                return Stack(
+                  children: [
+                    Positioned(
+                      left: 24,
+                      right: 24,
+                      bottom: 24,
+                      child: Stack(
+                        children: [
+                          ChargePointDetailInformation(
+                              chargePoint: infoChargerPoint,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }),
   );
-}
-
-showInfoCharger(BuildContext context, double lat, double long) {
-  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
-  //print(infoChargerPoint);
-  showModalBottomSheet(
-      context: context,
-      backgroundColor: cTransparent,
-      builder: (builder){
-        return Stack(
-          children: [
-            Positioned(
-              left: 24,
-              right: 24,
-              bottom: 24,
-              child: Stack(
-                children: [
-                  ChargePointDetailInformation(chargePoint: infoChargerPoint),
-                ],
-              ),
-            ),
-          ],
-        );
-      });
 }
 
 Marker buildBicingMarker({

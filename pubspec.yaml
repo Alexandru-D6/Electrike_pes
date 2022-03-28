@@ -49,6 +49,12 @@ dependencies:
   location: ^3.2.4
   auto_size_text: ^3.0.0
   responsive_grid: ^2.0.0
+  material_floating_search_bar: ^0.3.7
+  implicitly_animated_reorderable_list: ^0.4.2
+  provider: ^6.0.2
+  material_design_icons_flutter: ^5.0.6595
+  google_place: ^0.3.3
+  google_maps_cluster_manager: ^0.1.0
 
 dev_dependencies:
   flutter_test:

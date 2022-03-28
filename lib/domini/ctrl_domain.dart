@@ -240,7 +240,6 @@ class CtrlDomain {
         infocharger.add(charg.nom);
         infocharger.add(charg.direccio);
         infocharger.add(charg.ciutat);
-        infocharger.add(charg.endolls.length.toString());
         List<int> data = getNumDataEndoll(charg);
         for(int i = 0; i < data.length; ++i){
           infocharger.add(data[i].toString());
