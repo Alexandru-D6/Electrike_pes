@@ -136,9 +136,9 @@ class CtrlPresentation {
   }
 
   void logoutRoutine(BuildContext context) async {
-    await serviceLocator<GoogleLoginAdpt>().logout();
     resetUserValues();
     toMainPage(context);
+    await serviceLocator<GoogleLoginAdpt>().logout();
   }
 
   void resetUserValues() {
