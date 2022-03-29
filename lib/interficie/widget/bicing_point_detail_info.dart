@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
+import 'package:flutter_project/interficie/constants.dart';
 
 class BicingPointDetailInformation extends StatelessWidget {
   const BicingPointDetailInformation({

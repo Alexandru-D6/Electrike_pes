@@ -1,13 +1,11 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
-
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/user.dart';
+import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
+import 'package:flutter_project/interficie/widget/numbers_widget.dart';
+import 'package:flutter_project/interficie/widget/profile_widget.dart';
 
-import '../../domini/user.dart';
-import '../constants.dart';
-import '../widget/lateral_menu_widget.dart';
-import '../widget/numbers_widget.dart';
-import '../widget/profile_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
