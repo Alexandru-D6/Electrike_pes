@@ -201,4 +201,10 @@ class CtrlPresentation {
     ctrlDomain.toFavPoint(latitud, longitud);
   }
 
+  void deleteAccount(BuildContext context) {
+    resetUserValues();
+    toMainPage(context);
+    ctrlDomain.deleteaccount();
+  }
+
 }
