@@ -1,5 +1,5 @@
 #The name of your workflow.
-name:  Test, build and deploy
+name:  Build and deploy
 # Trigger the workflow on push or pull request
 on: 
   create:
@@ -25,29 +25,28 @@ jobs:
           java-version: '12.x'
       #enable linux,macos,windows   and  web
       - run: flutter  config --enable-web
-      - run: flutter  config --enable-windows-desktop
       - run: flutter pub get
-      - run: flutter create --platforms=windows .
 
       # build Android version
-      - run: flutter build apk --split-per-abi
-      - run: flutter build appbundle
+      - run: flutter build apk --debug -t lib/interficie/main.dart --no-sound-null-safety
+      #- run: flutter build appbundle -t lib/interficie/main.dart --no-sound-null-safety
       # This action will create a github release and optionally upload an artifact to it.
       # https://github.com/ncipollo/release-action
       - name: Create a Release APK
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/release/*.apk,build/app/outputs/bundle/release/*.aab"
+          artifacts: "build/app/outputs/apk/debug/*"
+          tag: v0.9.${{ github.run_number }}
           token: ${{ secrets.GITHUB_TOKEN }}
       # build Flutter web version
-      - run: flutter channel stable
-      - run: flutter upgrade
-      - run: flutter build web --web-renderer html
+      #- run: flutter channel stable
+      #- run: flutter upgrade
+      #- run: flutter build web --web-renderer html -t lib/interficie/main.dart --no-sound-null-safety
       # Handle the deploy process of your project to GitHub Pages.
       # https://github.com/JamesIves/github-pages-deploy-action
-      - uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-          BASE_BRANCH: main
-          BRANCH: gh-pages
-          FOLDER: build/web
+      #- uses: JamesIves/github-pages-deploy-action@releases/v3
+      #  with:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+      #    BASE_BRANCH: main
+      #    BRANCH: gh-pages
+      #    FOLDER: build/web

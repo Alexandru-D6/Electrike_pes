@@ -1,22 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
-import '../../domini/coordenada.dart';
 import '../constants.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
     Key? key,
     required this.chargePoint,
-    required this.latitude,
-    required this.longitude,
   }) : super(key: key);
 
   final List<String> chargePoint;
-  final double latitude;
-  final double longitude;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +29,7 @@ class ChargePointDetailInformation extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              EditInfoPoint(point: chargePoint, latitude: latitude, longitude: longitude,),
+              EditInfoPoint(point: chargePoint),
             ],
           )
         ],
@@ -48,13 +42,9 @@ class EditInfoPoint extends StatefulWidget {
   const EditInfoPoint({
     Key? key,
     required this.point,
-    required this.latitude,
-    required this.longitude,
   }) : super(key: key);
 
   final List<String> point;
-  final double latitude;
-  final double longitude;
 
   @override
   State<EditInfoPoint> createState() => _EditInfoPointState();
@@ -133,7 +123,7 @@ class PointInfo extends StatelessWidget {
           name: point[1],
           calle: point[2],
           city: point[3],
-          numChargePlaces: point[4],
+          numChargePlaces: getNumChargePlaces(),
           context: context,
         ),
         buildConnectors(),
@@ -213,11 +203,10 @@ class PointInfo extends StatelessWidget {
           xs: 6,
           md: 3,
           child: buildConnectorInfo(
-            numAvailable: point[5],
-            numUnknownState: point[6],
-            numCrashedState: point[7],
-            numNotAvailable: point[8],
-            logoConnector: "assets/images/Schuko.png",
+            numAvailable: "4",
+            numNotAvailable: "8",
+            numUnknownState: "10",
+            logoConnector: "assets/images/type2.png",
             nameConnector: "Schuko",
           ),
         ),
@@ -225,11 +214,10 @@ class PointInfo extends StatelessWidget {
           xs: 6,
           md: 3,
           child: buildConnectorInfo(
-            numAvailable: point[9],
-            numUnknownState: point[10],
-            numCrashedState: point[11],
-            numNotAvailable: point[12],
-            logoConnector: "assets/images/Mennekes.png",
+            numAvailable: "4",
+            numNotAvailable: "5",
+            numUnknownState: "52",
+            logoConnector: "assets/images/type2.png",
             nameConnector: "Mennekes (Type 2)",
           ),
         ),
@@ -237,11 +225,10 @@ class PointInfo extends StatelessWidget {
           xs: 6,
           md: 3,
           child: buildConnectorInfo(
-            numAvailable: point[13],
-            numUnknownState: point[14],
-            numCrashedState: point[15],
-            numNotAvailable: point[16],
-            logoConnector: "assets/images/CHAdeMO.png",
+            numAvailable: "23",
+            numNotAvailable: "54",
+            numUnknownState: "544",
+            logoConnector: "assets/images/type2.png",
             nameConnector: " CHAdeMO (DC)",
           ),
         ),
@@ -249,26 +236,32 @@ class PointInfo extends StatelessWidget {
           xs: 6,
           md: 3,
           child: buildConnectorInfo(
-            numAvailable: point[17],
-            numUnknownState: point[18],
-            numCrashedState: point[19],
-            numNotAvailable: point[20],
-            logoConnector: "assets/images/ComboCCS2.png",
+            numAvailable: "54",
+            numNotAvailable: "24",
+            numUnknownState: "453",
+            logoConnector: "assets/images/type2.png",
             nameConnector: "CCS Combo (DC)",
           ),
         ),
     ],
   );
+
+  getSchukoNum(){
+    return "Schuko".allMatches(point.toString()).length;
+  }
+
+  String getNumChargePlaces() {
+    return (point.length/2-3).toString();
+  }
 }
 
 
 Widget buildConnectorInfo({
-  required String numAvailable,
-  required String numNotAvailable,
-  required String numUnknownState,
-  required String logoConnector,
-  required String nameConnector,
-  required String numCrashedState}) {
+  numAvailable, 
+  numNotAvailable, 
+  numUnknownState, 
+  logoConnector, 
+  nameConnector}) {
   return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -299,19 +292,19 @@ Widget buildConnectorInfo({
           buildSummary(
             icon: Icons.help,
             color: Colors.yellow,
-            info: numUnknownState,
+            info: numAvailable,
           ),
           const SizedBox(width: 10),
           buildSummary(
             icon: Icons.warning,
             color: Colors.amber,
-            info: numCrashedState,
+            info: numAvailable,
           ),
           const SizedBox(width: 10),
           buildSummary(
             icon: Icons.stop_circle,
             color: Colors.red,
-            info: numNotAvailable,
+            info: numAvailable,
           ),
         ],
       ),
@@ -337,4 +330,24 @@ buildSummary({
       ),
     ],
   );
+}
+
+getChargerState(param) {
+  //0 -> Available, 1 -> Occupied, 2 -> Faulted, 3 -> Unavailable, 4 -> Reserved, 5 -> Charging
+  switch (param){
+    case "0": //0 -> Available
+      return const Icon(Icons.not_started, color: Colors.greenAccent,);
+    case "1": //1 -> Occupied
+      return const Icon(Icons.stop_circle, color: Colors.red,);
+    case "2": //2 -> Faulted
+      return const Icon(Icons.dangerous, color: Colors.red,);
+    case "3": //3 -> Unavailable
+      return const Icon(Icons.dangerous, color: Colors.red,);
+    case "4": //4 -> Reserved
+      return const Icon(Icons.pause_circle_filled, color: Colors.yellow,);
+    case "5": //5 -> Charging
+      return const Icon(Icons.stop_circle, color: Colors.red,);
+    default: //6 -> ??
+      return const Icon(Icons.help, color: Colors.amber,);
+  }
 }

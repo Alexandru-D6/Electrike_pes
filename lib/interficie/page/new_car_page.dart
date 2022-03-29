@@ -155,12 +155,12 @@ class _NewCarPageState extends State<NewCarPage> {
       ctrlPresentation.getModelList(controllerBrandCar.text).then((element){
         modelList = element;
       });
-      List<String> infoModel = ctrlPresentation.getInfoModel(controllerModelCar.text);
-      controllerBatteryCar.text = infoModel[3];//3.bateria kWh
-      controllerEffciencyCar.text = infoModel[5];//5.eficiencia Wh/Km
     },
     validator: (value) {
+      if (value != null) {
         return value.isEmpty ? 'Please select a brand' : null;
+      }
+      return "";
     },
     onSaved: (value) {
       saveRoutine(value, returnable);

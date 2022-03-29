@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:google_place/google_place.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+
+import '../ctrl_presentation.dart';
 
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({Key? key}) : super(key: key);
@@ -10,7 +13,8 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidget extends State<SearchBarWidget> {
-  List<String> recomendations = <String>[];
+  List<String?> recomendations = <String?>[];
+  CtrlPresentation ctrlPresentation = CtrlPresentation();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,9 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 200),
       automaticallyImplyDrawerHamburger: false,
-      onQueryChanged: (query) => updateRecomendations(query),
+      onQueryChanged: (query) {
+        updateRecomendations(query);
+      },
       // Specify a custom transition to be used for
       // animating between opened and closed stated.
       transition: CircularFloatingSearchBarTransition(),
@@ -36,7 +42,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           child: CircularButton(
             icon: const Icon(Icons.place),
             onPressed: () {
-              //para la location quiza
+              //TODO: para la location quiza
             },
           ),
         ),
@@ -57,28 +63,32 @@ class _SearchBarWidget extends State<SearchBarWidget> {
     );
   }
 
-  void updateRecomendations(String query) {
+  void updateRecomendations(String? query) {
     if (query != "") {
-      getPlaceService.autoCompleteAdress(query, 40.3243, 2.4353).then((
-          element) {
-        recomendations.clear();
-        setState(() {
-          for (var e in element.predictions) {
-            recomendations.add(e.description);
-          }
-        });
+      getPlaceService.autoCompleteAdress(query!, 40.3243, 2.4353).then((element) {
+        if (element != null) {
+          recomendations.clear();
+          setState(() {
+            List<AutocompletePrediction>? temp = element.predictions;
+            if (temp != null) {
+              for (var e in temp) {
+                recomendations.add(e.description);
+              }
+            }
+          });
+        }
       });
     }
   }
 
   Widget buildRecomendationButtons({
-    required List<String> text
+    required List<String?> text
   }) {
     List<ListTile> list = <ListTile>[];
     for (var element in text) {
       list.add(ListTile(
-        title: Text(element, style: const TextStyle(fontSize: 18, color: Colors.black)),
-        onTap: () => { },//TODO: llamar aqui que hacer con cada boton de la lista
+        title: Text(element!, style: const TextStyle(fontSize: 18, color: Colors.black)),
+        onTap: () => { ctrlPresentation.makeRoute(element) },//TODO: llamar aqui que hacer con cada boton de la lista
       ));
     }
     return Column(children: list);
