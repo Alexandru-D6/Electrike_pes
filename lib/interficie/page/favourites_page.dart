@@ -16,7 +16,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<Coordenada> chargerPoints = ctrlPresentation.getChargePointList();
+    List<Coordenada> chargerPoints = ctrlPresentation.getFavsPoints();
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(

@@ -77,8 +77,6 @@ class _EditInfoPointState extends State<EditInfoPoint> {
   }
 }
 
-double _volume = 0.0;
-
 class StatefulFavouriteButton extends StatefulWidget {
   const StatefulFavouriteButton({Key? key, required this.latitude, required this.longitude}) : super(key: key);
 
@@ -105,13 +103,10 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           tooltip: 'Add points to favourites', //todo translator
           onPressed: () {
             setState(() {
-              //todo connect with domain because not works properly
-              _volume += 5;
               ctrlPresentation.loveClicked(widget.latitude, widget.longitude);
             });
           },
         ),
-        Text('$_volume')
       ],
     );
   }

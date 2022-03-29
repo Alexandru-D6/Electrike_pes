@@ -207,4 +207,8 @@ class CtrlPresentation {
     ctrlDomain.deleteaccount();
   }
 
+  List<Coordenada> getFavsPoints() {
+    return ctrlDomain.getFavChargerPoints();
+  }
+
 }

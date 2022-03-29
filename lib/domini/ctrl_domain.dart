@@ -482,6 +482,14 @@ class CtrlDomain {
     return lpb;
   }
 
+  List<Coordenada> getFavChargerPoints() {
+    List<Coordenada> listToPassFavs = <Coordenada>[];
+    for(var f in puntsFavCarrega){
+      listToPassFavs.add(f.coord);
+    }
+    return listToPassFavs;
+  }
+
 
 }
 
