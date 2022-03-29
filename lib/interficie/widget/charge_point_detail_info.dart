@@ -105,11 +105,14 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           tooltip: 'Add points to favourites', //todo translator
           onPressed: () {
             setState(() {
+              print('PULSAR/****************************************');
               print (ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude));
               //todo connect with domain because not works properly
               _volume += 5;
               ctrlPresentation.loveClicked(widget.latitude, widget.longitude);
+              print('acabat de pulsar/*****');
               print (ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude));
+              print('DESPULASR/****************************');
             });
           },
         ),
