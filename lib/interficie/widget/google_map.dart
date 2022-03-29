@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import 'package:flutter_project/interficie/constants.dart';
+import '../constants.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
 
@@ -27,7 +27,7 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
-    //GoogleMap.of(ctrlPresentation.getMapKey())addMarker(lastPosition, icon: "assets/images/me.png"));
+    //GoogleMap.of(ctrlPresentation.getMapKey())arker(lastPosition, icon: "assets/images/me.png"));
     switch(show){
       case "chargers":
         markers = chargePoints;
@@ -68,14 +68,14 @@ class _MyMapState extends State<MyMap> {
               //minZoom: 3, //todo min zoom en web??
               initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
               mapType: MapType.roadmap,
-              mapStyle: "",
+              mapStyle: null,
               interactive: true,
 
               onLongPress: (markerId) {
               },
 
 
-                    /*onTap: (markerId) async {
+              /*onTap: (markerId) async {
               await showDialog(
               context: context,
               builder: (context) => AlertDialog(
@@ -232,32 +232,10 @@ Marker buildChargerMarker({
   required double long,
   required BuildContext context,
 }){
-  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
   return Marker(
-      GeoCoord(lat, long),
-      icon: "assets/images/me.png",
-      onTap: (markerId)=>
-          showModalBottomSheet(
-              context: context,
-              backgroundColor: cTransparent,
-              builder: (builder){
-                return Stack(
-                  children: [
-                    Positioned(
-                      left: 24,
-                      right: 24,
-                      bottom: 24,
-                      child: Stack(
-                        children: [
-                          ChargePointDetailInformation(
-                              chargePoint: infoChargerPoint,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              }),
+    GeoCoord(lat, long),
+    icon: "assets/images/me.png",
+    onTap: (markerId)=>showInfoCharger(context, lat, long),
   );
 }
 
@@ -299,34 +277,34 @@ Marker buildBicingMarker({
     GeoCoord(lat, long),
     icon: "assets/images/bike.png", //todo: al poner custom marker no sale en la primera carga
     onTap: (ctx) =>
-              showModalBottomSheet(
-                  context: context,
-                  backgroundColor: cTransparent,
-                  builder: (builder) {
-                    return Stack(
+        showModalBottomSheet(
+            context: context,
+            backgroundColor: cTransparent,
+            builder: (builder) {
+              return Stack(
+                children: [
+                  Positioned(
+                    left: 24,
+                    right: 24,
+                    bottom: 24,
+                    child: Stack(
                       children: [
-                        Positioned(
-                          left: 24,
-                          right: 24,
-                          bottom: 24,
-                          child: Stack(
-                            children: [
-                              BicingPointDetailInformation(
-                                  name: infoBicingPoint[0],
-                                  docks: infoBicingPoint[5],
-                                  bicisE: infoBicingPoint[4],
-                                  bicisM: infoBicingPoint[3],
-                              ),
-                              /*const Positioned(
+                        BicingPointDetailInformation(
+                          name: infoBicingPoint[0],
+                          docks: infoBicingPoint[5],
+                          bicisE: infoBicingPoint[4],
+                          bicisM: infoBicingPoint[3],
+                        ),
+                        /*const Positioned(
                               right: 16,
                               /*child: Icon(
                               ),*/
                             )*/
-                            ],
-                          ),
-                        ),
                       ],
-                    );
-                  }),
+                    ),
+                  ),
+                ],
+              );
+            }),
   );
 }
