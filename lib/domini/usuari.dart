@@ -24,7 +24,8 @@ class Usuari {
     co2Estalviat = -1;
   }
 
-  Usuari.origin(this.correu, this.foto) {
+  Usuari.origin(this.correu, this.name, this.foto) {
+    kmRecorregut = 0;
     co2Estalviat = 0;
   }
 

@@ -14,7 +14,7 @@ class GooglePlaceAdpt {
   GooglePlaceAdpt._internal();
 
   ///@post: Retorna la direcció legible donada la coordenada amb la latitud i longitud
-  Future<AutocompleteResponse> autoCompleteAdress(String query, double lat, double lng) async {
+  Future<AutocompleteResponse?> autoCompleteAdress(String query, double lat, double lng) async {
     var result = await googlePlace.autocomplete.get(query, origin: LatLon(lat, lng));
     return result;
   }
