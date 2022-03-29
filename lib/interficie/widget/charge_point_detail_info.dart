@@ -99,21 +99,17 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
       children: <Widget>[
         IconButton(
           icon: Icon(
-            _volume%2 == 0 ? Icons.favorite : Icons.favorite_border,
-            color: _volume%2 == 0 ? Colors.red : null,
+            ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
+            color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
           tooltip: 'Add points to favourites', //todo translator
           onPressed: () {
             setState(() {
+              print (ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude));
               //todo connect with domain because not works properly
               _volume += 5;
-              /*if (check(widget.latitude, widget.longitude)) {
-                ctrlPresentation.favs.remove(Coordenada(widget.latitude, widget.longitude));
-                print("not added");
-              } else {
-                ctrlPresentation.favs.add(Coordenada(widget.latitude, widget.longitude));
-                print(ctrlPresentation.favs);
-              }*/
+              ctrlPresentation.loveClicked(widget.latitude, widget.longitude);
+              print (ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude));
             });
           },
         ),

@@ -185,4 +185,13 @@ class CtrlPresentation {
 
     });
   }
+
+  bool isAFavPoint(double latitud, double longitud) {
+    return ctrlDomain.isAFavPoint(latitud, longitud);
+  }
+
+  void loveClicked(double latitud, double longitud) {
+    ctrlDomain.toFavPoint(latitud, longitud);
+  }
+
 }

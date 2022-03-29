@@ -169,6 +169,22 @@ class CtrlDomain {
     }
     return datacars;
   }
+  bool isAFavPoint(double latitud, double longitud) {
+    bool trobat = false;
+    print('charger searching');
+    for(var favc in puntsFavCarrega){
+      if(favc.coord.latitud == latitud && favc.coord.longitud == longitud){
+        print('charger trobat per fi');
+        trobat = true;
+      }
+    }
+    if(trobat == false){
+      for(var favb in puntsFavBicing){
+        if(favb.coord.latitud == latitud && favb.coord.longitud == longitud)trobat = true;
+      }
+    }
+    return trobat;
+  }
 
   //USER FAV_CHARGER
   void getAllFavCharger(){
@@ -176,9 +192,12 @@ class CtrlDomain {
   }
   void gestioFavChargers(double lat, double long){
     bool trobat = false;
+    print('busco si borrar o añadir');
     for(var fav in puntsFavCarrega){
       if(fav.coord.latitud == lat && fav.coord.longitud == long){
         trobat = true;
+        print('añadir');
+        addFavCharger(lat, long);
       }
     }
     if(trobat){
@@ -439,6 +458,26 @@ class CtrlDomain {
     }
     return lpb;
   }
+
+  void toFavPoint(double latitud, double longitud) {
+    bool trobat = false;
+    print('buscar donde hacer');
+    for(var c in coordPuntsCarrega){
+      if(c.latitud == latitud && c.longitud == longitud){
+        trobat = true;
+        print('hola'+trobat.toString());
+        gestioFavChargers(latitud, longitud);
+      };
+    }
+    if(trobat == false){
+      for(var favb in puntsFavBicing){
+        if(favb.coord.latitud == latitud && favb.coord.longitud == longitud){
+          gestioFavBicing(latitud, longitud);
+        }
+      }
+    }
+  }
+
 
 }
 

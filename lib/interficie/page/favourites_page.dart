@@ -28,7 +28,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
         separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemBuilder: (BuildContext context, int index) {
           Coordenada word = chargerPoints[index];
-          bool isSaved = ctrlPresentation.favs.contains(word);
+          bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
 
           return ListTile(
             title: Text(ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]),
@@ -38,11 +38,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
             ),
             onTap: () {
               setState(() {
-                if (isSaved) {
-                  ctrlPresentation.favs.remove(word);
-                } else {
-                  ctrlPresentation.favs.add(word);
-                }
+                ctrlPresentation.loveClicked(word.latitud, word.longitud);
               });
             },
           );
