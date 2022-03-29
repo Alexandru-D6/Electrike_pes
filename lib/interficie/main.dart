@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
@@ -14,6 +15,9 @@ import 'package:location/location.dart';
 
 Future main() async {
   CtrlDomain ctrlDomain = CtrlDomain();
+  CtrlPresentation ctrlPresentation = CtrlPresentation();
+  Usuari usuari = Usuari();
+
   ctrlDomain.initializeSystem();
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();

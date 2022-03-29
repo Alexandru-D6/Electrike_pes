@@ -10,6 +10,8 @@ import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:http/http.dart' as http;
 
 class CtrlDomain {
@@ -28,7 +30,7 @@ class CtrlDomain {
   List<TipusEndoll> typesendolls = <TipusEndoll>[];
 
   //DATA USER
-  Usuari usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
+  Usuari usuari = Usuari();
   VhElectric vhselected = VhElectric.buit();
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   List<Favorit> puntsFavCarrega = <Favorit>[];
@@ -40,6 +42,7 @@ class CtrlDomain {
   }
   //SYSTEM
   Future<void> initializeSystem() async {
+    usuari.usuarinull();
     initializeTypes();
     await getAllCars();
     await getChargers('cat');
@@ -61,18 +64,27 @@ class CtrlDomain {
     bool newuser = true;
     if(resp['items'] == email)newuser = false;
     if(newuser){
-      url = urlorg +'insert_user?name='+name+'&email='+email+'&img='+img;
-      await http.put(Uri.parse(url));
+      /*url = urlorg +'insert_user?name='+name+'&email='+email+'&img='+img;
+      await http.put(Uri.parse(url));*/
+      /*usuari.correu = email;
+      usuari.name = name;
+      usuari.foto = img;*/
     }
     else{
-      url = urlorg +'user_info?email='+email;
+     /*url = urlorg +'user_info?email='+email;
       var response = await http.get(Uri.parse(url));
       var resp = jsonDecode(response.body);
       usuari.correu = email;
       usuari.name = resp['items'][0]['Name'];
       usuari.foto = resp['items'][0]['Img'];
-      login();
+      login();*/
     }
+    //Luego borrarlo
+    usuari.correu = email;
+    usuari.name = name;
+    usuari.foto = img;
+
+    ctrlPresentation.setUserValues(name, email, img);
   }
   void login() async{
     var url = urlorg +'get_user_fav_chargers?email='+usuari.correu;
@@ -108,11 +120,12 @@ class CtrlDomain {
     for(var t in typesendolls) {
       t.cars=<String>{};
     }
-    usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
+    usuari.usuarinull();
+    ctrlPresentation.resetUserValues();
   }
   void deleteaccount()async{
-    var url = urlorg +'delete_user?email='+usuari.correu;
-    await http.put(Uri.parse(url));
+    /*var url = urlorg +'delete_user?email='+usuari.correu;
+    await http.put(Uri.parse(url));*/
     resetUserSystem();
   }
   /*String getLanguageUser(){

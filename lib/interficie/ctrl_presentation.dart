@@ -135,8 +135,8 @@ class CtrlPresentation {
   }
 
   void logoutRoutine(BuildContext context) async {
-    resetUserValues();
     await serviceLocator<GoogleLoginAdpt>().logout();
+    resetUserValues();
     toMainPage(context);
   }
 
@@ -145,6 +145,12 @@ class CtrlPresentation {
     name= "";
     photoUrl= "";
   }
+
+  void setUserValues(name, email, photoUrl) {
+     this.name = name;
+     this.email = email;
+     this.photoUrl = photoUrl;
+   }
 
   Future<List<String>> getModelList(String brand) {
     return ctrlDomain.getAllModels(brand);
