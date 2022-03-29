@@ -11,6 +11,7 @@ import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/google_map.dart';
+import 'package:google_directions_api/src/directions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -193,6 +194,16 @@ class CtrlPresentation {
     });
   }
 
+  void moveCameraToLocation() {
+    Location location = Location();
+
+    location.getLocation().then((value) {
+      double? lat = value.latitude;
+      double? lng = value.longitude;
+      GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+    });
+  }
+
   bool isAFavPoint(double latitud, double longitud) {
     return ctrlDomain.isAFavPoint(latitud, longitud);
   }
@@ -203,8 +214,8 @@ class CtrlPresentation {
 
   void deleteAccount(BuildContext context) {
     resetUserValues();
-    toMainPage(context);
     ctrlDomain.deleteaccount();
+    toMainPage(context);
   }
 
   List<Coordenada> getFavsPoints() {

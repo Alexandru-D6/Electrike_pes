@@ -68,19 +68,15 @@ class CtrlDomain {
       usuari.name = name;
       usuari.foto = img;
     }
-    else{
-     url = urlorg +'user_info?email='+email;
+    else {
+      url = urlorg + 'user_info?email=' + email;
       var response = await http.get(Uri.parse(url));
       var resp = jsonDecode(response.body);
-      /*usuari.correu = email;
+      usuari.correu = email;
       usuari.name = resp['items'][0]['Name'];
-      usuari.foto = resp['items'][0]['Img'];*/
+      usuari.foto = resp['items'][0]['Img'];
       login();
     }
-    //Luego borrarlo
-    usuari.correu = email;
-    usuari.name = name;
-    usuari.foto = img;
 
     ctrlPresentation.setUserValues(name, email, img);
   }
@@ -187,10 +183,6 @@ class CtrlDomain {
         trobat = true;
       }
     }
-    for(var favc in coordPuntsCarrega){
-      if(favc.latitud == latitud && favc.longitud == longitud){
-      }
-    }
     if(trobat == false){
       for(var favb in puntsFavBicing){
         if(favb.coord.latitud == latitud && favb.coord.longitud == longitud)trobat = true;
@@ -207,11 +199,7 @@ class CtrlDomain {
       }
     }
     if(trobat == false){
-      for(var favb in puntsFavBicing){
-        if(favb.coord.latitud == latitud && favb.coord.longitud == longitud){
-          gestioFavBicing(latitud, longitud);
-        }
-      }
+      gestioFavBicing(latitud, longitud);
     }
   }
   //USER FAV_CHARGER
