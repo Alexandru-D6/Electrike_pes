@@ -1,8 +1,7 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
-
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/main.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
@@ -10,10 +9,10 @@ import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/src/core/google_map.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:location/location.dart';
 
-import '../domini/services/google_login_adpt.dart';
-import '../domini/services/service_locator.dart';
 import 'constants.dart';
 
 class CtrlPresentation {
@@ -23,6 +22,30 @@ class CtrlPresentation {
     return _singleton;
   }
   CtrlPresentation._internal();
+
+  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+
+  GlobalKey<GoogleMapStateBase> getMapKey() {
+    return _key;
+  }
+
+  void makeRoute(String destination){
+    Location location = Location();
+
+    location.getLocation().then((value) {
+      String origin = value.latitude.toString() + "," + value.longitude.toString();
+
+      GoogleMap.of(ctrlPresentation.getMapKey())?.addDirection(
+          origin,
+          destination,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'Destination'
+      );
+
+    });
+  }
 
   String email = "";
   String name = "";
@@ -121,12 +144,12 @@ class CtrlPresentation {
 
   void signInRoutine(BuildContext context) async {
     Navigator.of(context).pop();
-    await serviceLocator<GoogleLoginAdpt>().login();
+    getLoginService.login();
   }
 
   void logoutRoutine(BuildContext context) async {
     resetUserValues();
-    await serviceLocator<GoogleLoginAdpt>().logout();
+    getLoginService.logout();
     ctrlPresentation.toMainPage(context);
   }
 
@@ -146,5 +169,9 @@ class CtrlPresentation {
 
   List<String> getInfoCharger(double lat, double long) {
     return ctrlDomain.getInfoCharger(lat, long);
+  }
+
+  List<String> getInfoModel(String text) {
+    return ctrlDomain.getCarModelInfo(text);
   }
 }

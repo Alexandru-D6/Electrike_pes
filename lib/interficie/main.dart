@@ -1,20 +1,21 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
-import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+
+import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:location/location.dart';
 
-import '../domini/ctrl_domain.dart';
-import 'widget/lateral_menu_widget.dart';
 
 Future main() async {
   CtrlDomain ctrlDomain = CtrlDomain();
-  await ctrlDomain.initializeSystem();
+  ctrlDomain.initializeSystem();
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
   setUpLocator();
@@ -33,13 +34,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(
-          primaryColor: mPrimaryColor,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: const MainPage(),
+    debugShowCheckedModeBanner: false,
+    title: title,
+    theme: ThemeData(
+      primaryColor: mPrimaryColor,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+    ),
+    home: const MainPage(),
   );
 }
 
@@ -81,13 +82,18 @@ class _MainPageState extends State<MainPage> {
     askForPermission(location, context);
 
     return Scaffold(
-    drawer: const NavigationDrawerWidget(),
-    appBar: AppBar(
-      title: const Text(MyApp.title),
-      backgroundColor: mPrimaryColor,
-    ),
-        body: const MyMap(),
-      );
+      drawer: const NavigationDrawerWidget(),
+      appBar: AppBar(
+        title: const Text(MyApp.title),
+        backgroundColor: mPrimaryColor,
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: const [
+          MyMap(),
+          SearchBarWidget(),
+        ],
+      ),
+    );
   }
-
 }
