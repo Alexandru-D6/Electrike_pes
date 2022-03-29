@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../constants.dart';
+import 'package:flutter_project/interficie/constants.dart';
 import 'attribute.dart';
 
 

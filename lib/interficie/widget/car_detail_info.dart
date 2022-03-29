@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/interficie/constants.dart';
 
-import '../constants.dart';
 import 'attribute.dart';
 
 class CarDetailInfomation extends StatelessWidget {

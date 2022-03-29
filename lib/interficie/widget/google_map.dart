@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import '../constants.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
 
@@ -27,7 +27,6 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
-    //GoogleMap.of(ctrlPresentation.getMapKey())arker(lastPosition, icon: "assets/images/me.png"));
     switch(show){
       case "chargers":
         markers = chargePoints;
@@ -48,13 +47,13 @@ class _MyMapState extends State<MyMap> {
         }
         break;
     }
-    //super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     chargePoints = buildChargerMarkers(context);
     bicingPoints = buildBicingMarkers(context);
+    markers = chargePoints.union(bicingPoints);
 
     return Scaffold(
       body: Stack(
@@ -62,7 +61,7 @@ class _MyMapState extends State<MyMap> {
           Positioned.fill(
             child: GoogleMap(
               key: ctrlPresentation.getMapKey(),
-              markers: chargePoints.union(bicingPoints),
+              markers: markers,
               initialZoom: 9,
               //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
               //minZoom: 3, //todo min zoom en web??
@@ -246,7 +245,6 @@ showInfoCharger(BuildContext context, double lat, double long) {
       context: context,
       backgroundColor: cTransparent,
       builder: (builder){
-        print(lat);
         return Stack(
           children: [
             Positioned(
@@ -276,35 +274,33 @@ Marker buildBicingMarker({
   return Marker(
     GeoCoord(lat, long),
     icon: "assets/images/bike.png", //todo: al poner custom marker no sale en la primera carga
-    onTap: (ctx) =>
-        showModalBottomSheet(
-            context: context,
-            backgroundColor: cTransparent,
-            builder: (builder) {
-              return Stack(
+    onTap: (markerId) =>showInfoBicing(context, lat, long, infoBicingPoint)
+  );
+}
+
+showInfoBicing(BuildContext context, double lat, double long, List<String> infoBicingPoint) {
+  return showModalBottomSheet(
+      context: context,
+      backgroundColor: cTransparent,
+      builder: (builder) {
+        return Stack(
+          children: [
+            Positioned(
+              left: 24,
+              right: 24,
+              bottom: 24,
+              child: Stack(
                 children: [
-                  Positioned(
-                    left: 24,
-                    right: 24,
-                    bottom: 24,
-                    child: Stack(
-                      children: [
-                        BicingPointDetailInformation(
-                          name: infoBicingPoint[0],
-                          docks: infoBicingPoint[5],
-                          bicisE: infoBicingPoint[4],
-                          bicisM: infoBicingPoint[3],
-                        ),
-                        /*const Positioned(
-                              right: 16,
-                              /*child: Icon(
-                              ),*/
-                            )*/
-                      ],
-                    ),
+                  BicingPointDetailInformation(
+                    name: infoBicingPoint[0],
+                    docks: infoBicingPoint[5],
+                    bicisE: infoBicingPoint[4],
+                    bicisM: infoBicingPoint[3],
                   ),
                 ],
-              );
-            }),
-  );
+              ),
+            ),
+          ],
+        );
+      });
 }
