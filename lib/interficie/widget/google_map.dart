@@ -91,8 +91,6 @@ class _MyMapState extends State<MyMap> {
               ),
               );
               },*/
-                  )),
-
 
               mobilePreferences: const MobileMapPreferences(
                 myLocationEnabled:true,
