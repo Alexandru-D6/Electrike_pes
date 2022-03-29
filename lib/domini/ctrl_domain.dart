@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
+import 'package:flutter_project/domini/favorit.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
 import 'package:flutter_project/domini/tipus_endoll.dart';
 import 'package:flutter_project/domini/tipus_endoll_enum.dart';
@@ -15,19 +16,25 @@ class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
   static var urlorg = 'http://electrike.ddns.net:3784/';
+  //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
 
+  //DATA INFO SYSTEM
   List<VhElectric> vhElectrics = <VhElectric>[];
   List<EstacioCarrega> puntscarrega= <EstacioCarrega>[];
   List<PuntBicing> puntsBicing= <PuntBicing>[];
   Set<Endoll> endolls = <Endoll>{};
   List<TipusEndoll> typesendolls = <TipusEndoll>[];
 
-  List<VhElectric> vhElectricsInfo = <VhElectric>[];
+  //DATA USER
+  Usuari usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
   VhElectric vhselected = VhElectric.buit();
-  Usuari usuari = Usuari.origin('elpepe', 'soyHUAppo?');
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
+  List<Favorit> puntsFavCarrega = <Favorit>[];
+  List<Favorit> puntsFavBicing = <Favorit>[];
+
+
   factory CtrlDomain() {
     return _singleton;
   }
@@ -47,20 +54,85 @@ class CtrlDomain {
   }
 
   //USER
-  String getLanguageUser(){
+  Future<void> initializeUser(String email, String name, String img)async {
+    var url = urlorg +'exist_user?email='+email;
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    bool newuser = true;
+    if(resp['items'] == email)newuser = false;
+    if(newuser){
+      url = urlorg +'insert_user?name='+name+'&email='+email+'&img='+img;
+      await http.put(Uri.parse(url));
+    }
+    else{
+      url = urlorg +'user_info?email='+email;
+      var response = await http.get(Uri.parse(url));
+      var resp = jsonDecode(response.body);
+      usuari.correu = email;
+      usuari.name = resp['items'][0]['Name'];
+      usuari.foto = resp['items'][0]['Img'];
+      login();
+    }
+  }
+  void login() async{
+    var url = urlorg +'get_user_fav_chargers?email='+usuari.correu;
+    var responseC = (await http.get(Uri.parse(url)));
+    var respC = jsonDecode(responseC.body);
+    for(var pfc in respC['items']) {
+      if(pfc['lat'] != null || pfc['lon'] != null) {
+        puntsFavCarrega.add(Favorit(Coordenada(double.parse(pfc['lat']), double.parse(pfc['lon'])), usuari.correu));
+      }
+    }
+    url = urlorg +'get_user_fav_bicings?email='+usuari.correu;
+    var responseB = (await http.get(Uri.parse(url)));
+    var respB = jsonDecode(responseB.body);
+    for(var pfb in respB['items']){
+      if(pfb['lat'] != null || pfb['lon'] != null){
+      puntsFavBicing.add(Favorit(Coordenada(double.parse(pfb['lat']),double.parse(pfb['lon'])), usuari.correu));
+      }
+    }
+
+    /*var urlc = urlorg +'user_fav_cars?email='+usuari.correu;
+    var responseCars = (await http.get(Uri.parse(urlc)));
+    var respCars = jsonDecode(responseCars.body);
+    List<String> eend = <String>[];
+    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], usuari.correu, favcar['model'],2.0,2.0,2.0,eend));}
+    */
+  }
+
+  void resetUserSystem(){
+    vehiclesUsuari = <VehicleUsuari>[];
+    puntsFavCarrega = <Favorit>[];
+    puntsFavBicing = <Favorit>[];
+    vhselected = VhElectric.buit();
+    for(var t in typesendolls) {
+      t.cars=<String>{};
+    }
+    usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
+  }
+  void deleteaccount()async{
+    var url = urlorg +'delete_user?email='+usuari.correu;
+    await http.put(Uri.parse(url));
+    resetUserSystem();
+  }
+  /*String getLanguageUser(){
     //PONER IDIOMAAAAAAA
     return usuari.correu;
   }
   String getCurrentUserName(){
     return usuari.name;
-  }
-  void addVUser(String name, String idV, List<int> lEndolls){
-    vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, idV));
-    for(int num in lEndolls){
-      typesendolls[num].endolls.add(idV);
+  }*/
+
+  //USER CARS
+  void addVUser(String name, String modelV,String bat, String eff, String consum ,List<String> lEndolls){
+    vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, modelV, double.parse(bat), double.parse(eff), double.parse(consum), lEndolls));
+    for(var num in lEndolls){
+      for(var type in typesendolls){
+        if(type.tipus.name == num)type.cars.add(name);
+      }
     }
   }
-  void editVUser(String name, String idV, List<int> lEndolls){
+  /*void editVUser(String name, String idV, List<int> lEndolls){
     for(var car in vehiclesUsuari) {
       if (car.idVE == idV && car.name == name) {
         for (var num in car.endolls) {
@@ -71,11 +143,16 @@ class CtrlDomain {
         }
       }
     }
-  }
+  }*/
   void removeVUser(String name, String idV){
-    VehicleUsuari vdelete = VehicleUsuari("", "", "");
+    late VehicleUsuari vdelete;
     for(var vhu in vehiclesUsuari){
-      if(vhu.name == name && vhu.idVE == idV){
+      if(vhu.name == name ){
+        for(var type in vhu.endolls){
+          for(var t in typesendolls){
+            if(t.tipus.name == type)t.cars.remove(name);
+          }
+        }
         vdelete = vhu;
       }
     }
@@ -84,13 +161,80 @@ class CtrlDomain {
   List<List<String>> infoAllVUser(){
     List<List<String>> datacars = <List<String>>[];
     for(var vhU in vehiclesUsuari){
-      List<String> ucar = getInfoCar(vhU.idVE);
+      List<String> ucar = getInfoUserCar(vhU.name);
       for(var type in vhU.endolls){
         ucar.add(type);
       }
       datacars.add(ucar);
     }
     return datacars;
+  }
+
+  //USER FAV_CHARGER
+  void getAllFavCharger(){
+
+  }
+  void gestioFavChargers(double lat, double long){
+    bool trobat = false;
+    for(var fav in puntsFavCarrega){
+      if(fav.coord.latitud == lat && fav.coord.longitud == long){
+        trobat = true;
+      }
+    }
+    if(trobat){
+      deleteFavCharger(lat, long);
+    }
+    else{
+      addFavCharger(lat, long);
+    }
+  }
+  void addFavCharger(double lat, double long)async{
+    var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    await http.put(Uri.parse(url));
+    puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
+  }
+  void deleteFavCharger(double lat, double long)async{
+    var url = urlorg +'remove_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    await http.put(Uri.parse(url));
+    Favorit fav = Favorit(Coordenada(0.0,0.0), '');
+    for(var pfc in puntsFavCarrega){
+      if(pfc.coord.latitud == lat && pfc.coord.longitud == long)fav = pfc;
+    }
+    puntsFavBicing.remove(fav);
+  }
+
+  //USER FAV_BICING
+  void getAllFavBicing(){
+
+  }
+  void gestioFavBicing(double lat, double long){
+    bool trobat = false;
+    for(var fav in puntsFavBicing){
+      if(fav.coord.latitud == lat && fav.coord.longitud == long){
+        trobat = true;
+      }
+    }
+    if(trobat){
+      deleteFavBicing(lat, long);
+    }
+    else{
+      addFavBicing(lat, long);
+    }
+  }
+  Future<void> addFavBicing(double lat, double long)async{
+      var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString();
+      puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
+      await http.put(Uri.parse(url));
+
+  }
+  void deleteFavBicing(double lat, double long)async{
+    var url = urlorg +'remove_fav_bicing?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    await http.put(Uri.parse(url));
+    Favorit fav = Favorit(Coordenada(0.0,0.0), '');
+    for(var pfb in puntsFavBicing){
+      if(pfb.coord.latitud == lat && pfb.coord.longitud == long)fav = pfb;
+    }
+    puntsFavBicing.remove(fav);
   }
 
   //CARS
@@ -140,40 +284,20 @@ class CtrlDomain {
     }
     return car;
   }
-  List<String> getInfoCar(String id){
+  List<String> getInfoUserCar(String name){
     List<String> car = <String>[];
-    for(var v in vhElectrics){
-      if(v.id == id){
-        car.add(id);
-        car.add(v.marca);
+    for(var v in vehiclesUsuari){
+      if(v.name == name){
         car.add(v.model);
-        car.add(v.capacitatBateria.toString());
+        car.add(v.battery.toString());
         car.add(v.consum.toString());
-        car.add(v.potencia.toString());
+        car.add(v.efficiency.toString());
       }
     }
     return car;
   }
-  /*void printCars(){
-    for(var car in vhElectricsInfo){
-      print(car.model);
-      print(car.potencia);
-      print(car.consum);
-    }
-  }*/
 
   //CHARGERS
-  /*VERSION BETA Future<void> getChargers() async{
-    var url = urlorg +'chargers_cat';
-    var response = (await http.get(Uri.parse(url)));
-    var resp = jsonDecode(response.body);
-    for(var it in resp['items']){
-      coordPuntsCarrega.add(Coordenada(double.parse(it['LATITUD'].toString()),double.parse(it['LONGITUD'].toString())));
-      EstacioCarrega estacioCarrega = EstacioCarrega.senseendolls(it['_id'], it['DESIGNACIÓ-DESCRIPTIVA'], it['ADREÇA'].toString(), Coordenada(double.parse(it['LATITUD'].toString()),double.parse(it['LONGITUD'].toString())));
-      puntscarrega.add(estacioCarrega);
-    }
-    getChargersBCN();
-  }*/
   Future<void> getChargers(String where) async {
     var url = urlorg +'chargers_'+where;
     var response = (await http.get(Uri.parse(url)));
@@ -240,51 +364,20 @@ class CtrlDomain {
         infocharger.add(charg.nom);
         infocharger.add(charg.direccio);
         infocharger.add(charg.ciutat);
+        infocharger.add(charg.endolls.length.toString());
         List<int> data = getNumDataEndoll(charg);
         for(int i = 0; i < data.length; ++i){
           infocharger.add(data[i].toString());
         }
+        bool isfav = false;
+        for(var fav in puntsFavCarrega){
+          if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
+        }
+        infocharger.add(isfav.toString());
       }
     }
     return infocharger;
   }
-  /*Future<void> getMunicipiChargers(String municipi) async {
-    var url = urlorg +'city_chargers?municipi='+ municipi;
-    var response = (await http.get(Uri.parse(url)));
-    var resp = jsonDecode(response.body);
-    print(resp);
-    /*for(var it in resp[0]){
-      print(it);
-    }*/
-  }*/
-  /*
-  Future<void> getProvinciaChargers(String provincia) async {
-    var url = urlorg +'provincia_chargers?provincia='+ provincia;
-    var response = (await http.get(Uri.parse(url)));
-    var resp = jsonDecode(response.body);
-    print(resp);
-    /*for(var it in resp[0]){
-      print(it);
-    }*/
-  }*/
-  /*void printChargers(){
-    for(var chargep in puntscarrega){
-      print(chargep.id);
-      print(chargep.nom);
-      print(chargep.direccio);
-      print(chargep.coord.latitud);
-      print(chargep.coord.longitud);
-      for(var idend in chargep.endolls) {
-        for(var end in endolls){
-          if(end.id == idend && end.idPuntC == chargep.id){
-            print(end.id);
-            print(end.tipus);
-            break;
-          }
-        }
-      }
-    }
-  }*/
   List<int> getNumDataEndoll(EstacioCarrega charg){
     List<int> endollsinfo = List.filled(16, 0);
     for(var end in charg.endolls){
@@ -296,6 +389,8 @@ class CtrlDomain {
             switch(endoll.ocupat) {
               case 0:{endollsinfo[num*4+0]++;}break;
               case 1: {endollsinfo[num*4+3]++;} break;
+              case 4: {endollsinfo[num*4+3]++;} break;
+              case 5: {endollsinfo[num*4+3]++;} break;//AÑADIDO
               case 6:{endollsinfo[num*4+1]++; }break;
               default:{endollsinfo[num*4+2]++;} break;
             }
@@ -305,6 +400,7 @@ class CtrlDomain {
     }
     return endollsinfo;
   }
+
   //BICING
   Future<void> getBicings()async{
     var url = urlorg +'bicings';
@@ -334,6 +430,11 @@ class CtrlDomain {
         lpb.add(pB.numBm.toString());
         lpb.add(pB.numBe.toString());
         lpb.add(pB.numDock.toString());
+        bool isfav = false;
+        for(var fav in puntsFavBicing){
+          if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
+        }
+        lpb.add(isfav.toString());
       }
     }
     return lpb;
