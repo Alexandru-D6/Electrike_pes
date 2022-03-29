@@ -54,7 +54,7 @@ class CtrlDomain {
   }
 
   //USER
-  void initializeUser(String email, String name, String img)async {
+  Future<void> initializeUser(String email, String name, String img)async {
     var url = urlorg +'exist_user?email='+email;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
@@ -71,29 +71,35 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = resp['items'][0]['Name'];
       usuari.foto = resp['items'][0]['Img'];
-      login(email);
+      login();
     }
   }
-  void login(String email) async{
-    var url = urlorg +'get_user_fav_chargers?email='+email;
+  void login() async{
+    var url = urlorg +'get_user_fav_chargers?email='+usuari.correu;
     var responseC = (await http.get(Uri.parse(url)));
     var respC = jsonDecode(responseC.body);
     for(var pfc in respC['items']) {
-      puntsFavCarrega.add(Favorit(Coordenada(double.parse(pfc['lat']), double.parse(pfc['lon'])), email));
-      print('FAV CHARG'+pfc['lat']+ pfc['lon']);
+      if(pfc['lat'] != null || pfc['lon'] != null) {
+        puntsFavCarrega.add(Favorit(Coordenada(double.parse(pfc['lat']), double.parse(pfc['lon'])), usuari.correu));
+      }
     }
-
-    url = urlorg +'get_user_fav_bicings?email='+email;
+    url = urlorg +'get_user_fav_bicings?email='+usuari.correu;
     var responseB = (await http.get(Uri.parse(url)));
     var respB = jsonDecode(responseB.body);
-    for(var pfb in respB['items']){puntsFavBicing.add(Favorit(Coordenada(pfb['lat'],pfb['lon']), email));}
+    for(var pfb in respB['items']){
+      if(pfb['lat'] != null || pfb['lon'] != null){
+      puntsFavBicing.add(Favorit(Coordenada(double.parse(pfb['lat']),double.parse(pfb['lon'])), usuari.correu));
+      }
+    }
 
-    url = urlorg +'user_fav_cars?email='+email;
-    var responseCars = (await http.get(Uri.parse(url)));
+    /*var urlc = urlorg +'user_fav_cars?email='+usuari.correu;
+    var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
     List<String> eend = <String>[];
-    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], email, favcar['model'],2.0,2.0,2.0,eend));}
+    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], usuari.correu, favcar['model'],2.0,2.0,2.0,eend));}
+    */
   }
+
   void resetUserSystem(){
     vehiclesUsuari = <VehicleUsuari>[];
     puntsFavCarrega = <Favorit>[];
@@ -168,8 +174,19 @@ class CtrlDomain {
   void getAllFavCharger(){
 
   }
-  void gestiofavChargers(double lat, double long){
-
+  void gestioFavChargers(double lat, double long){
+    bool trobat = false;
+    for(var fav in puntsFavCarrega){
+      if(fav.coord.latitud == lat && fav.coord.longitud == long){
+        trobat = true;
+      }
+    }
+    if(trobat){
+      deleteFavCharger(lat, long);
+    }
+    else{
+      addFavCharger(lat, long);
+    }
   }
   void addFavCharger(double lat, double long)async{
     var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
@@ -190,17 +207,29 @@ class CtrlDomain {
   void getAllFavBicing(){
 
   }
+  void gestioFavBicing(double lat, double long){
+    bool trobat = false;
+    for(var fav in puntsFavBicing){
+      if(fav.coord.latitud == lat && fav.coord.longitud == long){
+        trobat = true;
+      }
+    }
+    if(trobat){
+      deleteFavBicing(lat, long);
+    }
+    else{
+      addFavBicing(lat, long);
+    }
+  }
   Future<void> addFavBicing(double lat, double long)async{
       var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString();
       puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
-      var response = await http.put(Uri.parse(url));
-      var resp = jsonDecode(response.body);
-      print(resp);
+      await http.put(Uri.parse(url));
 
   }
   void deleteFavBicing(double lat, double long)async{
     var url = urlorg +'remove_fav_bicing?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
-    await http.put(await Uri.parse(url));
+    await http.put(Uri.parse(url));
     Favorit fav = Favorit(Coordenada(0.0,0.0), '');
     for(var pfb in puntsFavBicing){
       if(pfb.coord.latitud == lat && pfb.coord.longitud == long)fav = pfb;
