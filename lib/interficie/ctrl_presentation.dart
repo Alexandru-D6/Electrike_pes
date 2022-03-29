@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
-import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/main.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
@@ -9,12 +8,13 @@ import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
-import 'package:flutter_project/libraries/flutter_google_maps/src/core/google_map.dart';
-import 'package:google_directions_api/google_directions_api.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:location/location.dart';
 
+import '../domini/services/google_login_adpt.dart';
+import '../domini/services/service_locator.dart';
+import '../libraries/flutter_google_maps/src/core/google_map.dart';
 import 'constants.dart';
+import 'package:location/location.dart';
 
 class CtrlPresentation {
   static final CtrlPresentation _singleton = CtrlPresentation._internal();
@@ -27,6 +27,7 @@ class CtrlPresentation {
   String email = "";
   String name = "";
   String photoUrl = "";
+  List<Coordenada> favs = <Coordenada>[];
 
   //intercambiar vista
   void toMainPage(BuildContext context){
@@ -65,10 +66,19 @@ class CtrlPresentation {
   }
 
   void toFormCar(BuildContext context) {
-    //Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-    builder: (context) => const NewCarPage(),
-  ));
+    if(email == ""){
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+              content: Text(
+                  'To add a car you must be logged!\n' //todo: translator
+              )));
+    }
+    else{
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const NewCarPage(),
+      ));
+    }
   }
 
   toProfilePage(BuildContext context) {
@@ -121,13 +131,13 @@ class CtrlPresentation {
 
   void signInRoutine(BuildContext context) async {
     Navigator.of(context).pop();
-    getLoginService.login();
+    await serviceLocator<GoogleLoginAdpt>().login();
   }
 
   void logoutRoutine(BuildContext context) async {
     resetUserValues();
-    getLoginService.logout();
-    ctrlPresentation.toMainPage(context);
+    await serviceLocator<GoogleLoginAdpt>().logout();
+    toMainPage(context);
   }
 
   void resetUserValues() {
@@ -152,7 +162,6 @@ class CtrlPresentation {
     return ctrlDomain.getCarModelInfo(text);
   }
 
-  //Map
   final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
 
   GlobalKey<GoogleMapStateBase> getMapKey() {
@@ -165,31 +174,24 @@ class CtrlPresentation {
     location.getLocation().then((value) {
       String origin = value.latitude.toString() + "," + value.longitude.toString();
 
-      GoogleMap.of(ctrlPresentation.getMapKey())?.clearDirections();
       GoogleMap.of(ctrlPresentation.getMapKey())?.addDirection(
           origin,
           destination,
           startLabel: '1',
           startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
           endInfo: 'Destination'
       );
 
-      /*GoogleMap.of(ctrlPresentation.getMapKey())?.addMarkerRaw(GeoCoord(value.latitude!, value.longitude!));
-
-      getMapsService.adressCoding(destination).then((e) {
-        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarkerRaw(GeoCoord(e!.lat!, e.lng!));
-      });*/
-
     });
   }
 
-  void moveCameraToLocation() {
-    Location location = Location();
-
-    location.getLocation().then((value) {
-      GeoCoord coord = GeoCoord(value.latitude!, value.longitude!);
-      GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(coord, zoom: 18);
-
-    });
+  bool isAFavPoint(double latitud, double longitud) {
+    return ctrlDomain.isAFavPoint(latitud, longitud);
   }
+
+  void loveClicked(double latitud, double longitud) {
+    ctrlDomain.toFavPoint(latitud, longitud);
+  }
+
 }

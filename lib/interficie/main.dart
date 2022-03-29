@@ -9,7 +9,6 @@ import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 
-import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:location/location.dart';
 
 
@@ -87,13 +86,7 @@ class _MainPageState extends State<MainPage> {
         title: const Text(MyApp.title),
         backgroundColor: mPrimaryColor,
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: const [
-          MyMap(),
-          SearchBarWidget(),
-        ],
-      ),
+      body: const MyMap(),
     );
   }
 }
