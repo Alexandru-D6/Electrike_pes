@@ -65,9 +65,12 @@ class CtrlDomain {
       await http.put(Uri.parse(url));
     }
     else{
+      url = urlorg +'user_info?email='+email;
+      var response = await http.get(Uri.parse(url));
+      var resp = jsonDecode(response.body);
       usuari.correu = email;
-      usuari.name = name;
-      usuari.foto = img;
+      usuari.name = resp['items'][0]['Name'];
+      usuari.foto = resp['items'][0]['Img'];
       login(email);
     }
   }
@@ -75,9 +78,12 @@ class CtrlDomain {
     var url = urlorg +'get_user_fav_chargers?email='+email;
     var responseC = (await http.get(Uri.parse(url)));
     var respC = jsonDecode(responseC.body);
-    for(var pfc in respC['items']){puntsFavCarrega.add(Favorit(Coordenada(pfc['lat'],pfc['lon']), email));}
+    for(var pfc in respC['items']) {
+      puntsFavCarrega.add(Favorit(Coordenada(double.parse(pfc['lat']), double.parse(pfc['lon'])), email));
+      print('FAV CHARG'+pfc['lat']+ pfc['lon']);
+    }
 
-    url = urlorg +'get_user_fav_bicing?email='+email;
+    url = urlorg +'get_user_fav_bicings?email='+email;
     var responseB = (await http.get(Uri.parse(url)));
     var respB = jsonDecode(responseB.body);
     for(var pfb in respB['items']){puntsFavBicing.add(Favorit(Coordenada(pfb['lat'],pfb['lon']), email));}
@@ -100,8 +106,7 @@ class CtrlDomain {
   }
   void deleteaccount()async{
     var url = urlorg +'delete_user?email='+usuari.correu;
-    var response = (await http.put(Uri.parse(url)));
-    jsonDecode(response.body);
+    await http.put(Uri.parse(url));
     resetUserSystem();
   }
   /*String getLanguageUser(){
@@ -111,6 +116,7 @@ class CtrlDomain {
   String getCurrentUserName(){
     return usuari.name;
   }*/
+
   //USER CARS
   void addVUser(String name, String modelV,String bat, String eff, String consum ,List<String> lEndolls){
     vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, modelV, double.parse(bat), double.parse(eff), double.parse(consum), lEndolls));
@@ -157,23 +163,51 @@ class CtrlDomain {
     }
     return datacars;
   }
+
   //USER FAV_CHARGER
-  void addFavCharger(double lat, double long)async{
+  void getAllFavCharger(){
 
   }
-  void deleteFavCharger(double lat, double long)async{
+  void gestiofavChargers(double lat, double long){
 
+  }
+  void addFavCharger(double lat, double long)async{
+    var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    await http.put(Uri.parse(url));
+    puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
+  }
+  void deleteFavCharger(double lat, double long)async{
+    var url = urlorg +'remove_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    await http.put(Uri.parse(url));
+    Favorit fav = Favorit(Coordenada(0.0,0.0), '');
+    for(var pfc in puntsFavCarrega){
+      if(pfc.coord.latitud == lat && pfc.coord.longitud == long)fav = pfc;
+    }
+    puntsFavBicing.remove(fav);
   }
 
   //USER FAV_BICING
-  void addFavBicing(double lat, double long)async{
+  void getAllFavBicing(){
+
+  }
+  Future<void> addFavBicing(double lat, double long)async{
+      var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString();
+      puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
+      var response = await http.put(Uri.parse(url));
+      var resp = jsonDecode(response.body);
+      print(resp);
 
   }
   void deleteFavBicing(double lat, double long)async{
-    var url = urlorg +'remove_fav_bicing?email='+usuari.correu;
-    var response = (await http.put(Uri.parse(url)));
-    jsonDecode(response.body);
+    var url = urlorg +'remove_fav_bicing?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    await http.put(await Uri.parse(url));
+    Favorit fav = Favorit(Coordenada(0.0,0.0), '');
+    for(var pfb in puntsFavBicing){
+      if(pfb.coord.latitud == lat && pfb.coord.longitud == long)fav = pfb;
+    }
+    puntsFavBicing.remove(fav);
   }
+
   //CARS
   Future<void> getAllCars() async {
     var url = urlorg +'cars';
@@ -306,11 +340,15 @@ class CtrlDomain {
         for(int i = 0; i < data.length; ++i){
           infocharger.add(data[i].toString());
         }
+        bool isfav = false;
+        for(var fav in puntsFavCarrega){
+          if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
+        }
+        infocharger.add(isfav.toString());
       }
     }
     return infocharger;
   }
-
   List<int> getNumDataEndoll(EstacioCarrega charg){
     List<int> endollsinfo = List.filled(16, 0);
     for(var end in charg.endolls){
@@ -322,6 +360,8 @@ class CtrlDomain {
             switch(endoll.ocupat) {
               case 0:{endollsinfo[num*4+0]++;}break;
               case 1: {endollsinfo[num*4+3]++;} break;
+              case 4: {endollsinfo[num*4+3]++;} break;
+              case 5: {endollsinfo[num*4+3]++;} break;//AÑADIDO
               case 6:{endollsinfo[num*4+1]++; }break;
               default:{endollsinfo[num*4+2]++;} break;
             }
@@ -331,6 +371,7 @@ class CtrlDomain {
     }
     return endollsinfo;
   }
+
   //BICING
   Future<void> getBicings()async{
     var url = urlorg +'bicings';
@@ -360,6 +401,11 @@ class CtrlDomain {
         lpb.add(pB.numBm.toString());
         lpb.add(pB.numBe.toString());
         lpb.add(pB.numDock.toString());
+        bool isfav = false;
+        for(var fav in puntsFavBicing){
+          if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
+        }
+        lpb.add(isfav.toString());
       }
     }
     return lpb;
