@@ -10,8 +10,7 @@ import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
-import 'package:flutter_project/libraries/flutter_google_maps/src/core/google_map.dart';
-import 'package:google_directions_api/src/directions.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
