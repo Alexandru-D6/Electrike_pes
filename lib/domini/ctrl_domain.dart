@@ -1,4 +1,3 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
 import 'dart:convert';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/endoll.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:http/http.dart' as http;
 
 class CtrlDomain {
@@ -28,7 +28,7 @@ class CtrlDomain {
   List<TipusEndoll> typesendolls = <TipusEndoll>[];
 
   //DATA USER
-  Usuari usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
+  Usuari usuari = Usuari();
   VhElectric vhselected = VhElectric.buit();
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   List<Favorit> puntsFavCarrega = <Favorit>[];
@@ -40,6 +40,7 @@ class CtrlDomain {
   }
   //SYSTEM
   Future<void> initializeSystem() async {
+    usuari.usuarinull();
     initializeTypes();
     await getAllCars();
     await getChargers('cat');
@@ -62,17 +63,26 @@ class CtrlDomain {
     if(resp['items'] == email)newuser = false;
     if(newuser){
       url = urlorg +'insert_user?name='+name+'&email='+email+'&img='+img;
-      await http.put(Uri.parse(url));
+      await http.post(Uri.parse(url));
+      usuari.correu = email;
+      usuari.name = name;
+      usuari.foto = img;
     }
     else{
-      url = urlorg +'user_info?email='+email;
+     url = urlorg +'user_info?email='+email;
       var response = await http.get(Uri.parse(url));
       var resp = jsonDecode(response.body);
-      usuari.correu = email;
+      /*usuari.correu = email;
       usuari.name = resp['items'][0]['Name'];
-      usuari.foto = resp['items'][0]['Img'];
+      usuari.foto = resp['items'][0]['Img'];*/
       login();
     }
+    //Luego borrarlo
+    usuari.correu = email;
+    usuari.name = name;
+    usuari.foto = img;
+
+    ctrlPresentation.setUserValues(name, email, img);
   }
   void login() async{
     var url = urlorg +'get_user_fav_chargers?email='+usuari.correu;
@@ -108,11 +118,12 @@ class CtrlDomain {
     for(var t in typesendolls) {
       t.cars=<String>{};
     }
-    usuari = Usuari.origin('holavictor','elpepe', 'soyHUAppo?');
+    usuari.usuarinull();
+    ctrlPresentation.resetUserValues();
   }
   void deleteaccount()async{
     var url = urlorg +'delete_user?email='+usuari.correu;
-    await http.put(Uri.parse(url));
+    await http.post(Uri.parse(url));
     resetUserSystem();
   }
   /*String getLanguageUser(){
@@ -171,11 +182,13 @@ class CtrlDomain {
   }
   bool isAFavPoint(double latitud, double longitud) {
     bool trobat = false;
-    print('charger searching');
     for(var favc in puntsFavCarrega){
       if(favc.coord.latitud == latitud && favc.coord.longitud == longitud){
-        print('charger trobat per fi');
         trobat = true;
+      }
+    }
+    for(var favc in coordPuntsCarrega){
+      if(favc.latitud == latitud && favc.longitud == longitud){
       }
     }
     if(trobat == false){
@@ -185,19 +198,28 @@ class CtrlDomain {
     }
     return trobat;
   }
-
-  //USER FAV_CHARGER
-  void getAllFavCharger(){
-
+  void toFavPoint(double latitud, double longitud) {
+    bool trobat = false;
+    for(var c in coordPuntsCarrega){
+      if(c.latitud == latitud && c.longitud == longitud){
+        trobat = true;
+        gestioFavChargers(latitud, longitud);
+      }
+    }
+    if(trobat == false){
+      for(var favb in puntsFavBicing){
+        if(favb.coord.latitud == latitud && favb.coord.longitud == longitud){
+          gestioFavBicing(latitud, longitud);
+        }
+      }
+    }
   }
+  //USER FAV_CHARGER
   void gestioFavChargers(double lat, double long){
     bool trobat = false;
-    print('busco si borrar o añadir');
     for(var fav in puntsFavCarrega){
       if(fav.coord.latitud == lat && fav.coord.longitud == long){
         trobat = true;
-        print('añadir');
-        addFavCharger(lat, long);
       }
     }
     if(trobat){
@@ -208,24 +230,24 @@ class CtrlDomain {
     }
   }
   void addFavCharger(double lat, double long)async{
-    var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
-    await http.put(Uri.parse(url));
-    puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
+      var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+      await http.post(Uri.parse(url));
+      puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
   }
   void deleteFavCharger(double lat, double long)async{
     var url = urlorg +'remove_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
-    await http.put(Uri.parse(url));
-    Favorit fav = Favorit(Coordenada(0.0,0.0), '');
+    await http.post(Uri.parse(url));
+    Favorit fav = Favorit(Coordenada(-1.0,0.0), '');
     for(var pfc in puntsFavCarrega){
-      if(pfc.coord.latitud == lat && pfc.coord.longitud == long)fav = pfc;
+      if(pfc.coord.latitud == lat && pfc.coord.longitud == long){
+        fav = pfc;
+      }
     }
-    puntsFavBicing.remove(fav);
+
+    if(fav.coord.latitud != -1.0)puntsFavCarrega.remove(fav);
   }
 
   //USER FAV_BICING
-  void getAllFavBicing(){
-
-  }
   void gestioFavBicing(double lat, double long){
     bool trobat = false;
     for(var fav in puntsFavBicing){
@@ -243,17 +265,18 @@ class CtrlDomain {
   Future<void> addFavBicing(double lat, double long)async{
       var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString();
       puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
-      await http.put(Uri.parse(url));
+      await http.post(Uri.parse(url));
+      puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
 
   }
   void deleteFavBicing(double lat, double long)async{
     var url = urlorg +'remove_fav_bicing?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
-    await http.put(Uri.parse(url));
-    Favorit fav = Favorit(Coordenada(0.0,0.0), '');
+    await http.post(Uri.parse(url));
+    Favorit fav = Favorit(Coordenada(-1.0,0.0), '');
     for(var pfb in puntsFavBicing){
       if(pfb.coord.latitud == lat && pfb.coord.longitud == long)fav = pfb;
     }
-    puntsFavBicing.remove(fav);
+    if(fav.coord.latitud != -1.0)puntsFavBicing.remove(fav);
   }
 
   //CARS
@@ -459,23 +482,12 @@ class CtrlDomain {
     return lpb;
   }
 
-  void toFavPoint(double latitud, double longitud) {
-    bool trobat = false;
-    print('buscar donde hacer');
-    for(var c in coordPuntsCarrega){
-      if(c.latitud == latitud && c.longitud == longitud){
-        trobat = true;
-        print('hola'+trobat.toString());
-        gestioFavChargers(latitud, longitud);
-      };
+  List<Coordenada> getFavChargerPoints() {
+    List<Coordenada> listToPassFavs = <Coordenada>[];
+    for(var f in puntsFavCarrega){
+      listToPassFavs.add(f.coord);
     }
-    if(trobat == false){
-      for(var favb in puntsFavBicing){
-        if(favb.coord.latitud == latitud && favb.coord.longitud == longitud){
-          gestioFavBicing(latitud, longitud);
-        }
-      }
-    }
+    return listToPassFavs;
   }
 
 

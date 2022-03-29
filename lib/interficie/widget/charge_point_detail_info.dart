@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
-import '../constants.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
@@ -77,8 +77,6 @@ class _EditInfoPointState extends State<EditInfoPoint> {
   }
 }
 
-double _volume = 0.0;
-
 class StatefulFavouriteButton extends StatefulWidget {
   const StatefulFavouriteButton({Key? key, required this.latitude, required this.longitude}) : super(key: key);
 
@@ -105,15 +103,10 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           tooltip: 'Add points to favourites', //todo translator
           onPressed: () {
             setState(() {
-              print (ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude));
-              //todo connect with domain because not works properly
-              _volume += 5;
               ctrlPresentation.loveClicked(widget.latitude, widget.longitude);
-              print (ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude));
             });
           },
         ),
-        Text('$_volume')
       ],
     );
   }

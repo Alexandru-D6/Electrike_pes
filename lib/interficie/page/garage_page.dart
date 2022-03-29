@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/widget/car_list_item.dart';
 
-import '../constants.dart';
-import '../ctrl_presentation.dart';
-import '../widget/car_list_item.dart';
-import '../widget/lateral_menu_widget.dart';
+
 
 
 class GaragePage extends StatelessWidget {

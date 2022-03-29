@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/services/google_login_adpt.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/main.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
@@ -8,11 +10,10 @@ import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/src/core/google_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../domini/services/google_login_adpt.dart';
-import '../domini/services/service_locator.dart';
-import '../libraries/flutter_google_maps/src/core/google_map.dart';
+
 import 'constants.dart';
 import 'package:location/location.dart';
 
@@ -136,8 +137,8 @@ class CtrlPresentation {
 
   void logoutRoutine(BuildContext context) async {
     resetUserValues();
-    await serviceLocator<GoogleLoginAdpt>().logout();
     toMainPage(context);
+    await serviceLocator<GoogleLoginAdpt>().logout();
   }
 
   void resetUserValues() {
@@ -145,6 +146,12 @@ class CtrlPresentation {
     name= "";
     photoUrl= "";
   }
+
+  void setUserValues(name, email, photoUrl) {
+     this.name = name;
+     this.email = email;
+     this.photoUrl = photoUrl;
+   }
 
   Future<List<String>> getModelList(String brand) {
     return ctrlDomain.getAllModels(brand);
@@ -192,6 +199,16 @@ class CtrlPresentation {
 
   void loveClicked(double latitud, double longitud) {
     ctrlDomain.toFavPoint(latitud, longitud);
+  }
+
+  void deleteAccount(BuildContext context) {
+    resetUserValues();
+    toMainPage(context);
+    ctrlDomain.deleteaccount();
+  }
+
+  List<Coordenada> getFavsPoints() {
+    return ctrlDomain.getFavChargerPoints();
   }
 
 }

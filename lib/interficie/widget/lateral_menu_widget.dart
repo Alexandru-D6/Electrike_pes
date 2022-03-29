@@ -1,4 +1,3 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';

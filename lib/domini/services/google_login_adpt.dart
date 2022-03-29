@@ -1,6 +1,4 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
-
-import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart';
 
@@ -17,7 +15,7 @@ class GoogleLoginAdpt {
   }
 
   GoogleLoginAdpt._internal();
-  CtrlPresentation ctrlPresentation = CtrlPresentation();
+  CtrlDomain ctrlDomain = CtrlDomain();
 
   Future<GoogleSignInAccount?> login() {
     var _googleSignIn = _googleSignInWeb;
@@ -27,9 +25,12 @@ class GoogleLoginAdpt {
 
       final user = _googleSignIn.signIn();
       user.then((u) {
-        if(u?.displayName != null) ctrlPresentation.name = u!.displayName.toString();
-        if(u?.email != null) ctrlPresentation.email = u!.email.toString();
-        if(u?.photoUrl != null) ctrlPresentation.photoUrl = u!.photoUrl.toString();
+        late String name, email, photoUrl;
+        if(u?.displayName != null) name = u!.displayName.toString();
+        if(u?.email != null) email = u!.email.toString();
+        if(u?.photoUrl != null) photoUrl = u!.photoUrl.toString();
+
+        ctrlDomain.initializeUser(email, name, photoUrl);
       });
       return user;
   }
@@ -40,6 +41,9 @@ class GoogleLoginAdpt {
       _googleSignIn = _googleSignInAndroid;
     }
 
+    ctrlDomain.resetUserSystem();
+
+    _googleSignIn.disconnect();
     final user = _googleSignIn.signOut();
     return user;
   }

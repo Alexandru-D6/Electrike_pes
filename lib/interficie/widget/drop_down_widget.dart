@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/traductor.dart';
 import 'package:flutter_project/interficie/constants.dart';
 
-import '../../domini/traductor.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

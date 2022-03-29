@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
+import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 
-import '../constants.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<Coordenada> chargerPoints = ctrlPresentation.getChargePointList();
+    List<Coordenada> chargerPoints = ctrlPresentation.getFavsPoints();
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
