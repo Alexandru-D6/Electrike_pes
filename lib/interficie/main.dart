@@ -87,13 +87,7 @@ class _MainPageState extends State<MainPage> {
         title: const Text(MyApp.title),
         backgroundColor: mPrimaryColor,
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: const [
-          MyMap(),
-          SearchBarWidget(),
-        ],
-      ),
+      body: const MyMap(),
     );
   }
 }
