@@ -197,8 +197,18 @@ class CtrlPresentation {
     return ctrlDomain.isAFavPoint(latitud, longitud);
   }
 
-  void loveClicked(double latitud, double longitud) {
-    ctrlDomain.toFavPoint(latitud, longitud);
+  void loveClicked(BuildContext context, double latitud, double longitud) {
+    if(email == ""){
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+              content: Text(
+                  'To add favourite point you must be logged!\n' //todo: translator
+              )));
+    }
+    else {
+      ctrlDomain.toFavPoint(latitud, longitud);
+    }
   }
 
   void deleteAccount(BuildContext context) {

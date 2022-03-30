@@ -103,7 +103,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           tooltip: 'Add points to favourites', //todo translator
           onPressed: () {
             setState(() {
-              ctrlPresentation.loveClicked(widget.latitude, widget.longitude);
+              ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
             });
           },
         ),

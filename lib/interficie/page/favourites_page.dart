@@ -38,7 +38,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
             ),
             onTap: () {
               setState(() {
-                ctrlPresentation.loveClicked(word.latitud, word.longitud);
+                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
               });
             },
           );
