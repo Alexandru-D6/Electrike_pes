@@ -32,38 +32,51 @@ class CtrlPresentation {
 
   //intercambiar vista
   void toMainPage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const MainPage(),
-    ));
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MainPage()),
+    );
+  }
+
+  toProfilePage(BuildContext context) {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ProfilePage()),
+    );
   }
 
   void toGaragePage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const GaragePage(),
-    ));
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const GaragePage()),
+    );
   }
 
   void toFavouritesPage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const FavouritesPage(),
-    ));
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const FavouritesPage()),
+    );
   }
 
   void toRewardsPage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const RewardsPage(),
-    ));
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const RewardsPage()),
+    );
   }
 
   void toInfoAppPage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const InformationAppPage(),
-    ));
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const InformationAppPage()),
+    );
   }
 
   void toFormCar(BuildContext context) {
@@ -76,17 +89,12 @@ class CtrlPresentation {
               )));
     }
     else{
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const NewCarPage(),
-      ));
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const NewCarPage()),
+      );
     }
-  }
-
-  toProfilePage(BuildContext context) {
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const ProfilePage(),
-    ));
   }
 
   //USER INFO FUNCTIONS
