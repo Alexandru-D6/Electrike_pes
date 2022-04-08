@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: AnimatedSplashScreen.withScreenFunction(
-          splash: 'assets/images/bentley.png',
+          splash: 'assets/logo.png',
           screenFunction: () async{
             initializeSystem();
             return const MainPage();
