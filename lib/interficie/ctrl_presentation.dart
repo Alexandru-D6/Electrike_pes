@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
@@ -40,6 +41,7 @@ class CtrlPresentation {
   }
 
   void toGaragePage(BuildContext context){
+    Navigator.pop(context);
     Navigator.pushNamed(
       context,
       '/garage',
@@ -69,12 +71,29 @@ class CtrlPresentation {
 
   void toFormCar(BuildContext context) {
     if(email == ""){
-      showDialog(
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Log-in',
+        desc: 'To add a car you must be logged!\n',
+        btnCancelOnPress: () {},
+        btnOkIcon: (Icons.login),
+        btnOkText: "Log-in",
+        btnOkOnPress: () {
+          signInRoutine(context);
+        },
+
+        headerAnimationLoop: false,
+      ).show();
+
+
+      /*showDialog(
           context: context,
           builder: (context) => const AlertDialog(
               content: Text(
-                  'To add a car you must be logged!\n' //todo: translator
-              )));
+                  'To add a car you must be logged!\n'
+              )));*/
     }
     else{
       Navigator.pushNamed(
