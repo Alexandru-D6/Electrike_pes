@@ -3,13 +3,7 @@ import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
-import 'package:flutter_project/interficie/main.dart';
-import 'package:flutter_project/interficie/page/favourites_page.dart';
-import 'package:flutter_project/interficie/page/garage_page.dart';
-import 'package:flutter_project/interficie/page/information_app_page.dart';
-import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
-import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,50 +26,44 @@ class CtrlPresentation {
 
   //intercambiar vista
   void toMainPage(BuildContext context){
-    Navigator.pop(context);
-    Navigator.push(
+    Navigator.pushReplacementNamed(
       context,
-      MaterialPageRoute(builder: (context) => const MainPage()),
+      '/',
     );
   }
 
   toProfilePage(BuildContext context) {
-    Navigator.pop(context);
-    Navigator.push(
+    Navigator.pushReplacementNamed(
       context,
-      MaterialPageRoute(builder: (context) => const ProfilePage()),
+      '/profile',
     );
   }
 
   void toGaragePage(BuildContext context){
-    Navigator.pop(context);
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(builder: (context) => const GaragePage()),
+      '/garage',
     );
   }
 
   void toFavouritesPage(BuildContext context){
-    Navigator.pop(context);
-    Navigator.push(
+    Navigator.pushReplacementNamed(
       context,
-      MaterialPageRoute(builder: (context) => const FavouritesPage()),
+      '/favourites',
     );
   }
 
   void toRewardsPage(BuildContext context){
-    Navigator.pop(context);
-    Navigator.push(
+    Navigator.pushReplacementNamed(
       context,
-      MaterialPageRoute(builder: (context) => const RewardsPage()),
+      '/rewards',
     );
   }
 
   void toInfoAppPage(BuildContext context){
-    Navigator.pop(context);
-    Navigator.push(
+    Navigator.pushReplacementNamed(
       context,
-      MaterialPageRoute(builder: (context) => const InformationAppPage()),
+      '/info',
     );
   }
 
@@ -89,10 +77,9 @@ class CtrlPresentation {
               )));
     }
     else{
-      Navigator.pop(context);
-      Navigator.push(
+      Navigator.pushNamed(
         context,
-        MaterialPageRoute(builder: (context) => const NewCarPage()),
+        '/newCar',
       );
     }
   }

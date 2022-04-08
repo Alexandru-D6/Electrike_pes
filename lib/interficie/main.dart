@@ -5,6 +5,12 @@ import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/page/favourites_page.dart';
+import 'package:flutter_project/interficie/page/garage_page.dart';
+import 'package:flutter_project/interficie/page/information_app_page.dart';
+import 'package:flutter_project/interficie/page/new_car_page.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
@@ -41,7 +47,17 @@ class MyApp extends StatelessWidget {
       primaryColor: mPrimaryColor,
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
-    home: const MainPage(),
+    //home: const MainPage(),
+    initialRoute: '/',
+    routes: {
+      '/': (context) => const MainPage(),
+      '/profile': (context) => const ProfilePage(),
+      '/garage': (context) => const GaragePage(),
+      '/newCar': (context) => const NewCarPage(),
+      '/favourites': (context) => const FavouritesPage(),
+      '/rewards': (context) => const RewardsPage(),
+      '/info': (context) => const InformationAppPage(),
+    },
   );
 }
 
