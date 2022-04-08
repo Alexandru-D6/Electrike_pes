@@ -28,17 +28,17 @@ class _FavouritesPageState extends State<FavouritesPage> {
         separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemBuilder: (BuildContext context, int index) {
           Coordenada word = chargerPoints[index];
+          bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
 
           return ListTile(
             title: Text(ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]),
-            trailing: const Icon(
-              Icons.favorite,
-              color: Colors.red,
+            trailing: Icon(
+              isSaved ? Icons.favorite : Icons.favorite_border,
+              color: isSaved ? Colors.red : null,
             ),
             onTap: () {
               setState(() {
-                ctrlPresentation.loveClicked(word.latitud, word.longitud);
-                ctrlPresentation.getFavsPoints();
+                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
               });
             },
           );
