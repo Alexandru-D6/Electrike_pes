@@ -223,12 +223,21 @@ class CtrlPresentation {
 
   void loveClicked(BuildContext context, double latitud, double longitud) {
     if(email == ""){
-      showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-              content: Text(
-                  'To add favourite point you must be logged!\n' //todo: translator
-              )));
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: 'Log-in',
+        desc: 'To add favourite point you must be logged!\n', //todo: translator
+        btnCancelOnPress: () {},
+        btnOkIcon: (Icons.login),
+        btnOkText: "Log-in",
+        btnOkOnPress: () {
+          signInRoutine(context);
+        },
+
+        headerAnimationLoop: false,
+      ).show();
     }
     else {
       ctrlDomain.toFavPoint(latitud, longitud);
