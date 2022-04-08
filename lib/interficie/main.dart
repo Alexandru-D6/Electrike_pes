@@ -11,6 +11,7 @@ import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
+import 'package:flutter_project/interficie/page/splash_page.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
@@ -18,8 +19,9 @@ import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_map
 
 import 'package:location/location.dart';
 
+void main() => runApp(const SplashScreen());
 
-Future main() async {
+Future initializeSystem() async {
   CtrlDomain ctrlDomain = CtrlDomain();
 
   ctrlDomain.initializeSystem();
@@ -30,7 +32,6 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
   runApp(const MyApp());
 }
 
