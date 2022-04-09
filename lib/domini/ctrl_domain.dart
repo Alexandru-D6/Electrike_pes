@@ -1,4 +1,3 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
 import 'dart:convert';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/endoll.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
-import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,6 +19,8 @@ class CtrlDomain {
   //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
+  List<Coordenada> coordBarcelona = <Coordenada>[];
+  List<Coordenada> coordCatalunya = <Coordenada>[];
 
   //DATA INFO SYSTEM
   List<VhElectric> vhElectrics = <VhElectric>[];
@@ -64,25 +64,21 @@ class CtrlDomain {
     bool newuser = true;
     if(resp['items'] == email)newuser = false;
     if(newuser){
-      /*url = urlorg +'insert_user?name='+name+'&email='+email+'&img='+img;
-      await http.put(Uri.parse(url));*/
-      /*usuari.correu = email;
+      url = urlorg +'insert_user?name='+name+'&email='+email+'&img='+img;
+      await http.post(Uri.parse(url));
+      usuari.correu = email;
       usuari.name = name;
-      usuari.foto = img;*/
+      usuari.foto = img;
     }
-    else{
-     /*url = urlorg +'user_info?email='+email;
+    else {
+      url = urlorg + 'user_info?email=' + email;
       var response = await http.get(Uri.parse(url));
       var resp = jsonDecode(response.body);
       usuari.correu = email;
       usuari.name = resp['items'][0]['Name'];
       usuari.foto = resp['items'][0]['Img'];
-      login();*/
+      login();
     }
-    //Luego borrarlo
-    usuari.correu = email;
-    usuari.name = name;
-    usuari.foto = img;
 
     ctrlPresentation.setUserValues(name, email, img);
   }
@@ -100,15 +96,15 @@ class CtrlDomain {
     var respB = jsonDecode(responseB.body);
     for(var pfb in respB['items']){
       if(pfb['lat'] != null || pfb['lon'] != null){
-      puntsFavBicing.add(Favorit(Coordenada(double.parse(pfb['lat']),double.parse(pfb['lon'])), usuari.correu));
+        puntsFavBicing.add(Favorit(Coordenada(double.parse(pfb['lat']),double.parse(pfb['lon'])), usuari.correu));
       }
     }
 
     /*var urlc = urlorg +'user_fav_cars?email='+usuari.correu;
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
-    List<String> eend = <String>[];
-    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], usuari.correu, favcar['model'],2.0,2.0,2.0,eend));}
+    List<String> end = <String>[];
+    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], usuari.correu, favcar['model'],2.0,2.0,2.0,end));}
     */
   }
 
@@ -124,8 +120,8 @@ class CtrlDomain {
     ctrlPresentation.resetUserValues();
   }
   void deleteaccount()async{
-    /*var url = urlorg +'delete_user?email='+usuari.correu;
-    await http.put(Uri.parse(url));*/
+    var url = urlorg +'delete_user?email='+usuari.correu;
+    await http.post(Uri.parse(url));
     resetUserSystem();
   }
   /*String getLanguageUser(){
@@ -189,10 +185,6 @@ class CtrlDomain {
         trobat = true;
       }
     }
-    for(var favc in coordPuntsCarrega){
-      if(favc.latitud == latitud && favc.longitud == longitud){
-      }
-    }
     if(trobat == false){
       for(var favb in puntsFavBicing){
         if(favb.coord.latitud == latitud && favb.coord.longitud == longitud)trobat = true;
@@ -202,52 +194,39 @@ class CtrlDomain {
   }
   void toFavPoint(double latitud, double longitud) {
     bool trobat = false;
-    print('buscar donde hacer');
     for(var c in coordPuntsCarrega){
       if(c.latitud == latitud && c.longitud == longitud){
         trobat = true;
-        print('hola'+trobat.toString());
         gestioFavChargers(latitud, longitud);
-      };
+      }
     }
     if(trobat == false){
-      for(var favb in puntsFavBicing){
-        if(favb.coord.latitud == latitud && favb.coord.longitud == longitud){
-          gestioFavBicing(latitud, longitud);
-        }
-      }
+      gestioFavBicing(latitud, longitud);
     }
   }
   //USER FAV_CHARGER
   void gestioFavChargers(double lat, double long){
     bool trobat = false;
-    print('busco si borrar o añadir');
     for(var fav in puntsFavCarrega){
       if(fav.coord.latitud == lat && fav.coord.longitud == long){
         trobat = true;
       }
     }
-    print('este es el resultado de trobat:'+trobat.toString());
     if(trobat){
-      print('delete');
       deleteFavCharger(lat, long);
     }
     else{
-      print('añadir');
       addFavCharger(lat, long);
     }
   }
   void addFavCharger(double lat, double long)async{
-      /*var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
-      var respnse = await http.put(Uri.parse(url));
-      print('on server');
-      var resp = jsonDecode(respnse.body);*/
-      puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
+    var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    await http.post(Uri.parse(url));
+    puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
   }
   void deleteFavCharger(double lat, double long)async{
-    /*var url = urlorg +'remove_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
-    await http.put(Uri.parse(url));
-    */
+    var url = urlorg +'remove_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    await http.post(Uri.parse(url));
     Favorit fav = Favorit(Coordenada(-1.0,0.0), '');
     for(var pfc in puntsFavCarrega){
       if(pfc.coord.latitud == lat && pfc.coord.longitud == long){
@@ -274,19 +253,18 @@ class CtrlDomain {
     }
   }
   Future<void> addFavBicing(double lat, double long)async{
-      /*var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString();
-      puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
-      await http.put(Uri.parse(url));*/
-      puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
+    var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString();
+    puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
+    await http.post(Uri.parse(url));
+    puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
 
   }
   void deleteFavBicing(double lat, double long)async{
-    /*^var url = urlorg +'remove_fav_bicing?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
-    await http.put(Uri.parse(url));*/
+    var url = urlorg +'remove_fav_bicing?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    await http.post(Uri.parse(url));
     Favorit fav = Favorit(Coordenada(-1.0,0.0), '');
     for(var pfb in puntsFavBicing){
       if(pfb.coord.latitud == lat && pfb.coord.longitud == long)fav = pfb;
-      print(fav.coord.latitud);
     }
     if(fav.coord.latitud != -1.0)puntsFavBicing.remove(fav);
   }
@@ -327,13 +305,13 @@ class CtrlDomain {
     List<String> car = <String>[];
     for(var v in vhElectrics){
       if(v.model == model) {
-          car.add(v.id);
-          car.add(v.marca);
-          car.add(v.model);
-          car.add(v.capacitatBateria.toString());
-          car.add(v.consum.toString());
-          car.add(v.potencia.toString());
-          break;
+        car.add(v.id);
+        car.add(v.marca);
+        car.add(v.model);
+        car.add(v.capacitatBateria.toString());
+        car.add(v.consum.toString());
+        car.add(v.potencia.toString());
+        break;
       }
     }
     return car;
@@ -375,7 +353,7 @@ class CtrlDomain {
       if(it['Station_name']== null)it['Station_name']="Unknown";
       if(it['Station_address']== null)it['Station_address']="Unknown";
       coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
-       EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'], it['Station_municipi'],endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+      EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'], it['Station_municipi'],endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
       puntscarrega.add(estCarrega);
     }
   }
@@ -391,7 +369,7 @@ class CtrlDomain {
         var list = en['Connector_types'].toString().split(',');
         for(var num in list){
           typesendolls[int.parse(num)].endolls.add(it['_id']);
-            endoll.tipus.add(num);
+          endoll.tipus.add(num);
         }
         endolls.add(endoll);
       }
@@ -408,6 +386,58 @@ class CtrlDomain {
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
       it;
+    }
+  }
+  Future<List<String>> getInfoCharger2(double lat, double long) async{
+    List<String> infoC =<String>[];
+    var url = urlorg +'charger_info_cat?longitud='+ long.toString() +'&latitud='+lat.toString();
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    for(var it in resp['items']){
+      if(it['Station_name']== null)it['Station_name']="Unknown";
+      if(it['Station_address']== null)it['Station_address']="Unknown";
+      infoC.add(it["_id"]);
+      infoC.add(it["Station_name"]);
+      infoC.add(it["Station_address"]);
+      infoC.add(it["Station_municipi"]);
+      List<int> endollsinfo = List.filled(16, 0);
+      for(var en in it['Sockets']){
+        for(var type in en['Connector_types']) {
+          var num = type-1;
+          switch(en['State']) {
+            case 0:{endollsinfo[num*4+0]++;}break;
+            case 1: {endollsinfo[num*4+3]++;} break;
+            case 4: {endollsinfo[num*4+3]++;} break;
+            case 5: {endollsinfo[num*4+3]++;} break;//AÑADIDO
+            case 6:{endollsinfo[num*4+1]++; }break;
+            default:{endollsinfo[num*4+2]++;} break;
+          }
+        }
+      }
+      for(int i = 0; i < endollsinfo .length; ++i){
+        infoC.add(endollsinfo [i].toString());
+      }
+      bool isfav = false;
+      for(var fav in puntsFavCarrega){
+        if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
+      }
+      infoC.add(isfav.toString());
+    }
+    return infoC;
+  }
+  Future<void> getChargersCoord(String where)async{
+    var url = urlorg +'chargers_'+where;
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    for(var it in resp['items']){
+      if(where == 'bcn') {
+        coordBarcelona.add(Coordenada(
+            double.parse(it['Station_lat'].toString()),
+            double.parse(it['Station_lng'].toString())));
+      }
+      else{
+        coordCatalunya.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+      }
     }
   }
   List<String> getInfoCharger(double lat, double long){
@@ -462,38 +492,54 @@ class CtrlDomain {
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
       coordBicings.add(Coordenada(double.parse(it['lat'].toString()),double.parse(it['lon'].toString())));
-      PuntBicing puntB = PuntBicing(it['station_id'], 'Bicing ' +it['name'], it['address'],it['capacity'], Coordenada(double.parse(it['lat'].toString()),double.parse(it['lon'].toString())));
-      puntsBicing.add(puntB);
     }
   }
   Future<List<String>> getInfoBicing(double lat, double long) async{
     List<String> lpb = <String>[];
-    for(var pB in puntsBicing){
-      if(pB.coord.latitud == lat && pB.coord.longitud== long){
-        var url = urlorg +'bicing_status?id='+pB.id.toString();
-        var response = (await http.get(Uri.parse(url)));
-        var resp = jsonDecode(response.body);
-        for(var it in resp['items']){
-          pB.numBm = it['num_bikes_available_types']['mechanical'];
-          pB.numBe = it['num_bikes_available_types']['ebike'];
-          pB.numDock = it['num_docks_available'];
-        }
-        lpb.add(pB.nom);
-        lpb.add(pB.direccio);
-        lpb.add(pB.numB.toString());
-        lpb.add(pB.numBm.toString());
-        lpb.add(pB.numBe.toString());
-        lpb.add(pB.numDock.toString());
-        bool isfav = false;
-        for(var fav in puntsFavBicing){
-          if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
-        }
-        lpb.add(isfav.toString());
-      }
+    var id = 0;
+    String nom = '';
+    String direccio = '';
+    var numB = 0;
+    var numBm = 0;
+    var numBe = 0;
+    var numDock = 0;
+    var url = urlorg +'bicing_info?latitud='+lat.toString()+'&longitud='+long.toString();
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    for(var it in resp['items']){
+      id = it["station_id"];
+      nom = "Bicing"+it["name"];
+      direccio = it["address"];
     }
+    url = urlorg +'bicing_status?id='+id.toString();
+    response = (await http.get(Uri.parse(url)));
+    resp = jsonDecode(response.body);
+    for(var it in resp['items']){
+      numBm = it['num_bikes_available_types']['mechanical'];
+      numBe = it['num_bikes_available_types']['ebike'];
+      numDock = it['num_docks_available'];
+    }
+    lpb.add(nom);
+    lpb.add(direccio);
+    lpb.add(numB.toString());
+    lpb.add(numBm.toString());
+    lpb.add(numBe.toString());
+    lpb.add(numDock.toString());
+    bool isfav = false;
+    for(var fav in puntsFavBicing){
+      if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
+    }
+    lpb.add(isfav.toString());
     return lpb;
+  }
+
+  List<Coordenada> getFavChargerPoints() {
+    List<Coordenada> listToPassFavs = <Coordenada>[];
+    for(var f in puntsFavCarrega){
+      listToPassFavs.add(f.coord);
+    }
+    return listToPassFavs;
   }
 
 
 }
-
