@@ -20,7 +20,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
   Widget build(BuildContext context) {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return FloatingSearchBar(
-      hint: 'Search and Address...',
+      hint: 'Search...',
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
       transitionDuration: const Duration(milliseconds: 500),
       transitionCurve: Curves.easeInOut,
@@ -42,6 +42,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           child: CircularButton(
             icon: const Icon(Icons.place),
             onPressed: () {
+              ctrlPresentation.moveCameraToLocation();
               //TODO: para la location quiza
             },
           ),

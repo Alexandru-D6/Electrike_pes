@@ -2,9 +2,9 @@ import 'package:checkbox_formfield/checkbox_list_tile_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/interficie/widget/button_widget.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 
+import '../widget/button_widget.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class NewCarPage extends StatefulWidget {
@@ -67,12 +67,12 @@ class _NewCarPageState extends State<NewCarPage> {
                     ),
                     const SizedBox(height: 13),
                     buildTextSuggestorField(
-                        icon: Icons.policy,
-                        hint: 'Tesla',
-                        label: 'Brand Car',
-                        controller: controllerBrandCar,
-                        suggester: getBrandSuggestions, //todo
-                        returnable: "selectedBrandCar",
+                      icon: Icons.policy,
+                      hint: 'Tesla',
+                      label: 'Brand Car',
+                      controller: controllerBrandCar,
+                      suggester: getBrandSuggestions, //todo
+                      returnable: "selectedBrandCar",
                     ),
                     const SizedBox(height: 13),
                     buildTextSuggestorField(
@@ -132,7 +132,7 @@ class _NewCarPageState extends State<NewCarPage> {
     required var returnable,
   }) {
     return TypeAheadFormField<String?>(
-    textFieldConfiguration: TextFieldConfiguration(
+      textFieldConfiguration: TextFieldConfiguration(
         controller: controller,
         decoration: InputDecoration(
           prefixIcon: Icon(icon),
@@ -140,31 +140,31 @@ class _NewCarPageState extends State<NewCarPage> {
           labelText: label, //todo: translator
           border: const OutlineInputBorder(),
         ),
-    ),
-    suggestionsCallback: suggester,
-    itemBuilder: (context, String? suggestion) {
-      modelList.clear();
-      return ListTile(
-        title: Text(suggestion!),
+      ),
+      suggestionsCallback: suggester,
+      itemBuilder: (context, String? suggestion) {
+        modelList.clear();
+        return ListTile(
+          title: Text(suggestion!),
+        );
+      },
+      onSuggestionSelected: (String? suggestion) {
+        controller.text = suggestion!;
+        ctrlPresentation.getModelList(controllerBrandCar.text).then((element){
+          modelList = element;
+        });
+        List<String> infoModel = ctrlPresentation.getInfoModel(controllerModelCar.text);
+        controllerBatteryCar.text = infoModel[3];//3.bateria kWh
+        controllerEffciencyCar.text = infoModel[5];//5.eficiencia Wh/Km
+      },
+      validator: (value) {
+        return value!.isEmpty ? 'Please select a brand' : null;
+      },
+      onSaved: (value) {
+        saveRoutine(value, returnable);
+      },
     );
-    },
-    onSuggestionSelected: (String? suggestion) {
-      controller.text = suggestion!;
-      ctrlPresentation.getModelList(controllerBrandCar.text).then((element){
-        modelList = element;
-      });
-    },
-    validator: (value) {
-      if (value != null) {
-        return value.isEmpty ? 'Please select a brand' : null;
-      }
-      return "";
-    },
-    onSaved: (value) {
-      saveRoutine(value, returnable);
-    },
-  );
-}
+  }
 
   Widget buildTextNoSuggestorField({
     required String hint,
@@ -176,9 +176,9 @@ class _NewCarPageState extends State<NewCarPage> {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-          labelText: label,
-          hintText: hint,
-          prefixIcon: Icon(icon),
+        labelText: label,
+        hintText: hint,
+        prefixIcon: Icon(icon),
         border: const OutlineInputBorder(),
       ),
       validator: (value) {
@@ -219,17 +219,17 @@ class _NewCarPageState extends State<NewCarPage> {
     required TextEditingController controller, String? returnable,
   }) {
     return TextFormField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
-        ],
-        decoration: InputDecoration(
-            labelText: label,
-            hintText: hint,
-            prefixIcon: Icon(icon),
-          border: const OutlineInputBorder(),
-        ),
+      controller: controller,
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+      ],
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        prefixIcon: Icon(icon),
+        border: const OutlineInputBorder(),
+      ),
       validator: (value) {
         if(value == null) {
           return null;
@@ -312,11 +312,11 @@ class _NewCarPageState extends State<NewCarPage> {
 
   List<String> getModelSuggestions(String query) {
     return List.of(modelList).where((brand) {
-        final brandLower = brand.toLowerCase();
-        final queryLower = query.toLowerCase();
+      final brandLower = brand.toLowerCase();
+      final queryLower = query.toLowerCase();
 
-        return brandLower.contains(queryLower);
-      }).toList();
+      return brandLower.contains(queryLower);
+    }).toList();
   }
 
 }

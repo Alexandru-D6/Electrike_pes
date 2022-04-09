@@ -10,7 +10,7 @@ import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
-import 'package:flutter_project/libraries/flutter_google_maps/src/core/google_map.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -136,9 +136,9 @@ class CtrlPresentation {
   }
 
   void logoutRoutine(BuildContext context) async {
-    await serviceLocator<GoogleLoginAdpt>().logout();
     resetUserValues();
     toMainPage(context);
+    await serviceLocator<GoogleLoginAdpt>().logout();
   }
 
   void resetUserValues() {
@@ -193,12 +193,42 @@ class CtrlPresentation {
     });
   }
 
+  void moveCameraToLocation() {
+    Location location = Location();
+
+    location.getLocation().then((value) {
+      double? lat = value.latitude;
+      double? lng = value.longitude;
+      GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+    });
+  }
+
   bool isAFavPoint(double latitud, double longitud) {
     return ctrlDomain.isAFavPoint(latitud, longitud);
   }
 
-  void loveClicked(double latitud, double longitud) {
-    ctrlDomain.toFavPoint(latitud, longitud);
+  void loveClicked(BuildContext context, double latitud, double longitud) {
+    if(email == ""){
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+              content: Text(
+                  'To add favourite point you must be logged!\n' //todo: translator
+              )));
+    }
+    else {
+      ctrlDomain.toFavPoint(latitud, longitud);
+    }
+  }
+
+  void deleteAccount(BuildContext context) {
+    resetUserValues();
+    ctrlDomain.deleteaccount();
+    toMainPage(context);
+  }
+
+  List<Coordenada> getFavsPoints() {
+    return ctrlDomain.getFavChargerPoints();
   }
 
 }

@@ -45,6 +45,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: mCardColor,
+            child: const Icon(Icons.delete_forever),
+            onPressed: () {
+              _showMyDialog();
+            },
+          ),
         ),
     );
   }
@@ -82,4 +89,38 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
     ),
   );
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure you want to delete your account?'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: const <Widget>[
+                Text('Deleting your account is permanent and will remove all content including cars, favourites points and profile settings. Are you sure you want to delete your account?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Confirm'),
+              onPressed: () {
+                //print('Confirmed');
+                ctrlPresentation.deleteAccount(context);
+              },
+            ),
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
