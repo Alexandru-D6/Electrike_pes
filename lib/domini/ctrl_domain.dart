@@ -9,7 +9,7 @@ import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
-import 'package:flutter_project/interficie/page/profile_page.dart';
+//import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:http/http.dart' as http;
 
 class CtrlDomain {
@@ -80,7 +80,7 @@ class CtrlDomain {
       login();
     }
 
-    ctrlPresentation.setUserValues(name, email, img);
+    //ctrlPresentation.setUserValues(name, email, img);
   }
   void login() async{
     var url = urlorg +'get_user_fav_chargers?email='+usuari.correu;
@@ -104,7 +104,7 @@ class CtrlDomain {
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
     List<String> end = <String>[];
-    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], usuari.correu, favcar['model'],2.0,2.0,2.0,end));}
+    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], usuari.correu, favcar['brand'],favcar['model'],favcar['battery'],favcar['efficiency'], favcar['rage'],2.0,2.0,2.0,));}
     */
   }
 
@@ -117,7 +117,7 @@ class CtrlDomain {
       t.cars=<String>{};
     }
     usuari.usuarinull();
-    ctrlPresentation.resetUserValues();
+    //ctrlPresentation.resetUserValues();
   }
   void deleteaccount()async{
     var url = urlorg +'delete_user?email='+usuari.correu;
@@ -204,7 +204,15 @@ class CtrlDomain {
       gestioFavBicing(latitud, longitud);
     }
   }
+
   //USER FAV_CHARGER
+  List<Coordenada> getFavChargerPoints() {
+    List<Coordenada> listToPassFavs = <Coordenada>[];
+    for(var f in puntsFavCarrega){
+      listToPassFavs.add(f.coord);
+    }
+    return listToPassFavs;
+  }
   void gestioFavChargers(double lat, double long){
     bool trobat = false;
     for(var fav in puntsFavCarrega){
@@ -220,7 +228,7 @@ class CtrlDomain {
     }
   }
   void addFavCharger(double lat, double long)async{
-    var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
+    var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString()+'&name='+'pruebanombre';
     await http.post(Uri.parse(url));
     puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
   }
@@ -253,7 +261,7 @@ class CtrlDomain {
     }
   }
   Future<void> addFavBicing(double lat, double long)async{
-    var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString();
+    var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString()+'&name'+'pruebanombre';
     puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
     await http.post(Uri.parse(url));
     puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
@@ -390,7 +398,7 @@ class CtrlDomain {
   }
   Future<List<String>> getInfoCharger2(double lat, double long) async{
     List<String> infoC =<String>[];
-    var url = urlorg +'charger_info_cat?longitud='+ long.toString() +'&latitud='+lat.toString();
+    var url = urlorg +'charger_information_cat?longitud='+ long.toString() +'&latitud='+lat.toString();
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
@@ -402,8 +410,9 @@ class CtrlDomain {
       infoC.add(it["Station_municipi"]);
       List<int> endollsinfo = List.filled(16, 0);
       for(var en in it['Sockets']){
-        for(var type in en['Connector_types']) {
-          var num = type-1;
+        var l = en['Connector_types'].split(',');
+        for(var type in l) {
+          var num = int.parse(type)-1;
           switch(en['State']) {
             case 0:{endollsinfo[num*4+0]++;}break;
             case 1: {endollsinfo[num*4+3]++;} break;
@@ -533,13 +542,7 @@ class CtrlDomain {
     return lpb;
   }
 
-  List<Coordenada> getFavChargerPoints() {
-    List<Coordenada> listToPassFavs = <Coordenada>[];
-    for(var f in puntsFavCarrega){
-      listToPassFavs.add(f.coord);
-    }
-    return listToPassFavs;
-  }
+
 
 
 }
