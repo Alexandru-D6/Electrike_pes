@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
       '/profile': (context) => const ProfilePage(),
       '/garage': (context) => const GaragePage(),
       '/newCar': (context) => const NewCarPage(),
-      '/favourites': (context) => const FavouritesPage(),
+      '/favourites': (context) => const FilterFavsItems(),
       '/rewards': (context) => const RewardsPage(),
       '/info': (context) => const InformationAppPage(),
     },
