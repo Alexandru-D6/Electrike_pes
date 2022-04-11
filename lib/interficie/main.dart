@@ -16,7 +16,8 @@ import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:location/location.dart';
 
 void main() => runApp(const SplashScreen());
@@ -49,6 +50,15 @@ class MyApp extends StatelessWidget {
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
     //home: const MainPage(),
+    localizationsDelegates: const [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      S.delegate,
+      //LocaleNamesLocalizationsDelegate(),
+    ],
+    supportedLocales: S.delegate.supportedLocales,
+    //locale: state.locale,
     initialRoute: '/',
     routes: {
       '/': (context) => const MainPage(),

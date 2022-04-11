@@ -1,11 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
 import 'package:sign_button/sign_button.dart';
 
-//import '../../domini/traductor.dart';
 CtrlPresentation ctrlPresentation = CtrlPresentation();
 
 class NavigationDrawerWidget extends StatelessWidget {
@@ -44,25 +44,25 @@ class NavigationDrawerWidget extends StatelessWidget {
                 children: [
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Map', //TODO: translator
+                    text: S.of(context).map,
                     icon: Icons.map_outlined,
                     onClicked: () => ctrlPresentation.toMainPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Garage', //TODO: translator
+                    text: S.of(context).garage,
                     icon: Icons.garage,
                     onClicked: () => ctrlPresentation.toGaragePage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Favourites', //TODO: translator
+                    text: S.of(context).achievements,
                     icon: Icons.favorite_border,
                     onClicked: () => ctrlPresentation.toFavouritesPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Achievements', //TODO: translator
+                    text: S.of(context).achievements,
                     icon: Icons.emoji_events,
                     onClicked: () => ctrlPresentation.toRewardsPage(context),
                   ),
@@ -73,13 +73,13 @@ class NavigationDrawerWidget extends StatelessWidget {
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Information', //TODO: translator
+                    text: S.of(context).information,
                     icon: Icons.info,
                     onClicked: () => ctrlPresentation.toInfoAppPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Contact us',//Translator().translate(selectedLanguage, 'Contact us'),
+                    text: S.of(context).contactUs,
                     icon: Icons.phone,
                     onClicked: () => ctrlPresentation.mailto(),
                   ),

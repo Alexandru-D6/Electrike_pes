@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_project/domini/traductor.dart';
-
 
 Color mPrimaryColor = const Color(0xFF40ac9c);
 Color mCardColor = const Color(0xFF203e5a);

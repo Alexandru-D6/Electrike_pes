@@ -1,0 +1,23 @@
+{
+  "map": "Map",
+  "garage": "Garage",
+  "favourites": "Favourites",
+  "achievements": "Achievements",
+  "information": "Information",
+  "contactUs": "Contact us",
+  "logout": "Logout",
+  "language": "Language",
+  "systemLanguage": "System language",
+
+  "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
+
+  "textWithPlaceholder": "Welcome {name}",
+
+  "textWithPlaceholders": "My name is {lastName}, {firstName} {lastName}",
+  "@textWithPlaceholders": {
+    "placeholders": {
+      "firstName": {},
+      "lastName": {}
+    }
+  }
+}
