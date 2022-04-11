@@ -105,10 +105,10 @@ class CtrlPresentation {
   }
 
   //USER INFO FUNCTIONS
-  String getCurrentUsername(){
+  String getCurrentUsername(BuildContext context){
     //TODO: CALL DOMAIN FUNCTION
     //String username = ctrlDomain.getCurrentUsername();
-    if(name == "") name = "Click to log-in";
+    if(name == "") name = S.of(context).clickToLogin;
     return name;
   }
 

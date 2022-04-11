@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "bicing": MessageLookupByLibrary.simpleMessage("Bicing"),
         "carBrand": MessageLookupByLibrary.simpleMessage("Car Brand"),
         "chargers": MessageLookupByLibrary.simpleMessage("Chargers"),
+        "clickToLogin": MessageLookupByLibrary.simpleMessage("Click to log-in"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact us"),
         "favourites": MessageLookupByLibrary.simpleMessage("Favourites"),
         "garage": MessageLookupByLibrary.simpleMessage("Garage"),

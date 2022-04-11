@@ -16,6 +16,7 @@
   "add": "Add",
   "login": "Log-in",
   "toAddCarLogin": "To add a car you must be logged!",
+  "clickToLogin": "Click to log-in",
 
   "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
 

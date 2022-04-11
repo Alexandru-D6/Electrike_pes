@@ -220,6 +220,16 @@ class S {
     );
   }
 
+  /// `Click to log-in`
+  String get clickToLogin {
+    return Intl.message(
+      'Click to log-in',
+      name: 'clickToLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}`
   String howManyCars(num howMany) {
     return Intl.plural(

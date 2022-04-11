@@ -14,7 +14,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String name = ctrlPresentation.getCurrentUsername();
+    String name = ctrlPresentation.getCurrentUsername(context);
     String email = ctrlPresentation.getCurrentUserMail();
     String urlImage = ctrlPresentation.getUserImage();
 
@@ -29,7 +29,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               email: email,
               context: context,
               onClicked: () {
-                if(name == "Click to log-in") {
+                if(name == S.of(context).clickToLogin) {
                   ctrlPresentation.signInRoutine(context);
                 } else {
                   ctrlPresentation.toProfilePage(context);
@@ -116,7 +116,7 @@ class NavigationDrawerWidget extends StatelessWidget {
           padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
           child: Row(
             children: [
-              if (name != "Click to log-in") CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage!))
+              if (name != S.of(context).clickToLogin) CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage!))
               else
                 SignInButton.mini(
                   buttonType: ButtonType.googleDark,
@@ -134,7 +134,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                       name,
                       style: const TextStyle(fontSize: 80, color: Colors.white), //letra real a 20 pero como tenemos autoSizeText... 80 para que rellene
                       textAlign: TextAlign.center,
-                      maxLines: 1,
+                      maxLines: 2,
                     ),
                     Row(
                       children:<Widget>[
