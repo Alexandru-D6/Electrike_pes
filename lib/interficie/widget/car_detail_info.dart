@@ -1,7 +1,12 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 
 import 'attribute.dart';
+
+CtrlPresentation ctrlPresentation = CtrlPresentation();
 
 class CarDetailInfomation extends StatelessWidget {
   const CarDetailInfomation({
@@ -33,14 +38,14 @@ class CarDetailInfomation extends StatelessWidget {
               ),
               Expanded(
                 child: Column(
-                  children: const [
-                    SizedBox(
+                  children: [
+                    const SizedBox(
                       height: 12,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
-                    EditInfoCar(),
+                    EditInfoCar(car: car),
                   ],
                 ),
               )
@@ -55,7 +60,10 @@ class CarDetailInfomation extends StatelessWidget {
 class EditInfoCar extends StatelessWidget {
   const EditInfoCar({
     Key? key,
+    required this.car,
   }) : super(key: key);
+
+  final List<String> car;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +89,9 @@ class EditInfoCar extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {},//TODO: EditInfoCar
+          onPressed: () {
+            _showMyDialog(context, car);
+          },
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(mPrimaryColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -100,6 +110,22 @@ class EditInfoCar extends StatelessWidget {
         ),
       ],
     );
+  }
+  _showMyDialog(BuildContext context, List<String> car) {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.WARNING,
+      animType: AnimType.BOTTOMSLIDE,
+      title: S.of(context).alertSureDeleteCarTitle,
+      desc: S.of(context).alertSureDeleteCarContent,
+      btnCancelOnPress: () {},
+      btnOkIcon: (Icons.delete),
+      btnOkText: "Delete",
+      btnOkOnPress: () {
+        ctrlPresentation.deleteCar(context, car);
+      },
+      headerAnimationLoop: false,
+    ).show();
   }
 }
 
@@ -148,7 +174,7 @@ class CarInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '\$${car[1]}', //TODO: name NO EL PRECIO
+          car[1], //TODO: name
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -163,27 +189,27 @@ class CarInfo extends StatelessWidget {
           children: [
             Attribute(
               value: car[2],
-              name: 'Brand',
+              name: 'Brand', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[3],
-              name: 'Model No',
+              name: 'Model', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[4], //TODO: BATERIA
-              name: 'Bateria', //TODO: TRANSLATOR
+              name: 'Bateria', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[5], //TODO: POTENCIA
-              name: 'Potència', //TODO: TRANSLATOR
+              name: 'Potència', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[5],
-              name: 'Eficiencia',
+              name: 'Eficiencia', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
           ],
