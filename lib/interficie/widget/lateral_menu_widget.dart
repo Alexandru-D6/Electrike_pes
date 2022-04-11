@@ -11,9 +11,7 @@ CtrlPresentation ctrlPresentation = CtrlPresentation();
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
   final padding = const EdgeInsets.symmetric(horizontal: 20);
-
-  //LanguagesEnum get selectedLanguage => userLanguage; //TODO: getUserLang
-
+  
   @override
   Widget build(BuildContext context) {
     String name = ctrlPresentation.getCurrentUsername();
@@ -56,7 +54,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: S.of(context).achievements,
+                    text: S.of(context).favourites,
                     icon: Icons.favorite_border,
                     onClicked: () => ctrlPresentation.toFavouritesPage(context),
                   ),
@@ -90,7 +88,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Logout', //TODO: translator
+                    text: S.of(context).logout,
                     icon: Icons.logout,
                     onClicked: () {
                       ctrlPresentation.logoutRoutine(context);
