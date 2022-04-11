@@ -262,7 +262,7 @@ class _NewCarPageState extends State<NewCarPage> {
     text: S.of(context).add,
     onClicked: () {
       final form = formKey.currentState!;
-
+      form.save();
       if (form.validate()) {
         //todo: call to safe all elements
         List<String> car = ['assets/images/maserati.png', selectedNameCar!, selectedBrandCar!, selectedModelCar!, selectedBatteryCar!, selectedEffciencyCar!];
@@ -270,8 +270,6 @@ class _NewCarPageState extends State<NewCarPage> {
       }
 
       else{
-        form.save();
-
         ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
