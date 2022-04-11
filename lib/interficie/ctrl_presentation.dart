@@ -255,8 +255,11 @@ class CtrlPresentation {
     return ctrlDomain.getFavChargerPoints();
   }
 
-  void deleteCar(BuildContext context) {
+  void deleteCar(BuildContext context, List<String> car) {
     //todo: delete car with domain
+    carList.remove(car);
+    Navigator.pop(context);
+    ctrlPresentation.toGaragePage(context);
     //toGaragePage(context);
   }
 

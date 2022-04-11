@@ -38,14 +38,14 @@ class CarDetailInfomation extends StatelessWidget {
               ),
               Expanded(
                 child: Column(
-                  children: const [
-                    SizedBox(
+                  children: [
+                    const SizedBox(
                       height: 12,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
-                    EditInfoCar(),
+                    EditInfoCar(car: car),
                   ],
                 ),
               )
@@ -60,7 +60,10 @@ class CarDetailInfomation extends StatelessWidget {
 class EditInfoCar extends StatelessWidget {
   const EditInfoCar({
     Key? key,
+    required this.car,
   }) : super(key: key);
+
+  final List<String> car;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +90,7 @@ class EditInfoCar extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            _showMyDialog(context);
+            _showMyDialog(context, car);
           },
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(mPrimaryColor),
@@ -108,7 +111,7 @@ class EditInfoCar extends StatelessWidget {
       ],
     );
   }
-  _showMyDialog(BuildContext context) {
+  _showMyDialog(BuildContext context, List<String> car) {
     return AwesomeDialog(
       context: context,
       dialogType: DialogType.WARNING,
@@ -119,7 +122,7 @@ class EditInfoCar extends StatelessWidget {
       btnOkIcon: (Icons.delete),
       btnOkText: "Delete",
       btnOkOnPress: () {
-        ctrlPresentation.deleteCar(context);
+        ctrlPresentation.deleteCar(context, car);
       },
       headerAnimationLoop: false,
     ).show();
