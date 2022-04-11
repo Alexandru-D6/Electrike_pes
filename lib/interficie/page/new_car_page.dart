@@ -61,8 +61,8 @@ class _NewCarPageState extends State<NewCarPage> {
                   children: [
                     buildTextNoSuggestorField(
                       icon: Icons.badge,
-                      hint: 'Coche rojo',
-                      label: 'Car name',
+                      hint: 'Coche rojo', //todo: translate S.of(context).[]
+                      label: 'Car name', //todo: translate S.of(context).[]
                       controller: controllerNameCar,
                       returnable: "selectedNameCar",
                     ),
@@ -79,7 +79,7 @@ class _NewCarPageState extends State<NewCarPage> {
                     buildTextSuggestorField(
                       icon: Icons.sort,
                       hint: 'Model 3 Long Range Dual Motor',
-                      label: 'Model',
+                      label: 'Model', //todo: translate S.of(context).[]
                       controller: controllerModelCar,
                       suggester: getModelSuggestions,
                       returnable: "selectedModelCar",
@@ -88,7 +88,7 @@ class _NewCarPageState extends State<NewCarPage> {
                     buildNumField(
                       icon: Icons.battery_charging_full,
                       hint: '107.8',
-                      label: 'Battery(kWh)',
+                      label: 'Battery(kWh)', //todo: translate S.of(context).[]
                       controller: controllerBatteryCar,
                       returnable: "selectedBatteryCar",
                     ),
@@ -96,7 +96,7 @@ class _NewCarPageState extends State<NewCarPage> {
                     buildNumField(
                       icon: Icons.battery_unknown,
                       hint: '168',
-                      label: 'Effciency(Wh/Km)',
+                      label: 'Effciency(Wh/Km)', //todo: translate S.of(context).[]
                       controller: controllerEffciencyCar,
                       returnable: "selectedEffciencyCar",
                     ),
@@ -105,7 +105,7 @@ class _NewCarPageState extends State<NewCarPage> {
                     const ListTile(
                       leading: Icon(Icons.settings_input_svideo, color: Colors.black, size: 24,),
                       title: Text(
-                        'Select your charger/s type/s',
+                        'Select your charger/s type/s', //todo: translate S.of(context).[]
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
@@ -159,7 +159,7 @@ class _NewCarPageState extends State<NewCarPage> {
         controllerEffciencyCar.text = infoModel[5];//5.eficiencia Wh/Km
       },
       validator: (value) {
-        return value!.isEmpty ? 'Please select a brand' : null;
+        return value!.isEmpty ? 'Please select a brand' : null; //todo: translate S.of(context).[]
       },
       onSaved: (value) {
         saveRoutine(value, returnable);
@@ -176,6 +176,9 @@ class _NewCarPageState extends State<NewCarPage> {
   }) {
     return TextFormField(
       controller: controller,
+      maxLength: 15,
+      maxLengthEnforcement: MaxLengthEnforcement.none,
+
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -183,7 +186,14 @@ class _NewCarPageState extends State<NewCarPage> {
         border: const OutlineInputBorder(),
       ),
       validator: (value) {
-        return value != null && value.isEmpty ? 'Please select a brand' : null;
+        if (value != null && value.isEmpty) {
+          return 'Please select a brand'; //todo: translate S.of(context).[]
+        } else if (value!.length > 15){
+          return 'You have exceeded max characters'; //todo: translate S.of(context).[]
+        }
+        else {
+          return null;
+        }
       },
       onSaved: (value) {
         saveRoutine(value, returnable);
@@ -195,7 +205,7 @@ class _NewCarPageState extends State<NewCarPage> {
     title: Text(plugName),
     validator: (value) {
       if(allPlugTypeList.length-1 == allPlugTypeList.indexOf(plugName)) {
-        return selectedPlugs!.isEmpty ? 'At least select one type of charger' : null;
+        return selectedPlugs!.isEmpty ? 'At least select one type of charger' : null; //todo: translate S.of(context).[]
       }
       return null;
     },
@@ -237,7 +247,7 @@ class _NewCarPageState extends State<NewCarPage> {
         }
         final n = num.tryParse(value);
         if(n == null) {
-          return 'Put a number';
+          return 'Put a number'; //todo: translate S.of(context).[]
         }
         return null;
       },
@@ -255,7 +265,8 @@ class _NewCarPageState extends State<NewCarPage> {
 
       if (form.validate()) {
         //todo: call to safe all elements
-        ctrlPresentation.toGaragePage(context);
+        List<String> car = ['assets/images/maserati.png', selectedNameCar!, selectedBrandCar!, selectedModelCar!, selectedBatteryCar!, selectedEffciencyCar!];
+        ctrlPresentation.saveCar(car, context);
       }
 
       else{
@@ -264,9 +275,9 @@ class _NewCarPageState extends State<NewCarPage> {
         ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
-            content: Text(
+            content: Text(//todo: translate S.of(context).[]
                 '''
-                Your name car is $selectedNameCar\n
+                Your name car is $selectedNameCar\n 
                 Your Brand is $selectedBrandCar\n
                 Your model car is $selectedModelCar\n
                 Battery $selectedBatteryCar kWh\n

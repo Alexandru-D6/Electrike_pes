@@ -40,23 +40,23 @@ class CarInfomation extends StatelessWidget {
             children: [
               Attribute(
                 value: car[2],
-                name: 'Brand',
+                name: 'Brand', //todo: translate S.of(context).[]
               ),
               Attribute(
                 value: car[3],
-                name: 'Model No',
+                name: 'Model', //todo: translate S.of(context).[]
               ),
               Attribute(
                 value: car[4],
-                name: 'Bateria',
+                name: 'Bateria', //todo: translate S.of(context).[]
               ),
               Attribute(
                 value: car[5],
-                name: 'Potència',
+                name: 'Potència', //todo: translate S.of(context).[]
               ),
               Attribute(
                 value: car[5],
-                name: 'Eficiencia',
+                name: 'Eficiencia', //todo: translate S.of(context).[]
               ),
             ],
           )

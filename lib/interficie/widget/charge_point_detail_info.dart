@@ -100,7 +100,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
-          tooltip: 'Add points to favourites', //todo translator
+          tooltip: 'Add points to favourites', //todo: translate S.of(context).[]
           onPressed: () {
             setState(() {
               ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class Attribute extends StatelessWidget {
@@ -16,7 +17,7 @@ class Attribute extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        AutoSizeText(
           value,
           style: TextStyle(
             color: textColor,
@@ -24,7 +25,7 @@ class Attribute extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        Text(
+        AutoSizeText(
           name,
           style: TextStyle(
             color: textColor,

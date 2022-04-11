@@ -228,11 +228,11 @@ class CtrlPresentation {
         context: context,
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
-        title: 'Log-in',
-        desc: 'To add favourite point you must be logged!\n', //todo: translator
+        title: S.of(context).login,
+        desc: 'To add favourite point you must be logged!\n', //todo: translate S.of(context).[]
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
-        btnOkText: "Log-in",
+        btnOkText: S.of(context).login,
         btnOkOnPress: () {
           signInRoutine(context);
         },
@@ -253,6 +253,17 @@ class CtrlPresentation {
 
   List<Coordenada> getFavsPoints() {
     return ctrlDomain.getFavChargerPoints();
+  }
+
+  void deleteCar(BuildContext context) {
+    //todo: delete car with domain
+    //toGaragePage(context);
+  }
+
+  void saveCar(List<String> car, BuildContext context) {
+    carList.add(car);
+    Navigator.pop(context);
+    ctrlPresentation.toGaragePage(context);
   }
 
 }

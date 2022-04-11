@@ -119,8 +119,7 @@ class EditInfoCar extends StatelessWidget {
       btnOkIcon: (Icons.delete),
       btnOkText: "Delete",
       btnOkOnPress: () {
-        //TODO: DeleteCar
-        //ctrlPresentation.deleteAccount(context);
+        ctrlPresentation.deleteCar(context);
       },
       headerAnimationLoop: false,
     ).show();
@@ -187,27 +186,27 @@ class CarInfo extends StatelessWidget {
           children: [
             Attribute(
               value: car[2],
-              name: 'Brand',
+              name: 'Brand', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[3],
-              name: 'Model No',
+              name: 'Model', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[4], //TODO: BATERIA
-              name: 'Bateria', //TODO: TRANSLATOR
+              name: 'Bateria', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[5], //TODO: POTENCIA
-              name: 'Potència', //TODO: TRANSLATOR
+              name: 'Potència', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[5],
-              name: 'Eficiencia',
+              name: 'Eficiencia', //todo: translate S.of(context).[]
               textColor: Colors.black87,
             ),
           ],
