@@ -265,7 +265,7 @@ class _NewCarPageState extends State<NewCarPage> {
       form.save();
       if (form.validate()) {
         //todo: call to safe all elements
-        List<String> car = ['assets/brandCars/'+ selectedBrandCar! +'.png', selectedNameCar!, selectedBrandCar!, selectedModelCar!, selectedBatteryCar!, selectedEffciencyCar!];
+        List<String> car = ['assets/brandCars/RAYO.png', selectedNameCar!, selectedBrandCar!, selectedModelCar!, selectedBatteryCar!, selectedEffciencyCar!];
         ctrlPresentation.saveCar(car, context);
       }
 
