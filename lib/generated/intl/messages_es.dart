@@ -31,17 +31,27 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "achievements": MessageLookupByLibrary.simpleMessage("Logros"),
+        "add": MessageLookupByLibrary.simpleMessage("Añadir"),
+        "allFavourites":
+            MessageLookupByLibrary.simpleMessage("Todos mis favoritos"),
+        "bicing": MessageLookupByLibrary.simpleMessage("Bicing"),
+        "carBrand": MessageLookupByLibrary.simpleMessage("Marca del vehículo"),
+        "chargers": MessageLookupByLibrary.simpleMessage("Cargadores"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contáctanos"),
         "favourites": MessageLookupByLibrary.simpleMessage("Favoritos"),
         "garage": MessageLookupByLibrary.simpleMessage("Garage"),
         "howManyCars": m0,
         "information": MessageLookupByLibrary.simpleMessage("Información"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
+        "login": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
         "logout": MessageLookupByLibrary.simpleMessage("Cerrar sesión"),
         "map": MessageLookupByLibrary.simpleMessage("Mapa"),
+        "newCar": MessageLookupByLibrary.simpleMessage("Nuevo vehículo"),
         "systemLanguage":
             MessageLookupByLibrary.simpleMessage("Lenguaje del sistema"),
         "textWithPlaceholder": m1,
-        "textWithPlaceholders": m2
+        "textWithPlaceholders": m2,
+        "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
+            "¡Para agregar un vehículo debes estar registrado!")
       };
 }

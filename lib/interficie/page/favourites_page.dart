@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
@@ -75,20 +76,20 @@ class _FilterFavsItemsState extends State<FilterFavsItems> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_sharp),
-            label: 'All favourites', //todo: translate
+            icon: const Icon(Icons.favorite_sharp),
+            label: S.of(context).allFavourites,
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.electrical_services),
-            label: 'Chargers',
+            icon: const Icon(Icons.electrical_services),
+            label: S.of(context).chargers,
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.pedal_bike),
-            label: 'Bicing',
+            icon: const Icon(Icons.pedal_bike),
+            label: S.of(context).bicing,
             backgroundColor: Colors.pink,
           ),
         ],

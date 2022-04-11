@@ -11,7 +11,7 @@ CtrlPresentation ctrlPresentation = CtrlPresentation();
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
   final padding = const EdgeInsets.symmetric(horizontal: 20);
-  
+
   @override
   Widget build(BuildContext context) {
     String name = ctrlPresentation.getCurrentUsername();

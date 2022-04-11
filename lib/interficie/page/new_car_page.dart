@@ -1,6 +1,7 @@
 import 'package:checkbox_formfield/checkbox_list_tile_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 
@@ -44,7 +45,7 @@ class _NewCarPageState extends State<NewCarPage> {
     selectedPlugs = [];
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New car'), //TODO: TRANSLATOR
+        title: Text(S.of(context).newCar),
         centerTitle: true,
         backgroundColor: mCardColor,
       ),
@@ -69,9 +70,9 @@ class _NewCarPageState extends State<NewCarPage> {
                     buildTextSuggestorField(
                       icon: Icons.policy,
                       hint: 'Tesla',
-                      label: 'Brand Car',
+                      label: S.of(context).carBrand,
                       controller: controllerBrandCar,
-                      suggester: getBrandSuggestions, //todo
+                      suggester: getBrandSuggestions,
                       returnable: "selectedBrandCar",
                     ),
                     const SizedBox(height: 13),
@@ -80,7 +81,7 @@ class _NewCarPageState extends State<NewCarPage> {
                       hint: 'Model 3 Long Range Dual Motor',
                       label: 'Model',
                       controller: controllerModelCar,
-                      suggester: getModelSuggestions, //todo
+                      suggester: getModelSuggestions,
                       returnable: "selectedModelCar",
                     ),
                     const SizedBox(height: 13),
@@ -137,7 +138,7 @@ class _NewCarPageState extends State<NewCarPage> {
         decoration: InputDecoration(
           prefixIcon: Icon(icon),
           hintText: hint,
-          labelText: label, //todo: translator
+          labelText: label,
           border: const OutlineInputBorder(),
         ),
       ),
@@ -248,7 +249,7 @@ class _NewCarPageState extends State<NewCarPage> {
 
 
   Widget buildSubmit(BuildContext context) => ButtonWidget(//todo: collect info car and submit to ctrlPres to domain
-    text: 'Add', //todo: translator
+    text: S.of(context).add,
     onClicked: () {
       final form = formKey.currentState!;
 

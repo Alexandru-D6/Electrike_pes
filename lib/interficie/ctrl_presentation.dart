@@ -4,6 +4,7 @@ import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -75,11 +76,11 @@ class CtrlPresentation {
         context: context,
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
-        title: 'Log-in',
-        desc: 'To add a car you must be logged!\n',
+        title: S.of(context).login,
+        desc: S.of(context).toAddCarLogin,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
-        btnOkText: "Log-in",
+        btnOkText: S.of(context).login,
         btnOkOnPress: () {
           signInRoutine(context);
         },

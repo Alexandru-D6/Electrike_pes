@@ -8,6 +8,14 @@
   "logout": "Logout",
   "language": "Language",
   "systemLanguage": "System language",
+  "allFavourites": "All favourites",
+  "chargers": "Chargers",
+  "bicing": "Bicing",
+  "newCar": "New car",
+  "carBrand": "Car Brand",
+  "add": "Add",
+  "login": "Log-in",
+  "toAddCarLogin": "To add a car you must be logged!",
 
   "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
 

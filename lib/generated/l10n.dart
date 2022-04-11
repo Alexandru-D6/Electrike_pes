@@ -140,6 +140,86 @@ class S {
     );
   }
 
+  /// `All favourites`
+  String get allFavourites {
+    return Intl.message(
+      'All favourites',
+      name: 'allFavourites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chargers`
+  String get chargers {
+    return Intl.message(
+      'Chargers',
+      name: 'chargers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bicing`
+  String get bicing {
+    return Intl.message(
+      'Bicing',
+      name: 'bicing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New car`
+  String get newCar {
+    return Intl.message(
+      'New car',
+      name: 'newCar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Car Brand`
+  String get carBrand {
+    return Intl.message(
+      'Car Brand',
+      name: 'carBrand',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log-in`
+  String get login {
+    return Intl.message(
+      'Log-in',
+      name: 'login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To add a car you must be logged!`
+  String get toAddCarLogin {
+    return Intl.message(
+      'To add a car you must be logged!',
+      name: 'toAddCarLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}`
   String howManyCars(num howMany) {
     return Intl.plural(

@@ -31,17 +31,26 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
+        "add": MessageLookupByLibrary.simpleMessage("Add"),
+        "allFavourites": MessageLookupByLibrary.simpleMessage("All favourites"),
+        "bicing": MessageLookupByLibrary.simpleMessage("Bicing"),
+        "carBrand": MessageLookupByLibrary.simpleMessage("Car Brand"),
+        "chargers": MessageLookupByLibrary.simpleMessage("Chargers"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact us"),
         "favourites": MessageLookupByLibrary.simpleMessage("Favourites"),
         "garage": MessageLookupByLibrary.simpleMessage("Garage"),
         "howManyCars": m0,
         "information": MessageLookupByLibrary.simpleMessage("Information"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "login": MessageLookupByLibrary.simpleMessage("Log-in"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "map": MessageLookupByLibrary.simpleMessage("Map"),
+        "newCar": MessageLookupByLibrary.simpleMessage("New car"),
         "systemLanguage":
             MessageLookupByLibrary.simpleMessage("System language"),
         "textWithPlaceholder": m1,
-        "textWithPlaceholders": m2
+        "textWithPlaceholders": m2,
+        "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
+            "To add a car you must be logged!")
       };
 }
