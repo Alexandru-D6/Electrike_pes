@@ -14,28 +14,25 @@ class Attribute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AutoSizeText(
-            value,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-            overflow: TextOverflow.ellipsis,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AutoSizeText(
+          value,
+          style: TextStyle(
+            color: textColor,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
-          Text(
-            name,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 12,
-            ),
-          )
-        ],
-      ),
+        ),
+        AutoSizeText(
+          name,
+          style: TextStyle(
+            color: textColor,
+            fontSize: 12,
+          ),
+        )
+      ],
     );
   }
 }
