@@ -230,6 +230,26 @@ class S {
     );
   }
 
+  /// `Are you sure you want to delete this car?`
+  String get alertSureDeleteCarTitle {
+    return Intl.message(
+      'Are you sure you want to delete this car?',
+      name: 'alertSureDeleteCarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleting this car is permanent and will remove all data saved associated to this car.\nAre you sure you want to continue?\n`
+  String get alertSureDeleteCarContent {
+    return Intl.message(
+      'Deleting this car is permanent and will remove all data saved associated to this car.\nAre you sure you want to continue?\n',
+      name: 'alertSureDeleteCarContent',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}`
   String howManyCars(num howMany) {
     return Intl.plural(

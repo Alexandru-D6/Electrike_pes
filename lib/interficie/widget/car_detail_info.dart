@@ -1,7 +1,12 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 
 import 'attribute.dart';
+
+CtrlPresentation ctrlPresentation = CtrlPresentation();
 
 class CarDetailInfomation extends StatelessWidget {
   const CarDetailInfomation({
@@ -81,7 +86,9 @@ class EditInfoCar extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {},//TODO: EditInfoCar
+          onPressed: () {
+            _showMyDialog(context);
+          },
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(mPrimaryColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -100,6 +107,23 @@ class EditInfoCar extends StatelessWidget {
         ),
       ],
     );
+  }
+  _showMyDialog(BuildContext context) {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.WARNING,
+      animType: AnimType.BOTTOMSLIDE,
+      title: S.of(context).alertSureDeleteCarTitle,
+      desc: S.of(context).alertSureDeleteCarContent,
+      btnCancelOnPress: () {},
+      btnOkIcon: (Icons.delete),
+      btnOkText: "Delete",
+      btnOkOnPress: () {
+        //TODO: DeleteCar
+        //ctrlPresentation.deleteAccount(context);
+      },
+      headerAnimationLoop: false,
+    ).show();
   }
 }
 
@@ -148,7 +172,7 @@ class CarInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '\$${car[1]}', //TODO: name NO EL PRECIO
+          car[1], //TODO: name
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,

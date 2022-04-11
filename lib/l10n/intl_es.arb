@@ -17,6 +17,8 @@
   "login": "Iniciar sesión",
   "toAddCarLogin": "¡Para agregar un vehículo debes estar registrado!",
   "clickToLogin": "Haga clic para iniciar sesión",
+  "alertSureDeleteCarTitle": "¿Estás seguro de que quieres eliminar este coche?",
+  "alertSureDeleteCarContent": "La eliminación de este vehículo es permanente y eliminará todos los datos guardados asociados a éste.\n¿Estás seguro de que quieres continuar?",
 
 
   "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",

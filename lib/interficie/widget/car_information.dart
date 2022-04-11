@@ -25,7 +25,7 @@ class CarInfomation extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '\$${car[1]}',
+            car[1],
             style: const TextStyle(
               color: Colors.white,
               fontSize: 24,

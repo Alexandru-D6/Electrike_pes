@@ -32,6 +32,10 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
+        "alertSureDeleteCarContent": MessageLookupByLibrary.simpleMessage(
+            "Deleting this car is permanent and will remove all data saved associated to this car.\nAre you sure you want to continue?\n"),
+        "alertSureDeleteCarTitle": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete this car?"),
         "allFavourites": MessageLookupByLibrary.simpleMessage("All favourites"),
         "bicing": MessageLookupByLibrary.simpleMessage("Bicing"),
         "carBrand": MessageLookupByLibrary.simpleMessage("Car Brand"),

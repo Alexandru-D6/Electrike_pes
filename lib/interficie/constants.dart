@@ -8,10 +8,10 @@ Color cTransparent = const Color(0x00000000);
 
 //Harcoded tests to play
 List<List<String>> carList = [
-  ['assets/images/bentley.png', '120', 'Bentley', '3A 9200', '77/km', '5,5 L'],
-  ['assets/images/rolls_royce.png', '185', 'RR', '3A 9200', '77/km', '5,5 L'],
-  ['assets/images/maserati.png', '100', 'Maserati', '3A 9200', '77/km', '5,5 L'],
-  ['assets/images/cadillac.png', '90', 'Cadillac', '3A 9200', '77/km', '5,5 L'],
+  ['assets/images/bentley.png', 'Ramón', 'Bentley', '3A 9200', '77/km', '5,5 L'],
+  ['assets/images/rolls_royce.png', 'Coche dorado', 'RR', '3A 9200', '77/km', '5,5 L'],
+  ['assets/images/maserati.png', 'RumRum', 'Maserati', '3A 9200', '77/km', '5,5 L'],
+  ['assets/images/cadillac.png', 'Mastodonte cachibache', 'Cadillac', '3A 9200', '77/km', '5,5 L'],
 ];
 
 const List<String> allPlugTypeList = [
