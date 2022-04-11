@@ -32,14 +32,17 @@ class _FavouritesPageState extends State<FavouritesPage> {
 
           return ListTile(
             title: Text(ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]),
-            trailing: Icon(
-              isSaved ? Icons.favorite : Icons.favorite_border,
+            trailing: IconButton(
+              icon: (const Icon(Icons.favorite)),
               color: isSaved ? Colors.red : null,
+              onPressed: () {
+                  setState(() {
+                    ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
+                  });
+                }
             ),
-            onTap: () {
-              setState(() {
-                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-              });
+            onTap: (){
+
             },
           );
         },
