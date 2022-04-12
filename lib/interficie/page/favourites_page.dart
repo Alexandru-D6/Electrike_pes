@@ -31,15 +31,16 @@ class _FavsChargersState extends State<FavsChargers> {
               icon: (const Icon(Icons.favorite)),
               color: isSaved ? Colors.red : null,
               onPressed: () {
-                  setState(() {
-                    ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                  });
+                //WidgetsBinding.instance?.addPostFrameCallback((_) => setState(() {
+                chargerPoints.remove(word);
+                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
+                //  }));
+                setState(() {});
                 }
             ),
             onTap: () {
-              setState(() {
-                ctrlPresentation.loveClicked(context, word.latitud, word.longitud); //todo: ahora aquí se desalva cuando se clica y debería ir al punto
-              });
+                ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
+                //ctrlPresentation.loveClicked(context, word.latitud, word.longitud); //todo: ahora aquí se desalva cuando se clica y debería ir al punto
             },
           );
         },
