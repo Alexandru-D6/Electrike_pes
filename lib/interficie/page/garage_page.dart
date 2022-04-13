@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
@@ -29,7 +30,7 @@ class GaragePage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: const Text('Garage'), //TODO: translator
+      title: Text(S.of(context).garage),
       actions: [
         IconButton(
           icon: const Icon(

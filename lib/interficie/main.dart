@@ -5,15 +5,24 @@ import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/page/favourites_page.dart';
+import 'package:flutter_project/interficie/page/garage_page.dart';
+import 'package:flutter_project/interficie/page/information_app_page.dart';
+import 'package:flutter_project/interficie/page/new_car_page.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/page/rewards_page.dart';
+import 'package:flutter_project/interficie/page/splash_page.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:location/location.dart';
 
+void main() => runApp(const SplashScreen());
 
-Future main() async {
+Future initializeSystem() async {
   CtrlDomain ctrlDomain = CtrlDomain();
 
   ctrlDomain.initializeSystem();
@@ -24,7 +33,6 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
   runApp(const MyApp());
 }
 
@@ -41,7 +49,26 @@ class MyApp extends StatelessWidget {
       primaryColor: mPrimaryColor,
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
-    home: const MainPage(),
+    //home: const MainPage(),
+    localizationsDelegates: const [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      S.delegate,
+      //LocaleNamesLocalizationsDelegate(),
+    ],
+    supportedLocales: S.delegate.supportedLocales,
+    //locale: state.locale,
+    initialRoute: '/',
+    routes: {
+      '/': (context) => const MainPage(),
+      '/profile': (context) => const ProfilePage(),
+      '/garage': (context) => const GaragePage(),
+      '/newCar': (context) => const NewCarPage(),
+      '/favourites': (context) => const FilterFavsItems(),
+      '/rewards': (context) => const RewardsPage(),
+      '/info': (context) => const InformationAppPage(),
+    },
   );
 }
 
