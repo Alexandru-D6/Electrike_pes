@@ -1,1 +1,34 @@
-{}
+{
+  "map": "Mapa",
+  "garage": "Garatge",
+  "favourites": "Favorits",
+  "achievements": "Trofeus",
+  "information": "Informació",
+  "contactUs": "Contacta'ns",
+  "logout": "Tancar sessió",
+  "language": "Idioma",
+  "systemLanguage": "Idioma del sistema",
+  "allFavourites": "Els meus favorits",
+  "chargers": "Carregadors",
+  "bicing": "Bicing",
+  "newCar": "Vehicle nou",
+  "carBrand": "Marca de vehicle",
+  "add": "Afegir",
+  "login": "Iniciar sessió",
+  "toAddCarLogin": "Per afegir un vehicle has d'iniciar sessió",
+  "clickToLogin": "Pulsa per iniciar sessió",
+  "alertSureDeleteCarTitle": "Estas segur de voler eliminar aquest vehicle?",
+  "alertSureDeleteCarContent": "Borrar un vehicle és una acció permanent que elimina totes les dades associades.\n Estas segur de voler continuar?\n",
+
+  "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
+
+  "textWithPlaceholder": "Benvingut {name}",
+
+  "textWithPlaceholders": "El meu nom és {lastName}, {firstName} {lastName}",
+  "@textWithPlaceholders": {
+    "placeholders": {
+      "firstName": {},
+      "lastName": {}
+    }
+  }
+}
