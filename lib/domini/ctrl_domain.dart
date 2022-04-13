@@ -30,7 +30,7 @@ class CtrlDomain {
   //DATA USER
   Usuari usuari = Usuari();
   VehicleUsuari vhselected = VehicleUsuari.buit();
-  late double BateriaInicial;
+  late double bateriaInicial; //Bateria inicial del vhUsuari, no cal guardar a la clase VhUsuari
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   List<Favorit> puntsFavCarrega = <Favorit>[];
   List<Favorit> puntsFavBicing = <Favorit>[];
@@ -132,9 +132,6 @@ class CtrlDomain {
   }*/
 
   //USER CARS
-  void setBateriaIni (double batIni) {
-    vhselected.bateriaIni = batIni;
-  }
 
   void addVUser(String name, String modelV,String bat, String eff, String consum ,List<String> lEndolls){
     vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, modelV, double.parse(bat), double.parse(eff), double.parse(consum), lEndolls));
@@ -324,7 +321,7 @@ class CtrlDomain {
     for(var v in vehiclesUsuari){
       if(v.name == name){
         car.add(v.model);
-        car.add(v.bateriaIni.toString());
+        car.add(v.battery.toString());
         car.add(v.consum.toString());
         car.add(v.efficiency.toString());
       }
