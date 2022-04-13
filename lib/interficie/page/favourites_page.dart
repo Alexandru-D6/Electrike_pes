@@ -33,7 +33,7 @@ class _FavsChargersState extends State<FavsChargers> {
               onPressed: () {
                 chargerPoints.remove(word);
                 ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                Future.delayed(Duration(milliseconds: 200), () { setState(() {});  });
+                Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
                 }
             ),
             onTap: () {

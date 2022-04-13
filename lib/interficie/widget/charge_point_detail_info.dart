@@ -103,7 +103,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           tooltip: 'Add points to favourites', //todo: translate S.of(context).[]
           onPressed: () {
               ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
-              Future.delayed(Duration(milliseconds: 200), () { setState(() {});  });
+              Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
           },
         ),
       ],
