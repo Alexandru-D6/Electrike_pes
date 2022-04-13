@@ -29,7 +29,8 @@ class CtrlDomain {
 
   //DATA USER
   Usuari usuari = Usuari();
-  VhElectric vhselected = VhElectric.buit();
+  VehicleUsuari vhselected = VehicleUsuari.buit();
+  late double BateriaInicial;
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   List<Favorit> puntsFavCarrega = <Favorit>[];
   List<Favorit> puntsFavBicing = <Favorit>[];
@@ -110,7 +111,7 @@ class CtrlDomain {
     vehiclesUsuari = <VehicleUsuari>[];
     puntsFavCarrega = <Favorit>[];
     puntsFavBicing = <Favorit>[];
-    vhselected = VhElectric.buit();
+    vhselected = VehicleUsuari.buit();
     for(var t in typesendolls) {
       t.cars=<String>{};
     }
@@ -131,6 +132,10 @@ class CtrlDomain {
   }*/
 
   //USER CARS
+  void setBateriaIni (double batIni) {
+    vhselected.bateriaIni = batIni;
+  }
+
   void addVUser(String name, String modelV,String bat, String eff, String consum ,List<String> lEndolls){
     vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, modelV, double.parse(bat), double.parse(eff), double.parse(consum), lEndolls));
     for(var num in lEndolls){
@@ -319,7 +324,7 @@ class CtrlDomain {
     for(var v in vehiclesUsuari){
       if(v.name == name){
         car.add(v.model);
-        car.add(v.battery.toString());
+        car.add(v.bateriaIni.toString());
         car.add(v.consum.toString());
         car.add(v.efficiency.toString());
       }

@@ -2,16 +2,18 @@
 class VehicleUsuari {
   late String name;
   late String image;
-  late double battery;
+  late double bateriaIni;
   late double efficiency;
   late double consum;
   late String model;
   late String email;
   List<String> endolls = <String>[];
 
-  VehicleUsuari(this.name, this.email, this.model, this.battery, this.efficiency, this.consum ,this.endolls){
+  VehicleUsuari(this.name, this.email, this.model, this.bateriaIni, this.efficiency, this.consum ,this.endolls){
     image = "";
   }
+
+  VehicleUsuari.buit();
 
   void afegirEndoll(String endoll) {
     endolls.add(endoll);
