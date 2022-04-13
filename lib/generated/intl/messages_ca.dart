@@ -23,10 +23,10 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(howMany) =>
       "${Intl.plural(howMany, one: 'You have 1 notification', other: 'You have ${howMany} notifications')}";
 
-  static String m1(name) => "Welcome ${name}";
+  static String m1(name) => "Benvingut ${name}";
 
   static String m2(firstName, lastName) =>
-      "My name is ${lastName}, ${firstName} ${lastName}";
+      "El meu nom és ${lastName}, ${firstName} ${lastName}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -39,10 +39,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "allFavourites":
             MessageLookupByLibrary.simpleMessage("Els meus favorits"),
         "bicing": MessageLookupByLibrary.simpleMessage("Bicing"),
-        "carBrand": MessageLookupByLibrary.simpleMessage("Marca del vehicle"),
+        "carBrand": MessageLookupByLibrary.simpleMessage("Marca de vehicle"),
         "chargers": MessageLookupByLibrary.simpleMessage("Carregadors"),
-        "clickToLogin": MessageLookupByLibrary.simpleMessage("Pulsa per iniciar sessió"),
-        "contactUs": MessageLookupByLibrary.simpleMessage("Contacta'ns"),
+        "clickToLogin":
+            MessageLookupByLibrary.simpleMessage("Pulsa per iniciar sessió"),
+        "contactUs": MessageLookupByLibrary.simpleMessage("Contacta\'ns"),
         "favourites": MessageLookupByLibrary.simpleMessage("Favorits"),
         "garage": MessageLookupByLibrary.simpleMessage("Garatge"),
         "howManyCars": m0,
@@ -51,12 +52,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Iniciar sessió"),
         "logout": MessageLookupByLibrary.simpleMessage("Tancar sessió"),
         "map": MessageLookupByLibrary.simpleMessage("Mapa"),
-        "newCar": MessageLookupByLibrary.simpleMessage("Nou vehicle"),
+        "newCar": MessageLookupByLibrary.simpleMessage("Vehicle nou"),
         "systemLanguage":
             MessageLookupByLibrary.simpleMessage("Idioma del sistema"),
         "textWithPlaceholder": m1,
         "textWithPlaceholders": m2,
         "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
-            "Per afegir un vehicle has d'iniciar sessió")
+            "Per afegir un vehicle has d\'iniciar sessió")
       };
 }
