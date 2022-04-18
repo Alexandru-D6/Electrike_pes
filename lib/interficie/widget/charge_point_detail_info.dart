@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:responsive_grid/responsive_grid.dart';
-
+import 'package:charts_flutter/flutter.dart' as fc;
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
@@ -134,6 +134,7 @@ class PointInfo extends StatelessWidget {
           context: context,
         ),
         buildConnectors(),
+        //fc.BarChart()
       ],
     );
   }
