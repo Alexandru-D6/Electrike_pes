@@ -104,14 +104,14 @@ class _MyMapState extends State<MyMap> {
                 compassEnabled: true,
                 zoomGesturesEnabled:true,
 
-                trafficEnabled: true,
+                trafficEnabled: false,
                 zoomControlsEnabled: true,
               ),
 
 
               webPreferences: const WebMapPreferences(
                 streetViewControl:true,
-                mapTypeControl: true,
+                mapTypeControl: false,
                 scrollwheel: true,
                 panControl: true,
                 overviewMapControl:false,

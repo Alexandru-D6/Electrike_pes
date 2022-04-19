@@ -23,13 +23,12 @@ class _FavsChargersState extends State<FavsChargers> {
         separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemBuilder: (BuildContext context, int index) {
           Coordenada word = chargerPoints[index];
-          bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
 
           return ListTile(
             title: Text(ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]),
             trailing: IconButton(
               icon: (const Icon(Icons.favorite)),
-              color: isSaved ? Colors.red : null,
+              color: Colors.red,
               onPressed: () {
                 chargerPoints.remove(word);
                 ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
@@ -62,15 +61,15 @@ class _FavsBicingsState extends State<FavsBicings> {
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = bicingPoints[index];
-        bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
-        String title = "<K"; //todo: bicing name call
-
-
+        String title = ""; //todo: bicing name call
+        ctrlPresentation.getInfoBicing(word.latitud, word.longitud).then((element){
+            title = element[0];
+        });
         return ListTile(
           title: Text(title),
           trailing: IconButton(
               icon: (const Icon(Icons.favorite)),
-              color: isSaved ? Colors.red : null,
+              color: Colors.red,
               onPressed: () {
                 bicingPoints.remove(word);
                 ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
@@ -81,6 +80,7 @@ class _FavsBicingsState extends State<FavsBicings> {
             ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
           },
         );
+
       },
     );
   }
@@ -105,13 +105,12 @@ class _AllFavsState extends State<AllFavs> {
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = allFavPoints[index];
-        bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
 
         return ListTile(
           title: Text("ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]"),
           trailing: IconButton(
               icon: (const Icon(Icons.favorite)),
-              color: isSaved ? Colors.red : null,
+              color: Colors.red,
               onPressed: () {
                 chargerPoints.remove(word);
                 ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
