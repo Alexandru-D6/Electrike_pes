@@ -26,17 +26,18 @@ class ChargePointDetailInformation extends StatelessWidget {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: [
-          PointInfo(point: chargePoint),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              EditInfoPoint(point: chargePoint, latitude: latitude, longitude: longitude,),
+            ],
+          ),
           const Divider(
             height: 16,
             color: Colors.black54,
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              EditInfoPoint(point: chargePoint, latitude: latitude, longitude: longitude,),
-            ],
-          )
+          PointInfo(point: chargePoint),
         ],
       ),
     );
@@ -142,16 +143,6 @@ class PointInfo extends StatelessWidget {
           context: context,
         ),
         buildConnectors(),
-        Container(
-          alignment: Alignment.center,
-          child:
-            SizedBox(
-            width: 200.0,
-            height: 200.0,
-            child: OcupationChart.withSampleData(),
-          ),
-        ),
-        //fc.BarChart(),
       ],
     );
   }
