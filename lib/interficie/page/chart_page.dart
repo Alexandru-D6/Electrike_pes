@@ -13,11 +13,18 @@ class ChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<List<String>> userCarList = ctrlPresentation.getCarsList();
     return Scaffold(
       backgroundColor: mPrimaryColor,
       appBar: buildAppBar(context),
-      body: OcupationChart.withSampleData(),
+      body: Container(
+        alignment: Alignment.center,
+        child:
+          SizedBox(
+            width: 500.0,
+            height: 500.0,
+            child: OcupationChart.withSampleData(),
+          )
+        )
     );
   }
 
@@ -25,7 +32,7 @@ class ChartPage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: Text(S.of(context).garage),
+      title: Text(S.of(context).charts),
       actions: [
         IconButton(
           icon: const Icon(

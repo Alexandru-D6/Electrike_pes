@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "textWithPlaceholder": m1,
         "textWithPlaceholders": m2,
         "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
-            "¡Para agregar un vehículo debes estar registrado!")
+            "¡Para agregar un vehículo debes estar registrado!"),
+        "charts": MessageLookupByLibrary.simpleMessage("Gráficos"),
       };
 }

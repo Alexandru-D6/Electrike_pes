@@ -19,7 +19,7 @@
   "clickToLogin": "Click to log-in",
   "alertSureDeleteCarTitle": "Are you sure you want to delete this car?",
   "alertSureDeleteCarContent": "Deleting this car is permanent and will remove all data saved associated to this car.\nAre you sure you want to continue?\n",
-
+  "charts": "Charts",
   "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
 
   "textWithPlaceholder": "Welcome {name}",

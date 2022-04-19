@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "textWithPlaceholder": m1,
         "textWithPlaceholders": m2,
         "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
-            "Per afegir un vehicle has d\'iniciar sessió")
+            "Per afegir un vehicle has d\'iniciar sessió"),
+        "charts": MessageLookupByLibrary.simpleMessage("Gràfics"),
       };
 }

@@ -90,6 +90,16 @@ class S {
     );
   }
 
+  /// `Charts`
+  String get charts {
+    return Intl.message(
+      'Charts',
+      name: 'charts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Information`
   String get information {
     return Intl.message(

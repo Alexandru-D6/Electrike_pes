@@ -56,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "textWithPlaceholder": m1,
         "textWithPlaceholders": m2,
         "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
-            "To add a car you must be logged!")
+            "To add a car you must be logged!"),
+        "charts": MessageLookupByLibrary.simpleMessage("Charts"),
       };
 }
