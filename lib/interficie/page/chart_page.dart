@@ -33,7 +33,6 @@ class ChartPage extends StatelessWidget {
             color: Colors.white,
           ),
           onPressed: (){
-            ctrlPresentation.toFormCar(context);
           },
         )
       ],
