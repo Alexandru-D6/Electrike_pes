@@ -2,8 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:responsive_grid/responsive_grid.dart';
-import 'package:charts_flutter/flutter.dart' as fc;
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
@@ -134,7 +134,16 @@ class PointInfo extends StatelessWidget {
           context: context,
         ),
         buildConnectors(),
-        //fc.BarChart()
+        Container(
+          alignment: Alignment.center,
+          child:
+            SizedBox(
+            width: 200.0,
+            height: 200.0,
+            child: OcupationChart.withSampleData(),
+          ),
+        ),
+        //fc.BarChart(),
       ],
     );
   }
