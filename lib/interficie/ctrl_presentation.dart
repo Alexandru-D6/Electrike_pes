@@ -1,15 +1,11 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
-import 'package:flutter_project/interficie/main.dart';
-import 'package:flutter_project/interficie/page/favourites_page.dart';
-import 'package:flutter_project/interficie/page/garage_page.dart';
-import 'package:flutter_project/interficie/page/information_app_page.dart';
-import 'package:flutter_project/interficie/page/new_car_page.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
-import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,68 +28,87 @@ class CtrlPresentation {
 
   //intercambiar vista
   void toMainPage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const MainPage(),
-    ));
+    Navigator.pushReplacementNamed(
+      context,
+      '/',
+    );
+  }
+
+  toProfilePage(BuildContext context) {
+    Navigator.pushReplacementNamed(
+      context,
+      '/profile',
+    );
   }
 
   void toGaragePage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const GaragePage(),
-    ));
+    Navigator.pop(context);
+    Navigator.pushNamed(
+      context,
+      '/garage',
+    );
   }
 
   void toFavouritesPage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const FavouritesPage(),
-    ));
+    Navigator.pushReplacementNamed(
+      context,
+      '/favourites',
+    );
   }
 
   void toRewardsPage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const RewardsPage(),
-    ));
+    Navigator.pushReplacementNamed(
+      context,
+      '/rewards',
+    );
   }
 
   void toInfoAppPage(BuildContext context){
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const InformationAppPage(),
-    ));
+    Navigator.pushReplacementNamed(
+      context,
+      '/info',
+    );
   }
 
   void toFormCar(BuildContext context) {
     if(email == ""){
-      showDialog(
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: S.of(context).login,
+        desc: S.of(context).toAddCarLogin,
+        btnCancelOnPress: () {},
+        btnOkIcon: (Icons.login),
+        btnOkText: S.of(context).login,
+        btnOkOnPress: () {
+          signInRoutine(context);
+        },
+
+        headerAnimationLoop: false,
+      ).show();
+
+
+      /*showDialog(
           context: context,
           builder: (context) => const AlertDialog(
               content: Text(
-                  'To add a car you must be logged!\n' //todo: translator
-              )));
+                  'To add a car you must be logged!\n'
+              )));*/
     }
     else{
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const NewCarPage(),
-      ));
+      Navigator.pushNamed(
+        context,
+        '/newCar',
+      );
     }
-  }
-
-  toProfilePage(BuildContext context) {
-    Navigator.of(context).pop(); //sirve para que se cierre el menú al clicar a una nueva página
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const ProfilePage(),
-    ));
   }
 
   //USER INFO FUNCTIONS
-  String getCurrentUsername(){
+  String getCurrentUsername(BuildContext context){
     //TODO: CALL DOMAIN FUNCTION
     //String username = ctrlDomain.getCurrentUsername();
-    if(name == "") name = "Click to log-in";
+    if(name == "") name = S.of(context).clickToLogin;
     return name;
   }
 
@@ -202,6 +217,15 @@ class CtrlPresentation {
       GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
     });
   }
+  void moveCameraToSpecificLocation(BuildContext context, double? lat, double? lng) {
+    //used to move camera to specific chargers or points
+    //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
+      toMainPage(context);
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+      });
+
+  }
 
   bool isAFavPoint(double latitud, double longitud) {
     return ctrlDomain.isAFavPoint(latitud, longitud);
@@ -209,12 +233,21 @@ class CtrlPresentation {
 
   void loveClicked(BuildContext context, double latitud, double longitud) {
     if(email == ""){
-      showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-              content: Text(
-                  'To add favourite point you must be logged!\n' //todo: translator
-              )));
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.INFO,
+        animType: AnimType.BOTTOMSLIDE,
+        title: S.of(context).login,
+        desc: 'To add favourite point you must be logged!\n', //todo: translate S.of(context).[]
+        btnCancelOnPress: () {},
+        btnOkIcon: (Icons.login),
+        btnOkText: S.of(context).login,
+        btnOkOnPress: () {
+          signInRoutine(context);
+        },
+
+        headerAnimationLoop: false,
+      ).show();
     }
     else {
       ctrlDomain.toFavPoint(latitud, longitud);
@@ -229,6 +262,20 @@ class CtrlPresentation {
 
   List<Coordenada> getFavsPoints() {
     return ctrlDomain.getFavChargerPoints();
+  }
+
+  void deleteCar(BuildContext context, List<String> car) {
+    //todo: delete car with domain
+    carList.remove(car);
+    Navigator.pop(context);
+    ctrlPresentation.toGaragePage(context);
+    //toGaragePage(context);
+  }
+
+  void saveCar(List<String> car, BuildContext context) {
+    carList.add(car);
+    Navigator.pop(context);
+    ctrlPresentation.toGaragePage(context);
   }
 
 }
