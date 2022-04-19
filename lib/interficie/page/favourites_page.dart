@@ -45,33 +45,40 @@ class _FavsChargersState extends State<FavsChargers> {
 }
 
 class FavsBicings extends StatefulWidget {
-  const FavsBicings({Key? key}) : super(key: key);
+  const FavsBicings({
+    Key? key,
+    required this.titlesBicing,
+    required this.bicingPoints,
+  }) : super(key: key);
+
+
+  final List<String> titlesBicing;
+  final List<Coordenada> bicingPoints;
 
   @override
   State<FavsBicings> createState() => _FavsBicingsState();
 }
 
 class _FavsBicingsState extends State<FavsBicings> {
+
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
+
     return ListView.separated(
-      itemCount: bicingPoints.length,
+      itemCount: widget.titlesBicing.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
-        Coordenada word = bicingPoints[index];
-        String title = ""; //todo: bicing name call
-        ctrlPresentation.getInfoBicing(word.latitud, word.longitud).then((element){
-            title = element[0];
-        });
+        Coordenada word = widget.bicingPoints[index];
+        String title = widget.titlesBicing[index]; //todo: bicing name call
+
         return ListTile(
           title: Text(title),
           trailing: IconButton(
               icon: (const Icon(Icons.favorite)),
               color: Colors.red,
               onPressed: () {
-                bicingPoints.remove(word);
+                widget.bicingPoints.remove(word);
                 ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
                 Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
               }
@@ -80,7 +87,6 @@ class _FavsBicingsState extends State<FavsBicings> {
             ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
           },
         );
-
       },
     );
   }
@@ -134,17 +140,25 @@ class FilterFavsItems extends StatefulWidget {
 }
 
 class _FilterFavsItemsState extends State<FilterFavsItems> {
+  List<String> titlesBicing = <String>["a"];
+  List<Coordenada> bicingPoints = <Coordenada>[Coordenada(2.0, 2.0)];
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     //AllFavs(), //todo: replicar con bicings y conectar
     FavsChargers(),
     FavsChargers(),
-    FavsBicings(),
+    FavsBicings(titlesBicing: titlesBicing, bicingPoints: bicingPoints),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if(index == 2 ){
+        bicingPoints = ctrlPresentation.getFavsBicingPoints();
+        ctrlPresentation.getAllNamesBicing(bicingPoints).then((element){
+          titlesBicing = element;
+        });
+      }
     });
   }
 

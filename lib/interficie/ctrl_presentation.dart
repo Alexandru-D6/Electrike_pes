@@ -288,4 +288,13 @@ class CtrlPresentation {
     ctrlPresentation.toGaragePage(context);
   }
 
+  Future<List<String>> getAllNamesBicing(List<Coordenada> c) async{
+    List<String> l = <String> [];
+    for(var i in c){
+      String esto = (await ctrlDomain.getInfoBicing(i.latitud, i.longitud))[0];
+      l.add(esto);
+    }
+    return l;
+  }
+
 }
