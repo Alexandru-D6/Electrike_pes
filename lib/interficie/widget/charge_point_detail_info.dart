@@ -68,10 +68,10 @@ class _EditInfoPointState extends State<EditInfoPoint> {
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
           onPressed: () {
-
+            ctrlPresentation.toChartPage(context);
           },
           icon: const Icon(
-            Icons.analytics,
+            Icons.bar_chart,
           ),
         ),
         IconButton(
@@ -142,16 +142,6 @@ class PointInfo extends StatelessWidget {
           context: context,
         ),
         buildConnectors(),
-        Container(
-          alignment: Alignment.center,
-          child:
-            SizedBox(
-            width: 200.0,
-            height: 200.0,
-            child: OcupationChart.withSampleData(),
-          ),
-        ),
-        //fc.BarChart(),
       ],
     );
   }
