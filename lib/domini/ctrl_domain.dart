@@ -31,15 +31,14 @@ class CtrlDomain {
 
   //DATA USER
   Usuari usuari = Usuari();
-  VhElectric vhselected = VhElectric.buit();
+  VehicleUsuari vhselected = VehicleUsuari.buit();
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   List<Favorit> puntsFavCarrega = <Favorit>[];
   List<Favorit> puntsFavBicing = <Favorit>[];
-
-
   factory CtrlDomain() {
     return _singleton;
   }
+
   //SYSTEM
   Future<void> initializeSystem() async {
     usuari.usuarinull();
@@ -82,6 +81,7 @@ class CtrlDomain {
 
     //ctrlPresentation.setUserValues(name, email, img);
   }
+  //Carrega la informació dels objectes favorits de l'usuari
   void login() async{
     var url = urlorg +'get_user_fav_chargers?email='+usuari.correu;
     var responseC = (await http.get(Uri.parse(url)));
@@ -100,25 +100,44 @@ class CtrlDomain {
       }
     }
 
-    /*var urlc = urlorg +'user_fav_cars?email='+usuari.correu;
+    var urlc = urlorg +'get_cars_user?email='+usuari.correu;
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
-    List<String> end = <String>[];
-    for(var favcar in respCars['items']){vehiclesUsuari.add(VehicleUsuari(favcar['name'], usuari.correu, favcar['brand'],favcar['model'],favcar['battery'],favcar['efficiency'], favcar['rage'],2.0,2.0,2.0,));}
-    */
-  }
+    for(var favcar in respCars['items']){
+      List<String> endolls = <String>[];
+      if(favcar['Chargers'][0] != '0'){
+        endolls.add('Schuko');
+        typesendolls[0].cars.add(favcar['Id'].toString());
+      }
+      if(favcar['Mennekes'][1] != '0'){
+        endolls.add('Mennekes');
+        typesendolls[1].cars.add(favcar['Id'].toString());
+      }
+      if(favcar['Chademo'][2] != '0'){
+        endolls.add('Chademo');
+        typesendolls[2].cars.add(favcar['Id'].toString());
+      }
+      if(favcar['CCSCombo2'][3] != '0'){
+        endolls.add('CCSCombo2');
+        typesendolls[3].cars.add(favcar['Id'].toString());
+      }
+    vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],favcar['Battery'],favcar['Efficiency'], endolls));
+    }
 
+  }
+  //Elimina el continguts dels llistats referents als usuaris per quan fa logout
   void resetUserSystem(){
     vehiclesUsuari = <VehicleUsuari>[];
     puntsFavCarrega = <Favorit>[];
     puntsFavBicing = <Favorit>[];
-    vhselected = VhElectric.buit();
+    vhselected = VehicleUsuari.buit();
     for(var t in typesendolls) {
       t.cars=<String>{};
     }
     usuari.usuarinull();
     //ctrlPresentation.resetUserValues();
   }
+  //Elimina l'usuari de la base de dades i del domini
   void deleteaccount()async{
     var url = urlorg +'delete_user?email='+usuari.correu;
     await http.post(Uri.parse(url));
@@ -133,44 +152,73 @@ class CtrlDomain {
   }*/
 
   //USER CARS
-  void addVUser(String name, String modelV,String bat, String eff, String consum ,List<String> lEndolls){
-    vehiclesUsuari.add(VehicleUsuari(name, usuari.correu, modelV, double.parse(bat), double.parse(eff), double.parse(consum), lEndolls));
+  void addVUser(String name, String brand, String modelV, String bat, String eff,List<String> lEndolls){
+
+    List<String> endolls = <String>[];
+    String schuko = "0";
+    String mennekes = "0";
+    String chademo ="0";
+    String ccscombo2= "0";
     for(var num in lEndolls){
-      for(var type in typesendolls){
-        if(type.tipus.name == num)type.cars.add(name);
+      if(typesendolls[0].tipus.name == num){
+        schuko = "1";
+        endolls.add('Schuko');
+        typesendolls[0].cars.add(vehiclesUsuari.length.toString());
+      }
+      else if(typesendolls[1].tipus.name == num){
+        mennekes = "1";
+        endolls.add('Mennekes');
+        typesendolls[1].cars.add(vehiclesUsuari.length.toString());
+      }
+      else if(typesendolls[2].tipus.name == num){
+        chademo = "1";
+        endolls.add('Chademo');
+        typesendolls[2].cars.add(vehiclesUsuari.length.toString());
+      }
+      else if(typesendolls[3].tipus.name == num){
+        ccscombo2 = "1";
+        endolls.add('CCSCombo2');
+        typesendolls[3].cars.add(vehiclesUsuari.length.toString());
       }
     }
+    vehiclesUsuari.add(VehicleUsuari(vehiclesUsuari.length,name, brand,modelV, double.parse(bat), double.parse(eff), endolls));
+    var url = urlorg +'insert_car_user?email='+usuari.correu+'&brand='+brand+'&vehicle='+modelV+'&battery='+bat+'&efficiency='+eff+'&chargers='+schuko+mennekes+chademo+ccscombo2;
+    http.post(Uri.parse(url));
   }
-  /*void editVUser(String name, String idV, List<int> lEndolls){
-    for(var car in vehiclesUsuari) {
-      if (car.idVE == idV && car.name == name) {
-        for (var num in car.endolls) {
-          typesendolls[int.parse(num)].endolls.remove(idV);
-        }
-        for (var num in lEndolls) {
-          typesendolls[num].endolls.add(idV);
-        }
-      }
-    }
-  }*/
-  void removeVUser(String name, String idV){
+  void editVUser(String idV, String name, String brand, String modelV, String bat, String eff,List<String> lEndolls){
+    removeVUser(idV);
+    addVUser(name, brand, modelV, bat, eff, lEndolls);
+
+  }
+  void removeVUser(String idVehicle){
+    int idV = int.parse(idVehicle);
     late VehicleUsuari vdelete;
     for(var vhu in vehiclesUsuari){
-      if(vhu.name == name ){
-        for(var type in vhu.endolls){
-          for(var t in typesendolls){
-            if(t.tipus.name == type)t.cars.remove(name);
-          }
-        }
+      if(vhu.id == idV ){
         vdelete = vhu;
+      }
+      else if(vhu.id >= idV){
+        vhu.id--;
+      }
+    }
+    for(var type in typesendolls){
+      type.cars.remove(idVehicle);
+      for(var c in type.cars){
+        var aux = int.parse(c);
+        if(aux > idV) {
+          aux = aux - 1;
+          c = aux.toString();
+        }
       }
     }
     vehiclesUsuari.remove(vdelete);
+    var url = urlorg +'remove_car_user?email='+usuari.correu+'&id='+idV.toString();
+    http.post(Uri.parse(url));
   }
   List<List<String>> infoAllVUser(){
     List<List<String>> datacars = <List<String>>[];
     for(var vhU in vehiclesUsuari){
-      List<String> ucar = getInfoUserCar(vhU.name);
+      List<String> ucar = getInfoUserCar(vhU.id);
       for(var type in vhU.endolls){
         ucar.add(type);
       }
@@ -200,7 +248,22 @@ class CtrlDomain {
         gestioFavChargers(latitud, longitud);
       }
     }
+    /*
+    for(var c in coordCatalunya){
+      if(c.latitud == latitud && c.longitud == longitud){
+        trobat = true;
+        gestioFavChargers(latitud, longitud);
+      }
+    }
     if(trobat == false){
+      for(var c in coordBarcelona){
+        if(c.latitud == latitud && c.longitud == longitud){
+          trobat = true;
+          gestioFavChargers(latitud, longitud);
+        }
+      }
+    }
+    else*/if(trobat == false){
       gestioFavBicing(latitud, longitud);
     }
   }
@@ -246,6 +309,13 @@ class CtrlDomain {
   }
 
   //USER FAV_BICING
+  List<Coordenada> getFavBicingPoints()  {
+    List<Coordenada> listToPassFavs = <Coordenada>[];
+    for(var f in puntsFavBicing){
+      listToPassFavs.add(f.coord);
+    }
+    return listToPassFavs;
+  }
   void gestioFavBicing(double lat, double long){
     bool trobat = false;
     for(var fav in puntsFavBicing){
@@ -275,6 +345,18 @@ class CtrlDomain {
       if(pfb.coord.latitud == lat && pfb.coord.longitud == long)fav = pfb;
     }
     if(fav.coord.latitud != -1.0)puntsFavBicing.remove(fav);
+  }
+  Future<List<String>> getNamesFavBicing()async{
+    List<String>namesBFav = <String>[];
+    for(var pBFav in puntsFavBicing){
+      var url = urlorg +'bicing_info?latitud='+pBFav.coord.latitud.toString()+'&longitud='+pBFav.coord.longitud.toString();
+      var response = await http.get(Uri.parse(url));
+      var resp = jsonDecode(response.body);
+      for(var it in resp['items']){
+        namesBFav.add("Bicing"+it['name']);
+      }
+    }
+    return namesBFav;
   }
 
   //CARS
@@ -324,20 +406,37 @@ class CtrlDomain {
     }
     return car;
   }
-  List<String> getInfoUserCar(String name){
+  List<String> getInfoUserCar(int id){
     List<String> car = <String>[];
     for(var v in vehiclesUsuari){
-      if(v.name == name){
+      if(v.id == id){
+        car.add(id.toString());
+        car.add(v.name);
+        car.add(v.brand);
         car.add(v.model);
         car.add(v.battery.toString());
-        car.add(v.consum.toString());
         car.add(v.efficiency.toString());
+        for(var endoll in v.endolls) {
+          if ('Schuko' == endoll) {
+            car.add('Schuko');
+          }
+          else if ('Mennekes' == endoll) {
+            car.add('Mennekes');
+          }
+          else if ('Chademo' == endoll) {
+            car.add('Chademo');
+          }
+          else if ('CCSCombo2' == endoll) {
+            car.add('CCSCombo2');
+          }
+        }
       }
     }
     return car;
   }
 
   //CHARGERS
+  //Carrega des de la base de dades, tota la informació dels carregadors de cat o bcn
   Future<void> getChargers(String where) async {
     var url = urlorg +'chargers_'+where;
     var response = (await http.get(Uri.parse(url)));
@@ -352,7 +451,7 @@ class CtrlDomain {
           if(num == "1" || num == "2" || num == "3" || num== "4"){
             int n = int.parse(num);
             n = n-1;
-            typesendolls[n].endolls.add(it['_id']);
+            typesendolls[n].endolls.add(it["Station_lat"].toString()+'/'+it["Station_lng"].toString());
             endoll.tipus.add(num);
           }
         }
@@ -365,6 +464,7 @@ class CtrlDomain {
       puntscarrega.add(estCarrega);
     }
   }
+  //Carrega des de la base de dades, tota la informació d'un carregador de cat o bcn i la guarda al sistema
   Future<void> getInfoChargerCoord(Coordenada coord) async {
     var url = urlorg +'charger_info_cat?longitud='+ coord.longitud.toString() +'&latitud='+coord.latitud.toString();
     var response = (await http.get(Uri.parse(url)));
@@ -388,6 +488,7 @@ class CtrlDomain {
       puntscarrega.add(estCarrega);
     }
   }
+  //Inútil de moment
   Future<void> getEndollInfo(Coordenada coord) async {
     var url = urlorg +'plug_info?longitud'+ coord.longitud.toString() +'&latitud'+coord.longitud.toString();
     var response = (await http.get(Uri.parse(url)));
@@ -396,6 +497,7 @@ class CtrlDomain {
       it;
     }
   }
+  //Carrega des de la base de dades, tota la informació d'un carregador de cat o bcn la guarda en una llista que retorna
   Future<List<String>> getInfoCharger2(double lat, double long) async{
     List<String> infoC =<String>[];
     var url = urlorg +'charger_information_cat?longitud='+ long.toString() +'&latitud='+lat.toString();
@@ -434,6 +536,7 @@ class CtrlDomain {
     }
     return infoC;
   }
+  //Carrega des de la base de dades, totes les coordenades dels carregadors de cat o bcn
   Future<void> getChargersCoord(String where)async{
     var url = urlorg +'chargers_'+where;
     var response = (await http.get(Uri.parse(url)));
@@ -542,7 +645,14 @@ class CtrlDomain {
     return lpb;
   }
 
-
-
-
+  void getCARSUSER()async{
+    var urlc = 'http://electrike.ddns.net:3784/get_cars_user?email=alvaro.rodriguez.rubio@estudiantat.upc.edu';
+    var responseCars = (await http.get(Uri.parse(urlc)));
+    var respCars = jsonDecode(responseCars.body);
+    List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
+    for(var favcar in respCars['items']){
+    vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],favcar['Battery'],favcar['Efficiency'], favcar['Chargers']));
+    print(favcar['Id'].toString()+','+ favcar['Brand']+','+favcar['Vehicle']+','+favcar['Battery'].toString()+','+favcar['Efficiency'].toString()+','+favcar['Chargers']);
+    }
+  }
 }
