@@ -61,7 +61,6 @@ class _MyMapState extends State<MyMap> {
     chargePoints = buildChargerMarkers(context);
     bicingPoints = buildBicingMarkers(context);
     markers = chargePoints.union(bicingPoints);
-
     return Scaffold(
       body: Stack(
         children: <Widget>[
