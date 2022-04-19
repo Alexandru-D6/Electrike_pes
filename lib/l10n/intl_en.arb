@@ -1,0 +1,34 @@
+{
+  "map": "Map",
+  "garage": "Garage",
+  "favourites": "Favourites",
+  "achievements": "Achievements",
+  "information": "Information",
+  "contactUs": "Contact us",
+  "logout": "Logout",
+  "language": "Language",
+  "systemLanguage": "System language",
+  "allFavourites": "All favourites",
+  "chargers": "Chargers",
+  "bicing": "Bicing",
+  "newCar": "New car",
+  "carBrand": "Car Brand",
+  "add": "Add",
+  "login": "Log-in",
+  "toAddCarLogin": "To add a car you must be logged!",
+  "clickToLogin": "Click to log-in",
+  "alertSureDeleteCarTitle": "Are you sure you want to delete this car?",
+  "alertSureDeleteCarContent": "Deleting this car is permanent and will remove all data saved associated to this car.\nAre you sure you want to continue?\n",
+
+  "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
+
+  "textWithPlaceholder": "Welcome {name}",
+
+  "textWithPlaceholders": "My name is {lastName}, {firstName} {lastName}",
+  "@textWithPlaceholders": {
+    "placeholders": {
+      "firstName": {},
+      "lastName": {}
+    }
+  }
+}
