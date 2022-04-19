@@ -27,14 +27,17 @@ class _FavsChargersState extends State<FavsChargers> {
 
           return ListTile(
             title: Text(ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]),
-            trailing: Icon(
-              isSaved ? Icons.favorite : Icons.favorite_border,
+            trailing: IconButton(
+              icon: (const Icon(Icons.favorite)),
               color: isSaved ? Colors.red : null,
+              onPressed: () {
+                chargerPoints.remove(word);
+                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
+                Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+                }
             ),
             onTap: () {
-              setState(() {
-                ctrlPresentation.loveClicked(context, word.latitud, word.longitud); //todo: ahora aquí se desalva cuando se clica y debería ir al punto
-              });
+                ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
             },
           );
         },

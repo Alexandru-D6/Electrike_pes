@@ -217,6 +217,15 @@ class CtrlPresentation {
       GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
     });
   }
+  void moveCameraToSpecificLocation(BuildContext context, double? lat, double? lng) {
+    //used to move camera to specific chargers or points
+    //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
+      toMainPage(context);
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+      });
+
+  }
 
   bool isAFavPoint(double latitud, double longitud) {
     return ctrlDomain.isAFavPoint(latitud, longitud);
