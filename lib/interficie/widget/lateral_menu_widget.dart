@@ -1,22 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
 import 'package:sign_button/sign_button.dart';
 
-//import '../../domini/traductor.dart';
 CtrlPresentation ctrlPresentation = CtrlPresentation();
 
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
   final padding = const EdgeInsets.symmetric(horizontal: 20);
 
-  //LanguagesEnum get selectedLanguage => userLanguage; //TODO: getUserLang
-
   @override
   Widget build(BuildContext context) {
-    String name = ctrlPresentation.getCurrentUsername();
+    String name = ctrlPresentation.getCurrentUsername(context);
     String email = ctrlPresentation.getCurrentUserMail();
     String urlImage = ctrlPresentation.getUserImage();
 
@@ -31,7 +29,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               email: email,
               context: context,
               onClicked: () {
-                if(name == "Click to log-in") {
+                if(name == S.of(context).clickToLogin) {
                   ctrlPresentation.signInRoutine(context);
                 } else {
                   ctrlPresentation.toProfilePage(context);
@@ -44,25 +42,25 @@ class NavigationDrawerWidget extends StatelessWidget {
                 children: [
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Map', //TODO: translator
+                    text: S.of(context).map,
                     icon: Icons.map_outlined,
                     onClicked: () => ctrlPresentation.toMainPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Garage', //TODO: translator
+                    text: S.of(context).garage,
                     icon: Icons.garage,
                     onClicked: () => ctrlPresentation.toGaragePage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Favourites', //TODO: translator
+                    text: S.of(context).favourites,
                     icon: Icons.favorite_border,
                     onClicked: () => ctrlPresentation.toFavouritesPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Achievements', //TODO: translator
+                    text: S.of(context).achievements,
                     icon: Icons.emoji_events,
                     onClicked: () => ctrlPresentation.toRewardsPage(context),
                   ),
@@ -73,13 +71,13 @@ class NavigationDrawerWidget extends StatelessWidget {
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Information', //TODO: translator
+                    text: S.of(context).information,
                     icon: Icons.info,
                     onClicked: () => ctrlPresentation.toInfoAppPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Contact us',//Translator().translate(selectedLanguage, 'Contact us'),
+                    text: S.of(context).contactUs,
                     icon: Icons.phone,
                     onClicked: () => ctrlPresentation.mailto(),
                   ),
@@ -90,7 +88,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: 'Logout', //TODO: translator
+                    text: S.of(context).logout,
                     icon: Icons.logout,
                     onClicked: () {
                       ctrlPresentation.logoutRoutine(context);
@@ -118,7 +116,7 @@ class NavigationDrawerWidget extends StatelessWidget {
           padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
           child: Row(
             children: [
-              if (name != "Click to log-in") CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage!))
+              if (name != S.of(context).clickToLogin) CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage!))
               else
                 SignInButton.mini(
                   buttonType: ButtonType.googleDark,
@@ -136,7 +134,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                       name,
                       style: const TextStyle(fontSize: 80, color: Colors.white), //letra real a 20 pero como tenemos autoSizeText... 80 para que rellene
                       textAlign: TextAlign.center,
-                      maxLines: 1,
+                      maxLines: 2,
                     ),
                     Row(
                       children:<Widget>[

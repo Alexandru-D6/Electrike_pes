@@ -32,6 +32,7 @@ class CtrlDomain {
   //DATA USER
   Usuari usuari = Usuari();
   VehicleUsuari vhselected = VehicleUsuari.buit();
+  late double bateriaInicial; //Bateria inicial del vhUsuari, no cal guardar a la clase VhUsuari
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   List<Favorit> puntsFavCarrega = <Favorit>[];
   List<Favorit> puntsFavBicing = <Favorit>[];

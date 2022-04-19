@@ -23,6 +23,8 @@ class VehicleUsuari {
     endolls = <String>[];
   }
 
+  VehicleUsuari.built();
+
   void afegirEndoll(String endoll) {
     endolls.add(endoll);
   }

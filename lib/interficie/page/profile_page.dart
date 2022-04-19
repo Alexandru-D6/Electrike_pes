@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/user.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -90,37 +91,20 @@ class _ProfilePageState extends State<ProfilePage> {
     ),
   );
 
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
+  _showMyDialog() {
+    return AwesomeDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Are you sure you want to delete your account?'),
-          content: SingleChildScrollView(
-            child: Column(
-              children: const <Widget>[
-                Text('Deleting your account is permanent and will remove all content including cars, favourites points and profile settings. Are you sure you want to delete your account?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Confirm'),
-              onPressed: () {
-                //print('Confirmed');
-                ctrlPresentation.deleteAccount(context);
-              },
-            ),
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+      dialogType: DialogType.WARNING,
+      animType: AnimType.BOTTOMSLIDE,
+      title: 'Are you sure you want to delete your account?',
+      desc: 'Deleting your account is permanent and will remove all content including cars, favourites points and profile settings.\nAre you sure you want to delete your account?\n',
+      btnCancelOnPress: () {},
+      btnOkIcon: (Icons.delete),
+      btnOkText: "Delete",
+      btnOkOnPress: () {
+        ctrlPresentation.deleteAccount(context);
       },
-    );
+      headerAnimationLoop: false,
+    ).show();
   }
 }
