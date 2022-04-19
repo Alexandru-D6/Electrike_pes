@@ -9,7 +9,7 @@ import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
-//import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:http/http.dart' as http;
 
 class CtrlDomain {
@@ -78,8 +78,7 @@ class CtrlDomain {
       usuari.foto = resp['items'][0]['Img'];
       login();
     }
-
-    //ctrlPresentation.setUserValues(name, email, img);
+    ctrlPresentation.setUserValues(name, email, img);
   }
   //Carrega la informació dels objectes favorits de l'usuari
   void login() async{
@@ -135,7 +134,7 @@ class CtrlDomain {
       t.cars=<String>{};
     }
     usuari.usuarinull();
-    //ctrlPresentation.resetUserValues();
+    ctrlPresentation.resetUserValues();
   }
   //Elimina l'usuari de la base de dades i del domini
   void deleteaccount()async{
