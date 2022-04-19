@@ -5,6 +5,7 @@ import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/page/chart_page.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/page/information_app_page.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
       '/favourites': (context) => const FilterFavsItems(),
       '/rewards': (context) => const RewardsPage(),
       '/info': (context) => const InformationAppPage(),
+      '/chart': (context) => const ChartPage(),
     },
   );
 }

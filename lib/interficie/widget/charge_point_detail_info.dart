@@ -67,6 +67,14 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
+          onPressed: () {
+
+          },
+          icon: const Icon(
+            Icons.analytics,
+          ),
+        ),
+        IconButton(
           onPressed: () {},
           icon: const Icon(
             Icons.share,
