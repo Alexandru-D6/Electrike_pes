@@ -130,7 +130,7 @@ class CtrlPresentation {
   }
 
   getCarsList() {
-    return carList; //TODO: call domain carListUser será lista de lista de strings (List<Car>)
+    return ctrlDomain.infoAllVUser(); //TODO: call domain carListUser será lista de lista de strings (List<Car>)
   }
 
   List<Coordenada> getChargePointList() {
@@ -275,15 +275,21 @@ class CtrlPresentation {
   }
 
   void deleteCar(BuildContext context, List<String> car) {
-    //todo: delete car with domain
-    carList.remove(car);
+    //ctrlDomain.removeVUser(idVehicle);
     Navigator.pop(context);
     ctrlPresentation.toGaragePage(context);
     //toGaragePage(context);
   }
 
-  void saveCar(List<String> car, BuildContext context) {
-    carList.add(car);
+  void saveCar(BuildContext context,
+                String name,
+                String brand,
+                String modelV,
+                String bat,
+                String eff,
+                List<String> lEndolls
+      ) {
+    ctrlDomain.addVUser(name, brand, modelV, bat, eff, lEndolls);
     Navigator.pop(context);
     ctrlPresentation.toGaragePage(context);
   }

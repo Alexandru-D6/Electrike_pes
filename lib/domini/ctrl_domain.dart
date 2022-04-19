@@ -182,7 +182,7 @@ class CtrlDomain {
       }
     }
     vehiclesUsuari.add(VehicleUsuari(vehiclesUsuari.length,name, brand,modelV, double.parse(bat), double.parse(eff), endolls));
-    var url = urlorg +'insert_car_user?email='+usuari.correu+'&brand='+brand+'&vehicle='+modelV+'&battery='+bat+'&efficiency='+eff+'&chargers='+schuko+mennekes+chademo+ccscombo2;
+    var url = urlorg +'insert_car_user?email='+usuari.correu+'&name='+name+'&brand='+brand+'&vehicle='+modelV+'&battery='+bat+'&efficiency='+eff+'&chargers='+schuko+mennekes+chademo+ccscombo2;
     http.post(Uri.parse(url));
   }
   void editVUser(String idV, String name, String brand, String modelV, String bat, String eff,List<String> lEndolls){
