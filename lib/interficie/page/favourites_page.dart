@@ -63,10 +63,8 @@ class _FavsBicingsState extends State<FavsBicings> {
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = bicingPoints[index];
         bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
-        String title = "";
-        ctrlPresentation.getInfoBicing(word.latitud, word.longitud).then((element){
-          title = element[0];
-        });
+        String title = "<K"; //todo: bicing name call
+
 
         return ListTile(
           title: Text(title),
@@ -100,15 +98,17 @@ class _AllFavsState extends State<AllFavs> {
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
+    List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
+    List<Coordenada> allFavPoints = chargerPoints + bicingPoints;
     return ListView.separated(
-      itemCount: chargerPoints.length,
+      itemCount: allFavPoints.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
-        Coordenada word = chargerPoints[index];
+        Coordenada word = allFavPoints[index];
         bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
 
         return ListTile(
-          title: Text(ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]),
+          title: Text("ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]"),
           trailing: IconButton(
               icon: (const Icon(Icons.favorite)),
               color: isSaved ? Colors.red : null,
@@ -137,7 +137,8 @@ class FilterFavsItems extends StatefulWidget {
 class _FilterFavsItemsState extends State<FilterFavsItems> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    AllFavs(), //todo: replicar con bicings y conectar
+    //AllFavs(), //todo: replicar con bicings y conectar
+    FavsChargers(),
     FavsChargers(),
     FavsBicings(),
   ];
