@@ -63,9 +63,13 @@ class _FavsBicingsState extends State<FavsBicings> {
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = bicingPoints[index];
         bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
+        String title = "";
+        ctrlPresentation.getInfoBicing(word.latitud, word.longitud).then((element){
+          title = element[0];
+        });
 
         return ListTile(
-          title: Text(ctrlPresentation.getInfoBicing(word.latitud, word.longitud)[0]),
+          title: Text(title),
           trailing: IconButton(
               icon: (const Icon(Icons.favorite)),
               color: isSaved ? Colors.red : null,
