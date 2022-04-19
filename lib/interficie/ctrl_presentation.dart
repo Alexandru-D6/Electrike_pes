@@ -266,8 +266,12 @@ class CtrlPresentation {
     toMainPage(context);
   }
 
-  List<Coordenada> getFavsPoints() {
+  List<Coordenada> getFavsChargerPoints() {
     return ctrlDomain.getFavChargerPoints();
+  }
+
+  List<Coordenada> getFavsBicingPoints() {
+    return ctrlDomain.getFavBicingPoints();
   }
 
   void deleteCar(BuildContext context, List<String> car) {

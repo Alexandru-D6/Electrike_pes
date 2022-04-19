@@ -290,6 +290,8 @@ showInfoBicing(BuildContext context, double lat, double long, List<String> infoB
                     docks: infoBicingPoint[5],
                     bicisE: infoBicingPoint[4],
                     bicisM: infoBicingPoint[3],
+                    latitud: lat,
+                    longitud: long,
                   ),
                 ],
               ),

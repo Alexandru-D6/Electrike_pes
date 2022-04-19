@@ -17,7 +17,7 @@ class _FavsChargersState extends State<FavsChargers> {
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<Coordenada> chargerPoints = ctrlPresentation.getFavsPoints();
+    List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
     return ListView.separated(
         itemCount: chargerPoints.length,
         separatorBuilder: (BuildContext context, int index) => const Divider(),
@@ -45,6 +45,83 @@ class _FavsChargersState extends State<FavsChargers> {
   }
 }
 
+class FavsBicings extends StatefulWidget {
+  const FavsBicings({Key? key}) : super(key: key);
+
+  @override
+  State<FavsBicings> createState() => _FavsBicingsState();
+}
+
+class _FavsBicingsState extends State<FavsBicings> {
+  @override
+  Widget build(BuildContext context) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
+    return ListView.separated(
+      itemCount: bicingPoints.length,
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      itemBuilder: (BuildContext context, int index) {
+        Coordenada word = bicingPoints[index];
+        bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
+
+        return ListTile(
+          title: Text(ctrlPresentation.getInfoBicing(word.latitud, word.longitud)[0]),
+          trailing: IconButton(
+              icon: (const Icon(Icons.favorite)),
+              color: isSaved ? Colors.red : null,
+              onPressed: () {
+                bicingPoints.remove(word);
+                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
+                Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+              }
+          ),
+          onTap: () {
+            ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
+          },
+        );
+      },
+    );
+  }
+}
+
+class AllFavs extends StatefulWidget {
+  const AllFavs({Key? key}) : super(key: key);
+
+  @override
+  State<AllFavs> createState() => _AllFavsState();
+}
+
+class _AllFavsState extends State<AllFavs> {
+  @override
+  Widget build(BuildContext context) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
+    return ListView.separated(
+      itemCount: chargerPoints.length,
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      itemBuilder: (BuildContext context, int index) {
+        Coordenada word = chargerPoints[index];
+        bool isSaved = ctrlPresentation.isAFavPoint(word.latitud, word.longitud);
+
+        return ListTile(
+          title: Text(ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]),
+          trailing: IconButton(
+              icon: (const Icon(Icons.favorite)),
+              color: isSaved ? Colors.red : null,
+              onPressed: () {
+                chargerPoints.remove(word);
+                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
+                Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+              }
+          ),
+          onTap: () {
+            ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
+          },
+        );
+      },
+    );
+  }
+}
 
 class FilterFavsItems extends StatefulWidget {
   const FilterFavsItems({Key? key}) : super(key: key);
@@ -56,9 +133,9 @@ class FilterFavsItems extends StatefulWidget {
 class _FilterFavsItemsState extends State<FilterFavsItems> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    FavsChargers(), //todo: replicar con bicings y conectar
+    AllFavs(), //todo: replicar con bicings y conectar
     FavsChargers(),
-    FavsChargers(),
+    FavsBicings(),
   ];
 
   void _onItemTapped(int index) {
