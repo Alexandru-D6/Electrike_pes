@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import 'package:flutter_project/interficie/page/profile_page.dart';
-import 'package:flutter_project/interficie/widget/car_list_item.dart';
+import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 
 
 
-
-class GaragePage extends StatelessWidget {
-  const GaragePage({Key? key}) : super(key: key);
+class ChartPage extends StatelessWidget {
+  const ChartPage({Key? key}) : super(key: key);
 
 
   @override
@@ -19,10 +17,7 @@ class GaragePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: mPrimaryColor,
       appBar: buildAppBar(context),
-      body: ListView.builder(
-        itemCount: userCarList.length,
-        itemBuilder: (context, index) => CarListItem(userCarList[index]),
-      ),
+      body: OcupationChart.withSampleData(),
     );
   }
 
@@ -38,8 +33,7 @@ class GaragePage extends StatelessWidget {
             color: Colors.white,
           ),
           onPressed: (){
-            ctrlPresentation.toFormCar(context);
-             },
+          },
         )
       ],
     );

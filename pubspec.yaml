@@ -59,6 +59,12 @@ dependencies:
   http: ^0.13.3
   flinq: ^2.0.2
   uuid: ^3.0.4
+  awesome_dialog: ^2.2.0
+  animated_floating_buttons: ^0.0.2
+  animated_splash_screen: ^1.2.0
+  flutter_localizations:
+    sdk: flutter
+  charts_flutter: ^0.12.0
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +89,7 @@ flutter_icons:
 flutter:
   assets:
     - assets/images/
+    - assets/brandCars/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -119,3 +126,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true
+
+  # Optional
+  # Default: en
+  # <language code>[_<script code>][_<country code>]
+  main_locale: en
+
+  # Optional
+  # Default: S
+  # Suggested alternative name: AppLocalizations
+  class_name: S
