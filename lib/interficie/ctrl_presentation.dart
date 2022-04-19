@@ -274,8 +274,8 @@ class CtrlPresentation {
     return ctrlDomain.getFavBicingPoints();
   }
 
-  void deleteCar(BuildContext context, List<String> car) {
-    //ctrlDomain.removeVUser(idVehicle);
+  void deleteCar(BuildContext context, String idVehicle) {
+    ctrlDomain.removeVUser(idVehicle);
     Navigator.pop(context);
     ctrlPresentation.toGaragePage(context);
     //toGaragePage(context);

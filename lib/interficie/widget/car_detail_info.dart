@@ -122,7 +122,7 @@ class EditInfoCar extends StatelessWidget {
       btnOkIcon: (Icons.delete),
       btnOkText: "Delete",
       btnOkOnPress: () {
-        ctrlPresentation.deleteCar(context, car);
+        ctrlPresentation.deleteCar(context, car[0]);
       },
       headerAnimationLoop: false,
     ).show();
