@@ -1,3 +1,4 @@
+import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -29,22 +30,28 @@ class _MyMapState extends State<MyMap> {
   void initMarkers(String? show){
     switch(show){
       case "chargers":
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
         markers = chargePoints;
         for (int i = 0; i < markers.length; ++i){
           GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
         }
         break;
       case "bicing":
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
         markers = bicingPoints;
         for (int i = 0; i < markers.length; ++i){
           GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
         }
         break;
-      default:
+      case "all":
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
         markers = chargePoints.union(bicingPoints);
         for (int i = 0; i < markers.length; ++i){
           GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
         }
+        break;
+      default:
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
         break;
     }
   }
@@ -54,7 +61,6 @@ class _MyMapState extends State<MyMap> {
     chargePoints = buildChargerMarkers(context);
     bicingPoints = buildBicingMarkers(context);
     markers = chargePoints.union(bicingPoints);
-
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -142,48 +148,36 @@ class _MyMapState extends State<MyMap> {
     );
   }
 
+  Widget button(
+      { required String onPressed,
+        required String heroTag,
+        required String toolTip,
+        required Icon icon}) {
+    return FloatingActionButton(
+      onPressed: (){
+        initMarkers(onPressed);
+      },
+      heroTag: heroTag,
+      tooltip: toolTip,
+      child: icon,
+      backgroundColor: mCardColor,
+    );
+  }
+
   List<Widget> _buildClearButtons() => [
     Padding(
       padding: const EdgeInsets.all(5.0),
-      child: FloatingActionButton(
-        backgroundColor: mCardColor,
-        child: const Icon(Icons.visibility_off),
-        onPressed: () {
-          GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
-        },
-      ),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: FloatingActionButton(
-        backgroundColor: mCardColor,
-        child: const Icon(Icons.visibility),
-        onPressed: () {
-          GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
-          initMarkers("all");
-        },
-      ),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: FloatingActionButton(
-        backgroundColor: mCardColor,
-        child: const Icon(Icons.power),
-        onPressed: () {
-          GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
-          initMarkers("chargers");
-        },
-      ),
-    ),
-    Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: FloatingActionButton(
-        backgroundColor: mCardColor,
-        child: const Icon(Icons.pedal_bike),
-        onPressed: () {
-          GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
-          initMarkers("bicing");
-        },
+      child: AnimatedFloatingActionButton(
+          fabButtons: <Widget>[
+            button(onPressed: "default", heroTag: "hide", toolTip: "Hide markers", icon: const Icon(Icons.visibility_off)),
+            button(onPressed: "all", heroTag: "all", toolTip: "Show all markers", icon: const Icon(Icons.visibility)),
+            button(onPressed: "chargers", heroTag: "charger", toolTip: "See only chargers", icon: const Icon(Icons.power)),
+            button(onPressed: "bicing", heroTag: "bicing", toolTip: "See only bicing", icon: const Icon(Icons.pedal_bike)),
+            button(onPressed: "favs", heroTag: "favs", toolTip: "See only favourites", icon: const Icon(Icons.favorite)),
+          ],
+          colorStartAnimation: mPrimaryColor,
+          colorEndAnimation: Colors.red.shade900,
+          animatedIconData: AnimatedIcons.menu_close //To principal button
       ),
     ),
   ];

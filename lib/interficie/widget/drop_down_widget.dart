@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/domini/traductor.dart';
 import 'package:flutter_project/interficie/constants.dart';
 
 
@@ -24,7 +23,7 @@ class MyStatefulWidget extends StatefulWidget {
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
 }
-
+enum LanguagesEnum {catalan, spanish, english}
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   LanguagesEnum selectedLanguage = LanguagesEnum.english; //TODO: user language
 
