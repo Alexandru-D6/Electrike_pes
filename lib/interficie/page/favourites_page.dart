@@ -45,32 +45,30 @@ class _FavsChargersState extends State<FavsChargers> {
 }
 
 class FavsBicings extends StatefulWidget {
-  const FavsBicings({
-    Key? key,
-    required this.titlesBicing,
-    required this.bicingPoints,
-  }) : super(key: key);
-
-
-  final List<String> titlesBicing;
-  final List<Coordenada> bicingPoints;
+  const FavsBicings({Key? key}) : super(key: key);
 
   @override
   State<FavsBicings> createState() => _FavsBicingsState();
 }
 
 class _FavsBicingsState extends State<FavsBicings> {
+  List<String> titlesBicing = <String>[];
 
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
+    List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
+
+    ctrlPresentation.getAllNamesBicing(bicingPoints).then((element){
+      titlesBicing = element;
+    });
 
     return ListView.separated(
-      itemCount: widget.titlesBicing.length,
+      itemCount: titlesBicing.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
-        Coordenada word = widget.bicingPoints[index];
-        String title = widget.titlesBicing[index]; //todo: bicing name call
+        Coordenada word = bicingPoints[index];
+        String title = titlesBicing[index]; //todo: bicing name call
 
         return ListTile(
           title: Text(title),
@@ -78,7 +76,7 @@ class _FavsBicingsState extends State<FavsBicings> {
               icon: (const Icon(Icons.favorite)),
               color: Colors.red,
               onPressed: () {
-                widget.bicingPoints.remove(word);
+                bicingPoints.remove(word);
                 ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
                 Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
               }
@@ -140,25 +138,18 @@ class FilterFavsItems extends StatefulWidget {
 }
 
 class _FilterFavsItemsState extends State<FilterFavsItems> {
-  List<String> titlesBicing = <String>["a"];
-  List<Coordenada> bicingPoints = <Coordenada>[Coordenada(2.0, 2.0)];
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     //AllFavs(), //todo: replicar con bicings y conectar
     FavsChargers(),
     FavsChargers(),
-    FavsBicings(titlesBicing: titlesBicing, bicingPoints: bicingPoints),
+    FavsBicings(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if(index == 2 ){
-        bicingPoints = ctrlPresentation.getFavsBicingPoints();
-        ctrlPresentation.getAllNamesBicing(bicingPoints).then((element){
-          titlesBicing = element;
-        });
-      }
+
     });
   }
 
