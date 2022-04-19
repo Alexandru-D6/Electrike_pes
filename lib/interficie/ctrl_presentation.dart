@@ -104,6 +104,12 @@ class CtrlPresentation {
     }
   }
 
+  void toChartPage(BuildContext context){
+    Navigator.pushReplacementNamed(
+      context,
+      '/chart',
+    );
+  }
   //USER INFO FUNCTIONS
   String getCurrentUsername(BuildContext context){
     //TODO: CALL DOMAIN FUNCTION

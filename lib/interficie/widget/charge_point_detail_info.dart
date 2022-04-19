@@ -68,10 +68,10 @@ class _EditInfoPointState extends State<EditInfoPoint> {
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
           onPressed: () {
-
+            ctrlPresentation.toChartPage(context);
           },
           icon: const Icon(
-            Icons.analytics,
+            Icons.bar_chart,
           ),
         ),
         IconButton(
