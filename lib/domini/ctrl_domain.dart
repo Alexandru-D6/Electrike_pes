@@ -343,7 +343,6 @@ class CtrlDomain {
     var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString()+'&name'+'pruebanombre';
     puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
     await http.post(Uri.parse(url));
-    puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
     getNomsFavBicing();
   }
   void deleteFavBicing(double lat, double long)async{
