@@ -197,14 +197,14 @@ class _MyMapState extends State<MyMap> {
 
 
   Set<Marker> buildChargerMarkers(BuildContext context, int filter) {
-    chargePoints = {};
-    favChargePoints = {};
     List<Coordenada> coordsChargers = <Coordenada>[];
     switch(filter){
       case 1: //todos los cargadores
+        chargePoints = {};
         coordsChargers = ctrlPresentation.getChargePointList();
         break;
       case 2://sólo favoritos
+        favChargePoints = {};
         coordsChargers = ctrlPresentation.getFavsChargerPoints();
         break;
       default:
@@ -238,15 +238,14 @@ class _MyMapState extends State<MyMap> {
   }
 
   Set<Marker> buildBicingMarkers(BuildContext context, int filter) {
-    bicingPoints = {};
-    favBicingPoints = {};
     List<Coordenada> coordsBicing = <Coordenada>[];
     switch(filter){
       case 1: //todos los cargadores
-        print("estoy entrando a cargar todos los bicings!!!!!!!\n");
+        bicingPoints = {};
         coordsBicing = ctrlPresentation.getBicingPointList();
         break;
       case 2://sólo favoritos
+        favBicingPoints = {};
         coordsBicing = ctrlPresentation.getFavsBicingPoints();
         break;
       default:
