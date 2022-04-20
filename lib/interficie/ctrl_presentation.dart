@@ -274,6 +274,14 @@ class CtrlPresentation {
     return ctrlDomain.getFavBicingPoints();
   }
 
+  List<String> getNomsFavsChargerPoints() {
+    return ctrlDomain.nomsFavCarrega;
+  }
+
+  List<String> getNomsFavsBicingPoints() {
+    return ctrlDomain.nomsFavBicings;
+  }
+
   void deleteCar(BuildContext context, String idVehicle) {
     ctrlDomain.removeVUser(idVehicle);
     Navigator.pop(context);

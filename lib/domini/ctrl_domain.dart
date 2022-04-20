@@ -36,6 +36,8 @@ class CtrlDomain {
   List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
   List<Favorit> puntsFavCarrega = <Favorit>[];
   List<Favorit> puntsFavBicing = <Favorit>[];
+  List<String> nomsFavBicings = <String>[];
+  List<String> nomsFavCarrega = <String>[];
   factory CtrlDomain() {
     return _singleton;
   }
@@ -126,6 +128,8 @@ class CtrlDomain {
       print('vehicle añadido'+favcar['Id'].toString());
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
     }
+    getNomsFavBicing();
+    getNomsFavChargers();
 
   }
   //Elimina el continguts dels llistats referents als usuaris per quan fa logout
@@ -297,6 +301,7 @@ class CtrlDomain {
     var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString()+'&name='+'pruebanombre';
     await http.post(Uri.parse(url));
     puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
+    getNomsFavChargers();
   }
   void deleteFavCharger(double lat, double long)async{
     var url = urlorg +'remove_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
@@ -309,6 +314,7 @@ class CtrlDomain {
     }
 
     if(fav.coord.latitud != -1.0)puntsFavCarrega.remove(fav);
+    getNomsFavChargers();
   }
 
   //USER FAV_BICING
@@ -338,7 +344,7 @@ class CtrlDomain {
     puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
     await http.post(Uri.parse(url));
     puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
-
+    getNomsFavBicing();
   }
   void deleteFavBicing(double lat, double long)async{
     var url = urlorg +'remove_fav_bicing?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
@@ -348,6 +354,7 @@ class CtrlDomain {
       if(pfb.coord.latitud == lat && pfb.coord.longitud == long)fav = pfb;
     }
     if(fav.coord.latitud != -1.0)puntsFavBicing.remove(fav);
+    getNomsFavBicing();
   }
   Future<List<String>> getNamesFavBicing()async{
     List<String>namesBFav = <String>[];
@@ -656,6 +663,29 @@ class CtrlDomain {
     for(var favcar in respCars['items']){
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],favcar['Battery'],favcar['Efficiency'], favcar['Chargers']));
     print(favcar['Id'].toString()+','+ favcar['Brand']+','+favcar['Vehicle']+','+favcar['Battery'].toString()+','+favcar['Efficiency'].toString()+','+favcar['Chargers']);
+    }
+  }
+
+  void getNomsFavChargers() async{
+    nomsFavCarrega = <String>[];
+    for(var c in puntsFavCarrega){
+      var url = urlorg+'charger_info_cat?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
+      var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    for(var it in resp['items']){
+      nomsFavCarrega.add(it['Station_name']);
+    }
+    }
+  }
+  void getNomsFavBicing() async{
+    nomsFavBicings = <String>[];
+    for(var c in puntsFavBicing){
+      var url = urlorg+'bicing_info?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
+      var response = (await http.get(Uri.parse(url)));
+      var resp = jsonDecode(response.body);
+      for(var it in resp['items']){
+        nomsFavBicings.add('Bicing'+it['name']);
+      }
     }
   }
 }

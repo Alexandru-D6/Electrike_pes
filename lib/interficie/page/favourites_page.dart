@@ -52,23 +52,22 @@ class FavsBicings extends StatefulWidget {
 }
 
 class _FavsBicingsState extends State<FavsBicings> {
-  List<String> titlesBicing = <String>[];
 
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
+    print('hola que tal'+bicingPoints.length.toString());
 
-    ctrlPresentation.getAllNamesBicing(bicingPoints).then((element){
-      titlesBicing = element;
-    });
-
+    List<String> titlesBicing = ctrlPresentation.getNomsFavsBicingPoints();
+    print('hola que tal'+titlesBicing.length.toString());
     return ListView.separated(
       itemCount: titlesBicing.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = bicingPoints[index];
-        String title = titlesBicing[index]; //todo: bicing name call
+        String title = titlesBicing[index];
+
 
         return ListTile(
           title: Text(title),
