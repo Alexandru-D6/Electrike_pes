@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -50,7 +51,13 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: S.of(context).garage,
                     icon: Icons.garage,
-                    onClicked: () => ctrlPresentation.toGaragePage(context),
+                    onClicked: () {
+                      if(email == "") {
+                        _showMyDialog(context);
+                      } else {
+                        ctrlPresentation.toGaragePage(context);
+                      }
+                    },
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
@@ -158,6 +165,18 @@ class NavigationDrawerWidget extends StatelessWidget {
           ),
         ),
       );
+
+  _showMyDialog(BuildContext context) {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
+      desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: S.of(context).alertSureDeleteCarContent,
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
+  }
 }
 
   Widget buildMenuItem({
