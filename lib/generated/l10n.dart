@@ -320,6 +320,16 @@ class S {
     );
   }
 
+  /// `To add a point to your favourites you must be logged in\n`
+  String get toAddFavLogin {
+    return Intl.message(
+      'To add a point to your favourites you must be logged in\n',
+      name: 'toAddFavLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Click to log-in`
   String get clickToLogin {
     return Intl.message(
@@ -365,6 +375,16 @@ class S {
     return Intl.message(
       'Introduce a number',
       name: 'msgIntroNum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add point to favourites`
+  String get msgAddFav {
+    return Intl.message(
+      'Add point to favourites',
+      name: 'msgAddFav',
       desc: '',
       args: [],
     );

@@ -70,6 +70,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "map": MessageLookupByLibrary.simpleMessage("Map"),
         "maxCharMssg": MessageLookupByLibrary.simpleMessage(
             "You cannot have more than 15 characters"),
+        "msgAddFav":
+            MessageLookupByLibrary.simpleMessage("Add point to favourites"),
         "msgIntroNum":
             MessageLookupByLibrary.simpleMessage("Introduce a number"),
         "msgSelectChargers": MessageLookupByLibrary.simpleMessage(
@@ -81,6 +83,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "textWithPlaceholder": m2,
         "textWithPlaceholders": m3,
         "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
-            "To add a car you must be logged!")
+            "To add a car you must be logged!"),
+        "toAddFavLogin": MessageLookupByLibrary.simpleMessage(
+            "To add a point to your favourites you must be logged in\n")
       };
 }

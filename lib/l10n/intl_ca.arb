@@ -26,12 +26,14 @@
   "add": "Afegir",
   "login": "Iniciar sessió",
   "toAddCarLogin": "Per afegir un vehicle has d'iniciar sessió",
+  "toAddFavLogin": "Per afegir un punt a favorits has d'iniciar sessió\n",
   "clickToLogin": "Pulsa per iniciar sessió",
   "alertSureDeleteCarTitle": "Estas segur de voler eliminar aquest vehicle?",
   "alertSureDeleteCarContent": "Borrar un vehicle és una acció permanent que elimina totes les dades associades.\n Estas segur de voler continuar?\n",
 
   "msgSelectChargers": "Selecciona al menys un carregador",
   "msgIntroNum": "Introdueix un número",
+  "msgAddFav": "Afegir punt a favorits",
 
   "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
 

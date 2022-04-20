@@ -71,6 +71,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "map": MessageLookupByLibrary.simpleMessage("Mapa"),
         "maxCharMssg": MessageLookupByLibrary.simpleMessage(
             "El máximo número de caácteres es 15"),
+        "msgAddFav":
+            MessageLookupByLibrary.simpleMessage("Añadir punto a favoritos"),
         "msgIntroNum":
             MessageLookupByLibrary.simpleMessage("Introduce un número"),
         "msgSelectChargers": MessageLookupByLibrary.simpleMessage(
@@ -82,6 +84,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "textWithPlaceholder": m2,
         "textWithPlaceholders": m3,
         "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
-            "¡Para agregar un vehículo debes estar registrado!")
+            "¡Para agregar un vehículo debes estar registrado!"),
+        "toAddFavLogin": MessageLookupByLibrary.simpleMessage(
+            "Para añadir un punto a favoritos tienes que iniciar sessión\n")
       };
 }
