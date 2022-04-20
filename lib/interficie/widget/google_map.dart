@@ -31,21 +31,28 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
+    markers = chargePoints.union(bicingPoints);
     switch(show){
       case "chargers":
+        chargePoints = buildChargerMarkers(context, 1);
         markers = chargePoints;
         break;
       case "bicing":
+        bicingPoints = buildBicingMarkers(context, 1);
         markers = bicingPoints;
         break;
       case "favs":
         if(ctrlPresentation.email == "") {
           _showNotLogDialog(context);
         } else {
+          favChargePoints = buildChargerMarkers(context, 2);
+          favBicingPoints = buildBicingMarkers(context, 2);
           markers = favBicingPoints.union(favChargePoints);
         }
         break;
       case "all":
+        chargePoints = buildChargerMarkers(context, 1);
+        bicingPoints = buildBicingMarkers(context, 1);
         markers = chargePoints.union(bicingPoints);
         break;
       default:
@@ -72,13 +79,7 @@ class _MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
-    chargePoints = buildChargerMarkers(context, 1);
-    favChargePoints = buildChargerMarkers(context, 2);
-
-    bicingPoints = buildBicingMarkers(context, 1);
-    favBicingPoints = buildBicingMarkers(context, 2);
-
-    markers = chargePoints.union(bicingPoints);
+    markers = {};
     return Scaffold(
       body: Stack(
         children: <Widget>[
