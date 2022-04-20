@@ -52,11 +52,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                     text: S.of(context).garage,
                     icon: Icons.garage,
                     onClicked: () {
-                      if(email == "") {
-                        _showMyDialog(context);
-                      } else {
-                        ctrlPresentation.toGaragePage(context);
-                      }
+                      ctrlPresentation.toGaragePage(context);
                     },
                   ),
                   const SizedBox(height: 10),
@@ -165,18 +161,6 @@ class NavigationDrawerWidget extends StatelessWidget {
           ),
         ),
       );
-
-  _showMyDialog(BuildContext context) {
-    return AwesomeDialog(
-      context: context,
-      dialogType: DialogType.INFO,
-      animType: AnimType.BOTTOMSLIDE,
-      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
-      desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: S.of(context).alertSureDeleteCarContent,
-      btnOkOnPress: () {},
-      headerAnimationLoop: false,
-    ).show();
-  }
 }
 
   Widget buildMenuItem({

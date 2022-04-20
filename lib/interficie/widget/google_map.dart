@@ -1,4 +1,5 @@
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -32,37 +33,41 @@ class _MyMapState extends State<MyMap> {
   void initMarkers(String? show){
     switch(show){
       case "chargers":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
         markers = chargePoints;
-        for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
-        }
         break;
       case "bicing":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
         markers = bicingPoints;
-        for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
-        }
         break;
       case "favs":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
-        markers = favBicingPoints.union(favChargePoints);
-        for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
+        if(ctrlPresentation.email == "") {
+          _showNotLogDialog(context);
+        } else {
+          markers = favBicingPoints.union(favChargePoints);
         }
         break;
       case "all":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
         markers = chargePoints.union(bicingPoints);
-        for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
-        }
         break;
       default:
-        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
+        markers = {};
         break;
     }
+    GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
+    for (int i = 0; i < markers.length; ++i){
+      GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
+    }
+  }
+
+  _showNotLogDialog(BuildContext context) {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
+      desc: "You aren't logged so you don't have any favourite point.",//todo: S.of(context).alertSureDeleteCarContent,
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
   }
 
   @override
