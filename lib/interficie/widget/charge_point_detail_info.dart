@@ -2,8 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:responsive_grid/responsive_grid.dart';
-
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
@@ -67,6 +67,14 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
+          onPressed: () {
+
+          },
+          icon: const Icon(
+            Icons.analytics,
+          ),
+        ),
+        IconButton(
           onPressed: () {},
           icon: const Icon(
             Icons.share,
@@ -102,9 +110,8 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           ),
           tooltip: 'Add points to favourites', //todo: translate S.of(context).[]
           onPressed: () {
-            setState(() {
               ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
-            });
+              Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
           },
         ),
       ],
@@ -135,6 +142,16 @@ class PointInfo extends StatelessWidget {
           context: context,
         ),
         buildConnectors(),
+        Container(
+          alignment: Alignment.center,
+          child:
+            SizedBox(
+            width: 200.0,
+            height: 200.0,
+            child: OcupationChart.withSampleData(),
+          ),
+        ),
+        //fc.BarChart(),
       ],
     );
   }
