@@ -25,8 +25,6 @@ class VehicleUsuari {
 
   VehicleUsuari.built();
 
-  VehicleUsuari.buit();
-
   void afegirEndoll(String endoll) {
     endolls.add(endoll);
   }
