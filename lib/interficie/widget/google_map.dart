@@ -21,6 +21,8 @@ class MyMap extends StatefulWidget {
 class _MyMapState extends State<MyMap> {
   Set<Marker> chargePoints = {};
   Set<Marker> bicingPoints = {};
+  Set<Marker> favBicingPoints = {};
+  Set<Marker> favChargePoints = {};
   Set<Marker> markers = {};
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
@@ -43,6 +45,13 @@ class _MyMapState extends State<MyMap> {
           GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
         }
         break;
+      case "favs":
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
+        markers = favBicingPoints.union(favChargePoints);
+        for (int i = 0; i < markers.length; ++i){
+          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
+        }
+        break;
       case "all":
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
         markers = chargePoints.union(bicingPoints);
@@ -58,8 +67,12 @@ class _MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
-    chargePoints = buildChargerMarkers(context);
-    bicingPoints = buildBicingMarkers(context);
+    chargePoints = buildChargerMarkers(context, 1);
+    favChargePoints = buildChargerMarkers(context, 2);
+
+    bicingPoints = buildBicingMarkers(context, 1);
+    favBicingPoints = buildBicingMarkers(context, 2);
+
     markers = chargePoints.union(bicingPoints);
     return Scaffold(
       body: Stack(
@@ -183,11 +196,24 @@ class _MyMapState extends State<MyMap> {
   ];
 
 
-  Set<Marker> buildChargerMarkers(BuildContext context) {
+  Set<Marker> buildChargerMarkers(BuildContext context, int filter) {
     chargePoints = {};
-    List<Coordenada> coordsChargers = ctrlPresentation.getChargePointList();
+    favChargePoints = {};
+    List<Coordenada> coordsChargers = <Coordenada>[];
+    switch(filter){
+      case 1: //todos los cargadores
+        coordsChargers = ctrlPresentation.getChargePointList();
+        break;
+      case 2://sólo favoritos
+        coordsChargers = ctrlPresentation.getFavsChargerPoints();
+        break;
+      default:
+        coordsChargers = ctrlPresentation.getChargePointList();
+        break;
+    }
     for (var i = 0; i < coordsChargers.length; ++i) {
-      chargePoints.add(
+      if(filter == 1) {
+        chargePoints.add(
           buildChargerMarker(
             index: i,
             lat: coordsChargers[i].latitud,
@@ -195,26 +221,60 @@ class _MyMapState extends State<MyMap> {
             context: context,
           )
       );
+      } else {
+        favChargePoints.add(
+          buildChargerMarker(
+            index: i,
+            lat: coordsChargers[i].latitud,
+            long: coordsChargers[i].longitud,
+            context: context,
+          )
+      );
+      }
     }
-    setState(() {
-    });
+    setState(() {});
+    if(filter == 2) return favChargePoints;
     return chargePoints;
   }
 
-  Set<Marker> buildBicingMarkers(BuildContext context) {
+  Set<Marker> buildBicingMarkers(BuildContext context, int filter) {
     bicingPoints = {};
-    List<Coordenada> coordsBicing = ctrlPresentation.getBicingPointList();
+    favBicingPoints = {};
+    List<Coordenada> coordsBicing = <Coordenada>[];
+    switch(filter){
+      case 1: //todos los cargadores
+        print("estoy entrando a cargar todos los bicings!!!!!!!\n");
+        coordsBicing = ctrlPresentation.getBicingPointList();
+        break;
+      case 2://sólo favoritos
+        coordsBicing = ctrlPresentation.getFavsBicingPoints();
+        break;
+      default:
+        coordsBicing = ctrlPresentation.getBicingPointList();
+        break;
+    }
+
     for (var i = 0; i < coordsBicing.length; ++i) {
-      bicingPoints.add(
+      if(filter == 1) {
+        bicingPoints.add(
           buildBicingMarker(
             lat: coordsBicing[i].latitud,
             long: coordsBicing[i].longitud,
             context: context,
           )
       );
+      } else {
+        favBicingPoints.add(
+          buildBicingMarker(
+            lat: coordsBicing[i].latitud,
+            long: coordsBicing[i].longitud,
+            context: context,
+          )
+      );
+      }
     }
-    setState(() {
-    });
+    setState(() {});
+    if(filter == 2) return favBicingPoints;
     return bicingPoints;
   }
 }
