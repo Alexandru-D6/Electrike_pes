@@ -11,16 +11,40 @@
   "allFavourites": "All favourites",
   "chargers": "Chargers",
   "bicing": "Bicing",
-  "newCar": "New car",
-  "carBrand": "Car Brand",
+  "newCar": "New vehicle",
+  "power": "Power",
+  "efficiency": "Efficiency",
+  "carBrand": "Brand",
+  "carNameHint": "The Amazing Red Car",
+  "carNameLabel": "Name of the vehicle",
+  "carModelLabel": "Model",
+  "carBatteryLabel": "Battery(kWh)",
+  "carEfficiency": "Efficiency(Wh/Km)",
+  "carBrandLabel": "Please select a brand",
+  "maxCharMssg": "You cannot have more than 15 characters",
+  "chargerTypeLabel": "Selecciona els carregadors que pot utilitzar (tingues en compte també els adaptadors, en el cas de tenir-ne cap)",
   "add": "Add",
   "login": "Log-in",
   "toAddCarLogin": "To add a car you must be logged!",
   "clickToLogin": "Click to log-in",
-  "alertSureDeleteCarTitle": "Are you sure you want to delete this car?",
-  "alertSureDeleteCarContent": "Deleting this car is permanent and will remove all data saved associated to this car.\nAre you sure you want to continue?\n",
+  "alertSureDeleteCarTitle": "Are you sure you want to delete this vehicle?",
+  "alertSureDeleteCarContent": "Deleting this car is permanent and will remove all data saved associated to this vehicle.\nAre you sure you want to continue?\n",
 
+  "msgSelectChargers": "At least select one type of charger",
+  "msgIntroNum": "Introduce a number",
   "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
+
+  "infoCar": "The vehicle's name is {selectedNameCar}\\n \n  It's Brand {selectedBrandCar}\\n\n  It's model {selectedModelCar}\\n\n   Battery {selectedBatteryCar} kWh\\n\n   Effciency {selectedEffciencyCar} Wh/Km\\n\n The vehicle uses {selectedPlugs}\\n'''),",
+  "@infoCar": {
+    "placeholders": {
+      "selectedNameCar": {},
+      "selectedBrandCar": {},
+      "selectedModelCar": {},
+      "selectedBatteryCar": {},
+      "selectedEffciencyCar": {},
+      "selectedPlugs": {}
+    }
+  },
 
   "textWithPlaceholder": "Welcome {name}",
 

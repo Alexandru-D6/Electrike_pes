@@ -23,9 +23,13 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(howMany) =>
       "${Intl.plural(howMany, one: 'You have 1 notification', other: 'You have ${howMany} notifications')}";
 
-  static String m1(name) => "Benvingut ${name}";
+  static String m1(selectedNameCar, selectedBrandCar, selectedModelCar,
+          selectedBatteryCar, selectedEffciencyCar, selectedPlugs) =>
+      "El nom del vehicle és ${selectedNameCar}\\n \n  La seva marca ${selectedBrandCar}\\n\n  El seu model ${selectedModelCar}\\n\n   Bateria ${selectedBatteryCar} kWh\\n\n   Consum ${selectedEffciencyCar} Wh/Km\\n\n El vehicle utilitza ${selectedPlugs}\\n\'\'\'),";
 
-  static String m2(firstName, lastName) =>
+  static String m2(name) => "Benvingut ${name}";
+
+  static String m3(firstName, lastName) =>
       "El meu nom és ${lastName}, ${firstName} ${lastName}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -39,24 +43,43 @@ class MessageLookup extends MessageLookupByLibrary {
         "allFavourites":
             MessageLookupByLibrary.simpleMessage("Els meus favorits"),
         "bicing": MessageLookupByLibrary.simpleMessage("Bicing"),
-        "carBrand": MessageLookupByLibrary.simpleMessage("Marca de vehicle"),
+        "carBatteryLabel": MessageLookupByLibrary.simpleMessage("Bateria(kWh)"),
+        "carBrand": MessageLookupByLibrary.simpleMessage("Marca"),
+        "carBrandLabel": MessageLookupByLibrary.simpleMessage(
+            "Si us plau, seleciona una marca"),
+        "carEfficiency": MessageLookupByLibrary.simpleMessage("Consum(Wh/Km)"),
+        "carModelLabel": MessageLookupByLibrary.simpleMessage("Model"),
+        "carNameHint":
+            MessageLookupByLibrary.simpleMessage("El incrible cotxe vermell"),
+        "carNameLabel": MessageLookupByLibrary.simpleMessage("Nom del cotxe"),
+        "chargerTypeLabel": MessageLookupByLibrary.simpleMessage(
+            "Selecciona los cargadores que puede utilizar (ten en cuenta los adaptadores en el caso de tener alguno)"),
         "chargers": MessageLookupByLibrary.simpleMessage("Carregadors"),
         "clickToLogin":
             MessageLookupByLibrary.simpleMessage("Pulsa per iniciar sessió"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contacta\'ns"),
+        "efficiency": MessageLookupByLibrary.simpleMessage("Consum"),
         "favourites": MessageLookupByLibrary.simpleMessage("Favorits"),
         "garage": MessageLookupByLibrary.simpleMessage("Garatge"),
         "howManyCars": m0,
+        "infoCar": m1,
         "information": MessageLookupByLibrary.simpleMessage("Informació"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "login": MessageLookupByLibrary.simpleMessage("Iniciar sessió"),
         "logout": MessageLookupByLibrary.simpleMessage("Tancar sessió"),
         "map": MessageLookupByLibrary.simpleMessage("Mapa"),
+        "maxCharMssg": MessageLookupByLibrary.simpleMessage(
+            "El màxim número de caràcters és 15"),
+        "msgIntroNum":
+            MessageLookupByLibrary.simpleMessage("Introdueix un número"),
+        "msgSelectChargers": MessageLookupByLibrary.simpleMessage(
+            "Selecciona al menys un carregador"),
         "newCar": MessageLookupByLibrary.simpleMessage("Vehicle nou"),
+        "power": MessageLookupByLibrary.simpleMessage("Potència"),
         "systemLanguage":
             MessageLookupByLibrary.simpleMessage("Idioma del sistema"),
-        "textWithPlaceholder": m1,
-        "textWithPlaceholders": m2,
+        "textWithPlaceholder": m2,
+        "textWithPlaceholders": m3,
         "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
             "Per afegir un vehicle has d\'iniciar sessió")
       };
