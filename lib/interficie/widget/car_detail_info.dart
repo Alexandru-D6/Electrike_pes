@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 import 'attribute.dart';
 
@@ -213,8 +215,83 @@ class CarInfo extends StatelessWidget {
               textColor: Colors.black87,
             ),
           ],
-        )
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+        buildConnectors(),
       ],
     );
   }
+
+  Widget buildConnectors() => ResponsiveGridRow(
+      children: [
+        if(car.contains("Schuko"))
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: buildConnectorInfo(
+              logoConnector: "assets/images/Schuko.png",
+              nameConnector: "Schuko",
+            ),
+          ),
+
+        if(car.contains("Mennekes"))
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: buildConnectorInfo(
+              logoConnector: "assets/images/Mennekes.png",
+              nameConnector: "Mennekes",
+            ),
+          ),
+
+        if(car.contains("Chademo"))
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: buildConnectorInfo(
+              logoConnector: "assets/images/CHAdeMO.png",
+              nameConnector: "CHAdeMO",
+            ),
+          ),
+
+        if(car.contains("CCSCombo2"))
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: buildConnectorInfo(
+              logoConnector: "assets/images/ComboCCS2.png",
+              nameConnector: "CCS Combo",
+            ),
+          ),
+      ]
+  );
+
+  Widget buildConnectorInfo({
+    required String logoConnector,
+    required String nameConnector,
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Image.asset(
+          logoConnector,
+          height: 50,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        AutoSizeText(
+          nameConnector,
+          style: const TextStyle(
+            color: Colors.black87,
+            fontSize: 14,
+          ),
+        ),
+      ],
+    );
+  }
+
 }
