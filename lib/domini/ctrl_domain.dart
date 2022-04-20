@@ -652,7 +652,7 @@ class CtrlDomain {
     List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
     for(var favcar in respCars['items']){
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],favcar['Battery'],favcar['Efficiency'], favcar['Chargers']));
-    print(favcar['Id'].toString()+','+ favcar['Brand']+','+favcar['Vehicle']+','+favcar['Battery'].toString()+','+favcar['Efficiency'].toString()+','+favcar['Chargers']);
+    //print(favcar['Id'].toString()+','+ favcar['Brand']+','+favcar['Vehicle']+','+favcar['Battery'].toString()+','+favcar['Efficiency'].toString()+','+favcar['Chargers']);
     }
   }
 }
