@@ -14,7 +14,7 @@ class CarListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String carImage = car[0]; //pos 0 es la fot del coche
+    String carImage = "assets/brandCars/RAYO.png"; //pos 0 es la fot del coche
     return GestureDetector(
       onTap: () {
       showModalBottomSheet(
