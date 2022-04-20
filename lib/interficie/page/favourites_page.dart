@@ -18,14 +18,17 @@ class _FavsChargersState extends State<FavsChargers> {
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
+    List<String> titlesChargers = ctrlPresentation.getNomsFavsChargerPoints();
+
     return ListView.separated(
-        itemCount: chargerPoints.length,
+        itemCount: titlesChargers.length,
         separatorBuilder: (BuildContext context, int index) => const Divider(),
         itemBuilder: (BuildContext context, int index) {
           Coordenada word = chargerPoints[index];
+          String title = titlesChargers[index];
 
           return ListTile(
-            title: Text(ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]),
+            title: Text(title),
             trailing: IconButton(
               icon: (const Icon(Icons.favorite)),
               color: Colors.red,
@@ -101,16 +104,23 @@ class _AllFavsState extends State<AllFavs> {
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
+    List<String> titlesChargers = ctrlPresentation.getNomsFavsChargerPoints();
+
     List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
+    List<String> titlesBicings = ctrlPresentation.getNomsFavsBicingPoints();
+
     List<Coordenada> allFavPoints = chargerPoints + bicingPoints;
+    List<String> titles = titlesChargers+titlesBicings;
+
     return ListView.separated(
-      itemCount: allFavPoints.length,
+      itemCount: titles.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = allFavPoints[index];
+        String title = titles[index];
 
         return ListTile(
-          title: Text("ctrlPresentation.getInfoCharger(word.latitud, word.longitud)[1]"),
+          title: Text(title),
           trailing: IconButton(
               icon: (const Icon(Icons.favorite)),
               color: Colors.red,
@@ -139,8 +149,7 @@ class FilterFavsItems extends StatefulWidget {
 class _FilterFavsItemsState extends State<FilterFavsItems> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    //AllFavs(), //todo: replicar con bicings y conectar
-    FavsChargers(),
+    AllFavs(), //todo: replicar con bicings y conectar
     FavsChargers(),
     FavsBicings(),
   ];
