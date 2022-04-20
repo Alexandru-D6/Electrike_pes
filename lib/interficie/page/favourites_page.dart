@@ -60,10 +60,8 @@ class _FavsBicingsState extends State<FavsBicings> {
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
-    print('hola que tal'+bicingPoints.length.toString());
 
     List<String> titlesBicing = ctrlPresentation.getNomsFavsBicingPoints();
-    print('hola que tal'+titlesBicing.length.toString());
     return ListView.separated(
       itemCount: titlesBicing.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
