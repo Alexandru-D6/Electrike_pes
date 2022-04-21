@@ -16,11 +16,12 @@ analyzer:
     strict-raw-types: false
   errors:
     import_of_legacy_library_into_null_safe: ignore
-    todo: info
+    todo: ignore
     constant_identifier_names: info
+    use_key_in_widget_constructors: ignore #TODO: solucionarlo ELOI
     avoid_print: ignore
     unused_local_variable: ignore
-
+    unused_import: ignore
 
 linter:
   # The lint rules applied to this project can be customized in the

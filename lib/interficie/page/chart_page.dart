@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/interficie/ctrl_presentation.dart';
+//import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 
 
@@ -12,7 +12,7 @@ class ChartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    //CtrlPresentation ctrlPresentation = CtrlPresentation();
     return Scaffold(
       backgroundColor: mPrimaryColor,
       appBar: buildAppBar(context),
