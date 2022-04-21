@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
     ],
     supportedLocales: S.delegate.supportedLocales,
     //locale: state.locale,
-    initialRoute: '/',
+    //initialRoute: '/',
     routes: {
       '/': (context) => const MainPage(),
       '/profile': (context) => const ProfilePage(),

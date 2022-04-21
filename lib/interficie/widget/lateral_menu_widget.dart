@@ -50,7 +50,9 @@ class NavigationDrawerWidget extends StatelessWidget {
                   buildMenuItem(
                     text: S.of(context).garage,
                     icon: Icons.garage,
-                    onClicked: () => ctrlPresentation.toGaragePage(context),
+                    onClicked: () {
+                      ctrlPresentation.toGaragePage(context);
+                    },
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
@@ -134,7 +136,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                       name,
                       style: const TextStyle(fontSize: 80, color: Colors.white), //letra real a 20 pero como tenemos autoSizeText... 80 para que rellene
                       textAlign: TextAlign.center,
-                      maxLines: 2,
+                      maxLines: (name != S.of(context).clickToLogin ? 1: 2),
                     ),
                     Row(
                       children:<Widget>[
