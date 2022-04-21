@@ -191,27 +191,27 @@ class CarInfo extends StatelessWidget {
           children: [
             Attribute(
               value: car[2],
-              name: 'Brand', //todo: translate S.of(context).[]
+              name: S.of(context).carBrand,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[3],
-              name: 'Model', //todo: translate S.of(context).[]
+              name: S.of(context).carModelLabel,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[4], //TODO: BATERIA
-              name: 'Bateria', //todo: translate S.of(context).[]
+              name: S.of(context).carBatteryLabel,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[5], //TODO: POTENCIA
-              name: 'Potència', //todo: translate S.of(context).[]
+              name: S.of(context).power,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[5],
-              name: 'Eficiencia', //todo: translate S.of(context).[]
+              name: S.of(context).efficiency,
               textColor: Colors.black87,
             ),
           ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/interficie/ctrl_presentation.dart';
+//import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 
 
@@ -12,12 +12,37 @@ class ChartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<List<String>> userCarList = ctrlPresentation.getCarsList();
+    //CtrlPresentation ctrlPresentation = CtrlPresentation();
     return Scaffold(
       backgroundColor: mPrimaryColor,
       appBar: buildAppBar(context),
-      body: OcupationChart.withSampleData(),
+      body:
+      Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            child:
+              RichText(
+                text: const TextSpan(
+                  text: 'JUAN',
+                  style: TextStyle(color: Colors.white, fontSize: 25),
+
+
+              )
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+            alignment: Alignment.bottomCenter,
+            child:
+              SizedBox(
+                width: 500.0,
+                height: 500.0,
+                child: OcupationChart.withSampleData(),
+              )
+          )
+        ]
+      )
     );
   }
 
@@ -25,17 +50,7 @@ class ChartPage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: Text(S.of(context).garage),
-      actions: [
-        IconButton(
-          icon: const Icon(
-            Icons.add_circle_rounded,
-            color: Colors.white,
-          ),
-          onPressed: (){
-          },
-        )
-      ],
+      title: Text(S.of(context).charts),
     );
   }
 }

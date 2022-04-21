@@ -269,7 +269,7 @@ class CtrlPresentation {
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
         title: S.of(context).login,
-        desc: 'To add favourite point you must be logged!\n', //todo: translate S.of(context).[]
+        desc: S.of(context).toAddFavLogin,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
         btnOkText: S.of(context).login,
