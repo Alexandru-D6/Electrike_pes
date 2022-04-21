@@ -219,7 +219,7 @@ class CtrlDomain {
       }
     }
     vehiclesUsuari.remove(vdelete);
-    var url = urlorg +'remove_car_user?email='+usuari.correu+'&id='+idVehicle;
+    var url = urlorg +'remove_car_user?email='+usuari.correu+'&vehicle_id='+idVehicle;
     http.post(Uri.parse(url));
   }
   List<List<String>> infoAllVUser(){
