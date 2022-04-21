@@ -23,6 +23,7 @@
   "carBrandLabel": "Por favor, slecciona una marca",
   "maxCharMssg": "El máximo número de caácteres es 15",
   "chargerTypeLabel": "Select the charger that the car can use (also take into consideration the adapters, in case of having any)",
+  "charts": "Gráficos",
   "add": "Añadir",
   "login": "Iniciar sesión",
   "toAddCarLogin": "¡Para agregar un vehículo debes estar registrado!",

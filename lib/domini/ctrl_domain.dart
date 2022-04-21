@@ -372,18 +372,6 @@ class CtrlDomain {
     }
     return namesBFav;
   }
-  Future<List<String>> getNamesFavBicing()async{
-    List<String>namesBFav = <String>[];
-    for(var pBFav in puntsFavBicing){
-      var url = urlorg +'bicing_info?latitud='+pBFav.coord.latitud.toString()+'&longitud='+pBFav.coord.longitud.toString();
-      var response = await http.get(Uri.parse(url));
-      var resp = jsonDecode(response.body);
-      for(var it in resp['items']){
-        namesBFav.add("Bicing"+it['name']);
-      }
-    }
-    return namesBFav;
-  }
 
   //CARS
   Future<void> getAllCars() async {
