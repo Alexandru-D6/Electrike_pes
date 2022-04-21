@@ -101,13 +101,10 @@ class CtrlDomain {
         puntsFavBicing.add(Favorit(Coordenada(double.parse(pfb['lat']),double.parse(pfb['lon'])), usuari.correu));
       }
     }
-    print('login coches');
     var urlc = urlorg +'get_cars_user?email='+usuari.correu;
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
-    print(respCars);
     for(var favcar in respCars['items']){
-      print('hola?');
       List<String> endolls = <String>[];
       if(favcar['Chargers'][0] != '0'){
         endolls.add('Schuko');
@@ -125,7 +122,6 @@ class CtrlDomain {
         endolls.add('CCSCombo2');
         typesendolls[3].cars.add(favcar['Id'].toString());
       }
-      print('vehicle añadido'+favcar['Id'].toString());
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
     }
     getNomsFavBicing();
@@ -170,25 +166,25 @@ class CtrlDomain {
       if(typesendolls[0].tipus.name == num){
         schuko = "1";
         endolls.add('Schuko');
-        typesendolls[0].cars.add(vehiclesUsuari.length.toString());
+        typesendolls[0].cars.add((vehiclesUsuari.length+1).toString());
       }
       else if(typesendolls[1].tipus.name == num){
         mennekes = "1";
         endolls.add('Mennekes');
-        typesendolls[1].cars.add(vehiclesUsuari.length.toString());
+        typesendolls[1].cars.add((vehiclesUsuari.length+1).toString());
       }
       else if(typesendolls[2].tipus.name == num){
         chademo = "1";
         endolls.add('Chademo');
-        typesendolls[2].cars.add(vehiclesUsuari.length.toString());
+        typesendolls[2].cars.add((vehiclesUsuari.length+1).toString());
       }
       else if(typesendolls[3].tipus.name == num){
         ccscombo2 = "1";
         endolls.add('CCSCombo2');
-        typesendolls[3].cars.add(vehiclesUsuari.length.toString());
+        typesendolls[3].cars.add((vehiclesUsuari.length+1).toString());
       }
     }
-    vehiclesUsuari.add(VehicleUsuari(vehiclesUsuari.length,name, brand,modelV, double.parse(bat), double.parse(eff), endolls));
+    vehiclesUsuari.add(VehicleUsuari(vehiclesUsuari.length+1,name, brand,modelV, double.parse(bat), double.parse(eff), endolls));
     var url = urlorg +'insert_car_user?email='+usuari.correu+'&name='+name+'&brand='+brand+'&vehicle='+modelV+'&battery='+bat+'&efficiency='+eff+'&chargers='+schuko+mennekes+chademo+ccscombo2;
     http.post(Uri.parse(url));
   }
@@ -661,7 +657,6 @@ class CtrlDomain {
     List<VehicleUsuari> vehiclesUsuari = <VehicleUsuari>[];
     for(var favcar in respCars['items']){
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],favcar['Battery'],favcar['Efficiency'], favcar['Chargers']));
-    print(favcar['Id'].toString()+','+ favcar['Brand']+','+favcar['Vehicle']+','+favcar['Battery'].toString()+','+favcar['Efficiency'].toString()+','+favcar['Chargers']);
     }
   }
 
