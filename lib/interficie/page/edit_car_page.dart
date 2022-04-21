@@ -33,7 +33,7 @@ class _EditCarPageState extends State<EditCarPage> {
   String? selectedBatteryCar;
   String? selectedEffciencyCar;
 
-  List<String>? selectedPlugs;
+  List<String> selectedPlugs = <String>[];
   List<String> brandList = <String>[];
   List<String> modelList = <String>[];
 
@@ -46,11 +46,15 @@ class _EditCarPageState extends State<EditCarPage> {
     controllerModelCar.text = car.carInfo[3];
     controllerBatteryCar.text = car.carInfo[4];
     controllerEffciencyCar.text = car.carInfo[5];
+    selectedPlugs = [];
+    print(car.carInfo);
+    for(var i = 6; i < car.carInfo.length; ++i){
+      selectedPlugs.add(car.carInfo[i]);
+    }
 
     ctrlPresentation.getBrandList().then((element){
       brandList = element;
     });
-    selectedPlugs = [];
     String plugTitle = S.of(context).chargerTypeLabel;
     return Scaffold(
       appBar: AppBar(
@@ -213,9 +217,8 @@ class _EditCarPageState extends State<EditCarPage> {
   Widget buildCheckbox(String plugName, bool initValue) => CheckboxListTileFormField(
     title: Text(plugName),
     validator: (value) {
-      if(initValue && value!) selectedPlugs?.add(plugName);
       if(allPlugTypeList.length-1 == allPlugTypeList.indexOf(plugName)) {
-        return selectedPlugs!.isEmpty ? S.of(context).msgSelectChargers : null;
+        return selectedPlugs.isEmpty ? S.of(context).msgSelectChargers : null;
       }
       return null;
     },
@@ -224,9 +227,9 @@ class _EditCarPageState extends State<EditCarPage> {
     },
     onChanged: (value) {
       if (value) {
-        selectedPlugs?.add(plugName);
+        selectedPlugs.add(plugName);
       } else {
-        selectedPlugs?.remove(plugName);
+        selectedPlugs.remove(plugName);
       }
     },
     initialValue: initValue,
@@ -274,6 +277,7 @@ class _EditCarPageState extends State<EditCarPage> {
       final form = formKey.currentState!;
       form.save();
       if (form.validate()) {
+        print(selectedPlugs);
         ctrlPresentation.saveEditedCar(
             context,
             carId,
@@ -282,7 +286,7 @@ class _EditCarPageState extends State<EditCarPage> {
             selectedModelCar!,
             selectedBatteryCar!,
             selectedEffciencyCar!,
-            selectedPlugs!
+            selectedPlugs
         );
       }
 

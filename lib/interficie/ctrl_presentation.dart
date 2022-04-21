@@ -119,6 +119,7 @@ class CtrlPresentation {
   }
 
   void toEditCar(BuildContext context, List<String> car) {
+    Navigator.pop(context);
       Navigator.pushNamed(
         context,
         '/editCar',
@@ -152,7 +153,7 @@ class CtrlPresentation {
   }
 
   getCarsList() {
-    return ctrlDomain.infoAllVUser(); //TODO: call domain carListUser será lista de lista de strings (List<Car>)
+    return ctrlDomain.infoAllVUser();
   }
 
   List<Coordenada> getChargePointList() {
