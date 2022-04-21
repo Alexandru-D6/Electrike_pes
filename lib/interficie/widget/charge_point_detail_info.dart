@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_project/generated/l10n.dart';
 
@@ -27,17 +26,18 @@ class ChargePointDetailInformation extends StatelessWidget {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: [
-          PointInfo(point: chargePoint),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              EditInfoPoint(point: chargePoint, latitude: latitude, longitude: longitude,),
+            ],
+          ),
           const Divider(
             height: 16,
             color: Colors.black54,
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              EditInfoPoint(point: chargePoint, latitude: latitude, longitude: longitude,),
-            ],
-          )
+          PointInfo(point: chargePoint),
         ],
       ),
     );
@@ -69,10 +69,10 @@ class _EditInfoPointState extends State<EditInfoPoint> {
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
           onPressed: () {
-
+            ctrlPresentation.toChartPage(context);
           },
           icon: const Icon(
-            Icons.analytics,
+            Icons.bar_chart,
           ),
         ),
         IconButton(
@@ -143,16 +143,6 @@ class PointInfo extends StatelessWidget {
           context: context,
         ),
         buildConnectors(),
-        Container(
-          alignment: Alignment.center,
-          child:
-            SizedBox(
-            width: 200.0,
-            height: 200.0,
-            child: OcupationChart.withSampleData(),
-          ),
-        ),
-        //fc.BarChart(),
       ],
     );
   }

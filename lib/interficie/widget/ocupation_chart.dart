@@ -17,7 +17,6 @@ class OcupationChart extends StatelessWidget {
   }
 
 
-
   // [BarLabelDecorator] will automatically position the label
   // inside the bar if the label will fit. If the label will not fit,
   // it will draw outside of the bar.

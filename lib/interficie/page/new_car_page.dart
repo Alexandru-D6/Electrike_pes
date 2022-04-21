@@ -43,6 +43,7 @@ class _NewCarPageState extends State<NewCarPage> {
       brandList = element;
     });
     selectedPlugs = [];
+    String plugTitle = S.of(context).chargerTypeLabel;
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).newCar),
@@ -102,11 +103,11 @@ class _NewCarPageState extends State<NewCarPage> {
                     ),
 
                     const SizedBox(height: 30),
-                    const ListTile(
-                      leading: Icon(Icons.settings_input_svideo, color: Colors.black, size: 24,),
+                    ListTile(
+                      leading: const Icon(Icons.settings_input_svideo, color: Colors.black, size: 24,),
                       title: Text(
-                        'S.of(context).chargerTypeLabel',
-                        style: TextStyle(
+                        plugTitle,
+                        style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
@@ -263,9 +264,15 @@ class _NewCarPageState extends State<NewCarPage> {
       final form = formKey.currentState!;
       form.save();
       if (form.validate()) {
-        //todo: call to safe all elements
-        List<String> car = ['assets/brandCars/RAYO.png', selectedNameCar!, selectedBrandCar!, selectedModelCar!, selectedBatteryCar!, selectedEffciencyCar!];
-        ctrlPresentation.saveCar(car, context);
+        ctrlPresentation.saveCar(
+            context,
+            selectedNameCar!,
+            selectedBrandCar!,
+            selectedModelCar!,
+            selectedBatteryCar!,
+            selectedEffciencyCar!,
+            selectedPlugs!
+        );
       }
 
       else{

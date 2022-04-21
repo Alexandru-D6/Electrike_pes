@@ -1,4 +1,5 @@
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -21,6 +22,8 @@ class MyMap extends StatefulWidget {
 class _MyMapState extends State<MyMap> {
   Set<Marker> chargePoints = {};
   Set<Marker> bicingPoints = {};
+  Set<Marker> favBicingPoints = {};
+  Set<Marker> favChargePoints = {};
   Set<Marker> markers = {};
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
@@ -28,39 +31,55 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
   void initMarkers(String? show){
+    markers = chargePoints.union(bicingPoints);
     switch(show){
       case "chargers":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
+        chargePoints = buildChargerMarkers(context, 1);
         markers = chargePoints;
-        for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
-        }
         break;
       case "bicing":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
+        bicingPoints = buildBicingMarkers(context, 1);
         markers = bicingPoints;
-        for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
+        break;
+      case "favs":
+        if(ctrlPresentation.email == "") {
+          _showNotLogDialog(context);
+        } else {
+          favChargePoints = buildChargerMarkers(context, 2);
+          favBicingPoints = buildBicingMarkers(context, 2);
+          markers = favBicingPoints.union(favChargePoints);
         }
         break;
       case "all":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
+        chargePoints = buildChargerMarkers(context, 1);
+        bicingPoints = buildBicingMarkers(context, 1);
         markers = chargePoints.union(bicingPoints);
-        for (int i = 0; i < markers.length; ++i){
-          GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
-        }
         break;
       default:
-        GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
+        markers = {};
         break;
     }
+    GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
+    for (int i = 0; i < markers.length; ++i){
+      GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
+    }
+  }
+
+  _showNotLogDialog(BuildContext context) {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
+      desc: "You aren't logged so you don't have any favourite point.",//todo: S.of(context).alertSureDeleteCarContent,
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
   }
 
   @override
   Widget build(BuildContext context) {
-    chargePoints = buildChargerMarkers(context);
-    bicingPoints = buildBicingMarkers(context);
-    markers = chargePoints.union(bicingPoints);
+    markers = {};
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -104,14 +123,14 @@ class _MyMapState extends State<MyMap> {
                 compassEnabled: true,
                 zoomGesturesEnabled:true,
 
-                trafficEnabled: true,
+                trafficEnabled: false,
                 zoomControlsEnabled: true,
               ),
 
 
               webPreferences: const WebMapPreferences(
                 streetViewControl:true,
-                mapTypeControl: true,
+                mapTypeControl: false,
                 scrollwheel: true,
                 panControl: true,
                 overviewMapControl:false,
@@ -183,11 +202,24 @@ class _MyMapState extends State<MyMap> {
   ];
 
 
-  Set<Marker> buildChargerMarkers(BuildContext context) {
-    chargePoints = {};
-    List<Coordenada> coordsChargers = ctrlPresentation.getChargePointList();
+  Set<Marker> buildChargerMarkers(BuildContext context, int filter) {
+    List<Coordenada> coordsChargers = <Coordenada>[];
+    switch(filter){
+      case 1: //todos los cargadores
+        chargePoints = {};
+        coordsChargers = ctrlPresentation.getChargePointList();
+        break;
+      case 2://sólo favoritos
+        favChargePoints = {};
+        coordsChargers = ctrlPresentation.getFavsChargerPoints();
+        break;
+      default:
+        coordsChargers = ctrlPresentation.getChargePointList();
+        break;
+    }
     for (var i = 0; i < coordsChargers.length; ++i) {
-      chargePoints.add(
+      if(filter == 1) {
+        chargePoints.add(
           buildChargerMarker(
             index: i,
             lat: coordsChargers[i].latitud,
@@ -195,26 +227,59 @@ class _MyMapState extends State<MyMap> {
             context: context,
           )
       );
+      } else {
+        favChargePoints.add(
+          buildChargerMarker(
+            index: i,
+            lat: coordsChargers[i].latitud,
+            long: coordsChargers[i].longitud,
+            context: context,
+          )
+      );
+      }
     }
-    setState(() {
-    });
+    setState(() {});
+    if(filter == 2) return favChargePoints;
     return chargePoints;
   }
 
-  Set<Marker> buildBicingMarkers(BuildContext context) {
-    bicingPoints = {};
-    List<Coordenada> coordsBicing = ctrlPresentation.getBicingPointList();
+  Set<Marker> buildBicingMarkers(BuildContext context, int filter) {
+    List<Coordenada> coordsBicing = <Coordenada>[];
+    switch(filter){
+      case 1: //todos los cargadores
+        bicingPoints = {};
+        coordsBicing = ctrlPresentation.getBicingPointList();
+        break;
+      case 2://sólo favoritos
+        favBicingPoints = {};
+        coordsBicing = ctrlPresentation.getFavsBicingPoints();
+        break;
+      default:
+        coordsBicing = ctrlPresentation.getBicingPointList();
+        break;
+    }
+
     for (var i = 0; i < coordsBicing.length; ++i) {
-      bicingPoints.add(
+      if(filter == 1) {
+        bicingPoints.add(
           buildBicingMarker(
             lat: coordsBicing[i].latitud,
             long: coordsBicing[i].longitud,
             context: context,
           )
       );
+      } else {
+        favBicingPoints.add(
+          buildBicingMarker(
+            lat: coordsBicing[i].latitud,
+            long: coordsBicing[i].longitud,
+            context: context,
+          )
+      );
+      }
     }
-    setState(() {
-    });
+    setState(() {});
+    if(filter == 2) return favBicingPoints;
     return bicingPoints;
   }
 }
@@ -290,6 +355,8 @@ showInfoBicing(BuildContext context, double lat, double long, List<String> infoB
                     docks: infoBicingPoint[5],
                     bicisE: infoBicingPoint[4],
                     bicisM: infoBicingPoint[3],
+                    latitud: lat,
+                    longitud: long,
                   ),
                 ],
               ),
