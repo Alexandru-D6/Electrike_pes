@@ -18,8 +18,8 @@ analyzer:
     import_of_legacy_library_into_null_safe: ignore
     todo: info
     constant_identifier_names: info
-    avoid_print: info
-    unused_local_variable: info
+    avoid_print: ignore
+    unused_local_variable: ignore
 
 
 linter:
