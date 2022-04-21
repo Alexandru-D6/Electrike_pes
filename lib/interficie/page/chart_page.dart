@@ -9,9 +9,9 @@ import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 class ChartPage extends StatelessWidget {
   const ChartPage({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
+    final String? pointTitle = ModalRoute.of(context)!.settings.arguments as String?;
     //CtrlPresentation ctrlPresentation = CtrlPresentation();
     return Scaffold(
       backgroundColor: mPrimaryColor,
@@ -24,7 +24,7 @@ class ChartPage extends StatelessWidget {
             child:
               RichText(
                 text: const TextSpan(
-                  text: 'JUAN',
+                  text: pointTitle,
                   style: TextStyle(color: Colors.white, fontSize: 25),
 
 
@@ -50,7 +50,7 @@ class ChartPage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: Text(S.of(context).charts),
+      title: const Text('Charts'),
     );
   }
 }

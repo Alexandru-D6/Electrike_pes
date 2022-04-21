@@ -125,10 +125,11 @@ class CtrlPresentation {
     }
   }
 
-  void toChartPage(BuildContext context){
+  void toChartPage(BuildContext context, String pointTitle){
     Navigator.pushReplacementNamed(
       context,
       '/chart',
+      arguments: pointTitle,
     );
   }
   //USER INFO FUNCTIONS

@@ -61,6 +61,10 @@ class EditInfoPoint extends StatefulWidget {
 }
 
 class _EditInfoPointState extends State<EditInfoPoint> {
+  var pointTitle = point[1];
+
+  static get point => null;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -69,7 +73,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
           onPressed: () {
-            ctrlPresentation.toChartPage(context);
+            ctrlPresentation.toChartPage(context, pointTitle);
           },
           icon: const Icon(
             Icons.bar_chart,
