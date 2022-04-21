@@ -73,7 +73,9 @@ class EditInfoCar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
-          onPressed: () {},//TODO: EditInfoCar
+          onPressed: () {
+            ctrlPresentation.toEditCar(context, car);
+          },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(mCardColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(

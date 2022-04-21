@@ -6,6 +6,7 @@ import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
@@ -123,6 +124,14 @@ class CtrlPresentation {
         '/newCar',
       );
     }
+  }
+
+  void toEditCar(BuildContext context, List<String> car) {
+      Navigator.pushNamed(
+        context,
+        '/editCar',
+        arguments: EditCarArguments(car),
+      );
   }
 
   void toChartPage(BuildContext context){
