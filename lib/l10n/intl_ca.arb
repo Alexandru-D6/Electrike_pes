@@ -12,15 +12,42 @@
   "chargers": "Carregadors",
   "bicing": "Bicing",
   "newCar": "Vehicle nou",
-  "carBrand": "Marca de vehicle",
+  "power": "Potència",
+  "efficiency": "Consum",
+  "carBrand": "Marca",
+  "carNameHint": "El incrible cotxe vermell",
+  "carNameLabel": "Nom del cotxe",
+  "carModelLabel": "Model",
+  "carBatteryLabel": "Bateria(kWh)",
+  "carEfficiency": "Consum(Wh/Km)",
+  "carBrandLabel": "Si us plau, seleciona una marca",
+  "maxCharMssg": "El màxim número de caràcters és 15",
+  "chargerTypeLabel": "Selecciona los cargadores que puede utilizar (ten en cuenta los adaptadores en el caso de tener alguno)",
   "add": "Afegir",
   "login": "Iniciar sessió",
   "toAddCarLogin": "Per afegir un vehicle has d'iniciar sessió",
+  "toAddFavLogin": "Per afegir un punt a favorits has d'iniciar sessió\n",
   "clickToLogin": "Pulsa per iniciar sessió",
   "alertSureDeleteCarTitle": "Estas segur de voler eliminar aquest vehicle?",
   "alertSureDeleteCarContent": "Borrar un vehicle és una acció permanent que elimina totes les dades associades.\n Estas segur de voler continuar?\n",
-  "charts": "Gràfics",
+
+  "msgSelectChargers": "Selecciona al menys un carregador",
+  "msgIntroNum": "Introdueix un número",
+  "msgAddFav": "Afegir punt a favorits",
+
   "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
+
+  "infoCar": "El nom del vehicle és {selectedNameCar}\\n \n  La seva marca {selectedBrandCar}\\n\n  El seu model {selectedModelCar}\\n\n   Bateria {selectedBatteryCar} kWh\\n\n   Consum {selectedEffciencyCar} Wh/Km\\n\n El vehicle utilitza {selectedPlugs}\\n'''),",
+  "@infoCar": {
+    "placeholders": {
+      "selectedNameCar": {},
+      "selectedBrandCar": {},
+      "selectedModelCar": {},
+      "selectedBatteryCar": {},
+      "selectedEffciencyCar": {},
+      "selectedPlugs": {}
+    }
+  },
 
   "textWithPlaceholder": "Benvingut {name}",
 

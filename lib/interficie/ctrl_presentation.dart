@@ -8,9 +8,6 @@ import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-
-import 'constants.dart';
 import 'package:location/location.dart';
 
 class CtrlPresentation {
@@ -27,6 +24,18 @@ class CtrlPresentation {
   List<Coordenada> favs = <Coordenada>[];
 
   //intercambiar vista
+  _showNotLogDialog(BuildContext context) {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
+      desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: S.of(context).alertSureDeleteCarContent,
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
+  }
+
   void toMainPage(BuildContext context){
     Navigator.pushReplacementNamed(
       context,
@@ -42,25 +51,37 @@ class CtrlPresentation {
   }
 
   void toGaragePage(BuildContext context){
-    Navigator.pop(context);
-    Navigator.pushNamed(
-      context,
-      '/garage',
-    );
+    if(email == "") {
+      _showNotLogDialog(context);
+    } else {
+      Navigator.pop(context);
+      Navigator.pushNamed(
+        context,
+        '/garage',
+      );
+    }
   }
 
   void toFavouritesPage(BuildContext context){
-    Navigator.pushReplacementNamed(
-      context,
-      '/favourites',
-    );
+    if(email == "") {
+      _showNotLogDialog(context);
+    } else {
+      Navigator.pushReplacementNamed(
+        context,
+        '/favourites',
+      );
+    }
   }
 
   void toRewardsPage(BuildContext context){
-    Navigator.pushReplacementNamed(
-      context,
-      '/rewards',
-    );
+    if(email == "") {
+      _showNotLogDialog(context);
+    } else {
+      Navigator.pushReplacementNamed(
+        context,
+        '/rewards',
+      );
+    }
   }
 
   void toInfoAppPage(BuildContext context){
@@ -130,7 +151,7 @@ class CtrlPresentation {
   }
 
   getCarsList() {
-    return carList; //TODO: call domain carListUser será lista de lista de strings (List<Car>)
+    return ctrlDomain.infoAllVUser(); //TODO: call domain carListUser será lista de lista de strings (List<Car>)
   }
 
   List<Coordenada> getChargePointList() {
@@ -157,9 +178,13 @@ class CtrlPresentation {
   }
 
   void logoutRoutine(BuildContext context) async {
-    resetUserValues();
-    toMainPage(context);
-    await serviceLocator<GoogleLoginAdpt>().logout();
+    if(email == "") {
+      _showNotLogDialog(context);
+    } else {
+      resetUserValues();
+      toMainPage(context);
+      await serviceLocator<GoogleLoginAdpt>().logout();
+    }
   }
 
   void resetUserValues() {
@@ -244,7 +269,7 @@ class CtrlPresentation {
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
         title: S.of(context).login,
-        desc: 'To add favourite point you must be logged!\n', //todo: translate S.of(context).[]
+        desc: S.of(context).toAddFavLogin,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
         btnOkText: S.of(context).login,
@@ -266,22 +291,49 @@ class CtrlPresentation {
     toMainPage(context);
   }
 
-  List<Coordenada> getFavsPoints() {
+  List<Coordenada> getFavsChargerPoints() {
     return ctrlDomain.getFavChargerPoints();
   }
 
-  void deleteCar(BuildContext context, List<String> car) {
-    //todo: delete car with domain
-    carList.remove(car);
+  List<Coordenada> getFavsBicingPoints() {
+    return ctrlDomain.getFavBicingPoints();
+  }
+
+  List<String> getNomsFavsChargerPoints() {
+    return ctrlDomain.nomsFavCarrega;
+  }
+
+  List<String> getNomsFavsBicingPoints() {
+    return ctrlDomain.nomsFavBicings;
+  }
+
+  void deleteCar(BuildContext context, String idVehicle) {
+    ctrlDomain.removeVUser(idVehicle);
     Navigator.pop(context);
     ctrlPresentation.toGaragePage(context);
     //toGaragePage(context);
   }
 
-  void saveCar(List<String> car, BuildContext context) {
-    carList.add(car);
+  void saveCar(BuildContext context,
+                String name,
+                String brand,
+                String modelV,
+                String bat,
+                String eff,
+                List<String> lEndolls
+      ) {
+    ctrlDomain.addVUser(name, brand, modelV, bat, eff, lEndolls);
     Navigator.pop(context);
     ctrlPresentation.toGaragePage(context);
+  }
+
+  Future<List<String>> getAllNamesBicing(List<Coordenada> c) async{
+    List<String> l = <String> [];
+    for(var i in c){
+      String esto = (await ctrlDomain.getInfoBicing(i.latitud, i.longitud))[0];
+      l.add(esto);
+    }
+    return l;
   }
 
 }

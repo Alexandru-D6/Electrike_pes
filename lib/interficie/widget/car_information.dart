@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/generated/l10n.dart';
 import 'attribute.dart';
 
 
@@ -40,23 +41,23 @@ class CarInfomation extends StatelessWidget {
             children: [
               Attribute(
                 value: car[2],
-                name: 'Brand', //todo: translate S.of(context).[]
+                name: S.of(context).carBrand,
               ),
               Attribute(
                 value: car[3],
-                name: 'Model', //todo: translate S.of(context).[]
+                name: S.of(context).carModelLabel,
               ),
               Attribute(
                 value: car[4],
-                name: 'Bateria', //todo: translate S.of(context).[]
+                name: S.of(context).carBatteryLabel,
               ),
               Attribute(
                 value: car[5],
-                name: 'Potència', //todo: translate S.of(context).[]
+                name: S.of(context).power,
               ),
               Attribute(
                 value: car[5],
-                name: 'Eficiencia', //todo: translate S.of(context).[]
+                name: S.of(context).efficiency,
               ),
             ],
           )

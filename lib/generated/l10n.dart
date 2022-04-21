@@ -180,21 +180,121 @@ class S {
     );
   }
 
-  /// `New car`
+  /// `New vehicle`
   String get newCar {
     return Intl.message(
-      'New car',
+      'New vehicle',
       name: 'newCar',
       desc: '',
       args: [],
     );
   }
 
-  /// `Car Brand`
+  /// `Power`
+  String get power {
+    return Intl.message(
+      'Power',
+      name: 'power',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Efficiency`
+  String get efficiency {
+    return Intl.message(
+      'Efficiency',
+      name: 'efficiency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Brand`
   String get carBrand {
     return Intl.message(
-      'Car Brand',
+      'Brand',
       name: 'carBrand',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Amazing Red Car`
+  String get carNameHint {
+    return Intl.message(
+      'The Amazing Red Car',
+      name: 'carNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name of the vehicle`
+  String get carNameLabel {
+    return Intl.message(
+      'Name of the vehicle',
+      name: 'carNameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Model`
+  String get carModelLabel {
+    return Intl.message(
+      'Model',
+      name: 'carModelLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Battery(kWh)`
+  String get carBatteryLabel {
+    return Intl.message(
+      'Battery(kWh)',
+      name: 'carBatteryLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Efficiency(Wh/Km)`
+  String get carEfficiency {
+    return Intl.message(
+      'Efficiency(Wh/Km)',
+      name: 'carEfficiency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a brand`
+  String get carBrandLabel {
+    return Intl.message(
+      'Please select a brand',
+      name: 'carBrandLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You cannot have more than 15 characters`
+  String get maxCharMssg {
+    return Intl.message(
+      'You cannot have more than 15 characters',
+      name: 'maxCharMssg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Selecciona els carregadors que pot utilitzar (tingues en compte també els adaptadors, en el cas de tenir-ne cap)`
+  String get chargerTypeLabel {
+    return Intl.message(
+      'Selecciona els carregadors que pot utilitzar (tingues en compte també els adaptadors, en el cas de tenir-ne cap)',
+      name: 'chargerTypeLabel',
       desc: '',
       args: [],
     );
@@ -230,6 +330,16 @@ class S {
     );
   }
 
+  /// `To add a point to your favourites you must be logged in\n`
+  String get toAddFavLogin {
+    return Intl.message(
+      'To add a point to your favourites you must be logged in\n',
+      name: 'toAddFavLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Click to log-in`
   String get clickToLogin {
     return Intl.message(
@@ -240,21 +350,51 @@ class S {
     );
   }
 
-  /// `Are you sure you want to delete this car?`
+  /// `Are you sure you want to delete this vehicle?`
   String get alertSureDeleteCarTitle {
     return Intl.message(
-      'Are you sure you want to delete this car?',
+      'Are you sure you want to delete this vehicle?',
       name: 'alertSureDeleteCarTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Deleting this car is permanent and will remove all data saved associated to this car.\nAre you sure you want to continue?\n`
+  /// `Deleting this car is permanent and will remove all data saved associated to this vehicle.\nAre you sure you want to continue?\n`
   String get alertSureDeleteCarContent {
     return Intl.message(
-      'Deleting this car is permanent and will remove all data saved associated to this car.\nAre you sure you want to continue?\n',
+      'Deleting this car is permanent and will remove all data saved associated to this vehicle.\nAre you sure you want to continue?\n',
       name: 'alertSureDeleteCarContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `At least select one type of charger`
+  String get msgSelectChargers {
+    return Intl.message(
+      'At least select one type of charger',
+      name: 'msgSelectChargers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Introduce a number`
+  String get msgIntroNum {
+    return Intl.message(
+      'Introduce a number',
+      name: 'msgIntroNum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add point to favourites`
+  String get msgAddFav {
+    return Intl.message(
+      'Add point to favourites',
+      name: 'msgAddFav',
       desc: '',
       args: [],
     );
@@ -269,6 +409,29 @@ class S {
       name: 'howManyCars',
       desc: '',
       args: [howMany],
+    );
+  }
+
+  /// `The vehicle's name is {selectedNameCar}\n \n  It's Brand {selectedBrandCar}\n\n  It's model {selectedModelCar}\n\n   Battery {selectedBatteryCar} kWh\n\n   Effciency {selectedEffciencyCar} Wh/Km\n\n The vehicle uses {selectedPlugs}\n'''),`
+  String infoCar(
+      Object selectedNameCar,
+      Object selectedBrandCar,
+      Object selectedModelCar,
+      Object selectedBatteryCar,
+      Object selectedEffciencyCar,
+      Object selectedPlugs) {
+    return Intl.message(
+      'The vehicle\'s name is $selectedNameCar\\n \n  It\'s Brand $selectedBrandCar\\n\n  It\'s model $selectedModelCar\\n\n   Battery $selectedBatteryCar kWh\\n\n   Effciency $selectedEffciencyCar Wh/Km\\n\n The vehicle uses $selectedPlugs\\n\'\'\'),',
+      name: 'infoCar',
+      desc: '',
+      args: [
+        selectedNameCar,
+        selectedBrandCar,
+        selectedModelCar,
+        selectedBatteryCar,
+        selectedEffciencyCar,
+        selectedPlugs
+      ],
     );
   }
 

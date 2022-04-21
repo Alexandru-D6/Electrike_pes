@@ -23,9 +23,13 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(howMany) =>
       "${Intl.plural(howMany, one: 'You have 1 notification', other: 'You have ${howMany} notifications')}";
 
-  static String m1(name) => "Welcome ${name}";
+  static String m1(selectedNameCar, selectedBrandCar, selectedModelCar,
+          selectedBatteryCar, selectedEffciencyCar, selectedPlugs) =>
+      "El nombre del vehículo es ${selectedNameCar}\\n \n  Su marca ${selectedBrandCar}\\n\n  Su modelo ${selectedModelCar}\\n\n   Batería ${selectedBatteryCar} kWh\\n\n   Consumo ${selectedEffciencyCar} Wh/Km\\n\n El vehículo utiliza ${selectedPlugs}\\n\'\'\'),";
 
-  static String m2(firstName, lastName) =>
+  static String m2(name) => "Welcome ${name}";
+
+  static String m3(firstName, lastName) =>
       "My name is ${lastName}, ${firstName} ${lastName}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -39,26 +43,49 @@ class MessageLookup extends MessageLookupByLibrary {
         "allFavourites":
             MessageLookupByLibrary.simpleMessage("Todos mis favoritos"),
         "bicing": MessageLookupByLibrary.simpleMessage("Bicing"),
-        "carBrand": MessageLookupByLibrary.simpleMessage("Marca del vehículo"),
+        "carBatteryLabel": MessageLookupByLibrary.simpleMessage("Batería(kWh)"),
+        "carBrand": MessageLookupByLibrary.simpleMessage("Marca"),
+        "carBrandLabel": MessageLookupByLibrary.simpleMessage(
+            "Por favor, slecciona una marca"),
+        "carEfficiency": MessageLookupByLibrary.simpleMessage("Consumo(Wh/Km)"),
+        "carModelLabel": MessageLookupByLibrary.simpleMessage("Modelo"),
+        "carNameHint":
+            MessageLookupByLibrary.simpleMessage("El increíble buga rojo"),
+        "carNameLabel":
+            MessageLookupByLibrary.simpleMessage("Nombre del vehiculo"),
+        "chargerTypeLabel": MessageLookupByLibrary.simpleMessage(
+            "Select the charger that the car can use (also take into consideration the adapters, in case of having any)"),
         "chargers": MessageLookupByLibrary.simpleMessage("Cargadores"),
         "clickToLogin": MessageLookupByLibrary.simpleMessage(
             "Haga clic para iniciar sesión"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contáctanos"),
+        "efficiency": MessageLookupByLibrary.simpleMessage("Consumo"),
         "favourites": MessageLookupByLibrary.simpleMessage("Favoritos"),
         "garage": MessageLookupByLibrary.simpleMessage("Garage"),
         "howManyCars": m0,
+        "infoCar": m1,
         "information": MessageLookupByLibrary.simpleMessage("Información"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
         "login": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
         "logout": MessageLookupByLibrary.simpleMessage("Cerrar sesión"),
         "map": MessageLookupByLibrary.simpleMessage("Mapa"),
+        "maxCharMssg": MessageLookupByLibrary.simpleMessage(
+            "El máximo número de caácteres es 15"),
+        "msgAddFav":
+            MessageLookupByLibrary.simpleMessage("Añadir punto a favoritos"),
+        "msgIntroNum":
+            MessageLookupByLibrary.simpleMessage("Introduce un número"),
+        "msgSelectChargers": MessageLookupByLibrary.simpleMessage(
+            "Selecciona al menos un cargador"),
         "newCar": MessageLookupByLibrary.simpleMessage("Nuevo vehículo"),
+        "power": MessageLookupByLibrary.simpleMessage("Poténcia"),
         "systemLanguage":
             MessageLookupByLibrary.simpleMessage("Lenguaje del sistema"),
-        "textWithPlaceholder": m1,
-        "textWithPlaceholders": m2,
+        "textWithPlaceholder": m2,
+        "textWithPlaceholders": m3,
         "toAddCarLogin": MessageLookupByLibrary.simpleMessage(
             "¡Para agregar un vehículo debes estar registrado!"),
-        "charts": MessageLookupByLibrary.simpleMessage("Gráficos"),
+        "toAddFavLogin": MessageLookupByLibrary.simpleMessage(
+            "Para añadir un punto a favoritos tienes que iniciar sessión\n")
       };
 }
