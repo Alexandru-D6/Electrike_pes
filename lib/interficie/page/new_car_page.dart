@@ -43,6 +43,7 @@ class _NewCarPageState extends State<NewCarPage> {
       brandList = element;
     });
     selectedPlugs = [];
+    String plugTitle = S.of(context).chargerTypeLabel;
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).newCar),
@@ -61,8 +62,8 @@ class _NewCarPageState extends State<NewCarPage> {
                   children: [
                     buildTextNoSuggestorField(
                       icon: Icons.badge,
-                      hint: 'Coche rojo', //todo: translate S.of(context).[]
-                      label: 'Car name', //todo: translate S.of(context).[]
+                      hint: S.of(context).carNameHint,
+                      label: S.of(context).carNameLabel,
                       controller: controllerNameCar,
                       returnable: "selectedNameCar",
                     ),
@@ -79,7 +80,7 @@ class _NewCarPageState extends State<NewCarPage> {
                     buildTextSuggestorField(
                       icon: Icons.sort,
                       hint: 'Model 3 Long Range Dual Motor',
-                      label: 'Model', //todo: translate S.of(context).[]
+                      label: S.of(context).carModelLabel,
                       controller: controllerModelCar,
                       suggester: getModelSuggestions,
                       returnable: "selectedModelCar",
@@ -88,7 +89,7 @@ class _NewCarPageState extends State<NewCarPage> {
                     buildNumField(
                       icon: Icons.battery_charging_full,
                       hint: '107.8',
-                      label: 'Battery(kWh)', //todo: translate S.of(context).[]
+                      label: S.of(context).carBatteryLabel,
                       controller: controllerBatteryCar,
                       returnable: "selectedBatteryCar",
                     ),
@@ -96,17 +97,17 @@ class _NewCarPageState extends State<NewCarPage> {
                     buildNumField(
                       icon: Icons.battery_unknown,
                       hint: '168',
-                      label: 'Effciency(Wh/Km)', //todo: translate S.of(context).[]
+                      label: S.of(context).carEfficiency,
                       controller: controllerEffciencyCar,
                       returnable: "selectedEffciencyCar",
                     ),
 
                     const SizedBox(height: 30),
-                    const ListTile(
-                      leading: Icon(Icons.settings_input_svideo, color: Colors.black, size: 24,),
+                    ListTile(
+                      leading: const Icon(Icons.settings_input_svideo, color: Colors.black, size: 24,),
                       title: Text(
-                        'Select your charger/s type/s', //todo: translate S.of(context).[]
-                        style: TextStyle(
+                        plugTitle,
+                        style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),
@@ -159,7 +160,7 @@ class _NewCarPageState extends State<NewCarPage> {
         controllerEffciencyCar.text = infoModel[5];//5.eficiencia Wh/Km
       },
       validator: (value) {
-        return value!.isEmpty ? 'Please select a brand' : null; //todo: translate S.of(context).[]
+        return value!.isEmpty ? S.of(context).carBrandLabel : null;
       },
       onSaved: (value) {
         saveRoutine(value, returnable);
@@ -187,9 +188,9 @@ class _NewCarPageState extends State<NewCarPage> {
       ),
       validator: (value) {
         if (value != null && value.isEmpty) {
-          return 'Please select a brand'; //todo: translate S.of(context).[]
+          return S.of(context).carBrandLabel;
         } else if (value!.length > 15){
-          return 'You have exceeded max characters'; //todo: translate S.of(context).[]
+          return S.of(context).maxCharMssg;
         }
         else {
           return null;
@@ -205,7 +206,7 @@ class _NewCarPageState extends State<NewCarPage> {
     title: Text(plugName),
     validator: (value) {
       if(allPlugTypeList.length-1 == allPlugTypeList.indexOf(plugName)) {
-        return selectedPlugs!.isEmpty ? 'At least select one type of charger' : null; //todo: translate S.of(context).[]
+        return selectedPlugs!.isEmpty ? S.of(context).msgSelectChargers : null;
       }
       return null;
     },
@@ -247,7 +248,7 @@ class _NewCarPageState extends State<NewCarPage> {
         }
         final n = num.tryParse(value);
         if(n == null) {
-          return 'Put a number'; //todo: translate S.of(context).[]
+          return S.of(context).msgIntroNum;
         }
         return null;
       },
@@ -263,23 +264,24 @@ class _NewCarPageState extends State<NewCarPage> {
       final form = formKey.currentState!;
       form.save();
       if (form.validate()) {
-        //todo: call to safe all elements
-        List<String> car = ['assets/brandCars/RAYO.png', selectedNameCar!, selectedBrandCar!, selectedModelCar!, selectedBatteryCar!, selectedEffciencyCar!];
-        ctrlPresentation.saveCar(car, context);
+        ctrlPresentation.saveCar(
+            context,
+            selectedNameCar!,
+            selectedBrandCar!,
+            selectedModelCar!,
+            selectedBatteryCar!,
+            selectedEffciencyCar!,
+            selectedPlugs!
+        );
       }
 
       else{
         ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
-            content: Text(//todo: translate S.of(context).[]
-                '''
-                Your name car is $selectedNameCar\n 
-                Your Brand is $selectedBrandCar\n
-                Your model car is $selectedModelCar\n
-                Battery $selectedBatteryCar kWh\n
-                Effciency $selectedEffciencyCar Wh/Km\n
-                Your car uses $selectedPlugs\n'''),
+            content: Text(//todo: TRADUCCION selectedPlugs no se si te sirve como string
+                S.of(context).infoCar(selectedNameCar.toString(), selectedBrandCar.toString(), selectedModelCar.toString(), selectedBatteryCar.toString(),
+                    selectedEffciencyCar.toString(), selectedPlugs.toString())),
           ));
       }
     }, icon: Icons.add_circle_rounded,
