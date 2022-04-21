@@ -40,6 +40,15 @@ class CtrlDomain {
     return _singleton;
   }
 
+  void selectVehicleUsuari(int idV) {
+    for(var vhu in vehiclesUsuari) {
+      if (vhu.id == idV) {
+        vhselected = vhu;
+        return;
+      }
+    }
+  }
+
   //SYSTEM
   Future<void> initializeSystem() async {
     usuari.usuarinull();
