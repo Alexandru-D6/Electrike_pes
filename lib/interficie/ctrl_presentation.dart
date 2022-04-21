@@ -109,14 +109,6 @@ class CtrlPresentation {
 
         headerAnimationLoop: false,
       ).show();
-
-
-      /*showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-              content: Text(
-                  'To add a car you must be logged!\n'
-              )));*/
     }
     else{
       Navigator.pushNamed(
@@ -332,6 +324,19 @@ class CtrlPresentation {
                 List<String> lEndolls
       ) {
     ctrlDomain.addVUser(name, brand, modelV, bat, eff, lEndolls);
+    Navigator.pop(context);
+    ctrlPresentation.toGaragePage(context);
+  }
+
+  void saveEditedCar(BuildContext context,
+      String carId,
+      String name,
+      String brand,
+      String modelV,
+      String bat,
+      String eff,
+      List<String> lEndolls) {
+    ctrlDomain.editVUser(carId, name, brand, modelV, bat, eff, lEndolls);
     Navigator.pop(context);
     ctrlPresentation.toGaragePage(context);
   }

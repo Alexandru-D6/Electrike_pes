@@ -46,7 +46,6 @@ class _EditCarPageState extends State<EditCarPage> {
     controllerModelCar.text = car.carInfo[3];
     controllerBatteryCar.text = car.carInfo[4];
     controllerEffciencyCar.text = car.carInfo[5];
-    //for(var i = 0; i < allPlugTypeList.length; i++) {buildCheckbox(allPlugTypeList[i]);    }
 
     ctrlPresentation.getBrandList().then((element){
       brandList = element;
@@ -121,9 +120,9 @@ class _EditCarPageState extends State<EditCarPage> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    for(var i = 0; i < allPlugTypeList.length; i++) buildCheckbox(allPlugTypeList[i]), //TODO: CALL TO DOMAIN TO GET THE PLUG TYPES
+                    for(var i = 0; i < allPlugTypeList.length; i++) buildCheckbox(allPlugTypeList[i], car.carInfo.contains(allPlugTypeList[i])),
                     const SizedBox(height: 30),
-                    buildSubmit(context)
+                    buildSubmit(context, car.carInfo[0])
                   ],
                 ),
               ),
@@ -211,9 +210,10 @@ class _EditCarPageState extends State<EditCarPage> {
     );
   }
 
-  Widget buildCheckbox(String plugName) => CheckboxListTileFormField(
+  Widget buildCheckbox(String plugName, bool initValue) => CheckboxListTileFormField(
     title: Text(plugName),
     validator: (value) {
+      if(initValue && value!) selectedPlugs?.add(plugName);
       if(allPlugTypeList.length-1 == allPlugTypeList.indexOf(plugName)) {
         return selectedPlugs!.isEmpty ? S.of(context).msgSelectChargers : null;
       }
@@ -229,6 +229,7 @@ class _EditCarPageState extends State<EditCarPage> {
         selectedPlugs?.remove(plugName);
       }
     },
+    initialValue: initValue,
     autovalidateMode: AutovalidateMode.always,
     contentPadding: const EdgeInsets.all(1),
   );
@@ -267,14 +268,15 @@ class _EditCarPageState extends State<EditCarPage> {
     );
   }
 
-  Widget buildSubmit(BuildContext context) => ButtonWidget(//todo: collect info car and submit to ctrlPres to domain
-    text: S.of(context).add,
+  Widget buildSubmit(BuildContext context, String carId) => ButtonWidget(
+    text: S.of(context).add, //todo: S.of(context).SAVE
     onClicked: () {
       final form = formKey.currentState!;
       form.save();
       if (form.validate()) {
-        ctrlPresentation.saveCar(
+        ctrlPresentation.saveEditedCar(
             context,
+            carId,
             selectedNameCar!,
             selectedBrandCar!,
             selectedModelCar!,
@@ -293,7 +295,8 @@ class _EditCarPageState extends State<EditCarPage> {
                     selectedEffciencyCar.toString(), selectedPlugs.toString())),
           ));
       }
-    }, icon: Icons.add_circle_rounded,
+    },
+    icon: Icons.save,
   );
 
   void saveRoutine(String? value, returnable) {

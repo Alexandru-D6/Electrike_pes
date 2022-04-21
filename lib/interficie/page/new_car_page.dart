@@ -258,7 +258,7 @@ class _NewCarPageState extends State<NewCarPage> {
     );
   }
 
-  Widget buildSubmit(BuildContext context) => ButtonWidget(//todo: collect info car and submit to ctrlPres to domain
+  Widget buildSubmit(BuildContext context) => ButtonWidget(
     text: S.of(context).add,
     onClicked: () {
       final form = formKey.currentState!;
