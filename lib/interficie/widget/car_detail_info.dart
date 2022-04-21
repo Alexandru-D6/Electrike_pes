@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 import 'attribute.dart';
 
@@ -122,7 +124,7 @@ class EditInfoCar extends StatelessWidget {
       btnOkIcon: (Icons.delete),
       btnOkText: "Delete",
       btnOkOnPress: () {
-        ctrlPresentation.deleteCar(context, car);
+        ctrlPresentation.deleteCar(context, car[0]);
       },
       headerAnimationLoop: false,
     ).show();
@@ -189,32 +191,107 @@ class CarInfo extends StatelessWidget {
           children: [
             Attribute(
               value: car[2],
-              name: 'Brand', //todo: translate S.of(context).[]
+              name: S.of(context).carBrand,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[3],
-              name: 'Model', //todo: translate S.of(context).[]
+              name: S.of(context).carModelLabel,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[4], //TODO: BATERIA
-              name: 'Bateria', //todo: translate S.of(context).[]
+              name: S.of(context).carBatteryLabel,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[5], //TODO: POTENCIA
-              name: 'Potència', //todo: translate S.of(context).[]
+              name: S.of(context).power,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[5],
-              name: 'Eficiencia', //todo: translate S.of(context).[]
+              name: S.of(context).efficiency,
               textColor: Colors.black87,
             ),
           ],
-        )
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+        buildConnectors(),
       ],
     );
   }
+
+  Widget buildConnectors() => ResponsiveGridRow(
+      children: [
+        if(car.contains("Schuko"))
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: buildConnectorInfo(
+              logoConnector: "assets/images/Schuko.png",
+              nameConnector: "Schuko",
+            ),
+          ),
+
+        if(car.contains("Mennekes"))
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: buildConnectorInfo(
+              logoConnector: "assets/images/Mennekes.png",
+              nameConnector: "Mennekes",
+            ),
+          ),
+
+        if(car.contains("Chademo"))
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: buildConnectorInfo(
+              logoConnector: "assets/images/CHAdeMO.png",
+              nameConnector: "CHAdeMO",
+            ),
+          ),
+
+        if(car.contains("CCSCombo2"))
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: buildConnectorInfo(
+              logoConnector: "assets/images/ComboCCS2.png",
+              nameConnector: "CCS Combo",
+            ),
+          ),
+      ]
+  );
+
+  Widget buildConnectorInfo({
+    required String logoConnector,
+    required String nameConnector,
+  }) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Image.asset(
+          logoConnector,
+          height: 50,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        AutoSizeText(
+          nameConnector,
+          style: const TextStyle(
+            color: Colors.black87,
+            fontSize: 14,
+          ),
+        ),
+      ],
+    );
+  }
+
 }
