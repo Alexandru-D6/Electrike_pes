@@ -18,6 +18,7 @@ import 'map_items.dart';
 ///  * Polygons
 ///  * Camera position
 ///  * Map Style
+///  * Custom Functions Electrike
 abstract class MapOperations implements MapMarkers, MapDirections, MapPolygons, MapCircles, CustomFunctions {
   /// Moves camera to the new bounds.
   ///
