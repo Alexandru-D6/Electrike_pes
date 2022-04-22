@@ -4,6 +4,7 @@
 
 import 'dart:async';
 import 'dart:html';
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flinq/flinq.dart';
@@ -15,6 +16,7 @@ import 'package:uuid/uuid.dart';
 
 import '../core/google_map.dart';
 import '../core/map_items.dart' as items;
+import '../core/route_response.dart';
 import '../core/utils.dart' as utils;
 import 'utils.dart';
 
@@ -534,7 +536,199 @@ class GoogleMapState extends GoogleMapStateBase {
   ///
 
   @override
-  String test_unit() { return "hola";}
+  String test_unit() {
+    return "hola";
+  }
+
+  GeoCoord toRadians(GeoCoord degree) {
+    double one_deg = (pi) / 180;
+    return GeoCoord(degree.latitude * one_deg, degree.longitude * one_deg);
+  }
+
+  static const double earthR = 6371;
+
+  @override
+  double getDistance(GeoCoord a, GeoCoord b) {
+
+    a = toRadians(a);
+    b = toRadians(b);
+
+    //Haversine Formula
+    GeoCoord haversine = GeoCoord(b.latitude - a.latitude, b.longitude - a.longitude);
+
+    double temp = pow(sin(haversine.latitude / 2), 2) +
+        cos(a.latitude) * cos(b.latitude) *
+            pow(sin(haversine.longitude / 2), 2);
+
+    temp = 2 * asin(sqrt(temp));
+
+    return temp * earthR;
+  }
+
+  @override
+  Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords) {
+    Map<String, Map<String, double>> res = Map<String, Map<String, double>>();
+
+    coords.forEach((key, value) {
+      res.putIfAbsent(key, () => Map<String, double>());
+    });
+
+    res.forEach((key, value) {
+      coords.forEach((key2, value2) {
+        value.putIfAbsent(key2, () => 0.0);
+      });
+    });
+
+    coords.forEach((key, value) {
+      coords.forEach((key2, value2) {
+        res[key]?[key2] = getDistance(value, value2);
+      });
+    });
+
+    return res;
+  }
+
+  List<DirectionsWaypoint> getExplicitCoordinates(List<GeoCoord> waypoints) {
+    List<DirectionsWaypoint> res = <DirectionsWaypoint>[];
+
+    waypoints.forEach((element) {
+      res.add(DirectionsWaypoint()
+                  ..location = (element.latitude.toString() + ',' + element.longitude.toString())
+                  ..stopover = (false));
+    });
+
+    return res;
+  }
+
+  @override
+  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]) async {
+
+    DirectionsRenderer direction = DirectionsRenderer(DirectionsRendererOptions()..suppressMarkers = true);
+    direction.map = _map;
+
+    final request = DirectionsRequest()
+      ..origin = origin
+      ..destination = destination
+      ..travelMode = TravelMode.DRIVING
+      ..waypoints = getExplicitCoordinates((waypoints == null) ? <GeoCoord>[] : waypoints);
+
+    RouteResponse result = RouteResponse();
+
+    await directionsService.route(
+      request,
+          (response, status) {
+        if (status == DirectionsStatus.OK) {
+          result.status = "ok";
+          DirectionsRoute? temp = response?.routes?.firstOrNull;
+
+
+          double distance = 0.0;
+          double duration = 0.0;
+          List<GeoCoord> coords = <GeoCoord>[];
+
+          temp?.legs?.forEach((element) {
+            double? aa = element?.distance?.value?.toDouble();
+            distance += aa!;
+
+            double? bb = element?.duration?.value?.toDouble();
+            duration += (bb!/60); ///duration returns seconds
+
+            if (coords.isEmpty) coords.add(element?.startLocation!.toGeoCoord() as GeoCoord);
+            element?.steps?.forEach((element2) {
+              coords.add(element2?.endLocation!.toGeoCoord() as GeoCoord);
+            });
+          });
+
+          result.distanceMeters = distance;
+          result.durationMinutes = duration;
+          result.origin = temp?.legs?.firstOrNull?.startLocation!.toGeoCoord() as GeoCoord;
+          result.destination = temp?.legs?.lastOrNull?.endLocation!.toGeoCoord() as GeoCoord;
+          result.description = "";
+          result.coords = coords;
+          print(coords);
+
+        }else result.status = status as String?;
+      },
+    );
+
+    return result;
+  }
+
+  @override
+  void displayRoute(
+      GeoCoord origin,
+      GeoCoord destination, {
+        List<GeoCoord>? waypoints,
+        String? startLabel,
+        String? startIcon,
+        String? startInfo,
+        String? endLabel,
+        String? endIcon,
+        String? endInfo,
+      }) {
+
+    _directions.putIfAbsent(
+      '${origin}_$destination',
+          () {
+        DirectionsRenderer direction = DirectionsRenderer(DirectionsRendererOptions()..suppressMarkers = true);
+        direction.map = _map;
+
+        final request = DirectionsRequest()
+          ..origin = origin
+          ..destination = destination
+          ..travelMode = TravelMode.DRIVING
+          ..waypoints = getExplicitCoordinates((waypoints == null) ? <GeoCoord>[] : waypoints);
+        directionsService.route(
+          request,
+              (response, status) {
+            if (status == DirectionsStatus.OK) {
+              direction.directions = response;
+
+              final DirectionsLeg? leg = response?.routes?.firstOrNull?.legs?.firstOrNull;
+
+              final startLatLng = leg?.startLocation;
+              if (startLatLng != null) {
+                if (startIcon != null || startInfo != null || startLabel != null) {
+                  addMarkerRaw(
+                    startLatLng.toGeoCoord(),
+                    icon: startIcon,
+                    info: startInfo ?? leg?.startAddress,
+                    label: startLabel,
+                  );
+                } else {
+                  addMarkerRaw(
+                    startLatLng.toGeoCoord(),
+                    icon: 'assets/images/marker_a.png',
+                    info: leg?.startAddress,
+                  );
+                }
+              }
+
+              final endLatLng = leg?.endLocation;
+              if (endLatLng != null) {
+                if (endIcon != null || endInfo != null || endLabel != null) {
+                  addMarkerRaw(
+                    endLatLng.toGeoCoord(),
+                    icon: endIcon,
+                    info: endInfo ?? leg?.endAddress,
+                    label: endLabel,
+                  );
+                } else {
+                  addMarkerRaw(
+                    endLatLng.toGeoCoord(),
+                    icon: 'assets/images/marker_b.png',
+                    info: leg?.endAddress,
+                  );
+                }
+              }
+            }
+          },
+        );
+
+        return direction;
+      },
+    );
+  }
 
   ///
   ///

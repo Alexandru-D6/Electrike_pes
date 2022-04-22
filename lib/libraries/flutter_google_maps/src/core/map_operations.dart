@@ -3,13 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async' show FutureOr;
-import 'dart:collection';
 import 'dart:ui' show Color, VoidCallback;
 
 import 'package:flutter/foundation.dart' show ValueChanged;
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 
 import 'map_items.dart';
+import 'route_response.dart';
 
 /// Interface of setting up map operations including:
 ///
@@ -267,5 +267,17 @@ abstract class CustomFunctions {
   double getDistance(GeoCoord a, GeoCoord b);
   Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords);
 
+  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]);
 
+  void displayRoute(
+      GeoCoord origin,
+      GeoCoord destination, {
+        List<GeoCoord>? waypoints,
+        String? startLabel,
+        String? startIcon,
+        String? startInfo,
+        String? endLabel,
+        String? endIcon,
+        String? endInfo,
+      });
 }

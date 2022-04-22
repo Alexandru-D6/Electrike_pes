@@ -12,6 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../core/google_map.dart' as gmap;
 import '../core/map_items.dart' as items;
+import '../core/route_response.dart';
 import '../core/utils.dart' as utils;
 import 'utils.dart';
 import 'dart:math';
@@ -488,7 +489,9 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   ///
 
   @override
-  String test_unit() { return "hola";}
+  String test_unit() {
+    return "hola";
+  }
 
   GeoCoord toRadians(GeoCoord degree) {
     double one_deg = (pi) / 180;
@@ -499,6 +502,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   double getDistance(GeoCoord a, GeoCoord b) {
+
     a = toRadians(a);
     b = toRadians(b);
 
@@ -516,9 +520,177 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords) {
+    Map<String, Map<String, double>> res = Map<String, Map<String, double>>();
 
-    return Map<String, Map<String, double>>();
+    coords.forEach((key, value) {
+      res.putIfAbsent(key, () => Map<String, double>());
+    });
+
+    res.forEach((key, value) {
+      coords.forEach((key2, value2) {
+        value.putIfAbsent(key2, () => 0.0);
+      });
+    });
+
+    coords.forEach((key, value) { 
+      coords.forEach((key2, value2) {
+        res[key]?[key2] = getDistance(value, value2);
+      });
+    });
+
+    return res;
   }
+
+  List<DirectionsWaypoint> getExplicitCoordinates(List<GeoCoord> waypoints) {
+    List<DirectionsWaypoint> res = <DirectionsWaypoint>[];
+
+    waypoints.forEach((element) {
+      res.add(DirectionsWaypoint(location: element.latitude.toString() + ',' + element.longitude.toString(), stopover: false));
+    });
+
+    return res;
+  }
+
+  @override
+  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]) async {
+
+    final request = DirectionsRequest(
+      origin: origin,
+      destination: destination,
+      travelMode: TravelMode.driving,
+      waypoints: getExplicitCoordinates((waypoints == null) ? <GeoCoord>[] : waypoints),
+    );
+
+    RouteResponse result = RouteResponse();
+
+    await directionsService.route(
+      request, (response, status) {
+      if (status == DirectionsStatus.ok) {
+        result.status = "ok";
+        DirectionsRoute? temp = response.routes?.firstOrNull;
+
+
+        double distance = 0.0;
+        double duration = 0.0;
+        List<GeoCoord> coords = <GeoCoord>[];
+
+        temp?.legs?.forEach((element) {
+          double? aa = element.distance?.value?.toDouble();
+          distance += aa!;
+
+          double? bb = element.duration?.value?.toDouble();
+          duration += (bb!/60); ///duration returns seconds
+
+          if (coords.isEmpty) coords.add(element.startLocation!);
+          element.steps?.forEach((element2) {
+            coords.add(element2.endLocation!);
+          });
+        });
+
+        result.distanceMeters = distance;
+        result.durationMinutes = duration;
+        result.origin = temp?.legs?.firstOrNull?.startLocation;
+        result.destination = temp?.legs?.lastOrNull?.endLocation;
+        result.description = temp?.summary;
+        result.coords = coords;
+        print(coords);
+
+      }else result.status = status as String?;
+    },
+    );
+
+    return result;
+  }
+
+  @override
+  void displayRoute(
+      GeoCoord origin,
+      GeoCoord destination, {
+        List<GeoCoord>? waypoints,
+        String? startLabel,
+        String? startIcon,
+        String? startInfo,
+        String? endLabel,
+        String? endIcon,
+        String? endInfo,
+      }) {
+
+    final request = DirectionsRequest(
+      origin: origin,
+      destination: destination,
+      travelMode: TravelMode.driving,
+      waypoints: getExplicitCoordinates((waypoints == null) ? <GeoCoord>[] : waypoints),
+    );
+    directionsService.route(
+      request,
+          (response, status) {
+        if (status == DirectionsStatus.ok) {
+          final key = '${origin}_$destination';
+
+          if (_polylines.containsKey(key)) return;
+
+          moveCameraBounds(
+            response.routes?.firstOrNull?.bounds,
+            padding: 80,
+          );
+
+          final leg = response.routes?.firstOrNull?.legs?.firstOrNull;
+
+          final startLatLng = leg?.startLocation;
+          if (startLatLng != null) {
+            _directionMarkerCoords[startLatLng] = origin;
+            if (startIcon != null || startInfo != null || startLabel != null) {
+              addMarkerRaw(
+                startLatLng,
+                icon: startIcon ?? 'assets/images/marker_a.png',
+                info: startInfo ?? leg!.startAddress,
+                label: startLabel,
+              );
+            } else {
+              addMarkerRaw(
+                startLatLng,
+                icon: 'assets/images/marker_a.png',
+                info: leg!.startAddress,
+              );
+            }
+          }
+
+          final endLatLng = leg?.endLocation;
+          if (endLatLng != null) {
+            _directionMarkerCoords[endLatLng] = destination;
+            if (endIcon != null || endInfo != null || endLabel != null) {
+              addMarkerRaw(
+                endLatLng,
+                icon: endIcon ?? 'assets/images/marker_b.png',
+                info: endInfo ?? leg!.endAddress,
+                label: endLabel,
+              );
+            } else {
+              addMarkerRaw(
+                endLatLng,
+                icon: 'assets/images/marker_b.png',
+                info: leg!.endAddress,
+              );
+            }
+          }
+
+          final polylineId = PolylineId(key);
+          final polyline = Polyline(
+            polylineId: polylineId,
+            points: response.routes?.firstOrNull?.overviewPath?.mapList((_) => _.toLatLng()) ??
+                ((startLatLng != null && endLatLng != null) ? [startLatLng.toLatLng(), endLatLng.toLatLng()] : []),
+            color: const Color(0xcc2196F3),
+            startCap: Cap.roundCap,
+            endCap: Cap.roundCap,
+            width: 8,
+          );
+
+          _setState(() => _polylines[key] = polyline);
+        }
+      },
+    );
+  }
+
 
   ///
   ///
