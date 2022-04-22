@@ -14,7 +14,7 @@ void main() {
                         GeoCoord(53.32055555555556, -1.7297222222222221),
                         GeoCoord(53.31861111111111, -1.6997222222222223)
                                 ).toStringAsFixed(5),
-          2.0043678382716137.toStringAsFixed(5)
+          2.004367838271613.toStringAsFixed(5)
           );
   });
 }
