@@ -14,6 +14,7 @@ import '../core/google_map.dart' as gmap;
 import '../core/map_items.dart' as items;
 import '../core/utils.dart' as utils;
 import 'utils.dart';
+import 'dart:math';
 
 class GoogleMapState extends gmap.GoogleMapStateBase {
   final directionsService = DirectionsService();
@@ -481,6 +482,46 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       }
     });
   }
+
+  ///All this functions are implemented by ourselves to improve the functionality of the library
+  ///
+  ///
+
+  @override
+  String test_unit() { return "hola";}
+
+  GeoCoord toRadians(GeoCoord degree) {
+    double one_deg = (pi) / 180;
+    return GeoCoord(degree.latitude * one_deg, degree.longitude * one_deg);
+  }
+
+  static const double earthR = 6371;
+
+  @override
+  double getDistance(GeoCoord a, GeoCoord b) {
+    a = toRadians(a);
+    b = toRadians(b);
+
+    //Haversine Formula
+    GeoCoord haversine = GeoCoord(b.latitude - a.latitude, b.longitude - a.longitude);
+
+    double temp = pow(sin(haversine.latitude / 2), 2) +
+                  cos(a.latitude) * cos(b.latitude) *
+                  pow(sin(haversine.longitude / 2), 2);
+
+    temp = 2 * asin(sqrt(temp));
+
+    return temp * earthR;
+  }
+
+  @override
+  Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords) {
+
+    return Map<String, Map<String, double>>();
+  }
+
+  ///
+  ///
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(

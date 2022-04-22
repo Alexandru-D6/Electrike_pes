@@ -529,6 +529,16 @@ class GoogleMapState extends GoogleMapStateBase {
     });
   }
 
+  ///All this functions are implemented by ourselves to improve the functionality of the library
+  ///
+  ///
+
+  @override
+  String test_unit() { return "hola";}
+
+  ///
+  ///
+
   @override
   Widget build(BuildContext context) {
     _createMapOptions();

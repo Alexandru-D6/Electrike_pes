@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async' show FutureOr;
+import 'dart:collection';
 import 'dart:ui' show Color, VoidCallback;
 
 import 'package:flutter/foundation.dart' show ValueChanged;
@@ -17,7 +18,7 @@ import 'map_items.dart';
 ///  * Polygons
 ///  * Camera position
 ///  * Map Style
-abstract class MapOperations implements MapMarkers, MapDirections, MapPolygons, MapCircles {
+abstract class MapOperations implements MapMarkers, MapDirections, MapPolygons, MapCircles, CustomFunctions {
   /// Moves camera to the new bounds.
   ///
   /// If `padding` not set, it defaults to `0`.
@@ -137,6 +138,8 @@ abstract class MapMarkers {
 
   /// Removes all markers from the map.
   void clearMarkers();
+
+  String test_unit();
 }
 
 /// Interface of setting up directions
@@ -255,4 +258,13 @@ abstract class MapCircles {
 
   /// Removes all circles from the map.
   void clearCircles();
+}
+
+abstract class CustomFunctions {
+  String test_unit();
+
+  double getDistance(GeoCoord a, GeoCoord b);
+  Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords);
+
+
 }

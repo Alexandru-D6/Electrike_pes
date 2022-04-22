@@ -155,6 +155,22 @@ class GoogleMapState extends GoogleMapStateBase {
   @override
   void removeCircle(String id) => throw UnimplementedError();
 
+  ///All this functions are implemented by ourselves to improve the functionality of the library
+  ///
+  ///
+
+  @override
+  String test_unit() => throw UnimplementedError();
+
+  @override
+  double getDistance(GeoCoord a, GeoCoord b) => throw UnimplementedError();
+
+  @override
+  Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords) => throw UnimplementedError();
+
+  ///
+  ///
+
   @override
   Widget build(BuildContext context) => throw UnimplementedError();
 }
