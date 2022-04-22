@@ -128,7 +128,7 @@ class CtrlPresentation {
   }
 
   void toChartPage(BuildContext context){
-    Navigator.pushReplacementNamed(
+    Navigator.pushNamed(
       context,
       '/chart',
     );
