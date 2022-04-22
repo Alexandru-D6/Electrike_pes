@@ -127,10 +127,11 @@ class CtrlPresentation {
       );
   }
 
-  void toChartPage(BuildContext context){
+  void toChartPage(BuildContext context, String pointTitle){
     Navigator.pushNamed(
       context,
       '/chart',
+      arguments: pointTitle, //TODO: cosas de traducciones?
     );
   }
   //USER INFO FUNCTIONS
