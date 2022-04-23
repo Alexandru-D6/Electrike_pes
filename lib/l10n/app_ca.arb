@@ -1,4 +1,5 @@
 {
+  "languageName": "Català",
   "map": "Mapa",
   "garage": "Garatge",
   "favourites": "Favorits",
@@ -35,8 +36,6 @@
   "msgIntroNum": "Introdueix un número",
   "msgAddFav": "Afegir punt a favorits",
 
-  "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
-
   "infoCar": "El nom del vehicle és {selectedNameCar}\\n \n  La seva marca {selectedBrandCar}\\n\n  El seu model {selectedModelCar}\\n\n   Bateria {selectedBatteryCar} kWh\\n\n   Consum {selectedEffciencyCar} Wh/Km\\n\n El vehicle utilitza {selectedPlugs}\\n'''),",
   "@infoCar": {
     "placeholders": {
@@ -57,5 +56,9 @@
       "firstName": {},
       "lastName": {}
     }
-  }
+  },
+
+  "infoDialogNotLog": "No s'ha iniciat sessió",
+
+  "save": "Guardar canvis"
 }

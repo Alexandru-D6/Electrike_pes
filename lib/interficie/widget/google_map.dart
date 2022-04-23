@@ -70,8 +70,8 @@ class _MyMapState extends State<MyMap> {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
-      desc: "You aren't logged so you don't have any favourite point.",//todo: S.of(context).alertSureDeleteCarContent,
+      title: "You aren't logged",//todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
+      desc: "You aren't logged so you don't have any favourite point.",//todo: AppLocalizations.of(context).alertSureDeleteCarContent,
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();

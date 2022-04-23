@@ -1,4 +1,5 @@
 {
+  "languageName": "Español",
   "map": "Mapa",
   "garage": "Garage",
   "favourites": "Favoritos",
@@ -35,8 +36,6 @@
   "msgIntroNum": "Introduce un número",
   "msgAddFav": "Añadir punto a favoritos",
 
-  "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
-
   "infoCar": "El nombre del vehículo es {selectedNameCar}\\n \n  Su marca {selectedBrandCar}\\n\n  Su modelo {selectedModelCar}\\n\n   Batería {selectedBatteryCar} kWh\\n\n   Consumo {selectedEffciencyCar} Wh/Km\\n\n El vehículo utiliza {selectedPlugs}\\n'''),",
   "@infoCar": {
     "placeholders": {
@@ -57,5 +56,9 @@
       "firstName": {},
       "lastName": {}
     }
-  }
+  },
+
+  "infoDialogNotLog": "No se ha iniciado sesión",
+
+  "save": "Guardar cambios"
 }

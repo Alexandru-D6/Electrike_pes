@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:responsive_grid/responsive_grid.dart';
-import 'package:flutter_project/generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
@@ -110,7 +110,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
-          tooltip: S.of(context).msgAddFav,
+          tooltip: AppLocalizations.of(context).msgAddFav,
           onPressed: () {
               ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
               Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });

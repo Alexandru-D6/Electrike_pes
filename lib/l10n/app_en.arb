@@ -1,4 +1,5 @@
 {
+  "languageName": "English",
   "map": "Map",
   "garage": "Garage",
   "favourites": "Favourites",
@@ -34,7 +35,6 @@
   "msgSelectChargers": "At least select one type of charger",
   "msgIntroNum": "Introduce a number",
   "msgAddFav": "Add point to favourites",
-  "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
 
   "infoCar": "The vehicle's name is {selectedNameCar}\\n \n  It's Brand {selectedBrandCar}\\n\n  It's model {selectedModelCar}\\n\n   Battery {selectedBatteryCar} kWh\\n\n   Effciency {selectedEffciencyCar} Wh/Km\\n\n The vehicle uses {selectedPlugs}\\n'''),",
   "@infoCar": {
@@ -56,5 +56,9 @@
       "firstName": {},
       "lastName": {}
     }
-  }
+  },
+
+  "infoDialogNotLog": "You aren't logged",
+
+  "save": "Save changes"
 }
