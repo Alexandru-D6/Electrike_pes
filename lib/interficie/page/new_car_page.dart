@@ -211,7 +211,6 @@ class _NewCarPageState extends State<NewCarPage> {
       return null;
     },
     onSaved: (bool? value) {
-      //print(value);
     },
     onChanged: (value) {
       if (value) {

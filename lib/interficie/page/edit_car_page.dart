@@ -47,7 +47,6 @@ class _EditCarPageState extends State<EditCarPage> {
     controllerBatteryCar.text = car.carInfo[4];
     controllerEffciencyCar.text = car.carInfo[5];
     selectedPlugs = [];
-    print(car.carInfo);
     for(var i = 6; i < car.carInfo.length; ++i){
       selectedPlugs.add(car.carInfo[i]);
     }
@@ -277,7 +276,6 @@ class _EditCarPageState extends State<EditCarPage> {
       final form = formKey.currentState!;
       form.save();
       if (form.validate()) {
-        print(selectedPlugs);
         ctrlPresentation.saveEditedCar(
             context,
             carId,

@@ -169,7 +169,6 @@ class CtrlPresentation {
   }
 
   String getUserImage() {
-    print(photoUrl + "photoUrl");
     return photoUrl;
   }
 

@@ -299,7 +299,6 @@ Marker buildChargerMarker({
 
 showInfoCharger(BuildContext context, double lat, double long) {
   List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
-  //print(infoChargerPoint);
   showModalBottomSheet(
       context: context,
       backgroundColor: cTransparent,
