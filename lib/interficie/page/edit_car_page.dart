@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 
 import '../widget/button_widget.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class NewCarPage extends StatefulWidget {
-  const NewCarPage({Key? key}) : super(key: key);
+class EditCarPage extends StatefulWidget {
+  const EditCarPage({Key? key}) : super(key: key);
 
   @override
-  _NewCarPageState createState() => _NewCarPageState();
+  _EditCarPageState createState() => _EditCarPageState();
 }
 
-class _NewCarPageState extends State<NewCarPage> {
+class _EditCarPageState extends State<EditCarPage> {
   final formKey = GlobalKey<FormState>();
 
   //controllers for each value
@@ -32,21 +33,32 @@ class _NewCarPageState extends State<NewCarPage> {
   String? selectedBatteryCar;
   String? selectedEffciencyCar;
 
-  List<String>? selectedPlugs;
+  List<String> selectedPlugs = <String>[];
   List<String> brandList = <String>[];
   List<String> modelList = <String>[];
 
 
   @override
   Widget build(BuildContext context) {
+    final car = ModalRoute.of(context)!.settings.arguments as EditCarArguments;
+    controllerNameCar.text = car.carInfo[1];
+    controllerBrandCar.text = car.carInfo[2];
+    controllerModelCar.text = car.carInfo[3];
+    controllerBatteryCar.text = car.carInfo[4];
+    controllerEffciencyCar.text = car.carInfo[5];
+    selectedPlugs = [];
+    print(car.carInfo);
+    for(var i = 6; i < car.carInfo.length; ++i){
+      selectedPlugs.add(car.carInfo[i]);
+    }
+
     ctrlPresentation.getBrandList().then((element){
       brandList = element;
     });
-    selectedPlugs = [];
     String plugTitle = S.of(context).chargerTypeLabel;
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).newCar),
+        title: Text(S.of(context).newCar), //todo: change to S.of(context).newCar
         centerTitle: true,
         backgroundColor: mCardColor,
       ),
@@ -112,9 +124,9 @@ class _NewCarPageState extends State<NewCarPage> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    for(var i = 0; i < allPlugTypeList.length; i++) buildCheckbox(allPlugTypeList[i]), //TODO: CALL TO DOMAIN TO GET THE PLUG TYPES
+                    for(var i = 0; i < allPlugTypeList.length; i++) buildCheckbox(allPlugTypeList[i], car.carInfo.contains(allPlugTypeList[i])),
                     const SizedBox(height: 30),
-                    buildSubmit(context)
+                    buildSubmit(context, car.carInfo[0])
                   ],
                 ),
               ),
@@ -202,11 +214,11 @@ class _NewCarPageState extends State<NewCarPage> {
     );
   }
 
-  Widget buildCheckbox(String plugName) => CheckboxListTileFormField(
+  Widget buildCheckbox(String plugName, bool initValue) => CheckboxListTileFormField(
     title: Text(plugName),
     validator: (value) {
       if(allPlugTypeList.length-1 == allPlugTypeList.indexOf(plugName)) {
-        return selectedPlugs!.isEmpty ? S.of(context).msgSelectChargers : null;
+        return selectedPlugs.isEmpty ? S.of(context).msgSelectChargers : null;
       }
       return null;
     },
@@ -215,11 +227,12 @@ class _NewCarPageState extends State<NewCarPage> {
     },
     onChanged: (value) {
       if (value) {
-        selectedPlugs?.add(plugName);
+        selectedPlugs.add(plugName);
       } else {
-        selectedPlugs?.remove(plugName);
+        selectedPlugs.remove(plugName);
       }
     },
+    initialValue: initValue,
     autovalidateMode: AutovalidateMode.always,
     contentPadding: const EdgeInsets.all(1),
   );
@@ -258,20 +271,22 @@ class _NewCarPageState extends State<NewCarPage> {
     );
   }
 
-  Widget buildSubmit(BuildContext context) => ButtonWidget(
-    text: S.of(context).add,
+  Widget buildSubmit(BuildContext context, String carId) => ButtonWidget(
+    text: S.of(context).add, //todo: S.of(context).SAVE
     onClicked: () {
       final form = formKey.currentState!;
       form.save();
       if (form.validate()) {
-        ctrlPresentation.saveCar(
+        print(selectedPlugs);
+        ctrlPresentation.saveEditedCar(
             context,
+            carId,
             selectedNameCar!,
             selectedBrandCar!,
             selectedModelCar!,
             selectedBatteryCar!,
             selectedEffciencyCar!,
-            selectedPlugs!
+            selectedPlugs
         );
       }
 
@@ -284,7 +299,8 @@ class _NewCarPageState extends State<NewCarPage> {
                     selectedEffciencyCar.toString(), selectedPlugs.toString())),
           ));
       }
-    }, icon: Icons.add_circle_rounded,
+    },
+    icon: Icons.save,
   );
 
   void saveRoutine(String? value, returnable) {

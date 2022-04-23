@@ -29,14 +29,27 @@ class _FavsChargersState extends State<FavsChargers> {
 
           return ListTile(
             title: Text(title),
-            trailing: IconButton(
-              icon: (const Icon(Icons.favorite)),
-              color: Colors.red,
-              onPressed: () {
-                chargerPoints.remove(word);
-                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
-                }
+            trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                            icon: (const Icon(Icons.bar_chart)),
+                            color: Colors.green,
+                            onPressed: () {
+                              ctrlPresentation.toChartPage(context, title);
+                            }
+                        ),
+                          IconButton(
+                              icon: (const Icon(Icons.favorite)),
+                              color: Colors.red,
+                              onPressed: () {
+                              chargerPoints.remove(word);
+                              ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
+                              Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+                              }
+                          ),
+
+              ],
             ),
             onTap: () {
                 ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
@@ -119,14 +132,27 @@ class _AllFavsState extends State<AllFavs> {
 
         return ListTile(
           title: Text(title),
-          trailing: IconButton(
-              icon: (const Icon(Icons.favorite)),
-              color: Colors.red,
-              onPressed: () {
-                chargerPoints.remove(word);
-                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
-              }
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              IconButton(
+                  icon: (const Icon(Icons.bar_chart)),
+                  color: Colors.green,
+                  onPressed: () {
+                    ctrlPresentation.toChartPage(context, title);
+                  }
+              ),
+              IconButton(
+                  icon: (const Icon(Icons.favorite)),
+                  color: Colors.red,
+                  onPressed: () {
+                    chargerPoints.remove(word);
+                    ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
+                    Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+                  }
+              ),
+
+            ],
           ),
           onTap: () {
             ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
@@ -147,7 +173,7 @@ class FilterFavsItems extends StatefulWidget {
 class _FilterFavsItemsState extends State<FilterFavsItems> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    AllFavs(), //todo: replicar con bicings y conectar
+    AllFavs(),
     FavsChargers(),
     FavsBicings(),
   ];

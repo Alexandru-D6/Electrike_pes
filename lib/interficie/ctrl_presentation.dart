@@ -6,6 +6,7 @@ import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
@@ -108,14 +109,6 @@ class CtrlPresentation {
 
         headerAnimationLoop: false,
       ).show();
-
-
-      /*showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-              content: Text(
-                  'To add a car you must be logged!\n'
-              )));*/
     }
     else{
       Navigator.pushNamed(
@@ -125,10 +118,20 @@ class CtrlPresentation {
     }
   }
 
-  void toChartPage(BuildContext context){
-    Navigator.pushReplacementNamed(
+  void toEditCar(BuildContext context, List<String> car) {
+    Navigator.pop(context);
+      Navigator.pushNamed(
+        context,
+        '/editCar',
+        arguments: EditCarArguments(car),
+      );
+  }
+
+  void toChartPage(BuildContext context, String pointTitle){
+    Navigator.pushNamed(
       context,
       '/chart',
+      arguments: pointTitle, //TODO: cosas de traducciones?
     );
   }
   //USER INFO FUNCTIONS
@@ -151,7 +154,7 @@ class CtrlPresentation {
   }
 
   getCarsList() {
-    return ctrlDomain.infoAllVUser(); //TODO: call domain carListUser será lista de lista de strings (List<Car>)
+    return ctrlDomain.infoAllVUser();
   }
 
   List<Coordenada> getChargePointList() {
@@ -323,6 +326,19 @@ class CtrlPresentation {
                 List<String> lEndolls
       ) {
     ctrlDomain.addVUser(name, brand, modelV, bat, eff, lEndolls);
+    Navigator.pop(context);
+    ctrlPresentation.toGaragePage(context);
+  }
+
+  void saveEditedCar(BuildContext context,
+      String carId,
+      String name,
+      String brand,
+      String modelV,
+      String bat,
+      String eff,
+      List<String> lEndolls) {
+    ctrlDomain.editVUser(carId, name, brand, modelV, bat, eff, lEndolls);
     Navigator.pop(context);
     ctrlPresentation.toGaragePage(context);
   }

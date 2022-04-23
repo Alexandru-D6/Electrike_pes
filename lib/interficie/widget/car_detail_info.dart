@@ -73,7 +73,9 @@ class EditInfoCar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
-          onPressed: () {},//TODO: EditInfoCar
+          onPressed: () {
+            ctrlPresentation.toEditCar(context, car);
+          },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(mCardColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -92,7 +94,7 @@ class EditInfoCar extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            _showMyDialog(context, car);
+            _showMyDialog(context, car[0]);
           },
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(mPrimaryColor),
@@ -113,7 +115,7 @@ class EditInfoCar extends StatelessWidget {
       ],
     );
   }
-  _showMyDialog(BuildContext context, List<String> car) {
+  _showMyDialog(BuildContext context, String carId) {
     return AwesomeDialog(
       context: context,
       dialogType: DialogType.WARNING,
@@ -124,7 +126,7 @@ class EditInfoCar extends StatelessWidget {
       btnOkIcon: (Icons.delete),
       btnOkText: "Delete",
       btnOkOnPress: () {
-        ctrlPresentation.deleteCar(context, car[0]);
+        ctrlPresentation.deleteCar(context, carId);
       },
       headerAnimationLoop: false,
     ).show();
