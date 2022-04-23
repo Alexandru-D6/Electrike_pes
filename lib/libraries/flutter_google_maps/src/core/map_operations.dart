@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart' show ValueChanged;
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 
 import 'map_items.dart';
+import 'route_response.dart';
 
 /// Interface of setting up map operations including:
 ///
@@ -17,7 +18,8 @@ import 'map_items.dart';
 ///  * Polygons
 ///  * Camera position
 ///  * Map Style
-abstract class MapOperations implements MapMarkers, MapDirections, MapPolygons, MapCircles {
+///  * Custom Functions Electrike
+abstract class MapOperations implements MapMarkers, MapDirections, MapPolygons, MapCircles, CustomFunctions {
   /// Moves camera to the new bounds.
   ///
   /// If `padding` not set, it defaults to `0`.
@@ -137,6 +139,8 @@ abstract class MapMarkers {
 
   /// Removes all markers from the map.
   void clearMarkers();
+
+  String test_unit();
 }
 
 /// Interface of setting up directions
@@ -255,4 +259,25 @@ abstract class MapCircles {
 
   /// Removes all circles from the map.
   void clearCircles();
+}
+
+abstract class CustomFunctions {
+  String test_unit();
+
+  double getDistance(GeoCoord a, GeoCoord b);
+  Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords);
+
+  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]);
+
+  void displayRoute(
+      GeoCoord origin,
+      GeoCoord destination, {
+        List<GeoCoord>? waypoints,
+        String? startLabel,
+        String? startIcon,
+        String? startInfo,
+        String? endLabel,
+        String? endIcon,
+        String? endInfo,
+      });
 }
