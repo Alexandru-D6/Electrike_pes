@@ -20,7 +20,9 @@ import 'dart:math';
 class GoogleMapState extends gmap.GoogleMapStateBase {
   final directionsService = DirectionsService();
 
-  final _markers = <String, Marker>{};
+  final _markers = <String, Map<String, Marker>>{};
+  final _shown_markers = <String, Marker>{};
+  String _current_displaying = "1";
   final _polygons = <String, Polygon>{};
   final _circles = <String, Circle>{};
   final _polylines = <String, Polyline>{};
@@ -141,7 +143,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void addMarkerRaw(
-    GeoCoord position, {
+    GeoCoord position,
+    String group,{
     String? label,
     String? icon,
     String? info,
@@ -151,7 +154,10 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }) async {
     final key = position.toString();
 
-    if (_markers.containsKey(key)) return;
+    _markers.putIfAbsent(group, () => Map<String,Marker>());
+
+    bool? cond = _markers[group]?.containsKey(key);
+    if (cond != null && cond) return;
 
     final markerId = MarkerId(key);
     final marker = Marker(
@@ -169,12 +175,19 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           : InfoWindow.noText,
     );
 
-    _setState(() => _markers[key] = marker);
+    _markers[group]![key] = marker;
+
+    if (_current_displaying == group)
+      _setState(() => _shown_markers[key] = marker);
   }
 
   @override
-  void addMarker(items.Marker marker) => addMarkerRaw(
+  void addMarker(items.Marker marker,{String? group}) {
+    print("-->");
+    print(marker);
+    addMarkerRaw(
         marker.position,
+        (group != null) ? group : "1",
         label: marker.label,
         icon: marker.icon,
         info: marker.info,
@@ -182,14 +195,28 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         onTap: marker.onTap,
         onInfoWindowTap: marker.onInfoWindowTap,
       );
+  }
 
   @override
-  void removeMarker(GeoCoord position) {
+  void removeMarker(GeoCoord position,{String? group}) {
     final key = position.toString();
 
-    if (!_markers.containsKey(key)) return;
+    if (group != null && _markers.containsKey(group)) {
+      bool? cond = _markers[group]?.containsKey(key);
+      if (cond != null && !cond) return;
 
-    _setState(() => _markers.remove(key));
+      _markers[group]?.remove(key);
+      if (_current_displaying == group)
+        _setState(() => _shown_markers.remove(key));
+    }else {
+      _markers.forEach((key2, value) {
+        if (value.containsKey(key)) {
+          value.remove(key);
+          if (_current_displaying == key2)
+            _setState(() => _shown_markers.remove(key));
+        }
+      });
+    }
   }
 
   @override
@@ -244,6 +271,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             if (startIcon != null || startInfo != null || startLabel != null) {
               addMarkerRaw(
                 startLatLng,
+                "1",
                 icon: startIcon ?? 'assets/images/marker_a.png',
                 info: startInfo ?? leg!.startAddress,
                 label: startLabel,
@@ -251,6 +279,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             } else {
               addMarkerRaw(
                 startLatLng,
+                "1",
                 icon: 'assets/images/marker_a.png',
                 info: leg!.startAddress,
               );
@@ -263,6 +292,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             if (endIcon != null || endInfo != null || endLabel != null) {
               addMarkerRaw(
                 endLatLng,
+                "1",
                 icon: endIcon ?? 'assets/images/marker_b.png',
                 info: endInfo ?? leg!.endAddress,
                 label: endLabel,
@@ -270,6 +300,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             } else {
               addMarkerRaw(
                 endLatLng,
+                "1",
                 icon: 'assets/images/marker_b.png',
                 info: leg!.endAddress,
               );
@@ -310,12 +341,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     var value = _polylines.remove('${origin}_$destination');
     final start = value?.points.firstOrNull?.toGeoCoord();
     if (start != null) {
-      removeMarker(start);
+      removeMarker(start, group: "1");
       _directionMarkerCoords.remove(start);
     }
     final end = value?.points.lastOrNull?.toGeoCoord();
     if (end != null) {
-      removeMarker(end);
+      removeMarker(end, group: "1");
       _directionMarkerCoords.remove(end);
     }
     value = null;
@@ -326,12 +357,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     for (Polyline? polyline in _polylines.values) {
       final start = polyline?.points.firstOrNull?.toGeoCoord();
       if (start != null) {
-        removeMarker(start);
+        removeMarker(start, group: "1");
         _directionMarkerCoords.remove(start);
       }
       final end = polyline?.points.lastOrNull?.toGeoCoord();
       if (end != null) {
-        removeMarker(end);
+        removeMarker(end, group: "1");
         _directionMarkerCoords.remove(end);
       }
       polyline = null;
@@ -642,6 +673,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             if (startIcon != null || startInfo != null || startLabel != null) {
               addMarkerRaw(
                 startLatLng,
+                "1",
                 icon: startIcon ?? 'assets/images/marker_a.png',
                 info: startInfo ?? leg!.startAddress,
                 label: startLabel,
@@ -649,6 +681,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             } else {
               addMarkerRaw(
                 startLatLng,
+                "1",
                 icon: 'assets/images/marker_a.png',
                 info: leg!.startAddress,
               );
@@ -661,6 +694,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             if (endIcon != null || endInfo != null || endLabel != null) {
               addMarkerRaw(
                 endLatLng,
+                "1",
                 icon: endIcon ?? 'assets/images/marker_b.png',
                 info: endInfo ?? leg!.endAddress,
                 label: endLabel,
@@ -668,6 +702,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             } else {
               addMarkerRaw(
                 endLatLng,
+                "1",
                 icon: 'assets/images/marker_b.png',
                 info: leg!.endAddress,
               );
@@ -691,18 +726,34 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     );
   }
 
+  @override
+  void chooseMarkers(String group) {
 
+    _setState(() {
+      print("+++++++++++++++++");
+      print(_markers.keys);
+      print(group);
+      _current_displaying = group;
+      _shown_markers.clear();
+      if (_markers.containsKey(group)) {
+        _shown_markers.addAll(_markers[group]!);
+      }
+    });
+    print(_markers);
+  }
   ///
   ///
 
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
+  Widget build(BuildContext context) {
+    _current_displaying = "1";
+    return LayoutBuilder(
         builder: (context, constraints) => IgnorePointer(
           ignoring: !widget.interactive,
           child: Container(
             constraints: BoxConstraints(maxHeight: constraints.maxHeight),
             child: GoogleMap(
-              markers: Set<Marker>.of(_markers.values),
+              markers: Set<Marker>.of(_shown_markers.values),
               polygons: Set<Polygon>.of(_polygons.values),
               polylines: Set<Polyline>.of(_polylines.values),
               circles: Set<Circle>.of(_circles.values),
@@ -737,11 +788,14 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           ),
         ),
       );
+  }
 
   @override
   void dispose() {
     super.dispose();
 
+    _shown_markers.clear();
+    _current_displaying = "1";
     _markers.clear();
     _polygons.clear();
     _polylines.clear();

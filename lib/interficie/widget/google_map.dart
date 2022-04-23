@@ -20,48 +20,40 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMapState extends State<MyMap> {
-  Set<Marker> chargePoints = {};
-  Set<Marker> bicingPoints = {};
-  Set<Marker> favBicingPoints = {};
-  Set<Marker> favChargePoints = {};
-  Set<Marker> markers = {};
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
   late BuildContext ctx;
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
+  bool _chargedOnce = false;
+
   void initMarkers(String? show){
-    markers = chargePoints.union(bicingPoints);
+    //GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers(group);
+
+    if (!_chargedOnce) {
+      chargerMarkers();
+      _chargedOnce = true;
+    }
     switch(show){
       case "chargers":
-        chargePoints = buildChargerMarkers(context, 1);
-        markers = chargePoints;
+        GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("chargerPoint");
         break;
       case "bicing":
-        bicingPoints = buildBicingMarkers(context, 1);
-        markers = bicingPoints;
+        GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("bicingPoint");
         break;
       case "favs":
         if(ctrlPresentation.email == "") {
           _showNotLogDialog(context);
         } else {
-          favChargePoints = buildChargerMarkers(context, 2);
-          favBicingPoints = buildBicingMarkers(context, 2);
-          markers = favBicingPoints.union(favChargePoints);
+          GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("favChargerPoint");
         }
         break;
       case "all":
-        chargePoints = buildChargerMarkers(context, 1);
-        bicingPoints = buildBicingMarkers(context, 1);
-        markers = chargePoints.union(bicingPoints);
+        GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("favBicingPoint");
         break;
       default:
-        markers = {};
+        GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("1");
         break;
-    }
-    GoogleMap.of(ctrlPresentation.getMapKey())?.clearMarkers();
-    for (int i = 0; i < markers.length; ++i){
-      GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(markers.elementAt(i));
     }
   }
 
@@ -77,16 +69,24 @@ class _MyMapState extends State<MyMap> {
     ).show();
   }
 
+  void chargerMarkers() {
+    buildChargerMarkers(context, 1);
+    buildBicingMarkers(context, 1);
+    buildChargerMarkers(context, 2);
+    buildBicingMarkers(context, 2);
+
+    print("checkpoint");
+  }
+
   @override
   Widget build(BuildContext context) {
-    markers = {};
-    return Scaffold(
+    Scaffold res = Scaffold(
       body: Stack(
         children: <Widget>[
           Positioned.fill(
             child: GoogleMap(
               key: ctrlPresentation.getMapKey(),
-              markers: markers,
+              markers: const <Marker>{},
               initialZoom: 9,
               //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
               //minZoom: 3, //todo min zoom en web??
@@ -97,24 +97,6 @@ class _MyMapState extends State<MyMap> {
 
               onLongPress: (markerId) {
               },
-
-
-              /*onTap: (markerId) async {
-              await showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-              content: const Text(
-              'This dialog was opened by tapping on the marker!\n'
-              ),
-              actions: <Widget>[
-              TextButton(
-              onPressed: Navigator.of(context).pop,
-              child: const Text('CLOSE'),
-              ),
-              ],
-              ),
-              );
-              },*/
 
               mobilePreferences: const MobileMapPreferences(
                 myLocationEnabled:true,
@@ -165,6 +147,10 @@ class _MyMapState extends State<MyMap> {
         ],
       ),
     );
+
+    chargerMarkers();
+
+    return res;
   }
 
   Widget button(
@@ -174,7 +160,7 @@ class _MyMapState extends State<MyMap> {
         required Icon icon}) {
     return FloatingActionButton(
       onPressed: (){
-        initMarkers(onPressed);
+        initMarkers(onPressed); //llamar a funcion de la libreria
       },
       heroTag: heroTag,
       tooltip: toolTip,
@@ -202,85 +188,77 @@ class _MyMapState extends State<MyMap> {
   ];
 
 
-  Set<Marker> buildChargerMarkers(BuildContext context, int filter) {
+  void buildChargerMarkers(BuildContext context, int filter) {
+    //GoogleMap.of(ctrlPresentation.getMapKey())
     List<Coordenada> coordsChargers = <Coordenada>[];
     switch(filter){
-      case 1: //todos los cargadores
-        chargePoints = {};
-        coordsChargers = ctrlPresentation.getChargePointList();
-        break;
       case 2://sólo favoritos
-        favChargePoints = {};
         coordsChargers = ctrlPresentation.getFavsChargerPoints();
         break;
-      default:
+      default: //todos los cargadores
         coordsChargers = ctrlPresentation.getChargePointList();
         break;
     }
+
+    print(coordsChargers);
     for (var i = 0; i < coordsChargers.length; ++i) {
       if(filter == 1) {
-        chargePoints.add(
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
           buildChargerMarker(
             index: i,
             lat: coordsChargers[i].latitud,
             long: coordsChargers[i].longitud,
             context: context,
-          )
+          ),
+          group: "chargerPoint",
       );
       } else {
-        favChargePoints.add(
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
           buildChargerMarker(
             index: i,
             lat: coordsChargers[i].latitud,
             long: coordsChargers[i].longitud,
             context: context,
-          )
+          ),
+          group: "favChargerPoint",
       );
       }
     }
-    setState(() {});
-    if(filter == 2) return favChargePoints;
-    return chargePoints;
   }
 
-  Set<Marker> buildBicingMarkers(BuildContext context, int filter) {
+  void buildBicingMarkers(BuildContext context, int filter) {
+    //GoogleMap.of(ctrlPresentation.getMapKey())
     List<Coordenada> coordsBicing = <Coordenada>[];
     switch(filter){
-      case 1: //todos los cargadores
-        bicingPoints = {};
-        coordsBicing = ctrlPresentation.getBicingPointList();
-        break;
       case 2://sólo favoritos
-        favBicingPoints = {};
         coordsBicing = ctrlPresentation.getFavsBicingPoints();
         break;
-      default:
+      default: //todos los cargadores
         coordsBicing = ctrlPresentation.getBicingPointList();
         break;
     }
 
     for (var i = 0; i < coordsBicing.length; ++i) {
       if(filter == 1) {
-        bicingPoints.add(
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
           buildBicingMarker(
             lat: coordsBicing[i].latitud,
             long: coordsBicing[i].longitud,
             context: context,
-          )
-      );
+          ),
+          group: "bicingPoints",
+        );
       } else {
-        favBicingPoints.add(
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
           buildBicingMarker(
             lat: coordsBicing[i].latitud,
             long: coordsBicing[i].longitud,
             context: context,
-          )
+          ),
+          group: "favBicingPoints",
       );
       }
     }
-    setState(() {});
-    if(filter == 2) return favBicingPoints;
-    return bicingPoints;
   }
 }
 
