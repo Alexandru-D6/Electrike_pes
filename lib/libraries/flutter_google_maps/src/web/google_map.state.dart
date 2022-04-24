@@ -137,7 +137,6 @@ class GoogleMapState extends GoogleMapStateBase {
         final id = 'position${doubleToInt(position.latitude)}${doubleToInt(position.longitude)}';
 
         if (_infos[key] == null) {
-          print(id);
           final _info = onInfoWindowTap == null
               ? '$info${infoSnippet!.isNotEmpty == true ? '\n$infoSnippet' : ''}'
               : '<p id="$id">$info${infoSnippet!.isNotEmpty == true ? '<p>$infoSnippet</p>' : ''}</p>';
@@ -645,7 +644,6 @@ class GoogleMapState extends GoogleMapStateBase {
           result.destination = temp?.legs?.lastOrNull?.endLocation!.toGeoCoord() as GeoCoord;
           result.description = "";
           result.coords = coords;
-          print(coords);
 
         }else result.status = status as String?;
       },

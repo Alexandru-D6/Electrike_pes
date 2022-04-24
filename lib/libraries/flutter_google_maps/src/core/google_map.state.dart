@@ -11,6 +11,7 @@ import 'package:google_directions_api/google_directions_api.dart'
 
 import 'map_items.dart';
 import 'google_map.dart';
+import 'markers_information.dart';
 import 'route_response.dart';
 
 class GoogleMapState extends GoogleMapStateBase {
@@ -184,10 +185,25 @@ class GoogleMapState extends GoogleMapStateBase {
         String? endLabel,
         String? endIcon,
         String? endInfo,
-      }) => UnimplementedError();
+      }) => throw UnimplementedError();
 
   @override
-  void chooseMarkers(String group) => UnimplementedError();
+  void addChoosenMarkers(String group) => throw UnimplementedError();
+
+  @override
+  void clearChoosenMarkers() => throw UnimplementedError();
+
+  @override
+  bool getMarkersState() => throw UnimplementedError();
+
+  @override
+  void setMarkersState(bool state) => throw UnimplementedError();
+
+  @override
+  void setInitialMarkers(MarkersInformation info) => throw UnimplementedError();
+
+  @override
+  MarkersInformation getInitialMarkers() => throw UnimplementedError();
 
   ///
   ///

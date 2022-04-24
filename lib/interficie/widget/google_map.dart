@@ -6,8 +6,10 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -17,6 +19,7 @@ class MyMap extends StatefulWidget {
 
   @override
   _MyMapState createState() => _MyMapState();
+
 }
 
 class _MyMapState extends State<MyMap> {
@@ -25,34 +28,42 @@ class _MyMapState extends State<MyMap> {
   late BuildContext ctx;
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
 
-  bool _chargedOnce = false;
 
-  void initMarkers(String? show){
+  Future<void> initMarkers(String? show) async {
     //GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers(group);
 
-    if (!_chargedOnce) {
-      chargerMarkers();
-      _chargedOnce = true;
+    bool? markersState = GoogleMap.of(ctrlPresentation.getMapKey())?.getMarkersState();
+    if (markersState != null && !markersState) {
+      print("awa");
+      await chargerMarkers();
+      GoogleMap.of(ctrlPresentation.getMapKey())?.setMarkersState(true);
     }
     switch(show){
       case "chargers":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("chargerPoint");
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("chargerPoints");
         break;
       case "bicing":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("bicingPoint");
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("bicingPoints");
         break;
       case "favs":
         if(ctrlPresentation.email == "") {
           _showNotLogDialog(context);
         } else {
-          GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("favChargerPoint");
+          GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
+          GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("favChargerPoints");
+          GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("favBicingPoints");
         }
         break;
       case "all":
-        GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("favBicingPoint");
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("chargerPoints");
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("bicingPoints");
         break;
       default:
-        GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers("1");
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("1");
         break;
     }
   }
@@ -69,7 +80,7 @@ class _MyMapState extends State<MyMap> {
     ).show();
   }
 
-  void chargerMarkers() {
+  Future<void> chargerMarkers() async {
     buildChargerMarkers(context, 1);
     buildBicingMarkers(context, 1);
     buildChargerMarkers(context, 2);
@@ -80,51 +91,55 @@ class _MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<GoogleMapStateBase> newKey = GlobalKey<GoogleMapStateBase>();
+
     Scaffold res = Scaffold(
       body: Stack(
         children: <Widget>[
           Positioned.fill(
-            child: GoogleMap(
-              key: ctrlPresentation.getMapKey(),
-              markers: const <Marker>{},
-              initialZoom: 9,
-              //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
-              //minZoom: 3, //todo min zoom en web??
-              initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
-              mapType: MapType.roadmap,
-              mapStyle: null,
-              interactive: true,
+            child: Builder(
+              builder: (BuildContext context2) {
+                return GoogleMap(
+                  key: newKey,
+                  markers: const <Marker>{Marker(GeoCoord(41.8204600, 1.8676800))},
+                  initialZoom: 9,
+                  //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
+                  //minZoom: 3, //todo min zoom en web??
+                  initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
+                  mapType: MapType.roadmap,
+                  mapStyle: null,
+                  interactive: true,
 
-              onLongPress: (markerId) {
-              },
+                  onLongPress: (markerId) {
+                  },
 
-              mobilePreferences: const MobileMapPreferences(
-                myLocationEnabled:true,
-                myLocationButtonEnabled: true,
-                rotateGesturesEnabled: true,
-                compassEnabled: true,
-                zoomGesturesEnabled:true,
+                  mobilePreferences: const MobileMapPreferences(
+                    myLocationEnabled:true,
+                    myLocationButtonEnabled: true,
+                    rotateGesturesEnabled: true,
+                    compassEnabled: true,
+                    zoomGesturesEnabled:true,
 
-                trafficEnabled: false,
-                zoomControlsEnabled: true,
-              ),
+                    trafficEnabled: false,
+                    zoomControlsEnabled: true,
+                  ),
 
 
-              webPreferences: const WebMapPreferences(
-                streetViewControl:true,
-                mapTypeControl: false,
-                scrollwheel: true,
-                panControl: true,
-                overviewMapControl:false,
+                  webPreferences: const WebMapPreferences(
+                    streetViewControl:true,
+                    mapTypeControl: false,
+                    scrollwheel: true,
+                    panControl: true,
+                    overviewMapControl:false,
 
-                fullscreenControl: true,
-                zoomControl: true,
-                dragGestures: false,
-              ),
+                    fullscreenControl: true,
+                    zoomControl: true,
+                    dragGestures: false,
+                  ),
+                );
+              }
             ),
           ),
-
-
           Positioned(
             left: 16,
             right: kIsWeb ? 60 : 16,
@@ -148,7 +163,13 @@ class _MyMapState extends State<MyMap> {
       ),
     );
 
-    chargerMarkers();
+    if (ctrlPresentation.getGoogleMapKeyState()) {
+      MarkersInformation? temp = GoogleMap.of(ctrlPresentation.getMapKey())?.getInitialMarkers();
+      GoogleMap.of(newKey)?.setInitialMarkers(temp!);
+    }
+    ctrlPresentation.setMapKey(newKey);
+    //chargerMarkers();
+    //GoogleMap.of(ctrlPresentation.getMapKey())?.setMarkersState(true);
 
     return res;
   }
@@ -200,7 +221,6 @@ class _MyMapState extends State<MyMap> {
         break;
     }
 
-    print(coordsChargers);
     for (var i = 0; i < coordsChargers.length; ++i) {
       if(filter == 1) {
         GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
@@ -210,7 +230,7 @@ class _MyMapState extends State<MyMap> {
             long: coordsChargers[i].longitud,
             context: context,
           ),
-          group: "chargerPoint",
+          group: "chargerPoints",
       );
       } else {
         GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
@@ -220,7 +240,7 @@ class _MyMapState extends State<MyMap> {
             long: coordsChargers[i].longitud,
             context: context,
           ),
-          group: "favChargerPoint",
+          group: "favChargerPoints",
       );
       }
     }
@@ -276,6 +296,7 @@ Marker buildChargerMarker({
 }
 
 showInfoCharger(BuildContext context, double lat, double long) {
+  print("---->");
   List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
   //print(infoChargerPoint);
   showModalBottomSheet(

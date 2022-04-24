@@ -12,6 +12,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../core/google_map.dart' as gmap;
 import '../core/map_items.dart' as items;
+import '../core/markers_information.dart';
 import '../core/route_response.dart';
 import '../core/utils.dart' as utils;
 import 'utils.dart';
@@ -22,11 +23,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   final _markers = <String, Map<String, Marker>>{};
   final _shown_markers = <String, Marker>{};
-  String _current_displaying = "1";
+  Set<String> _current_displaying = {"1"};
   final _polygons = <String, Polygon>{};
   final _circles = <String, Circle>{};
   final _polylines = <String, Polyline>{};
   final _directionMarkerCoords = <GeoCoord, dynamic>{};
+  bool _init_markers = false;
 
   final _waitUntilReadyCompleter = Completer<Null>();
 
@@ -177,14 +179,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
     _markers[group]![key] = marker;
 
-    if (_current_displaying == group)
+    if (_current_displaying.contains(group))
       _setState(() => _shown_markers[key] = marker);
   }
 
   @override
   void addMarker(items.Marker marker,{String? group}) {
-    print("-->");
-    print(marker);
     addMarkerRaw(
         marker.position,
         (group != null) ? group : "1",
@@ -206,13 +206,13 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       if (cond != null && !cond) return;
 
       _markers[group]?.remove(key);
-      if (_current_displaying == group)
+      if (_current_displaying.contains(group))
         _setState(() => _shown_markers.remove(key));
     }else {
       _markers.forEach((key2, value) {
         if (value.containsKey(key)) {
           value.remove(key);
-          if (_current_displaying == key2)
+          if (_current_displaying.contains(key2))
             _setState(() => _shown_markers.remove(key));
         }
       });
@@ -220,7 +220,13 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   @override
-  void clearMarkers() => _setState(() => _markers.clear());
+  void clearMarkers() {
+    _setState(() {
+      _markers.clear();
+      _shown_markers.clear();
+      _current_displaying.clear();
+    });
+  }
 
   @override
   void addDirection(
@@ -624,7 +630,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         result.destination = temp?.legs?.lastOrNull?.endLocation;
         result.description = temp?.summary;
         result.coords = coords;
-        print(coords);
 
       }else result.status = status as String?;
     },
@@ -727,26 +732,64 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   @override
-  void chooseMarkers(String group) {
+  void addChoosenMarkers(String group) {
 
     _setState(() {
-      print("+++++++++++++++++");
-      print(_markers.keys);
-      print(group);
-      _current_displaying = group;
-      _shown_markers.clear();
-      if (_markers.containsKey(group)) {
+      if (_markers.containsKey(group) && !_current_displaying.contains(group)) {
         _shown_markers.addAll(_markers[group]!);
+        _current_displaying.add(group);
       }
     });
-    print(_markers);
+  }
+
+  @override
+  void clearChoosenMarkers() {
+    _setState(() {
+      _current_displaying = {"1"};
+      _shown_markers.clear();
+      if (_markers.containsKey("1")) {
+        _shown_markers.addAll(_markers["1"]!);
+      }
+    });
+  }
+
+  @override
+  bool getMarkersState() => _init_markers;
+
+  @override
+  void setMarkersState(bool state) {
+    _init_markers = state;
+  }
+
+  ///The argument type 'Map<String, Map<String, Marker>>' can't be assigned to the parameter type
+  ///                  'Map<String, Map<String, Marker>>'
+
+  @override
+  void setInitialMarkers(MarkersInformation info) {
+    _setState(() {
+      _markers.clear();
+      _markers.addAll(info.markers);
+      _shown_markers.clear();
+      _shown_markers.addAll(info.shown_markers);
+      _current_displaying = info.current_displaying;
+      _init_markers = info.init_markers;
+    });
+
+    print("------------");
+    print(_init_markers);
+    print(_current_displaying);
+  }
+
+  @override
+  MarkersInformation getInitialMarkers() {
+    return MarkersInformation(markers: _markers, shown_markers: _shown_markers, current_displaying: _current_displaying, init_markers: _init_markers);
   }
   ///
   ///
 
   @override
   Widget build(BuildContext context) {
-    _current_displaying = "1";
+    _current_displaying = {"1"};
     return LayoutBuilder(
         builder: (context, constraints) => IgnorePointer(
           ignoring: !widget.interactive,
@@ -795,7 +838,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     super.dispose();
 
     _shown_markers.clear();
-    _current_displaying = "1";
+    _current_displaying = {"1"};
     _markers.clear();
     _polygons.clear();
     _polylines.clear();

@@ -29,7 +29,6 @@ class GoogleLoginAdpt {
       _googleSignIn = _googleSignInAndroid;
     }
 
-      print("checkpoint");
       final user = _googleSignIn.signIn();
       user.then((u) {
         late String name, email, photoUrl;
@@ -38,9 +37,6 @@ class GoogleLoginAdpt {
         if(u?.photoUrl != null) photoUrl = u!.photoUrl.toString();
 
         ctrlDomain.initializeUser(email, name, photoUrl);
-        print(email);
-        print(name);
-        print(photoUrl);
       });
       return user;
   }
@@ -53,7 +49,6 @@ class GoogleLoginAdpt {
 
     ctrlDomain.resetUserSystem();
 
-    print("checkpoint");
     return _googleSignIn.disconnect();
   }
 

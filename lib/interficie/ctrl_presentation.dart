@@ -218,11 +218,19 @@ class CtrlPresentation {
     return ctrlDomain.getCarModelInfo(text);
   }
 
-  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+  late GlobalKey<GoogleMapStateBase> _key;
+  bool _googleMapInit = false;
+
+  void setMapKey(GlobalKey<GoogleMapStateBase> key) {
+    _googleMapInit = true;
+    _key = key;
+  }
 
   GlobalKey<GoogleMapStateBase> getMapKey() {
     return _key;
   }
+
+  bool getGoogleMapKeyState() => _googleMapInit;
 
   void makeRoute(String destination){
     Location location = Location();
@@ -230,7 +238,7 @@ class CtrlPresentation {
     location.getLocation().then((value) {
       String origin = value.latitude.toString() + "," + value.longitude.toString();
 
-      GoogleMap.of(ctrlPresentation.getMapKey())?.addDirection(
+      GoogleMap.of(getMapKey())?.addDirection(
           origin,
           destination,
           startLabel: '1',
@@ -248,7 +256,7 @@ class CtrlPresentation {
     location.getLocation().then((value) {
       double? lat = value.latitude;
       double? lng = value.longitude;
-      GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+      GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
     });
   }
   void moveCameraToSpecificLocation(BuildContext context, double? lat, double? lng) {
@@ -256,7 +264,7 @@ class CtrlPresentation {
     //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
       toMainPage(context);
       Future.delayed(const Duration(milliseconds: 1000), () {
-        GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+        GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
       });
 
   }
@@ -313,7 +321,7 @@ class CtrlPresentation {
   void deleteCar(BuildContext context, String idVehicle) {
     ctrlDomain.removeVUser(idVehicle);
     Navigator.pop(context);
-    ctrlPresentation.toGaragePage(context);
+    toGaragePage(context);
     //toGaragePage(context);
   }
 
@@ -327,7 +335,7 @@ class CtrlPresentation {
       ) {
     ctrlDomain.addVUser(name, brand, modelV, bat, eff, lEndolls);
     Navigator.pop(context);
-    ctrlPresentation.toGaragePage(context);
+    toGaragePage(context);
   }
 
   void saveEditedCar(BuildContext context,
@@ -340,7 +348,7 @@ class CtrlPresentation {
       List<String> lEndolls) {
     ctrlDomain.editVUser(carId, name, brand, modelV, bat, eff, lEndolls);
     Navigator.pop(context);
-    ctrlPresentation.toGaragePage(context);
+    toGaragePage(context);
   }
 
   Future<List<String>> getAllNamesBicing(List<Coordenada> c) async{

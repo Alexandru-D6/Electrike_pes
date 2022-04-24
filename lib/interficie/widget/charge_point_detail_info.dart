@@ -8,12 +8,10 @@ import 'package:flutter_project/generated/l10n.dart';
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
     Key? key,
-    required this.chargePoint,
     required this.latitude,
     required this.longitude,
   }) : super(key: key);
 
-  final List<String> chargePoint;
   final double latitude;
   final double longitude;
 
@@ -30,14 +28,14 @@ class ChargePointDetailInformation extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              EditInfoPoint(point: chargePoint, latitude: latitude, longitude: longitude,),
+              EditInfoPoint(latitude: latitude, longitude: longitude,),
             ],
           ),
           const Divider(
             height: 16,
             color: Colors.black54,
           ),
-          PointInfo(point: chargePoint),
+          PointInfo(latitude: latitude, longitude: longitude,),
         ],
       ),
     );
@@ -47,12 +45,10 @@ class ChargePointDetailInformation extends StatelessWidget {
 class EditInfoPoint extends StatefulWidget {
   const EditInfoPoint({
     Key? key,
-    required this.point,
     required this.latitude,
     required this.longitude,
   }) : super(key: key);
 
-  final List<String> point;
   final double latitude;
   final double longitude;
 
@@ -70,7 +66,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
           onPressed: () {
-            ctrlPresentation.toChartPage(context, widget.point[1]); //TODO: posible error?
+            ctrlPresentation.toChartPage(context, "hacerlo de otra manera"); //TODO: posible error? ponerle las coordenadas y hacer consulta a database por ejemplo
           },
           icon: const Icon(
             Icons.bar_chart,
@@ -124,14 +120,18 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
 class PointInfo extends StatelessWidget {
   const PointInfo({
     Key? key,
-    required this.point,
+    required this.latitude,
+    required this.longitude,
   }) : super(key: key);
 
-  final List<String> point;
+  final double latitude;
+  final double longitude;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    List<String> point = ctrlPresentation.getInfoCharger(latitude, longitude);
+    print(point);
+    Column res = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -143,9 +143,11 @@ class PointInfo extends StatelessWidget {
           numChargePlaces: point[4],
           context: context,
         ),
-        buildConnectors(),
+        buildConnectors(point),
       ],
     );
+
+    return res;
   }
 
   Widget buildHeader({
@@ -213,7 +215,7 @@ class PointInfo extends StatelessWidget {
     ],
   );
 
-  Widget buildConnectors() => ResponsiveGridRow(
+  Widget buildConnectors(List<String> point) => ResponsiveGridRow(
     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       ResponsiveGridCol(
