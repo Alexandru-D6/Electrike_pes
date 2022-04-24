@@ -81,6 +81,7 @@ class _MyMapState extends State<MyMap> {
   Widget build(BuildContext context) {
     markers = {};
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
           Positioned.fill(

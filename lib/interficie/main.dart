@@ -112,6 +112,7 @@ class _MainPageState extends State<MainPage> {
     askForPermission(location, context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
         title: const Text(MyApp.title),

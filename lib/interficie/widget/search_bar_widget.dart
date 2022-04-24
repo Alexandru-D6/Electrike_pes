@@ -21,9 +21,9 @@ class _SearchBarWidget extends State<SearchBarWidget> {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return Stack(children: <Widget>[
       FloatingSearchBar(
-        hint: ctrlPresentation.destination,
+        hint: ctrlPresentation.actualLocation,
         margins: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-        scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+        scrollPadding: const EdgeInsets.only(top: 60, bottom: 56),
         transitionDuration: const Duration(milliseconds: 500),
         transitionCurve: Curves.easeInOut,
         physics: const BouncingScrollPhysics(),
@@ -43,6 +43,8 @@ class _SearchBarWidget extends State<SearchBarWidget> {
             child: CircularButton(
               icon: const Icon(Icons.place),
               onPressed: () {
+                setState(() {});
+                ctrlPresentation.actualLocation = "Your location";
                 ctrlPresentation.moveCameraToLocation();
                 //TODO: para la location quiza
               },
@@ -57,8 +59,8 @@ class _SearchBarWidget extends State<SearchBarWidget> {
             borderRadius: BorderRadius.circular(8),
             child: Material(
               color: Colors.white,
-              elevation: 4.0,
-              child: buildRecomendationButtons(text: recomendations),
+              elevation: 5.0,
+              child: buildRecomendationButtons(text: recomendations, origin: "true"),
             ),
           );
         },
@@ -101,7 +103,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           child: Material(
             color: Colors.white,
             elevation: 4.0,
-            child: buildRecomendationButtons(text: recomendations),
+            child: buildRecomendationButtons(text: recomendations, origin: "false"),
           ),
         );
       },
@@ -129,7 +131,8 @@ class _SearchBarWidget extends State<SearchBarWidget> {
   }
 
   Widget buildRecomendationButtons({
-    required List<String?> text
+    required List<String?> text,
+    required String origin
   }) {
     List<ListTile> list = <ListTile>[];
     for (var element in text) {
@@ -137,12 +140,18 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         title: Text(element!, style: const TextStyle(fontSize: 18, color: Colors.black)),
         onTap: () => {
           setState((){}), //para que ponga el nombre en el hint
-          ctrlPresentation.destination = element,
+          if(origin == "false"){
+            ctrlPresentation.destination = element,
+          }
+          else
+            {
+              ctrlPresentation.actualLocation = element,
+            }
           //ctrlPresentation.makeRoute()
           },//TODO: llamar aqui que hacer con cada boton de la lista
       ));
     }
-    return Column(children: list);
+    return FloatingSearchBarScrollNotifier(child: Column(children: list));
 
   }
 

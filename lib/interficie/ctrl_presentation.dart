@@ -22,6 +22,7 @@ class CtrlPresentation {
   String name = "";
   String photoUrl = "";
   List<Coordenada> favs = <Coordenada>[];
+  String actualLocation = "Your location";
   String destination = "Search...";
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
@@ -227,7 +228,7 @@ class CtrlPresentation {
 
     location.getLocation().then((value) {
       String origin = value.latitude.toString() + "," + value.longitude.toString();
-
+      if(actualLocation != "Your location") origin = actualLocation;
       GoogleMap.of(ctrlPresentation.getMapKey())?.addDirection(
           origin,
           destination,
