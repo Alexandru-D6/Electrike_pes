@@ -19,8 +19,53 @@ class _SearchBarWidget extends State<SearchBarWidget> {
   @override
   Widget build(BuildContext context) {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    return FloatingSearchBar(
+    return Stack(children: <Widget>[
+      FloatingSearchBar(
+        hint: ctrlPresentation.destination,
+        margins: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+        scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+        transitionDuration: const Duration(milliseconds: 500),
+        transitionCurve: Curves.easeInOut,
+        physics: const BouncingScrollPhysics(),
+        axisAlignment: isPortrait ? 0.0 : -1.0,
+        openAxisAlignment: 0.0,
+        debounceDelay: const Duration(milliseconds: 200),
+        automaticallyImplyDrawerHamburger: false,
+        onQueryChanged: (query) {
+          updateRecomendations(query);
+        },
+        // Specify a custom transition to be used for
+        // animating between opened and closed stated.
+        transition: CircularFloatingSearchBarTransition(),
+        actions: [
+          FloatingSearchBarAction(
+            showIfOpened: false,
+            child: CircularButton(
+              icon: const Icon(Icons.place),
+              onPressed: () {
+                ctrlPresentation.moveCameraToLocation();
+                //TODO: para la location quiza
+              },
+            ),
+          ),
+          FloatingSearchBarAction.searchToClear(
+            showIfClosed: false,
+          ),
+        ],
+        builder: (context, transition) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Material(
+              color: Colors.white,
+              elevation: 4.0,
+              child: buildRecomendationButtons(text: recomendations),
+            ),
+          );
+        },
+      ),
+        FloatingSearchBar(
       hint: ctrlPresentation.destination,
+      margins: const EdgeInsets.fromLTRB(10, 60, 10, 0),
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
       transitionDuration: const Duration(milliseconds: 500),
       transitionCurve: Curves.easeInOut,
@@ -60,6 +105,8 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           ),
         );
       },
+    ),
+    ],
     );
   }
 
