@@ -22,7 +22,7 @@ class CtrlPresentation {
   String name = "";
   String photoUrl = "";
   List<Coordenada> favs = <Coordenada>[];
-
+  String destination = "Search...";
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
@@ -222,7 +222,7 @@ class CtrlPresentation {
     return _key;
   }
 
-  void makeRoute(String destination){
+  void makeRoute(){
     Location location = Location();
 
     location.getLocation().then((value) {

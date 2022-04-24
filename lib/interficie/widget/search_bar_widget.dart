@@ -20,14 +20,13 @@ class _SearchBarWidget extends State<SearchBarWidget> {
   Widget build(BuildContext context) {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return FloatingSearchBar(
-      hint: 'Search...',
+      hint: ctrlPresentation.destination,
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
       transitionDuration: const Duration(milliseconds: 500),
       transitionCurve: Curves.easeInOut,
       physics: const BouncingScrollPhysics(),
       axisAlignment: isPortrait ? 0.0 : -1.0,
       openAxisAlignment: 0.0,
-      width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 200),
       automaticallyImplyDrawerHamburger: false,
       onQueryChanged: (query) {
@@ -89,7 +88,11 @@ class _SearchBarWidget extends State<SearchBarWidget> {
     for (var element in text) {
       list.add(ListTile(
         title: Text(element!, style: const TextStyle(fontSize: 18, color: Colors.black)),
-        onTap: () => { ctrlPresentation.makeRoute(element) },//TODO: llamar aqui que hacer con cada boton de la lista
+        onTap: () => {
+          setState((){}), //para que ponga el nombre en el hint
+          ctrlPresentation.destination = element,
+          //ctrlPresentation.makeRoute()
+          },//TODO: llamar aqui que hacer con cada boton de la lista
       ));
     }
     return Column(children: list);

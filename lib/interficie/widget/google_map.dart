@@ -142,6 +142,19 @@ class _MyMapState extends State<MyMap> {
             ),
           ),
 
+          Positioned(
+            right: 56,
+            bottom: 16,
+            child: FloatingActionButton(
+              onPressed: (){
+                ctrlPresentation.makeRoute();
+              },
+              heroTag: "Ruta",
+              tooltip: "Empieza la ruta",
+              child: const Icon(Icons.play_arrow),
+              backgroundColor: Colors.blueGrey,
+            ),
+          ),
 
           Positioned(
             left: 16,
