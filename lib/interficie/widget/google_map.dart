@@ -2,6 +2,8 @@ import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
@@ -27,17 +29,11 @@ class _MyMapState extends State<MyMap> {
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
   late BuildContext ctx;
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
+  GlobalKey<GoogleMapStateBase> _newKey = GlobalKey<GoogleMapStateBase>();
 
 
   Future<void> initMarkers(String? show) async {
     //GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers(group);
-
-    bool? markersState = GoogleMap.of(ctrlPresentation.getMapKey())?.getMarkersState();
-    if (markersState != null && !markersState) {
-      print("awa");
-      await chargerMarkers();
-      GoogleMap.of(ctrlPresentation.getMapKey())?.setMarkersState(true);
-    }
     switch(show){
       case "chargers":
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
@@ -63,7 +59,7 @@ class _MyMapState extends State<MyMap> {
         break;
       default:
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
-        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("1");
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("default");
         break;
     }
   }
@@ -85,59 +81,53 @@ class _MyMapState extends State<MyMap> {
     buildBicingMarkers(context, 1);
     buildChargerMarkers(context, 2);
     buildBicingMarkers(context, 2);
-
-    print("checkpoint");
   }
 
   @override
   Widget build(BuildContext context) {
-    GlobalKey<GoogleMapStateBase> newKey = GlobalKey<GoogleMapStateBase>();
+    _newKey = GlobalKey<GoogleMapStateBase>();
 
     Scaffold res = Scaffold(
       body: Stack(
         children: <Widget>[
           Positioned.fill(
-            child: Builder(
-              builder: (BuildContext context2) {
-                return GoogleMap(
-                  key: newKey,
-                  markers: const <Marker>{Marker(GeoCoord(41.8204600, 1.8676800))},
-                  initialZoom: 9,
-                  //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
-                  //minZoom: 3, //todo min zoom en web??
-                  initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
-                  mapType: MapType.roadmap,
-                  mapStyle: null,
-                  interactive: true,
+            child: GoogleMap(
+              key: _newKey,
+              markers: const <Marker>{},
+              initialZoom: 9,
+              //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
+              //minZoom: 3, //todo min zoom en web??
+              initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
+              mapType: MapType.roadmap,
+              mapStyle: null,
+              interactive: true,
 
-                  onLongPress: (markerId) {
-                  },
+              onLongPress: (markerId) {
+              },
 
-                  mobilePreferences: const MobileMapPreferences(
-                    myLocationEnabled:true,
-                    myLocationButtonEnabled: true,
-                    rotateGesturesEnabled: true,
-                    compassEnabled: true,
-                    zoomGesturesEnabled:true,
+              mobilePreferences: const MobileMapPreferences(
+                myLocationEnabled:true,
+                myLocationButtonEnabled: true,
+                rotateGesturesEnabled: true,
+                compassEnabled: true,
+                zoomGesturesEnabled:true,
 
-                    trafficEnabled: false,
-                    zoomControlsEnabled: true,
-                  ),
+                trafficEnabled: false,
+                zoomControlsEnabled: true,
+              ),
 
 
-                  webPreferences: const WebMapPreferences(
-                    streetViewControl:true,
-                    mapTypeControl: false,
-                    scrollwheel: true,
-                    panControl: true,
-                    overviewMapControl:false,
+              webPreferences: const WebMapPreferences(
+                streetViewControl:true,
+                mapTypeControl: false,
+                scrollwheel: true,
+                panControl: true,
+                overviewMapControl:false,
 
-                    fullscreenControl: true,
-                    zoomControl: true,
-                    dragGestures: false,
-                  ),
-                );
-              }
+                fullscreenControl: true,
+                zoomControl: true,
+                dragGestures: false,
+              ),
             ),
           ),
           Positioned(
@@ -163,15 +153,17 @@ class _MyMapState extends State<MyMap> {
       ),
     );
 
-    if (ctrlPresentation.getGoogleMapKeyState()) {
-      MarkersInformation? temp = GoogleMap.of(ctrlPresentation.getMapKey())?.getInitialMarkers();
-      GoogleMap.of(newKey)?.setInitialMarkers(temp!);
-    }
-    ctrlPresentation.setMapKey(newKey);
-    //chargerMarkers();
-    //GoogleMap.of(ctrlPresentation.getMapKey())?.setMarkersState(true);
-
     return res;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      ctrlPresentation.setMapKey(_newKey);
+      chargerMarkers();
+    });
   }
 
   Widget button(
@@ -212,6 +204,7 @@ class _MyMapState extends State<MyMap> {
   void buildChargerMarkers(BuildContext context, int filter) {
     //GoogleMap.of(ctrlPresentation.getMapKey())
     List<Coordenada> coordsChargers = <Coordenada>[];
+
     switch(filter){
       case 2://sólo favoritos
         coordsChargers = ctrlPresentation.getFavsChargerPoints();
@@ -225,7 +218,6 @@ class _MyMapState extends State<MyMap> {
       if(filter == 1) {
         GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
           buildChargerMarker(
-            index: i,
             lat: coordsChargers[i].latitud,
             long: coordsChargers[i].longitud,
             context: context,
@@ -235,7 +227,6 @@ class _MyMapState extends State<MyMap> {
       } else {
         GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
           buildChargerMarker(
-            index: i,
             lat: coordsChargers[i].latitud,
             long: coordsChargers[i].longitud,
             context: context,
@@ -282,8 +273,7 @@ class _MyMapState extends State<MyMap> {
   }
 }
 
-Marker buildChargerMarker({
-  required int index,
+Marker buildChargerMarker({ //todo:refactor para que funcione igual que con bicing
   required double lat,
   required double long,
   required BuildContext context,
@@ -296,9 +286,6 @@ Marker buildChargerMarker({
 }
 
 showInfoCharger(BuildContext context, double lat, double long) {
-  print("---->");
-  List<String> infoChargerPoint = ctrlPresentation.getInfoCharger(lat, long);
-  //print(infoChargerPoint);
   showModalBottomSheet(
       context: context,
       backgroundColor: cTransparent,
@@ -311,7 +298,7 @@ showInfoCharger(BuildContext context, double lat, double long) {
               bottom: 24,
               child: Stack(
                 children: [
-                  ChargePointDetailInformation(chargePoint: infoChargerPoint, latitude: lat, longitude: long,),
+                  ChargePointDetailInformation(latitude: lat, longitude: long,),
                 ],
               ),
             ),
@@ -326,9 +313,6 @@ Marker buildBicingMarker({
   required BuildContext context,
 }) {
   List<String> infoBicingPoint = <String>[];
-  ctrlPresentation.getInfoBicing(lat, long).then((element){
-    infoBicingPoint = element;
-  });
   return Marker(
     GeoCoord(lat, long),
     icon: "assets/images/bike.png", //todo: al poner custom marker no sale en la primera carga
@@ -350,10 +334,6 @@ showInfoBicing(BuildContext context, double lat, double long, List<String> infoB
               child: Stack(
                 children: [
                   BicingPointDetailInformation(
-                    name: infoBicingPoint[0],
-                    docks: infoBicingPoint[5],
-                    bicisE: infoBicingPoint[4],
-                    bicisM: infoBicingPoint[3],
                     latitud: lat,
                     longitud: long,
                   ),

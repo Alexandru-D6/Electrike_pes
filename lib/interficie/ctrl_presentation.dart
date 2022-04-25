@@ -38,24 +38,25 @@ class CtrlPresentation {
   }
 
   void toMainPage(BuildContext context){
-    Navigator.pushReplacementNamed(
-      context,
-      '/',
-    );
+    //print(ModalRoute.of(context)?.settings.name);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 
   toProfilePage(BuildContext context) {
-    Navigator.pushReplacementNamed(
+    //print(ModalRoute.of(context)?.settings.name);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
       context,
       '/profile',
     );
   }
 
   void toGaragePage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
     } else {
-      Navigator.pop(context);
+      Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
         context,
         '/garage',
@@ -64,10 +65,12 @@ class CtrlPresentation {
   }
 
   void toFavouritesPage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
     } else {
-      Navigator.pushReplacementNamed(
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(
         context,
         '/favourites',
       );
@@ -75,10 +78,12 @@ class CtrlPresentation {
   }
 
   void toRewardsPage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
     if(email == "") {
       _showNotLogDialog(context);
     } else {
-      Navigator.pushReplacementNamed(
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(
         context,
         '/rewards',
       );
@@ -86,7 +91,8 @@ class CtrlPresentation {
   }
 
   void toInfoAppPage(BuildContext context){
-    Navigator.pushReplacementNamed(
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
       context,
       '/info',
     );
@@ -111,6 +117,7 @@ class CtrlPresentation {
       ).show();
     }
     else{
+      Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
         context,
         '/newCar',
@@ -119,15 +126,16 @@ class CtrlPresentation {
   }
 
   void toEditCar(BuildContext context, List<String> car) {
-    Navigator.pop(context);
-      Navigator.pushNamed(
-        context,
-        '/editCar',
-        arguments: EditCarArguments(car),
-      );
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
+      context,
+      '/editCar',
+      arguments: EditCarArguments(car),
+    );
   }
 
   void toChartPage(BuildContext context, String pointTitle){
+    Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
       '/chart',
@@ -150,7 +158,7 @@ class CtrlPresentation {
 
   void mailto() async {
     String _url = "mailto:electrike.official@gmail.com?subject=Help&body=Hi%20Electrike%20team!";
-    if (!await launch(_url)) throw 'Could not launch $_url';
+    if (!await launchUrl(Uri.parse(_url))) throw 'Could not launch $_url';
   }
 
   getCarsList() {
@@ -176,7 +184,7 @@ class CtrlPresentation {
   }
 
   void signInRoutine(BuildContext context) async {
-    Navigator.of(context).pop();
+    toMainPage(context);
     await serviceLocator<GoogleLoginAdpt>().login();
   }
 
@@ -320,7 +328,6 @@ class CtrlPresentation {
 
   void deleteCar(BuildContext context, String idVehicle) {
     ctrlDomain.removeVUser(idVehicle);
-    Navigator.pop(context);
     toGaragePage(context);
     //toGaragePage(context);
   }
@@ -334,7 +341,6 @@ class CtrlPresentation {
                 List<String> lEndolls
       ) {
     ctrlDomain.addVUser(name, brand, modelV, bat, eff, lEndolls);
-    Navigator.pop(context);
     toGaragePage(context);
   }
 
@@ -347,7 +353,6 @@ class CtrlPresentation {
       String eff,
       List<String> lEndolls) {
     ctrlDomain.editVUser(carId, name, brand, modelV, bat, eff, lEndolls);
-    Navigator.pop(context);
     toGaragePage(context);
   }
 

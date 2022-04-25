@@ -286,12 +286,4 @@ abstract class CustomFunctions {
   void addChoosenMarkers(String group);
 
   void clearChoosenMarkers();
-
-  bool getMarkersState();
-
-  void setMarkersState(bool state);
-
-  void setInitialMarkers(MarkersInformation info);
-
-  MarkersInformation getInitialMarkers();
 }

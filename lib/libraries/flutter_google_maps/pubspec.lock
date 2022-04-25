@@ -94,7 +94,14 @@ packages:
       name: google_maps
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.0"
+    version: "6.1.0"
+  google_maps_cluster_manager:
+    dependency: "direct main"
+    description:
+      name: google_maps_cluster_manager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0+1"
   google_maps_flutter:
     dependency: "direct main"
     description:

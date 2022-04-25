@@ -193,18 +193,6 @@ class GoogleMapState extends GoogleMapStateBase {
   @override
   void clearChoosenMarkers() => throw UnimplementedError();
 
-  @override
-  bool getMarkersState() => throw UnimplementedError();
-
-  @override
-  void setMarkersState(bool state) => throw UnimplementedError();
-
-  @override
-  void setInitialMarkers(MarkersInformation info) => throw UnimplementedError();
-
-  @override
-  MarkersInformation getInitialMarkers() => throw UnimplementedError();
-
   ///
   ///
 

@@ -27,7 +27,7 @@ void main() => runApp(const SplashScreen());
 Future initializeSystem() async {
   CtrlDomain ctrlDomain = CtrlDomain();
 
-  ctrlDomain.initializeSystem();
+  await ctrlDomain.initializeSystem();
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
   setUpLocator();
