@@ -105,7 +105,7 @@ class _MyMapState extends State<MyMap> {
               onLongPress: (markerId) {
               },
 
-              onTap: (a) async {
+              /*onTap: (a) async {
                 await GoogleMap.of(ctrlPresentation.getMapKey())?.getZoomCamera().then((value) => tempZoom = value);
                 showDialog<void>(
                 context: context,
@@ -130,7 +130,7 @@ class _MyMapState extends State<MyMap> {
                     ],
                   );
                 },
-                );},
+                );},*/
 
               mobilePreferences: const MobileMapPreferences(
                 myLocationEnabled:true,
