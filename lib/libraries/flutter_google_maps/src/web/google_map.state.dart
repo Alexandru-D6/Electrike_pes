@@ -14,17 +14,42 @@ import 'package:google_directions_api/google_directions_api.dart' show GeoCoord,
 import 'package:google_maps/google_maps.dart';
 import 'package:uuid/uuid.dart';
 
-import '../core/google_map.dart';
-import '../core/map_items.dart' as items;
+import '../core/google_map.dart' as gmap;
+import '../core/map_items.dart' as items_t;
 import '../core/route_response.dart';
 import '../core/utils.dart' as utils;
 import 'utils.dart';
 
-class GoogleMapState extends GoogleMapStateBase {
+import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
+
+class GoogleMapState extends gmap.GoogleMapStateBase {
   final htmlId = Uuid().v1();
   final directionsService = DirectionsService();
 
-  final _markers = <String, Marker>{};
+  /// Cluster Manager
+
+  late ClusterManager _manager_charger;
+  late ClusterManager _manager_bicing;
+  late ClusterManager _manager_general;
+
+  Map<String, items_t.Marker> _items_charger = <String, items_t.Marker>{};
+  Map<String, items_t.Marker> _items_bicing = <String, items_t.Marker>{};
+  Map<String, items_t.Marker> _items_general = <String, items_t.Marker>{};
+
+  final _inside_charger = const ["chargerPoints", "favChargerPoints"];
+  final _inside_bicing = const ["bicingPoints", "favBicingPoints"];
+
+  final List<double> _cluster_levels = const [1, 3, 5, 7, 10, 13, 14.25, 14.5, 20.0];
+
+  Set<Marker> _shown_markers_bicing = <Marker>{};
+  Set<Marker> _shown_markers_charger = <Marker>{};
+  Set<Marker> _shown_markers_general = <Marker>{};
+
+  ///
+
+  final _markers = <String, Map<String, items_t.Marker>>{};
+  Set<String> _current_displaying = {"default"};
+
   final _infoState = <String, bool>{};
   final _infos = <String, InfoWindow>{};
   final _polygons = <String, Polygon>{};
@@ -104,9 +129,68 @@ class GoogleMapState extends GoogleMapStateBase {
     }
   }
 
+  Marker getMarkerRaw({
+    required markerId,
+    consumeTapEvents,
+    icon,
+    info,
+    position,
+    onTap,
+    }) {
+    final key = position.toString();
+
+    final marker = Marker()
+      ..map = _map
+      ..label = label
+      ..icon = _getImage(icon)
+      ..position = position.toLatLng();
+
+    if (info != null || onTap != null) {
+      _subscriptions.add(marker.onClick.listen((_) async {
+        final key = position.toString();
+
+        if (onTap != null) {
+          onTap(key);
+          return;
+        }
+
+        int doubleToInt(double value) => (value * 100000).truncate();
+        final id = 'position${doubleToInt(position.latitude)}${doubleToInt(position.longitude)}';
+
+        if (_infos[key] == null) {
+          final _info = onInfoWindowTap == null
+              ? '$info${infoSnippet!.isNotEmpty == true ? '\n$infoSnippet' : ''}'
+              : '<p id="$id">$info${infoSnippet!.isNotEmpty == true ? '<p>$infoSnippet</p>' : ''}</p>';
+
+          _infos[key] = InfoWindow(InfoWindowOptions()..content = _info);
+          _subscriptions.add(_infos[key]!.onCloseclick.listen((_) => _infoState[key] = false));
+        }
+
+        if (!(_infoState[key] ?? false)) {
+          _infos[key]!.open(_map, marker);
+          if (_infoState[key] == null) {
+            await Future.delayed(const Duration(milliseconds: 100));
+
+            final infoElem = querySelector('flt-platform-view')!.shadowRoot!.getElementById('$htmlId')!.querySelector('#$id')!;
+
+            infoElem.addEventListener('click', (event) => onInfoWindowTap!());
+          }
+          _infoState[key] = true;
+        } else {
+          _infos[key]!.close();
+
+          _infoState[key] = false;
+        }
+      }));
+    }
+
+    return marker;
+  }
+
   @override
   void addMarkerRaw(
-    GeoCoord position, {
+    GeoCoord position,
+    String group,{
     String? label,
     String? icon,
     String? info,
@@ -114,7 +198,8 @@ class GoogleMapState extends GoogleMapStateBase {
     ValueChanged<String>? onTap,
     ui.VoidCallback? onInfoWindowTap,
   }) {
-    final key = position.toString();
+    return;
+    /*final key = position.toString();
 
     if (_markers.containsKey(key)) return;
 
@@ -163,42 +248,110 @@ class GoogleMapState extends GoogleMapStateBase {
       }));
     }
 
-    _markers[key] = marker;
+    _markers[key] = marker;*/
   }
 
   @override
-  void addMarker(items.Marker marker) => addMarkerRaw(
-        marker.position,
-        label: marker.label,
-        icon: marker.icon,
-        info: marker.info,
-        infoSnippet: marker.infoSnippet,
-        onTap: marker.onTap,
-        onInfoWindowTap: marker.onInfoWindowTap,
-      );
+  void addMarker(items_t.Marker marker,{String? group}) {
+    final key = marker.position.toString();
+    print(key);
+    if (group == null) group = "default";
+
+    _markers.putIfAbsent(group, () => Map<String,items_t.Marker>());
+    _markers[group]!.putIfAbsent(key, () => marker);
+
+    if (_current_displaying.contains(group)) {
+      if (_inside_charger.contains(group)) {
+        _items_charger.putIfAbsent(key, () => marker);
+        _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
+      }else if (_inside_bicing.contains(group)) {
+        _items_bicing.putIfAbsent(key, () => marker);
+        _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+      }else {
+        _items_general.putIfAbsent(key, () => marker);
+        _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+      }
+
+    }
+  }
 
   @override
-  void removeMarker(GeoCoord position) {
+  void removeMarker(GeoCoord position,{String? group}) {
     final key = position.toString();
+    bool deleteIt = false;
 
-    Marker? marker = _markers.remove(key);
-    marker?.map = null;
-    marker = null;
+    if (group != null && _markers.containsKey(group)) {
+      bool? cond = _markers[group]?.containsKey(key);
+      if (cond != null && !cond) return;
+      deleteIt = true;
+    }else {
+      _markers.forEach((key2, value) {
+        if (value.containsKey(key)) {
+          group = key2;
+          deleteIt = true;
+        }
+      });
+    }
 
-    var info = _infos.remove(key);
-    info?.close();
-    info = null;
+    if(deleteIt) {
+      items_t.Marker? marker = _markers[group]?.remove(key);
+      marker = null;
 
-    _infoState.remove(key);
+      var info = _infos.remove(key);
+      info?.close();
+      info = null;
+
+      _infoState.remove(key);
+
+      if (_current_displaying.contains(group)) { //todo: marker?.map = null; revisar que no haya que eliminarlo de esta manera o al menos como hacerlo ejje. Maybe los shown_markers?
+        if (_inside_charger.contains(group)) {
+          _items_charger.remove(key);
+          _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
+        }else if (_inside_bicing.contains(group)) {
+          _items_bicing.remove(key);
+          _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+        }else {
+          _items_general.remove(key);
+          _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+        }
+      }
+    }
   }
 
   @override
   void clearMarkers() {
-    for (Marker? marker in _markers.values) {
+    _markers.clear();
+
+    _shown_markers_bicing.clear();
+    _shown_markers_general.clear();
+    _shown_markers_charger.clear();
+
+    _current_displaying.clear();
+    _items_charger.clear();
+    _items_general.clear();
+    _items_bicing.clear();
+
+    _manager_charger.setItems(List<items_t.Marker>.empty());
+    _manager_bicing.setItems(List<items_t.Marker>.empty());
+    _manager_general.setItems(List<items_t.Marker>.empty());
+
+    for (Marker? marker in _shown_markers_bicing) {
       marker?.map = null;
       marker = null;
     }
-    _markers.clear();
+    _shown_markers_bicing.clear();
+
+    for (Marker? marker in _shown_markers_charger) {
+      marker?.map = null;
+      marker = null;
+    }
+    _shown_markers_charger.clear();
+
+    for (Marker? marker in _shown_markers_general) {
+      marker?.map = null;
+      marker = null;
+    }
+    _shown_markers_general.clear();
 
     for (InfoWindow? info in _infos.values) {
       info?.close();
@@ -255,6 +408,7 @@ class GoogleMapState extends GoogleMapStateBase {
                 if (startIcon != null || startInfo != null || startLabel != null) {
                   addMarkerRaw(
                     startLatLng.toGeoCoord(),
+                    "default",
                     icon: startIcon,
                     info: startInfo ?? leg?.startAddress,
                     label: startLabel,
@@ -262,6 +416,7 @@ class GoogleMapState extends GoogleMapStateBase {
                 } else {
                   addMarkerRaw(
                     startLatLng.toGeoCoord(),
+                    "default",
                     icon: 'assets/images/marker_a.png',
                     info: leg?.startAddress,
                   );
@@ -273,6 +428,7 @@ class GoogleMapState extends GoogleMapStateBase {
                 if (endIcon != null || endInfo != null || endLabel != null) {
                   addMarkerRaw(
                     endLatLng.toGeoCoord(),
+                    "default",
                     icon: endIcon,
                     info: endInfo ?? leg?.endAddress,
                     label: endLabel,
@@ -280,6 +436,7 @@ class GoogleMapState extends GoogleMapStateBase {
                 } else {
                   addMarkerRaw(
                     endLatLng.toGeoCoord(),
+                    "default",
                     icon: 'assets/images/marker_b.png',
                     info: leg?.endAddress,
                   );
@@ -312,11 +469,11 @@ class GoogleMapState extends GoogleMapStateBase {
     value?.map = null;
     final start = value?.directions?.routes?.firstOrNull?.legs?.firstOrNull?.startLocation?.toGeoCoord();
     if (start != null) {
-      removeMarker(start);
+      removeMarker(start, group: "default");
     }
     final end = value?.directions?.routes?.firstOrNull?.legs?.lastOrNull?.endLocation?.toGeoCoord();
     if (end != null) {
-      removeMarker(end);
+      removeMarker(end, group: "default");
     }
     value = null;
   }
@@ -327,11 +484,11 @@ class GoogleMapState extends GoogleMapStateBase {
       direction?.map = null;
       final start = direction?.directions?.routes?.firstOrNull?.legs?.firstOrNull?.startLocation?.toGeoCoord();
       if (start != null) {
-        removeMarker(start);
+        removeMarker(start, group: "default");
       }
       final end = direction?.directions?.routes?.firstOrNull?.legs?.lastOrNull?.endLocation?.toGeoCoord();
       if (end != null) {
-        removeMarker(end);
+        removeMarker(end, group: "default");
       }
       direction = null;
     }
@@ -522,12 +679,100 @@ class GoogleMapState extends GoogleMapStateBase {
 
   @override
   void initState() {
+    _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, markerBuilder: _markerBuilder(Colors.red), levels: _cluster_levels);
+    _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, markerBuilder: _markerBuilder(Colors.blue), levels: _cluster_levels);
+    _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.yellow), levels: _cluster_levels);
+
     super.initState();
     SchedulerBinding.instance!.addPostFrameCallback((_) {
-      for (var marker in widget.markers) {
+      /*for (var marker in widget.markers) {
         addMarker(marker);
-      }
+      }*/ //para mi caso no hace falta ya que esto lo controlo yo de por si
     });
+  }
+
+  void _updateMarkersBicing(Set<Marker> markers) {
+    setState(() {
+      _shown_markers_bicing = markers;
+    });
+  }
+
+  void _updateMarkersGeneral(Set<Marker> markers) {
+    setState(() {
+      _shown_markers_general = markers;
+    });
+  }
+
+  void _updateMarkersCharger(Set<Marker> markers) {
+    setState(() {
+      _shown_markers_charger = markers;
+    });
+  }
+
+  Future<Marker> Function(Cluster<items_t.Marker>) _markerBuilder(Color color) => (cluster) async {
+    if (cluster.isMultiple) {
+      return getMarkerRaw( //todo: add all addmarkerraw where
+        markerId: MarkerId(cluster.getId()),
+        position: cluster.location,
+        onTap: () {
+          _controller?.getZoomLevel().then((value) => moveCamera(cluster.location.toGeoCoord(), zoom: value+2.0));
+        },
+        icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
+            text: cluster.isMultiple ? cluster.count.toString() : null),
+      );
+    }else {
+      ValueChanged<String>? func = cluster.items.first.onTap;
+      String? icon = cluster.items.first.icon;
+      return getMarkerRaw(
+        markerId: MarkerId(cluster.getId()),
+        onTap: func != null ? () => func(cluster.location.toString()) : null,
+        consumeTapEvents: cluster.items.first.onTap != null,
+        position: cluster.location,
+        icon: icon == null ? BitmapDescriptor.defaultMarker : await _getBmpDesc('${fixAssetPath(icon)}$icon'),
+        infoWindow: cluster.items.first.info != null
+            ? InfoWindow(
+          title: cluster.items.first.info,
+          snippet: cluster.items.first.infoSnippet,
+          onTap: cluster.items.first.onInfoWindowTap,
+        )
+            : InfoWindow.noText,
+      );
+    }
+  };
+
+  Future<BitmapDescriptor> _getMarkerBitmap(int size, Color color, {String? text}) async {
+    if (kIsWeb) size = (size / 2).floor();
+
+    final PictureRecorder pictureRecorder = PictureRecorder();
+    final Canvas canvas = Canvas(pictureRecorder);
+    final Paint paint1 = Paint()..color = color;
+    final Paint paint2 = Paint()..color = Colors.white;
+
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint1);
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
+    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8, paint1);
+
+    if (text != null) {
+      TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
+      painter.text = TextSpan(
+        text: text,
+        style: TextStyle(
+            fontSize: size / 3,
+            color: Colors.white,
+            fontWeight: FontWeight.normal),
+      );
+      painter.layout();
+      painter.paint(
+        canvas,
+        Offset(size / 2 - painter.width / 2, size / 2 - painter.height / 2),
+      );
+    }
+
+    final img = await pictureRecorder.endRecording().toImage(size, size);
+    final data = await img.toByteData(format: ImageByteFormat.png);
+
+    Uint8List? temp = data?.buffer.asUint8List();
+    return BitmapDescriptor.fromBytes(temp!);
   }
 
   ///All this functions are implemented by ourselves to improve the functionality of the library
@@ -744,6 +989,8 @@ class GoogleMapState extends GoogleMapStateBase {
           ..style.border = 'none';
 
         _map = GMap(elem, _mapOptions);
+
+
 
         _subscriptions.add(_map!.onClick.listen((event) => widget.onTap?.call(event.latLng!.toGeoCoord())));
         _subscriptions.add(_map!.onRightclick.listen((event) => widget.onLongPress?.call(event.latLng!.toGeoCoord())));

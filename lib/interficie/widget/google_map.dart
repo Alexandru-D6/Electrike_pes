@@ -86,7 +86,7 @@ class _MyMapState extends State<MyMap> {
   @override
   Widget build(BuildContext context) {
     _newKey = GlobalKey<GoogleMapStateBase>();
-
+    double tempZoom = 0.0;
     Scaffold res = Scaffold(
       body: Stack(
         children: <Widget>[
@@ -104,6 +104,33 @@ class _MyMapState extends State<MyMap> {
 
               onLongPress: (markerId) {
               },
+
+              onTap: (a) async {
+                await GoogleMap.of(ctrlPresentation.getMapKey())?.getZoomCamera().then((value) => tempZoom = value);
+                showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button!
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                  title: const Text('Zoom level'),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                    children: <Widget>[
+                      Text(tempZoom.toString()),
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('Approve'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      ),
+                    ],
+                  );
+                },
+                );},
 
               mobilePreferences: const MobileMapPreferences(
                 myLocationEnabled:true,

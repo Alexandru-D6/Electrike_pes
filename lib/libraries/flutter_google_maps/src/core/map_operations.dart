@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart' show ValueChanged;
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 
 import 'map_items.dart';
-import 'markers_information.dart';
 import 'route_response.dart';
 
 /// Interface of setting up map operations including:
@@ -286,4 +285,6 @@ abstract class CustomFunctions {
   void addChoosenMarkers(String group);
 
   void clearChoosenMarkers();
+
+  Future<double> getZoomCamera();
 }
