@@ -148,6 +148,7 @@ class _MyMapState extends State<MyMap> {
             bottom: 16,
             child: FloatingActionButton(
               onPressed: (){
+                ctrlPresentation.clearAllRoutes();
                 ctrlPresentation.makeRoute();
               },
               heroTag: "Ruta",

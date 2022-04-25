@@ -241,6 +241,9 @@ class CtrlPresentation {
     });
   }
 
+  void clearAllRoutes(){
+    GoogleMap.of(ctrlPresentation.getMapKey())?.clearDirections();
+        }
   void moveCameraToLocation() {
     Location location = Location();
 
