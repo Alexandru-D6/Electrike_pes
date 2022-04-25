@@ -222,9 +222,6 @@ class CtrlDomain {
     List<List<String>> datacars = <List<String>>[];
     for(var vhU in vehiclesUsuari){
       List<String> ucar = getInfoUserCar(vhU.id);
-      for(var type in vhU.endolls){
-        ucar.add(type);
-      }
       datacars.add(ucar);
     }
     return datacars;
