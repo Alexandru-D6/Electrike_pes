@@ -229,8 +229,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void removeMarker(GeoCoord position,{String? group}) {
-    final key = position.toString();
-    bool deleteIt = false;
+    //final key = position.toString();
+    //bool deleteIt = false;
      /*
     if (group != null && _markers_colection.containsKey(group)) {
       bool? cond = _markers_colection[group]?.containsKey(key);

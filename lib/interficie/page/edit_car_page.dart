@@ -1,12 +1,12 @@
 import 'package:checkbox_formfield/checkbox_list_tile_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/widget/button_widget.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../widget/button_widget.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class EditCarPage extends StatefulWidget {
@@ -47,7 +47,6 @@ class _EditCarPageState extends State<EditCarPage> {
     controllerBatteryCar.text = car.carInfo[4];
     controllerEffciencyCar.text = car.carInfo[5];
     selectedPlugs = [];
-    //print(car.carInfo);
     for(var i = 6; i < car.carInfo.length; ++i){
       selectedPlugs.add(car.carInfo[i]);
     }
@@ -55,10 +54,10 @@ class _EditCarPageState extends State<EditCarPage> {
     ctrlPresentation.getBrandList().then((element){
       brandList = element;
     });
-    String plugTitle = S.of(context).chargerTypeLabel;
+    String plugTitle = AppLocalizations.of(context).chargerTypeLabel;
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).newCar), //todo: change to S.of(context).newCar
+        title: Text(AppLocalizations.of(context).newCar),
         centerTitle: true,
         backgroundColor: mCardColor,
       ),
@@ -74,8 +73,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   children: [
                     buildTextNoSuggestorField(
                       icon: Icons.badge,
-                      hint: S.of(context).carNameHint,
-                      label: S.of(context).carNameLabel,
+                      hint: AppLocalizations.of(context).carNameHint,
+                      label: AppLocalizations.of(context).carNameLabel,
                       controller: controllerNameCar,
                       returnable: "selectedNameCar",
                     ),
@@ -83,7 +82,7 @@ class _EditCarPageState extends State<EditCarPage> {
                     buildTextSuggestorField(
                       icon: Icons.policy,
                       hint: 'Tesla',
-                      label: S.of(context).carBrand,
+                      label: AppLocalizations.of(context).carBrand,
                       controller: controllerBrandCar,
                       suggester: getBrandSuggestions,
                       returnable: "selectedBrandCar",
@@ -92,7 +91,7 @@ class _EditCarPageState extends State<EditCarPage> {
                     buildTextSuggestorField(
                       icon: Icons.sort,
                       hint: 'Model 3 Long Range Dual Motor',
-                      label: S.of(context).carModelLabel,
+                      label: AppLocalizations.of(context).carModelLabel,
                       controller: controllerModelCar,
                       suggester: getModelSuggestions,
                       returnable: "selectedModelCar",
@@ -101,7 +100,7 @@ class _EditCarPageState extends State<EditCarPage> {
                     buildNumField(
                       icon: Icons.battery_charging_full,
                       hint: '107.8',
-                      label: S.of(context).carBatteryLabel,
+                      label: AppLocalizations.of(context).carBatteryLabel,
                       controller: controllerBatteryCar,
                       returnable: "selectedBatteryCar",
                     ),
@@ -109,7 +108,7 @@ class _EditCarPageState extends State<EditCarPage> {
                     buildNumField(
                       icon: Icons.battery_unknown,
                       hint: '168',
-                      label: S.of(context).carEfficiency,
+                      label: AppLocalizations.of(context).carEfficiency,
                       controller: controllerEffciencyCar,
                       returnable: "selectedEffciencyCar",
                     ),
@@ -172,7 +171,7 @@ class _EditCarPageState extends State<EditCarPage> {
         controllerEffciencyCar.text = infoModel[5];//5.eficiencia Wh/Km
       },
       validator: (value) {
-        return value!.isEmpty ? S.of(context).carBrandLabel : null;
+        return value!.isEmpty ? AppLocalizations.of(context).carBrandLabel : null;
       },
       onSaved: (value) {
         saveRoutine(value, returnable);
@@ -200,9 +199,9 @@ class _EditCarPageState extends State<EditCarPage> {
       ),
       validator: (value) {
         if (value != null && value.isEmpty) {
-          return S.of(context).carBrandLabel;
+          return AppLocalizations.of(context).carBrandLabel;
         } else if (value!.length > 15){
-          return S.of(context).maxCharMssg;
+          return AppLocalizations.of(context).maxCharMssg;
         }
         else {
           return null;
@@ -218,7 +217,7 @@ class _EditCarPageState extends State<EditCarPage> {
     title: Text(plugName),
     validator: (value) {
       if(allPlugTypeList.length-1 == allPlugTypeList.indexOf(plugName)) {
-        return selectedPlugs.isEmpty ? S.of(context).msgSelectChargers : null;
+        return selectedPlugs.isEmpty ? AppLocalizations.of(context).msgSelectChargers : null;
       }
       return null;
     },
@@ -261,7 +260,7 @@ class _EditCarPageState extends State<EditCarPage> {
         }
         final n = num.tryParse(value);
         if(n == null) {
-          return S.of(context).msgIntroNum;
+          return AppLocalizations.of(context).msgIntroNum;
         }
         return null;
       },
@@ -272,12 +271,11 @@ class _EditCarPageState extends State<EditCarPage> {
   }
 
   Widget buildSubmit(BuildContext context, String carId) => ButtonWidget(
-    text: S.of(context).add, //todo: S.of(context).SAVE
+    text: AppLocalizations.of(context).save,
     onClicked: () {
       final form = formKey.currentState!;
       form.save();
       if (form.validate()) {
-        //print(selectedPlugs);
         ctrlPresentation.saveEditedCar(
             context,
             carId,
@@ -294,9 +292,8 @@ class _EditCarPageState extends State<EditCarPage> {
         ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
-            content: Text(//todo: TRADUCCION selectedPlugs no se si te sirve como string
-                S.of(context).infoCar(selectedNameCar.toString(), selectedBrandCar.toString(), selectedModelCar.toString(), selectedBatteryCar.toString(),
-                    selectedEffciencyCar.toString(), selectedPlugs.toString())),
+            content: Text(
+              AppLocalizations.of(context).infoCar(selectedNameCar.toString(), selectedBrandCar.toString(), selectedModelCar.toString(), selectedBatteryCar.toString(), selectedEffciencyCar.toString(), selectedPlugs.toString())),
           ));
       }
     },

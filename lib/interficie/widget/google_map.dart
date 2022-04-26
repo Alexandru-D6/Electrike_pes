@@ -11,7 +11,6 @@ import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -88,6 +87,7 @@ class _MyMapState extends State<MyMap> {
     _newKey = GlobalKey<GoogleMapStateBase>();
     double tempZoom = 0.0;
     Scaffold res = Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
           Positioned.fill(
@@ -157,6 +157,22 @@ class _MyMapState extends State<MyMap> {
               ),
             ),
           ),
+
+          Positioned(
+            right: 56,
+            bottom: 16,
+            child: FloatingActionButton(
+              onPressed: (){
+                ctrlPresentation.clearAllRoutes();
+                ctrlPresentation.makeRoute();
+              },
+              heroTag: "Ruta",
+              tooltip: "Empieza la ruta",
+              child: const Icon(Icons.play_arrow),
+              backgroundColor: Colors.blueGrey,
+            ),
+          ),
+
           Positioned(
             left: 16,
             right: kIsWeb ? 60 : 16,

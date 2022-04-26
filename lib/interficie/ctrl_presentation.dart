@@ -4,12 +4,13 @@ import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class CtrlPresentation {
   static final CtrlPresentation _singleton = CtrlPresentation._internal();
@@ -23,15 +24,16 @@ class CtrlPresentation {
   String name = "";
   String photoUrl = "";
   List<Coordenada> favs = <Coordenada>[];
-
+  String actualLocation = "Your location";
+  String destination = "Search...";
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
-      desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: S.of(context).alertSureDeleteCarContent,
+      title: "You aren't logged",//todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
+      desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: AppLocalizations.of(context).alertSureDeleteCarContent,
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();
@@ -104,11 +106,11 @@ class CtrlPresentation {
         context: context,
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
-        title: S.of(context).login,
-        desc: S.of(context).toAddCarLogin,
+        title: AppLocalizations.of(context).login,
+        desc: AppLocalizations.of(context).toAddCarLogin,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
-        btnOkText: S.of(context).login,
+        btnOkText: AppLocalizations.of(context).login,
         btnOkOnPress: () {
           signInRoutine(context);
         },
@@ -144,15 +146,11 @@ class CtrlPresentation {
   }
   //USER INFO FUNCTIONS
   String getCurrentUsername(BuildContext context){
-    //TODO: CALL DOMAIN FUNCTION
-    //String username = ctrlDomain.getCurrentUsername();
-    if(name == "") name = S.of(context).clickToLogin;
+    if(name == "" || name =="Pulsa per iniciar sessió" || name == "Click to log-in" || name == "Haga clic para iniciar sesión" ) name = AppLocalizations.of(context).clickToLogin;
     return name;
   }
 
   String getCurrentUserMail() {
-    //TODO: CALL DOMAIN FUNCTION
-    //String mail = ctrlDomain.getCurrentUserMail();
     return email;
   }
 
@@ -179,7 +177,6 @@ class CtrlPresentation {
   }
 
   String getUserImage() {
-    if(photoUrl == "") photoUrl = "https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=5&q=80";
     return photoUrl;
   }
 
@@ -240,12 +237,12 @@ class CtrlPresentation {
 
   bool getGoogleMapKeyState() => _googleMapInit;
 
-  void makeRoute(String destination){
+  void makeRoute(){
     Location location = Location();
 
     location.getLocation().then((value) {
       String origin = value.latitude.toString() + "," + value.longitude.toString();
-
+      if(actualLocation != "Your location") origin = actualLocation;
       GoogleMap.of(getMapKey())?.addDirection(
           origin,
           destination,
@@ -258,6 +255,9 @@ class CtrlPresentation {
     });
   }
 
+  void clearAllRoutes(){
+    GoogleMap.of(getMapKey())?.clearDirections();
+        }
   void moveCameraToLocation() {
     Location location = Location();
 
@@ -287,11 +287,11 @@ class CtrlPresentation {
         context: context,
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
-        title: S.of(context).login,
-        desc: S.of(context).toAddFavLogin,
+        title: AppLocalizations.of(context).login,
+        desc: AppLocalizations.of(context).toAddFavLogin,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
-        btnOkText: S.of(context).login,
+        btnOkText: AppLocalizations.of(context).login,
         btnOkOnPress: () {
           signInRoutine(context);
         },

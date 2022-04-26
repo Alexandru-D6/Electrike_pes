@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
@@ -14,13 +13,16 @@ import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/interficie/page/splash_page.dart';
+import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
+import 'package:flutter_project/l10n/l10n.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'package:location/location.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(const SplashScreen());
 
@@ -44,35 +46,39 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: title,
-    theme: ThemeData(
-      primaryColor: mPrimaryColor,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-    ),
-    //home: const MainPage(),
-    localizationsDelegates: const [
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-      S.delegate,
-      //LocaleNamesLocalizationsDelegate(),
-    ],
-    supportedLocales: S.delegate.supportedLocales,
-    //locale: state.locale,
-    //initialRoute: '/',
-    routes: {
-      '/': (context) => const MainPage(),
-      '/profile': (context) => const ProfilePage(),
-      '/garage': (context) => const GaragePage(),
-      '/newCar': (context) => const NewCarPage(),
-      '/editCar': (context) => const EditCarPage(),
-      '/favourites': (context) => const FilterFavsItems(),
-      '/rewards': (context) => const RewardsPage(),
-      '/info': (context) => const InformationAppPage(),
-      '/chart': (context) => const ChartPage(),
-    },
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+    create: (context) => LocaleProvider(),
+    builder: (context, child) {
+      final provider = Provider.of<LocaleProvider>(context);
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: title,
+        theme: ThemeData(
+          primaryColor: mPrimaryColor,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        locale: provider.locale,
+        supportedLocales: L10n.all,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+
+        routes: {
+          '/': (context) => const MainPage(),
+          '/profile': (context) => const ProfilePage(),
+          '/garage': (context) => const GaragePage(),
+          '/newCar': (context) => const NewCarPage(),
+          '/editCar': (context) => const EditCarPage(),
+          '/favourites': (context) => const FilterFavsItems(),
+          '/rewards': (context) => const RewardsPage(),
+          '/info': (context) => const InformationAppPage(),
+          '/chart': (context) => const ChartPage(),
+        },
+      );
+    }
   );
 }
 
@@ -114,6 +120,7 @@ class _MainPageState extends State<MainPage> {
     askForPermission(location, context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
         title: const Text(MyApp.title),

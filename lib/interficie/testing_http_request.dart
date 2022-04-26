@@ -17,9 +17,7 @@ import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'package:location/location.dart';
-
 
 void main() async {
   CtrlDomain ctrlDomain = CtrlDomain();
@@ -48,7 +46,25 @@ class MyApp extends StatelessWidget {
       primaryColor: mPrimaryColor,
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
-    home: const MainPage(),
+    //home: const MainPage(),
+    localizationsDelegates: const [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      //LocaleNamesLocalizationsDelegate(),
+    ],
+    //locale: state.locale,
+    //initialRoute: '/',
+    routes: {
+      '/': (context) => const MainPage(),
+      '/profile': (context) => const ProfilePage(),
+      '/garage': (context) => const GaragePage(),
+      '/newCar': (context) => const NewCarPage(),
+      '/favourites': (context) => const FilterFavsItems(),
+      '/rewards': (context) => const RewardsPage(),
+      '/info': (context) => const InformationAppPage(),
+      '/chart': (context) => const ChartPage(),
+    },
   );
 }
 
@@ -65,6 +81,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
         title: const Text(MyApp.title),

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/car_list_item.dart';
-
-
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GaragePage extends StatelessWidget {
   const GaragePage({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,7 @@ class GaragePage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: Text(S.of(context).garage),
+      title: Text(AppLocalizations.of(context).garage),
       actions: [
         IconButton(
           icon: const Icon(
