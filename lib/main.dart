@@ -24,13 +24,12 @@ import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-
 void main() => runApp(const SplashScreen());
 
 Future initializeSystem() async {
   CtrlDomain ctrlDomain = CtrlDomain();
 
-  ctrlDomain.initializeSystem();
+  await ctrlDomain.initializeSystem();
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
   setUpLocator();
@@ -121,6 +120,7 @@ class _MainPageState extends State<MainPage> {
     askForPermission(location, context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
         title: const Text(MyApp.title),

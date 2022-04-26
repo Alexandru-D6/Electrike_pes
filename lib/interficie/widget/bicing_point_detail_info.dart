@@ -6,19 +6,11 @@ import 'package:flutter_project/interficie/ctrl_presentation.dart';
 class BicingPointDetailInformation extends StatelessWidget {
   const BicingPointDetailInformation({
     Key? key,
-    required this.name,
-    required this.docks,
-    required this.bicisE,
-    required this.bicisM,
     required this.longitud,
     required this.latitud,
   }) : super(key: key);
 
   //final BicingPoint point;
-  final String name;
-  final String docks;
-  final String bicisE;
-  final String bicisM;
   final double longitud;
   final double latitud;
 
@@ -39,12 +31,7 @@ class BicingPointDetailInformation extends StatelessWidget {
               EditInfoPoint(latitude: latitud, longitude: longitud,),
             ],
           ),
-          PointInfo(
-            name: name,
-            docks: docks,
-            bicisE: bicisE,
-            bicisM: bicisM,
-          ),
+          StatefulPointInfo(latitude: latitud, longitude: longitud,),
         ],
       ),
     );
@@ -106,7 +93,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
-          tooltip: 'Add points to favourites', //todo: translate AppLocalizations.of(context).[]
+          tooltip: 'Add points to favourites', //todo: translate S.of(context).[]
           onPressed: () {
             ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
             Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
@@ -117,19 +104,34 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
   }
 }
 
-class PointInfo extends StatelessWidget {
-  const PointInfo({
+class StatefulPointInfo extends StatefulWidget {
+  const StatefulPointInfo({
     Key? key,
-    required this.name,
-    required this.docks,
-    required this.bicisE,
-    required this.bicisM,
+    required this.latitude,
+    required this.longitude,
   }) : super(key: key);
 
-  final String name;
-  final String docks;
-  final String bicisE;
-  final String bicisM;
+  final double latitude;
+  final double longitude;
+
+  @override
+  State<StatefulPointInfo> createState() => _StatefulPointInfoState();
+}
+
+class _StatefulPointInfoState extends State<StatefulPointInfo> {
+  List<String> infoBicingPoint = <String>[];
+
+  @override
+  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
+    ctrlPresentation.getInfoBicing(widget.latitude, widget.longitude).then((element){
+      setState(() {
+        infoBicingPoint = element;
+      });
+    });
+    print("---> before build");
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) => print("<--- after build"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +142,7 @@ class PointInfo extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.pedal_bike, color: Colors.white, size: 45,),
           title: AutoSizeText(
-            name,
+            infoBicingPoint[0],
             style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
@@ -156,13 +158,13 @@ class PointInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildBicingPointInfo(
-                num: docks,
+                num: infoBicingPoint[5],
                 assetName: Icons.local_parking),
             buildBicingPointInfo(
-                num: bicisM,
+                num: infoBicingPoint[3],
                 assetName: Icons.pedal_bike),
             buildBicingPointInfo(
-                num: bicisE,
+                num: infoBicingPoint[4],
                 assetName: Icons.electric_bike),
           ],
         )

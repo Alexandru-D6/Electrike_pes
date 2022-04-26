@@ -24,7 +24,8 @@ class CtrlPresentation {
   String name = "";
   String photoUrl = "";
   List<Coordenada> favs = <Coordenada>[];
-
+  String actualLocation = "Your location";
+  String destination = "Search...";
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
@@ -39,24 +40,25 @@ class CtrlPresentation {
   }
 
   void toMainPage(BuildContext context){
-    Navigator.pushReplacementNamed(
-      context,
-      '/',
-    );
+    //print(ModalRoute.of(context)?.settings.name);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 
   toProfilePage(BuildContext context) {
-    Navigator.pushReplacementNamed(
+    //print(ModalRoute.of(context)?.settings.name);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
       context,
       '/profile',
     );
   }
 
   void toGaragePage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
     } else {
-      Navigator.pop(context);
+      Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
         context,
         '/garage',
@@ -65,10 +67,12 @@ class CtrlPresentation {
   }
 
   void toFavouritesPage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
     } else {
-      Navigator.pushReplacementNamed(
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(
         context,
         '/favourites',
       );
@@ -76,10 +80,12 @@ class CtrlPresentation {
   }
 
   void toRewardsPage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
     if(email == "") {
       _showNotLogDialog(context);
     } else {
-      Navigator.pushReplacementNamed(
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(
         context,
         '/rewards',
       );
@@ -87,7 +93,8 @@ class CtrlPresentation {
   }
 
   void toInfoAppPage(BuildContext context){
-    Navigator.pushReplacementNamed(
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
       context,
       '/info',
     );
@@ -112,6 +119,7 @@ class CtrlPresentation {
       ).show();
     }
     else{
+      Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
         context,
         '/newCar',
@@ -120,22 +128,22 @@ class CtrlPresentation {
   }
 
   void toEditCar(BuildContext context, List<String> car) {
-    Navigator.pop(context);
-      Navigator.pushNamed(
-        context,
-        '/editCar',
-        arguments: EditCarArguments(car),
-      );
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
+      context,
+      '/editCar',
+      arguments: EditCarArguments(car),
+    );
   }
 
   void toChartPage(BuildContext context, String pointTitle){
+    Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
       '/chart',
       arguments: pointTitle, //TODO: cosas de traducciones?
     );
   }
-
   //USER INFO FUNCTIONS
   String getCurrentUsername(BuildContext context){
     if(name == "" || name =="Pulsa per iniciar sessió" || name == "Click to log-in" || name == "Haga clic para iniciar sesión" ) name = AppLocalizations.of(context).clickToLogin;
@@ -148,7 +156,7 @@ class CtrlPresentation {
 
   void mailto() async {
     String _url = "mailto:electrike.official@gmail.com?subject=Help&body=Hi%20Electrike%20team!";
-    if (!await launch(_url)) throw 'Could not launch $_url';
+    if (!await launchUrl(Uri.parse(_url))) throw 'Could not launch $_url';
   }
 
   getCarsList() {
@@ -173,7 +181,7 @@ class CtrlPresentation {
   }
 
   void signInRoutine(BuildContext context) async {
-    Navigator.of(context).pop();
+    toMainPage(context);
     await serviceLocator<GoogleLoginAdpt>().login();
   }
 
@@ -215,19 +223,27 @@ class CtrlPresentation {
     return ctrlDomain.getCarModelInfo(text);
   }
 
-  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+  late GlobalKey<GoogleMapStateBase> _key;
+  bool _googleMapInit = false;
+
+  void setMapKey(GlobalKey<GoogleMapStateBase> key) {
+    _googleMapInit = true;
+    _key = key;
+  }
 
   GlobalKey<GoogleMapStateBase> getMapKey() {
     return _key;
   }
 
-  void makeRoute(String destination){
+  bool getGoogleMapKeyState() => _googleMapInit;
+
+  void makeRoute(){
     Location location = Location();
 
     location.getLocation().then((value) {
       String origin = value.latitude.toString() + "," + value.longitude.toString();
-
-      GoogleMap.of(ctrlPresentation.getMapKey())?.addDirection(
+      if(actualLocation != "Your location") origin = actualLocation;
+      GoogleMap.of(getMapKey())?.addDirection(
           origin,
           destination,
           startLabel: '1',
@@ -239,13 +255,16 @@ class CtrlPresentation {
     });
   }
 
+  void clearAllRoutes(){
+    GoogleMap.of(getMapKey())?.clearDirections();
+        }
   void moveCameraToLocation() {
     Location location = Location();
 
     location.getLocation().then((value) {
       double? lat = value.latitude;
       double? lng = value.longitude;
-      GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+      GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
     });
   }
   void moveCameraToSpecificLocation(BuildContext context, double? lat, double? lng) {
@@ -253,7 +272,7 @@ class CtrlPresentation {
     //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
       toMainPage(context);
       Future.delayed(const Duration(milliseconds: 1000), () {
-        GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+        GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
       });
 
   }
@@ -309,8 +328,7 @@ class CtrlPresentation {
 
   void deleteCar(BuildContext context, String idVehicle) {
     ctrlDomain.removeVUser(idVehicle);
-    Navigator.pop(context);
-    ctrlPresentation.toGaragePage(context);
+    toGaragePage(context);
     //toGaragePage(context);
   }
 
@@ -323,8 +341,7 @@ class CtrlPresentation {
                 List<String> lEndolls
       ) {
     ctrlDomain.addVUser(name, brand, modelV, bat, eff, lEndolls);
-    Navigator.pop(context);
-    ctrlPresentation.toGaragePage(context);
+    toGaragePage(context);
   }
 
   void saveEditedCar(BuildContext context,
@@ -336,8 +353,7 @@ class CtrlPresentation {
       String eff,
       List<String> lEndolls) {
     ctrlDomain.editVUser(carId, name, brand, modelV, bat, eff, lEndolls);
-    Navigator.pop(context);
-    ctrlPresentation.toGaragePage(context);
+    toGaragePage(context);
   }
 
   Future<List<String>> getAllNamesBicing(List<Coordenada> c) async{

@@ -23,7 +23,7 @@
   "carEfficiency": "Consum(Wh/Km)",
   "carBrandLabel": "Si us plau, seleciona una marca",
   "maxCharMssg": "El màxim número de caràcters és 15",
-  "chargerTypeLabel": "Selecciona los cargadores que puede utilizar (ten en cuenta los adaptadores en el caso de tener alguno)",
+  "chargerTypeLabel": "Selecciona els carregadors que pot utilitzar (tingues en compte també els adaptadors, en el cas de tenir-ne cap)",
   "add": "Afegir",
   "login": "Iniciar sessió",
   "toAddCarLogin": "Per afegir un vehicle has d'iniciar sessió",
