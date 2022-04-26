@@ -151,6 +151,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_google_maps:
+    dependency: "direct main"
+    description:
+      path: "lib/libraries/flutter_google_maps"
+      relative: true
+    source: path
+    version: "5.0.1"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -244,9 +251,9 @@ packages:
   google_maps_cluster_manager:
     dependency: "direct main"
     description:
-      name: google_maps_cluster_manager
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "lib/libraries/google_maps_cluster_manager"
+      relative: true
+    source: path
     version: "3.0.0+1"
   google_maps_flutter:
     dependency: "direct main"

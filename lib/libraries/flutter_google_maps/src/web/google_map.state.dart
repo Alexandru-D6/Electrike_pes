@@ -13,10 +13,9 @@ import 'package:flinq/flinq.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
-import 'package:flutter/widgets.dart';
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 import 'package:google_maps/google_maps.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' show BitmapDescriptor;
+import 'package:google_maps_flutter/google_maps_flutter.dart' show BitmapDescriptor, MarkerId;
 import 'package:uuid/uuid.dart';
 
 import '../core/google_map.dart' as gmap;
@@ -47,15 +46,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   final List<double> _cluster_levels = const [1, 3, 5, 7, 10, 13, 14.25, 14.5, 20.0];
 
-  Set<Marker> _shown_markers_bicing = <Marker>{};
-  Set<Marker> _shown_markers_charger = <Marker>{};
-  Set<Marker> _shown_markers_general = <Marker>{};
-
   ///
 
-  final _markers = <String, Map<String, items_t.Marker>>{};
+  final _markers_colection = <String, Map<String, items_t.Marker>>{};
   Set<String> _current_displaying = {"default"};
 
+  final _markers = <String, Marker>{};
   final _infoState = <String, bool>{};
   final _infos = <String, InfoWindow>{};
   final _polygons = <String, Polygon>{};
@@ -135,65 +131,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
   }
 
-  Marker getMarkerRaw({
-    String? label,
-    bool? consumeTapEvents,
-    String? icon,
-    InfoWindow? infoWindow,
-    required LatLng position,
-    ValueChanged<String>? onTap,
-    String? infoSnippet,
-    Function()? onInfoWindowTap,
-    }) {
-    final key = position.toString();
-
-    final marker = Marker()
-      ..map = _map
-      ..label = label
-      ..icon = _getImage(icon)
-      ..position = position;
-
-    if (infoWindow != null || onTap != null) {
-      _subscriptions.add(marker.onClick.listen((_) async {
-
-        if (onTap != null) {
-          onTap(key);
-          return;
-        }
-
-        int doubleToInt(double value) => (value * 100000).truncate();
-        final id = 'position${doubleToInt(position.lat.toDouble())}${doubleToInt(position.lng.toDouble())}';
-
-        if (_infos[key] == null) {
-          final _info = onInfoWindowTap == null
-              ? '$infoWindow${infoSnippet!.isNotEmpty == true ? '\n$infoSnippet' : ''}'
-              : '<p id="$id">$infoWindow${infoSnippet!.isNotEmpty == true ? '<p>$infoSnippet</p>' : ''}</p>';
-
-          _infos[key] = InfoWindow(InfoWindowOptions()..content = _info);
-          _subscriptions.add(_infos[key]!.onCloseclick.listen((_) => _infoState[key] = false));
-        }
-
-        if (!(_infoState[key] ?? false)) {
-          _infos[key]!.open(_map, marker);
-          if (_infoState[key] == null) {
-            await Future.delayed(const Duration(milliseconds: 100));
-
-            final infoElem = querySelector('flt-platform-view')!.shadowRoot!.getElementById('$htmlId')!.querySelector('#$id')!;
-
-            infoElem.addEventListener('click', (event) => onInfoWindowTap!());
-          }
-          _infoState[key] = true;
-        } else {
-          _infos[key]!.close();
-
-          _infoState[key] = false;
-        }
-      }));
-    }
-
-    return marker;
-  }
-
   @override
   void addMarkerRaw(
     GeoCoord position,
@@ -205,7 +142,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     ValueChanged<String>? onTap,
     ui.VoidCallback? onInfoWindowTap,
   }) {
-    /*final key = position.toString();
+    final key = position.toString();
 
     if (_markers.containsKey(key)) return;
 
@@ -254,17 +191,26 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       }));
     }
 
-    _markers[key] = marker;*/
+    _markers[key] = marker;
   }
 
   @override
   void addMarker(items_t.Marker marker,{String? group}) {
+    /*addMarkerRaw(
+      marker.position,
+      "default",
+      label: marker.label,
+      icon: marker.icon,
+      info: marker.info,
+      infoSnippet: marker.infoSnippet,
+      onTap: marker.onTap,
+      onInfoWindowTap: marker.onInfoWindowTap,
+    );*/
     final key = marker.position.toString();
-    print(key);
     if (group == null) group = "default";
 
-    _markers.putIfAbsent(group, () => Map<String,items_t.Marker>());
-    _markers[group]!.putIfAbsent(key, () => marker);
+    _markers_colection.putIfAbsent(group, () => Map<String,items_t.Marker>());
+    _markers_colection[group]!.putIfAbsent(key, () => marker);
 
     if (_current_displaying.contains(group)) {
       if (_inside_charger.contains(group)) {
@@ -285,13 +231,13 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   void removeMarker(GeoCoord position,{String? group}) {
     final key = position.toString();
     bool deleteIt = false;
-
-    if (group != null && _markers.containsKey(group)) {
-      bool? cond = _markers[group]?.containsKey(key);
+     /*
+    if (group != null && _markers_colection.containsKey(group)) {
+      bool? cond = _markers_colection[group]?.containsKey(key);
       if (cond != null && !cond) return;
       deleteIt = true;
     }else {
-      _markers.forEach((key2, value) {
+      _markers_colection.forEach((key2, value) {
         if (value.containsKey(key)) {
           group = key2;
           deleteIt = true;
@@ -300,7 +246,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
 
     if(deleteIt) {
-      items_t.Marker? marker = _markers[group]?.remove(key);
+      items_t.Marker? marker = _markers_colection[group]?.remove(key);
       marker = null;
 
       var info = _infos.remove(key);
@@ -321,12 +267,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
         }
       }
-    }
+    }*/
   }
 
   @override
-  void clearMarkers() {
-    _markers.clear();
+  void clearMarkers() {/*
+    _markers_colection.clear();
 
     _shown_markers_bicing.clear();
     _shown_markers_general.clear();
@@ -365,7 +311,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
     _infos.clear();
 
-    _infoState.clear();
+    _infoState.clear();*/
   }
 
   @override
@@ -688,9 +634,9 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void initState() {
-    _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, /*markerBuilder: _markerBuilder(Colors.red), */levels: _cluster_levels);
-    _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, /*markerBuilder: _markerBuilder(Colors.blue), */levels: _cluster_levels);
-    _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, /*markerBuilder: _markerBuilder(Colors.yellow), */levels: _cluster_levels);
+    _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, markerBuilder: _markerBuilder(Colors.red), levels: _cluster_levels);
+    _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, markerBuilder: _markerBuilder(Colors.blue), levels: _cluster_levels);
+    _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.yellow), levels: _cluster_levels);
 
     super.initState();
     SchedulerBinding.instance!.addPostFrameCallback((_) {
@@ -701,25 +647,60 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   void _updateMarkersBicing(Set<tryThis.Marker> markers) {
-    setState(() {
-      _shown_markers_bicing = markers.cast<Marker>();
+    print("aaaa");
+    markers.forEach((element) {
+      addMarkerRaw(
+        GeoCoord(element.position.latitude, element.position.longitude),
+        "default",
+        label: element.position.toString(),
+        icon: element.icon.toString(),
+        info: element.infoWindow.toString(),
+      );
     });
   }
 
   void _updateMarkersGeneral(Set<tryThis.Marker> markers) {
-    setState(() {
-      _shown_markers_general = markers.cast<Marker>();
+    print("bbbb");
+    markers.forEach((element) {
+      addMarkerRaw(
+        GeoCoord(element.position.latitude, element.position.longitude),
+        "default",
+        label: element.position.toString(),
+        icon: element.icon.toString(),
+        info: element.infoWindow.toString(),
+      );
     });
   }
 
   void _updateMarkersCharger(Set<tryThis.Marker> markers) {
-    setState(() {
-      _shown_markers_charger = markers.cast<Marker>();
+    print("cccc");
+    markers.forEach((element) {
+      addMarkerRaw(
+        GeoCoord(element.position.latitude, element.position.longitude),
+        "default",
+        label: element.position.toString(),
+        icon: element.icon.toString(),
+        info: element.infoWindow.toString(),
+      );
     });
   }
 
-  Future<Marker> Function(Cluster<items_t.Marker>) _markerBuilder(Color color) => (cluster) async {
+  Future<tryThis.Marker> Function(Cluster<items_t.Marker>) _markerBuilder(Color color) => (cluster) async {
     if (cluster.isMultiple) {
+      tryThis.Marker res = tryThis.Marker(
+        markerId: MarkerId(cluster.getId()),
+        position: cluster.location,
+        onTap: () {
+          double? cur_zoom = _map!.zoom?.toDouble();
+          moveCamera(GeoCoord(cluster.location.latitude, cluster.location.longitude), zoom: cur_zoom! + 2.0);
+        },
+        icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
+            text: cluster.isMultiple ? cluster.count.toString() : null),
+
+      );
+      
+      return res;
+      /*
       return getMarkerRaw( //todo: add all addmarkerraw where
         label: cluster.getId(),
         position: LatLng(cluster.location.latitude, cluster.location.longitude),
@@ -729,24 +710,35 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         },
         icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
             text: cluster.isMultiple ? cluster.count.toString() : null).toString(),
-      );
+      ).cast<tryThis.Marker>();*/
     }else {
       ValueChanged<String>? func = cluster.items.first.onTap;
       String? icon = cluster.items.first.icon;
+
+      tryThis.Marker res = tryThis.Marker(
+        markerId: MarkerId(cluster.getId()),
+        onTap: func != null ? () => func(cluster.location.toString()) : null,
+        consumeTapEvents: cluster.items.first.onTap != null,
+        position: cluster.location,
+        icon: icon == null ? BitmapDescriptor.defaultMarker : await _getImage(icon) as BitmapDescriptor,
+        infoWindow: cluster.items.first.info != null
+            ? tryThis.InfoWindow(
+          title: cluster.items.first.info,
+          snippet: cluster.items.first.infoSnippet,
+          onTap: cluster.items.first.onInfoWindowTap,
+        )
+            : tryThis.InfoWindow.noText,
+      );
+      
+      return res;
+      /*
       return getMarkerRaw(
         label: cluster.getId(),
         onTap: func != null ? (String) => func(cluster.location.toString()) : null,
         consumeTapEvents: cluster.items.first.onTap != null,
         position: LatLng(cluster.location.latitude, cluster.location.longitude),
         icon: icon == null ? BitmapDescriptor.defaultMarker.toString() : icon,
-        infoWindow: cluster.items.first.info != null
-            ? InfoWindow()/*InfoWindow(InfoWindowOptions(
-          title: cluster.items.first.info,
-          snippet: cluster.items.first.infoSnippet,
-          onTap: cluster.items.first.onInfoWindowTap,
-        ))*/
-            : InfoWindow(),
-      );
+      ).cast<tryThis.Marker>();*/
     }
   };
 
@@ -799,7 +791,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     return GeoCoord(degree.latitude * one_deg, degree.longitude * one_deg);
   }
 
-  static const double earthR = 6371;
+  double earthR = 6371;
 
   @override
   double getDistance(GeoCoord a, GeoCoord b) {
@@ -989,16 +981,16 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void addChoosenMarkers(String group) {
-    if (_markers.containsKey(group) && !_current_displaying.contains(group)) {
+    if (_markers_colection.containsKey(group) && !_current_displaying.contains(group)) {
 
       if (_inside_charger.contains(group)) {
-        _items_charger.addAll(_markers[group]!);
+        _items_charger.addAll(_markers_colection[group]!);
         _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
       }else if (_inside_bicing.contains(group)) {
-        _items_bicing.addAll(_markers[group]!);
+        _items_bicing.addAll(_markers_colection[group]!);
         _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
       }else {
-        _items_general.addAll(_markers[group]!);
+        _items_general.addAll(_markers_colection[group]!);
         _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
       }
 
@@ -1014,8 +1006,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _items_general.clear();
     _items_bicing.clear();
 
-    if (_markers.containsKey("default")) {
-      _items_general.addAll(_markers["default"]!);
+    if (_markers_colection.containsKey("default")) {
+      _items_general.addAll(_markers_colection["default"]!);
     }
 
     _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
@@ -1047,7 +1039,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         _map = GMap(elem, _mapOptions);
 
 
-
         _subscriptions.add(_map!.onClick.listen((event) => widget.onTap?.call(event.latLng!.toGeoCoord())));
         _subscriptions.add(_map!.onRightclick.listen((event) => widget.onLongPress?.call(event.latLng!.toGeoCoord())));
 
@@ -1073,7 +1064,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _subscriptions.forEach((_) => _.cancel());
 
     _infos.clear();
-    _markers.clear();
+    _markers_colection.clear();
     _polygons.clear();
     _circles.clear();
     _infoState.clear();

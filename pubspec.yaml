@@ -30,6 +30,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  google_maps_cluster_manager:
+    path: ./lib/libraries/google_maps_cluster_manager
+
+  flutter_google_maps:
+    path: ./lib/libraries/flutter_google_maps
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -66,7 +72,6 @@ dependencies:
     sdk: flutter
   charts_flutter: ^0.12.0
   modal_bottom_sheet: ^2.0.1
-  google_maps_cluster_manager: ^3.0.0+1
 
 dev_dependencies:
   integration_test:
