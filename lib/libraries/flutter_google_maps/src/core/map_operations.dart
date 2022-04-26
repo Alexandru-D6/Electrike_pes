@@ -120,7 +120,8 @@ abstract class MapMarkers {
   ///
   /// If marker with same [position] have been already added, addition of a new marker will be ignored.
   void addMarkerRaw(
-    GeoCoord position, {
+    GeoCoord position,
+    String group,{
     String? label,
     String? icon,
     String? info,
@@ -132,10 +133,10 @@ abstract class MapMarkers {
   /// Adds a marker to the map by given [position].
   ///
   /// If marker with same [position] have been already added, addition of a new marker will be ignored.
-  void addMarker(Marker marker);
+  void addMarker(Marker marker,{String group});
 
   /// Removes a marker from the map by given [position].
-  void removeMarker(GeoCoord position);
+  void removeMarker(GeoCoord position,{String? group});
 
   /// Removes all markers from the map.
   void clearMarkers();
@@ -270,14 +271,20 @@ abstract class CustomFunctions {
   Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]);
 
   void displayRoute(
-      GeoCoord origin,
-      GeoCoord destination, {
-        List<GeoCoord>? waypoints,
-        String? startLabel,
-        String? startIcon,
-        String? startInfo,
-        String? endLabel,
-        String? endIcon,
-        String? endInfo,
-      });
+    GeoCoord origin,
+    GeoCoord destination, {
+      List<GeoCoord>? waypoints,
+      String? startLabel,
+      String? startIcon,
+      String? startInfo,
+      String? endLabel,
+      String? endIcon,
+      String? endInfo,
+  });
+
+  void addChoosenMarkers(String group);
+
+  void clearChoosenMarkers();
+
+  Future<double> getZoomCamera();
 }

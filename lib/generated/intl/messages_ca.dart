@@ -55,7 +55,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "chargerTypeLabel": MessageLookupByLibrary.simpleMessage(
             "Selecciona los cargadores que puede utilizar (ten en cuenta los adaptadores en el caso de tener alguno)"),
         "chargers": MessageLookupByLibrary.simpleMessage("Carregadors"),
-        "charts": MessageLookupByLibrary.simpleMessage("Gràfics"),
         "clickToLogin":
             MessageLookupByLibrary.simpleMessage("Pulsa per iniciar sessió"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contacta\'ns"),

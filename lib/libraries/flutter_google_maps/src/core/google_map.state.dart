@@ -65,7 +65,8 @@ class GoogleMapState extends GoogleMapStateBase {
 
   @override
   void addMarkerRaw(
-    GeoCoord position, {
+    GeoCoord position,
+    String group,{
     String? label,
     String? icon,
     String? info,
@@ -76,7 +77,7 @@ class GoogleMapState extends GoogleMapStateBase {
       throw UnimplementedError();
 
   @override
-  void addMarker(Marker marker) => throw UnimplementedError();
+  void addMarker(Marker marker,{String? group}) => throw UnimplementedError();
 
   @override
   void addPolygon(
@@ -117,7 +118,7 @@ class GoogleMapState extends GoogleMapStateBase {
   void removeDirection(origin, destination) => throw UnimplementedError();
 
   @override
-  void removeMarker(GeoCoord position) => throw UnimplementedError();
+  void removeMarker(GeoCoord position,{String? group}) => throw UnimplementedError();
 
   @override
   void removePolygon(String id) => throw UnimplementedError();
@@ -183,9 +184,18 @@ class GoogleMapState extends GoogleMapStateBase {
         String? endLabel,
         String? endIcon,
         String? endInfo,
-      }) => UnimplementedError();
+      }) => throw UnimplementedError();
 
-  ///
+  @override
+  void addChoosenMarkers(String group) => throw UnimplementedError();
+
+  @override
+  void clearChoosenMarkers() => throw UnimplementedError();
+
+  @override
+  Future<double> getZoomCamera() async => throw UnimplementedError();
+
+///
   ///
 
   @override

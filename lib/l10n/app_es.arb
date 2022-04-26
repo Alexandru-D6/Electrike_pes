@@ -1,4 +1,5 @@
 {
+  "languageName": "Español",
   "map": "Mapa",
   "garage": "Garage",
   "favourites": "Favoritos",
@@ -22,7 +23,7 @@
   "carEfficiency": "Consumo(Wh/Km)",
   "carBrandLabel": "Por favor, slecciona una marca",
   "maxCharMssg": "El máximo número de caácteres es 15",
-  "chargerTypeLabel": "Select the charger that the car can use (also take into consideration the adapters, in case of having any)",
+  "chargerTypeLabel": "Selecciona los cargadores que puede utilizar (ten en cuenta los adaptadores en el caso de tener alguno)",
   "add": "Añadir",
   "login": "Iniciar sesión",
   "toAddCarLogin": "¡Para agregar un vehículo debes estar registrado!",
@@ -34,8 +35,6 @@
   "msgSelectChargers": "Selecciona al menos un cargador",
   "msgIntroNum": "Introduce un número",
   "msgAddFav": "Añadir punto a favoritos",
-
-  "howManyCars": "{howMany, plural, one{You have 1 notification} other{You have {howMany} notifications}}",
 
   "infoCar": "El nombre del vehículo es {selectedNameCar}\\n \n  Su marca {selectedBrandCar}\\n\n  Su modelo {selectedModelCar}\\n\n   Batería {selectedBatteryCar} kWh\\n\n   Consumo {selectedEffciencyCar} Wh/Km\\n\n El vehículo utiliza {selectedPlugs}\\n'''),",
   "@infoCar": {
@@ -57,5 +56,9 @@
       "firstName": {},
       "lastName": {}
     }
-  }
+  },
+
+  "infoDialogNotLog": "No se ha iniciado sesión",
+
+  "save": "Guardar cambios"
 }

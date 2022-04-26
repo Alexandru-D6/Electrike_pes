@@ -30,6 +30,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  google_maps_cluster_manager:
+    path: ./lib/libraries/google_maps_cluster_manager
+
+  flutter_google_maps:
+    path: ./lib/libraries/flutter_google_maps
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -65,6 +71,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   charts_flutter: ^0.12.0
+  intl: ^0.17.0
 
   # show local notifications
   flutter_local_notifications: ^9.4.0
@@ -77,6 +84,7 @@ dev_dependencies:
     sdk: flutter
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -95,6 +103,7 @@ flutter_icons:
 
 # The following section is specific to Flutter.
 flutter:
+  generate: true
   assets:
     - assets/images/
     - assets/brandCars/
