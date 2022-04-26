@@ -7,8 +7,14 @@ class GoogleLoginAdpt {
   static const _clientIDWeb= "709547016796-vquhm8fbjkg0nlod6fpek1qhrb5c0ohr.apps.googleusercontent.com";
   //static const _clientIDAndroid = "709547016796-1449erc1a454q58phc97hgcp2jvrtlf0.apps.googleusercontent.com";
 
-  static final _googleSignInAndroid = GoogleSignIn();
-  static final _googleSignInWeb = GoogleSignIn(clientId: _clientIDWeb);
+  static final _googleSignInAndroid = GoogleSignIn(scopes: [
+    'email',
+    'profile',
+  ],);
+  static final _googleSignInWeb = GoogleSignIn(clientId: _clientIDWeb, scopes: [
+    'email',
+    'profile',
+  ],);
 
   factory GoogleLoginAdpt() {
     return _instance;
@@ -43,9 +49,7 @@ class GoogleLoginAdpt {
 
     ctrlDomain.resetUserSystem();
 
-    _googleSignIn.disconnect();
-    final user = _googleSignIn.signOut();
-    return user;
+    return _googleSignIn.disconnect();
   }
 
   Future<bool> isSignIn() {

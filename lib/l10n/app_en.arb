@@ -1,0 +1,64 @@
+{
+  "languageName": "English",
+  "map": "Map",
+  "garage": "Garage",
+  "favourites": "Favourites",
+  "achievements": "Achievements",
+  "information": "Information",
+  "contactUs": "Contact us",
+  "logout": "Logout",
+  "language": "Language",
+  "systemLanguage": "System language",
+  "allFavourites": "All favourites",
+  "chargers": "Chargers",
+  "bicing": "Bicing",
+  "newCar": "New vehicle",
+  "power": "Power",
+  "efficiency": "Efficiency",
+  "carBrand": "Brand",
+  "carNameHint": "The Amazing Red Car",
+  "carNameLabel": "Name of the vehicle",
+  "carModelLabel": "Model",
+  "carBatteryLabel": "Battery(kWh)",
+  "carEfficiency": "Efficiency(Wh/Km)",
+  "carBrandLabel": "Please select a brand",
+  "maxCharMssg": "You cannot have more than 15 characters",
+  "chargerTypeLabel": "Select the charger that the car can use (also take into consideration the adapters, in case of having any)",
+  "add": "Add",
+  "login": "Log-in",
+  "toAddCarLogin": "To add a car you must be logged!",
+  "toAddFavLogin": "To add a point to your favourites you must be logged in\n",
+  "clickToLogin": "Click to log-in",
+  "alertSureDeleteCarTitle": "Are you sure you want to delete this vehicle?",
+  "alertSureDeleteCarContent": "Deleting this car is permanent and will remove all data saved associated to this vehicle.\nAre you sure you want to continue?\n",
+
+  "msgSelectChargers": "At least select one type of charger",
+  "msgIntroNum": "Introduce a number",
+  "msgAddFav": "Add point to favourites",
+
+  "infoCar": "The vehicle's name is {selectedNameCar}\\n \n  It's Brand {selectedBrandCar}\\n\n  It's model {selectedModelCar}\\n\n   Battery {selectedBatteryCar} kWh\\n\n   Effciency {selectedEffciencyCar} Wh/Km\\n\n The vehicle uses {selectedPlugs}\\n'''),",
+  "@infoCar": {
+    "placeholders": {
+      "selectedNameCar": {},
+      "selectedBrandCar": {},
+      "selectedModelCar": {},
+      "selectedBatteryCar": {},
+      "selectedEffciencyCar": {},
+      "selectedPlugs": {}
+    }
+  },
+
+  "textWithPlaceholder": "Welcome {name}",
+
+  "textWithPlaceholders": "My name is {lastName}, {firstName} {lastName}",
+  "@textWithPlaceholders": {
+    "placeholders": {
+      "firstName": {},
+      "lastName": {}
+    }
+  },
+
+  "infoDialogNotLog": "You aren't logged",
+
+  "save": "Save changes"
+}

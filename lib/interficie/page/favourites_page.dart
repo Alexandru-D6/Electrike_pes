@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class FavsChargers extends StatefulWidget {
@@ -151,7 +151,6 @@ class _AllFavsState extends State<AllFavs> {
                     Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
                   }
               ),
-
             ],
           ),
           onTap: () {
@@ -173,7 +172,7 @@ class FilterFavsItems extends StatefulWidget {
 class _FilterFavsItemsState extends State<FilterFavsItems> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    AllFavs(), //todo: replicar con bicings y conectar
+    AllFavs(),
     FavsChargers(),
     FavsBicings(),
   ];
@@ -190,7 +189,7 @@ class _FilterFavsItemsState extends State<FilterFavsItems> {
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
       appBar: AppBar(
-        title: const Text("Favourites"),
+        title: Text(AppLocalizations.of(context).favourites),
         backgroundColor: mPrimaryColor,
       ),
       body: Center(
@@ -200,17 +199,17 @@ class _FilterFavsItemsState extends State<FilterFavsItems> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(Icons.favorite_sharp),
-            label: S.of(context).allFavourites,
+            label: AppLocalizations.of(context).allFavourites,
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.electrical_services),
-            label: S.of(context).chargers,
+            label: AppLocalizations.of(context).chargers,
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.pedal_bike),
-            label: S.of(context).bicing,
+            label: AppLocalizations.of(context).bicing,
             backgroundColor: Colors.pink,
           ),
         ],
