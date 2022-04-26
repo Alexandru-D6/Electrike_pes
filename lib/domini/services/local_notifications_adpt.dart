@@ -46,7 +46,7 @@ class NotificationService extends ChangeNotifier {
 
   //Instant Notifications
   Future instantNofitication() async {
-    var android = AndroidNotificationDetails("id", "channel", "description");
+    var android = AndroidNotificationDetails("id", "channel"/*, "description"*/);
 
     var ios = IOSNotificationDetails();
 
@@ -67,7 +67,7 @@ class NotificationService extends ChangeNotifier {
         htmlFormatContent: true,
         htmlFormatContentTitle: true);
 
-    var android = AndroidNotificationDetails("id", "channel", "description",
+    var android = AndroidNotificationDetails("id", "channel", /*"description",*/
         styleInformation: bigPicture);
 
     var platform = new NotificationDetails(android: android);
@@ -79,7 +79,7 @@ class NotificationService extends ChangeNotifier {
 
   //Stylish Notification
   Future stylishNotification() async {
-    var android = AndroidNotificationDetails("id", "channel", "description",
+    var android = AndroidNotificationDetails("id", "channel", /*"description",*/
         color: Colors.deepOrange,
         enableLights: true,
         enableVibration: true,
@@ -105,7 +105,7 @@ class NotificationService extends ChangeNotifier {
         htmlFormatContent: true,
         htmlFormatContentTitle: true);
 
-    var android = AndroidNotificationDetails("id", "channel", "description",
+    var android = AndroidNotificationDetails("id", "channel", /*"description",*/
         styleInformation: bigPicture);
 
     var platform = new NotificationDetails(android: android);
