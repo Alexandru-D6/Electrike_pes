@@ -6,14 +6,17 @@ import 'package:flutter/foundation.dart' show ValueChanged, VoidCallback;
 
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord;
 
+import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 /// Marks a geographical location on the map.
 ///
 /// A marker icon is drawn oriented against the device's screen rather than
 /// the map's surface; that is, it will not necessarily change orientation
 /// due to map rotations, tilting, or zooming.
-class Marker {
+class Marker with ClusterItem{
   /// Creates an instance of [Marker].
-  const Marker(
+  Marker(
     this.position, {
     this.label,
     this.icon,
@@ -47,4 +50,14 @@ class Marker {
 
   /// if [onInfoWindowTap] is set, it will be called once InfoWindow will be tapped.
   final VoidCallback? onInfoWindowTap;
+
+  @override
+  String toString() {
+    return 'Place $label (coords : $position)';
+  }
+
+  LatLng toLatLng(GeoCoord a) => LatLng(a.latitude, a.longitude);
+
+  @override
+  LatLng get location => toLatLng(position);
 }
