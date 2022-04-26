@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import 'package:flutter_project/interficie/widget/drop_down_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_project/interficie/widget/language_picker_widget.dart';
 import 'package:sign_button/sign_button.dart';
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -29,7 +29,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               email: email,
               context: context,
               onClicked: () {
-                if(name == S.of(context).clickToLogin) {
+                if(name == AppLocalizations.of(context).clickToLogin) {
                   ctrlPresentation.signInRoutine(context);
                 } else {
                   ctrlPresentation.toProfilePage(context);
@@ -42,13 +42,13 @@ class NavigationDrawerWidget extends StatelessWidget {
                 children: [
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: S.of(context).map,
+                    text: AppLocalizations.of(context).map,
                     icon: Icons.map_outlined,
                     onClicked: () => ctrlPresentation.toMainPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: S.of(context).garage,
+                    text: AppLocalizations.of(context).garage,
                     icon: Icons.garage,
                     onClicked: () {
                       ctrlPresentation.toGaragePage(context);
@@ -56,30 +56,30 @@ class NavigationDrawerWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: S.of(context).favourites,
+                    text: AppLocalizations.of(context).favourites,
                     icon: Icons.favorite_border,
                     onClicked: () => ctrlPresentation.toFavouritesPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: S.of(context).achievements,
+                    text: AppLocalizations.of(context).achievements,
                     icon: Icons.emoji_events,
                     onClicked: () => ctrlPresentation.toRewardsPage(context),
                   ),
                   const SizedBox(height: 10),
                   const Divider(color: Colors.white70),
                   const SizedBox(height: 10),
-                  const MyStatefulWidget(),
+                  LanguagePickerWidget(),
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: S.of(context).information,
+                    text: AppLocalizations.of(context).information,
                     icon: Icons.info,
                     onClicked: () => ctrlPresentation.toInfoAppPage(context),
                   ),
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: S.of(context).contactUs,
+                    text: AppLocalizations.of(context).contactUs,
                     icon: Icons.phone,
                     onClicked: () => ctrlPresentation.mailto(),
                   ),
@@ -90,7 +90,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
                   const SizedBox(height: 10),
                   buildMenuItem(
-                    text: S.of(context).logout,
+                    text: AppLocalizations.of(context).logout,
                     icon: Icons.logout,
                     onClicked: () {
                       ctrlPresentation.logoutRoutine(context);
@@ -106,7 +106,7 @@ class NavigationDrawerWidget extends StatelessWidget {
   }
 
   Widget buildHeader({
-    String? urlImage,
+    required String urlImage,
     required String name,
     required String email,
     required BuildContext context,
@@ -118,7 +118,7 @@ class NavigationDrawerWidget extends StatelessWidget {
           padding: padding.add(const EdgeInsets.symmetric(vertical: 40)),
           child: Row(
             children: [
-              if (name != S.of(context).clickToLogin) CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage!))
+              if (name != AppLocalizations.of(context).clickToLogin) CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage))
               else
                 SignInButton.mini(
                   buttonType: ButtonType.googleDark,
@@ -134,9 +134,9 @@ class NavigationDrawerWidget extends StatelessWidget {
                   children: [
                     AutoSizeText(
                       name,
-                      style: const TextStyle(fontSize: 80, color: Colors.white), //letra real a 20 pero como tenemos autoSizeText... 80 para que rellene
+                      style: const TextStyle(fontSize: 80, color: Colors.white),
                       textAlign: TextAlign.center,
-                      maxLines: (name != S.of(context).clickToLogin ? 1: 2),
+                      maxLines: name == "Haga clic para iniciar sesión" || name == "Pulsa per iniciar sessió" ? 2:1,
                     ),
                     Row(
                       children:<Widget>[

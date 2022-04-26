@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'attribute.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class CarInfomation extends StatelessWidget {
@@ -41,23 +41,23 @@ class CarInfomation extends StatelessWidget {
             children: [
               Attribute(
                 value: car[2],
-                name: S.of(context).carBrand,
+                name: AppLocalizations.of(context).carBrand,
               ),
               Attribute(
                 value: car[3],
-                name: S.of(context).carModelLabel,
+                name: AppLocalizations.of(context).carModelLabel,
               ),
               Attribute(
                 value: car[4],
-                name: S.of(context).carBatteryLabel,
+                name: AppLocalizations.of(context).carBatteryLabel,
               ),
               Attribute(
                 value: car[5],
-                name: S.of(context).power,
+                name: AppLocalizations.of(context).power,
               ),
               Attribute(
                 value: car[5],
-                name: S.of(context).efficiency,
+                name: AppLocalizations.of(context).efficiency,
               ),
             ],
           )
