@@ -23,7 +23,6 @@
   "carBrandLabel": "Please select a brand",
   "maxCharMssg": "You cannot have more than 15 characters",
   "chargerTypeLabel": "Selecciona els carregadors que pot utilitzar (tingues en compte també els adaptadors, en el cas de tenir-ne cap)",
-  "charts": "Charts",
   "add": "Add",
   "login": "Log-in",
   "toAddCarLogin": "To add a car you must be logged!",

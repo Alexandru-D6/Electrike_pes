@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:responsive_grid/responsive_grid.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'attribute.dart';
 
@@ -73,7 +73,9 @@ class EditInfoCar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
-          onPressed: () {},//TODO: EditInfoCar
+          onPressed: () {
+            ctrlPresentation.toEditCar(context, car);
+          },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(mCardColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -92,7 +94,7 @@ class EditInfoCar extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            _showMyDialog(context, car);
+            _showMyDialog(context, car[0]);
           },
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(mPrimaryColor),
@@ -113,18 +115,18 @@ class EditInfoCar extends StatelessWidget {
       ],
     );
   }
-  _showMyDialog(BuildContext context, List<String> car) {
+  _showMyDialog(BuildContext context, String carId) {
     return AwesomeDialog(
       context: context,
       dialogType: DialogType.WARNING,
       animType: AnimType.BOTTOMSLIDE,
-      title: S.of(context).alertSureDeleteCarTitle,
-      desc: S.of(context).alertSureDeleteCarContent,
+      title: AppLocalizations.of(context).alertSureDeleteCarTitle,
+      desc: AppLocalizations.of(context).alertSureDeleteCarContent,
       btnCancelOnPress: () {},
       btnOkIcon: (Icons.delete),
       btnOkText: "Delete",
       btnOkOnPress: () {
-        ctrlPresentation.deleteCar(context, car[0]);
+        ctrlPresentation.deleteCar(context, carId);
       },
       headerAnimationLoop: false,
     ).show();
@@ -191,27 +193,22 @@ class CarInfo extends StatelessWidget {
           children: [
             Attribute(
               value: car[2],
-              name: S.of(context).carBrand,
+              name: AppLocalizations.of(context).carBrand,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[3],
-              name: S.of(context).carModelLabel,
+              name: AppLocalizations.of(context).carModelLabel,
               textColor: Colors.black87,
             ),
             Attribute(
-              value: car[4], //TODO: BATERIA
-              name: S.of(context).carBatteryLabel,
-              textColor: Colors.black87,
-            ),
-            Attribute(
-              value: car[5], //TODO: POTENCIA
-              name: S.of(context).power,
+              value: car[4],
+              name: AppLocalizations.of(context).carBatteryLabel,
               textColor: Colors.black87,
             ),
             Attribute(
               value: car[5],
-              name: S.of(context).efficiency,
+              name: AppLocalizations.of(context).power,
               textColor: Colors.black87,
             ),
           ],

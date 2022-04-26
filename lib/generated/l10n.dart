@@ -90,6 +90,16 @@ class S {
     );
   }
 
+  /// `Charts`
+  String get charts {
+    return Intl.message(
+      'Charts',
+      name: 'charts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Information`
   String get information {
     return Intl.message(
@@ -285,16 +295,6 @@ class S {
     return Intl.message(
       'Selecciona els carregadors que pot utilitzar (tingues en compte també els adaptadors, en el cas de tenir-ne cap)',
       name: 'chargerTypeLabel',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Charts`
-  String get charts {
-    return Intl.message(
-      'Charts',
-      name: 'charts',
       desc: '',
       args: [],
     );
