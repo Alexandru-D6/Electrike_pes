@@ -146,10 +146,18 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
     if (_markers.containsKey(key)) return;
 
+    String? iconPath = "assets/images/me.png";
+
+    _markers_colection.forEach((key_, value) {
+      if (value.containsKey(key)) {
+        iconPath = value[key]?.icon;
+      }
+    });
+
     final marker = Marker()
       ..map = _map
       ..label = label
-      ..icon = _getImage("assets/images/me.png")
+      ..icon = _getImage(iconPath!)
       ..position = position.toLatLng();
 
     if (info != null || onTap != null) {
