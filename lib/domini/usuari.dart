@@ -13,6 +13,7 @@ class Usuari {
   late int kmRecorregut;
   late int co2Estalviat;
   late Trofeu t;
+  String idiom = "";
 
 
   //crear un usuari null

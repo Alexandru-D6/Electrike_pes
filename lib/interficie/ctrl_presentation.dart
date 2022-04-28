@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
@@ -5,8 +7,10 @@ import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,6 +27,7 @@ class CtrlPresentation {
   String email = "";
   String name = "";
   String photoUrl = "";
+  String idiom = "en";
   List<Coordenada> favs = <Coordenada>[];
   String actualLocation = "Your location";
   String destination = "Search...";
@@ -183,6 +188,8 @@ class CtrlPresentation {
   void signInRoutine(BuildContext context) async {
     toMainPage(context);
     await serviceLocator<GoogleLoginAdpt>().login();
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    provider.setLocale(Locale(ctrlDomain.usuari.idiom));
   }
 
   void logoutRoutine(BuildContext context) async {
@@ -364,5 +371,16 @@ class CtrlPresentation {
     }
     return l;
   }
+
+  void setIdiom(String idiom) {
+    this.idiom = idiom;
+    ctrlDomain.setIdiom(idiom);
+  }
+
+  bool islogged(){
+    return ctrlDomain.islogged();
+  }
+
+
 
 }

@@ -33,9 +33,7 @@ class LanguagePickerWidget extends StatelessWidget {
               ),
               value: locale,
               onTap: () {
-                final provider =
-                Provider.of<LocaleProvider>(context, listen: false);
-
+                final provider = Provider.of<LocaleProvider>(context, listen: false);
                 provider.setLocale(locale);
               },
             );

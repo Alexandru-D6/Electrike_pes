@@ -60,6 +60,16 @@ class CtrlDomain {
   }
 
   //USER
+  bool islogged(){
+    if (usuari.name == "")return false;
+    return true;
+  }
+  void setIdiom(String idiom)async{
+    if(islogged()) {
+      var url = urlorg + 'change_language?email=' + usuari.correu + '&language=' + idiom;
+      var response = (await http.post(Uri.parse(url)));
+    }
+  }
   Future<void> initializeUser(String email, String name, String img)async {
     var url = urlorg +'exist_user?email='+email;
     var response = (await http.get(Uri.parse(url)));
@@ -72,6 +82,7 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = name;
       usuari.foto = img;
+      setIdiom(ctrlPresentation.idiom);
     }
     else {
       url = urlorg + 'user_info?email=' + email;
@@ -127,7 +138,7 @@ class CtrlDomain {
     }
     getNomsFavBicing();
     getNomsFavChargers();
-
+    IdiomfromLogin();
   }
   //Elimina el continguts dels llistats referents als usuaris per quan fa logout
   void resetUserSystem(){
@@ -147,13 +158,6 @@ class CtrlDomain {
     await http.post(Uri.parse(url));
     resetUserSystem();
   }
-  /*String getLanguageUser(){
-    //PONER IDIOMAAAAAAA
-    return usuari.correu;
-  }
-  String getCurrentUserName(){
-    return usuari.name;
-  }*/
 
   //USER CARS
   void addVUser(String name, String brand, String modelV, String bat, String eff,List<String> lEndolls){
@@ -679,5 +683,12 @@ class CtrlDomain {
         nomsFavBicings.add('Bicing'+it['name']);
       }
     }
+  }
+
+  void IdiomfromLogin() async{
+    var url = urlorg+'user_language?email='+ usuari.correu;
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    usuari.idiom = resp['items'];
   }
 }
