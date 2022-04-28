@@ -2,8 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../libraries/flutter_google_maps/flutter_google_maps.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
@@ -109,6 +112,14 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           tooltip: AppLocalizations.of(context).msgAddFav,
           onPressed: () {
               ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
+              if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
+                GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favChargerPoints");
+              }
+              else {
+                GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
+                  const MyMap().markerCharger(
+                      context, widget.latitude, widget.longitude), group: "favChargerPoints");
+              }
               Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
           },
         ),

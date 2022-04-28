@@ -21,6 +21,13 @@ class MyMap extends StatefulWidget {
   @override
   _MyMapState createState() => _MyMapState();
 
+  Marker markerCharger(BuildContext context, double latitude, double longitude) {
+    return buildChargerMarker(lat: latitude, long: longitude, context: context);
+  }
+
+  Marker markerBicing(BuildContext context, double latitude, double longitude) {
+    return buildBicingMarker(lat: latitude, long: longitude, context: context);
+  }
 }
 
 class _MyMapState extends State<MyMap> {
