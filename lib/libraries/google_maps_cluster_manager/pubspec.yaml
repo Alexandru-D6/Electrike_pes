@@ -12,6 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_google_maps:
+    path: ../../libraries/flutter_google_maps
+
   google_maps_flutter_platform_interface: ^2.1.0
 
 dev_dependencies:

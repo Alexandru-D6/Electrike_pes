@@ -149,7 +149,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     final marker = Marker()
       ..map = _map
       ..label = label
-      ..icon = _getImage(icon)
+      ..icon = _getImage("assets/images/me.png")
       ..position = position.toLatLng();
 
     if (info != null || onTap != null) {
@@ -271,39 +271,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   @override
-  void clearMarkers() {/*
-    _markers_colection.clear();
-
-    _shown_markers_bicing.clear();
-    _shown_markers_general.clear();
-    _shown_markers_charger.clear();
-
-    _current_displaying.clear();
-    _items_charger.clear();
-    _items_general.clear();
-    _items_bicing.clear();
-
-    _manager_charger.setItems(List<items_t.Marker>.empty());
-    _manager_bicing.setItems(List<items_t.Marker>.empty());
-    _manager_general.setItems(List<items_t.Marker>.empty());
-
-    for (Marker? marker in _shown_markers_bicing) {
+  void clearMarkers() {
+    for (Marker? marker in _markers.values) {
       marker?.map = null;
       marker = null;
     }
-    _shown_markers_bicing.clear();
-
-    for (Marker? marker in _shown_markers_charger) {
-      marker?.map = null;
-      marker = null;
-    }
-    _shown_markers_charger.clear();
-
-    for (Marker? marker in _shown_markers_general) {
-      marker?.map = null;
-      marker = null;
-    }
-    _shown_markers_general.clear();
+    _markers.clear();
 
     for (InfoWindow? info in _infos.values) {
       info?.close();
@@ -311,7 +284,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
     _infos.clear();
 
-    _infoState.clear();*/
+    _infoState.clear();
   }
 
   @override
@@ -646,13 +619,24 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     });
   }
 
+  /*Future<File> writeImageTemp(String base64Image, String imageName) async {
+    final dir = await getTemporaryDirectory();
+    await dir.create(recursive: true);
+    final tempFile = File(dir.path.toString() + "/"+ imageName + ".png");//File(path.join(dir.path.toString(), [imageName]));
+    await tempFile.
+    await tempFile.writeAsBytes(base64.decode(base64Image));
+    return tempFile;
+  }*/
+
   void _updateMarkersBicing(Set<tryThis.Marker> markers) {
     print("aaaa");
     markers.forEach((element) {
+      var func = element.onTap!;
       addMarkerRaw(
         GeoCoord(element.position.latitude, element.position.longitude),
         "default",
-        label: element.position.toString(),
+        label: "",
+        onTap: (testing) => func(),
         icon: element.icon.toString(),
         info: element.infoWindow.toString(),
       );
@@ -662,10 +646,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   void _updateMarkersGeneral(Set<tryThis.Marker> markers) {
     print("bbbb");
     markers.forEach((element) {
+      var func = element.onTap!;
       addMarkerRaw(
         GeoCoord(element.position.latitude, element.position.longitude),
         "default",
-        label: element.position.toString(),
+        label: "",
+        onTap: (testing) => func(),
         icon: element.icon.toString(),
         info: element.infoWindow.toString(),
       );
@@ -675,10 +661,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   void _updateMarkersCharger(Set<tryThis.Marker> markers) {
     print("cccc");
     markers.forEach((element) {
+      var func = element.onTap!;
       addMarkerRaw(
         GeoCoord(element.position.latitude, element.position.longitude),
         "default",
-        label: element.position.toString(),
+        label: "",
+        onTap: (testing) => func(),
         icon: element.icon.toString(),
         info: element.infoWindow.toString(),
       );
@@ -694,8 +682,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           double? cur_zoom = _map!.zoom?.toDouble();
           moveCamera(GeoCoord(cluster.location.latitude, cluster.location.longitude), zoom: cur_zoom! + 2.0);
         },
-        icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
-            text: cluster.isMultiple ? cluster.count.toString() : null),
+        icon: BitmapDescriptor.defaultMarker/*await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
+            text: cluster.isMultiple ? cluster.count.toString() : null)*/,
 
       );
       
@@ -717,10 +705,10 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
       tryThis.Marker res = tryThis.Marker(
         markerId: MarkerId(cluster.getId()),
-        onTap: func != null ? () => func(cluster.location.toString()) : null,
+        onTap: () => cluster.items.first.onTap!("aaaa"),
         consumeTapEvents: cluster.items.first.onTap != null,
         position: cluster.location,
-        icon: icon == null ? BitmapDescriptor.defaultMarker : await _getImage(icon) as BitmapDescriptor,
+        icon: /*icon == null ? */BitmapDescriptor.defaultMarker/* : await _getImage(icon) as BitmapDescriptor*/,
         infoWindow: cluster.items.first.info != null
             ? tryThis.InfoWindow(
           title: cluster.items.first.info,
@@ -1038,6 +1026,26 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
         _map = GMap(elem, _mapOptions);
 
+        double? cur_zoom = _map!.zoom?.toDouble();
+        if (_map != null) {
+          _manager_charger.setMapZoomW(cur_zoom!);
+          _manager_bicing.setMapZoomW(cur_zoom);
+          _manager_general.setMapZoomW(cur_zoom);
+        }
+
+        _map!.onCenterChanged.listen((event) {
+          _manager_charger.onCameraMoveW(cur_zoom!);
+          _manager_bicing.onCameraMoveW(cur_zoom);
+          _manager_general.onCameraMoveW(cur_zoom);
+        });
+
+        _map!.onIdle.listen((event) {
+          clearMarkers();
+
+          _manager_charger.updateMapW(_map!);
+          _manager_bicing.updateMapW(_map!);
+          _manager_general.updateMapW(_map!);
+        });
 
         _subscriptions.add(_map!.onClick.listen((event) => widget.onTap?.call(event.latLng!.toGeoCoord())));
         _subscriptions.add(_map!.onRightclick.listen((event) => widget.onLongPress?.call(event.latLng!.toGeoCoord())));
