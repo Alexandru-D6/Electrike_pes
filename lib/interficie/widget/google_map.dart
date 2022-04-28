@@ -11,6 +11,7 @@ import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
+import 'InfoRuta.dart';
 
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -164,6 +165,7 @@ class _MyMapState extends State<MyMap> {
             child: FloatingActionButton(
               onPressed: (){
                 ctrlPresentation.clearAllRoutes();
+                showInfoRuta(context);
                 ctrlPresentation.makeRoute();
               },
               heroTag: "Ruta",
@@ -342,6 +344,28 @@ showInfoCharger(BuildContext context, double lat, double long) {
               child: Stack(
                 children: [
                   ChargePointDetailInformation(latitude: lat, longitude: long,),
+                ],
+              ),
+            ),
+          ],
+        );
+      });
+}
+
+showInfoRuta(BuildContext context) {
+  showModalBottomSheet(
+      context: context,
+      backgroundColor: cTransparent,
+      builder: (builder){
+        return Stack(
+          children: [
+            Positioned(
+              left: 24,
+              right: 24,
+              bottom: 24,
+              child: Stack(
+                children: const [
+                  InfoRuta(),
                 ],
               ),
             ),
