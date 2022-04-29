@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:html';
 import 'dart:math';
 import 'dart:typed_data';
@@ -157,7 +158,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     final marker = Marker()
       ..map = _map
       ..label = label
-      ..icon = _getImage(iconPath!)
+      ..icon = _getImage((icon?.contains("defaultMarker") == true) ? "assets/images/me.png" : icon)
       ..position = position.toLatLng();
 
     if (info != null || onTap != null) {
@@ -514,6 +515,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _polygons.clear();
   }
 
+
+
   void _createMapOptions() {
     _mapOptions = MapOptions()
       ..zoom = widget.initialZoom
@@ -640,12 +643,19 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     print("aaaa");
     markers.forEach((element) {
       var func = element.onTap!;
+
+      var temp = element.icon.toJson().toString().split("[fromBytes, ");
+      String cur_bitmap = "";
+
+      if (temp.length > 1)
+        cur_bitmap = temp[1].replaceAll(',', '').replaceAll(' ', '').replaceFirst("[", "bytes://").replaceAll("]", '');
+
       addMarkerRaw(
         GeoCoord(element.position.latitude, element.position.longitude),
         "default",
         label: "",
         onTap: (testing) => func(),
-        icon: element.icon.toString(),
+        icon: cur_bitmap,
         info: element.infoWindow.toString(),
       );
     });
@@ -660,7 +670,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         "default",
         label: "",
         onTap: (testing) => func(),
-        icon: element.icon.toString(),
+        icon: element.icon.toJson().toString(),
         info: element.infoWindow.toString(),
       );
     });
@@ -675,7 +685,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         "default",
         label: "",
         onTap: (testing) => func(),
-        icon: element.icon.toString(),
+        icon: element.icon.toJson().toString(),
         info: element.infoWindow.toString(),
       );
     });
@@ -690,8 +700,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           double? cur_zoom = _map!.zoom?.toDouble();
           moveCamera(GeoCoord(cluster.location.latitude, cluster.location.longitude), zoom: cur_zoom! + 2.0);
         },
-        icon: BitmapDescriptor.defaultMarker/*await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
-            text: cluster.isMultiple ? cluster.count.toString() : null)*/,
+        icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
+            text: cluster.isMultiple ? cluster.count.toString() : null),
 
       );
       
