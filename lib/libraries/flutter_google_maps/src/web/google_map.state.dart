@@ -9,6 +9,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'dart:ui';
+import 'dart:io' as io;
 
 import 'package:flinq/flinq.dart';
 import 'package:flutter/foundation.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 import 'package:google_maps/google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show BitmapDescriptor, MarkerId;
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../core/google_map.dart' as gmap;
@@ -63,15 +65,51 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   GMap? _map;
   MapOptions? _mapOptions;
 
-  String? _getImage(String? image) {
-    if (image == null) return null;
-
+  FutureOr<BitmapDescriptor> _getBmpDesc(String image) async {
     if (utils.ByteString.isByteString(image)) {
-      final blob = Blob([utils.ByteString.fromString(image)], 'image/png');
-      return Url.createObjectUrlFromBlob(blob);
+      return BitmapDescriptor.fromBytes(utils.ByteString.fromString(image));
     }
 
-    return '${fixAssetPath(image)}assets/$image';
+    return await BitmapDescriptor.fromAssetImage(
+      createLocalImageConfiguration(context),
+      image,
+    );
+  }
+
+  Future<String?> _getImage(String? image) async {
+    if (image == null) return null;
+
+    print("-->");
+    if (utils.ByteString.isByteString(image)) {
+      print(image);
+      print("check");
+
+      int? len = image.length;
+      while ((len! - 8)%4 != 0) {
+        image = image! + "0";
+        len = image.length;
+      }
+
+      print("check");
+
+      final blob = Blob([utils.ByteString.fromString(image!)], 'image/png');
+      final temp = Url.createObjectUrlFromBlob(blob);
+
+      final anchor =
+      document.createElement('a') as AnchorElement
+        ..href = temp
+        ..style.display = 'none'
+        ..download = 'some_name.png';
+      document.body?.children.add(anchor);
+
+      print(anchor.download);
+      print(temp);
+      return anchor.download;
+    }
+
+    final temp2 = '${fixAssetPath(image)}assets/$image';
+    print(temp2);
+    return temp2;
   }
 
   @override
@@ -133,7 +171,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   @override
-  void addMarkerRaw(
+  Future<void> addMarkerRaw(
     GeoCoord position,
     String group,{
     String? label,
@@ -142,23 +180,15 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     String? infoSnippet,
     ValueChanged<String>? onTap,
     ui.VoidCallback? onInfoWindowTap,
-  }) {
+  }) async {
     final key = position.toString();
 
     if (_markers.containsKey(key)) return;
 
-    String? iconPath = "assets/images/me.png";
-
-    _markers_colection.forEach((key_, value) {
-      if (value.containsKey(key)) {
-        iconPath = value[key]?.icon;
-      }
-    });
-
     final marker = Marker()
       ..map = _map
       ..label = label
-      ..icon = _getImage((icon?.contains("defaultMarker") == true) ? "assets/images/me.png" : icon)
+      ..icon = await _getImage((icon?.contains("defaultMarker") == true || icon == "") ? "assets/images/me.png" : icon)
       ..position = position.toLatLng();
 
     if (info != null || onTap != null) {
@@ -618,9 +648,9 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void initState() {
-    _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, markerBuilder: _markerBuilder(Colors.red), levels: _cluster_levels);
-    _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, markerBuilder: _markerBuilder(Colors.blue), levels: _cluster_levels);
-    _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.yellow), levels: _cluster_levels);
+    _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, markerBuilder: _markerBuilder(Colors.red));
+    _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, markerBuilder: _markerBuilder(Colors.blue));
+    _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.yellow));
 
     super.initState();
     SchedulerBinding.instance!.addPostFrameCallback((_) {
@@ -706,17 +736,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       );
       
       return res;
-      /*
-      return getMarkerRaw( //todo: add all addmarkerraw where
-        label: cluster.getId(),
-        position: LatLng(cluster.location.latitude, cluster.location.longitude),
-        onTap: (String) {
-          double? cur_zoom = _map!.zoom?.toDouble();
-          moveCamera(GeoCoord(cluster.location.latitude, cluster.location.longitude), zoom: cur_zoom! + 2.0);
-        },
-        icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
-            text: cluster.isMultiple ? cluster.count.toString() : null).toString(),
-      ).cast<tryThis.Marker>();*/
     }else {
       ValueChanged<String>? func = cluster.items.first.onTap;
       String? icon = cluster.items.first.icon;
@@ -726,7 +745,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         onTap: () => cluster.items.first.onTap!("aaaa"),
         consumeTapEvents: cluster.items.first.onTap != null,
         position: cluster.location,
-        icon: /*icon == null ? */BitmapDescriptor.defaultMarker/* : await _getImage(icon) as BitmapDescriptor*/,
+        icon: icon == null ? BitmapDescriptor.defaultMarker : await _getBmpDesc(icon),
         infoWindow: cluster.items.first.info != null
             ? tryThis.InfoWindow(
           title: cluster.items.first.info,
@@ -754,7 +773,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     final PictureRecorder pictureRecorder = PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     final Paint paint1 = Paint()..color = color;
-    final Paint paint2 = Paint()..color = Colors.white;
+    final Paint paint2 = Paint()..color = Colors.black;
 
     canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint1);
     canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
