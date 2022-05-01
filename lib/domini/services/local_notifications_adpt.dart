@@ -36,6 +36,7 @@ class LocalNotificationAdpt {
   const AndroidInitializationSettings('assets/images/logo.png');
 }
 */
+/*
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -144,3 +145,119 @@ class NotificationService extends ChangeNotifier {
     await _flutterLocalNotificationsPlugin.cancelAll();
   }
 }
+*/
+
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+class NotificationService {
+  //NotificationService a singleton object
+  static final NotificationService _notificationService =
+  NotificationService._internal();
+
+  factory NotificationService() {
+    return _notificationService;
+  }
+
+  NotificationService._internal();
+
+  static const channelId = '123';
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  Future<void> init() async {
+    final AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    final IOSInitializationSettings initializationSettingsIOS =
+    IOSInitializationSettings(
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+    );
+
+    final InitializationSettings initializationSettings =
+    InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS,
+        macOS: null);
+
+    tz.initializeTimeZones();
+
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings/*, onSelectNotification: SelectNotification*/);
+  }
+
+  AndroidNotificationDetails _androidNotificationDetails =
+  AndroidNotificationDetails(
+    'channel ID',
+    'channel name',
+    /*'channel description',*/
+    playSound: true,
+    priority: Priority.high,
+    importance: Importance.high,
+  );
+
+  Future<void> showNotifications() async {
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      "Notification Title",
+      "This is the Notification Body!",
+      NotificationDetails(android: _androidNotificationDetails),
+    );
+  }
+
+  Future<void> scheduleNotifications() async {
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        "Notification Title",
+        "This is the Notification Body!",
+        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+        NotificationDetails(android: _androidNotificationDetails),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime);
+  }
+
+  Future<void> cancelNotifications(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  Future<void> cancelAllNotifications() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+
+
+  displayNotification({required String title, required String body}) async {
+    print("doing test");
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+        'your channel id', 'your channel name', /* 'your channel description',*/
+        importance: Importance.max, priority: Priority.high);
+    var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+
+    var flutterLocalNotificationsPlugin;
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'You change your theme',
+      'You changed your theme back !',
+      platformChannelSpecifics,
+      payload: 'It could be anything you pass',
+    );
+  }
+
+
+
+
+}
+
+Future selectNotification(String payload) async {
+  //handle your logic here
+}
+
+
+
+
