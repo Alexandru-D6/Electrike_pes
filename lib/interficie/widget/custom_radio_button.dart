@@ -35,9 +35,9 @@ class _CustomRadioState extends State<CustomRadio> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         CustomRadioButton("Normal", 0),
-        const SizedBox(width: 30),
+        const SizedBox(width: 5),
         CustomRadioButton("Charger Points", 1),
-        const SizedBox(width: 30),
+        const SizedBox(width: 5),
         CustomRadioButton("Eco", 2)
       ],
     );
