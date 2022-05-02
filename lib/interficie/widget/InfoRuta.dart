@@ -27,33 +27,15 @@ class InfoRuta extends StatelessWidget {
             height: 200,
             width: 200,
             child: NotificationListener<ScrollEndNotification>(
-              child: ListView(
+              child: ListView.builder(
+                    itemCount: userCarList.length,
+                    itemBuilder: (context, index) => carItem(userCarList[index]),
+
                     controller: controller,
                     physics: const PageScrollPhysics(), //To stop 1 at a time
                     // This next line does the trick.
                     scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      Container(
-                        width: 200.0,
-                        color: Colors.red,
-                      ),
-                      Container(
-                        width: 200.0,
-                        color: Colors.blue,
-                      ),
-                      Container(
-                        width: 200.0,
-                        color: Colors.green,
-                      ),
-                      Container(
-                        width: 200.0,
-                        color: Colors.yellow,
-                      ),
-                      Container(
-                        width: 200.0,
-                        color: Colors.orange,
-                      ),
-                    ],
+
                   ),
               onNotification: (notification) {
                 print(controller.position.pixels); //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
@@ -71,6 +53,23 @@ class InfoRuta extends StatelessWidget {
 
         ],
       ),
+    );
+  }
+
+  Widget carItem(List<String> car){
+    return Container(
+        width: 200.0,
+        decoration: const BoxDecoration(
+          //color: Colors.white,
+          image: DecorationImage(
+            image: AssetImage("assets/brandCars/RAYO.png"),
+          ),
+        ),
+        child: const Align(
+            alignment: Alignment.bottomCenter,
+            child: Text("Grocery store")
+        ),
+
     );
   }
 }
