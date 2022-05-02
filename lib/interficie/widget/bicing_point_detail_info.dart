@@ -2,6 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
+
+import '../../libraries/flutter_google_maps/flutter_google_maps.dart';
 
 class BicingPointDetailInformation extends StatelessWidget {
   const BicingPointDetailInformation({
@@ -93,9 +96,17 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
-          tooltip: 'Add points to favourites', //todo: translate S.of(context).[]
+          tooltip: 'Add points to favourites', //todo: translate App....of(context).[]
           onPressed: () {
             ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
+            if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
+              GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favBicingPoints");
+            }
+            else {
+              GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
+                  const MyMap().markerBicing(
+                      context, widget.latitude, widget.longitude), group: "favBicingPoints");
+            }
             Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
           },
         ),
