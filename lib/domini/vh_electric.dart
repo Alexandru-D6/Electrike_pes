@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter_project/domini/vehicle.dart';
 
 class VhElectric extends Vehicle {
@@ -35,6 +37,5 @@ class VhElectric extends Vehicle {
   set model(String model) {
     super.model = model;
   }
-
 
 }

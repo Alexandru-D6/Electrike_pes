@@ -23,6 +23,7 @@ class CtrlDomain {
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
   List<Coordenada> coordBarcelona = <Coordenada>[];
   List<Coordenada> coordCatalunya = <Coordenada>[];
+  List<Coordenada> coordCarregadorsPropers = <Coordenada>[];
 
   //DATA INFO SYSTEM
   List<VhElectric> vhElectrics = <VhElectric>[];
@@ -687,7 +688,7 @@ class CtrlDomain {
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
     for(var info in respCars['items']){
-      info['Station_id'];
+      coordCarregadorsPropers.add(Coordenada(info['Station_lat'], info['Station_lng']));
     }
   }
 }
