@@ -26,12 +26,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'local_notifications_adpt.dart';
 
-void main() => runApp(const SplashScreen());
+void main() => initializeSystem();
 
 Future initializeSystem() async {
   CtrlDomain ctrlDomain = CtrlDomain();
-
-  NotificationService().init();
 
   await ctrlDomain.initializeSystem();
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
@@ -126,6 +124,12 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void initState() {
+    serviceLocator<LocalNotificationAdpt>().init();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     Location location = Location();
@@ -140,10 +144,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: const [
-          MyMap(),
-          SearchBarWidget(),
-        ],
+        children: [ElevatedButton(onPressed: () => serviceLocator<LocalNotificationAdpt>().showNotifications(), child: Text("Instant Notification"))],
       ),
     );
   }

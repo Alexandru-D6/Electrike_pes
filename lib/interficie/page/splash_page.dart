@@ -15,12 +15,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreen extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-
-    NotificationService notificationService = NotificationService();
-    notificationService.showNotifications();
-    //notificationService.displayNotification("Hello", "hola");
-    print("Hola!");
-
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: AnimatedSplashScreen.withScreenFunction(
