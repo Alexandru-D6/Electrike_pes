@@ -39,7 +39,7 @@ class CtrlPresentation {
     ).show();
   }
 
-  void toMainPage(BuildContext context){
+  toMainPage(BuildContext context){
     //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/'));
   }
@@ -53,7 +53,7 @@ class CtrlPresentation {
     );
   }
 
-  void toGaragePage(BuildContext context){
+  toGaragePage(BuildContext context){
     //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
@@ -66,7 +66,7 @@ class CtrlPresentation {
     }
   }
 
-  void toFavouritesPage(BuildContext context){
+  toFavouritesPage(BuildContext context){
     //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
@@ -79,7 +79,7 @@ class CtrlPresentation {
     }
   }
 
-  void toRewardsPage(BuildContext context){
+  toRewardsPage(BuildContext context){
     //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
     if(email == "") {
       _showNotLogDialog(context);
@@ -92,7 +92,7 @@ class CtrlPresentation {
     }
   }
 
-  void toInfoAppPage(BuildContext context){
+  toInfoAppPage(BuildContext context){
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
@@ -100,7 +100,7 @@ class CtrlPresentation {
     );
   }
 
-  void toFormCar(BuildContext context) {
+  toFormCar(BuildContext context) {
     if(email == ""){
       AwesomeDialog(
         context: context,
@@ -127,7 +127,7 @@ class CtrlPresentation {
     }
   }
 
-  void toEditCar(BuildContext context, List<String> car) {
+  toEditCar(BuildContext context, List<String> car) {
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
@@ -136,7 +136,7 @@ class CtrlPresentation {
     );
   }
 
-  void toChartPage(BuildContext context, String pointTitle){
+  toChartPage(BuildContext context, String pointTitle){
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
@@ -183,6 +183,7 @@ class CtrlPresentation {
   void signInRoutine(BuildContext context) async {
     toMainPage(context);
     await serviceLocator<GoogleLoginAdpt>().login();
+
   }
 
   void logoutRoutine(BuildContext context) async {
@@ -257,7 +258,8 @@ class CtrlPresentation {
 
   void clearAllRoutes(){
     GoogleMap.of(getMapKey())?.clearDirections();
-        }
+  }
+
   void moveCameraToLocation() {
     Location location = Location();
 
@@ -267,6 +269,7 @@ class CtrlPresentation {
       GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
     });
   }
+
   void moveCameraToSpecificLocation(BuildContext context, double? lat, double? lng) {
     //used to move camera to specific chargers or points
     //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
