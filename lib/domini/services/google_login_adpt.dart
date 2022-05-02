@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart';
@@ -23,22 +24,30 @@ class GoogleLoginAdpt {
   GoogleLoginAdpt._internal();
   CtrlDomain ctrlDomain = CtrlDomain();
 
-  Future<GoogleSignInAccount?> login() {
+  Future<GoogleSignInAccount?> login() async {
     var _googleSignIn = _googleSignInWeb;
     if (defaultTargetPlatform == TargetPlatform.android) {
       _googleSignIn = _googleSignInAndroid;
     }
 
-      final user = _googleSignIn.signIn();
-      user.then((u) {
-        late String name, email, photoUrl;
-        if(u?.displayName != null) name = u!.displayName.toString();
-        if(u?.email != null) email = u!.email.toString();
-        if(u?.photoUrl != null) photoUrl = u!.photoUrl.toString();
+    final user = await _googleSignIn.signIn();
 
-        ctrlDomain.initializeUser(email, name, photoUrl);
-      });
-      return user;
+    late String name, email, photoUrl;
+    if(user?.displayName != null) name = user!.displayName.toString();
+    if(user?.email != null) email = user!.email.toString();
+    if(user?.photoUrl != null) photoUrl = user!.photoUrl.toString();
+
+    await ctrlDomain.initializeUser(email, name, photoUrl);
+
+    /*user.then((u) async {
+      late String name, email, photoUrl;
+      if(u?.displayName != null) name = u!.displayName.toString();
+      if(u?.email != null) email = u!.email.toString();
+      if(u?.photoUrl != null) photoUrl = u!.photoUrl.toString();
+
+      await ctrlDomain.initializeUser(email, name, photoUrl, context);
+    });*/
+    return user;
   }
 
   Future<GoogleSignInAccount?> logout() {

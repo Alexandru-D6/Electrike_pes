@@ -28,10 +28,6 @@ class MyMap extends StatefulWidget {
   Marker markerBicing(BuildContext context, double latitude, double longitude) {
     return buildBicingMarker(lat: latitude, long: longitude, context: context);
   }
-
-  void buildFavs() {
-
-  }
 }
 
 class _MyMapState extends State<MyMap> {
@@ -40,7 +36,6 @@ class _MyMapState extends State<MyMap> {
   late BuildContext ctx;
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
   GlobalKey<GoogleMapStateBase> _newKey = GlobalKey<GoogleMapStateBase>();
-
 
   Future<void> initMarkers(String? show) async {
     //GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers(group);
@@ -58,6 +53,8 @@ class _MyMapState extends State<MyMap> {
           _showNotLogDialog(context);
         } else {
           GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
+          buildFavs("favChargerPoints");
+          buildFavs("favBicingPoints");
           GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("favChargerPoints");
           GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("favBicingPoints");
         }
@@ -71,6 +68,22 @@ class _MyMapState extends State<MyMap> {
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
         GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("default");
         break;
+    }
+  }
+
+  void buildFavs(String group) {
+    GoogleMap.of(ctrlPresentation.getMapKey())?.clearGroupMarkers(group);
+
+    if (group != "favBicingPoints") {
+      List<Coordenada> coords = ctrlPresentation.getFavsChargerPoints();
+      coords.forEach((element) {
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildChargerMarker(lat: element.latitud, long: element.longitud, context: context), group: group);
+      });
+    } else {
+      List<Coordenada> coords = ctrlPresentation.getFavsBicingPoints();
+      coords.forEach((element) {
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildBicingMarker(lat: element.latitud, long: element.longitud, context: context), group: group);
+      });
     }
   }
 

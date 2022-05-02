@@ -141,7 +141,6 @@ class PointInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> point = ctrlPresentation.getInfoCharger(latitude, longitude);
-    print(point);
     Column res = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

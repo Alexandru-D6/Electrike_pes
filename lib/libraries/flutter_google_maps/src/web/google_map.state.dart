@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:html';
 import 'dart:math';
 import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:flinq/flinq.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:google_directions_api/google_directions_api.dart' show GeoCoord,
 import 'package:google_maps/google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show MarkerId;
 import 'package:uuid/uuid.dart';
+import 'package:flutter/foundation.dart';
 
 import '../core/google_map.dart' as gmap;
 import '../core/map_items.dart' as items_t;
@@ -950,6 +952,11 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
     _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
     _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
+  }
+
+  @override
+  void clearGroupMarkers(String group) {
+    // TODO: implement clearGroupMarkers
   }
 
   @override

@@ -184,7 +184,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   @override
   void addMarker(items_t.Marker marker,{String? group}) {
     final key = marker.position.toString();
-    print(key);
     if (group == null) group = "default";
 
     _markers.putIfAbsent(group, () => Map<String,items_t.Marker>());
@@ -201,7 +200,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         _items_general.putIfAbsent(key, () => marker);
         _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
       }
-
     }
   }
 
@@ -885,6 +883,33 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
     _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
     _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+  }
+
+  @override
+  void clearGroupMarkers(String group) {
+    if (_markers.containsKey(group)) {
+      _markers[group] = Map<String, items_t.Marker>();
+    }else return;
+
+    if (_current_displaying.contains(group)) {
+      if (_inside_charger.contains(group)) {
+        _items_charger.clear();
+
+        _inside_charger.forEach((element) {
+          if (element != group && _markers.containsKey(element)) _items_charger.addAll(_markers[element]!);
+        });
+
+        _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
+      }else if (_inside_bicing.contains(group)) {
+        _items_bicing.clear();
+
+        _inside_bicing.forEach((element) {
+          if (element != group && _markers.containsKey(element)) _items_bicing.addAll(_markers[element]!);
+        });
+
+        _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+      }
+    }
   }
 
   @override

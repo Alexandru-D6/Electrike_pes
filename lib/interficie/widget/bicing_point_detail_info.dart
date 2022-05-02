@@ -139,9 +139,8 @@ class _StatefulPointInfoState extends State<StatefulPointInfo> {
         infoBicingPoint = element;
       });
     });
-    print("---> before build");
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => print("<--- after build"));
+    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
   }
 
   @override
