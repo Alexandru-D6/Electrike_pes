@@ -20,3 +20,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/marker_a.png
+    - assets/images/marker_b.png
+    - assets/images/bicingCluster.png
+    - assets/images/defaultMarker.png
+    - assets/images/carsCluster.png

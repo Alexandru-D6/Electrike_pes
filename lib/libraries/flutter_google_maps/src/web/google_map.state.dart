@@ -3,13 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:html';
 import 'dart:math';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'dart:ui';
-import 'dart:io' as io;
 
 import 'package:flinq/flinq.dart';
 import 'package:flutter/foundation.dart';
@@ -18,7 +15,6 @@ import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 import 'package:google_maps/google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show BitmapDescriptor, MarkerId;
-import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../core/google_map.dart' as gmap;
@@ -188,7 +184,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     final marker = Marker()
       ..map = _map
       ..label = label
-      ..icon = await _getImage((icon?.contains("defaultMarker") == true || icon == "") ? "assets/images/me.png" : icon)
+      ..icon = await _getImage(icon)
       ..position = position.toLatLng();
 
     if (info != null || onTap != null) {
@@ -648,9 +644,9 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void initState() {
-    _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, markerBuilder: _markerBuilder(Colors.red));
-    _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, markerBuilder: _markerBuilder(Colors.blue));
-    _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.yellow));
+    _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, markerBuilder: _markerBuilder(Colors.red), levels: _cluster_levels);
+    _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, markerBuilder: _markerBuilder(Colors.blue), levels: _cluster_levels);
+    _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.yellow), levels: _cluster_levels);
 
     super.initState();
     SchedulerBinding.instance!.addPostFrameCallback((_) {
@@ -660,39 +656,21 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     });
   }
 
-  /*Future<File> writeImageTemp(String base64Image, String imageName) async {
-    final dir = await getTemporaryDirectory();
-    await dir.create(recursive: true);
-    final tempFile = File(dir.path.toString() + "/"+ imageName + ".png");//File(path.join(dir.path.toString(), [imageName]));
-    await tempFile.
-    await tempFile.writeAsBytes(base64.decode(base64Image));
-    return tempFile;
-  }*/
-
   void _updateMarkersBicing(Set<tryThis.Marker> markers) {
-    print("aaaa");
     markers.forEach((element) {
       var func = element.onTap!;
-
-      var temp = element.icon.toJson().toString().split("[fromBytes, ");
-      String cur_bitmap = "";
-
-      if (temp.length > 1)
-        cur_bitmap = temp[1].replaceAll(',', '').replaceAll(' ', '').replaceFirst("[", "bytes://").replaceAll("]", '');
 
       addMarkerRaw(
         GeoCoord(element.position.latitude, element.position.longitude),
         "default",
         label: "",
         onTap: (testing) => func(),
-        icon: cur_bitmap,
-        info: element.infoWindow.toString(),
+        icon: element.infoWindow.title,
       );
     });
   }
 
   void _updateMarkersGeneral(Set<tryThis.Marker> markers) {
-    print("bbbb");
     markers.forEach((element) {
       var func = element.onTap!;
       addMarkerRaw(
@@ -700,14 +678,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         "default",
         label: "",
         onTap: (testing) => func(),
-        icon: element.icon.toJson().toString(),
-        info: element.infoWindow.toString(),
+        icon: element.infoWindow.title,
       );
     });
   }
 
   void _updateMarkersCharger(Set<tryThis.Marker> markers) {
-    print("cccc");
     markers.forEach((element) {
       var func = element.onTap!;
       addMarkerRaw(
@@ -715,8 +691,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         "default",
         label: "",
         onTap: (testing) => func(),
-        icon: element.icon.toJson().toString(),
-        info: element.infoWindow.toString(),
+        icon: element.infoWindow.title,
       );
     });
   }
@@ -730,8 +705,10 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           double? cur_zoom = _map!.zoom?.toDouble();
           moveCamera(GeoCoord(cluster.location.latitude, cluster.location.longitude), zoom: cur_zoom! + 2.0);
         },
-        icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
-            text: cluster.isMultiple ? cluster.count.toString() : null),
+        infoWindow: tryThis.InfoWindow(
+            title: color == Colors.yellow ? "packages/google_maps_cluster_manager/assets/images/carsCluster.png" :
+                                            "packages/google_maps_cluster_manager/assets/images/bicingCluster.png",
+        )
 
       );
       
@@ -745,62 +722,14 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         onTap: () => cluster.items.first.onTap!("aaaa"),
         consumeTapEvents: cluster.items.first.onTap != null,
         position: cluster.location,
-        icon: icon == null ? BitmapDescriptor.defaultMarker : await _getBmpDesc(icon),
-        infoWindow: cluster.items.first.info != null
-            ? tryThis.InfoWindow(
-          title: cluster.items.first.info,
-          snippet: cluster.items.first.infoSnippet,
-          onTap: cluster.items.first.onInfoWindowTap,
+        infoWindow: tryThis.InfoWindow(
+          title: cluster.items.first.icon != null ? icon : "packages/google_maps_cluster_manager/assets/images/defaultMarker.png",
         )
-            : tryThis.InfoWindow.noText,
       );
       
       return res;
-      /*
-      return getMarkerRaw(
-        label: cluster.getId(),
-        onTap: func != null ? (String) => func(cluster.location.toString()) : null,
-        consumeTapEvents: cluster.items.first.onTap != null,
-        position: LatLng(cluster.location.latitude, cluster.location.longitude),
-        icon: icon == null ? BitmapDescriptor.defaultMarker.toString() : icon,
-      ).cast<tryThis.Marker>();*/
     }
   };
-
-  Future<BitmapDescriptor> _getMarkerBitmap(int size, Color color, {String? text}) async {
-    if (kIsWeb) size = (size / 2).floor();
-
-    final PictureRecorder pictureRecorder = PictureRecorder();
-    final Canvas canvas = Canvas(pictureRecorder);
-    final Paint paint1 = Paint()..color = color;
-    final Paint paint2 = Paint()..color = Colors.black;
-
-    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint1);
-    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
-    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8, paint1);
-
-    if (text != null) {
-      TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
-      painter.text = TextSpan(
-        text: text,
-        style: TextStyle(
-            fontSize: size / 3,
-            color: Colors.white,
-            fontWeight: FontWeight.normal),
-      );
-      painter.layout();
-      painter.paint(
-        canvas,
-        Offset(size / 2 - painter.width / 2, size / 2 - painter.height / 2),
-      );
-    }
-
-    final img = await pictureRecorder.endRecording().toImage(size, size);
-    final data = await img.toByteData(format: ImageByteFormat.png);
-
-    Uint8List? temp = data?.buffer.asUint8List();
-    return BitmapDescriptor.fromBytes(temp!);
-  }
 
   ///All this functions are implemented by ourselves to improve the functionality of the library
   ///
@@ -1065,15 +994,15 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
         double? cur_zoom = _map!.zoom?.toDouble();
         if (_map != null) {
-          _manager_charger.setMapZoomW(cur_zoom!);
-          _manager_bicing.setMapZoomW(cur_zoom);
-          _manager_general.setMapZoomW(cur_zoom);
+          _manager_charger.setMapZoomW(cur_zoom!, withUpdate: true);
+          _manager_bicing.setMapZoomW(cur_zoom, withUpdate: true);
+          _manager_general.setMapZoomW(cur_zoom, withUpdate: true);
         }
 
         _map!.onCenterChanged.listen((event) {
-          _manager_charger.onCameraMoveW(cur_zoom!);
-          _manager_bicing.onCameraMoveW(cur_zoom);
-          _manager_general.onCameraMoveW(cur_zoom);
+          _manager_charger.onCameraMoveW(cur_zoom!, forceUpdate: true);
+          _manager_bicing.onCameraMoveW(cur_zoom, forceUpdate: true);
+          _manager_general.onCameraMoveW(cur_zoom, forceUpdate: true);
         });
 
         _map!.onIdle.listen((event) {
