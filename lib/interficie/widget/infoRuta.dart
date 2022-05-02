@@ -6,7 +6,7 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:flutter_project/interficie/widget/custom_radio_button.dart';
 
 class InfoRuta extends StatelessWidget {
   const InfoRuta({
@@ -55,9 +55,7 @@ class InfoRuta extends StatelessWidget {
 
             ),
           Text("Select a route type"),
-          Row(
-            children: [],
-          ),
+          CustomRadio(),
           const Divider(
             height: 16,
             color: Colors.black54,

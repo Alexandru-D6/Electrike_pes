@@ -27,6 +27,8 @@ class CtrlPresentation {
   String actualLocation = "Your location";
   String destination = "Search...";
   int idCarUser = 0;
+  int routeType = 0; //0 es normal, 1 es puntos de carga y 2 es eco
+
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
