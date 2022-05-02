@@ -12,8 +12,21 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_google_maps:
+    path: ../../libraries/flutter_google_maps
+
   google_maps_flutter_platform_interface: ^2.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/marker_a.png
+    - assets/images/marker_b.png
+    - assets/images/bicingCluster.png
+    - assets/images/defaultMarker.png
+    - assets/images/carsCluster.png
