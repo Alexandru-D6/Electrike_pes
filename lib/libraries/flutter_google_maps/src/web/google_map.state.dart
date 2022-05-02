@@ -243,9 +243,9 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void removeMarker(GeoCoord position,{String? group}) {
-    //final key = position.toString();
-    //bool deleteIt = false;
-     /*
+    final key = position.toString();
+    bool deleteIt = false;
+
     if (group != null && _markers_colection.containsKey(group)) {
       bool? cond = _markers_colection[group]?.containsKey(key);
       if (cond != null && !cond) return;
@@ -260,15 +260,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
 
     if(deleteIt) {
-      items_t.Marker? marker = _markers_colection[group]?.remove(key);
-      marker = null;
-
-      var info = _infos.remove(key);
-      info?.close();
-      info = null;
-
-      _infoState.remove(key);
-
       if (_current_displaying.contains(group)) { //todo: marker?.map = null; revisar que no haya que eliminarlo de esta manera o al menos como hacerlo ejje. Maybe los shown_markers?
         if (_inside_charger.contains(group)) {
           _items_charger.remove(key);
@@ -281,7 +272,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
         }
       }
-    }*/
+    }
   }
 
   @override
