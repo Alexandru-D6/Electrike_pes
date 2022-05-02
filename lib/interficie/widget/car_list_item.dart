@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'car_detail_info.dart';
@@ -14,7 +16,15 @@ class CarListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String carImage = "assets/brandCars/RAYO.png"; //pos 0 es la fot del coche
+    String carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
+
+    bool isBrand = false;
+    ctrlPresentation.isBrand(car[2]).then((value) => isBrand = value);
+    if(isBrand) {
+      carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
+    } else {
+      carImage = "assets/brandCars/defaultBMW.png";
+    }
     return GestureDetector(
       onTap: () {
       showModalBottomSheet(

@@ -365,4 +365,8 @@ class CtrlPresentation {
     return l;
   }
 
+  Future<bool> isBrand(String brand) {
+    return ctrlDomain.isBrand(brand);
+  }
+
 }
