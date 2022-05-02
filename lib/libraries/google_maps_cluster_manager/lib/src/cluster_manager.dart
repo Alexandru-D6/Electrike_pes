@@ -112,6 +112,11 @@ class ClusterManager<T extends ClusterItem> {
     updateMap();
   }
 
+  void setItemsW(List<T> newItems, gmapW.GMap map_web) {
+    _items = newItems;
+    updateMapW(map_web);
+  }
+
   /// Add on cluster item
   void addItem(ClusterItem newItem) {
     _items = List.from([...items, newItem]);

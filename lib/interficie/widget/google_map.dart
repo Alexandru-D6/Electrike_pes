@@ -323,7 +323,7 @@ Marker buildChargerMarker({ //todo:refactor para que funcione igual que con bici
 }){
   return Marker(
     GeoCoord(lat, long),
-    icon: "assets/images/me.png",
+    icon: (!kIsWeb) ? "assets/images/me.png" : "assets/images/meWeb.png",
     onTap: (markerId)=>showInfoCharger(context, lat, long),
   );
 }
@@ -358,7 +358,7 @@ Marker buildBicingMarker({
   List<String> infoBicingPoint = <String>[];
   return Marker(
     GeoCoord(lat, long),
-    icon: "assets/images/bike.png", //todo: al poner custom marker no sale en la primera carga
+    icon: (!kIsWeb) ? "assets/images/bike.png" : "assets/images/bikeWeb.png", //todo: al poner custom marker no sale en la primera carga
     onTap: (markerId) =>showInfoBicing(context, lat, long, infoBicingPoint)
   );
 }
