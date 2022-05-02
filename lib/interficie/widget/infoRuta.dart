@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -23,11 +25,17 @@ class InfoRuta extends StatelessWidget {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: <Widget>[
+          Text("Select one of your cars"),
           SizedBox(
             height: 200,
             width: 200,
             child: NotificationListener<ScrollEndNotification>(
-              child: ListView.builder(
+              child: ScrollConfiguration(
+                behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
+                  PointerDeviceKind.touch,
+                  PointerDeviceKind.mouse,
+                },),child:ListView.builder(
+                    shrinkWrap: true,
                     itemCount: userCarList.length,
                     itemBuilder: (context, index) => carItem(userCarList[index]),
 
@@ -36,7 +44,7 @@ class InfoRuta extends StatelessWidget {
                     // This next line does the trick.
                     scrollDirection: Axis.horizontal,
 
-                  ),
+                  ),),
               onNotification: (notification) {
                 print(controller.position.pixels); //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
                 // Return true to cancel the notification bubbling. Return false (or null) to
@@ -46,6 +54,10 @@ class InfoRuta extends StatelessWidget {
               ),
 
             ),
+          Text("Select a route type"),
+          Row(
+            children: [],
+          ),
           const Divider(
             height: 16,
             color: Colors.black54,
@@ -65,9 +77,9 @@ class InfoRuta extends StatelessWidget {
             image: AssetImage("assets/brandCars/RAYO.png"),
           ),
         ),
-        child: const Align(
+        child: Align(
             alignment: Alignment.bottomCenter,
-            child: Text("Grocery store")
+            child: Text(car[1]),
         ),
 
     );

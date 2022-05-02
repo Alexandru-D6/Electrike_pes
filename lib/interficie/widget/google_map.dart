@@ -11,7 +11,7 @@ import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
-import 'InfoRuta.dart';
+import 'infoRuta.dart';
 
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
