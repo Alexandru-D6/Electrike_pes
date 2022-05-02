@@ -28,6 +28,10 @@ class MyMap extends StatefulWidget {
   Marker markerBicing(BuildContext context, double latitude, double longitude) {
     return buildBicingMarker(lat: latitude, long: longitude, context: context);
   }
+
+  void buildFavs() {
+
+  }
 }
 
 class _MyMapState extends State<MyMap> {

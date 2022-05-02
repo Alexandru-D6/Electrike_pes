@@ -184,6 +184,9 @@ class CtrlPresentation {
     toMainPage(context);
     await serviceLocator<GoogleLoginAdpt>().login();
 
+    List<Coordenada> favs = getFavsChargerPoints();
+
+
   }
 
   void logoutRoutine(BuildContext context) async {
