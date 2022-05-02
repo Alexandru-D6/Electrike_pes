@@ -26,6 +26,7 @@ class CtrlPresentation {
   List<Coordenada> favs = <Coordenada>[];
   String actualLocation = "Your location";
   String destination = "Search...";
+  int idCarUser = 0;
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(

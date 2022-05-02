@@ -46,7 +46,7 @@ class InfoRuta extends StatelessWidget {
 
                   ),),
               onNotification: (notification) {
-                print(controller.position.pixels); //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
+                ctrlPresentation.idCarUser = ((controller.position.pixels)/200) as int; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
                 // Return true to cancel the notification bubbling. Return false (or null) to
                 // allow the notification to continue to be dispatched to further ancestors.
                 return true;
