@@ -6,7 +6,7 @@ import 'car_detail_info.dart';
 import 'car_information.dart';
 
 
-class CarListItem extends StatelessWidget {
+class CarListItem extends StatefulWidget {
   const CarListItem(
       this.car, {
         Key? key,
@@ -15,13 +15,26 @@ class CarListItem extends StatelessWidget {
   final List<String> car;
 
   @override
-  Widget build(BuildContext context) {
-    String carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
+  State<CarListItem> createState() => _CarListItemState();
+}
 
-    bool isBrand = false;
-    ctrlPresentation.isBrand(car[2]).then((value) => isBrand = value);
+class _CarListItemState extends State<CarListItem> {
+  bool isBrand = true;
+
+  @override
+  void initState(){
+    ctrlPresentation.isBrand(widget.car[2]).then((value) {
+      isBrand = value;
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String carImage = "assets/brandCars/"+widget.car[2].toLowerCase()+".png";
+    //ctrlPresentation.isBrand(widget.car[2]).then((value) => isBrand = value);
     if(isBrand) {
-      carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
+      carImage = "assets/brandCars/"+widget.car[2].toLowerCase()+".png";
     } else {
       carImage = "assets/brandCars/defaultBMW.png";
     }
@@ -39,7 +52,7 @@ class CarListItem extends StatelessWidget {
                 bottom: 24,
                 child: Stack(
                   children: [
-                    CarDetailInfomation(car: car),
+                    CarDetailInfomation(car: widget.car),
                     Positioned(
                       right: 16,
                       child: Image.asset(
@@ -58,7 +71,7 @@ class CarListItem extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 20),
         child: Stack(
           children: [
-            CarInfomation(car: car),
+            CarInfomation(car: widget.car),
             Positioned(
               right: 40,
               child: Image.asset(
