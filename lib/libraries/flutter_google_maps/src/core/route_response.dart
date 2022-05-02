@@ -9,6 +9,7 @@ class RouteResponse {
   late double? durationMinutes;
   late GeoCoord? origin;
   late GeoCoord? destination;
+  late List<double>? distancesMeters;
   late List<GeoCoord>? coords;
 
   RouteResponse({
@@ -18,6 +19,7 @@ class RouteResponse {
     this.durationMinutes,
     this.origin,
     this.destination,
+    this.distancesMeters,
     this.coords,
   });
 
@@ -29,6 +31,7 @@ class RouteResponse {
       durationMinutes: json['durationMinutes'] as double?,
       origin: json['departure'] as GeoCoord?,
       destination: json['destination'] as GeoCoord?,
+      distancesMeters: json['distancesMeters'] as List<double>?,
       coords: json['coords'] as List<GeoCoord>?,
     );
   }

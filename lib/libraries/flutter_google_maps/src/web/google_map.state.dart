@@ -795,6 +795,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           double distance = 0.0;
           double duration = 0.0;
           List<GeoCoord> coords = <GeoCoord>[];
+          List<double> distances = <double>[];
 
           temp?.legs?.forEach((element) {
             double? aa = element?.distance?.value?.toDouble();
@@ -803,9 +804,16 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             double? bb = element?.duration?.value?.toDouble();
             duration += (bb!/60); ///duration returns seconds
 
-            if (coords.isEmpty) coords.add(element?.startLocation!.toGeoCoord() as GeoCoord);
+            if (coords.isEmpty) {
+              coords.add(element?.startLocation!.toGeoCoord() as GeoCoord);
+              distances.add(0.0);
+            }
+
             element?.steps?.forEach((element2) {
               coords.add(element2?.endLocation!.toGeoCoord() as GeoCoord);
+
+              double tmep = element2?.distance as double;
+              distances.add(distances.last + tmep);
             });
           });
 
@@ -814,6 +822,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           result.origin = temp?.legs?.firstOrNull?.startLocation!.toGeoCoord() as GeoCoord;
           result.destination = temp?.legs?.lastOrNull?.endLocation!.toGeoCoord() as GeoCoord;
           result.description = "";
+          result.distancesMeters = distances;
           result.coords = coords;
 
         }else result.status = status as String?;
