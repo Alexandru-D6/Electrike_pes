@@ -50,9 +50,6 @@ class AppLocalizationsCa extends AppLocalizations {
   String get newCar => 'Vehicle nou';
 
   @override
-  String get power => 'Potència';
-
-  @override
   String get efficiency => 'Consum';
 
   @override

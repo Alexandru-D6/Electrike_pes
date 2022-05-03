@@ -50,9 +50,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newCar => 'New vehicle';
 
   @override
-  String get power => 'Power';
-
-  @override
   String get efficiency => 'Efficiency';
 
   @override

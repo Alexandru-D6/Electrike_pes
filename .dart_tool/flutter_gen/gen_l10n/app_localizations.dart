@@ -180,12 +180,6 @@ abstract class AppLocalizations {
   /// **'New vehicle'**
   String get newCar;
 
-  /// No description provided for @power.
-  ///
-  /// In en, this message translates to:
-  /// **'Power'**
-  String get power;
-
   /// No description provided for @efficiency.
   ///
   /// In en, this message translates to:
