@@ -956,7 +956,29 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void clearGroupMarkers(String group) {
-    // TODO: implement clearGroupMarkers
+    if (_markers_colection.containsKey(group)) {
+      _markers_colection[group] = Map<String, items_t.Marker>();
+    }else return;
+
+    if (_current_displaying.contains(group)) {
+      if (_inside_charger.contains(group)) {
+        _items_charger.clear();
+
+        _inside_charger.forEach((element) {
+          if (element != group && _markers.containsKey(element)) _items_charger.addAll(_markers_colection[element]!);
+        });
+
+        _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
+      }else if (_inside_bicing.contains(group)) {
+        _items_bicing.clear();
+
+        _inside_bicing.forEach((element) {
+          if (element != group && _markers.containsKey(element)) _items_bicing.addAll(_markers_colection[element]!);
+        });
+
+        _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
+      }
+    }
   }
 
   @override
