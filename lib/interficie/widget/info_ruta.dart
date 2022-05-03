@@ -97,12 +97,18 @@ class InfoRuta extends StatelessWidget {
   }
 
   Widget carItem(List<String> car){
+    String carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
+    if(allCarsPathsImages.contains(carImage)) {
+      carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
+    } else {
+      carImage = "assets/brandCars/defaultBMW.png";
+    }
     return Container(
         width: 200.0,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           //color: Colors.white,
           image: DecorationImage(
-            image: AssetImage("assets/brandCars/RAYO.png"),
+            image: AssetImage(carImage),
           ),
         ),
         child: Align(
