@@ -190,7 +190,7 @@ class LocalNotificationAdpt {
       requestAlertPermission: false,
     );
 */
-    final InitializationSettings initializationSettings =
+    const InitializationSettings initializationSettings =
     InitializationSettings(
         android: initializationSettingsAndroid,
        /* iOS: initializationSettingsIOS,
@@ -250,7 +250,7 @@ class LocalNotificationAdpt {
     var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-
+/*
     var flutterLocalNotificationsPlugin;
     await flutterLocalNotificationsPlugin.show(
       0,
@@ -258,7 +258,7 @@ class LocalNotificationAdpt {
       'You changed your theme back !',
       platformChannelSpecifics,
       payload: 'It could be anything you pass',
-    );
+    );*/
   }
 
 
