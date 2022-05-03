@@ -23,9 +23,6 @@ class _CustomRadioState extends State<CustomRadio> {
           color: (ctrlPresentation.routeType == index) ? Colors.yellowAccent : Colors.black,
         ),
       ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      borderSide:
-      BorderSide(color: (ctrlPresentation.routeType == index) ? Colors.yellowAccent : Colors.black),
     );
   }
 
@@ -34,11 +31,11 @@ class _CustomRadioState extends State<CustomRadio> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        CustomRadioButton("Normal", 0),
+        customRadioButton("Normal", 0),
         const SizedBox(width: 5),
-        CustomRadioButton("Charger Points", 1),
+        customRadioButton("Charger Points", 1),
         const SizedBox(width: 5),
-        CustomRadioButton("Eco", 2)
+        customRadioButton("Eco", 2)
       ],
     );
   }

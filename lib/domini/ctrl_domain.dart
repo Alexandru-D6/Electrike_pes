@@ -140,7 +140,7 @@ class CtrlDomain {
     }
     getNomsFavBicing();
     getNomsFavChargers();
-    IdiomfromLogin();
+    idiomfromLogin();
   }
   //Elimina el continguts dels llistats referents als usuaris per quan fa logout
   void resetUserSystem(){
