@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_project/domini/vh_electric.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 
 class CtrlDomain {
   CtrlDomain._internal();
@@ -247,6 +250,21 @@ class CtrlDomain {
     return vhselected;
   }
 
+  void makeRoute(Location location, String actualLocation, GlobalKey<GoogleMapStateBase> key, String destination) {
+    location.getLocation().then((value) {
+      String origin = value.latitude.toString() + "," +
+          value.longitude.toString();
+      if (actualLocation != "Your location") origin = actualLocation;
+      GoogleMap.of(key)?.addDirection(
+          origin,
+          destination,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'Destination'
+      );
+    });
+  }
 
   bool isAFavPoint(double latitud, double longitud) {
     bool trobat = false;

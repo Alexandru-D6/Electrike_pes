@@ -250,19 +250,7 @@ class CtrlPresentation {
   void makeRoute(){
     Location location = Location();
 
-    location.getLocation().then((value) {
-      String origin = value.latitude.toString() + "," + value.longitude.toString();
-      if(actualLocation != "Your location") origin = actualLocation;
-      GoogleMap.of(getMapKey())?.addDirection(
-          origin,
-          destination,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination'
-      );
-
-    });
+    ctrlDomain.makeRoute(location, actualLocation, getMapKey(), destination);
   }
 
   void clearAllRoutes(){
