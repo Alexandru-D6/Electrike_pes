@@ -20,11 +20,6 @@ class ProfileWidget extends StatelessWidget {
       child: Stack(
         children: [
           buildImage(),
-          Positioned(
-            bottom: 0,
-            right: 4,
-            child: buildEditIcon(color),
-          ),
         ],
       ),
     );
@@ -47,22 +42,7 @@ class ProfileWidget extends StatelessWidget {
     );
   }
 
-  Widget buildEditIcon(Color color) => buildCircle(
-    color: Colors.white,
-    all: 3,
-    child: buildCircle(
-      color: color,
-      all: 8,
-      child: Icon(
-        isEdit ? Icons.add_a_photo : Icons.edit,
-        color: Colors.white,
-        size: 20,
-      ),
-    ),
-  );
-
   Widget buildCircle({
-    required Widget child,
     required double all,
     required Color color,
   }) =>
@@ -70,7 +50,6 @@ class ProfileWidget extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(all),
           color: color,
-          child: child,
         ),
       );
 }
