@@ -27,6 +27,10 @@ class CtrlPresentation {
   List<Coordenada> favs = <Coordenada>[];
   String actualLocation = "Your location";
   String destination = "Search...";
+  int idCarUser = 0;
+  int routeType = 0; //0 es normal, 1 es puntos de carga y 2 es eco
+  String bateria = "100"; // de normal 100
+
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
@@ -268,6 +272,15 @@ class CtrlPresentation {
       double? lng = value.longitude;
       GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
     });
+  }
+  void moveCameraToSpecificLocation(BuildContext context, double? lat, double? lng) {
+    //used to move camera to specific chargers or points
+    //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
+      toMainPage(context);
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+      });
+
   }
 
   void moveCameraToSpecificLocation(BuildContext context, double? lat, double? lng) {
