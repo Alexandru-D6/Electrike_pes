@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:google_maps_cluster_manager/src/max_dist_clustering.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
-import 'package:google_maps/src/generated/google_maps_core.js.g.dart' as gmapW;
 
 enum ClusterAlgorithm { GEOHASH, MAX_DIST }
 
@@ -84,10 +83,6 @@ class ClusterManager<T extends ClusterItem> {
     _updateClusters();
   }
 
-  void updateMapW(gmapW.GMap map_web) {
-    _updateClustersW(map_web);
-  }
-
   void _updateClusters() async {
     List<Cluster<T>> mapMarkers = await getMarkers();
 
@@ -97,24 +92,10 @@ class ClusterManager<T extends ClusterItem> {
     updateMarkers(markers);
   }
 
-  void _updateClustersW(gmapW.GMap map_web) async {
-    List<Cluster<T>> mapMarkers = await getMarkersW(map_web);
-
-    final Set<Marker> markers =
-    Set.from(await Future.wait(mapMarkers.map((m) => markerBuilder(m))));
-
-    updateMarkers(markers);
-  }
-
   /// Update all cluster items
   void setItems(List<T> newItems) {
     _items = newItems;
     updateMap();
-  }
-
-  void setItemsW(List<T> newItems, gmapW.GMap map_web) {
-    _items = newItems;
-    updateMapW(map_web);
   }
 
   /// Add on cluster item
@@ -126,13 +107,6 @@ class ClusterManager<T extends ClusterItem> {
   /// Method called on camera move
   void onCameraMove(CameraPosition position, {forceUpdate = false}) {
     _zoom = position.zoom;
-    if (forceUpdate) {
-      updateMap();
-    }
-  }
-
-  void onCameraMoveW(double zoom, {forceUpdate = false}) {
-    _zoom = zoom;
     if (forceUpdate) {
       updateMap();
     }
@@ -169,39 +143,6 @@ class ClusterManager<T extends ClusterItem> {
     } else {
       List<Cluster<T>> markers =
           _computeClustersWithMaxDist(visibleItems, _zoom);
-      return markers;
-    }
-  }
-
-  Future<List<Cluster<T>>> getMarkersW(gmapW.GMap map_web) async {
-
-    final LatLngBounds mapBounds = LatLngBounds(southwest: LatLng(map_web.bounds!.southWest.lat.toDouble(), map_web.bounds!.southWest.lng.toDouble()),
-                                                northeast: LatLng(map_web.bounds!.northEast.lat.toDouble(), map_web.bounds!.northEast.lng.toDouble()));
-
-    late LatLngBounds inflatedBounds;
-    if (clusterAlgorithm == ClusterAlgorithm.GEOHASH) {
-      inflatedBounds = _inflateBounds(mapBounds);
-    } else {
-      inflatedBounds = mapBounds;
-    }
-
-    List<T> visibleItems = items.where((i) {
-      return inflatedBounds.contains(i.location);
-    }).toList();
-
-    if (stopClusteringZoom != null && _zoom >= stopClusteringZoom!)
-      return visibleItems.map((i) => Cluster<T>.fromItems([i])).toList();
-
-    if (clusterAlgorithm == ClusterAlgorithm.GEOHASH ||
-        visibleItems.length >= maxItemsForMaxDistAlgo) {
-      int level = _findLevel(levels);
-      List<Cluster<T>> markers = _computeClusters(
-          visibleItems, List.empty(growable: true),
-          level: level);
-      return markers;
-    } else {
-      List<Cluster<T>> markers =
-      _computeClustersWithMaxDist(visibleItems, _zoom);
       return markers;
     }
   }

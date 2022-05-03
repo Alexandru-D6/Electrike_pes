@@ -21,7 +21,8 @@ import '../core/route_response.dart';
 import '../core/utils.dart' as utils;
 import 'utils.dart';
 
-import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
+import 'package:google_maps_cluster_manager/src/cluster_manager_web.dart';
+import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart' show Cluster;
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart' as tryThis;
 
 class GoogleMapState extends gmap.GoogleMapStateBase {
