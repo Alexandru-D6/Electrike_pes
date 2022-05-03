@@ -8,13 +8,17 @@ import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_map
 import '../../libraries/flutter_google_maps/src/core/route_response.dart';
 
 class RutesAmbCarrega {
-  RutesAmbCarrega();
-  CtrlDomain ctrlDomain = CtrlDomain();
+  late CtrlDomain ctrlDomain;
+  late List<Coordenada> carregadorsCompatibles;
+
+  RutesAmbCarrega() {
+    ctrlDomain = CtrlDomain();
+    carregadorsCompatibles = ctrlDomain.getcompChargers();
+  }
 
   /// Retorna els km restants que el vehicle pot recòrrer amb la bateria que ha introduit i el consum.
-  double kilometresRestants(double bateriaRestant, double consum) {
-    double result= 0.0;
-    result = (bateriaRestant/consum)*100;
+  double bateriaRestant(double bateriaPerc) {
+    double result = ctrlDomain.vhselected.battery*(bateriaPerc/100);
     return result;
   }
 
@@ -45,28 +49,39 @@ class RutesAmbCarrega {
     return result;
   }
 
+  GeoCoord findSuitableCharger() {
+    List<Coordenada> carregadorsPropers = ctrlDomain.coordCarregadorsPropers;
+    Set<Coordenada> cP = carregadorsPropers.toSet();
+    Set<Coordenada> cC = carregadorsCompatibles.toSet();
+    Set<Coordenada> result = cC.intersection(cP);
+    return GeoCoord(result.first.latitud, result.first.longitud);
+  }
+
   ///
-  void algorismeMillorRuta(GeoCoord origen, GeoCoord desti, double bateria, double consum) async{
-    double kmRestants = kilometresRestants(bateria, consum);
+  Future<GeoCoord> algorismeMillorRuta(GeoCoord origen, GeoCoord desti, double bateriaPerc, double consum) async{
+    GeoCoord coordCharger = desti;
+    double batRestant = bateriaRestant(bateriaPerc);
+    double kmRestants = autonomiaVh(batRestant);
     RouteResponse? routeInfo= await GoogleMap.of(ctrlPresentation.getMapKey())?.getInfoRoute(origen, desti);
     if (routeInfo!.distanceMeters! <= kmRestants) { // si la autonomia del cotxe és superior al recorregut que ha de fer, dirigeix automàticament
-
-      return;
+      return desti;
     }
     else {
       double autonomia10Perc = autonomiaVh(ctrlDomain.vhselected.battery*0.1);
-      GeoCoord coordLimit = await getCoordFromRoutDist(autonomiaVh(bateria) - autonomia10Perc, origen, desti);
+      GeoCoord coordLimit = await getCoordFromRoutDist(autonomiaVh(batRestant) - autonomia10Perc, origen, desti);
       bool trobat = false;
       double radius = 0.0;
 
       while (!trobat) {
         ctrlDomain.getNearChargers(coordLimit.latitude, coordLimit.longitude, radius);
         if (ctrlDomain.coordCarregadorsPropers.isEmpty) {
-          radius += 0.5;
+          radius += 10.0;
         } else {
+          desti = findSuitableCharger();
           trobat = true;
         }
       }
     }
+    return desti;
   }
 }
