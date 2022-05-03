@@ -227,6 +227,21 @@ class CtrlDomain {
     }
     return datacars;
   }
+
+  void selectVehicleUsuari(int idV) {
+    for(var vhu in vehiclesUsuari) {
+      if (vhu.id == idV) {
+        vhselected = vhu;
+        return;
+      }
+    }
+  }
+
+  VehicleUsuari currentVehicleUsuari() {
+    return vhselected;
+  }
+
+
   bool isAFavPoint(double latitud, double longitud) {
     bool trobat = false;
     for(var favc in puntsFavCarrega){
