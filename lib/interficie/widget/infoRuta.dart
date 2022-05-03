@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_project/interficie/widget/custom_radio_button.dart';
@@ -19,6 +21,12 @@ class InfoRuta extends StatelessWidget {
     final textController = TextEditingController();
     final controller = ScrollController();
     CtrlPresentation ctrlPresentation = CtrlPresentation();
+    void _changeLatestBateryValue() {
+      ctrlPresentation.bateria = textController.text;
+      print('Second text field: ${ctrlPresentation.bateria}');
+    }
+    textController.addListener(_changeLatestBateryValue);
+
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
     return Container(
       padding: const EdgeInsets.all(16),
@@ -62,31 +70,24 @@ class InfoRuta extends StatelessWidget {
             height: 16,
             color: Colors.black54,
           ),
-      TextField(
-        keyboardType: TextInputType.number,
-        controller: textController,
-        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, CustomMaxValueInputFormatter(maxInputValue: 100)],
-        onSubmitted: (String value) async {
-          await showDialog<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Thanks!'),
-                content: Text(
-                    'You typed "$value", which has length ${value.characters.length}.'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        },
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text("Enter your battery left: "),
+          SizedBox(
+            width: 40,
+            child:
+            TextField(
+              keyboardType: TextInputType.number,
+              controller: textController,
+              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, CustomMaxValueInputFormatter(maxInputValue: 100)],
+
+            ),
+          ),
+          Text("%"),
+        ],
       ),
+
         ],
       ),
     );
