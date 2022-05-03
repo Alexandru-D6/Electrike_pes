@@ -680,4 +680,14 @@ class CtrlDomain {
       }
     }
   }
+
+  Future<bool> isBrand(String brand) async {
+    List<String> brands = await getAllBrands();
+    for (String current in brands) {
+      if (current.toLowerCase() == brand.toLowerCase()) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
