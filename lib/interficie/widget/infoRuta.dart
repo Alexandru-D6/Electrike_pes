@@ -36,7 +36,7 @@ class InfoRuta extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text("Select one of your cars"),
-          SizedBox(
+          ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
             height: 200,
             width: 200,
             child: NotificationListener<ScrollEndNotification>(
@@ -63,7 +63,11 @@ class InfoRuta extends StatelessWidget {
               },
               ),
 
-            ),
+            ): SizedBox(
+            height: 200,
+            width: 200,
+            child: Image.asset("assets/brandCars/RAYO.png"),
+          ),
           Text("Select a route type"),
           CustomRadio(),
           const Divider(
