@@ -127,4 +127,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save => 'Save changes';
+
+  @override
+  String get vehicles => 'Vehicles';
+
+  @override
+  String get trophies => 'Trophies';
+
+  @override
+  String get savedco2 => 'Saved CO2';
 }
