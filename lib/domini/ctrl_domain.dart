@@ -10,6 +10,7 @@ import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:google_directions_api/google_directions_api.dart';
 import 'package:http/http.dart' as http;
 
 class CtrlDomain {
@@ -22,6 +23,7 @@ class CtrlDomain {
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
   List<Coordenada> coordBarcelona = <Coordenada>[];
   List<Coordenada> coordCatalunya = <Coordenada>[];
+  List<Coordenada> coordCarregadorsPropers = <Coordenada>[];
 
   //DATA INFO SYSTEM
   List<VhElectric> vhElectrics = <VhElectric>[];
@@ -689,5 +691,14 @@ class CtrlDomain {
       }
     }
     return false;
+  }
+  
+  void getNearChargers(double lat, double lon, double radius)async{
+    var urlc = urlorg+'near_chargers?lat='+ lat.toString() + '&lon=' + lon.toString() + '&dist=' + radius.toString();
+    var responseCars = (await http.get(Uri.parse(urlc)));
+    var respCars = jsonDecode(responseCars.body);
+    for(var info in respCars['items']){
+      coordCarregadorsPropers.add(Coordenada(info['Station_lat'], info['Station_lng']));
+    }
   }
 }
