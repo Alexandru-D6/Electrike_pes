@@ -13,7 +13,7 @@ class RutesAmbCarrega {
 
   RutesAmbCarrega() {
     ctrlDomain = CtrlDomain();
-    carregadorsCompatibles = ctrlDomain.getcompChargers();
+    carregadorsCompatibles = ctrlDomain.getCompChargers();
   }
 
   /// Retorna els km restants que el vehicle pot recòrrer amb la bateria que ha introduit i el consum.

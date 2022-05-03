@@ -721,13 +721,14 @@ class CtrlDomain {
     }
   }
   
-  void idiomfromLogin() async{
-    var url = urlorg+'user_language?email='+ usuari.correu;
+  void idiomfromLogin() async {
+    var url = urlorg + 'user_language?email=' + usuari.correu;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     usuari.idiom = resp['items'];
+  }
 
-  List<Coordenada> getcompChargers() {
+  List<Coordenada> getCompChargers() {
     List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
     List<Coordenada> carregadorsCompatibles = <Coordenada>[];
     for(var endoll in typesendolls){
