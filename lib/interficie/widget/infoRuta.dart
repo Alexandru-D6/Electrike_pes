@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:responsive_grid/responsive_grid.dart';
@@ -15,6 +16,7 @@ class InfoRuta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textController = TextEditingController();
     final controller = ScrollController();
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
@@ -60,7 +62,31 @@ class InfoRuta extends StatelessWidget {
             height: 16,
             color: Colors.black54,
           ),
-
+      TextField(
+        keyboardType: TextInputType.number,
+        controller: textController,
+        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, CustomMaxValueInputFormatter(maxInputValue: 100)],
+        onSubmitted: (String value) async {
+          await showDialog<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Thanks!'),
+                content: Text(
+                    'You typed "$value", which has length ${value.characters.length}.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      ),
         ],
       ),
     );
@@ -80,6 +106,33 @@ class InfoRuta extends StatelessWidget {
             child: Text(car[1]),
         ),
 
+    );
+  }
+}
+//Para poner un limite de bateria al 100% si se pasa se cambia a 100.
+class CustomMaxValueInputFormatter extends TextInputFormatter {
+  final double maxInputValue;
+
+  CustomMaxValueInputFormatter({required this.maxInputValue});
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue){
+    final TextSelection newSelection = newValue.selection;
+    String truncated = newValue.text;
+
+      final double? value = double.tryParse(newValue.text);
+      if(value == null){
+        return TextEditingValue(
+          text: truncated,
+          selection: newSelection,
+        );
+      }
+      if(value > maxInputValue){
+        truncated = maxInputValue.toString();
+      }
+    return TextEditingValue(
+      text: truncated,
+      selection: newSelection,
     );
   }
 }
