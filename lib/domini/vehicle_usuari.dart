@@ -7,10 +7,12 @@ class VehicleUsuari {
   late String model;
   late double battery;
   late double efficiency;
+  late double autonomy;
   List<String> endolls = <String>[];
 
   VehicleUsuari(this.id,this.name, this.brand, this.model, this.battery, this.efficiency,this.endolls){
     image = "";
+    autonomy = battery*1000/efficiency;
   }
   VehicleUsuari.buit(){
     id = 0;

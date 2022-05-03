@@ -4,11 +4,16 @@ import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
-import 'package:flutter_project/generated/l10n.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
+import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class CtrlPresentation {
   static final CtrlPresentation _singleton = CtrlPresentation._internal();
@@ -21,7 +26,13 @@ class CtrlPresentation {
   String email = "";
   String name = "";
   String photoUrl = "";
+  String idiom = "en";
   List<Coordenada> favs = <Coordenada>[];
+  String actualLocation = "Your location";
+  String destination = "Search...";
+  int idCarUser = 0;
+  int routeType = 0; //0 es normal, 1 es puntos de carga y 2 es eco
+  String bateria = "100"; // de normal 100
 
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
@@ -29,32 +40,33 @@ class CtrlPresentation {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
-      desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: S.of(context).alertSureDeleteCarContent,
+      title: "You aren't logged",//todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
+      desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: AppLocalizations.of(context).alertSureDeleteCarContent,
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();
   }
 
-  void toMainPage(BuildContext context){
-    Navigator.pushReplacementNamed(
-      context,
-      '/',
-    );
+  toMainPage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 
   toProfilePage(BuildContext context) {
-    Navigator.pushReplacementNamed(
+    //print(ModalRoute.of(context)?.settings.name);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
       context,
       '/profile',
     );
   }
 
-  void toGaragePage(BuildContext context){
+  toGaragePage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
     } else {
-      Navigator.pop(context);
+      Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
         context,
         '/garage',
@@ -62,62 +74,60 @@ class CtrlPresentation {
     }
   }
 
-  void toFavouritesPage(BuildContext context){
+  toFavouritesPage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
     } else {
-      Navigator.pushReplacementNamed(
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(
         context,
         '/favourites',
       );
     }
   }
 
-  void toRewardsPage(BuildContext context){
+  toRewardsPage(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
     if(email == "") {
       _showNotLogDialog(context);
     } else {
-      Navigator.pushReplacementNamed(
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(
         context,
         '/rewards',
       );
     }
   }
 
-  void toInfoAppPage(BuildContext context){
-    Navigator.pushReplacementNamed(
+  toInfoAppPage(BuildContext context){
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
       context,
       '/info',
     );
   }
 
-  void toFormCar(BuildContext context) {
+  toFormCar(BuildContext context) {
     if(email == ""){
       AwesomeDialog(
         context: context,
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
-        title: S.of(context).login,
-        desc: S.of(context).toAddCarLogin,
+        title: AppLocalizations.of(context).login,
+        desc: AppLocalizations.of(context).toAddCarLogin,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
-        btnOkText: S.of(context).login,
+        btnOkText: AppLocalizations.of(context).login,
         btnOkOnPress: () {
           signInRoutine(context);
         },
 
         headerAnimationLoop: false,
       ).show();
-
-
-      /*showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-              content: Text(
-                  'To add a car you must be logged!\n'
-              )));*/
     }
     else{
+      Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
         context,
         '/newCar',
@@ -125,33 +135,40 @@ class CtrlPresentation {
     }
   }
 
-  void toChartPage(BuildContext context){
-    Navigator.pushReplacementNamed(
+  toEditCar(BuildContext context, List<String> car) {
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
+      context,
+      '/editCar',
+      arguments: EditCarArguments(car),
+    );
+  }
+
+  toChartPage(BuildContext context, String pointTitle){
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
       context,
       '/chart',
+      arguments: pointTitle, //TODO: cosas de traducciones?
     );
   }
   //USER INFO FUNCTIONS
   String getCurrentUsername(BuildContext context){
-    //TODO: CALL DOMAIN FUNCTION
-    //String username = ctrlDomain.getCurrentUsername();
-    if(name == "") name = S.of(context).clickToLogin;
+    if(name == "" || name =="Pulsa per iniciar sessió" || name == "Click to log-in" || name == "Haga clic para iniciar sesión" ) name = AppLocalizations.of(context).clickToLogin;
     return name;
   }
 
   String getCurrentUserMail() {
-    //TODO: CALL DOMAIN FUNCTION
-    //String mail = ctrlDomain.getCurrentUserMail();
     return email;
   }
 
   void mailto() async {
     String _url = "mailto:electrike.official@gmail.com?subject=Help&body=Hi%20Electrike%20team!";
-    if (!await launch(_url)) throw 'Could not launch $_url';
+    if (!await launchUrl(Uri.parse(_url))) throw 'Could not launch $_url';
   }
 
   getCarsList() {
-    return ctrlDomain.infoAllVUser(); //TODO: call domain carListUser será lista de lista de strings (List<Car>)
+    return ctrlDomain.infoAllVUser();
   }
 
   List<Coordenada> getChargePointList() {
@@ -168,13 +185,14 @@ class CtrlPresentation {
   }
 
   String getUserImage() {
-    if(photoUrl == "") photoUrl = "https://avatars.githubusercontent.com/u/75260498?v=4&auto=format&fit=crop&w=5&q=80";
     return photoUrl;
   }
 
   void signInRoutine(BuildContext context) async {
-    Navigator.of(context).pop();
+    toMainPage(context);
     await serviceLocator<GoogleLoginAdpt>().login();
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    provider.setLocale(Locale(ctrlDomain.usuari.idiom));
   }
 
   void logoutRoutine(BuildContext context) async {
@@ -215,19 +233,27 @@ class CtrlPresentation {
     return ctrlDomain.getCarModelInfo(text);
   }
 
-  final GlobalKey<GoogleMapStateBase> _key = GlobalKey<GoogleMapStateBase>();
+  late GlobalKey<GoogleMapStateBase> _key;
+  bool _googleMapInit = false;
+
+  void setMapKey(GlobalKey<GoogleMapStateBase> key) {
+    _googleMapInit = true;
+    _key = key;
+  }
 
   GlobalKey<GoogleMapStateBase> getMapKey() {
     return _key;
   }
 
-  void makeRoute(String destination){
+  bool getGoogleMapKeyState() => _googleMapInit;
+
+  void makeRoute(){
     Location location = Location();
 
     location.getLocation().then((value) {
       String origin = value.latitude.toString() + "," + value.longitude.toString();
-
-      GoogleMap.of(ctrlPresentation.getMapKey())?.addDirection(
+      if(actualLocation != "Your location") origin = actualLocation;
+      GoogleMap.of(getMapKey())?.addDirection(
           origin,
           destination,
           startLabel: '1',
@@ -239,13 +265,17 @@ class CtrlPresentation {
     });
   }
 
+  void clearAllRoutes(){
+    GoogleMap.of(getMapKey())?.clearDirections();
+  }
+
   void moveCameraToLocation() {
     Location location = Location();
 
     location.getLocation().then((value) {
       double? lat = value.latitude;
       double? lng = value.longitude;
-      GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+      GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
     });
   }
   void moveCameraToSpecificLocation(BuildContext context, double? lat, double? lng) {
@@ -253,7 +283,7 @@ class CtrlPresentation {
     //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
       toMainPage(context);
       Future.delayed(const Duration(milliseconds: 1000), () {
-        GoogleMap.of(ctrlPresentation.getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+        GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
       });
 
   }
@@ -268,11 +298,11 @@ class CtrlPresentation {
         context: context,
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
-        title: S.of(context).login,
-        desc: S.of(context).toAddFavLogin,
+        title: AppLocalizations.of(context).login,
+        desc: AppLocalizations.of(context).toAddFavLogin,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
-        btnOkText: S.of(context).login,
+        btnOkText: AppLocalizations.of(context).login,
         btnOkOnPress: () {
           signInRoutine(context);
         },
@@ -309,8 +339,7 @@ class CtrlPresentation {
 
   void deleteCar(BuildContext context, String idVehicle) {
     ctrlDomain.removeVUser(idVehicle);
-    Navigator.pop(context);
-    ctrlPresentation.toGaragePage(context);
+    toGaragePage(context);
     //toGaragePage(context);
   }
 
@@ -323,8 +352,19 @@ class CtrlPresentation {
                 List<String> lEndolls
       ) {
     ctrlDomain.addVUser(name, brand, modelV, bat, eff, lEndolls);
-    Navigator.pop(context);
-    ctrlPresentation.toGaragePage(context);
+    toGaragePage(context);
+  }
+
+  void saveEditedCar(BuildContext context,
+      String carId,
+      String name,
+      String brand,
+      String modelV,
+      String bat,
+      String eff,
+      List<String> lEndolls) {
+    ctrlDomain.editVUser(carId, name, brand, modelV, bat, eff, lEndolls);
+    toGaragePage(context);
   }
 
   Future<List<String>> getAllNamesBicing(List<Coordenada> c) async{
@@ -334,6 +374,19 @@ class CtrlPresentation {
       l.add(esto);
     }
     return l;
+  }
+
+  Future<bool> isBrand(String brand) {
+    return ctrlDomain.isBrand(brand);
+  }
+
+  void setIdiom(String idiom) {
+    this.idiom = idiom;
+    ctrlDomain.setIdiom(idiom);
+  }
+
+  bool islogged(){
+    return ctrlDomain.islogged();
   }
 
 }

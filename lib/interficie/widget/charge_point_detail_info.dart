@@ -2,18 +2,19 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:responsive_grid/responsive_grid.dart';
-import 'package:flutter_project/generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../libraries/flutter_google_maps/flutter_google_maps.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
     Key? key,
-    required this.chargePoint,
     required this.latitude,
     required this.longitude,
   }) : super(key: key);
 
-  final List<String> chargePoint;
   final double latitude;
   final double longitude;
 
@@ -30,14 +31,14 @@ class ChargePointDetailInformation extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              EditInfoPoint(point: chargePoint, latitude: latitude, longitude: longitude,),
+              EditInfoPoint(latitude: latitude, longitude: longitude,),
             ],
           ),
           const Divider(
             height: 16,
             color: Colors.black54,
           ),
-          PointInfo(point: chargePoint),
+          PointInfo(latitude: latitude, longitude: longitude,),
         ],
       ),
     );
@@ -47,12 +48,10 @@ class ChargePointDetailInformation extends StatelessWidget {
 class EditInfoPoint extends StatefulWidget {
   const EditInfoPoint({
     Key? key,
-    required this.point,
     required this.latitude,
     required this.longitude,
   }) : super(key: key);
 
-  final List<String> point;
   final double latitude;
   final double longitude;
 
@@ -61,6 +60,7 @@ class EditInfoPoint extends StatefulWidget {
 }
 
 class _EditInfoPointState extends State<EditInfoPoint> {
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -69,7 +69,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
           onPressed: () {
-            ctrlPresentation.toChartPage(context);
+            ctrlPresentation.toChartPage(context, "hacerlo de otra manera"); //TODO: posible error? ponerle las coordenadas y hacer consulta a database por ejemplo
           },
           icon: const Icon(
             Icons.bar_chart,
@@ -109,9 +109,17 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
-          tooltip: S.of(context).msgAddFav,
+          tooltip: AppLocalizations.of(context).msgAddFav,
           onPressed: () {
               ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
+              if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
+                GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favChargerPoints");
+              }
+              else {
+                GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
+                  const MyMap().markerCharger(
+                      context, widget.latitude, widget.longitude), group: "favChargerPoints");
+              }
               Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
           },
         ),
@@ -123,14 +131,17 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
 class PointInfo extends StatelessWidget {
   const PointInfo({
     Key? key,
-    required this.point,
+    required this.latitude,
+    required this.longitude,
   }) : super(key: key);
 
-  final List<String> point;
+  final double latitude;
+  final double longitude;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    List<String> point = ctrlPresentation.getInfoCharger(latitude, longitude);
+    Column res = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -142,9 +153,11 @@ class PointInfo extends StatelessWidget {
           numChargePlaces: point[4],
           context: context,
         ),
-        buildConnectors(),
+        buildConnectors(point),
       ],
     );
+
+    return res;
   }
 
   Widget buildHeader({
@@ -212,7 +225,7 @@ class PointInfo extends StatelessWidget {
     ],
   );
 
-  Widget buildConnectors() => ResponsiveGridRow(
+  Widget buildConnectors(List<String> point) => ResponsiveGridRow(
     //mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       ResponsiveGridCol(

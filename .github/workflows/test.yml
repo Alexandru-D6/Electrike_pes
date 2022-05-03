@@ -11,6 +11,7 @@ on:
       - 'Alvaro'
       - 'Victor'
       - 'Xavi'
+      - 'prev_main'
   pull_request:
     branches:
       - 'Alexandru'
@@ -20,6 +21,7 @@ on:
       - 'Alvaro'
       - 'Victor'
       - 'Xavi'
+      - 'prev_main'
 #A workflow run is made up of one or more jobs. Jobs run in parallel by default.
 jobs:
 

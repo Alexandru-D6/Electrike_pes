@@ -2,23 +2,18 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
+
+import '../../libraries/flutter_google_maps/flutter_google_maps.dart';
 
 class BicingPointDetailInformation extends StatelessWidget {
   const BicingPointDetailInformation({
     Key? key,
-    required this.name,
-    required this.docks,
-    required this.bicisE,
-    required this.bicisM,
     required this.longitud,
     required this.latitud,
   }) : super(key: key);
 
   //final BicingPoint point;
-  final String name;
-  final String docks;
-  final String bicisE;
-  final String bicisM;
   final double longitud;
   final double latitud;
 
@@ -39,12 +34,7 @@ class BicingPointDetailInformation extends StatelessWidget {
               EditInfoPoint(latitude: latitud, longitude: longitud,),
             ],
           ),
-          PointInfo(
-            name: name,
-            docks: docks,
-            bicisE: bicisE,
-            bicisM: bicisM,
-          ),
+          StatefulPointInfo(latitude: latitud, longitude: longitud,),
         ],
       ),
     );
@@ -106,9 +96,17 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
-          tooltip: 'Add points to favourites', //todo: translate S.of(context).[]
+          tooltip: 'Add points to favourites', //todo: translate App....of(context).[]
           onPressed: () {
             ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
+            if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
+              GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favBicingPoints");
+            }
+            else {
+              GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
+                  const MyMap().markerBicing(
+                      context, widget.latitude, widget.longitude), group: "favBicingPoints");
+            }
             Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
           },
         ),
@@ -117,19 +115,33 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
   }
 }
 
-class PointInfo extends StatelessWidget {
-  const PointInfo({
+class StatefulPointInfo extends StatefulWidget {
+  const StatefulPointInfo({
     Key? key,
-    required this.name,
-    required this.docks,
-    required this.bicisE,
-    required this.bicisM,
+    required this.latitude,
+    required this.longitude,
   }) : super(key: key);
 
-  final String name;
-  final String docks;
-  final String bicisE;
-  final String bicisM;
+  final double latitude;
+  final double longitude;
+
+  @override
+  State<StatefulPointInfo> createState() => _StatefulPointInfoState();
+}
+
+class _StatefulPointInfoState extends State<StatefulPointInfo> {
+  List<String> infoBicingPoint = <String>[];
+
+  @override
+  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
+    ctrlPresentation.getInfoBicing(widget.latitude, widget.longitude).then((element){
+      setState(() {
+        infoBicingPoint = element;
+      });
+    });
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +152,7 @@ class PointInfo extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.pedal_bike, color: Colors.white, size: 45,),
           title: AutoSizeText(
-            name,
+            infoBicingPoint[0],
             style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
@@ -156,13 +168,13 @@ class PointInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildBicingPointInfo(
-                num: docks,
+                num: infoBicingPoint[5],
                 assetName: Icons.local_parking),
             buildBicingPointInfo(
-                num: bicisM,
+                num: infoBicingPoint[3],
                 assetName: Icons.pedal_bike),
             buildBicingPointInfo(
-                num: bicisE,
+                num: infoBicingPoint[4],
                 assetName: Icons.electric_bike),
           ],
         )

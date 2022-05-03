@@ -11,6 +11,7 @@ import 'package:google_directions_api/google_directions_api.dart'
 
 import 'map_items.dart';
 import 'google_map.dart';
+import 'route_response.dart';
 
 class GoogleMapState extends GoogleMapStateBase {
   @override
@@ -64,7 +65,8 @@ class GoogleMapState extends GoogleMapStateBase {
 
   @override
   void addMarkerRaw(
-    GeoCoord position, {
+    GeoCoord position,
+    String group,{
     String? label,
     String? icon,
     String? info,
@@ -75,7 +77,7 @@ class GoogleMapState extends GoogleMapStateBase {
       throw UnimplementedError();
 
   @override
-  void addMarker(Marker marker) => throw UnimplementedError();
+  void addMarker(Marker marker,{String? group}) => throw UnimplementedError();
 
   @override
   void addPolygon(
@@ -116,7 +118,7 @@ class GoogleMapState extends GoogleMapStateBase {
   void removeDirection(origin, destination) => throw UnimplementedError();
 
   @override
-  void removeMarker(GeoCoord position) => throw UnimplementedError();
+  void removeMarker(GeoCoord position,{String? group}) => throw UnimplementedError();
 
   @override
   void removePolygon(String id) => throw UnimplementedError();
@@ -154,6 +156,50 @@ class GoogleMapState extends GoogleMapStateBase {
 
   @override
   void removeCircle(String id) => throw UnimplementedError();
+
+  ///All this functions are implemented by ourselves to improve the functionality of the library
+  ///
+  ///
+
+  @override
+  String test_unit() => throw UnimplementedError();
+
+  @override
+  double getDistance(GeoCoord a, GeoCoord b) => throw UnimplementedError();
+
+  @override
+  Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords) => throw UnimplementedError();
+
+  @override
+  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]) => throw UnimplementedError();
+
+  @override
+  void displayRoute(
+      GeoCoord origin,
+      GeoCoord destination, {
+        List<GeoCoord>? waypoints,
+        String? startLabel,
+        String? startIcon,
+        String? startInfo,
+        String? endLabel,
+        String? endIcon,
+        String? endInfo,
+      }) => throw UnimplementedError();
+
+  @override
+  void addChoosenMarkers(String group) => throw UnimplementedError();
+
+  @override
+  void clearChoosenMarkers() => throw UnimplementedError();
+
+  @override
+  void clearGroupMarkers(String group) => throw UnimplementedError();
+
+  @override
+  Future<double> getZoomCamera() async => throw UnimplementedError();
+
+///
+  ///
 
   @override
   Widget build(BuildContext context) => throw UnimplementedError();

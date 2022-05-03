@@ -1,0 +1,63 @@
+{
+  "languageName": "Español",
+  "map": "Mapa",
+  "garage": "Garage",
+  "favourites": "Favoritos",
+  "achievements": "Logros",
+  "information": "Información",
+  "contactUs": "Contáctanos",
+  "logout": "Cerrar sesión",
+  "language": "Idioma",
+  "systemLanguage": "Lenguaje del sistema",
+  "allFavourites": "Todos mis favoritos",
+  "chargers": "Cargadores",
+  "bicing": "Bicing",
+  "newCar": "Nuevo vehículo",
+  "efficiency": "Consumo",
+  "carBrand": "Marca",
+  "carNameHint": "El increíble buga rojo",
+  "carNameLabel": "Nombre del vehiculo",
+  "carModelLabel": "Modelo",
+  "carBatteryLabel": "Batería(kWh)",
+  "carEfficiency": "Consumo(Wh/Km)",
+  "carBrandLabel": "Por favor, slecciona una marca",
+  "maxCharMssg": "El máximo número de caácteres es 15",
+  "chargerTypeLabel": "Selecciona los cargadores que puede utilizar (ten en cuenta los adaptadores en el caso de tener alguno)",
+  "add": "Añadir",
+  "login": "Iniciar sesión",
+  "toAddCarLogin": "¡Para agregar un vehículo debes estar registrado!",
+  "toAddFavLogin": "Para añadir un punto a favoritos tienes que iniciar sessión\n",
+  "clickToLogin": "Haga clic para iniciar sesión",
+  "alertSureDeleteCarTitle": "¿Estás seguro de que quieres eliminar este coche?",
+  "alertSureDeleteCarContent": "La eliminación de este vehículo es permanente y eliminará todos los datos guardados asociados a éste.\n¿Estás seguro de que quieres continuar?",
+
+  "msgSelectChargers": "Selecciona al menos un cargador",
+  "msgIntroNum": "Introduce un número",
+  "msgAddFav": "Añadir punto a favoritos",
+
+  "infoCar": "El nombre del vehículo es {selectedNameCar}\\n \n  Su marca {selectedBrandCar}\\n\n  Su modelo {selectedModelCar}\\n\n   Batería {selectedBatteryCar} kWh\\n\n   Consumo {selectedEffciencyCar} Wh/Km\\n\n El vehículo utiliza {selectedPlugs}\\n'''),",
+  "@infoCar": {
+    "placeholders": {
+      "selectedNameCar": {},
+      "selectedBrandCar": {},
+      "selectedModelCar": {},
+      "selectedBatteryCar": {},
+      "selectedEffciencyCar": {},
+      "selectedPlugs": {}
+    }
+  },
+
+  "textWithPlaceholder": "Welcome {name}",
+
+  "textWithPlaceholders": "My name is {lastName}, {firstName} {lastName}",
+  "@textWithPlaceholders": {
+    "placeholders": {
+      "firstName": {},
+      "lastName": {}
+    }
+  },
+
+  "infoDialogNotLog": "No se ha iniciado sesión",
+
+  "save": "Guardar cambios"
+}
