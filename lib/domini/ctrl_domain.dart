@@ -475,7 +475,7 @@ class CtrlDomain {
           if(num == "1" || num == "2" || num == "3" || num== "4"){
             int n = int.parse(num);
             n = n-1;
-            typesendolls[n].endolls.add(it["Station_lat"].toString()+'/'+it["Station_lng"].toString());
+            typesendolls[n].endolls.add(Coordenada(it["Station_lat"],it["Station_lng"]));
             endoll.tipus.add(num);
           }
         }
@@ -726,5 +726,17 @@ class CtrlDomain {
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     usuari.idiom = resp['items'];
+
+  List<Coordenada> getcompChargers() {
+    List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
+    List<Coordenada> carregadorsCompatibles = <Coordenada>[];
+    for(var endoll in typesendolls){
+      for(var nom in endollsVh){
+        if(endoll.tipus.name == nom){
+          carregadorsCompatibles.addAll(endoll.endolls);
+        }
+      }
+    }
+    return carregadorsCompatibles;
   }
 }
