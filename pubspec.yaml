@@ -31,10 +31,10 @@ dependencies:
     sdk: flutter
 
   google_maps_cluster_manager:
-    path: ./lib/libraries/google_maps_cluster_manager
+    path: lib/libraries/google_maps_cluster_manager
 
   flutter_google_maps:
-    path: ./lib/libraries/flutter_google_maps
+    path: lib/libraries/flutter_google_maps
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -107,6 +107,7 @@ flutter:
   assets:
     - assets/images/
     - assets/brandCars/
+    - assets/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

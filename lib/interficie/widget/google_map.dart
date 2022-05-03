@@ -11,6 +11,7 @@ import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
+import 'info_ruta.dart';
 
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -21,6 +22,13 @@ class MyMap extends StatefulWidget {
   @override
   _MyMapState createState() => _MyMapState();
 
+  Marker markerCharger(BuildContext context, double latitude, double longitude) {
+    return buildChargerMarker(lat: latitude, long: longitude, context: context);
+  }
+
+  Marker markerBicing(BuildContext context, double latitude, double longitude) {
+    return buildBicingMarker(lat: latitude, long: longitude, context: context);
+  }
 }
 
 class _MyMapState extends State<MyMap> {
@@ -29,7 +37,6 @@ class _MyMapState extends State<MyMap> {
   late BuildContext ctx;
   GeoCoord lastPosition = const GeoCoord(0.0,0.0);
   GlobalKey<GoogleMapStateBase> _newKey = GlobalKey<GoogleMapStateBase>();
-
 
   Future<void> initMarkers(String? show) async {
     //GoogleMap.of(ctrlPresentation.getMapKey())?.chooseMarkers(group);
@@ -47,6 +54,8 @@ class _MyMapState extends State<MyMap> {
           _showNotLogDialog(context);
         } else {
           GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
+          buildFavs("favChargerPoints");
+          buildFavs("favBicingPoints");
           GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("favChargerPoints");
           GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("favBicingPoints");
         }
@@ -60,6 +69,22 @@ class _MyMapState extends State<MyMap> {
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
         GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("default");
         break;
+    }
+  }
+
+  void buildFavs(String group) {
+    GoogleMap.of(ctrlPresentation.getMapKey())?.clearGroupMarkers(group);
+
+    if (group != "favBicingPoints") {
+      List<Coordenada> coords = ctrlPresentation.getFavsChargerPoints();
+      for (var element in coords) {
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildChargerMarker(lat: element.latitud, long: element.longitud, context: context), group: group);
+      }
+    } else {
+      List<Coordenada> coords = ctrlPresentation.getFavsBicingPoints();
+      for (var element in coords) {
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildBicingMarker(lat: element.latitud, long: element.longitud, context: context), group: group);
+      }
     }
   }
 
@@ -164,6 +189,7 @@ class _MyMapState extends State<MyMap> {
             child: FloatingActionButton(
               onPressed: (){
                 ctrlPresentation.clearAllRoutes();
+                showInfoRuta(context);
                 ctrlPresentation.makeRoute();
               },
               heroTag: "Ruta",
@@ -314,6 +340,28 @@ class _MyMapState extends State<MyMap> {
       }
     }
   }
+
+  showInfoRuta(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: cTransparent,
+        builder: (builder) {
+          return Stack(
+            children: [
+              Positioned(
+                left: 24,
+                right: 24,
+                bottom: 24,
+                child: Stack(
+                  children: const [
+                    InfoRuta(),
+                  ],
+                ),
+              ),
+            ],
+          );
+        });
+  }
 }
 
 Marker buildChargerMarker({ //todo:refactor para que funcione igual que con bicing
@@ -323,7 +371,7 @@ Marker buildChargerMarker({ //todo:refactor para que funcione igual que con bici
 }){
   return Marker(
     GeoCoord(lat, long),
-    icon: "assets/images/me.png",
+    icon: (!kIsWeb) ? "assets/images/me.png" : "assets/images/meWeb.png",
     onTap: (markerId)=>showInfoCharger(context, lat, long),
   );
 }
@@ -358,7 +406,7 @@ Marker buildBicingMarker({
   List<String> infoBicingPoint = <String>[];
   return Marker(
     GeoCoord(lat, long),
-    icon: "assets/images/bike.png", //todo: al poner custom marker no sale en la primera carga
+    icon: (!kIsWeb) ? "assets/images/bike.png" : "assets/images/bikeWeb.png", //todo: al poner custom marker no sale en la primera carga
     onTap: (markerId) =>showInfoBicing(context, lat, long, infoBicingPoint)
   );
 }

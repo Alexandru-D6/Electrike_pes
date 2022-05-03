@@ -193,6 +193,9 @@ class GoogleMapState extends GoogleMapStateBase {
   void clearChoosenMarkers() => throw UnimplementedError();
 
   @override
+  void clearGroupMarkers(String group) => throw UnimplementedError();
+
+  @override
   Future<double> getZoomCamera() async => throw UnimplementedError();
 
 ///

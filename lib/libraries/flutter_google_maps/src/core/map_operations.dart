@@ -286,5 +286,7 @@ abstract class CustomFunctions {
 
   void clearChoosenMarkers();
 
+  void clearGroupMarkers(String group);
+
   Future<double> getZoomCamera();
 }

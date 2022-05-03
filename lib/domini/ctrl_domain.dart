@@ -10,6 +10,7 @@ import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:google_directions_api/google_directions_api.dart';
 import 'package:http/http.dart' as http;
 
 class CtrlDomain {
@@ -22,6 +23,7 @@ class CtrlDomain {
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
   List<Coordenada> coordBarcelona = <Coordenada>[];
   List<Coordenada> coordCatalunya = <Coordenada>[];
+  List<Coordenada> coordCarregadorsPropers = <Coordenada>[];
 
   //DATA INFO SYSTEM
   List<VhElectric> vhElectrics = <VhElectric>[];
@@ -60,6 +62,16 @@ class CtrlDomain {
   }
 
   //USER
+  bool islogged(){
+    if (usuari.name == "")return false;
+    return true;
+  }
+  void setIdiom(String idiom)async{
+    if(islogged()) {
+      var url = urlorg + 'change_language?email=' + usuari.correu + '&language=' + idiom;
+      var response = (await http.post(Uri.parse(url)));
+    }
+  }
   Future<void> initializeUser(String email, String name, String img)async {
     var url = urlorg +'exist_user?email='+email;
     var response = (await http.get(Uri.parse(url)));
@@ -72,6 +84,7 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = name;
       usuari.foto = img;
+      setIdiom(ctrlPresentation.idiom);
     }
     else {
       url = urlorg + 'user_info?email=' + email;
@@ -80,12 +93,12 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = resp['items'][0]['Name'];
       usuari.foto = resp['items'][0]['Img'];
-      login();
+      await login();
     }
     ctrlPresentation.setUserValues(name, email, img);
   }
   //Carrega la informació dels objectes favorits de l'usuari
-  void login() async{
+  Future<void> login() async{
     var url = urlorg +'get_user_fav_chargers?email='+usuari.correu;
     var responseC = (await http.get(Uri.parse(url)));
     var respC = jsonDecode(responseC.body);
@@ -127,7 +140,7 @@ class CtrlDomain {
     }
     getNomsFavBicing();
     getNomsFavChargers();
-
+    idiomfromLogin();
   }
   //Elimina el continguts dels llistats referents als usuaris per quan fa logout
   void resetUserSystem(){
@@ -147,13 +160,6 @@ class CtrlDomain {
     await http.post(Uri.parse(url));
     resetUserSystem();
   }
-  /*String getLanguageUser(){
-    //PONER IDIOMAAAAAAA
-    return usuari.correu;
-  }
-  String getCurrentUserName(){
-    return usuari.name;
-  }*/
 
   //USER CARS
   void addVUser(String name, String brand, String modelV, String bat, String eff,List<String> lEndolls){
@@ -227,6 +233,21 @@ class CtrlDomain {
     }
     return datacars;
   }
+
+  void selectVehicleUsuari(int idV) {
+    for(var vhu in vehiclesUsuari) {
+      if (vhu.id == idV) {
+        vhselected = vhu;
+        return;
+      }
+    }
+  }
+
+  VehicleUsuari currentVehicleUsuari() {
+    return vhselected;
+  }
+
+
   bool isAFavPoint(double latitud, double longitud) {
     bool trobat = false;
     for(var favc in puntsFavCarrega){
@@ -454,7 +475,7 @@ class CtrlDomain {
           if(num == "1" || num == "2" || num == "3" || num== "4"){
             int n = int.parse(num);
             n = n-1;
-            typesendolls[n].endolls.add(it["Station_lat"].toString()+'/'+it["Station_lng"].toString());
+            typesendolls[n].endolls.add(Coordenada(it["Station_lat"],it["Station_lng"]));
             endoll.tipus.add(num);
           }
         }
@@ -679,5 +700,43 @@ class CtrlDomain {
         nomsFavBicings.add('Bicing'+it['name']);
       }
     }
+  }
+
+  Future<bool> isBrand(String brand) async {
+    List<String> brands = await getAllBrands();
+    for (String current in brands) {
+      if (current.toLowerCase() == brand.toLowerCase()) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  void getNearChargers(double lat, double lon, double radius)async{
+    var urlc = urlorg+'near_chargers?lat='+ lat.toString() + '&lon=' + lon.toString() + '&dist=' + radius.toString();
+    var responseCars = (await http.get(Uri.parse(urlc)));
+    var respCars = jsonDecode(responseCars.body);
+    for(var info in respCars['items']){
+      coordCarregadorsPropers.add(Coordenada(info['Station_lat'], info['Station_lng']));
+    }
+  }
+  
+  void idiomfromLogin() async{
+    var url = urlorg+'user_language?email='+ usuari.correu;
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    usuari.idiom = resp['items'];
+
+  List<Coordenada> getcompChargers() {
+    List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
+    List<Coordenada> carregadorsCompatibles = <Coordenada>[];
+    for(var endoll in typesendolls){
+      for(var nom in endollsVh){
+        if(endoll.tipus.name == nom){
+          carregadorsCompatibles.addAll(endoll.endolls);
+        }
+      }
+    }
+    return carregadorsCompatibles;
   }
 }

@@ -208,7 +208,7 @@ class CarInfo extends StatelessWidget {
             ),
             Attribute(
               value: car[5],
-              name: AppLocalizations.of(context).power,
+              name: AppLocalizations.of(context).efficiency,
               textColor: Colors.black87,
             ),
           ],

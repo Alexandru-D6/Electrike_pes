@@ -6,7 +6,10 @@ import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
+import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,9 +26,14 @@ class CtrlPresentation {
   String email = "";
   String name = "";
   String photoUrl = "";
+  String idiom = "en";
   List<Coordenada> favs = <Coordenada>[];
   String actualLocation = "Your location";
   String destination = "Search...";
+  int idCarUser = 0;
+  int routeType = 0; //0 es normal, 1 es puntos de carga y 2 es eco
+  String bateria = "100"; // de normal 100
+
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
@@ -39,7 +47,7 @@ class CtrlPresentation {
     ).show();
   }
 
-  void toMainPage(BuildContext context){
+  toMainPage(BuildContext context){
     //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/'));
   }
@@ -53,7 +61,7 @@ class CtrlPresentation {
     );
   }
 
-  void toGaragePage(BuildContext context){
+  toGaragePage(BuildContext context){
     //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
@@ -66,7 +74,7 @@ class CtrlPresentation {
     }
   }
 
-  void toFavouritesPage(BuildContext context){
+  toFavouritesPage(BuildContext context){
     //print(ModalRoute.of(context)?.settings.name);
     if(email == "") {
       _showNotLogDialog(context);
@@ -79,7 +87,7 @@ class CtrlPresentation {
     }
   }
 
-  void toRewardsPage(BuildContext context){
+  toRewardsPage(BuildContext context){
     //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
     if(email == "") {
       _showNotLogDialog(context);
@@ -92,7 +100,7 @@ class CtrlPresentation {
     }
   }
 
-  void toInfoAppPage(BuildContext context){
+  toInfoAppPage(BuildContext context){
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
@@ -100,7 +108,7 @@ class CtrlPresentation {
     );
   }
 
-  void toFormCar(BuildContext context) {
+  toFormCar(BuildContext context) {
     if(email == ""){
       AwesomeDialog(
         context: context,
@@ -127,7 +135,7 @@ class CtrlPresentation {
     }
   }
 
-  void toEditCar(BuildContext context, List<String> car) {
+  toEditCar(BuildContext context, List<String> car) {
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
@@ -136,7 +144,7 @@ class CtrlPresentation {
     );
   }
 
-  void toChartPage(BuildContext context, String pointTitle){
+  toChartPage(BuildContext context, String pointTitle){
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
@@ -183,6 +191,8 @@ class CtrlPresentation {
   void signInRoutine(BuildContext context) async {
     toMainPage(context);
     await serviceLocator<GoogleLoginAdpt>().login();
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    provider.setLocale(Locale(ctrlDomain.usuari.idiom));
   }
 
   void logoutRoutine(BuildContext context) async {
@@ -257,7 +267,8 @@ class CtrlPresentation {
 
   void clearAllRoutes(){
     GoogleMap.of(getMapKey())?.clearDirections();
-        }
+  }
+
   void moveCameraToLocation() {
     Location location = Location();
 
@@ -363,6 +374,19 @@ class CtrlPresentation {
       l.add(esto);
     }
     return l;
+  }
+
+  Future<bool> isBrand(String brand) {
+    return ctrlDomain.isBrand(brand);
+  }
+
+  void setIdiom(String idiom) {
+    this.idiom = idiom;
+    ctrlDomain.setIdiom(idiom);
+  }
+
+  bool islogged(){
+    return ctrlDomain.islogged();
   }
 
 }

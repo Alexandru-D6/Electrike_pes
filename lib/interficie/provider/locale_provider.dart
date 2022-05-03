@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/l10n/l10n.dart';
 
 class LocaleProvider extends ChangeNotifier {
@@ -10,6 +11,7 @@ class LocaleProvider extends ChangeNotifier {
     if (!L10n.all.contains(locale)) return;
 
     _locale = locale;
+    ctrlPresentation.setIdiom(locale.toString());
     notifyListeners();
   }
 

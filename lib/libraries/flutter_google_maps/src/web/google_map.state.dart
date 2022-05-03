@@ -5,17 +5,14 @@
 import 'dart:async';
 import 'dart:html';
 import 'dart:math';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
-import 'dart:ui';
 
 import 'package:flinq/flinq.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 import 'package:google_maps/google_maps.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' show BitmapDescriptor, MarkerId;
+import 'package:google_maps_flutter/google_maps_flutter.dart' show MarkerId;
 import 'package:uuid/uuid.dart';
 
 import '../core/google_map.dart' as gmap;
@@ -62,15 +59,32 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   GMap? _map;
   MapOptions? _mapOptions;
 
-  String? _getImage(String? image) {
+  Future<String?> _getImage(String? image) async {
     if (image == null) return null;
 
     if (utils.ByteString.isByteString(image)) {
-      final blob = Blob([utils.ByteString.fromString(image)], 'image/png');
-      return Url.createObjectUrlFromBlob(blob);
+
+      int? len = image.length;
+      while ((len! - 8)%4 != 0) {
+        image = image! + "0";
+        len = image.length;
+      }
+
+      final blob = Blob([utils.ByteString.fromString(image!)], 'image/png');
+      final temp = Url.createObjectUrlFromBlob(blob);
+
+      final anchor =
+      document.createElement('a') as AnchorElement
+        ..href = temp
+        ..style.display = 'none'
+        ..download = 'some_name.png';
+      document.body?.children.add(anchor);
+
+      return anchor.download;
     }
 
-    return '${fixAssetPath(image)}assets/$image';
+    final temp2 = '${fixAssetPath(image)}assets/$image';
+    return temp2;
   }
 
   @override
@@ -132,7 +146,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   @override
-  void addMarkerRaw(
+  Future<void> addMarkerRaw(
     GeoCoord position,
     String group,{
     String? label,
@@ -141,7 +155,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     String? infoSnippet,
     ValueChanged<String>? onTap,
     ui.VoidCallback? onInfoWindowTap,
-  }) {
+  }) async {
     final key = position.toString();
 
     if (_markers.containsKey(key)) return;
@@ -149,7 +163,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     final marker = Marker()
       ..map = _map
       ..label = label
-      ..icon = _getImage(icon)
+      ..icon = await _getImage(icon)
       ..position = position.toLatLng();
 
     if (info != null || onTap != null) {
@@ -215,13 +229,13 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     if (_current_displaying.contains(group)) {
       if (_inside_charger.contains(group)) {
         _items_charger.putIfAbsent(key, () => marker);
-        _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
+        _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
       }else if (_inside_bicing.contains(group)) {
         _items_bicing.putIfAbsent(key, () => marker);
-        _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+        _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
       }else {
         _items_general.putIfAbsent(key, () => marker);
-        _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+        _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
       }
 
     }
@@ -229,9 +243,9 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void removeMarker(GeoCoord position,{String? group}) {
-    //final key = position.toString();
-    //bool deleteIt = false;
-     /*
+    final key = position.toString();
+    bool deleteIt = false;
+
     if (group != null && _markers_colection.containsKey(group)) {
       bool? cond = _markers_colection[group]?.containsKey(key);
       if (cond != null && !cond) return;
@@ -246,64 +260,28 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
 
     if(deleteIt) {
-      items_t.Marker? marker = _markers_colection[group]?.remove(key);
-      marker = null;
-
-      var info = _infos.remove(key);
-      info?.close();
-      info = null;
-
-      _infoState.remove(key);
-
       if (_current_displaying.contains(group)) { //todo: marker?.map = null; revisar que no haya que eliminarlo de esta manera o al menos como hacerlo ejje. Maybe los shown_markers?
         if (_inside_charger.contains(group)) {
           _items_charger.remove(key);
-          _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
+          _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
         }else if (_inside_bicing.contains(group)) {
           _items_bicing.remove(key);
-          _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+          _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
         }else {
           _items_general.remove(key);
-          _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+          _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
         }
       }
-    }*/
+    }
   }
 
   @override
-  void clearMarkers() {/*
-    _markers_colection.clear();
-
-    _shown_markers_bicing.clear();
-    _shown_markers_general.clear();
-    _shown_markers_charger.clear();
-
-    _current_displaying.clear();
-    _items_charger.clear();
-    _items_general.clear();
-    _items_bicing.clear();
-
-    _manager_charger.setItems(List<items_t.Marker>.empty());
-    _manager_bicing.setItems(List<items_t.Marker>.empty());
-    _manager_general.setItems(List<items_t.Marker>.empty());
-
-    for (Marker? marker in _shown_markers_bicing) {
+  void clearMarkers() {
+    for (Marker? marker in _markers.values) {
       marker?.map = null;
       marker = null;
     }
-    _shown_markers_bicing.clear();
-
-    for (Marker? marker in _shown_markers_charger) {
-      marker?.map = null;
-      marker = null;
-    }
-    _shown_markers_charger.clear();
-
-    for (Marker? marker in _shown_markers_general) {
-      marker?.map = null;
-      marker = null;
-    }
-    _shown_markers_general.clear();
+    _markers.clear();
 
     for (InfoWindow? info in _infos.values) {
       info?.close();
@@ -311,7 +289,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
     _infos.clear();
 
-    _infoState.clear();*/
+    _infoState.clear();
   }
 
   @override
@@ -533,6 +511,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _polygons.clear();
   }
 
+
+
   void _createMapOptions() {
     _mapOptions = MapOptions()
       ..zoom = widget.initialZoom
@@ -647,40 +627,41 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   void _updateMarkersBicing(Set<tryThis.Marker> markers) {
-    print("aaaa");
     markers.forEach((element) {
+      var func = element.onTap!;
+
       addMarkerRaw(
         GeoCoord(element.position.latitude, element.position.longitude),
         "default",
-        label: element.position.toString(),
-        icon: element.icon.toString(),
-        info: element.infoWindow.toString(),
+        label: "",
+        onTap: (testing) => func(),
+        icon: element.infoWindow.title,
       );
     });
   }
 
   void _updateMarkersGeneral(Set<tryThis.Marker> markers) {
-    print("bbbb");
     markers.forEach((element) {
+      var func = element.onTap!;
       addMarkerRaw(
         GeoCoord(element.position.latitude, element.position.longitude),
         "default",
-        label: element.position.toString(),
-        icon: element.icon.toString(),
-        info: element.infoWindow.toString(),
+        label: "",
+        onTap: (testing) => func(),
+        icon: element.infoWindow.title,
       );
     });
   }
 
   void _updateMarkersCharger(Set<tryThis.Marker> markers) {
-    print("cccc");
     markers.forEach((element) {
+      var func = element.onTap!;
       addMarkerRaw(
         GeoCoord(element.position.latitude, element.position.longitude),
         "default",
-        label: element.position.toString(),
-        icon: element.icon.toString(),
-        info: element.infoWindow.toString(),
+        label: "",
+        onTap: (testing) => func(),
+        icon: element.infoWindow.title,
       );
     });
   }
@@ -694,88 +675,31 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           double? cur_zoom = _map!.zoom?.toDouble();
           moveCamera(GeoCoord(cluster.location.latitude, cluster.location.longitude), zoom: cur_zoom! + 2.0);
         },
-        icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
-            text: cluster.isMultiple ? cluster.count.toString() : null),
+        infoWindow: tryThis.InfoWindow(
+            title: color == Colors.yellow ? "packages/google_maps_cluster_manager/assets/images/carsCluster.png" :
+                                            "packages/google_maps_cluster_manager/assets/images/bicingCluster.png",
+        )
 
       );
       
       return res;
-      /*
-      return getMarkerRaw( //todo: add all addmarkerraw where
-        label: cluster.getId(),
-        position: LatLng(cluster.location.latitude, cluster.location.longitude),
-        onTap: (String) {
-          double? cur_zoom = _map!.zoom?.toDouble();
-          moveCamera(GeoCoord(cluster.location.latitude, cluster.location.longitude), zoom: cur_zoom! + 2.0);
-        },
-        icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75, color,
-            text: cluster.isMultiple ? cluster.count.toString() : null).toString(),
-      ).cast<tryThis.Marker>();*/
     }else {
       ValueChanged<String>? func = cluster.items.first.onTap;
       String? icon = cluster.items.first.icon;
 
       tryThis.Marker res = tryThis.Marker(
         markerId: MarkerId(cluster.getId()),
-        onTap: func != null ? () => func(cluster.location.toString()) : null,
+        onTap: () => func!("aaaa"),
         consumeTapEvents: cluster.items.first.onTap != null,
         position: cluster.location,
-        icon: icon == null ? BitmapDescriptor.defaultMarker : await _getImage(icon) as BitmapDescriptor,
-        infoWindow: cluster.items.first.info != null
-            ? tryThis.InfoWindow(
-          title: cluster.items.first.info,
-          snippet: cluster.items.first.infoSnippet,
-          onTap: cluster.items.first.onInfoWindowTap,
+        infoWindow: tryThis.InfoWindow(
+          title: cluster.items.first.icon != null ? icon : "packages/google_maps_cluster_manager/assets/images/defaultMarker.png",
         )
-            : tryThis.InfoWindow.noText,
       );
       
       return res;
-      /*
-      return getMarkerRaw(
-        label: cluster.getId(),
-        onTap: func != null ? (String) => func(cluster.location.toString()) : null,
-        consumeTapEvents: cluster.items.first.onTap != null,
-        position: LatLng(cluster.location.latitude, cluster.location.longitude),
-        icon: icon == null ? BitmapDescriptor.defaultMarker.toString() : icon,
-      ).cast<tryThis.Marker>();*/
     }
   };
-
-  Future<BitmapDescriptor> _getMarkerBitmap(int size, Color color, {String? text}) async {
-    if (kIsWeb) size = (size / 2).floor();
-
-    final PictureRecorder pictureRecorder = PictureRecorder();
-    final Canvas canvas = Canvas(pictureRecorder);
-    final Paint paint1 = Paint()..color = color;
-    final Paint paint2 = Paint()..color = Colors.white;
-
-    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint1);
-    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
-    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8, paint1);
-
-    if (text != null) {
-      TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
-      painter.text = TextSpan(
-        text: text,
-        style: TextStyle(
-            fontSize: size / 3,
-            color: Colors.white,
-            fontWeight: FontWeight.normal),
-      );
-      painter.layout();
-      painter.paint(
-        canvas,
-        Offset(size / 2 - painter.width / 2, size / 2 - painter.height / 2),
-      );
-    }
-
-    final img = await pictureRecorder.endRecording().toImage(size, size);
-    final data = await img.toByteData(format: ImageByteFormat.png);
-
-    Uint8List? temp = data?.buffer.asUint8List();
-    return BitmapDescriptor.fromBytes(temp!);
-  }
 
   ///All this functions are implemented by ourselves to improve the functionality of the library
   ///
@@ -871,6 +795,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           double distance = 0.0;
           double duration = 0.0;
           List<GeoCoord> coords = <GeoCoord>[];
+          List<double> distances = <double>[];
 
           temp?.legs?.forEach((element) {
             double? aa = element?.distance?.value?.toDouble();
@@ -879,9 +804,16 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             double? bb = element?.duration?.value?.toDouble();
             duration += (bb!/60); ///duration returns seconds
 
-            if (coords.isEmpty) coords.add(element?.startLocation!.toGeoCoord() as GeoCoord);
+            if (coords.isEmpty) {
+              coords.add(element?.startLocation!.toGeoCoord() as GeoCoord);
+              distances.add(0.0);
+            }
+
             element?.steps?.forEach((element2) {
               coords.add(element2?.endLocation!.toGeoCoord() as GeoCoord);
+
+              double tmep = element2?.distance as double;
+              distances.add(distances.last + tmep);
             });
           });
 
@@ -890,6 +822,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           result.origin = temp?.legs?.firstOrNull?.startLocation!.toGeoCoord() as GeoCoord;
           result.destination = temp?.legs?.lastOrNull?.endLocation!.toGeoCoord() as GeoCoord;
           result.description = "";
+          result.distancesMeters = distances;
           result.coords = coords;
 
         }else result.status = status as String?;
@@ -983,15 +916,17 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   void addChoosenMarkers(String group) {
     if (_markers_colection.containsKey(group) && !_current_displaying.contains(group)) {
 
+      clearMarkers();
+
       if (_inside_charger.contains(group)) {
         _items_charger.addAll(_markers_colection[group]!);
-        _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
+        _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
       }else if (_inside_bicing.contains(group)) {
         _items_bicing.addAll(_markers_colection[group]!);
-        _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+        _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
       }else {
         _items_general.addAll(_markers_colection[group]!);
-        _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+        _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
       }
 
       _current_displaying.add(group);
@@ -1000,6 +935,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void clearChoosenMarkers() {
+
+    clearMarkers();
 
     _current_displaying = {"default"};
     _items_charger.clear();
@@ -1010,9 +947,36 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       _items_general.addAll(_markers_colection["default"]!);
     }
 
-    _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
-    _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
-    _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+    _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
+    _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
+    _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
+  }
+
+  @override
+  void clearGroupMarkers(String group) {
+    if (_markers_colection.containsKey(group)) {
+      _markers_colection[group] = Map<String, items_t.Marker>();
+    }else return;
+
+    if (_current_displaying.contains(group)) {
+      if (_inside_charger.contains(group)) {
+        _items_charger.clear();
+
+        _inside_charger.forEach((element) {
+          if (element != group && _markers.containsKey(element)) _items_charger.addAll(_markers_colection[element]!);
+        });
+
+        _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
+      }else if (_inside_bicing.contains(group)) {
+        _items_bicing.clear();
+
+        _inside_bicing.forEach((element) {
+          if (element != group && _markers.containsKey(element)) _items_bicing.addAll(_markers_colection[element]!);
+        });
+
+        _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
+      }
+    }
   }
 
   @override
@@ -1038,6 +1002,27 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
         _map = GMap(elem, _mapOptions);
 
+        if (_map != null) {
+          double? cur_zoom = _map!.zoom?.toDouble();
+          _manager_charger.setMapZoomW(cur_zoom!);
+          _manager_bicing.setMapZoomW(cur_zoom);
+          _manager_general.setMapZoomW(cur_zoom);
+        }
+
+        _map!.onBoundsChanged.listen((event) {
+          double? cur_zoom = _map!.zoom?.toDouble();
+          _manager_charger.onCameraMoveW(cur_zoom!);
+          _manager_bicing.onCameraMoveW(cur_zoom);
+          _manager_general.onCameraMoveW(cur_zoom);
+        });
+
+        _map!.onIdle.listen((event) {
+          clearMarkers();
+
+          _manager_charger.updateMapW(_map!);
+          _manager_bicing.updateMapW(_map!);
+          _manager_general.updateMapW(_map!);
+        });
 
         _subscriptions.add(_map!.onClick.listen((event) => widget.onTap?.call(event.latLng!.toGeoCoord())));
         _subscriptions.add(_map!.onRightclick.listen((event) => widget.onLongPress?.call(event.latLng!.toGeoCoord())));
