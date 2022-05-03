@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -35,7 +34,7 @@ class InfoRuta extends StatelessWidget {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: <Widget>[
-          Text("Select one of your cars"),
+          const Text("Select one of your cars"),
           ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
             height: 200,
             width: 200,
@@ -68,8 +67,8 @@ class InfoRuta extends StatelessWidget {
             width: 200,
             child: Image.asset("assets/brandCars/RAYO.png"),
           ),
-          Text("Select a route type"),
-          CustomRadio(),
+          const Text("Select a route type"),
+          const CustomRadio(),
           const Divider(
             height: 16,
             color: Colors.black54,
@@ -77,7 +76,7 @@ class InfoRuta extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("Enter your battery left: "),
+          const Text("Enter your battery left: "),
           SizedBox(
             width: 40,
             child:
@@ -88,7 +87,7 @@ class InfoRuta extends StatelessWidget {
 
             ),
           ),
-          Text("%"),
+          const Text("%"),
         ],
       ),
 

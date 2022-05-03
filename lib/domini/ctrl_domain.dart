@@ -721,7 +721,7 @@ class CtrlDomain {
     }
   }
   
-  void IdiomfromLogin() async{
+  void idiomfromLogin() async{
     var url = urlorg+'user_language?email='+ usuari.correu;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);

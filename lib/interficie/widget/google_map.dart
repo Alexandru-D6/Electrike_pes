@@ -76,14 +76,14 @@ class _MyMapState extends State<MyMap> {
 
     if (group != "favBicingPoints") {
       List<Coordenada> coords = ctrlPresentation.getFavsChargerPoints();
-      coords.forEach((element) {
+      for (var element in coords) {
         GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildChargerMarker(lat: element.latitud, long: element.longitud, context: context), group: group);
-      });
+      }
     } else {
       List<Coordenada> coords = ctrlPresentation.getFavsBicingPoints();
-      coords.forEach((element) {
+      for (var element in coords) {
         GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildBicingMarker(lat: element.latitud, long: element.longitud, context: context), group: group);
-      });
+      }
     }
   }
 

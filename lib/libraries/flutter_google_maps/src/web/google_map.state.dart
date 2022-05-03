@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:html';
 import 'dart:math';
 import 'dart:ui' as ui;
-import 'dart:ui';
 
 import 'package:flinq/flinq.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,6 @@ import 'package:google_directions_api/google_directions_api.dart' show GeoCoord,
 import 'package:google_maps/google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show MarkerId;
 import 'package:uuid/uuid.dart';
-import 'package:flutter/foundation.dart';
 
 import '../core/google_map.dart' as gmap;
 import '../core/map_items.dart' as items_t;

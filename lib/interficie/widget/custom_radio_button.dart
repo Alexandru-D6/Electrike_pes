@@ -10,8 +10,8 @@ class CustomRadio extends StatefulWidget {
 /// This is the private State class that goes with MyStatefulWidget.
 class _CustomRadioState extends State<CustomRadio> {
 
-  Widget CustomRadioButton(String text, int index) {
-    return OutlineButton(
+  Widget customRadioButton(String text, int index) {
+    return OutlinedButton(
       onPressed: () {
         setState(() {
           ctrlPresentation.routeType = index;
