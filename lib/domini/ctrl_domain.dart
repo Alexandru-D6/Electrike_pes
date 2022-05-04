@@ -5,6 +5,8 @@ import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
 import 'package:flutter_project/domini/favorit.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
+import 'package:flutter_project/domini/services/local_notifications_adpt.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/domini/tipus_endoll.dart';
 import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
@@ -758,4 +760,23 @@ class CtrlDomain {
     }
     return carregadorsCompatibles;
   }
+
+  /*time is DateTime format: https://api.flutter.dev/flutter/dart-core/DateTime/DateTime.utc.html
+    day between 1 (Monday) to 7 (Sunday)
+   */
+  void addSheduledNotificationFavoriteChargePoint(int day, int hour, int minute) {
+
+    DateTime.utc(DateTime.now().year, DateTime.now().month,  DateTime.now().weekday);
+
+
+    var repeat = DateTime.utc(DateTime.now().year, DateTime.now().month, day);
+
+    var time = DateTime.now();
+    if (day < DateTime.now().weekday) {
+      repeat.add(const Duration(days: 7));
+    }
+
+    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(DateTime.now().year, DateTime.now().monthNOO, day DateTime., int hour, int minute);
+  }
+
 }

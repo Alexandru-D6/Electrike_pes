@@ -209,6 +209,7 @@ class LocalNotificationAdpt {
     playSound: true,
     priority: Priority.high,
     importance: Importance.high,
+    autoCancel: false,
   );
 
   Future<void> showNotifications() async {
@@ -219,7 +220,7 @@ class LocalNotificationAdpt {
       NotificationDetails(android: _androidNotificationDetails),
     );
   }
-
+/*
   Future<void> scheduleNotifications() async {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         0,
@@ -231,6 +232,65 @@ class LocalNotificationAdpt {
         uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime);
   }
+*/
+
+  Future<void> scheduleNotifications(int year, int month, int day, int hour, int minute) async {
+
+
+/*
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        "Notification Title",
+        "This is the Notification Body!",
+        tz.TZDateTime.utc(2022,5,4,8,21),
+        NotificationDetails(android: _androidNotificationDetails),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime);
+ */
+
+    var interval = RepeatInterval.everyMinute;
+
+    var platform = NotificationDetails(android: _androidNotificationDetails);
+
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        "Notification Title",
+        "This is the Notification Body!",
+        tz.TZDateTime.utc(year,month,day,hour,minute),
+        NotificationDetails(android: _androidNotificationDetails),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
+  }
+
+  Future sheduledNotification() async {
+    var interval = RepeatInterval.everyMinute;
+    /*var bigPicture = const BigPictureStyleInformation(
+        DrawableResourceAndroidBitmap("logo.png"),
+        largeIcon: DrawableResourceAndroidBitmap("logo.png"),
+        contentTitle: "Demo image notification",
+        summaryText: "This is some text",
+        htmlFormatContent: true,
+        htmlFormatContentTitle: true);
+*/
+    var android = const AndroidNotificationDetails("id", "channel", /*"description"
+        styleInformation: bigPicture*/);
+
+    var platform = NotificationDetails(android: android);
+
+    await _flutterLocalNotificationsPlugin.periodicallyShow(
+        0,
+        "Demo Sheduled notification",
+        "Tap to do something",
+        interval,
+        platform);
+  }
+
+
+
+
 
   Future<void> cancelNotifications(int id) async {
     await _flutterLocalNotificationsPlugin.cancel(id);
