@@ -5,7 +5,7 @@ import 'package:google_place/google_place.dart';
 class GooglePlaceAdpt {
   static final _instance = GooglePlaceAdpt._internal();
   static const googleMapApiKey = "AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY";
-  var googlePlace = GooglePlace(googleMapApiKey);
+  var googlePlace = GooglePlace(googleMapApiKey, proxyUrl: "https://obscure-lake-86305.herokuapp.com/");
 
   factory GooglePlaceAdpt() {
     return _instance;
