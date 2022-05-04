@@ -20,8 +20,8 @@ class VehicleUsuari {
     image = "";
     brand = "";
     model = "";
-    battery = 0;
-    efficiency = 0;
+    battery = 100;
+    efficiency = 80;
     endolls = <String>[];
   }
 
