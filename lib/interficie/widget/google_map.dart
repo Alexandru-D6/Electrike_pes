@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
+import '../../domini/rutes/rutes_amb_carrega.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
 import 'info_ruta.dart';
@@ -187,7 +189,7 @@ class _MyMapState extends State<MyMap> {
             right: 56,
             bottom: 16,
             child: FloatingActionButton(
-              onPressed: (){
+              onPressed: () {
                 ctrlPresentation.clearAllRoutes();
                 showInfoRuta(context);
               },
@@ -228,9 +230,10 @@ class _MyMapState extends State<MyMap> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) async {
       ctrlPresentation.setMapKey(_newKey);
       chargerMarkers();
+
     });
   }
 

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+//import 'package:flutter_project/libraries/flutter_google_maps/src/core/google_map.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../libraries/flutter_google_maps/flutter_google_maps.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
