@@ -189,25 +189,10 @@ class _MyMapState extends State<MyMap> {
             right: 56,
             bottom: 16,
             child: FloatingActionButton(
-              onPressed: () async {
-                CtrlPresentation ctrlPresentation = CtrlPresentation();
-                CtrlDomain ctrlDomain = CtrlDomain();
-                ctrlDomain.vhselected.battery = 57;
-                ctrlDomain.vhselected.efficiency = 150;
-                ctrlDomain.vhselected.afegirEndoll("Schuko");
-                ctrlDomain.vhselected.afegirEndoll("Mennekes");
-                ctrlDomain.vhselected.afegirEndoll("Chademo");
-                ctrlDomain.vhselected.afegirEndoll("CCSCombo2");
-                RutesAmbCarrega rC = RutesAmbCarrega();
-                //ctrlDomain.getNearChargers(41.716690, 0.433424, 10);
-
-                RoutesResponse waitPoint = await rC.algorismeMillorRuta(GeoCoord(41.716690, 0.433424), GeoCoord(42.355895, 3.125707), 70, 14);
-
-                //GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildBicingMarker(lat: waitPoint.latitude, long: waitPoint.longitude, context: context), group: "default");
-
-                //GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.716690, 0.433424), waitPoint);
-                //GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(waitPoint,const GeoCoord(42.355895, 3.125707));
-
+              onPressed: () {
+                ctrlPresentation.clearAllRoutes();
+                showInfoRuta(context);
+                ctrlPresentation.makeRoute();
               },
               heroTag: "Ruta",
               tooltip: "Empieza la ruta",

@@ -785,13 +785,11 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
     RouteResponse result = RouteResponse();
 
-    print("+++++++> ok");
     await directionsService.route(
       request,
           (response, status) {
         if (status == DirectionsStatus.OK) {
           result.status = "ok";
-          print("+++++++> ok");
           DirectionsRoute? temp = response?.routes?.firstOrNull;
 
 
