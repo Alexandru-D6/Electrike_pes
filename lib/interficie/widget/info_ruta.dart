@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_project/interficie/widget/custom_radio_button.dart';
@@ -36,8 +37,8 @@ class InfoRuta extends StatelessWidget {
         children: <Widget>[
           const Text("Select one of your cars"),
           ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
-            height: 200,
-            width: 200,
+            height: 150,
+            width: 150,
             child: NotificationListener<ScrollEndNotification>(
               child: ScrollConfiguration(
                 behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
@@ -55,7 +56,9 @@ class InfoRuta extends StatelessWidget {
 
                   ),),
               onNotification: (notification) {
-                ctrlPresentation.idCarUser = ((controller.position.pixels)/200) as int; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
+                ctrlPresentation.idCarUser = (controller.position.pixels)~/200; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
+                print(controller.position.pixels);
+                print(ctrlPresentation.idCarUser);
                 // Return true to cancel the notification bubbling. Return false (or null) to
                 // allow the notification to continue to be dispatched to further ancestors.
                 return true;
@@ -63,8 +66,8 @@ class InfoRuta extends StatelessWidget {
               ),
 
             ): SizedBox(
-            height: 200,
-            width: 200,
+            height: 150,
+            width: 150,
             child: Image.asset("assets/brandCars/RAYO.png"),
           ),
           const Text("Select a route type"),
@@ -90,7 +93,16 @@ class InfoRuta extends StatelessWidget {
           const Text("%"),
         ],
       ),
-
+      ElevatedButton(
+          onPressed: () {
+              Navigator.pop(context);
+              Future.delayed(const Duration(milliseconds: 1000), ()
+              {
+                ctrlPresentation.makeRoute();
+              });
+          },
+          child: const Text('Start Route'),
+      ),
         ],
       ),
     );
@@ -104,10 +116,14 @@ class InfoRuta extends StatelessWidget {
       carImage = "assets/brandCars/defaultBMW.png";
     }
     return Container(
-        width: 200.0,
+        width: 150.0,
         decoration: BoxDecoration(
-          //color: Colors.white,
+          //shape: BoxShape.rectangle,
+          border: Border.all(width: 5.0, color: const Color(0xff353535)),
+          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+          color: const Color(0xffafafdc),
           image: DecorationImage(
+            scale: 3,
             image: AssetImage(carImage),
           ),
         ),

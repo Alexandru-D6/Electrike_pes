@@ -190,7 +190,6 @@ class _MyMapState extends State<MyMap> {
               onPressed: (){
                 ctrlPresentation.clearAllRoutes();
                 showInfoRuta(context);
-                ctrlPresentation.makeRoute();
               },
               heroTag: "Ruta",
               tooltip: "Empieza la ruta",
