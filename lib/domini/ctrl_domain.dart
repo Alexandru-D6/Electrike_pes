@@ -537,6 +537,7 @@ class CtrlDomain {
       infoC.add(it["Station_address"]);
       infoC.add(it["Station_municipi"]);
       List<int> endollsinfo = List.filled(16, 0);
+      bool cat = false;
       for(var en in it['Sockets']){
         var l = en['Connector_types'].split(',');
         for(var type in l) {
@@ -546,7 +547,9 @@ class CtrlDomain {
             case 1: {endollsinfo[num*4+3]++;} break;
             case 4: {endollsinfo[num*4+3]++;} break;
             case 5: {endollsinfo[num*4+3]++;} break;//AÑADIDO
-            case 6:{endollsinfo[num*4+1]++; }break;
+            case 6:{endollsinfo[num*4+1]++;
+              cat = true;
+            }break;
             default:{endollsinfo[num*4+2]++;} break;
           }
         }
@@ -559,6 +562,7 @@ class CtrlDomain {
         if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
       }
       infoC.add(isfav.toString());
+      infoC.add(cat.toString());
     }
     return infoC;
   }

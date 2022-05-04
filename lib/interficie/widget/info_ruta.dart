@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_project/interficie/widget/custom_radio_button.dart';
@@ -27,6 +28,7 @@ class InfoRuta extends StatelessWidget {
     textController.addListener(_changeLatestBateryValue);
 
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
+    if(userCarList.isNotEmpty) ctrlPresentation.idCarUser = 1;
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(top: 50),
@@ -36,8 +38,8 @@ class InfoRuta extends StatelessWidget {
         children: <Widget>[
           const Text("Select one of your cars"),
           ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
-            height: 200,
-            width: 200,
+            height: 150,
+            width: 150,
             child: NotificationListener<ScrollEndNotification>(
               child: ScrollConfiguration(
                 behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
@@ -55,7 +57,9 @@ class InfoRuta extends StatelessWidget {
 
                   ),),
               onNotification: (notification) {
-                ctrlPresentation.idCarUser = ((controller.position.pixels)/200) as int; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
+                ctrlPresentation.idCarUser = (controller.position.pixels)~/150 + 1; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
+                print(controller.position.pixels);
+                print(ctrlPresentation.idCarUser);
                 // Return true to cancel the notification bubbling. Return false (or null) to
                 // allow the notification to continue to be dispatched to further ancestors.
                 return true;
@@ -63,15 +67,23 @@ class InfoRuta extends StatelessWidget {
               ),
 
             ): SizedBox(
-            height: 200,
-            width: 200,
+            height: 150,
+            width: 150,
             child: Image.asset("assets/brandCars/RAYO.png"),
           ),
+          const Divider(
+            height: 16,
+            color: Color(0x00000000),
+          ),
           const Text("Select a route type"),
+          const Divider(
+            height: 16,
+            color: Color(0x00000000),
+          ),
           const CustomRadio(),
           const Divider(
             height: 16,
-            color: Colors.black54,
+            color: Color(0x00000000),
           ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -90,19 +102,47 @@ class InfoRuta extends StatelessWidget {
           const Text("%"),
         ],
       ),
-
+          const Divider(
+            height: 16,
+            color: Color(0x00000000),
+          ),
+      ElevatedButton(
+          onPressed: () {
+              ctrlPresentation.toMainPage(context);
+              Future.delayed(const Duration(milliseconds: 500), ()
+              {
+                ctrlPresentation.makeRoute();
+              });
+          },
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),),
+              primary: const Color(0xff8A84E2),
+          ),
+          child: const Text('Start Route'),
+      ),
         ],
       ),
     );
   }
 
   Widget carItem(List<String> car){
+    String carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
+    if(allCarsPathsImages.contains(carImage)) {
+      carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
+    } else {
+      carImage = "assets/brandCars/defaultBMW.png";
+    }
     return Container(
-        width: 200.0,
-        decoration: const BoxDecoration(
-          //color: Colors.white,
+        width: 150.0,
+        decoration: BoxDecoration(
+          //shape: BoxShape.rectangle,
+          border: Border.all(width: 5.0, color: const Color(0xff353535)),
+          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+          color: const Color(0xffafafdc),
           image: DecorationImage(
-            image: AssetImage("assets/brandCars/RAYO.png"),
+            scale: 3,
+            image: AssetImage(carImage),
           ),
         ),
         child: Align(

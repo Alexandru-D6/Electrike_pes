@@ -146,7 +146,8 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           else
             {
               ctrlPresentation.actualLocation = element,
-            }
+            },
+          //ctrlPresentation.toMainPage(context),
           //ctrlPresentation.makeRoute()
           },//TODO: llamar aqui que hacer con cada boton de la lista
       ));
