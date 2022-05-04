@@ -28,6 +28,7 @@ class InfoRuta extends StatelessWidget {
     textController.addListener(_changeLatestBateryValue);
 
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
+    if(userCarList.isNotEmpty) ctrlPresentation.idCarUser = 1;
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(top: 50),
@@ -56,7 +57,7 @@ class InfoRuta extends StatelessWidget {
 
                   ),),
               onNotification: (notification) {
-                ctrlPresentation.idCarUser = (controller.position.pixels)~/150; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
+                ctrlPresentation.idCarUser = (controller.position.pixels)~/150 + 1; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
                 print(controller.position.pixels);
                 print(ctrlPresentation.idCarUser);
                 // Return true to cancel the notification bubbling. Return false (or null) to

@@ -249,7 +249,7 @@ class CtrlPresentation {
 
   void makeRoute(){
     Location location = Location();
-
+    ctrlDomain.selectVehicleUsuari(idCarUser);
     location.getLocation().then((value) {
       String origin = value.latitude.toString() + "," + value.longitude.toString();
       if(actualLocation != "Your location") origin = actualLocation;
