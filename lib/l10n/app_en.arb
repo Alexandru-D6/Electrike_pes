@@ -59,5 +59,8 @@
 
   "infoDialogNotLog": "You aren't logged",
 
-  "save": "Save changes"
+  "save": "Save changes",
+  "vehicles": "Vehicles",
+  "trophies": "Trophies",
+  "savedco2": "Saved CO2"
 }

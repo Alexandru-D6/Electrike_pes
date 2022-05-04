@@ -127,4 +127,13 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get save => 'Guardar canvis';
+
+  @override
+  String get vehicles => 'Vehicles';
+
+  @override
+  String get trophies => 'Trofeus';
+
+  @override
+  String get savedco2 => 'CO2 salvat';
 }

@@ -167,7 +167,7 @@ class CtrlPresentation {
     if (!await launchUrl(Uri.parse(_url))) throw 'Could not launch $_url';
   }
 
-  getCarsList() {
+  List<List<String>> getCarsList() {
     return ctrlDomain.infoAllVUser();
   }
 
@@ -387,6 +387,15 @@ class CtrlPresentation {
 
   bool islogged(){
     return ctrlDomain.islogged();
+  }
+
+  List<String> getTrophiesDone() {
+    List<String> trophiesCompleted = ["Login", "Jump"];
+    return trophiesCompleted;
+  }
+
+  int getCO2saved() {
+    return 8;
   }
 
 }
