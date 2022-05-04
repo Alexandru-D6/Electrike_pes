@@ -24,7 +24,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_project/domini/services/local_notifications_adpt.dart';
 
 void main() => initializeSystem();
 
@@ -144,7 +143,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: [ElevatedButton(onPressed: () => serviceLocator<LocalNotificationAdpt>().showNotifications(), child: const Text("Instant Notification"))],
+        children: [ElevatedButton(onPressed: () => serviceLocator<LocalNotificationAdpt>().showNotifications(0,0), child: const Text("Instant Notification"))],
       ),
     );
   }

@@ -148,7 +148,7 @@ class NotificationService extends ChangeNotifier {
 */
 
 
-
+import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
@@ -212,11 +212,21 @@ class LocalNotificationAdpt {
     autoCancel: false,
   );
 
-  Future<void> showNotifications() async {
+  Future<void> showNotifications(double lat, double long) async {
+
+    CtrlDomain ctrlDomain = CtrlDomain();
+    List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
+
+    late String state;
+    if (dadesCargadors[5] != "0") {
+      state = "<unknown>";
+    } else {
+      state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
+    }
     await _flutterLocalNotificationsPlugin.show(
       0,
-      "Notification Title",
-      "This is the Notification Body!",
+      "Charger point " + dadesCargadors[1] + " state",
+      "Your charger point has " +state+ " available chargers.",
       NotificationDetails(android: _androidNotificationDetails),
     );
   }
@@ -234,7 +244,8 @@ class LocalNotificationAdpt {
   }
 */
 
-  Future<void> scheduleNotifications(int year, int month, int day, int hour, int minute) async {
+
+  Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
 
 
 /*
@@ -247,17 +258,28 @@ class LocalNotificationAdpt {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime);
- */
+
 
     var interval = RepeatInterval.everyMinute;
 
     var platform = NotificationDetails(android: _androidNotificationDetails);
+ */
+    CtrlDomain ctrlDomain = CtrlDomain();
+    List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
+
+    late String state;
+    if (dadesCargadors[5] != "0") {
+      state = "<unknown>";
+    } else {
+      state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
+    }
+
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         0,
-        "Notification Title",
-        "This is the Notification Body!",
-        tz.TZDateTime.utc(year,month,day,hour,minute),
+        "Charger point " + dadesCargadors[1] + " state",
+        "Your charger point has " +state+ " available chargers.",
+        tz.TZDateTime.from(when, tz.local),
         NotificationDetails(android: _androidNotificationDetails),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:

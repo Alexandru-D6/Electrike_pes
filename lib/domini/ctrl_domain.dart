@@ -17,6 +17,8 @@ import 'package:google_directions_api/google_directions_api.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class CtrlDomain {
   CtrlDomain._internal();
@@ -248,6 +250,8 @@ class CtrlDomain {
     }
   }
 
+
+  //Si nadie le ha asignado un vehiculo al usuario, currentVehicleUsuari devoldera un vehicle Buit!
   VehicleUsuari currentVehicleUsuari() {
     return vhselected;
   }
@@ -761,22 +765,69 @@ class CtrlDomain {
     return carregadorsCompatibles;
   }
 
-  /*time is DateTime format: https://api.flutter.dev/flutter/dart-core/DateTime/DateTime.utc.html
-    day between 1 (Monday) to 7 (Sunday)
+  /*
+  day between 1 (Monday) to 7 (Sunday)
+    Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
    */
-  void addSheduledNotificationFavoriteChargePoint(int day, int hour, int minute) {
+  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int day, int iniHour, int iniMinute/*, int endHour*//*, int endMinute*/) {
 
-    DateTime.utc(DateTime.now().year, DateTime.now().month,  DateTime.now().weekday);
+    var dayOfTheWeek = DateTime(DateTime.now().year, DateTime.now().month, day, iniHour, iniMinute);
+    var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, DateTime.now().hour, iniMinute);
+    int daysToAdd;
 
-
-    var repeat = DateTime.utc(DateTime.now().year, DateTime.now().month, day);
-
-    var time = DateTime.now();
+    //si el dia donat és diferent del dia d'avui
     if (day < DateTime.now().weekday) {
-      repeat.add(const Duration(days: 7));
+      daysToAdd = 7 - (DateTime.now().weekday - day);
+      firstNotification.add(Duration(days: daysToAdd));
     }
+    else if (day > DateTime.now().weekday) {
+      daysToAdd = day - DateTime.now().weekday;
+      firstNotification.add(Duration(days: daysToAdd));
+    }
+    /*else if (DateTime.now().hour < iniHour){
 
-    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(DateTime.now().year, DateTime.now().monthNOO, day DateTime., int hour, int minute);
+    }
+    //mateix dia
+    else if (DateTime.now().hour >= iniHour) {
+      //if (DateTime.now().hour < endHour) { //en aquest cas no apareixerà cap notificació fins la setmana següent.
+        //firstNotification = DateTime.now();
+    //  }
+     // else {
+        firstNotification.add(const Duration(days: 7));
+      //}
+    }
+    /*
+    else if (DateTime.now().minute <= minute) {
+
+    }
+    else if (DateTime.now().minute > minute) {
+      firstNotification.add(const Duration(days: 7));
+    }
+    */
+
+    firstNotification = DateTime.utc(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
+    final pacificTimeZone = tz.getLocation('Europe/Paris');
+    //arreglar lo de les zones horaries.
+    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+    */
+
+    print(firstNotification);
+
+    firstNotification = DateTime(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
+    firstNotification = firstNotification.toUtc();
+    print(firstNotification);
+
+    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+
+
+
+
+    //cancel notifications:
+
+
+    //------
+
+
   }
 
 }
