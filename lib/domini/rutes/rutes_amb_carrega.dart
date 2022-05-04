@@ -10,9 +10,11 @@ import '../../libraries/flutter_google_maps/src/core/route_response.dart';
 class RutesAmbCarrega {
   late CtrlDomain ctrlDomain;
   late List<Coordenada> carregadorsCompatibles;
+  late CtrlPresentation ctrlPresentation;
 
   RutesAmbCarrega() {
     ctrlDomain = CtrlDomain();
+    ctrlPresentation = CtrlPresentation();
     carregadorsCompatibles = ctrlDomain.getCompChargers();
   }
 
@@ -33,6 +35,7 @@ class RutesAmbCarrega {
     RouteResponse? infoRoutes = await GoogleMap.of(ctrlPresentation.getMapKey())?.getInfoRoute(origin, destination);
     List<double>? distMeters = infoRoutes?.distancesMeters;
     List<GeoCoord>? listCoord = infoRoutes?.coords;
+
     bool find = false;
     // La primera distància més gran o igual a la donada, si està més a prop que la anterior, la retornem.
     // En cas contrari, retornem la coordenada de la distància menor.
@@ -51,19 +54,27 @@ class RutesAmbCarrega {
 
   GeoCoord findSuitableCharger() {
     List<Coordenada> carregadorsPropers = ctrlDomain.coordCarregadorsPropers;
-    Set<Coordenada> cP = carregadorsPropers.toSet();
-    Set<Coordenada> cC = carregadorsCompatibles.toSet();
-    Set<Coordenada> result = cC.intersection(cP);
-    return GeoCoord(result.first.latitud, result.first.longitud);
+
+    GeoCoord result = const GeoCoord(-1.0, -1.0);
+    for (var element in carregadorsPropers) {
+      for (var elem2 in carregadorsCompatibles) {
+        if (element.latitud==elem2.latitud && element.longitud == elem2.longitud) {
+          result = GeoCoord(elem2.latitud, elem2.longitud);
+        }
+      }
+    }
+    return result;
   }
 
   ///
   Future<GeoCoord> algorismeMillorRuta(GeoCoord origen, GeoCoord desti, double bateriaPerc, double consum) async{
     GeoCoord coordCharger = desti;
     double batRestant = bateriaRestant(bateriaPerc);
-    double kmRestants = autonomiaVh(batRestant);
+    double mRestants = autonomiaVh(batRestant)*1000.0;
     RouteResponse? routeInfo= await GoogleMap.of(ctrlPresentation.getMapKey())?.getInfoRoute(origen, desti);
-    if (routeInfo!.distanceMeters! <= kmRestants) { // si la autonomia del cotxe és superior al recorregut que ha de fer, dirigeix automàticament
+
+    double? temp = routeInfo?.distanceMeters;
+    if (temp! <= mRestants) { // si la autonomia del cotxe és superior al recorregut que ha de fer, dirigeix automàticament
       return desti;
     }
     else {
@@ -73,12 +84,15 @@ class RutesAmbCarrega {
       double radius = 0.0;
 
       while (!trobat) {
-        ctrlDomain.getNearChargers(coordLimit.latitude, coordLimit.longitude, radius);
+        await ctrlDomain.getNearChargers(coordLimit.latitude, coordLimit.longitude, radius);
         if (ctrlDomain.coordCarregadorsPropers.isEmpty) {
           radius += 10.0;
         } else {
           desti = findSuitableCharger();
-          trobat = true;
+
+          if (desti.longitude != -1.0 && desti.latitude != -1.0) {
+            trobat = true;
+          }
         }
       }
     }

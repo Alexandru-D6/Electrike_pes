@@ -712,12 +712,12 @@ class CtrlDomain {
     return false;
   }
   
-  void getNearChargers(double lat, double lon, double radius)async{
+  Future<void> getNearChargers(double lat, double lon, double radius) async{
     var urlc = urlorg+'near_chargers?lat='+ lat.toString() + '&lon=' + lon.toString() + '&dist=' + radius.toString();
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
     for(var info in respCars['items']){
-      coordCarregadorsPropers.add(Coordenada(info['Station_lat'], info['Station_lng']));
+      coordCarregadorsPropers.add(Coordenada(info['Station_lat'],info['Station_lng']));
     }
   }
   
@@ -731,9 +731,9 @@ class CtrlDomain {
   List<Coordenada> getCompChargers() {
     List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
     List<Coordenada> carregadorsCompatibles = <Coordenada>[];
-    for(var endoll in typesendolls){
-      for(var nom in endollsVh){
-        if(endoll.tipus.name == nom){
+    for(var endoll in typesendolls) {
+      for (var nom in endollsVh) {
+        if (endoll.tipus.name == nom) {
           carregadorsCompatibles.addAll(endoll.endolls);
         }
       }

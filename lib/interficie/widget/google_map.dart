@@ -9,6 +9,7 @@ import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_map
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
+import '../../domini/rutes/rutes_amb_carrega.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
 import 'info_ruta.dart';
@@ -187,10 +188,25 @@ class _MyMapState extends State<MyMap> {
             right: 56,
             bottom: 16,
             child: FloatingActionButton(
-              onPressed: (){
-                ctrlPresentation.clearAllRoutes();
-                showInfoRuta(context);
-                ctrlPresentation.makeRoute();
+              onPressed: () async {
+                CtrlPresentation ctrlPresentation = CtrlPresentation();
+                CtrlDomain ctrlDomain = CtrlDomain();
+                ctrlDomain.vhselected.battery = 57;
+                ctrlDomain.vhselected.efficiency = 150;
+                ctrlDomain.vhselected.afegirEndoll("Schuko");
+                ctrlDomain.vhselected.afegirEndoll("Mennekes");
+                ctrlDomain.vhselected.afegirEndoll("Chademo");
+                ctrlDomain.vhselected.afegirEndoll("CCSCombo2");
+                RutesAmbCarrega rC = RutesAmbCarrega();
+                //ctrlDomain.getNearChargers(41.716690, 0.433424, 10);
+
+                GeoCoord waitPoint = await rC.algorismeMillorRuta(GeoCoord(41.716690, 0.433424), GeoCoord(42.355895, 3.125707), 70, 14);
+
+                GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildBicingMarker(lat: waitPoint.latitude, long: waitPoint.longitude, context: context), group: "default");
+
+                GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.716690, 0.433424), waitPoint);
+                GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(waitPoint,const GeoCoord(42.355895, 3.125707));
+
               },
               heroTag: "Ruta",
               tooltip: "Empieza la ruta",
@@ -229,9 +245,10 @@ class _MyMapState extends State<MyMap> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance!.addPostFrameCallback((_) async {
       ctrlPresentation.setMapKey(_newKey);
       chargerMarkers();
+
     });
   }
 
