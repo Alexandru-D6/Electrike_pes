@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_project/domini/coordenada.dart';
@@ -200,12 +201,12 @@ class _MyMapState extends State<MyMap> {
                 RutesAmbCarrega rC = RutesAmbCarrega();
                 //ctrlDomain.getNearChargers(41.716690, 0.433424, 10);
 
-                GeoCoord waitPoint = await rC.algorismeMillorRuta(GeoCoord(41.716690, 0.433424), GeoCoord(42.355895, 3.125707), 70, 14);
+                RoutesResponse waitPoint = await rC.algorismeMillorRuta(GeoCoord(41.716690, 0.433424), GeoCoord(42.355895, 3.125707), 70, 14);
 
-                GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildBicingMarker(lat: waitPoint.latitude, long: waitPoint.longitude, context: context), group: "default");
+                //GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(buildBicingMarker(lat: waitPoint.latitude, long: waitPoint.longitude, context: context), group: "default");
 
-                GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.716690, 0.433424), waitPoint);
-                GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(waitPoint,const GeoCoord(42.355895, 3.125707));
+                //GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.716690, 0.433424), waitPoint);
+                //GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(waitPoint,const GeoCoord(42.355895, 3.125707));
 
               },
               heroTag: "Ruta",

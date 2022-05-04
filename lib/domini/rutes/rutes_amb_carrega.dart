@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
@@ -11,6 +12,7 @@ class RutesAmbCarrega {
   late CtrlDomain ctrlDomain;
   late List<Coordenada> carregadorsCompatibles;
   late CtrlPresentation ctrlPresentation;
+  late RoutesResponse routesResponse;
 
   RutesAmbCarrega() {
     ctrlDomain = CtrlDomain();
@@ -67,15 +69,17 @@ class RutesAmbCarrega {
   }
 
   ///
-  Future<GeoCoord> algorismeMillorRuta(GeoCoord origen, GeoCoord desti, double bateriaPerc, double consum) async{
-    GeoCoord coordCharger = desti;
+  Future<RoutesResponse> algorismeMillorRuta(GeoCoord origen, GeoCoord desti, double bateriaPerc, double consum) async{
+    GeoCoord coordCharger;
+    routesResponse.origen = origen;
+    routesResponse.destino = desti;
     double batRestant = bateriaRestant(bateriaPerc);
     double mRestants = autonomiaVh(batRestant)*1000.0;
     RouteResponse? routeInfo= await GoogleMap.of(ctrlPresentation.getMapKey())?.getInfoRoute(origen, desti);
 
     double? temp = routeInfo?.distanceMeters;
     if (temp! <= mRestants) { // si la autonomia del cotxe és superior al recorregut que ha de fer, dirigeix automàticament
-      return desti;
+      return routesResponse;
     }
     else {
       double autonomia10Perc = autonomiaVh(ctrlDomain.vhselected.battery*0.1);
@@ -87,15 +91,17 @@ class RutesAmbCarrega {
         await ctrlDomain.getNearChargers(coordLimit.latitude, coordLimit.longitude, radius);
         if (ctrlDomain.coordCarregadorsPropers.isEmpty) {
           radius += 10.0;
-        } else {
-          desti = findSuitableCharger();
+        }
+        else {
+          coordCharger = findSuitableCharger();
 
           if (desti.longitude != -1.0 && desti.latitude != -1.0) {
+            routesResponse.waypoints.add(coordCharger);
             trobat = true;
           }
         }
       }
     }
-    return desti;
+    return routesResponse;
   }
 }

@@ -4,6 +4,8 @@ import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
 import 'package:flutter_project/domini/favorit.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
+import 'package:flutter_project/domini/rutes/routes_response.dart';
+import 'package:flutter_project/domini/rutes/rutes_amb_carrega.dart';
 import 'package:flutter_project/domini/tipus_endoll.dart';
 import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
@@ -739,5 +741,11 @@ class CtrlDomain {
       }
     }
     return carregadorsCompatibles;
+  }
+
+  Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
+    RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
+    RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
+    return routesResponse;
   }
 }

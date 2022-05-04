@@ -20,7 +20,7 @@ void main() async{
 
   print("paso1");
   ctrlDomain.vhselected.battery = 200;
-  GeoCoord waitPoint = await rt.algorismeMillorRuta(GeoCoord(42.26387916076738, 2.9582176480094526), GeoCoord(41.60598011917288, 0.6071435000011203), 80, 14);
+  GeoCoord waitPoint = (await rt.algorismeMillorRuta(GeoCoord(42.26387916076738, 2.9582176480094526), GeoCoord(41.60598011917288, 0.6071435000011203), 80, 14)) as GeoCoord;
   print(waitPoint.longitude);
   print(waitPoint.latitude);
 
