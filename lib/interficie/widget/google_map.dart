@@ -194,7 +194,7 @@ class _MyMapState extends State<MyMap> {
               heroTag: "Ruta",
               tooltip: "Empieza la ruta",
               child: const Icon(Icons.play_arrow),
-              backgroundColor: Colors.blueGrey,
+              backgroundColor: const Color(0xff8A84E2),
             ),
           ),
 

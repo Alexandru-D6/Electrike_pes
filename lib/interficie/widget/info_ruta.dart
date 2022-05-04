@@ -56,7 +56,7 @@ class InfoRuta extends StatelessWidget {
 
                   ),),
               onNotification: (notification) {
-                ctrlPresentation.idCarUser = (controller.position.pixels)~/200; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
+                ctrlPresentation.idCarUser = (controller.position.pixels)~/150; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
                 print(controller.position.pixels);
                 print(ctrlPresentation.idCarUser);
                 // Return true to cancel the notification bubbling. Return false (or null) to
@@ -70,11 +70,19 @@ class InfoRuta extends StatelessWidget {
             width: 150,
             child: Image.asset("assets/brandCars/RAYO.png"),
           ),
+          const Divider(
+            height: 16,
+            color: Color(0x00000000),
+          ),
           const Text("Select a route type"),
+          const Divider(
+            height: 16,
+            color: Color(0x00000000),
+          ),
           const CustomRadio(),
           const Divider(
             height: 16,
-            color: Colors.black54,
+            color: Color(0x00000000),
           ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -93,14 +101,23 @@ class InfoRuta extends StatelessWidget {
           const Text("%"),
         ],
       ),
+          const Divider(
+            height: 16,
+            color: Color(0x00000000),
+          ),
       ElevatedButton(
           onPressed: () {
               Navigator.pop(context);
-              Future.delayed(const Duration(milliseconds: 1000), ()
+              Future.delayed(const Duration(milliseconds: 500), ()
               {
                 ctrlPresentation.makeRoute();
               });
           },
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),),
+              primary: const Color(0xff8A84E2),
+          ),
           child: const Text('Start Route'),
       ),
         ],
