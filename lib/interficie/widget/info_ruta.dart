@@ -108,7 +108,7 @@ class InfoRuta extends StatelessWidget {
           ),
       ElevatedButton(
           onPressed: () {
-              Navigator.pop(context);
+              ctrlPresentation.toMainPage(context);
               Future.delayed(const Duration(milliseconds: 500), ()
               {
                 ctrlPresentation.makeRoute();
