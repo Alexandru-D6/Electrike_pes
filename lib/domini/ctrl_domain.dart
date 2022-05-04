@@ -16,7 +16,7 @@ import 'package:http/http.dart' as http;
 class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
-  
+
   static var urlorg = 'http://electrike.ddns.net:3784/';
   //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
@@ -50,8 +50,8 @@ class CtrlDomain {
     usuari.usuarinull();
     initializeTypes();
     await getAllCars();
-    await getChargers('cat');
-    await getChargers('bcn');
+    await getChargersCoord('cat');
+    await getChargersCoord('bcn');
     await getBicings();
   }
   void initializeTypes(){
@@ -534,6 +534,7 @@ class CtrlDomain {
       infoC.add(it["Station_name"]);
       infoC.add(it["Station_address"]);
       infoC.add(it["Station_municipi"]);
+      infoC.add(it['Sockets'].length.toString());
       List<int> endollsinfo = List.filled(16, 0);
       for(var en in it['Sockets']){
         var l = en['Connector_types'].split(',');
@@ -565,6 +566,7 @@ class CtrlDomain {
     var url = urlorg +'chargers_'+where;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
+
     for(var it in resp['items']){
       if(where == 'bcn') {
         coordBarcelona.add(Coordenada(
@@ -574,9 +576,22 @@ class CtrlDomain {
       else{
         coordCatalunya.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
       }
+
+      coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+
+      for(var en in it['Sockets']){
+        var list = en['Connector_types'].toString().split(',');
+        for(var num in list){
+          if(num == "1" || num == "2" || num == "3" || num== "4"){
+            int n = int.parse(num);
+            n = n-1;
+            typesendolls[n].endolls.add(Coordenada(it["Station_lat"],it["Station_lng"]));
+          }
+        }
+      }
     }
   }
-  List<String> getInfoCharger(double lat, double long){
+  /*List<String> getInfoCharger(double lat, double long){
     List<String> infocharger = <String>[];
     for(var charg in puntscarrega){
       if(charg.coord.latitud == lat && charg.coord.longitud == long){
@@ -597,7 +612,7 @@ class CtrlDomain {
       }
     }
     return infocharger;
-  }
+  }*/
   List<int> getNumDataEndoll(EstacioCarrega charg){
     List<int> endollsinfo = List.filled(16, 0);
     for(var end in charg.endolls){
