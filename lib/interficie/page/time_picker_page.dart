@@ -33,7 +33,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
     DayInWeek(
       "Viernes",
     ),
-    DayInWeek("SÃ¡bado"),
+    DayInWeek("Sabado"),
     DayInWeek("Domingo"),
   ];
 
@@ -43,88 +43,107 @@ class _TimePickerPageState extends State<TimePickerPage> {
       appBar: AppBar(
         title: const Text("Notifications settings"), //TODO:  translate
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const AutoSizeText("When do you want to receive notifications?", style: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),), //TODO:  translate
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const AutoSizeText("When do you want to receive notifications?",
+                  style: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+                  maxLines: 2,
+                ), //TODO:  translate
 
-              const Divider(height: 20,),
+                const Divider(height: 20,),
 
-              SelectWeekDays(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                days: _days,
-                onSelect: (values) {
-                  selectedDays = values;
-                  print(values);
-                },
-
-                /*other types of decorations
-                border: false,
-                boxDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.0),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    // 10% of the width, so there are ten blinds.
-                    colors: [Color(0xFFE55CE4), Color(0xFFBB75FB)], // whitish to gray
-                    tileMode: TileMode.repeated, // repeats the gradient over the canvas
+                SelectWeekDays(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  days: _days,
+                  onSelect: (values) {
+                    selectedDays = values;
+                    print(values);
+                  },
+                  boxDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      // 10% of the width, so there are ten blinds.
+                      colors: [Color(0xFF40ac9c), Color(0xFF203e5a)], // whitish to gray
+                      tileMode: TileMode.repeated, // repeats the gradient over the canvas
+                    ),
                   ),
-                ),
 
-                **************************************************************************************
-                boxDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.0),
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    // 10% of the width, so there are ten blinds.
-                    colors: [Color(0xFFE55CE4), Color(0xFFBB75FB)], // whitish to gray
-                    tileMode: TileMode.repeated, // repeats the gradient over the canvas
+                  /*other types of decorations
+                  border: false,
+                  boxDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      // 10% of the width, so there are ten blinds.
+                      colors: [Color(0xFFE55CE4), Color(0xFFBB75FB)], // whitish to gray
+                      tileMode: TileMode.repeated, // repeats the gradient over the canvas
+                    ),
                   ),
-                ),
 
-                 */
-
-              ),
-
-              const Divider(height: 30,),
-
-              ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.schedule,
-                  color: Colors.white,
-                  size: 24.0,
-                ),
-                onPressed: () {
-                  _selectTime(context);
-                },
-                label: const Text("Choose Time"), //TODO: translate
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                  **************************************************************************************
+                  boxDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      // 10% of the width, so there are ten blinds.
+                      colors: [Color(0xFFE55CE4), Color(0xFFBB75FB)], // whitish to gray
+                      tileMode: TileMode.repeated, // repeats the gradient over the canvas
+                    ),
                   ),
+
+                   */
+
                 ),
-              ),
-              const Divider(height: 20,),
-              AutoSizeText("${selectedTime.hour}:${selectedTime.minute}", style: const TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),),
-              FloatingActionButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("You will be notified "+selectedDays.toString()+" at "+"${selectedTime.hour}:${selectedTime.minute}")),
-                  );
-                },
-                heroTag: "Add notification",//todo:translate
-                tooltip: "Add notification",//todo:translate
-                child: const Icon(Icons.more_time),
-                backgroundColor: mPrimaryColor,
-              ),
-            ],
+
+                const Divider(height: 30,),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.schedule,
+                        color: Colors.white,
+                        size: 24.0,
+                      ),
+                      onPressed: () {
+                        _selectTime(context);
+                      },
+                      label: const Text("Choose Time"), //TODO: translate
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    AutoSizeText("${selectedTime.hour}:${selectedTime.minute}", style: const TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
 
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("You will be notified "+selectedDays.toString()+" at "+"${selectedTime.hour}:${selectedTime.minute}")),
+          );
+        },
+        heroTag: "Add notification",//todo:translate
+        tooltip: "Add notification",//todo:translate
+        child: const Icon(Icons.more_time),
+        backgroundColor: mPrimaryColor,
+      ),
     );
   }
   _selectTime(BuildContext context) async {
