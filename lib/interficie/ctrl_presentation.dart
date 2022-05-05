@@ -441,4 +441,7 @@ class CtrlPresentation {
     return ctrlDomain.islogged();
   }
 
+  void showInstantNotification(double lat, double long){
+    ctrlDomain.showInstantNotification(double lat, double long);
+  }
 }
