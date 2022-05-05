@@ -9,7 +9,9 @@ class RoutesResponse {
 
   RoutesResponse(this.origen, this.destino, this.waypoints);
   RoutesResponse.complete(this.origen, this.destino, this.waypoints, this.distance, this.duration);
-
+  RoutesResponse.buit(){
+    waypoints = <GeoCoord>[];
+  }
   void addWaypoint(GeoCoord wayPoint) {
     //Coordenada coord = Coordenada(wayPoint.latitude, wayPoint.longitude);
     waypoints.add(wayPoint);

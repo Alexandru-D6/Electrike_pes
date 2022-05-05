@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
@@ -167,7 +168,7 @@ class CtrlPresentation {
     if (!await launchUrl(Uri.parse(_url))) throw 'Could not launch $_url';
   }
 
-  getCarsList() {
+  List<List<String>> getCarsList() {
     return ctrlDomain.infoAllVUser();
   }
 
@@ -225,8 +226,8 @@ class CtrlPresentation {
     return ctrlDomain.getInfoBicing(lat, long);
   }
 
-  List<String> getInfoCharger(double lat, double long) {
-    return ctrlDomain.getInfoCharger(lat, long);
+  Future<List<String>> getInfoCharger(double lat, double long) {
+    return ctrlDomain.getInfoCharger2(lat, long);
   }
 
   List<String> getInfoModel(String text) {
@@ -247,22 +248,63 @@ class CtrlPresentation {
 
   bool getGoogleMapKeyState() => _googleMapInit;
 
-  void makeRoute(){
+  Future<void> makeRoute() async {
     Location location = Location();
     ctrlDomain.selectVehicleUsuari(idCarUser);
-    location.getLocation().then((value) {
-      String origin = value.latitude.toString() + "," + value.longitude.toString();
-      if(actualLocation != "Your location") origin = actualLocation;
-      GoogleMap.of(getMapKey())?.addDirection(
-          origin,
-          destination,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination'
-      );
 
-    });
+    if(routeType == 0){
+      location.getLocation().then((value) {
+        String origin = value.latitude.toString() + "," + value.longitude.toString();
+        if(actualLocation != "Your location") origin = actualLocation;
+        GoogleMap.of(getMapKey())?.addDirection(
+            origin,
+            destination,
+            startLabel: '1',
+            startInfo: 'Origin',
+            endIcon: 'assets/images/rolls_royce.png',
+            endInfo: 'Destination'
+        );
+      });
+    }
+    else if(routeType == 1){
+      var destT = await getMapsService.adressCoding(destination);
+      GeoCoord dest = GeoCoord(destT!.lat!, destT.lng!);
+      double bat = double.parse(bateria);
+
+      location.getLocation().then((value) async {
+        GeoCoord orig = GeoCoord(value.latitude!, value.longitude!);
+
+        RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
+        print(rutaCharger);
+        String origin = value.latitude.toString() + "," + value.longitude.toString();
+        if(actualLocation != "Your location") origin = actualLocation;
+        GoogleMap.of(getMapKey())?.displayRoute(
+            orig,
+            dest,
+            waypoints: rutaCharger.waypoints,
+            startLabel: '1',
+            startInfo: 'Origin',
+            endIcon: 'assets/images/rolls_royce.png',
+            endInfo: 'Destination');
+
+      });
+    }
+    else if(routeType == 2){
+      //todo: ruta ecologica
+      location.getLocation().then((value) {
+        String origin = value.latitude.toString() + "," + value.longitude.toString();
+        if(actualLocation != "Your location") origin = actualLocation;
+        GoogleMap.of(getMapKey())?.addDirection(
+            origin,
+            destination,
+            startLabel: '1',
+            startInfo: 'Origin',
+            endIcon: 'assets/images/rolls_royce.png',
+            endInfo: 'Destination'
+        );
+
+      });
+    }
   }
 
   void clearAllRoutes(){
@@ -389,4 +431,16 @@ class CtrlPresentation {
     return ctrlDomain.islogged();
   }
 
+  List<String> getTrophiesDone() {
+    List<String> trophiesCompleted = ["Login", "Jump"];
+    return trophiesCompleted;
+  }
+
+  int getCO2saved() {
+    return 8;
+  }
+
+  void showInstantNotification(double lat, double long){
+    ctrlDomain.showInstantNotification(lat, long);
+  }
 }

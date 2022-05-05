@@ -43,8 +43,8 @@ class OcupationChart extends StatelessWidget {
   /// Create one series with sample hard coded data.
   static List<charts.Series<OrdinalSales, String>> _createSampleData() {
     final data = [
-      OrdinalSales('2014', 5),
-      OrdinalSales('2015', 25),
+      OrdinalSales('2014', 5.0000),
+      OrdinalSales('2015', 2.5),
       OrdinalSales('2016', 100),
       OrdinalSales('2017', 75),
     ];
@@ -65,7 +65,7 @@ class OcupationChart extends StatelessWidget {
 /// Sample ordinal data type.
 class OrdinalSales {
   final String year;
-  final int sales;
+  final double sales;
 
   OrdinalSales(this.year, this.sales);
 }

@@ -130,7 +130,7 @@ class StatefulPointInfo extends StatefulWidget {
 }
 
 class _StatefulPointInfoState extends State<StatefulPointInfo> {
-  List<String> infoBicingPoint = <String>[];
+  List<String> infoBicingPoint = List.filled(21, "");
 
   @override
   void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
