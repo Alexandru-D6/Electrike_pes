@@ -167,7 +167,7 @@ class _AllFavsState extends State<AllFavs> {
                   icon: (const Icon(Icons.settings)),
                   color: Colors.grey,
                   onPressed: () {
-                    //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                    ctrlPresentation.toTimePicker(context);
                   }
               ),
               IconButton(
