@@ -765,6 +765,11 @@ class CtrlDomain {
     return carregadorsCompatibles;
   }
 
+  // Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
+  void showInstantNotification(double lat, double long) {
+    serviceLocator<LocalNotificationAdpt>().showInstantNotification(lat, long);
+  }
+
   /*
   day between 1 (Monday) to 7 (Sunday)
     Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
@@ -811,11 +816,11 @@ class CtrlDomain {
     serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
     */
 
-    print(firstNotification);
+    //print(firstNotification);
 
     firstNotification = DateTime(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
     firstNotification = firstNotification.toUtc();
-    print(firstNotification);
+    //print(firstNotification);
 
     serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
 

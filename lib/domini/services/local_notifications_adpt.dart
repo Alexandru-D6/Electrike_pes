@@ -212,7 +212,7 @@ class LocalNotificationAdpt {
     autoCancel: false,
   );
 
-  Future<void> showNotifications(double lat, double long) async {
+  Future<void> showInstantNotification(double lat, double long) async {
 
     CtrlDomain ctrlDomain = CtrlDomain();
     List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
