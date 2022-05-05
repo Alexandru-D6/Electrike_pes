@@ -728,6 +728,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         double distance = 0.0;
         double duration = 0.0;
         List<GeoCoord> coords = <GeoCoord>[];
+        List<double> distances = <double>[];
 
         temp?.legs?.forEach((element) {
           double? aa = element.distance?.value?.toDouble();
@@ -736,10 +737,16 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           double? bb = element.duration?.value?.toDouble();
           duration += (bb!/60); ///duration returns seconds
 
-          if (coords.isEmpty) coords.add(element.startLocation!);
-          element.steps?.forEach((element2) {
-            coords.add(element2.endLocation!);
-          });
+          if (coords.isEmpty) {
+            coords.add(element.startLocation!);
+            distances.add(0.0);
+          }
+            element.steps?.forEach((element2) {
+              coords.add(element2.endLocation!);
+
+              double? tmep = element2.distance?.value?.toDouble();
+              distances.add(distances.last + tmep!);
+            });
         });
 
         result.distanceMeters = distance;
@@ -748,6 +755,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         result.destination = temp?.legs?.lastOrNull?.endLocation;
         result.description = temp?.summary;
         result.coords = coords;
+        result.distancesMeters = distances;
 
       }else result.status = status as String?;
     },
@@ -758,8 +766,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void displayRoute(
-      GeoCoord origin,
-      GeoCoord destination, {
+      dynamic origin,
+      dynamic destination, {
         List<GeoCoord>? waypoints,
         String? startLabel,
         String? startIcon,

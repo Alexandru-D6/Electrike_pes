@@ -7,6 +7,8 @@ import 'package:flutter_project/domini/favorit.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
 import 'package:flutter_project/domini/services/local_notifications_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/domini/rutes/routes_response.dart';
+import 'package:flutter_project/domini/rutes/rutes_amb_carrega.dart';
 import 'package:flutter_project/domini/tipus_endoll.dart';
 import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
@@ -559,6 +561,7 @@ class CtrlDomain {
       infoC.add(it["Station_address"]);
       infoC.add(it["Station_municipi"]);
       List<int> endollsinfo = List.filled(16, 0);
+      bool cat = false;
       for(var en in it['Sockets']){
         var l = en['Connector_types'].split(',');
         for(var type in l) {
@@ -568,7 +571,9 @@ class CtrlDomain {
             case 1: {endollsinfo[num*4+3]++;} break;
             case 4: {endollsinfo[num*4+3]++;} break;
             case 5: {endollsinfo[num*4+3]++;} break;//AÑADIDO
-            case 6:{endollsinfo[num*4+1]++; }break;
+            case 6:{endollsinfo[num*4+1]++;
+              cat = true;
+            }break;
             default:{endollsinfo[num*4+2]++;} break;
           }
         }
@@ -581,6 +586,7 @@ class CtrlDomain {
         if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
       }
       infoC.add(isfav.toString());
+      infoC.add(cat.toString());
     }
     return infoC;
   }
@@ -736,12 +742,12 @@ class CtrlDomain {
     return false;
   }
   
-  void getNearChargers(double lat, double lon, double radius)async{
+  Future<void> getNearChargers(double lat, double lon, double radius) async{
     var urlc = urlorg+'near_chargers?lat='+ lat.toString() + '&lon=' + lon.toString() + '&dist=' + radius.toString();
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
     for(var info in respCars['items']){
-      coordCarregadorsPropers.add(Coordenada(info['Station_lat'], info['Station_lng']));
+      coordCarregadorsPropers.add(Coordenada(info['Station_lat'],info['Station_lng']));
     }
   }
   
@@ -755,16 +761,16 @@ class CtrlDomain {
   List<Coordenada> getCompChargers() {
     List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
     List<Coordenada> carregadorsCompatibles = <Coordenada>[];
-    for(var endoll in typesendolls){
-      for(var nom in endollsVh){
-        if(endoll.tipus.name == nom){
+    for(var endoll in typesendolls) {
+      for (var nom in endollsVh) {
+        if (endoll.tipus.name == nom) {
           carregadorsCompatibles.addAll(endoll.endolls);
         }
       }
     }
     return carregadorsCompatibles;
-  }
-
+  }+
+    
   // Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
   void showInstantNotification(double lat, double long) {
     serviceLocator<LocalNotificationAdpt>().showInstantNotification(lat, long);
@@ -835,4 +841,9 @@ class CtrlDomain {
 
   }
 
+  Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
+    RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
+    RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
+    return routesResponse;
+  }
 }
