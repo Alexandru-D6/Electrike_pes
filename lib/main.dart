@@ -39,23 +39,6 @@ Future initializeSystem() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  //serviceLocator<LocalNotificationAdpt>().showNotifications();
-/*
-  serviceLocator<LocalNotificationAdpt>().scheduleNotifications();
-  serviceLocator<LocalNotificationAdpt>().scheduleNotifications();
-
-  serviceLocator<LocalNotificationAdpt>().scheduleNotifications();
-
-
-
-  ctrlDomain.addSheduledNotificationFavoriteChargePoint();
-*/
-  //serviceLocator<LocalNotificationAdpt>().showNotifications(41.394501,2.152312);
- // serviceLocator<LocalNotificationAdpt>().scheduleNotifications(DateTime.utc(2022, 5, 4, 17, 24), 41.394501,2.152312);
-
-  ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.394501,2.152312, DateTime.now().day, 20, 1);
-
-
   runApp(const MyApp());
 }
 
