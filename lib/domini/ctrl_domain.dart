@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_project/domini/coordenada.dart';
+import 'package:flutter_project/domini/data_graphic.dart';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
 import 'package:flutter_project/domini/favorit.dart';
@@ -9,8 +10,8 @@ import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
-import 'package:flutter_project/interficie/page/profile_page.dart';
-import 'package:google_directions_api/google_directions_api.dart';
+//import 'package:flutter_project/interficie/page/profile_page.dart';
+//import 'package:google_directions_api/google_directions_api.dart';
 import 'package:http/http.dart' as http;
 
 class CtrlDomain {
@@ -24,6 +25,7 @@ class CtrlDomain {
   List<Coordenada> coordBarcelona = <Coordenada>[];
   List<Coordenada> coordCatalunya = <Coordenada>[];
   List<Coordenada> coordCarregadorsPropers = <Coordenada>[];
+  Map<String,List<List<double> > > dadesChargerselected = {};
 
   //DATA INFO SYSTEM
   List<VhElectric> vhElectrics = <VhElectric>[];
@@ -84,7 +86,7 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = name;
       usuari.foto = img;
-      setIdiom(ctrlPresentation.idiom);
+      //setIdiom(ctrlPresentation.idiom);
     }
     else {
       url = urlorg + 'user_info?email=' + email;
@@ -95,7 +97,7 @@ class CtrlDomain {
       usuari.foto = resp['items'][0]['Img'];
       await login();
     }
-    ctrlPresentation.setUserValues(name, email, img);
+    //ctrlPresentation.setUserValues(name, email, img);
   }
   //Carrega la informació dels objectes favorits de l'usuari
   Future<void> login() async{
@@ -152,7 +154,7 @@ class CtrlDomain {
       t.cars=<String>{};
     }
     usuari.usuarinull();
-    ctrlPresentation.resetUserValues();
+    //resentation.resetUserValues();
   }
   //Elimina l'usuari de la base de dades i del domini
   void deleteaccount()async{
@@ -296,6 +298,7 @@ class CtrlDomain {
     for(var f in puntsFavCarrega){
       listToPassFavs.add(f.coord);
     }
+    print("NUMCARREGA"+puntsFavCarrega.toString());
     return listToPassFavs;
   }
   void gestioFavChargers(double lat, double long){
@@ -682,7 +685,7 @@ class CtrlDomain {
   void getNomsFavChargers() async{
     nomsFavCarrega = <String>[];
     for(var c in puntsFavCarrega){
-      var url = urlorg+'charger_info_cat?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
+      var url = urlorg+'charger_information_cat?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
       var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
@@ -739,5 +742,40 @@ class CtrlDomain {
       }
     }
     return carregadorsCompatibles;
+  }
+
+  Future<void> getOcupationCharger(double lat, double lon) async {
+    var url = urlorg + 'get_ocupation?lat='+ lat.toString() +'&lon='+ lon.toString();
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    String day = "";
+    List<List<double>> empty = <List<double>>[];
+    empty.add(<double>[]);
+    empty.add(<double>[]);
+    dadesChargerselected = {};
+    List<String> nameday = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    for(String day in nameday) {
+      List<List<double>> empty = <List<double>>[];
+      empty.add(<double>[]);
+      empty.add(<double>[]);
+      dadesChargerselected[day] = empty;
+    }
+    for(var dada in resp['items']){
+      dadesChargerselected[dada['WeekDay']]![0].add(double.parse(dada["Hour"].toString()));
+      dadesChargerselected[dada['WeekDay']]![1].add(double.parse(double.parse(dada["Ocupation"].toString()).toStringAsFixed(2))/double.parse(dada["Capacity"].toString())*100.0);
+    }
+    print(dadesChargerselected);
+  }
+
+  List<DataGraphic> getInfoGraphic(String day){
+    List<DataGraphic> data = <DataGraphic>[];
+    if(dadesChargerselected[day]!.isNotEmpty){
+      var temp = dadesChargerselected[day]![0];
+      var temp2 = dadesChargerselected[day]![1];
+      for(int i = 0; i < temp.length; ++i){
+        data.add(DataGraphic(temp[i], temp2[i]));
+      }
+    }
+    return data;
   }
 }
