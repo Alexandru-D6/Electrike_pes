@@ -226,8 +226,8 @@ class CtrlPresentation {
     return ctrlDomain.getInfoBicing(lat, long);
   }
 
-  List<String> getInfoCharger(double lat, double long) {
-    return ctrlDomain.getInfoCharger(lat, long);
+  Future<List<String>> getInfoCharger(double lat, double long) {
+    return ctrlDomain.getInfoCharger2(lat, long);
   }
 
   List<String> getInfoModel(String text) {
