@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+//import 'package:flutter_project/libraries/flutter_google_maps/src/core/google_map.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../libraries/flutter_google_maps/flutter_google_maps.dart';
 
 class ChargePointDetailInformation extends StatelessWidget {
   const ChargePointDetailInformation({
@@ -128,7 +128,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
   }
 }
 
-class PointInfo extends StatelessWidget {
+class PointInfo extends StatefulWidget {
   const PointInfo({
     Key? key,
     required this.latitude,
@@ -139,8 +139,25 @@ class PointInfo extends StatelessWidget {
   final double longitude;
 
   @override
+  State<PointInfo> createState() => _PointInfoState();
+}
+
+class _PointInfoState extends State<PointInfo> {
+  List<String> point = List.filled(21, "");
+
+  @override
+  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
+    ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
+      setState(() {
+        point = element;
+      });
+    });
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<String> point = ctrlPresentation.getInfoCharger(latitude, longitude);
     Column res = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

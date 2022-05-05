@@ -47,8 +47,8 @@ class ChartPage extends StatelessWidget {
   static List<charts.Series<OrdinalSales, String>> createData() {
     //todo por aqui recibir la variable data que se vaya actualizando, hay que hablar de como hacerlo, mi idea es que vaya cambiando esta variable y el usuario para ver los cambios tenga que cargar un grafico nuevo, y nos dejamos de statefuls
     final data = [
-      OrdinalSales('2014', 5),
-      OrdinalSales('2015', 25),
+      OrdinalSales('2014', 25.00023),
+      OrdinalSales('2015', 2.5),
       OrdinalSales('2016', 100),
       OrdinalSales('2017', 75),
     ];

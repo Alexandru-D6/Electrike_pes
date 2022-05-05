@@ -11,6 +11,7 @@ void setUpLocator() {
   serviceLocator.registerLazySingleton<GoogleLoginAdpt>(() => GoogleLoginAdpt());
   serviceLocator.registerLazySingleton<GooglePlaceAdpt>(() => GooglePlaceAdpt());
   serviceLocator.registerLazySingleton<LocalNotificationAdpt>(() => LocalNotificationAdpt());
+  serviceLocator<LocalNotificationAdpt>().init();
 }
 
 

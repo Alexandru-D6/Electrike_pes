@@ -60,5 +60,8 @@
 
   "infoDialogNotLog": "No s'ha iniciat sessió",
 
-  "save": "Guardar canvis"
+  "save": "Guardar canvis",
+  "vehicles": "Vehicles",
+  "trophies": "Trofeus",
+  "savedco2": "CO2 salvat"
 }

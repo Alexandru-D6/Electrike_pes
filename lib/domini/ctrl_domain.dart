@@ -1,22 +1,31 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/domini/coordenada.dart';
+import 'package:flutter_project/domini/data_graphic.dart';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
 import 'package:flutter_project/domini/favorit.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
+import 'package:flutter_project/domini/services/local_notifications_adpt.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/domini/rutes/routes_response.dart';
+import 'package:flutter_project/domini/rutes/rutes_amb_carrega.dart';
 import 'package:flutter_project/domini/tipus_endoll.dart';
 import 'package:flutter_project/domini/tipus_endoll_enum.dart';
 import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
-import 'package:google_directions_api/google_directions_api.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
-  
+
   static var urlorg = 'http://electrike.ddns.net:3784/';
   //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
@@ -24,6 +33,7 @@ class CtrlDomain {
   List<Coordenada> coordBarcelona = <Coordenada>[];
   List<Coordenada> coordCatalunya = <Coordenada>[];
   List<Coordenada> coordCarregadorsPropers = <Coordenada>[];
+  Map<String,List<List<double> > > dadesChargerselected = {};
 
   //DATA INFO SYSTEM
   List<VhElectric> vhElectrics = <VhElectric>[];
@@ -50,8 +60,8 @@ class CtrlDomain {
     usuari.usuarinull();
     initializeTypes();
     await getAllCars();
-    await getChargers('cat');
-    await getChargers('bcn');
+    await getChargersCoord('cat');
+    await getChargersCoord('bcn');
     await getBicings();
   }
   void initializeTypes(){
@@ -84,7 +94,7 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = name;
       usuari.foto = img;
-      setIdiom(ctrlPresentation.idiom);
+      //setIdiom(ctrlPresentation.idiom);
     }
     else {
       url = urlorg + 'user_info?email=' + email;
@@ -152,7 +162,7 @@ class CtrlDomain {
       t.cars=<String>{};
     }
     usuari.usuarinull();
-    ctrlPresentation.resetUserValues();
+    //resentation.resetUserValues();
   }
   //Elimina l'usuari de la base de dades i del domini
   void deleteaccount()async{
@@ -243,10 +253,27 @@ class CtrlDomain {
     }
   }
 
+
+  //Si nadie le ha asignado un vehiculo al usuario, currentVehicleUsuari devoldera un vehicle Buit!
   VehicleUsuari currentVehicleUsuari() {
     return vhselected;
   }
 
+  void makeRoute(Location location, String actualLocation, GlobalKey<GoogleMapStateBase> key, String destination) {
+    location.getLocation().then((value) {
+      String origin = value.latitude.toString() + "," +
+          value.longitude.toString();
+      if (actualLocation != "Your location") origin = actualLocation;
+      GoogleMap.of(key)?.addDirection(
+          origin,
+          destination,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'Destination'
+      );
+    });
+  }
 
   bool isAFavPoint(double latitud, double longitud) {
     bool trobat = false;
@@ -296,6 +323,7 @@ class CtrlDomain {
     for(var f in puntsFavCarrega){
       listToPassFavs.add(f.coord);
     }
+    print("NUMCARREGA"+puntsFavCarrega.toString());
     return listToPassFavs;
   }
   void gestioFavChargers(double lat, double long){
@@ -534,7 +562,9 @@ class CtrlDomain {
       infoC.add(it["Station_name"]);
       infoC.add(it["Station_address"]);
       infoC.add(it["Station_municipi"]);
+      infoC.add(it['Sockets'].length.toString());
       List<int> endollsinfo = List.filled(16, 0);
+      bool cat = false;
       for(var en in it['Sockets']){
         var l = en['Connector_types'].split(',');
         for(var type in l) {
@@ -544,7 +574,7 @@ class CtrlDomain {
             case 1: {endollsinfo[num*4+3]++;} break;
             case 4: {endollsinfo[num*4+3]++;} break;
             case 5: {endollsinfo[num*4+3]++;} break;//AÑADIDO
-            case 6:{endollsinfo[num*4+1]++; }break;
+            case 6:{endollsinfo[num*4+1]++; cat = true;} break;
             default:{endollsinfo[num*4+2]++;} break;
           }
         }
@@ -557,6 +587,7 @@ class CtrlDomain {
         if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
       }
       infoC.add(isfav.toString());
+      infoC.add(cat.toString());
     }
     return infoC;
   }
@@ -565,6 +596,7 @@ class CtrlDomain {
     var url = urlorg +'chargers_'+where;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
+
     for(var it in resp['items']){
       if(where == 'bcn') {
         coordBarcelona.add(Coordenada(
@@ -574,9 +606,22 @@ class CtrlDomain {
       else{
         coordCatalunya.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
       }
+
+      coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+
+      for(var en in it['Sockets']){
+        var list = en['Connector_types'].toString().split(',');
+        for(var num in list){
+          if(num == "1" || num == "2" || num == "3" || num== "4"){
+            int n = int.parse(num);
+            n = n-1;
+            typesendolls[n].endolls.add(Coordenada(it["Station_lat"],it["Station_lng"]));
+          }
+        }
+      }
     }
   }
-  List<String> getInfoCharger(double lat, double long){
+  /*List<String> getInfoCharger(double lat, double long){
     List<String> infocharger = <String>[];
     for(var charg in puntscarrega){
       if(charg.coord.latitud == lat && charg.coord.longitud == long){
@@ -597,7 +642,7 @@ class CtrlDomain {
       }
     }
     return infocharger;
-  }
+  }*/
   List<int> getNumDataEndoll(EstacioCarrega charg){
     List<int> endollsinfo = List.filled(16, 0);
     for(var end in charg.endolls){
@@ -682,7 +727,7 @@ class CtrlDomain {
   void getNomsFavChargers() async{
     nomsFavCarrega = <String>[];
     for(var c in puntsFavCarrega){
-      var url = urlorg+'charger_info_cat?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
+      var url = urlorg+'charger_information_cat?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
       var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
@@ -712,12 +757,12 @@ class CtrlDomain {
     return false;
   }
   
-  void getNearChargers(double lat, double lon, double radius)async{
+  Future<void> getNearChargers(double lat, double lon, double radius) async{
     var urlc = urlorg+'near_chargers?lat='+ lat.toString() + '&lon=' + lon.toString() + '&dist=' + radius.toString();
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
     for(var info in respCars['items']){
-      coordCarregadorsPropers.add(Coordenada(info['Station_lat'], info['Station_lng']));
+      coordCarregadorsPropers.add(Coordenada(info['Station_lat'],info['Station_lng']));
     }
   }
   
@@ -731,13 +776,124 @@ class CtrlDomain {
   List<Coordenada> getCompChargers() {
     List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
     List<Coordenada> carregadorsCompatibles = <Coordenada>[];
-    for(var endoll in typesendolls){
-      for(var nom in endollsVh){
-        if(endoll.tipus.name == nom){
+    for(var endoll in typesendolls) {
+      for (var nom in endollsVh) {
+        if (endoll.tipus.name == nom) {
           carregadorsCompatibles.addAll(endoll.endolls);
         }
       }
     }
     return carregadorsCompatibles;
+  }
+    
+  // Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
+  void showInstantNotification(double lat, double long) {
+    serviceLocator<LocalNotificationAdpt>().showInstantNotification(lat, long);
+  }
+
+  /*
+  day between 1 (Monday) to 7 (Sunday)
+    Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
+   */
+  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int day, int iniHour, int iniMinute/*, int endHour*//*, int endMinute*/) {
+
+    var dayOfTheWeek = DateTime(DateTime.now().year, DateTime.now().month, day, iniHour, iniMinute);
+    var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, DateTime.now().hour, iniMinute);
+    int daysToAdd;
+
+    //si el dia donat és diferent del dia d'avui
+    if (day < DateTime.now().weekday) {
+      daysToAdd = 7 - (DateTime.now().weekday - day);
+      firstNotification.add(Duration(days: daysToAdd));
+    }
+    else if (day > DateTime.now().weekday) {
+      daysToAdd = day - DateTime.now().weekday;
+      firstNotification.add(Duration(days: daysToAdd));
+    }
+    /*else if (DateTime.now().hour < iniHour){
+
+    }
+    //mateix dia
+    else if (DateTime.now().hour >= iniHour) {
+      //if (DateTime.now().hour < endHour) { //en aquest cas no apareixerà cap notificació fins la setmana següent.
+        //firstNotification = DateTime.now();
+    //  }
+     // else {
+        firstNotification.add(const Duration(days: 7));
+      //}
+    }
+    /*
+    else if (DateTime.now().minute <= minute) {
+
+    }
+    else if (DateTime.now().minute > minute) {
+      firstNotification.add(const Duration(days: 7));
+    }
+    */
+
+    firstNotification = DateTime.utc(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
+    final pacificTimeZone = tz.getLocation('Europe/Paris');
+    //arreglar lo de les zones horaries.
+    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+    */
+
+    //print(firstNotification);
+
+    firstNotification = DateTime(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
+    firstNotification = firstNotification.toUtc();
+    //print(firstNotification);
+
+    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+
+
+
+
+    //cancel notifications:
+
+
+    //------
+
+
+  }
+
+  Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
+    RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
+    RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
+    return routesResponse;
+  }
+
+  Future<void> getOcupationCharger(double lat, double lon) async {
+    var url = urlorg + 'get_ocupation?lat='+ lat.toString() +'&lon='+ lon.toString();
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    String day = "";
+    List<List<double>> empty = <List<double>>[];
+    empty.add(<double>[]);
+    empty.add(<double>[]);
+    dadesChargerselected = {};
+    List<String> nameday = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    for(String day in nameday) {
+      List<List<double>> empty = <List<double>>[];
+      empty.add(<double>[]);
+      empty.add(<double>[]);
+      dadesChargerselected[day] = empty;
+    }
+    for(var dada in resp['items']){
+      dadesChargerselected[dada['WeekDay']]![0].add(double.parse(dada["Hour"].toString()));
+      dadesChargerselected[dada['WeekDay']]![1].add(double.parse(double.parse(dada["Ocupation"].toString()).toStringAsFixed(2))/double.parse(dada["Capacity"].toString())*100.0);
+    }
+    print(dadesChargerselected);
+  }
+
+  List<DataGraphic> getInfoGraphic(String day){
+    List<DataGraphic> data = <DataGraphic>[];
+    if(dadesChargerselected[day]!.isNotEmpty){
+      var temp = dadesChargerselected[day]![0];
+      var temp2 = dadesChargerselected[day]![1];
+      for(int i = 0; i < temp.length; ++i){
+        data.add(DataGraphic(temp[i], temp2[i]));
+      }
+    }
+    return data;
   }
 }
