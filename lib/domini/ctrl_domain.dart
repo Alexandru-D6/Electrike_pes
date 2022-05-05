@@ -15,7 +15,6 @@ import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/domini/vh_electric.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
-import 'package:google_directions_api/google_directions_api.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
@@ -769,7 +768,7 @@ class CtrlDomain {
       }
     }
     return carregadorsCompatibles;
-  }+
+  }
     
   // Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
   void showInstantNotification(double lat, double long) {
