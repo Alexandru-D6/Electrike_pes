@@ -105,7 +105,7 @@ class _MainPageState extends State<MainPage> {
             child: const Text('SignUp', style: TextStyle(fontSize: 20.0),),
             onPressed: () {
               GoogleMap.of(key)?.getInfoRoute(const GeoCoord(41.382040, 2.102865), const GeoCoord(41.387655, 2.124727), <GeoCoord>[const GeoCoord(41.391845, 2.108814)]).then((value) {
-                print("ok");
+                //print("ok");
               });
             },
           ),

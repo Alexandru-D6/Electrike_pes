@@ -30,7 +30,6 @@ class GoogleLoginAdpt {
     }
 
     final user = await _googleSignIn.signIn();
-
     late String name, email, photoUrl;
     if(user?.displayName != null) name = user!.displayName.toString();
     if(user?.email != null) email = user!.email.toString();
@@ -38,14 +37,6 @@ class GoogleLoginAdpt {
 
     await ctrlDomain.initializeUser(email, name, photoUrl);
 
-    /*user.then((u) async {
-      late String name, email, photoUrl;
-      if(u?.displayName != null) name = u!.displayName.toString();
-      if(u?.email != null) email = u!.email.toString();
-      if(u?.photoUrl != null) photoUrl = u!.photoUrl.toString();
-
-      await ctrlDomain.initializeUser(email, name, photoUrl, context);
-    });*/
     return user;
   }
 

@@ -40,14 +40,28 @@ class _FavsChargersState extends State<FavsChargers> {
                             }
                         ),
                           IconButton(
-                              icon: (const Icon(Icons.favorite)),
-                              color: Colors.red,
+                              icon: (const Icon(Icons.notification_add)),
+                              color: Colors.blue,
                               onPressed: () {
+                              ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                              }
+                          ),
+                        IconButton(
+                            icon: (const Icon(Icons.settings)),
+                            color: Colors.grey,
+                            onPressed: () {
+                              //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                            }
+                        ),
+                        IconButton(
+                            icon: (const Icon(Icons.favorite)),
+                            color: Colors.red,
+                            onPressed: () {
                               chargerPoints.remove(word);
                               ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
                               Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
-                              }
-                          ),
+                            }
+                        ),
 
               ],
             ),
@@ -140,6 +154,20 @@ class _AllFavsState extends State<AllFavs> {
                   color: Colors.green,
                   onPressed: () {
                     ctrlPresentation.toChartPage(context, title);
+                  }
+              ),
+              IconButton(
+                  icon: (const Icon(Icons.notification_add)),
+                  color: Colors.blue,
+                  onPressed: () {
+                    ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                  }
+              ),
+              IconButton(
+                  icon: (const Icon(Icons.settings)),
+                  color: Colors.grey,
+                  onPressed: () {
+                    //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
                   }
               ),
               IconButton(

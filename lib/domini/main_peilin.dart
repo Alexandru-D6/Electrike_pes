@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/rutes/rutes_amb_carrega.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
@@ -24,9 +26,7 @@ import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'domini/services/local_notifications_adpt.dart';
-
-void main() => runApp(const SplashScreen());
+void main() => initializeSystem();
 
 Future initializeSystem() async {
   CtrlDomain ctrlDomain = CtrlDomain();
@@ -116,6 +116,16 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    //aa
+    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) async {
+      //codigo que ejcutar tras el build
+
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     Location location = Location();
@@ -133,6 +143,7 @@ class _MainPageState extends State<MainPage> {
         children: const [
           MyMap(),
           SearchBarWidget(),
+
         ],
       ),
     );

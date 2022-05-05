@@ -272,7 +272,7 @@ abstract class CustomFunctions {
 
   void displayRoute(
     GeoCoord origin,
-    GeoCoord destination, {
+      GeoCoord destination, {
       List<GeoCoord>? waypoints,
       String? startLabel,
       String? startIcon,
