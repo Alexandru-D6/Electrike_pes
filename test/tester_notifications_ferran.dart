@@ -143,7 +143,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: [ElevatedButton(onPressed: () => serviceLocator<LocalNotificationAdpt>().showNotifications(0,0), child: const Text("Instant Notification"))],
+        children: [ElevatedButton(onPressed: () => serviceLocator<LocalNotificationAdpt>().showInstantNotification(0.0, 0.0), child: const Text("Instant Notification"))],
       ),
     );
   }

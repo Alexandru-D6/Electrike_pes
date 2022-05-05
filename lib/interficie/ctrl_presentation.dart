@@ -441,6 +441,6 @@ class CtrlPresentation {
   }
 
   void showInstantNotification(double lat, double long){
-    ctrlDomain.showInstantNotification(double lat, double long);
+    ctrlDomain.showInstantNotification(lat, long);
   }
 }
