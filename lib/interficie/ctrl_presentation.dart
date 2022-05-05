@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/data_graphic.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
@@ -442,5 +443,13 @@ class CtrlPresentation {
 
   void showInstantNotification(double lat, double long){
     ctrlDomain.showInstantNotification(lat, long);
+  }
+
+  Future<void> getOcupationCharger(double latitude, double longitude) async {
+    await ctrlDomain.getOcupationCharger(latitude, longitude);
+  }
+
+  List<DataGraphic>getInfoGraphic(String day) {
+    return ctrlDomain.getInfoGraphic(day);
   }
 }
