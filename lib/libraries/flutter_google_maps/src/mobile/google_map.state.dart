@@ -766,8 +766,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void displayRoute(
-      dynamic origin,
-      dynamic destination, {
+      GeoCoord origin,
+      GeoCoord destination, {
         List<GeoCoord>? waypoints,
         String? startLabel,
         String? startIcon,

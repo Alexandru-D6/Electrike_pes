@@ -105,7 +105,7 @@ class CtrlDomain {
       usuari.foto = resp['items'][0]['Img'];
       await login();
     }
-    //ctrlPresentation.setUserValues(name, email, img);
+    ctrlPresentation.setUserValues(name, email, img);
   }
   //Carrega la informació dels objectes favorits de l'usuari
   Future<void> login() async{

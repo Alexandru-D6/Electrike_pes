@@ -271,30 +271,21 @@ class CtrlPresentation {
       GeoCoord dest = GeoCoord(destT!.lat!, destT.lng!);
       double bat = double.parse(bateria);
 
-
       location.getLocation().then((value) async {
         GeoCoord orig = GeoCoord(value.latitude!, value.longitude!);
 
         RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
+        print(rutaCharger);
         String origin = value.latitude.toString() + "," + value.longitude.toString();
         if(actualLocation != "Your location") origin = actualLocation;
         GoogleMap.of(getMapKey())?.displayRoute(
-            origin,
-            destination,
+            orig,
+            dest,
             waypoints: rutaCharger.waypoints,
             startLabel: '1',
             startInfo: 'Origin',
             endIcon: 'assets/images/rolls_royce.png',
             endInfo: 'Destination');
-
-        /*GoogleMap.of(getMapKey())?.addDirection(
-            origin,
-            destination,
-            startLabel: '1',
-            startInfo: 'Origin',
-            endIcon: 'assets/images/rolls_royce.png',
-            endInfo: 'Destination'
-        );*/
 
       });
     }
