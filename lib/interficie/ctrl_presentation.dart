@@ -153,6 +153,15 @@ class CtrlPresentation {
       arguments: pointTitle, //TODO: cosas de traducciones?
     );
   }
+
+  toTimePicker(BuildContext context){
+    //print(ModalRoute.of(context)?.settings.name);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
+      context,
+      '/time',
+    );
+  }
   //USER INFO FUNCTIONS
   String getCurrentUsername(BuildContext context){
     if(name == "" || name =="Pulsa per iniciar sessió" || name == "Click to log-in" || name == "Haga clic para iniciar sesión" ) name = AppLocalizations.of(context).clickToLogin;
