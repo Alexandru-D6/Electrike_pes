@@ -19,14 +19,13 @@ import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:flutter_project/l10n/l10n.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_project/domini/services/local_notifications_adpt.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'domini/services/local_notifications_adpt.dart';
-
-void main() => runApp(const SplashScreen());
+void main() => initializeSystem();
 
 Future initializeSystem() async {
   CtrlDomain ctrlDomain = CtrlDomain();
@@ -39,24 +38,15 @@ Future initializeSystem() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  //serviceLocator<LocalNotificationAdpt>().showNotifications();
-/*
-  serviceLocator<LocalNotificationAdpt>().scheduleNotifications();
-  serviceLocator<LocalNotificationAdpt>().scheduleNotifications();
-
-  serviceLocator<LocalNotificationAdpt>().scheduleNotifications();
-
-
-
-  ctrlDomain.addSheduledNotificationFavoriteChargePoint();
-*/
-  //serviceLocator<LocalNotificationAdpt>().showNotifications(41.394501,2.152312);
- // serviceLocator<LocalNotificationAdpt>().scheduleNotifications(DateTime.utc(2022, 5, 4, 17, 24), 41.394501,2.152312);
-
-  ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.394501,2.152312, DateTime.now().day, 20, 1);
-
-
   runApp(const MyApp());
+
+/* FUNCIONA?
+  NotificationService notificationService = NotificationService();
+  notificationService.instantNofitication();
+
+  Mirar de demanar permís? Mirar classe Location que fa aquesta funció:
+  askForPermission(location, context);
+  */
 }
 
 class MyApp extends StatelessWidget {
@@ -66,38 +56,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-    create: (context) => LocaleProvider(),
-    builder: (context, child) {
-      final provider = Provider.of<LocaleProvider>(context);
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(
-          primaryColor: mPrimaryColor,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        locale: provider.locale,
-        supportedLocales: L10n.all,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
+      create: (context) => LocaleProvider(),
+      builder: (context, child) {
+        final provider = Provider.of<LocaleProvider>(context);
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: title,
+          theme: ThemeData(
+            primaryColor: mPrimaryColor,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          locale: provider.locale,
+          supportedLocales: L10n.all,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
 
-        routes: {
-          '/': (context) => const MainPage(),
-          '/profile': (context) => const ProfilePage(),
-          '/garage': (context) => const GaragePage(),
-          '/newCar': (context) => const NewCarPage(),
-          '/editCar': (context) => const EditCarPage(),
-          '/favourites': (context) => const FilterFavsItems(),
-          '/rewards': (context) => const RewardsPage(),
-          '/info': (context) => const InformationAppPage(),
-          '/chart': (context) => const ChartPage(),
-        },
-      );
-    }
+          routes: {
+            '/': (context) => const MainPage(),
+            '/profile': (context) => const ProfilePage(),
+            '/garage': (context) => const GaragePage(),
+            '/newCar': (context) => const NewCarPage(),
+            '/editCar': (context) => const EditCarPage(),
+            '/favourites': (context) => const FilterFavsItems(),
+            '/rewards': (context) => const RewardsPage(),
+            '/info': (context) => const InformationAppPage(),
+            '/chart': (context) => const ChartPage(),
+          },
+        );
+      }
   );
 }
 
@@ -133,6 +123,12 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void initState() {
+    serviceLocator<LocalNotificationAdpt>().init();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     Location location = Location();
@@ -147,10 +143,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: const [
-          MyMap(),
-          SearchBarWidget(),
-        ],
+        children: [ElevatedButton(onPressed: () => serviceLocator<LocalNotificationAdpt>().showNotifications(0,0), child: const Text("Instant Notification"))],
       ),
     );
   }

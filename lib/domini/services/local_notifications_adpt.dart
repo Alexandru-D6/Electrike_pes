@@ -148,7 +148,7 @@ class NotificationService extends ChangeNotifier {
 */
 
 
-
+import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
@@ -181,7 +181,7 @@ class LocalNotificationAdpt {
     FlutterLocalNotificationsPlugin();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('ic_launcher');
+    AndroidInitializationSettings('logo.png');
     /*
     final IOSInitializationSettings initializationSettingsIOS =
     IOSInitializationSettings(
@@ -209,17 +209,28 @@ class LocalNotificationAdpt {
     playSound: true,
     priority: Priority.high,
     importance: Importance.high,
+    autoCancel: false,
   );
 
-  Future<void> showNotifications() async {
+  Future<void> showInstantNotification(double lat, double long) async {
+
+    CtrlDomain ctrlDomain = CtrlDomain();
+    List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
+
+    late String state;
+    if (dadesCargadors[5] != "0") {
+      state = "<unknown>";
+    } else {
+      state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
+    }
     await _flutterLocalNotificationsPlugin.show(
       0,
-      "Notification Title",
-      "This is the Notification Body!",
+      "Charger point " + dadesCargadors[1] + " state",
+      "Your charger point has " +state+ " available chargers.",
       NotificationDetails(android: _androidNotificationDetails),
     );
   }
-
+/*
   Future<void> scheduleNotifications() async {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         0,
@@ -231,6 +242,77 @@ class LocalNotificationAdpt {
         uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime);
   }
+*/
+
+
+  Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
+
+
+/*
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        "Notification Title",
+        "This is the Notification Body!",
+        tz.TZDateTime.utc(2022,5,4,8,21),
+        NotificationDetails(android: _androidNotificationDetails),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime);
+
+
+    var interval = RepeatInterval.everyMinute;
+
+    var platform = NotificationDetails(android: _androidNotificationDetails);
+ */
+    CtrlDomain ctrlDomain = CtrlDomain();
+    List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
+
+    late String state;
+    if (dadesCargadors[5] != "0") {
+      state = "<unknown>";
+    } else {
+      state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
+    }
+
+
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        "Charger point " + dadesCargadors[1] + " state",
+        "Your charger point has " +state+ " available chargers.",
+        tz.TZDateTime.from(when, tz.local),
+        NotificationDetails(android: _androidNotificationDetails),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
+  }
+
+  Future sheduledNotification() async {
+    var interval = RepeatInterval.everyMinute;
+    /*var bigPicture = const BigPictureStyleInformation(
+        DrawableResourceAndroidBitmap("logo.png"),
+        largeIcon: DrawableResourceAndroidBitmap("logo.png"),
+        contentTitle: "Demo image notification",
+        summaryText: "This is some text",
+        htmlFormatContent: true,
+        htmlFormatContentTitle: true);
+*/
+    var android = const AndroidNotificationDetails("id", "channel", /*"description"
+        styleInformation: bigPicture*/);
+
+    var platform = NotificationDetails(android: android);
+
+    await _flutterLocalNotificationsPlugin.periodicallyShow(
+        0,
+        "Demo Sheduled notification",
+        "Tap to do something",
+        interval,
+        platform);
+  }
+
+
+
+
 
   Future<void> cancelNotifications(int id) async {
     await _flutterLocalNotificationsPlugin.cancel(id);

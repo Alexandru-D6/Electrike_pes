@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
 import 'package:flutter_project/domini/favorit.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
+import 'package:flutter_project/domini/services/local_notifications_adpt.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/rutes/rutes_amb_carrega.dart';
 import 'package:flutter_project/domini/tipus_endoll.dart';
@@ -14,6 +17,10 @@ import 'package:flutter_project/domini/vh_electric.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class CtrlDomain {
   CtrlDomain._internal();
@@ -245,10 +252,27 @@ class CtrlDomain {
     }
   }
 
+
+  //Si nadie le ha asignado un vehiculo al usuario, currentVehicleUsuari devoldera un vehicle Buit!
   VehicleUsuari currentVehicleUsuari() {
     return vhselected;
   }
 
+  void makeRoute(Location location, String actualLocation, GlobalKey<GoogleMapStateBase> key, String destination) {
+    location.getLocation().then((value) {
+      String origin = value.latitude.toString() + "," +
+          value.longitude.toString();
+      if (actualLocation != "Your location") origin = actualLocation;
+      GoogleMap.of(key)?.addDirection(
+          origin,
+          destination,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'Destination'
+      );
+    });
+  }
 
   bool isAFavPoint(double latitud, double longitud) {
     bool trobat = false;
@@ -745,6 +769,76 @@ class CtrlDomain {
       }
     }
     return carregadorsCompatibles;
+  }+
+    
+  // Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
+  void showInstantNotification(double lat, double long) {
+    serviceLocator<LocalNotificationAdpt>().showInstantNotification(lat, long);
+  }
+
+  /*
+  day between 1 (Monday) to 7 (Sunday)
+    Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
+   */
+  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int day, int iniHour, int iniMinute/*, int endHour*//*, int endMinute*/) {
+
+    var dayOfTheWeek = DateTime(DateTime.now().year, DateTime.now().month, day, iniHour, iniMinute);
+    var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, DateTime.now().hour, iniMinute);
+    int daysToAdd;
+
+    //si el dia donat és diferent del dia d'avui
+    if (day < DateTime.now().weekday) {
+      daysToAdd = 7 - (DateTime.now().weekday - day);
+      firstNotification.add(Duration(days: daysToAdd));
+    }
+    else if (day > DateTime.now().weekday) {
+      daysToAdd = day - DateTime.now().weekday;
+      firstNotification.add(Duration(days: daysToAdd));
+    }
+    /*else if (DateTime.now().hour < iniHour){
+
+    }
+    //mateix dia
+    else if (DateTime.now().hour >= iniHour) {
+      //if (DateTime.now().hour < endHour) { //en aquest cas no apareixerà cap notificació fins la setmana següent.
+        //firstNotification = DateTime.now();
+    //  }
+     // else {
+        firstNotification.add(const Duration(days: 7));
+      //}
+    }
+    /*
+    else if (DateTime.now().minute <= minute) {
+
+    }
+    else if (DateTime.now().minute > minute) {
+      firstNotification.add(const Duration(days: 7));
+    }
+    */
+
+    firstNotification = DateTime.utc(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
+    final pacificTimeZone = tz.getLocation('Europe/Paris');
+    //arreglar lo de les zones horaries.
+    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+    */
+
+    //print(firstNotification);
+
+    firstNotification = DateTime(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
+    firstNotification = firstNotification.toUtc();
+    //print(firstNotification);
+
+    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+
+
+
+
+    //cancel notifications:
+
+
+    //------
+
+
   }
 
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {

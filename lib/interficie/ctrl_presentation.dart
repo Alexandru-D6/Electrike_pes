@@ -264,7 +264,6 @@ class CtrlPresentation {
             endIcon: 'assets/images/rolls_royce.png',
             endInfo: 'Destination'
         );
-
       });
     }
     else if(routeType == 1){
