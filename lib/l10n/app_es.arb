@@ -59,5 +59,8 @@
 
   "infoDialogNotLog": "No se ha iniciado sesión",
 
-  "save": "Guardar cambios"
+  "save": "Guardar cambios",
+  "vehicles": "Vehículos",
+  "trophies": "Trofeos",
+  "savedco2": "CO2 salvado"
 }

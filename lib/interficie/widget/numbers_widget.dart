@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NumbersWidget extends StatelessWidget {
   const NumbersWidget({Key? key}) : super(key: key);
@@ -7,11 +9,11 @@ class NumbersWidget extends StatelessWidget {
   Widget build(BuildContext context) => Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
-      buildButton(context, '4.8', 'Ranking'),
+      buildButton(context, ctrlPresentation.getCarsList().length.toString(), AppLocalizations.of(context).vehicles, "garage"),
       buildDivider(),
-      buildButton(context, '35', 'Following'),
+      buildButton(context, ctrlPresentation.getTrophiesDone().length.toString(), AppLocalizations.of(context).trophies, "trophies"),
       buildDivider(),
-      buildButton(context, '50', 'Followers'),
+      buildButton(context, ctrlPresentation.getCO2saved().toString()+" kg", AppLocalizations.of(context).savedco2, "co2"),
     ],
   );
   Widget buildDivider() => const SizedBox(
@@ -19,10 +21,23 @@ class NumbersWidget extends StatelessWidget {
     child: VerticalDivider(),
   );
 
-  Widget buildButton(BuildContext context, String value, String text) =>
+  Widget buildButton(BuildContext context, String value, String text, String toPage) =>
       MaterialButton(
         padding: const EdgeInsets.symmetric(vertical: 4),
-        onPressed: () {},
+        onPressed: () {
+          switch (toPage){
+            case "garage":
+              ctrlPresentation.toGaragePage(context);
+              break;
+            case "trophies":
+              ctrlPresentation.toRewardsPage(context);
+              break;
+            case "co2":
+              break;
+            default:
+              break;
+          }
+        },
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         child: Column(
           mainAxisSize: MainAxisSize.min,

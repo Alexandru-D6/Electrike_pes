@@ -329,6 +329,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save changes'**
   String get save;
+
+  /// No description provided for @vehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicles'**
+  String get vehicles;
+
+  /// No description provided for @trophies.
+  ///
+  /// In en, this message translates to:
+  /// **'Trophies'**
+  String get trophies;
+
+  /// No description provided for @savedco2.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved CO2'**
+  String get savedco2;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

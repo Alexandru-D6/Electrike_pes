@@ -426,10 +426,7 @@ showInfoBicing(BuildContext context, double lat, double long, List<String> infoB
               bottom: 24,
               child: Stack(
                 children: [
-                  BicingPointDetailInformation(
-                    latitud: lat,
-                    longitud: long,
-                  ),
+                  BicingPointDetailInformation(latitud: lat, longitud: long,),
                 ],
               ),
             ),

@@ -6,7 +6,7 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
-import '../../libraries/flutter_google_maps/src/core/route_response.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/src/core/route_response.dart';
 
 class RutesAmbCarrega {
   late CtrlDomain ctrlDomain;

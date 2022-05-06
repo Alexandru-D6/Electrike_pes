@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/domini/coordenada.dart';
+import 'package:flutter_project/domini/data_graphic.dart';
 import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
 import 'package:flutter_project/domini/favorit.dart';
@@ -24,7 +25,7 @@ import 'package:timezone/data/latest.dart' as tz;
 class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
-  
+
   static var urlorg = 'http://electrike.ddns.net:3784/';
   //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
@@ -32,6 +33,7 @@ class CtrlDomain {
   List<Coordenada> coordBarcelona = <Coordenada>[];
   List<Coordenada> coordCatalunya = <Coordenada>[];
   List<Coordenada> coordCarregadorsPropers = <Coordenada>[];
+  Map<String,List<List<double> > > dadesChargerselected = {};
 
   //DATA INFO SYSTEM
   List<VhElectric> vhElectrics = <VhElectric>[];
@@ -58,8 +60,8 @@ class CtrlDomain {
     usuari.usuarinull();
     initializeTypes();
     await getAllCars();
-    await getChargers('cat');
-    await getChargers('bcn');
+    await getChargersCoord('cat');
+    await getChargersCoord('bcn');
     await getBicings();
   }
   void initializeTypes(){
@@ -92,7 +94,7 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = name;
       usuari.foto = img;
-      setIdiom(ctrlPresentation.idiom);
+      //setIdiom(ctrlPresentation.idiom);
     }
     else {
       url = urlorg + 'user_info?email=' + email;
@@ -160,7 +162,7 @@ class CtrlDomain {
       t.cars=<String>{};
     }
     usuari.usuarinull();
-    ctrlPresentation.resetUserValues();
+    //resentation.resetUserValues();
   }
   //Elimina l'usuari de la base de dades i del domini
   void deleteaccount()async{
@@ -321,6 +323,7 @@ class CtrlDomain {
     for(var f in puntsFavCarrega){
       listToPassFavs.add(f.coord);
     }
+    print("NUMCARREGA"+puntsFavCarrega.toString());
     return listToPassFavs;
   }
   void gestioFavChargers(double lat, double long){
@@ -559,6 +562,7 @@ class CtrlDomain {
       infoC.add(it["Station_name"]);
       infoC.add(it["Station_address"]);
       infoC.add(it["Station_municipi"]);
+      infoC.add(it['Sockets'].length.toString());
       List<int> endollsinfo = List.filled(16, 0);
       bool cat = false;
       for(var en in it['Sockets']){
@@ -570,9 +574,7 @@ class CtrlDomain {
             case 1: {endollsinfo[num*4+3]++;} break;
             case 4: {endollsinfo[num*4+3]++;} break;
             case 5: {endollsinfo[num*4+3]++;} break;//AÑADIDO
-            case 6:{endollsinfo[num*4+1]++;
-              cat = true;
-            }break;
+            case 6:{endollsinfo[num*4+1]++; cat = true;} break;
             default:{endollsinfo[num*4+2]++;} break;
           }
         }
@@ -594,6 +596,7 @@ class CtrlDomain {
     var url = urlorg +'chargers_'+where;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
+
     for(var it in resp['items']){
       if(where == 'bcn') {
         coordBarcelona.add(Coordenada(
@@ -603,9 +606,22 @@ class CtrlDomain {
       else{
         coordCatalunya.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
       }
+
+      coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
+
+      for(var en in it['Sockets']){
+        var list = en['Connector_types'].toString().split(',');
+        for(var num in list){
+          if(num == "1" || num == "2" || num == "3" || num== "4"){
+            int n = int.parse(num);
+            n = n-1;
+            typesendolls[n].endolls.add(Coordenada(it["Station_lat"],it["Station_lng"]));
+          }
+        }
+      }
     }
   }
-  List<String> getInfoCharger(double lat, double long){
+  /*List<String> getInfoCharger(double lat, double long){
     List<String> infocharger = <String>[];
     for(var charg in puntscarrega){
       if(charg.coord.latitud == lat && charg.coord.longitud == long){
@@ -626,7 +642,7 @@ class CtrlDomain {
       }
     }
     return infocharger;
-  }
+  }*/
   List<int> getNumDataEndoll(EstacioCarrega charg){
     List<int> endollsinfo = List.filled(16, 0);
     for(var end in charg.endolls){
@@ -711,7 +727,7 @@ class CtrlDomain {
   void getNomsFavChargers() async{
     nomsFavCarrega = <String>[];
     for(var c in puntsFavCarrega){
-      var url = urlorg+'charger_info_cat?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
+      var url = urlorg+'charger_information_cat?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
       var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
     for(var it in resp['items']){
@@ -844,5 +860,40 @@ class CtrlDomain {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
     return routesResponse;
+  }
+
+  Future<void> getOcupationCharger(double lat, double lon) async {
+    var url = urlorg + 'get_ocupation?lat='+ lat.toString() +'&lon='+ lon.toString();
+    var response = (await http.get(Uri.parse(url)));
+    var resp = jsonDecode(response.body);
+    String day = "";
+    List<List<double>> empty = <List<double>>[];
+    empty.add(<double>[]);
+    empty.add(<double>[]);
+    dadesChargerselected = {};
+    List<String> nameday = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    for(String day in nameday) {
+      List<List<double>> empty = <List<double>>[];
+      empty.add(<double>[]);
+      empty.add(<double>[]);
+      dadesChargerselected[day] = empty;
+    }
+    for(var dada in resp['items']){
+      dadesChargerselected[dada['WeekDay']]![0].add(double.parse(dada["Hour"].toString()));
+      dadesChargerselected[dada['WeekDay']]![1].add(double.parse(double.parse(dada["Ocupation"].toString()).toStringAsFixed(2))/double.parse(dada["Capacity"].toString())*100.0);
+    }
+    print(dadesChargerselected);
+  }
+
+  List<DataGraphic> getInfoGraphic(String day){
+    List<DataGraphic> data = <DataGraphic>[];
+    if(dadesChargerselected[day]!.isNotEmpty){
+      var temp = dadesChargerselected[day]![0];
+      var temp2 = dadesChargerselected[day]![1];
+      for(int i = 0; i < temp.length; ++i){
+        data.add(DataGraphic(temp[i], temp2[i]));
+      }
+    }
+    return data;
   }
 }

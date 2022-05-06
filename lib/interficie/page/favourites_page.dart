@@ -47,6 +47,13 @@ class _FavsChargersState extends State<FavsChargers> {
                               }
                           ),
                         IconButton(
+                            icon: (const Icon(Icons.settings)),
+                            color: Colors.grey,
+                            onPressed: () {
+                              //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                            }
+                        ),
+                        IconButton(
                             icon: (const Icon(Icons.favorite)),
                             color: Colors.red,
                             onPressed: () {
@@ -154,6 +161,13 @@ class _AllFavsState extends State<AllFavs> {
                   color: Colors.blue,
                   onPressed: () {
                     ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                  }
+              ),
+              IconButton(
+                  icon: (const Icon(Icons.settings)),
+                  color: Colors.grey,
+                  onPressed: () {
+                    //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
                   }
               ),
               IconButton(

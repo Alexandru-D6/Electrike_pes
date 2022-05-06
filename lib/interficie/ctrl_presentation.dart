@@ -168,7 +168,7 @@ class CtrlPresentation {
     if (!await launchUrl(Uri.parse(_url))) throw 'Could not launch $_url';
   }
 
-  getCarsList() {
+  List<List<String>> getCarsList() {
     return ctrlDomain.infoAllVUser();
   }
 
@@ -226,8 +226,8 @@ class CtrlPresentation {
     return ctrlDomain.getInfoBicing(lat, long);
   }
 
-  List<String> getInfoCharger(double lat, double long) {
-    return ctrlDomain.getInfoCharger(lat, long);
+  Future<List<String>> getInfoCharger(double lat, double long) {
+    return ctrlDomain.getInfoCharger2(lat, long);
   }
 
   List<String> getInfoModel(String text) {
@@ -271,30 +271,21 @@ class CtrlPresentation {
       GeoCoord dest = GeoCoord(destT!.lat!, destT.lng!);
       double bat = double.parse(bateria);
 
-
       location.getLocation().then((value) async {
         GeoCoord orig = GeoCoord(value.latitude!, value.longitude!);
 
         RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
+        print(rutaCharger);
         String origin = value.latitude.toString() + "," + value.longitude.toString();
         if(actualLocation != "Your location") origin = actualLocation;
         GoogleMap.of(getMapKey())?.displayRoute(
-            origin,
-            destination,
+            orig,
+            dest,
             waypoints: rutaCharger.waypoints,
             startLabel: '1',
             startInfo: 'Origin',
             endIcon: 'assets/images/rolls_royce.png',
             endInfo: 'Destination');
-
-        /*GoogleMap.of(getMapKey())?.addDirection(
-            origin,
-            destination,
-            startLabel: '1',
-            startInfo: 'Origin',
-            endIcon: 'assets/images/rolls_royce.png',
-            endInfo: 'Destination'
-        );*/
 
       });
     }
@@ -438,6 +429,15 @@ class CtrlPresentation {
 
   bool islogged(){
     return ctrlDomain.islogged();
+  }
+
+  List<String> getTrophiesDone() {
+    List<String> trophiesCompleted = ["Login", "Jump"];
+    return trophiesCompleted;
+  }
+
+  int getCO2saved() {
+    return 8;
   }
 
   void showInstantNotification(double lat, double long){
