@@ -68,9 +68,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
-          onPressed: () async {
-            await ctrlPresentation.getOcupationCharger(widget.latitude, widget.longitude);
-
+          onPressed: () {
             ctrlPresentation.toChartPage(context, "hacerlo de otra manera"); //TODO: posible error? ponerle las coordenadas y hacer consulta a database por ejemplo
           },
           icon: const Icon(
