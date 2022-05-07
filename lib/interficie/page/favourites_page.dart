@@ -35,8 +35,7 @@ class _FavsChargersState extends State<FavsChargers> {
                         IconButton(
                             icon: (const Icon(Icons.bar_chart)),
                             color: Colors.green,
-                            onPressed: () async{
-                              await ctrlPresentation.getOcupationCharger(word.latitud, word.longitud);
+                            onPressed: () {
                               ctrlPresentation.toChartPage(context, title);
                             }
                         ),
@@ -153,8 +152,7 @@ class _AllFavsState extends State<AllFavs> {
               IconButton(
                   icon: (const Icon(Icons.bar_chart)),
                   color: Colors.green,
-                  onPressed: () async {
-                    await ctrlPresentation.getOcupationCharger(word.latitud, word.longitud);
+                  onPressed: () {
                     ctrlPresentation.toChartPage(context, title);
                   }
               ),
