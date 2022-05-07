@@ -35,6 +35,12 @@ class OcupationChart extends StatelessWidget {
       //       barRendererDecorator: new charts.BarLabelDecorator(
       //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
       //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
+      behaviors: [
+        charts.PercentInjector(
+            totalType: charts.PercentInjectorTotalType.series)
+      ],
+      // Configure the axis spec to show percentage values.
+      primaryMeasureAxis: charts.PercentAxisSpec(),
       barRendererDecorator: charts.BarLabelDecorator<String>(),
       domainAxis: const charts.OrdinalAxisSpec(),
     );

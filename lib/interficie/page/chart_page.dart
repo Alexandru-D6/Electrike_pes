@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/data_graphic.dart';
 import 'package:flutter_project/interficie/constants.dart';
-//import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+
 
 
 class ChartPage extends StatelessWidget {
@@ -35,7 +37,7 @@ class ChartPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child:
               SizedBox(
-                width: 500.0,
+                width: 800.0,
                 height: 500.0,
                 child: OcupationChart(createData(), animate: false),
               )
@@ -44,24 +46,22 @@ class ChartPage extends StatelessWidget {
       )
     );
   }
-  static List<charts.Series<OrdinalSales, String>> createData() {
+
+  static List<charts.Series<DataGraphic, String>> createData() {
     //todo por aqui recibir la variable data que se vaya actualizando, hay que hablar de como hacerlo, mi idea es que vaya cambiando esta variable y el usuario para ver los cambios tenga que cargar un grafico nuevo, y nos dejamos de statefuls
-    final data = [
-      OrdinalSales('2014', 25.00023),
-      OrdinalSales('2015', 2.5),
-      OrdinalSales('2016', 100),
-      OrdinalSales('2017', 75),
-    ];
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    final data = ctrlPresentation.getInfoGraphic("Thursday");
 
     return [
-      charts.Series<OrdinalSales, String>(
-          id: 'Sales',
-          domainFn: (OrdinalSales sales, _) => sales.year,
-          measureFn: (OrdinalSales sales, _) => sales.sales,
+      charts.Series<DataGraphic, String>(
+          id: 'Ocupacio',
+          domainFn: (DataGraphic occupation, _) => occupation.hour.toString(),
+          measureFn: (DataGraphic occupation, _) => occupation.percentage.round(),
           data: data,
           // Set a label accessor to control the text of the bar label.
-          labelAccessorFn: (OrdinalSales sales, _) =>
-          '\$${sales.sales.toString()}')
+
+          labelAccessorFn: (DataGraphic occupation, _) =>
+          '${occupation.percentage.toString()}%')
     ];
   }
 
