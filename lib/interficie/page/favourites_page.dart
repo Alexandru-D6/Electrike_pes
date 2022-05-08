@@ -50,6 +50,7 @@ class _FavsChargersState extends State<FavsChargers> {
                             icon: (const Icon(Icons.settings)),
                             color: Colors.grey,
                             onPressed: () {
+                              ctrlPresentation.removeShceduledNotification(word.latitud, word.longitud);
                               //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
                             }
                         ),

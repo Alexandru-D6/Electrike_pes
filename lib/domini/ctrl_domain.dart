@@ -795,19 +795,19 @@ class CtrlDomain {
   day between 1 (Monday) to 7 (Sunday)
     Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
    */
-  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int day, int iniHour, int iniMinute/*, int endHour*//*, int endMinute*/) {
+  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute/*, int endHour*//*, int endMinute*/) {
 
-    var dayOfTheWeek = DateTime(DateTime.now().year, DateTime.now().month, day, iniHour, iniMinute);
+    var dayOfTheWeekDT = DateTime(DateTime.now().year, DateTime.now().month, dayOfTheWeek, iniHour, iniMinute);
     var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, DateTime.now().hour, iniMinute);
     int daysToAdd;
 
     //si el dia donat és diferent del dia d'avui
-    if (day < DateTime.now().weekday) {
-      daysToAdd = 7 - (DateTime.now().weekday - day);
+    if (dayOfTheWeek < DateTime.now().weekday) {
+      daysToAdd = 7 - (DateTime.now().weekday - dayOfTheWeek);
       firstNotification.add(Duration(days: daysToAdd));
     }
-    else if (day > DateTime.now().weekday) {
-      daysToAdd = day - DateTime.now().weekday;
+    else if (dayOfTheWeek > DateTime.now().weekday) {
+      daysToAdd = dayOfTheWeek - DateTime.now().weekday;
       firstNotification.add(Duration(days: daysToAdd));
     }
     /*else if (DateTime.now().hour < iniHour){
@@ -855,6 +855,11 @@ class CtrlDomain {
 
 
   }
+
+  void removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, dayOfTheWeek, iniHour, iniMinute);
+  }
+
 
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();

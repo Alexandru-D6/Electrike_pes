@@ -148,6 +148,8 @@ class NotificationService extends ChangeNotifier {
 */
 
 
+import 'dart:math';
+import 'package:tuple/tuple.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -175,6 +177,9 @@ class LocalNotificationAdpt {
 
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
+
+  //List of current notifications. Info for each: id, lat, long, dayOfTheWeek, iniHour, iniMinute
+  static final List<Tuple6<int, double, double, int, int, int>> _currentNotifications = [];
 
   Future<void> init() async {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -274,9 +279,11 @@ class LocalNotificationAdpt {
       state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
     }
 
+    int id = _createId();
+    _currentNotifications.add(Tuple6<int, double, double,int, int, int>(id,lat,long,when.weekday,when.hour,when.minute));
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
+        id,
         "Charger point " + dadesCargadors[1] + " state",
         "Your charger point has " +state+ " available chargers.",
         tz.TZDateTime.from(when, tz.local),
@@ -286,6 +293,12 @@ class LocalNotificationAdpt {
         UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
   }
+
+  int _createId() {
+    final now = DateTime.now();
+    return now.microsecondsSinceEpoch.toInt();
+  }
+
 
   Future sheduledNotification() async {
     var interval = RepeatInterval.everyMinute;
@@ -310,15 +323,24 @@ class LocalNotificationAdpt {
         platform);
   }
 
+//ARREGLAR + Mirar que funcioni!!!
+  int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    Iterable<Tuple6<int, double, double, int, int, int>> l = _currentNotifications.where((item) {
+      item.item2 == lat && item.item3 == long && item.item4 == dayOfTheWeek && item.item5 == iniHour && item.item6 == iniMinute;
+      return false;
+    });
+    return l.first.item1;
+  }
 
 
-
-
-  Future<void> cancelNotifications(int id) async {
+  Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    int id = _findId(lat,long,dayOfTheWeek,iniHour,iniMinute);
+    _currentNotifications.removeWhere((element) => element.item1==id);
     await _flutterLocalNotificationsPlugin.cancel(id);
   }
 
   Future<void> cancelAllNotifications() async {
+    _currentNotifications.clear();
     await _flutterLocalNotificationsPlugin.cancelAll();
   }
 
