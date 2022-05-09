@@ -453,6 +453,7 @@ class CtrlPresentation {
     ctrlDomain.showInstantNotification(lat, long);
   }
 
+  //cal arreglar aquesta funció
   void removeShceduledNotification(/*DateTime when, */double lat, double long) {
     ctrlDomain.removeScheduledNotification(lat, long, 0, 0, 0);
   }
