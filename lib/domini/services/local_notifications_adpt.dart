@@ -323,13 +323,14 @@ class LocalNotificationAdpt {
         platform);
   }
 
-//ARREGLAR + Mirar que funcioni!!!
+  //Retorna l'id de la notificació identificada pels paràmetres.
+  //Pre: Existeix una notificació dins de _currentNotifications identificada pels paràmetres passats
   int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    Iterable<Tuple6<int, double, double, int, int, int>> l = _currentNotifications.where((item) {
+    Tuple6<int, double, double, int, int, int> l = _currentNotifications.firstWhere((item) {
       item.item2 == lat && item.item3 == long && item.item4 == dayOfTheWeek && item.item5 == iniHour && item.item6 == iniMinute;
-      return false;
+      throw StateError("No id found");
     });
-    return l.first.item1;
+    return l.item1;
   }
 
 

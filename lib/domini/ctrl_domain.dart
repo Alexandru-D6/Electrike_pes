@@ -810,27 +810,44 @@ class CtrlDomain {
       daysToAdd = dayOfTheWeek - DateTime.now().weekday;
       firstNotification.add(Duration(days: daysToAdd));
     }
-    /*else if (DateTime.now().hour < iniHour){
-
-    }
     //mateix dia
-    else if (DateTime.now().hour >= iniHour) {
-      //if (DateTime.now().hour < endHour) { //en aquest cas no apareixerà cap notificació fins la setmana següent.
-        //firstNotification = DateTime.now();
-    //  }
-     // else {
-        firstNotification.add(const Duration(days: 7));
-      //}
-    }
-    /*
-    else if (DateTime.now().minute <= minute) {
+    else if (DateTime.now().hour < iniHour){
 
     }
-    else if (DateTime.now().minute > minute) {
+    else if (DateTime.now().hour > iniHour) {
       firstNotification.add(const Duration(days: 7));
     }
-    */
+    //mateix dia i hora
+    else if (DateTime.now().minute <= iniMinute) {
 
+    }
+    else if (DateTime.now().minute > iniMinute) {
+      firstNotification.add(const Duration(days: 7));
+    }
+
+
+    if (dayOfTheWeek != DateTime.now().weekday) {
+      //si el dia donat és diferent del dia d'avui
+      if (dayOfTheWeek < DateTime.now().weekday) {
+        daysToAdd = 7 - (DateTime.now().weekday - dayOfTheWeek);
+        firstNotification.add(Duration(days: daysToAdd));
+      }
+      else if (dayOfTheWeek > DateTime.now().weekday) {
+        daysToAdd = dayOfTheWeek - DateTime.now().weekday;
+        firstNotification.add(Duration(days: daysToAdd));
+      }
+    }
+    else { //mateix dia
+      if (DateTime.now().hour > iniHour) {
+        firstNotification.add(const Duration(days: 7));
+      }
+      else if (DateTime.now().hour == iniHour && DateTime.now().minute > iniMinute) {
+        firstNotification.add(const Duration(days: 7));
+      }
+    }
+
+
+/*
     firstNotification = DateTime.utc(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
     final pacificTimeZone = tz.getLocation('Europe/Paris');
     //arreglar lo de les zones horaries.
