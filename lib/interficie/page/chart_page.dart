@@ -37,7 +37,7 @@ class ChartPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child:
               SizedBox(
-                width: 800.0,
+                width: 500.0,
                 height: 500.0,
                 child: OcupationChart(createData(), animate: false),
               )
@@ -55,13 +55,13 @@ class ChartPage extends StatelessWidget {
     return [
       charts.Series<DataGraphic, String>(
           id: 'Ocupacio',
-          domainFn: (DataGraphic occupation, _) => occupation.hour.toString(),
+          colorFn: (_, __) => charts.MaterialPalette.purple.shadeDefault,
+          domainFn: (DataGraphic occupation, _) => occupation.hour.toInt().toString(),
           measureFn: (DataGraphic occupation, _) => occupation.percentage.round(),
           data: data,
           // Set a label accessor to control the text of the bar label.
 
-          labelAccessorFn: (DataGraphic occupation, _) =>
-          '${occupation.percentage.toString()}%')
+      )
     ];
   }
 

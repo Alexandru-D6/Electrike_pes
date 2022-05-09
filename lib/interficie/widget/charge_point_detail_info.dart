@@ -70,8 +70,9 @@ class _EditInfoPointState extends State<EditInfoPoint> {
         IconButton(
           onPressed: () async {
           await ctrlPresentation.getOcupationCharger(widget.latitude, widget.longitude);
-
-          ctrlPresentation.toChartPage(context, "hacerlo de otra manera"); //TODO: posible error? ponerle las coordenadas y hacer consulta a database por ejemplo
+          ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
+            ctrlPresentation.toChartPage(context, element[1]);
+          });
           },
           icon: const Icon(
             Icons.bar_chart,
