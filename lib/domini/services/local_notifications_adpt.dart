@@ -11,6 +11,7 @@ import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_local_notifications_linux/flutter_local_notifications_linux.dart';
 
 class LocalNotificationAdpt {
   //NotificationService a singleton object
