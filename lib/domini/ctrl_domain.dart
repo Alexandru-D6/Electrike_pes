@@ -21,6 +21,7 @@ import 'package:location/location.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:tuple/tuple.dart';
 
 class CtrlDomain {
   CtrlDomain._internal();
@@ -788,7 +789,7 @@ class CtrlDomain {
     
   // Si el punto de carga no es de Barcelona, se mostrará <unknown> en el status.
   // Sólo puede haber una notificacion instantania en un momento dado.
-  // Si se llama esta función y ya hay una notificación instantanea, ésta se sobreescribirá.
+  // Si se llama esta función y ya hay una notificación instantanea en este momento, ésta se sobreescribirá.
   void showInstantNotification(double lat, double long) {
     serviceLocator<LocalNotificationAdpt>().showInstantNotification(lat, long);
   }
@@ -829,10 +830,28 @@ class CtrlDomain {
     serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
   }
 
+  /*
+  For adding a list of scheduled notifications of a certain chargePoint.
+  Tuple3:
+    1r -> dayOfTheWeek (day between 1 (Monday) to 7 (Sunday))
+    2n -> iniHour
+    3r -> iniMinute
+   */
+  void addListOfSheduledNotificationFavoriteChargePoint(double lat, double long, List<Tuple3<int, int, int>> l) {
+    for (var notif in l) {
+      addSheduledNotificationFavoriteChargePoint(lat, long, notif.item1, notif.item2, notif.item3);
+    }
+  }
+
   void removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, dayOfTheWeek, iniHour, iniMinute);
   }
 
+  void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) {
+    for (var notif in l) {
+      removeScheduledNotification(lat, long, notif.item1, notif.item2, notif.item3);
+    }
+  }
 
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
