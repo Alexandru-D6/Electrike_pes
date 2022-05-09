@@ -79,7 +79,6 @@ dependencies:
   # listen for notifications
   rxdart: ^0.27.1
   day_picker: ^2.1.1
-  flutter_local_notifications_platform_interface: ^5.0.0
 
 dev_dependencies:
   integration_test:

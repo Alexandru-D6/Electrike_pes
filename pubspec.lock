@@ -229,7 +229,7 @@ packages:
     source: hosted
     version: "0.4.2"
   flutter_local_notifications_platform_interface:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
       url: "https://pub.dartlang.org"

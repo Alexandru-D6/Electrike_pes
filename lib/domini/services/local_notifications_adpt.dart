@@ -11,9 +11,8 @@ import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart';
 
-class LocalNotificationAdpt extends FlutterLocalNotificationsPlatform {
+class LocalNotificationAdpt {
   //NotificationService a singleton object
   static final LocalNotificationAdpt _notificationService =
   LocalNotificationAdpt._internal();
@@ -31,9 +30,6 @@ class LocalNotificationAdpt extends FlutterLocalNotificationsPlatform {
   static final List<Tuple6<int, double, double, int, int, int>> _currentNotifications = [];
 
   Future<void> init() async {
-    FlutterLocalNotificationsPlatform.instance = MyFlutterLocalNotificationsPlatform();
-
-
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
