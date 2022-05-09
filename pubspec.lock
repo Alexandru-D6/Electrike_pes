@@ -222,7 +222,7 @@ packages:
     source: hosted
     version: "9.5.1"
   flutter_local_notifications_linux:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_local_notifications_linux
       url: "https://pub.dartlang.org"

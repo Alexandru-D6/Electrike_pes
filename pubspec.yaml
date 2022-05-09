@@ -75,7 +75,6 @@ dependencies:
 
   # show local notifications
   flutter_local_notifications: ^9.4.0
-  flutter_local_notifications_linux: ^0.4.2
 
   # listen for notifications
   rxdart: ^0.27.1
