@@ -5,39 +5,6 @@ Color mCardColor = const Color(0xFF203e5a);
 Color cBicingRed = const Color(0xFFec001a);
 Color cTransparent = const Color(0x00000000);
 
-List itemsInformationApp = [
-  {
-    "header": "Learn",
-    "description":
-    "Online chat which provides its users maximum functionality to simplify the search",
-    "image": "assets/brandCars/aiways.png"
-  },
-  {
-    "header": "Build",
-    "description":
-    "Online chat which provides its users maximum functionality to simplify the search",
-    "image": "assets/brandCars/seat.png"
-  },
-  {
-    "header": "Launch",
-    "description":
-    "Online chat which provides its users maximum functionality to simplify the search",
-    "image": "assets/brandCars/mercedes.png"
-  },
-  {
-    "header": "Invest",
-    "description":
-    "Online chat which provides its users maximum functionality to simplify the search",
-    "image": "assets/brandCars/porsche.png"
-  },
-  {
-    "header": "Travel",
-    "description":
-    "Online chat which provides its users maximum functionality to simplify the search",
-    "image": "assets/brandCars/rayo.png"
-  }
-];
-
 const List<String> allPlugTypeList = [
   'Schuko',
   'Mennekes',
