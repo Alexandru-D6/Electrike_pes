@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
       '/newCar': (context) => const NewCarPage(),
       '/favourites': (context) => const FilterFavsItems(),
       '/rewards': (context) => const RewardsPage(),
-      '/info': (context) => const InformationAppPage(),
+      '/info': (context) => InformationAppPage(),
       '/chart': (context) => const ChartPage(),
     },
   );
