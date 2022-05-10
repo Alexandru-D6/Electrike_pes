@@ -69,7 +69,7 @@ class InfoRuta extends StatelessWidget {
             ): SizedBox(
             height: 150,
             width: 150,
-            child: Image.asset("assets/brandCars/RAYO.png"),
+            child: Image.asset("assets/brandCars/rayo.png"),
           ),
           const Divider(
             height: 16,
