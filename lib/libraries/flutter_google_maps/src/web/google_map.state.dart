@@ -844,6 +844,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         String? endLabel,
         String? endIcon,
         String? endInfo,
+        Color? color,
       }) {
 
     _directions.putIfAbsent(

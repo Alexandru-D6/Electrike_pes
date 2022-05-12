@@ -6,6 +6,7 @@ import 'dart:async' show FutureOr;
 import 'dart:ui' show Color, VoidCallback;
 
 import 'package:flutter/foundation.dart' show ValueChanged;
+import 'package:flutter/material.dart';
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 
 import 'map_items.dart';
@@ -280,6 +281,7 @@ abstract class CustomFunctions {
       String? endLabel,
       String? endIcon,
       String? endInfo,
+      Color? color,
   });
 
   void addChoosenMarkers(String group);

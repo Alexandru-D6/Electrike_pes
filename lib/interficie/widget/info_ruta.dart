@@ -107,12 +107,9 @@ class InfoRuta extends StatelessWidget {
             color: Color(0x00000000),
           ),
       ElevatedButton(
-          onPressed: () {
-              ctrlPresentation.toMainPage(context);
-              Future.delayed(const Duration(milliseconds: 500), ()
-              {
-                ctrlPresentation.makeRoute();
-              });
+          onPressed: () async {
+            await ctrlPresentation.makeRoute();
+            ctrlPresentation.toMainPage(context);
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(

@@ -4,6 +4,7 @@
 
 import 'dart:async' show FutureOr;
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:google_directions_api/google_directions_api.dart'
@@ -184,6 +185,7 @@ class GoogleMapState extends GoogleMapStateBase {
         String? endLabel,
         String? endIcon,
         String? endInfo,
+        Color? color,
       }) => throw UnimplementedError();
 
   @override

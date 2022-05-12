@@ -300,7 +300,8 @@ class CtrlPresentation {
             startLabel: '1',
             startInfo: 'Origin',
             endIcon: 'assets/images/rolls_royce.png',
-            endInfo: 'Destination'
+            endInfo: 'Destination',
+            color: Colors.deepPurple,
         );
       });
     }

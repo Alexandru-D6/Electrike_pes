@@ -41,6 +41,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   final _inside_bicing = const ["bicingPoints", "favBicingPoints"];
 
   final List<double> _cluster_levels = const [1, 3, 5, 7, 10, 13, 14.25, 14.5, 20.0];
+  final List<double> _cluster_levels_route = const [1,2,3];
 
   Set<Marker> _shown_markers_bicing = <Marker>{};
   Set<Marker> _shown_markers_charger = <Marker>{};
@@ -258,6 +259,9 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         }else if (_inside_bicing.contains(group)) {
           _items_bicing.remove(key);
           _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+        }else if (group!.contains("route")){
+          _items_route.remove(key);
+          _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
         }else {
           _items_general.remove(key);
           _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
@@ -444,6 +448,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _markers.remove("route2");
     removeChoosenMarker("route1");
     removeChoosenMarker("route2");
+    _shown_markers_route.clear();
+    _items_route.clear();
 
   }
 
@@ -587,7 +593,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, markerBuilder: _markerBuilder(Colors.red), levels: _cluster_levels);
     _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, markerBuilder: _markerBuilder(Colors.blue), levels: _cluster_levels);
     _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.yellow), levels: _cluster_levels);
-    _manager_route = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_route.values), _updateMarkersRoute, markerBuilder: _markerBuilder(Colors.green), levels: _cluster_levels);
+    _manager_route = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_route.values), _updateMarkersRoute, markerBuilder: _markerBuilder(Colors.green), levels: _cluster_levels_route);
 
     super.initState();
     SchedulerBinding.instance!.addPostFrameCallback((_) {
@@ -599,29 +605,29 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   void _updateMarkersBicing(Set<Marker> markers) {
     _setState(() {
+      _shown_markers_bicing.clear();
       _shown_markers_bicing = markers;
     });
   }
 
   void _updateMarkersGeneral(Set<Marker> markers) {
     _setState(() {
+      _shown_markers_general.clear();
       _shown_markers_general = markers;
     });
   }
 
   void _updateMarkersCharger(Set<Marker> markers) {
     _setState(() {
+      _shown_markers_charger.clear();
       _shown_markers_charger = markers;
     });
   }
 
   void _updateMarkersRoute(Set<Marker> markers) {
     _setState(() {
+      _shown_markers_route.clear();
       _shown_markers_route = markers;
-      print("--->");
-      print(markers);
-      print(_markers.keys);
-      print(_markers.values);
     });
   }
 
@@ -827,6 +833,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         String? endLabel,
         String? endIcon,
         String? endInfo,
+        Color? color,
       }) {
 
     final request = DirectionsRequest(
@@ -897,7 +904,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             polylineId: polylineId,
             points: response.routes?.firstOrNull?.overviewPath?.mapList((_) => _.toLatLng()) ??
                 ((startLatLng != null && endLatLng != null) ? [startLatLng.toLatLng(), endLatLng.toLatLng()] : []),
-            color: const Color(0xcc2196F3),
+            color: color as Color,
             startCap: Cap.roundCap,
             endCap: Cap.roundCap,
             width: 8,
@@ -907,8 +914,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             addMarkerRaw(element, "route2");
           });
 
-          addChoosenMarkers("route2");
           addChoosenMarkers("route1");
+          addChoosenMarkers("route2");
 
           _setState(() => _polylines[key] = polyline);
         }
@@ -927,7 +934,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         _items_bicing.addAll(_markers[group]!);
         _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
       }else if (group.contains("route")) {
-        print("check");
         _items_route.addAll(_markers[group]!);
         _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
       }else {
@@ -981,10 +987,18 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       _items_general.addAll(_markers["default"]!);
     }
 
+    if (_markers.containsKey("route1")) {
+      _items_route.addAll(_markers["route1"]!);
+    }
+
+    if (_markers.containsKey("route2")) {
+      _items_route.addAll(_markers["route2"]!);
+    }
+
     _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
     _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
     _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
-    _manager_general.setItems(List<items_t.Marker>.of(_items_route.values));
+    _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
   }
 
   @override
@@ -1062,16 +1076,19 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                 _manager_bicing.setMapId(controller.mapId);
                 _manager_general.setMapId(controller.mapId);
                 _manager_charger.setMapId(controller.mapId);
+                _manager_route.setMapId(controller.mapId);
               },
               onCameraMove: (position) {
                 _manager_bicing.onCameraMove(position);
                 _manager_general.onCameraMove(position);
                 _manager_charger.onCameraMove(position);
+                _manager_route.onCameraMove(position);
               },
               onCameraIdle: () {
                 _manager_bicing.updateMap();
                 _manager_charger.updateMap();
                 _manager_general.updateMap();
+                _manager_route.updateMap();
               },
               padding: widget.mobilePreferences.padding,
               compassEnabled: widget.mobilePreferences.compassEnabled,
