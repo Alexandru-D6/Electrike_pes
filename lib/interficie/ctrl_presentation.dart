@@ -562,7 +562,6 @@ class CtrlPresentation {
       ],
     );
   }
-}
 
   Future<void> getOcupationCharger(double latitude, double longitude) async {
     await ctrlDomain.getOcupationCharger(latitude, longitude);
