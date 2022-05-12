@@ -28,10 +28,30 @@ class ChargePointDetailInformation extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              EditInfoPoint(latitude: latitude, longitude: longitude,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      ctrlPresentation.showLegendDialog(context, "chargePoint");
+                    },
+                    icon: const Icon(
+                      Icons.info,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  EditInfoPoint(latitude: latitude, longitude: longitude,),
+                ],
+              ),
             ],
           ),
           const Divider(
@@ -68,18 +88,23 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
-          onPressed: () {
-            ctrlPresentation.toChartPage(context, "hacerlo de otra manera"); //TODO: posible error? ponerle las coordenadas y hacer consulta a database por ejemplo
+          onPressed: () async {
+          await ctrlPresentation.getOcupationCharger(widget.latitude, widget.longitude);
+          ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
+            ctrlPresentation.toChartPage(context, element[1]);
+          });
           },
           icon: const Icon(
             Icons.bar_chart,
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude);
+          },
           icon: const Icon(
             Icons.share,
-          ),//TODO: Share
+          ),
         ),
       ],
     );

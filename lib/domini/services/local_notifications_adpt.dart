@@ -181,7 +181,7 @@ class LocalNotificationAdpt {
     FlutterLocalNotificationsPlugin();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('logo.png');
+    AndroidInitializationSettings('app_icon');
     /*
     final IOSInitializationSettings initializationSettingsIOS =
     IOSInitializationSettings(

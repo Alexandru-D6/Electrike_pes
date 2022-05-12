@@ -13,6 +13,7 @@ import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/interficie/page/splash_page.dart';
+import 'package:flutter_project/interficie/page/time_picker_page.dart';
 import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
@@ -76,8 +77,9 @@ class MyApp extends StatelessWidget {
           '/editCar': (context) => const EditCarPage(),
           '/favourites': (context) => const FilterFavsItems(),
           '/rewards': (context) => const RewardsPage(),
-          '/info': (context) => const InformationAppPage(),
+          '/info': (context) => InformationAppPage(),
           '/chart': (context) => const ChartPage(),
+          '/time': (context) => TimePickerPage(),
         },
       );
     }
