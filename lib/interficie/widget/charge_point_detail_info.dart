@@ -28,10 +28,30 @@ class ChargePointDetailInformation extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              EditInfoPoint(latitude: latitude, longitude: longitude,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      ctrlPresentation.showLegendDialog(context, "chargePoint");
+                    },
+                    icon: const Icon(
+                      Icons.info,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  EditInfoPoint(latitude: latitude, longitude: longitude,),
+                ],
+              ),
             ],
           ),
           const Divider(
@@ -79,10 +99,12 @@ class _EditInfoPointState extends State<EditInfoPoint> {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude);
+          },
           icon: const Icon(
             Icons.share,
-          ),//TODO: Share
+          ),
         ),
       ],
     );

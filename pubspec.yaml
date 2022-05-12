@@ -80,6 +80,7 @@ dependencies:
   rxdart: ^0.27.1
   day_picker: ^2.1.1
   introduction_screen: ^3.0.2
+  simple_speed_dial: ^0.1.6
 
 dev_dependencies:
   integration_test:
