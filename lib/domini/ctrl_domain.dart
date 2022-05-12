@@ -896,4 +896,11 @@ class CtrlDomain {
     }
     return data;
   }
+   void ahorramentCO2(double kmrecorreguts){
+    double co2KmVHCombustible = 2392.0*6.0/100.0;
+    double co2kWh = 440.0;
+    double diff = co2KmVHCombustible*kmrecorreguts-co2kWh*(vhselected.efficiency*kmrecorreguts/1000.0);
+    usuari.co2Estalviat += diff;
+
+  }
 }

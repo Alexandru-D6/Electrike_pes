@@ -11,7 +11,7 @@ class Usuari {
   late String name;
   late String foto;
   late int kmRecorregut;
-  late int co2Estalviat;
+  late double co2Estalviat;
   late Trofeu t;
   String idiom = "";
 
