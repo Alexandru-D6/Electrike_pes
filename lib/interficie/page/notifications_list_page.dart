@@ -81,9 +81,9 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
   }
 
   void _removeItem(int index, List<String> removeItem) {
-    AnimatedListRemovedItemBuilder builder = (context, animation) {
+    builder(context, animation) {
       return _buildItem(removeItem, animation, index);
-    };
+    }
     _key.currentState?.removeItem(index, builder);
   }
 
