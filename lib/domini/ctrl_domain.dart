@@ -880,7 +880,7 @@ class CtrlDomain {
     }
     for(var dada in resp['items']){
       dadesChargerselected[dada['WeekDay']]![0].add(double.parse(dada["Hour"].toString()));
-      dadesChargerselected[dada['WeekDay']]![1].add(double.parse(double.parse(dada["Ocupation"].toString()).toStringAsFixed(2))/double.parse(dada["Capacity"].toString())*100.0);
+      dadesChargerselected[dada['WeekDay']]![1].add(double.parse((double.parse(dada["Ocupation"].toString())/double.parse(dada["Capacity"].toString())*100.0).toStringAsFixed(2)));
     }
     print(dadesChargerselected);
   }

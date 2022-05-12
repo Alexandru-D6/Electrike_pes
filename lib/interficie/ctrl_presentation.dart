@@ -17,6 +17,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../domini/data_graphic.dart';
+
 
 class CtrlPresentation {
   static final CtrlPresentation _singleton = CtrlPresentation._internal();
@@ -454,6 +456,7 @@ class CtrlPresentation {
     ctrlDomain.showInstantNotification(lat, long);
   }
 
+
   void share({required double latitude, required double longitude}) {
     print("share button");
   }
@@ -561,3 +564,12 @@ class CtrlPresentation {
   }
 }
 
+  Future<void> getOcupationCharger(double latitude, double longitude) async {
+    await ctrlDomain.getOcupationCharger(latitude, longitude);
+  }
+  
+  List<DataGraphic>getInfoGraphic(String day) {
+    return ctrlDomain.getInfoGraphic(day);
+  }
+  
+}
