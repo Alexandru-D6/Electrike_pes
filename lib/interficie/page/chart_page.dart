@@ -50,7 +50,7 @@ class ChartPage extends StatelessWidget {
   static List<charts.Series<DataGraphic, String>> createData() {
     //todo por aqui recibir la variable data que se vaya actualizando, hay que hablar de como hacerlo, mi idea es que vaya cambiando esta variable y el usuario para ver los cambios tenga que cargar un grafico nuevo, y nos dejamos de statefuls
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    final data = ctrlPresentation.getInfoGraphic("Thursday");
+    final data = ctrlPresentation.getInfoGraphic("Sunday");
 
     return [
       charts.Series<DataGraphic, String>(

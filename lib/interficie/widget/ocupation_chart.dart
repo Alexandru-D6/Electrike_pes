@@ -39,6 +39,21 @@ class OcupationChart extends StatelessWidget {
       // Configure the axis spec to show percentage values.
       //primaryMeasureAxis: charts.NumericAxisSpec(),
       //barRendererDecorator: charts.BarLabelDecorator<String>(),
+      behaviors: [
+        charts.ChartTitle('Grafica Ocupació', //todo: peilin multi
+            subTitle: '% Ocupació', //todo(): peilin multi
+            behaviorPosition: charts.BehaviorPosition.top,
+            titleOutsideJustification: charts.OutsideJustification.start,
+            // Set a larger inner padding than the default (10) to avoid
+            // rendering the text too close to the top measure axis tick label.
+            // The top tick label may extend upwards into the top margin region
+            // if it is located at the top of the draw area.
+            innerPadding: 18),
+        charts.ChartTitle('Hores del dia', //todo: peilin multiidiomas
+            behaviorPosition: charts.BehaviorPosition.bottom,
+            titleOutsideJustification:
+            charts.OutsideJustification.middleDrawArea),
+      ],
       domainAxis: const charts.OrdinalAxisSpec(
           renderSpec: charts.SmallTickRendererSpec(
         // Tick and Label styling here.
