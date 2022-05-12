@@ -481,7 +481,7 @@ class CtrlPresentation {
         break;
       case "bicingPoint":
         title = "Leyenda Punto de bicing";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-        body = makeBodyAlertChargePoint();
+        body = buildBicingHeader();
         break;
       case "favsPage":
         title = "Leyenda Favs page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
@@ -507,41 +507,115 @@ class CtrlPresentation {
     return SingleChildScrollView(
         child:
             Padding(
-              padding: const EdgeInsets.all(84.0),
+              padding: const EdgeInsets.all(18.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  buildHeader(
+                    name: "Station name", //todo: translate
+                    calle: "Street name", //todo: translate
+                    city: "City placed", //todo: translate
+                    numChargePlaces: "Charge places", //todo: translate
+                  ),
+                  const SizedBox(width: 20),
                   buildIconLabeled(
                     icon: Icons.check_circle_rounded,
                     color: Colors.greenAccent,
                     label: "Available Chargers", //todo: translate
-                    description: "Indicates the number of available chargers.",
+                    description: "Indicates the number of available chargers.", //todo: translate
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
                   buildIconLabeled(
                     icon: Icons.help,
                     color: Colors.yellow,
-                    label: "Unknown State",
-                    description: "Indicates the number of unknown state chargers.",
+                    label: "Unknown State", //todo: translate
+                    description: "Indicates the number of unknown state chargers.", //todo: translate
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
                   buildIconLabeled(
                     icon: Icons.warning,
                     color: Colors.amber,
-                    label: "Crashed State",
-                    description: "Indicates the number of crashed chargers.",
+                    label: "Crashed State", //todo: translate
+                    description: "Indicates the number of crashed chargers.", //todo: translate
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
                   buildIconLabeled(
                     icon: Icons.stop_circle,
                     color: Colors.red,
-                    label: "Not Available Chargers",
-                    description: "Indicates the number of unavailable chargers.",
+                    label: "Not Available Chargers", //todo: translate
+                    description: "Indicates the number of unavailable chargers.", //todo: translate
                   ),
                 ],
               ),
             ),
+    );
+  }
+
+  Widget buildHeader({
+    required String name,
+    required String calle,
+    required String city,
+    required String numChargePlaces,
+  }) {
+    const Color fontColor = Colors.black;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Icon(Icons.ev_station, size: 60, color: fontColor,),
+        const SizedBox(width: 6),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                name,
+                style: const TextStyle(
+                  color: fontColor,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 1,
+              ),
+              AutoSizeText(
+                calle,
+                style: const TextStyle(
+                  color: fontColor,
+                ),
+                maxLines: 1,
+              ),
+              AutoSizeText(
+                city,
+                style: const TextStyle(
+                  color: fontColor,
+                ),
+                maxLines: 1,
+              ),
+
+              Row(
+                children: [
+                  AutoSizeText(
+                    numChargePlaces.toString(),
+                    style: const TextStyle(
+                      color: fontColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                  ),
+                  const Icon(
+                    Icons.local_parking,
+                    color: fontColor,
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -550,7 +624,9 @@ class CtrlPresentation {
     required Color color,
     required String label,
     required String description}) {
-    return Row(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(icon, color: color,),
         const SizedBox(width: 10),
@@ -570,9 +646,54 @@ class CtrlPresentation {
             color: Colors.black54,
             fontSize: 16,
           ),
-          maxLines: 1,
         ),
       ],
+    );
+  }
+
+  buildBicingHeader(){
+    const Color fontColor = Colors.black;
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const ListTile(
+            leading: Icon(Icons.pedal_bike, color: fontColor, size: 45,),
+            title: AutoSizeText(
+              "Bicing station name", //todo: translate
+              style: TextStyle(
+                color: fontColor,
+                fontSize: 24,
+              ),
+              maxLines: 1,
+            ),
+          ),
+          const Divider(
+            height: 16,
+            color: Colors.black54,
+          ),
+
+          buildIconLabeled(
+            icon: Icons.local_parking,
+            color: fontColor,
+            label: "Free bike holders", //todo: translate
+            description: "Indicates the number of free bike holders (parkings).", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.pedal_bike,
+            color: fontColor,
+            label: "Available pedal bikes", //todo: translate
+            description: "Indicates the number of available pedal bikes.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.electric_bike,
+            color: fontColor,
+            label: "Available electric bikes", //todo: translate
+            description: "Indicates the number of available electric bikes.", //todo: translate
+          ),
+        ],
+      ),
     );
   }
 
