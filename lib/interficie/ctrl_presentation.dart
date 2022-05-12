@@ -485,7 +485,7 @@ class CtrlPresentation {
         break;
       case "favsPage":
         title = "Leyenda Favs page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-        body = makeBodyAlertChargePoint();
+        body = makeFavouritesLegend();
         break;
       default:
         title = "Default title";
@@ -691,6 +691,59 @@ class CtrlPresentation {
             color: fontColor,
             label: "Available electric bikes", //todo: translate
             description: "Indicates the number of available electric bikes.", //todo: translate
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget makeFavouritesLegend() {
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          buildIconLabeled(
+            icon: Icons.touch_app,
+            color: Colors.black,
+            label: "Click on the name", //todo: translate
+            description: "you can navigate to the point on the map location by clicking on the name.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.bar_chart,
+            color: Colors.green,
+            label: "See concurrency station stats", //todo: translate
+            description: "Shows stats about the concurrency of station during the day.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.notifications_off,
+            color: Colors.lightBlueAccent,
+            label: "Disable the notifications of a point", //todo: translate
+            description: "Disable the entire notifications of a point (if have any).", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.notifications_active,
+            color: Colors.blue,
+            label: "Enable the notifications of a point", //todo: translate
+            description: "Enable the entire notifications of a point (if have any) and you will receive the state of the station at the notification moment you set.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.settings,
+            color: Colors.grey,
+            label: "Notification settings", //todo: translate
+            description: "Shows all the notifications created of a point. Here you can add more or delete others.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.favorite,
+            color: Colors.red,
+            label: "Remove from favourites", //todo: translate
+            description: "When it's clicked you can remove directly the point of your favourites list.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.filter_list_alt,
+            color: Colors.orangeAccent,
+            label: "Filter between types", //todo: translate
+            description: "Also you can filter the types of favourites points using the bottom buttons.", //todo: translate
           ),
         ],
       ),
