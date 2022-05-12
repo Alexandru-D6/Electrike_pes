@@ -269,7 +269,7 @@ class CtrlPresentation {
       location.getLocation().then((value) {
         String origin = value.latitude.toString() + "," + value.longitude.toString();
         if(actualLocation != "Your location") origin = actualLocation;
-        GoogleMap.of(getMapKey())?.addDirection(
+        GoogleMap.of(getMapKey())?.displayRoute(
             origin,
             destination,
             startLabel: '1',
@@ -280,8 +280,8 @@ class CtrlPresentation {
       });
     }
     else if(routeType == 1){
-      var destT = await getMapsService.adressCoding(destination);
-      GeoCoord dest = GeoCoord(destT!.lat!, destT.lng!);
+      print(destination);
+      var dest = await getMapsService.adressCoding(destination);
       double bat = double.parse(bateria);
 
       location.getLocation().then((value) async {
@@ -294,8 +294,8 @@ class CtrlPresentation {
             value.longitude.toString();
         if (actualLocation != "Your location") origin = actualLocation;
         GoogleMap.of(getMapKey())?.displayRoute(
-            orig,
-            dest,
+            origin,
+            destination,
             waypoints: rutaCharger.waypoints,
             startLabel: '1',
             startInfo: 'Origin',

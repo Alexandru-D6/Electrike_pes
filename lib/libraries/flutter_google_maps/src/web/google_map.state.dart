@@ -319,7 +319,11 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _directions.putIfAbsent(
       '${origin}_$destination',
       () {
-        DirectionsRenderer direction = DirectionsRenderer(DirectionsRendererOptions()..suppressMarkers = true);
+        DirectionsRendererOptions dro = DirectionsRendererOptions();
+        PolylineOptions po = PolylineOptions()..strokeColor = "#00FF00";
+        dro..suppressMarkers = true;
+        dro..polylineOptions = po;
+        DirectionsRenderer direction = DirectionsRenderer(dro);
         direction.map = _map;
 
         final request = DirectionsRequest()
@@ -835,8 +839,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void displayRoute(
-      GeoCoord origin,
-      GeoCoord destination, {
+      dynamic origin,
+      dynamic destination, {
         List<GeoCoord>? waypoints,
         String? startLabel,
         String? startIcon,
@@ -850,14 +854,18 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _directions.putIfAbsent(
       '${origin}_$destination',
           () {
-        DirectionsRenderer direction = DirectionsRenderer(DirectionsRendererOptions()..suppressMarkers = true);
+        DirectionsRendererOptions dro = DirectionsRendererOptions();
+        PolylineOptions po = PolylineOptions()..strokeColor = "#00FF00";
+        dro..suppressMarkers = true;
+        dro..polylineOptions = po;
+        DirectionsRenderer direction = DirectionsRenderer(dro);
         direction.map = _map;
 
         final request = DirectionsRequest()
-          ..origin = origin
-          ..destination = destination
-          ..travelMode = TravelMode.DRIVING
-          ..waypoints = getExplicitCoordinates((waypoints == null) ? <GeoCoord>[] : waypoints);
+          ..origin = origin is GeoCoord ? LatLng(origin.latitude, origin.longitude) : origin
+          ..destination = destination is GeoCoord ? destination.toLatLng() : destination
+          ..travelMode = TravelMode.DRIVING;
+          //..waypoints = getExplicitCoordinates((waypoints == null) ? <GeoCoord>[] : waypoints);
         directionsService.route(
           request,
               (response, status) {

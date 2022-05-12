@@ -272,8 +272,8 @@ abstract class CustomFunctions {
   Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]);
 
   void displayRoute(
-    GeoCoord origin,
-      GeoCoord destination, {
+    dynamic origin,
+    dynamic destination, {
       List<GeoCoord>? waypoints,
       String? startLabel,
       String? startIcon,
