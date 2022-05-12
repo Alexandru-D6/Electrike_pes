@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
@@ -14,6 +16,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../domini/data_graphic.dart';
 
 
 class CtrlPresentation {
@@ -391,7 +395,6 @@ class CtrlPresentation {
   void deleteCar(BuildContext context, String idVehicle) {
     ctrlDomain.removeVUser(idVehicle);
     toGaragePage(context);
-    //toGaragePage(context);
   }
 
   void saveCar(BuildContext context,
@@ -457,4 +460,119 @@ class CtrlPresentation {
   void removeShceduledNotification(/*DateTime when, */double lat, double long) {
     ctrlDomain.removeScheduledNotification(lat, long, 0, 0, 0);
   }
+
+  void share({required double latitude, required double longitude}) {
+    print("share button");
+  }
+
+  void showLegendDialog(BuildContext context, String s) {
+    switch (s){
+      case "chargePoint":
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.INFO,
+          animType: AnimType.LEFTSLIDE,
+          title: "Leyenda Punto de carga",//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+          body: makeBodyAlertChargePoint(),
+          btnOkOnPress: () {},
+          headerAnimationLoop: false,
+        ).show();
+        break;
+      case "bicingPoint":
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.INFO,
+          animType: AnimType.LEFTSLIDE,
+          title: "You aren't logged",//todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
+          desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: AppLocalizations.of(context).alertSureDeleteCarContent,
+          btnOkOnPress: () {},
+          headerAnimationLoop: false,
+        ).show();
+        break;
+      default:
+        break;
+    }
+  }
+
+  Widget makeBodyAlertChargePoint() {
+    return SingleChildScrollView(
+        child:
+            Padding(
+              padding: const EdgeInsets.all(84.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  buildIconLabeled(
+                    icon: Icons.check_circle_rounded,
+                    color: Colors.greenAccent,
+                    label: "Available Chargers", //todo: translate
+                    description: "Indicates the number of available chargers.",
+                  ),
+                  const SizedBox(width: 10),
+                  buildIconLabeled(
+                    icon: Icons.help,
+                    color: Colors.yellow,
+                    label: "Unknown State",
+                    description: "Indicates the number of unknown state chargers.",
+                  ),
+                  const SizedBox(width: 10),
+                  buildIconLabeled(
+                    icon: Icons.warning,
+                    color: Colors.amber,
+                    label: "Crashed State",
+                    description: "Indicates the number of crashed chargers.",
+                  ),
+                  const SizedBox(width: 10),
+                  buildIconLabeled(
+                    icon: Icons.stop_circle,
+                    color: Colors.red,
+                    label: "Not Available Chargers",
+                    description: "Indicates the number of unavailable chargers.",
+                  ),
+                ],
+              ),
+            ),
+    );
+  }
+
+  buildIconLabeled({
+    required IconData icon,
+    required Color color,
+    required String label,
+    required String description}) {
+    return Row(
+      children: [
+        Icon(icon, color: color,),
+        const SizedBox(width: 10),
+        AutoSizeText(
+          label,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          maxLines: 1,
+        ),
+        const SizedBox(width: 5),
+        AutoSizeText(
+          description,
+          style: const TextStyle(
+            color: Colors.black54,
+            fontSize: 16,
+          ),
+          maxLines: 1,
+        ),
+      ],
+    );
+  }
+
+  Future<void> getOcupationCharger(double latitude, double longitude) async {
+    await ctrlDomain.getOcupationCharger(latitude, longitude);
+  }
+  
+  List<DataGraphic>getInfoGraphic(String day) {
+    return ctrlDomain.getInfoGraphic(day);
+  }
+  
 }
