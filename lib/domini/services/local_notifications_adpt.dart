@@ -89,7 +89,7 @@ class LocalNotificationAdpt {
     List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
 
     late String state;
-    if (dadesCargadors[5] != "0") {
+    if (dadesCargadors[6] != "0" || dadesCargadors[10] != "0" || dadesCargadors[14] != "0"|| dadesCargadors[18] != "0") {
       state = "<unknown>";
     } else {
       state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
@@ -99,7 +99,7 @@ class LocalNotificationAdpt {
     _currentNotifications.add(Tuple6<int, double, double,int, int, int>(id,lat,long,when.weekday,when.hour,when.minute));
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-        id,
+        0,
         "Charger point " + dadesCargadors[1] + " state",
         "Your charger point has " +state+ " available chargers.",
         tz.TZDateTime.from(when, tz.local),

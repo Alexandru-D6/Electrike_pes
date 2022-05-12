@@ -44,7 +44,8 @@ class _FavsChargersState extends State<FavsChargers> {
                               icon: (const Icon(Icons.notification_add)),
                               color: Colors.blue,
                               onPressed: () {
-                              ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                              //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                                ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 4, 15, 24);
                               }
                           ),
                         IconButton(

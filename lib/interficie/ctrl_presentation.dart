@@ -574,5 +574,9 @@ class CtrlPresentation {
   List<DataGraphic>getInfoGraphic(String day) {
     return ctrlDomain.getInfoGraphic(day);
   }
-  
+
+  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    return ctrlDomain.addSheduledNotificationFavoriteChargePoint(lat, long, dayOfTheWeek, iniHour, iniMinute);
+}
+
 }
