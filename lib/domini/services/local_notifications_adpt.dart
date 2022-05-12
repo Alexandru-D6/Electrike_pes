@@ -99,7 +99,7 @@ class LocalNotificationAdpt {
     _currentNotifications.add(Tuple6<int, double, double,int, int, int>(id,lat,long,when.weekday,when.hour,when.minute));
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
+        0 /*id*/,
         "Charger point " + dadesCargadors[1] + " state",
         "Your charger point has " +state+ " available chargers.",
         tz.TZDateTime.from(when, tz.local),
