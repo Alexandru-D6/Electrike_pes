@@ -10,6 +10,7 @@ import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_map
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
+import 'package:simple_speed_dial/simple_speed_dial.dart';
 import '../../domini/rutes/rutes_amb_carrega.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
@@ -186,7 +187,9 @@ class _MyMapState extends State<MyMap> {
           ),
 
           Positioned(
-            right: 56,
+            left: 16,
+            //right: 56,
+            right: kIsWeb ? 60 : 16,
             bottom: 16,
             child: FloatingActionButton(
               onPressed: () {
@@ -201,7 +204,7 @@ class _MyMapState extends State<MyMap> {
           ),
 
           Positioned(
-            left: 16,
+            //left: 16,
             right: kIsWeb ? 60 : 16,
             bottom: 16,
             child: Row(
@@ -237,40 +240,43 @@ class _MyMapState extends State<MyMap> {
     });
   }
 
-  Widget button(
+  SpeedDialChild button(
       { required String onPressed,
         required String heroTag,
         required String toolTip,
-        required Icon icon}) {
-    return FloatingActionButton(
+        required Icon icon,
+        required Color backgroundColor,
+        required Color foregroundColor}) {
+    return SpeedDialChild(
+      child: icon,
+      foregroundColor: foregroundColor,
+      backgroundColor: backgroundColor,
+      label: toolTip,
       onPressed: (){
         initMarkers(onPressed); //llamar a funcion de la libreria
       },
-      heroTag: heroTag,
-      tooltip: toolTip,
-      child: icon,
-      backgroundColor: mCardColor,
     );
   }
 
   List<Widget> _buildClearButtons() => [
     Padding(
       padding: const EdgeInsets.all(5.0),
-      child: AnimatedFloatingActionButton(
-          fabButtons: <Widget>[
-            button(onPressed: "default", heroTag: "hide", toolTip: "Hide markers", icon: const Icon(Icons.visibility_off)),
-            button(onPressed: "all", heroTag: "all", toolTip: "Show all markers", icon: const Icon(Icons.visibility)),
-            button(onPressed: "chargers", heroTag: "charger", toolTip: "See only chargers", icon: const Icon(Icons.power)),
-            button(onPressed: "bicing", heroTag: "bicing", toolTip: "See only bicing", icon: const Icon(Icons.pedal_bike)),
-            button(onPressed: "favs", heroTag: "favs", toolTip: "See only favourites", icon: const Icon(Icons.favorite)),
-          ],
-          colorStartAnimation: mPrimaryColor,
-          colorEndAnimation: Colors.red.shade900,
-          animatedIconData: AnimatedIcons.menu_close //To principal button
+      child: SpeedDial(
+        child: const Icon(Icons.filter_alt),
+        speedDialChildren: <SpeedDialChild>[
+          button(onPressed: "default", heroTag: "hide", toolTip: "Hide markers", icon: const Icon(Icons.visibility_off), backgroundColor: Colors.black12, foregroundColor: Colors.white), //todo: translate
+          button(onPressed: "all", heroTag: "all", toolTip: "Show all markers", icon: const Icon(Icons.visibility), backgroundColor: Colors.black12, foregroundColor: Colors.black),
+          button(onPressed: "chargers", heroTag: "charger", toolTip: "See only chargers", icon: const Icon(Icons.power), backgroundColor: mCardColor, foregroundColor: Colors.white),
+          button(onPressed: "bicing", heroTag: "bicing", toolTip: "See only bicing", icon: const Icon(Icons.pedal_bike), backgroundColor: cBicingRed, foregroundColor: Colors.white),
+          button(onPressed: "favs", heroTag: "favs", toolTip: "See only favourites", icon: const Icon(Icons.favorite), backgroundColor: Colors.red, foregroundColor: Colors.white),
+        ],
+        closedForegroundColor: Colors.black,
+        openForegroundColor: Colors.white,
+        closedBackgroundColor: Colors.white,
+        openBackgroundColor: Colors.black,
       ),
     ),
   ];
-
 
   void buildChargerMarkers(BuildContext context, int filter) {
     //GoogleMap.of(ctrlPresentation.getMapKey())
