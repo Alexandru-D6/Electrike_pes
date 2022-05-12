@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -230,14 +231,30 @@ class _FilterFavsItemsState extends State<FilterFavsItems> {
     });
   }
 
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: mPrimaryColor,
+      elevation: 0,
+      title: Text(AppLocalizations.of(context).favourites),
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.info,
+            color: Colors.white,
+          ),
+          onPressed: (){
+            ctrlPresentation.showLegendDialog(context, "favsPage");
+          },
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavigationDrawerWidget(),
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).favourites),
-        backgroundColor: mPrimaryColor,
-      ),
+      appBar: buildAppBar(context),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

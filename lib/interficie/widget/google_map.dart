@@ -168,7 +168,7 @@ class _MyMapState extends State<MyMap> {
                 zoomGesturesEnabled:true,
 
                 trafficEnabled: false,
-                zoomControlsEnabled: true,
+                zoomControlsEnabled: false,
               ),
 
 

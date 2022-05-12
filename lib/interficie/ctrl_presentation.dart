@@ -472,32 +472,35 @@ class CtrlPresentation {
   }
 
   void showLegendDialog(BuildContext context, String s) {
+    String title;
+    Widget body;
     switch (s){
       case "chargePoint":
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.INFO,
-          animType: AnimType.LEFTSLIDE,
-          title: "Leyenda Punto de carga",//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-          body: makeBodyAlertChargePoint(),
-          btnOkOnPress: () {},
-          headerAnimationLoop: false,
-        ).show();
+        title = "Leyenda Punto de carga";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        body = makeBodyAlertChargePoint();
         break;
       case "bicingPoint":
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.INFO,
-          animType: AnimType.LEFTSLIDE,
-          title: "You aren't logged",//todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-          desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: AppLocalizations.of(context).alertSureDeleteCarContent,
-          btnOkOnPress: () {},
-          headerAnimationLoop: false,
-        ).show();
+        title = "Leyenda Punto de bicing";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        body = makeBodyAlertChargePoint();
+        break;
+      case "favsPage":
+        title = "Leyenda Favs page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        body = makeBodyAlertChargePoint();
         break;
       default:
+        title = "Default title";
+        body = makeBodyAlertChargePoint();
         break;
     }
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.LEFTSLIDE,
+      title: title,
+      body: body,
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
   }
 
   Widget makeBodyAlertChargePoint() {
