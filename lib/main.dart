@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
           '/info': (context) => InformationAppPage(),
           '/chart': (context) => const ChartPage(),
           '/time': (context) => TimePickerPage(),
-          '/notificationsList': (context) => const NotificationsListPage(),
+          '/notificationsList': (context) => NotificationsListPage(),
         },
       );
     }
