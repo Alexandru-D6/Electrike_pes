@@ -10,6 +10,7 @@ import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
+import 'package:flutter_project/interficie/page/notifications_list_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/interficie/page/splash_page.dart';
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
           '/info': (context) => InformationAppPage(),
           '/chart': (context) => const ChartPage(),
           '/time': (context) => TimePickerPage(),
+          '/notificationsList': (context) => const NotificationsListPage(),
         },
       );
     }

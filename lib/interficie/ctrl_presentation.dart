@@ -158,12 +158,22 @@ class CtrlPresentation {
     );
   }
 
-  toTimePicker(BuildContext context){
+  toNotificationsPage(BuildContext context, double latitud, double longitud, List<List<String>> notifications, String title) {
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
+      context,
+      '/notificationsList',
+      arguments: NotificationsArgs(latitud, longitud, title, notifications),
+    );
+  }
+
+  toTimePicker(BuildContext context, double latitud, double longitud, String title){
     //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
       '/time',
+      arguments: NewNotificationArgs(latitud, longitud, title),
     );
   }
   //USER INFO FUNCTIONS
@@ -569,6 +579,19 @@ class CtrlPresentation {
   
   List<DataGraphic>getInfoGraphic(String day) {
     return ctrlDomain.getInfoGraphic(day);
+  }
+
+  bool hasNotifications(double latitud, double longitud) {
+    return true;
+  }
+
+  bool notificationsOn(double latitud, double longitud) {
+    return true;
+  }
+
+  List<List<String>> getNotifications(double latitud, double longitud) {
+    List<List<String>> notifications = [["18:24", "1", "3", "5"], ["18:00", "2", "4", "7", "6"], ["14:00", "1", "2","3", "4","5", "7", "6"]];
+    return notifications;
   }
   
 }

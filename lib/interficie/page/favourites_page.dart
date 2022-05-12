@@ -144,6 +144,8 @@ class _AllFavsState extends State<AllFavs> {
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = allFavPoints[index];
         String title = titles[index];
+        bool hasNotifications = ctrlPresentation.hasNotifications(word.latitud, word.longitud);
+        bool notificationsOn = ctrlPresentation.notificationsOn(word.latitud, word.longitud);
 
         return ListTile(
           title: Text(title),
@@ -159,9 +161,22 @@ class _AllFavsState extends State<AllFavs> {
                   }
               ),
               IconButton(
-                  icon: (const Icon(Icons.notification_add)),
-                  color: Colors.blue,
+                  color: hasNotifications ? Colors.blue : Colors.black12,
+                  icon: notificationsOn ?
+                  (const Icon(Icons.notifications_active)) :
+                  (const Icon(Icons.notifications_off)),
                   onPressed: () {
+                    if(!hasNotifications){
+
+                    }
+                    else{
+                      notificationsOn = !notificationsOn;
+                      setState(() {
+                        notificationsOn = !notificationsOn;
+
+                        //todo: conectar para avisar que ahora quiere las notificaciones de la lista
+                      });
+                    }
                     ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
                   }
               ),
@@ -169,7 +184,8 @@ class _AllFavsState extends State<AllFavs> {
                   icon: (const Icon(Icons.settings)),
                   color: Colors.grey,
                   onPressed: () {
-                    ctrlPresentation.toTimePicker(context);
+                    List<List<String>> notifications = ctrlPresentation.getNotifications(word.latitud, word.longitud);
+                    ctrlPresentation.toNotificationsPage(context, word.latitud, word.longitud, notifications, title);
                   }
               ),
               IconButton(
