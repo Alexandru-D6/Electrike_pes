@@ -28,10 +28,30 @@ class BicingPointDetailInformation extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              EditInfoPoint(latitude: latitud, longitude: longitud,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      ctrlPresentation.showLegendDialog(context, "bicingPoint");
+                    },
+                    icon: const Icon(
+                      Icons.info,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  EditInfoPoint(latitude: latitud, longitude: longitud,),
+                ],
+              ),
             ],
           ),
           StatefulPointInfo(latitude: latitud, longitude: longitud,),
