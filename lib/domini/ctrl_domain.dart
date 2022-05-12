@@ -6,6 +6,7 @@ import 'package:flutter_project/domini/endoll.dart';
 import 'package:flutter_project/domini/estacio_carrega.dart';
 import 'package:flutter_project/domini/favorit.dart';
 import 'package:flutter_project/domini/punt_bicing.dart';
+import 'package:flutter_project/domini/rutes/rutes_sense_carrega.dart';
 import 'package:flutter_project/domini/services/local_notifications_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
@@ -859,6 +860,12 @@ class CtrlDomain {
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
+    return routesResponse;
+  }
+
+  Future<RoutesResponse> infoRutaSenseCarrega(GeoCoord origen, GeoCoord desti) async {
+    RutesSenseCarrega rutesSenseCarrega = RutesSenseCarrega();
+    RoutesResponse routesResponse = await rutesSenseCarrega.infoRutaEstandar(origen, desti);
     return routesResponse;
   }
 

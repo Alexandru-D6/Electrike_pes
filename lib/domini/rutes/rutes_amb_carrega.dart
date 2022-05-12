@@ -77,6 +77,8 @@ class RutesAmbCarrega {
     double batRestant = bateriaRestant(bateriaPerc);
     double mRestants = autonomiaVh(batRestant)*1000.0;
     RouteResponse routeInfo= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(origen, desti);
+    routesResponse.setDuration(routeInfo.durationMinutes!);
+    routesResponse.setDistance(routeInfo.distanceMeters!);
 
       double? temp = routeInfo.distanceMeters;
       if (temp! <= mRestants) { // si la autonomia del cotxe és superior al recorregut que ha de fer, dirigeix automàticament
