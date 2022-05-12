@@ -187,7 +187,9 @@ class _MyMapState extends State<MyMap> {
           ),
 
           Positioned(
-            right: 56,
+            left: 16,
+            //right: 56,
+            right: kIsWeb ? 60 : 16,
             bottom: 16,
             child: FloatingActionButton(
               onPressed: () {
@@ -202,7 +204,7 @@ class _MyMapState extends State<MyMap> {
           ),
 
           Positioned(
-            left: 16,
+            //left: 16,
             right: kIsWeb ? 60 : 16,
             bottom: 16,
             child: Row(
@@ -243,10 +245,11 @@ class _MyMapState extends State<MyMap> {
         required String heroTag,
         required String toolTip,
         required Icon icon,
-        required Color backgroundColor}) {
+        required Color backgroundColor,
+        required Color foregroundColor}) {
     return SpeedDialChild(
       child: icon,
-      foregroundColor: Colors.white,
+      foregroundColor: foregroundColor,
       backgroundColor: backgroundColor,
       label: toolTip,
       onPressed: (){
@@ -259,13 +262,13 @@ class _MyMapState extends State<MyMap> {
     Padding(
       padding: const EdgeInsets.all(5.0),
       child: SpeedDial(
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.filter_alt),
         speedDialChildren: <SpeedDialChild>[
-          button(onPressed: "default", heroTag: "hide", toolTip: "Hide markers", icon: const Icon(Icons.visibility_off), backgroundColor: mCardColor), //todo: translate
-          button(onPressed: "all", heroTag: "all", toolTip: "Show all markers", icon: const Icon(Icons.visibility), backgroundColor: mCardColor),
-          button(onPressed: "chargers", heroTag: "charger", toolTip: "See only chargers", icon: const Icon(Icons.power), backgroundColor: mCardColor),
-          button(onPressed: "bicing", heroTag: "bicing", toolTip: "See only bicing", icon: const Icon(Icons.pedal_bike), backgroundColor: mCardColor),
-          button(onPressed: "favs", heroTag: "favs", toolTip: "See only favourites", icon: const Icon(Icons.favorite), backgroundColor: Colors.red),
+          button(onPressed: "default", heroTag: "hide", toolTip: "Hide markers", icon: const Icon(Icons.visibility_off), backgroundColor: Colors.black12, foregroundColor: Colors.white), //todo: translate
+          button(onPressed: "all", heroTag: "all", toolTip: "Show all markers", icon: const Icon(Icons.visibility), backgroundColor: Colors.black12, foregroundColor: Colors.black),
+          button(onPressed: "chargers", heroTag: "charger", toolTip: "See only chargers", icon: const Icon(Icons.power), backgroundColor: mCardColor, foregroundColor: Colors.white),
+          button(onPressed: "bicing", heroTag: "bicing", toolTip: "See only bicing", icon: const Icon(Icons.pedal_bike), backgroundColor: cBicingRed, foregroundColor: Colors.white),
+          button(onPressed: "favs", heroTag: "favs", toolTip: "See only favourites", icon: const Icon(Icons.favorite), backgroundColor: Colors.red, foregroundColor: Colors.white),
         ],
         closedForegroundColor: Colors.black,
         openForegroundColor: Colors.white,

@@ -391,7 +391,6 @@ class CtrlPresentation {
   void deleteCar(BuildContext context, String idVehicle) {
     ctrlDomain.removeVUser(idVehicle);
     toGaragePage(context);
-    //toGaragePage(context);
   }
 
   void saveCar(BuildContext context,
@@ -451,5 +450,9 @@ class CtrlPresentation {
 
   void showInstantNotification(double lat, double long){
     ctrlDomain.showInstantNotification(lat, long);
+  }
+
+  void share({required double latitude, required double longitude}) {
+    print("share button");
   }
 }

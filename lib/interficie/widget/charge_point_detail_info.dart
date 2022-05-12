@@ -76,10 +76,12 @@ class _EditInfoPointState extends State<EditInfoPoint> {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude);
+          },
           icon: const Icon(
             Icons.share,
-          ),//TODO: Share
+          ),
         ),
       ],
     );
