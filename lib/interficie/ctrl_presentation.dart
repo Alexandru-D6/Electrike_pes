@@ -281,22 +281,21 @@ class CtrlPresentation {
     }
     else if(routeType == 1){
       print(destination);
-      var dest = await getMapsService.adressCoding(destination);
+      GeoCoord dest = await getMapsService.adressCoding(destination);
       double bat = double.parse(bateria);
 
       location.getLocation().then((value) async {
         GeoCoord orig = GeoCoord(value.latitude!, value.longitude!);
 
-        RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(
-            orig, dest, bat);
+        RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
         print(rutaCharger);
-        String origin = value.latitude.toString() + "," +
-            value.longitude.toString();
+        print(rutaCharger.waypoints);
+        String origin = value.latitude.toString() + "," + value.longitude.toString();
         if (actualLocation != "Your location") origin = actualLocation;
         GoogleMap.of(getMapKey())?.displayRoute(
             origin,
             destination,
-            waypoints: rutaCharger.waypoints,
+            waypoints: rutaCharger.waypoints.first.latitude == -1.0 ? List<GeoCoord>.empty() : rutaCharger.waypoints,
             startLabel: '1',
             startInfo: 'Origin',
             endIcon: 'assets/images/rolls_royce.png',

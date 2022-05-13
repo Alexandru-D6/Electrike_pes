@@ -172,7 +172,7 @@ class GoogleMapState extends GoogleMapStateBase {
   Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords) => throw UnimplementedError();
 
   @override
-  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]) => throw UnimplementedError();
+  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, [List<GeoCoord>? waypoints]) => throw UnimplementedError();
 
   @override
   void displayRoute(

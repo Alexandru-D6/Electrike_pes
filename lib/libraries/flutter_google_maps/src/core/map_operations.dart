@@ -5,7 +5,6 @@
 import 'dart:async' show FutureOr;
 import 'dart:ui' show Color, VoidCallback;
 
-import 'package:flutter/foundation.dart' show ValueChanged;
 import 'package:flutter/material.dart';
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 
@@ -269,7 +268,7 @@ abstract class CustomFunctions {
   double getDistance(GeoCoord a, GeoCoord b);
   Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords);
 
-  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]);
+  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, [List<GeoCoord>? waypoints]);
 
   void displayRoute(
     dynamic origin,

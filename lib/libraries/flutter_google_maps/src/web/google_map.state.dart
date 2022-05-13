@@ -10,6 +10,7 @@ import 'dart:ui' as ui;
 import 'package:flinq/flinq.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
+import 'package:flutter_project/libraries/flutter_google_maps/src/core/route_response.dart';
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 import 'package:google_maps/google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show MarkerId;
@@ -34,10 +35,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   late ClusterManager _manager_charger;
   late ClusterManager _manager_bicing;
   late ClusterManager _manager_general;
+  late ClusterManager _manager_route;
 
   Map<String, items_t.Marker> _items_charger = <String, items_t.Marker>{};
   Map<String, items_t.Marker> _items_bicing = <String, items_t.Marker>{};
   Map<String, items_t.Marker> _items_general = <String, items_t.Marker>{};
+  Map<String, items_t.Marker> _items_route = <String, items_t.Marker>{};
 
   final _inside_charger = const ["chargerPoints", "favChargerPoints"];
   final _inside_bicing = const ["bicingPoints", "favBicingPoints"];
@@ -234,6 +237,9 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       }else if (_inside_bicing.contains(group)) {
         _items_bicing.putIfAbsent(key, () => marker);
         _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
+      }else if (group.contains("route")){
+        _items_route.putIfAbsent(key, () => marker);
+        _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
       }else {
         _items_general.putIfAbsent(key, () => marker);
         _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
@@ -268,6 +274,9 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         }else if (_inside_bicing.contains(group)) {
           _items_bicing.remove(key);
           _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
+        }else if (group!.contains("route")){
+          _items_route.remove(key);
+          _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
         }else {
           _items_general.remove(key);
           _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
@@ -343,7 +352,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                 if (startIcon != null || startInfo != null || startLabel != null) {
                   addMarkerRaw(
                     startLatLng.toGeoCoord(),
-                    "default",
+                    "route1",
                     icon: startIcon,
                     info: startInfo ?? leg?.startAddress,
                     label: startLabel,
@@ -351,7 +360,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                 } else {
                   addMarkerRaw(
                     startLatLng.toGeoCoord(),
-                    "default",
+                    "route1",
                     icon: 'assets/images/marker_a.png',
                     info: leg?.startAddress,
                   );
@@ -363,7 +372,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                 if (endIcon != null || endInfo != null || endLabel != null) {
                   addMarkerRaw(
                     endLatLng.toGeoCoord(),
-                    "default",
+                    "route1",
                     icon: endIcon,
                     info: endInfo ?? leg?.endAddress,
                     label: endLabel,
@@ -371,12 +380,14 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                 } else {
                   addMarkerRaw(
                     endLatLng.toGeoCoord(),
-                    "default",
+                    "route1",
                     icon: 'assets/images/marker_b.png',
                     info: leg?.endAddress,
                   );
                 }
               }
+
+              addChoosenMarkers("route1");
             }
           },
         );
@@ -404,11 +415,11 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     value?.map = null;
     final start = value?.directions?.routes?.firstOrNull?.legs?.firstOrNull?.startLocation?.toGeoCoord();
     if (start != null) {
-      removeMarker(start, group: "default");
+      removeMarker(start, group: "route1");
     }
     final end = value?.directions?.routes?.firstOrNull?.legs?.lastOrNull?.endLocation?.toGeoCoord();
     if (end != null) {
-      removeMarker(end, group: "default");
+      removeMarker(end, group: "route1");
     }
     value = null;
   }
@@ -419,14 +430,17 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       direction?.map = null;
       final start = direction?.directions?.routes?.firstOrNull?.legs?.firstOrNull?.startLocation?.toGeoCoord();
       if (start != null) {
-        removeMarker(start, group: "default");
+        removeMarker(start, group: "route1");
       }
       final end = direction?.directions?.routes?.firstOrNull?.legs?.lastOrNull?.endLocation?.toGeoCoord();
       if (end != null) {
-        removeMarker(end, group: "default");
+        removeMarker(end, group: "route1");
       }
       direction = null;
     }
+
+    removeChoosenMarker("route1");
+    removeChoosenMarker("route2");
     _directions.clear();
   }
 
@@ -622,6 +636,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, markerBuilder: _markerBuilder(Colors.red), levels: _cluster_levels);
     _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, markerBuilder: _markerBuilder(Colors.blue), levels: _cluster_levels);
     _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.yellow), levels: _cluster_levels);
+    _manager_route = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_route.values), _updateMarkersRoute, markerBuilder: _markerBuilder(Colors.yellow), levels: _cluster_levels);
 
     super.initState();
     SchedulerBinding.instance!.addPostFrameCallback((_) {
@@ -659,6 +674,19 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   void _updateMarkersCharger(Set<tryThis.Marker> markers) {
+    markers.forEach((element) {
+      var func = element.onTap!;
+      addMarkerRaw(
+        GeoCoord(element.position.latitude, element.position.longitude),
+        "default",
+        label: "",
+        onTap: (testing) => func(),
+        icon: element.infoWindow.title,
+      );
+    });
+  }
+
+  void _updateMarkersRoute(Set<tryThis.Marker> markers) {
     markers.forEach((element) {
       var func = element.onTap!;
       addMarkerRaw(
@@ -776,14 +804,14 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   @override
-  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]) async {
+  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, [List<GeoCoord>? waypoints]) async {
 
     DirectionsRenderer direction = DirectionsRenderer(DirectionsRendererOptions()..suppressMarkers = true);
     direction.map = _map;
 
     final request = DirectionsRequest()
-      ..origin = origin
-      ..destination = destination
+      ..origin = origin is GeoCoord ? LatLng(origin.latitude, origin.longitude) : origin
+      ..destination = destination is GeoCoord ? destination.toLatLng() : destination
       ..travelMode = TravelMode.DRIVING
       ..waypoints = getExplicitCoordinates((waypoints == null) ? <GeoCoord>[] : waypoints);
 
@@ -795,7 +823,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         if (status == DirectionsStatus.OK) {
           result.status = "ok";
           DirectionsRoute? temp = response?.routes?.firstOrNull;
-
 
           double distance = 0.0;
           double duration = 0.0;
@@ -809,6 +836,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             double? bb = element?.duration?.value?.toDouble();
             duration += (bb!/60); ///duration returns seconds
 
+
             if (coords.isEmpty) {
               coords.add(element?.startLocation!.toGeoCoord() as GeoCoord);
               distances.add(0.0);
@@ -817,8 +845,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             element?.steps?.forEach((element2) {
               coords.add(element2?.endLocation!.toGeoCoord() as GeoCoord);
 
-              double tmep = element2?.distance as double;
-              distances.add(distances.last + tmep);
+              double? tmep = element2?.distance?.value?.toDouble();
+              distances.add(distances.last + tmep!);
             });
           });
 
@@ -864,8 +892,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         final request = DirectionsRequest()
           ..origin = origin is GeoCoord ? LatLng(origin.latitude, origin.longitude) : origin
           ..destination = destination is GeoCoord ? destination.toLatLng() : destination
-          ..travelMode = TravelMode.DRIVING;
-          //..waypoints = getExplicitCoordinates((waypoints == null) ? <GeoCoord>[] : waypoints);
+          ..travelMode = TravelMode.DRIVING
+          ..waypoints = getExplicitCoordinates((waypoints == null) ? <GeoCoord>[] : waypoints);
         directionsService.route(
           request,
               (response, status) {
@@ -877,42 +905,47 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
               final startLatLng = leg?.startLocation;
               if (startLatLng != null) {
                 if (startIcon != null || startInfo != null || startLabel != null) {
-                  addMarkerRaw(
+                  addMarker(items_t.Marker(
                     startLatLng.toGeoCoord(),
-                    "default",
                     icon: startIcon,
                     info: startInfo ?? leg?.startAddress,
                     label: startLabel,
-                  );
+                  ), group: "route1");
                 } else {
-                  addMarkerRaw(
+                  addMarker(items_t.Marker(
                     startLatLng.toGeoCoord(),
-                    "default",
                     icon: 'assets/images/marker_a.png',
                     info: leg?.startAddress,
-                  );
+                  ), group: "route1");
                 }
               }
 
               final endLatLng = leg?.endLocation;
               if (endLatLng != null) {
                 if (endIcon != null || endInfo != null || endLabel != null) {
-                  addMarkerRaw(
+                  addMarker(items_t.Marker(
                     endLatLng.toGeoCoord(),
-                    "default",
                     icon: endIcon,
                     info: endInfo ?? leg?.endAddress,
                     label: endLabel,
-                  );
+                  ), group: "route1");
                 } else {
-                  addMarkerRaw(
+                  addMarker(items_t.Marker(
                     endLatLng.toGeoCoord(),
-                    "default",
                     icon: 'assets/images/marker_b.png',
                     info: leg?.endAddress,
-                  );
+                  ), group: "route1");
                 }
               }
+
+              waypoints?.forEach((element) {
+                addMarker(items_t.Marker(
+                  element,
+                ), group: "route2");
+              });
+
+              addChoosenMarkers("route1");
+              addChoosenMarkers("route2");
             }
           },
         );
@@ -934,12 +967,44 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       }else if (_inside_bicing.contains(group)) {
         _items_bicing.addAll(_markers_colection[group]!);
         _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
+      }else if (group!.contains("route")){
+        _items_route.addAll(_markers_colection[group]!);
+        _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
       }else {
         _items_general.addAll(_markers_colection[group]!);
         _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
       }
 
       _current_displaying.add(group);
+    }
+  }
+
+  void removeChoosenMarker(String group) {
+    if (_markers.containsKey(group) && _current_displaying.contains(group)) {
+
+      if (_inside_charger.contains(group)) {
+        _markers_colection[group]!.forEach((key, value) {
+          _items_charger.remove(key);
+        });
+        _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
+      }else if (_inside_bicing.contains(group)) {
+        _markers_colection[group]!.forEach((key, value) {
+          _items_bicing.remove(key);
+        });
+        _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+      }else if (group.contains("route")){
+        _markers_colection[group]!.forEach((key, value) {
+          _items_route.remove(key);
+        });
+        _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
+      }else {
+        _markers_colection[group]!.forEach((key, value) {
+          _items_general.remove(key);
+        });
+        _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+      }
+
+      _current_displaying.remove(group);
     }
   }
 
@@ -952,14 +1017,22 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _items_charger.clear();
     _items_general.clear();
     _items_bicing.clear();
+    _items_route.clear();
 
     if (_markers_colection.containsKey("default")) {
       _items_general.addAll(_markers_colection["default"]!);
+    }
+    if (_markers_colection.containsKey("route1")) {
+      _items_route.addAll(_markers_colection["route1"]!);
+    }
+    if (_markers_colection.containsKey("route2")) {
+      _items_route.addAll(_markers_colection["route2"]!);
     }
 
     _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
     _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
     _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
+    _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
   }
 
   @override
@@ -985,6 +1058,11 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         });
 
         _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
+      }else if (group!.contains("route")) {
+        _items_route.clear();
+        _items_route.addAll(_markers_colection[group == "route1" ? "route2" : group]!);
+
+        _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
       }
     }
   }
@@ -1017,6 +1095,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           _manager_charger.setMapZoomW(cur_zoom!);
           _manager_bicing.setMapZoomW(cur_zoom);
           _manager_general.setMapZoomW(cur_zoom);
+          _manager_route.setMapZoomW(cur_zoom);
         }
 
         _map!.onBoundsChanged.listen((event) {
@@ -1024,6 +1103,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           _manager_charger.onCameraMoveW(cur_zoom!);
           _manager_bicing.onCameraMoveW(cur_zoom);
           _manager_general.onCameraMoveW(cur_zoom);
+          _manager_route.onCameraMoveW(cur_zoom);
         });
 
         _map!.onIdle.listen((event) {
@@ -1032,6 +1112,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           _manager_charger.updateMapW(_map!);
           _manager_bicing.updateMapW(_map!);
           _manager_general.updateMapW(_map!);
+          _manager_route.updateMapW(_map!);
         });
 
         _subscriptions.add(_map!.onClick.listen((event) => widget.onTap?.call(event.latLng!.toGeoCoord())));

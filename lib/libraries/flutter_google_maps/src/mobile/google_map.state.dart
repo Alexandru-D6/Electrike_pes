@@ -765,7 +765,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   @override
-  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]) async {
+  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, [List<GeoCoord>? waypoints]) async {
 
     final request = DirectionsRequest(
       origin: origin,
@@ -824,8 +824,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void displayRoute(
-      GeoCoord origin,
-      GeoCoord destination, {
+      dynamic origin,
+      dynamic destination, {
         List<GeoCoord>? waypoints,
         String? startLabel,
         String? startIcon,
