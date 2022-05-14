@@ -23,10 +23,10 @@ class InfoRuta extends StatelessWidget {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     void _changeLatestBateryValue() {
       ctrlPresentation.bateria = textController.text;
-      print('Second text field: ${ctrlPresentation.bateria}');
+      //print('Second text field: ${ctrlPresentation.bateria}');
     }
     textController.addListener(_changeLatestBateryValue);
-
+    ctrlPresentation.getDistDuration();
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
     if(userCarList.isNotEmpty) ctrlPresentation.idCarUser = 1;
     return Container(
