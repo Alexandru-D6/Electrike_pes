@@ -1,7 +1,8 @@
 class Trofeu {
-  late String nom; //és un enumeration?
-  late String imatge;
-  late String descripcio;
+  late int id; //és un enumeration?
+  late bool unlocked;
+  late double limit;
 
-  Trofeu(this.nom, this.imatge, this.descripcio);
+
+  Trofeu(this.id, this.unlocked, this.limit);
 }
