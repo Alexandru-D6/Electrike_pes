@@ -26,7 +26,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'domini/services/local_notifications_adpt.dart';
-
+final navigatorKey = GlobalKey<NavigatorState>();
 void main() => runApp(const SplashScreen());
 
 Future initializeSystem() async {
@@ -40,7 +40,8 @@ Future initializeSystem() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+  runApp(MaterialApp(home: const MyApp(),
+    navigatorKey: navigatorKey, debugShowCheckedModeBanner: false));
 }
 
 class MyApp extends StatelessWidget {

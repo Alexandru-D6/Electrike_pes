@@ -18,6 +18,7 @@ import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../domini/data_graphic.dart';
+import '../main.dart';
 
 
 class CtrlPresentation {
@@ -42,7 +43,6 @@ class CtrlPresentation {
   String bateria = "100"; // de normal 100
   String distinmeters = "";
   String durationinminutes = "";
-
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
@@ -304,13 +304,10 @@ class CtrlPresentation {
 
       location.getLocation().then((value) async {
         GeoCoord orig = GeoCoord(value.latitude!, value.longitude!);
-
-        RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(
-            orig, dest, bat);
-        print(rutaCharger);
-        String origin = value.latitude.toString() + "," +
-            value.longitude.toString();
-        if (actualLocation != "Your location") origin = actualLocation;
+        RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
+        //String origin = value.latitude.toString() + "," + value.longitude.toString();
+        //if (actualLocation != "Your location") origin = actualLocation;
+        //todo: arreglar esto
         GoogleMap.of(getMapKey())?.displayRoute(
             orig,
             dest,
@@ -630,5 +627,35 @@ class CtrlPresentation {
         });
       });
     });
+  }
+
+  bool esBarcelona(double latitud, double longitud) {
+    return ctrlDomain.isChargerBCN(latitud, longitud);
+  }
+  void showMyDialog(String idTrofeu) {
+    AwesomeDialog(
+      context: navigatorKey.currentContext!,
+      dialogType: DialogType.INFO,
+      animType: AnimType.LEFTSLIDE,
+      title: "Trophy unlocked" + idTrofeu,
+      //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
+      desc: "You can see the trophy in the trophies menu",
+      //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
+    /*showDialog(
+        context: navigatorKey.currentContext!,
+        builder: (context) => Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Text('Hello'),
+          ),
+        )
+    );*/
+  }
+
+  void increaseRouteCounter() {
+    ctrlDomain.increaseCalculatedroutes();
   }
 }

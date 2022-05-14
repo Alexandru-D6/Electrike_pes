@@ -144,15 +144,17 @@ class _AllFavsState extends State<AllFavs> {
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = allFavPoints[index];
         String title = titles[index];
-        print(index);
-        if(index < numChargers) 
+        bool esBarcelona = false;
+        if(index < numChargers) {
+          esBarcelona = ctrlPresentation.esBarcelona(word.latitud, word.longitud);
+        }
 
         return ListTile(
           title: Text(title),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              IconButton(
+              if(esBarcelona)IconButton(
                   icon: (const Icon(Icons.bar_chart)),
                   color: Colors.green,
                   onPressed: () async {

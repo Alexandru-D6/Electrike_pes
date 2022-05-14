@@ -113,6 +113,7 @@ class InfoRuta extends StatelessWidget {
               {
                 ctrlPresentation.makeRoute();
               });
+              ctrlPresentation.increaseRouteCounter();
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(

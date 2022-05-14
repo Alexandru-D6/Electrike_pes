@@ -103,7 +103,11 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = name;
       usuari.foto = img;
-      //setIdiom(ctrlPresentation.idiom);
+      usuari.co2Estalviat = 0;
+      usuari.kmRecorregut = 0;
+      usuari.counterRoutes = 0;
+      usuari.counterVH = 0;
+      setIdiom(ctrlPresentation.idiom);
     }
     else {
       url = urlorg + 'user_info?email=' + email;
@@ -201,6 +205,7 @@ class CtrlDomain {
       Trofeu trofeo = Trofeu(trofeu['id'], trofeu['Obtenido'], double.parse(trofeu['Limite'].toString()));
       usuari.trofeus.add(trofeo);
     }
+    //print(usuari.trofeus);
   }
 
   //USER CARS
@@ -237,7 +242,7 @@ class CtrlDomain {
     vehiclesUsuari.add(VehicleUsuari(vehiclesUsuari.length+1,name, brand,modelV, double.parse(bat), double.parse(eff), endolls));
     var url = urlorg +'insert_car_user?email='+usuari.correu+'&name='+name+'&brand='+brand+'&vehicle='+modelV+'&battery='+bat+'&efficiency='+eff+'&chargers='+schuko+mennekes+chademo+ccscombo2;
     http.post(Uri.parse(url));
-    if(!editing){
+    if(editing == false){
       usuari.counterVH += 1;
       var url2 = urlorg +'change_car_counter?email='+usuari.correu+'&num='+usuari.counterVH.toString();
       http.post(Uri.parse(url2));
@@ -245,12 +250,13 @@ class CtrlDomain {
         if(!usuari.trofeus[i].unlocked && usuari.trofeus[i].limit<= usuari.counterVH){
           usuari.trofeus[i].unlocked = true;
           //unlock in presentation
+          ctrlPresentation.showMyDialog("Trophy" + i.toString());
           var url = urlorg +'modify_logro?email='+usuari.correu+'&id='+i.toString();
           http.post(Uri.parse(url));
         }
       }
-      editing = false;
     }
+    editing = false;
   }
   //Edita un vehicle de l'usuari
   void editVUser(String idV, String name, String brand, String modelV, String bat, String eff,List<String> lEndolls){
@@ -374,7 +380,7 @@ class CtrlDomain {
     for(var f in puntsFavCarrega){
       listToPassFavs.add(f.coord);
     }
-    print("NUMCARREGA"+puntsFavCarrega.toString());
+    //print("NUMCARREGA"+puntsFavCarrega.toString());
     return listToPassFavs;
   }
   //S'encarrega de elminiar o afegir a favorits un put de carrega segons si era o no un favorit
@@ -635,9 +641,9 @@ class CtrlDomain {
       }
       infoC.add(isfav.toString());
       infoC.add(cat.toString());
-      print(infoC);
+      //print(infoC);
 
-      print(infoC.length);
+      //print(infoC.length);
     }
     return infoC;
   }
@@ -716,7 +722,7 @@ class CtrlDomain {
   }
 
   //RUTAS
-  void makeRoute(Location location, String actualLocation, GlobalKey<GoogleMapStateBase> key, String destination) {
+  /*void makeRoute(Location location, String actualLocation, GlobalKey<GoogleMapStateBase> key, String destination) {
     location.getLocation().then((value) {
       String origin = value.latitude.toString() + "," +
           value.longitude.toString();
@@ -730,7 +736,8 @@ class CtrlDomain {
           endInfo: 'Destination'
       );
     });
-  }
+  }*/
+
   List<Coordenada> getCompChargers() {
     List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
     List<Coordenada> carregadorsCompatibles = <Coordenada>[];
@@ -853,7 +860,7 @@ class CtrlDomain {
       dadesChargerselected[dada['WeekDay']]![0].add(double.parse(dada["Hour"].toString()));
       dadesChargerselected[dada['WeekDay']]![1].add(double.parse((double.parse(dada["Ocupation"].toString())/double.parse(dada["Capacity"].toString())*100.0).toStringAsFixed(2)));
     }
-    print(dadesChargerselected);
+    //print(dadesChargerselected);
   }
   //Obté les ades d'ocupació d'un dia
   List<DataGraphic> getInfoGraphic(String day){
@@ -870,34 +877,47 @@ class CtrlDomain {
 
   //TROFEUS
   void ahorramentCO2(double kmrecorreguts){
-    double co2KmVHCombustible = 2392.0*6.0/100.0;
-    double co2kWh = 440.0;
-    double diff = co2KmVHCombustible*kmrecorreguts-co2kWh*(vhselected.efficiency*kmrecorreguts/1000.0);
-    usuari.co2Estalviat += diff;
-    var url = urlorg + 'change_co2?email='+ usuari.correu +'&co2='+ usuari.co2Estalviat.toString();
-    http.get(Uri.parse(url));
-    for(int i = 6; i < 9; ++i){
-      if(usuari.trofeus[i].unlocked == false && usuari.trofeus[i].limit <= usuari.co2Estalviat){
-        //unlock in presentation
-        usuari.trofeus[i].unlocked = true;
-        var url1 = urlorg + 'modify_logro?email='+ usuari.correu +'&id='+ i.toString();
-        http.get(Uri.parse(url));
+    if(islogged()) {
+      double co2KmVHCombustible = 2392.0 * 6.0 / 100.0;
+      double co2kWh = 440.0;
+      double diff = co2KmVHCombustible * kmrecorreguts -
+          co2kWh * (vhselected.efficiency * kmrecorreguts / 1000.0);
+      usuari.co2Estalviat += diff;
+      var url = urlorg + 'change_co2?email=' + usuari.correu + '&co2=' +
+          usuari.co2Estalviat.toString();
+      http.post(Uri.parse(url));
+      for (int i = 6; i < 9; ++i) {
+        if (usuari.trofeus[i].unlocked == false &&
+            usuari.trofeus[i].limit <= usuari.co2Estalviat) {
+          //unlock in presentation
+          ctrlPresentation.showMyDialog("Trophy" + i.toString());
+
+          usuari.trofeus[i].unlocked = true;
+          var url1 = urlorg + 'modify_logro?email=' + usuari.correu + '&id=' +
+              i.toString();
+          http.post(Uri.parse(url));
+        }
       }
     }
   }
   void increaseCalculatedroutes(){
-    usuari.counterRoutes += 1;
-    var url = urlorg + 'change_routes_counter?email='+ usuari.correu +'&co2='+ usuari.counterRoutes.toString();
-    http.get(Uri.parse(url));
-    for(int i = 3; i < 6; ++i){
-      if(usuari.trofeus[i].unlocked == false && usuari.trofeus[i].limit <= usuari.kmRecorregut){
-        //unlock in presentation
-        usuari.trofeus[i].unlocked = true;
-        var url1 = urlorg + 'modify_logro?email='+ usuari.correu +'&id='+ i.toString();
-        http.get(Uri.parse(url));
+    if(islogged()) {
+      usuari.counterRoutes += 1;
+      var url = urlorg + 'change_routes_counter?email=' + usuari.correu +
+          '&num=' + usuari.counterRoutes.toString();
+      http.post(Uri.parse(url));
+      for (int i = 3; i < 6; ++i) {
+        if (usuari.trofeus[i].unlocked == false &&
+            usuari.trofeus[i].limit <= usuari.counterRoutes) {
+          //unlock in presentation
+          ctrlPresentation.showMyDialog("Trophy" + i.toString());
+          usuari.trofeus[i].unlocked = true;
+          var url1 = urlorg + 'modify_logro?email=' + usuari.correu + '&id=' +
+              i.toString();
+          http.post(Uri.parse(url));
+        }
       }
     }
-
   }
   List<List<String>> displayTrophy(){
     List<List<String>> trofeus = <List<String>>[];
@@ -938,13 +958,14 @@ class CtrlDomain {
       pastpos.latitud = newlat;
       pastpos.longitud = newlong;
       var url = urlorg + 'change_km?email='+ usuari.correu +'&km='+ usuari.kmRecorregut.toString();
-      http.get(Uri.parse(url));
+      http.post(Uri.parse(url));
       for(int i = 9; i < 12; ++i){
         if(usuari.trofeus[i].unlocked == false && usuari.trofeus[i].limit <= usuari.kmRecorregut){
           //unlock in presentation
+          ctrlPresentation.showMyDialog("Trophy" + i.toString());
           usuari.trofeus[i].unlocked = true;
           var url1 = urlorg + 'modify_logro?email='+ usuari.correu +'&id='+ i.toString();
-          http.get(Uri.parse(url));
+          http.post(Uri.parse(url));
         }
       }
     }
