@@ -193,8 +193,8 @@ class _MyMapState extends State<MyMap> {
             bottom: 16,
             child: FloatingActionButton(
               onPressed: () {
-                ctrlPresentation.clearAllRoutes();
                 showInfoRuta(context);
+                ctrlPresentation.clearAllRoutes();
               },
               heroTag: "Ruta",
               tooltip: "Empieza la ruta",

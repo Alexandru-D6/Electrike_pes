@@ -421,6 +421,11 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     if (end != null) {
       removeMarker(end, group: "route1");
     }
+
+    clearGroupMarkers("route1");
+    clearGroupMarkers("route2");
+    _markers_colection.remove("route1");
+    _markers_colection.remove("route2");
     value = null;
   }
 
@@ -439,8 +444,10 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       direction = null;
     }
 
-    removeChoosenMarker("route1");
-    removeChoosenMarker("route2");
+    clearGroupMarkers("route1");
+    clearGroupMarkers("route2");
+    _markers_colection.remove("route1");
+    _markers_colection.remove("route2");
     _directions.clear();
   }
 
@@ -883,7 +890,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       '${origin}_$destination',
           () {
         DirectionsRendererOptions dro = DirectionsRendererOptions();
-        PolylineOptions po = PolylineOptions()..strokeColor = "#00FF00";
+        PolylineOptions po = PolylineOptions()..strokeColor = color == null ? "0xFFFFFFFF" : color.toHashString();
         dro..suppressMarkers = true;
         dro..polylineOptions = po;
         DirectionsRenderer direction = DirectionsRenderer(dro);
@@ -962,12 +969,13 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       clearMarkers();
 
       if (_inside_charger.contains(group)) {
+        clearGroupMarkers("route2");
         _items_charger.addAll(_markers_colection[group]!);
         _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
       }else if (_inside_bicing.contains(group)) {
         _items_bicing.addAll(_markers_colection[group]!);
         _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
-      }else if (group!.contains("route")){
+      }else if (group.contains("route")){
         _items_route.addAll(_markers_colection[group]!);
         _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
       }else {
@@ -976,35 +984,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       }
 
       _current_displaying.add(group);
-    }
-  }
-
-  void removeChoosenMarker(String group) {
-    if (_markers.containsKey(group) && _current_displaying.contains(group)) {
-
-      if (_inside_charger.contains(group)) {
-        _markers_colection[group]!.forEach((key, value) {
-          _items_charger.remove(key);
-        });
-        _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
-      }else if (_inside_bicing.contains(group)) {
-        _markers_colection[group]!.forEach((key, value) {
-          _items_bicing.remove(key);
-        });
-        _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
-      }else if (group.contains("route")){
-        _markers_colection[group]!.forEach((key, value) {
-          _items_route.remove(key);
-        });
-        _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
-      }else {
-        _markers_colection[group]!.forEach((key, value) {
-          _items_general.remove(key);
-        });
-        _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
-      }
-
-      _current_displaying.remove(group);
     }
   }
 
@@ -1058,9 +1037,10 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         });
 
         _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
-      }else if (group!.contains("route")) {
+      }else if (group.contains("route")) {
         _items_route.clear();
-        _items_route.addAll(_markers_colection[group == "route1" ? "route2" : group]!);
+        if (_markers_colection.containsKey(group == "route1" ? "route2" : group))
+          _items_route.addAll(_markers_colection[group == "route1" ? "route2" : group]!);
 
         _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
       }

@@ -107,8 +107,8 @@ class InfoRuta extends StatelessWidget {
             color: Color(0x00000000),
           ),
       ElevatedButton(
-          onPressed: () async {
-            await ctrlPresentation.makeRoute();
+          onPressed: () {
+            ctrlPresentation.makeRoute();
             ctrlPresentation.toMainPage(context);
           },
           style: ElevatedButton.styleFrom(

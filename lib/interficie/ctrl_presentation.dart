@@ -280,28 +280,38 @@ class CtrlPresentation {
       });
     }
     else if(routeType == 1){
-      print(destination);
+        print(destination);
       GeoCoord dest = await getMapsService.adressCoding(destination);
+
+      late GeoCoord orig;
+      if (actualLocation != "Your location") orig = await getMapsService.adressCoding(actualLocation);
+
       double bat = double.parse(bateria);
 
       location.getLocation().then((value) async {
-        GeoCoord orig = GeoCoord(value.latitude!, value.longitude!);
+        if (actualLocation == "Your location") orig = GeoCoord(value.latitude!, value.longitude!);
+
+          print("origen --> " + orig.toString());
+          print("destination --> " + dest.toString());
 
         RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
-        print(rutaCharger);
-        print(rutaCharger.waypoints);
-        String origin = value.latitude.toString() + "," + value.longitude.toString();
-        if (actualLocation != "Your location") origin = actualLocation;
+
+          print(rutaCharger);
+          print(rutaCharger.waypoints);
+
+        String origin = orig.latitude.toString() + "," + orig.longitude.toString();
+
         GoogleMap.of(getMapKey())?.displayRoute(
-            origin,
-            destination,
-            waypoints: rutaCharger.waypoints.first.latitude == -1.0 ? List<GeoCoord>.empty() : rutaCharger.waypoints,
-            startLabel: '1',
-            startInfo: 'Origin',
-            endIcon: 'assets/images/rolls_royce.png',
-            endInfo: 'Destination',
-            color: Colors.deepPurple,
+          origin,
+          destination,
+          waypoints: rutaCharger.waypoints.isEmpty || rutaCharger.waypoints.first.latitude == -1.0 ? List<GeoCoord>.empty() : rutaCharger.waypoints,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'Destination',
+          color: Colors.red,
         );
+
       });
     }
     else if(routeType == 2){

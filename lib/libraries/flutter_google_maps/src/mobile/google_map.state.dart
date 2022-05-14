@@ -183,7 +183,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     VoidCallback? onInfoWindowTap,
   }) async {
     final key = position.toString();
-    if (group == null) group = "default";
+    //if (group == null) group = "default";
     items_t.Marker marker = items_t.Marker(position, icon: icon, onTap: onTap, label: label, infoSnippet: infoSnippet, onInfoWindowTap: onInfoWindowTap);
 
     _markers.putIfAbsent(group, () => Map<String,items_t.Marker>());
@@ -423,8 +423,10 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
     _markers.remove("route1");
     _markers.remove("route2");
-    removeChoosenMarker("route1");
-    removeChoosenMarker("route2");
+    clearGroupMarkers("route1");
+    clearGroupMarkers("route2");
+    _shown_markers_route.clear();
+    _items_route.clear();
 
     value = null;
   }
@@ -446,8 +448,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
     _markers.remove("route1");
     _markers.remove("route2");
-    removeChoosenMarker("route1");
-    removeChoosenMarker("route2");
+    clearGroupMarkers("route1");
+    clearGroupMarkers("route2");
     _shown_markers_route.clear();
     _items_route.clear();
 
@@ -945,35 +947,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
   }
 
-  void removeChoosenMarker(String group) {
-    if (_markers.containsKey(group) && _current_displaying.contains(group)) {
-
-      if (_inside_charger.contains(group)) {
-        _markers[group]!.forEach((key, value) {
-          _items_charger.remove(key);
-        });
-        _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
-      }else if (_inside_bicing.contains(group)) {
-        _markers[group]!.forEach((key, value) {
-          _items_bicing.remove(key);
-        });
-        _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
-      }else if (group.contains("route")){
-        _markers[group]!.forEach((key, value) {
-          _items_route.remove(key);
-        });
-        _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
-      }else {
-        _markers[group]!.forEach((key, value) {
-          _items_general.remove(key);
-        });
-        _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
-      }
-
-      _current_displaying.remove(group);
-    }
-  }
-
   @override
   void clearChoosenMarkers() {
 
@@ -1026,6 +999,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
       }else if (group.contains("route")) {
         _items_route.clear();
+        if (_markers.containsKey(group == "route1" ? "route2" : group))
+          _items_route.addAll(_markers[group == "route1" ? "route2" : group]!);
 
         _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
       }
