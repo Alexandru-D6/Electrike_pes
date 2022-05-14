@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:vector_math/vector_math.dart' as math;
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/domini/coordenada.dart';
@@ -919,14 +920,27 @@ class CtrlDomain {
       pastpos.longitud = newlong;
     }
     else if(islogged()){
-      double R = 6371.0;
-      double diflat = newlat - pastpos.latitud;
-      double diflong = newlong- pastpos.longitud;
-      double a = (1-cos(diflat))/2 + cos(pastpos.latitud) * cos(newlat) * (1-cos(diflong))/2;
-      double c = 2 * atan2(sqrt(a), sqrt(1-a));
-      double d = R * c;
-      ahorramentCO2(d);
-      usuari.kmRecorregut += d;
+      int radiusEarth = 6371;
+      double distanceKm;
+      double distanceMts;
+      double dlat, dlng;
+      double a;
+      double c;
+
+      //Convertimos de grados a radianes
+      double lat1 = math.radians(pastpos.latitud);
+      double lat2 = math.radians(newlat);
+      double lng1 = math.radians(pastpos.longitud);
+      double lng2 = math.radians(newlong);
+      // Fórmula del semiverseno
+      dlat = lat2 - lat1;
+      dlng = lng2 - lng1;
+      a = sin(dlat / 2) * sin(dlat / 2) + cos(lat1) * cos(lat2) * (sin(dlng / 2)) * (sin(dlng / 2));
+      c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+      distanceKm = radiusEarth * c;
+      ahorramentCO2(distanceKm);
+      usuari.kmRecorregut += distanceKm;
       pastpos.latitud = newlat;
       pastpos.longitud = newlong;
       var url = urlorg + 'change_km?email='+ usuari.correu +'&km='+ usuari.kmRecorregut.toString();

@@ -1,22 +1,35 @@
-
-
-import 'dart:convert';
-
-import 'package:flutter_project/domini/trofeu.dart';
-import 'package:http/http.dart' as http;
+import 'package:vector_math/vector_math.dart' as math;
+import 'dart:math';
 
 main() async {
-  var url = 'http://electrike.ddns.net:3784/get_user_logros?email=alvaro.rodriguez.rubio@estudiantat.upc.edu';
-  var response = (await http.get(Uri.parse(url)));
-  var resp = jsonDecode(response.body);
-  List<Trofeu> trof = <Trofeu>[];
-  for(var trofeu in resp['items']){
-    Trofeu trofeo = Trofeu(trofeu['id'], trofeu['Obtenido'], trofeu['Limite']);
-   trof.add(trofeo);
-  }
-  for(var trofeu in trof ){
-    print(trofeu.id);
-    print(trofeu.unlocked);
-    print(trofeu.limit);
-  }
+  calculateDistance(3.4, 4.5, 5.6, 4.6);
+
+}
+double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
+  int radiusEarth = 6371;
+  double distanceKm;
+  double distanceMts;
+  double dlat, dlng;
+  double a;
+  double c;
+
+  //Convertimos de grados a radianes
+  lat1 = math.radians(lat1);
+  lat2 = math.radians(lat2);
+  lng1 = math.radians(lng1);
+  lng2 = math.radians(lng2);
+  // Fórmula del semiverseno
+  dlat = lat2 - lat1;
+  dlng = lng2 - lng1;
+  a = sin(dlat / 2) * sin(dlat / 2) +
+      cos(lat1) * cos(lat2) * (sin(dlng / 2)) * (sin(dlng / 2));
+  c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+  distanceKm = radiusEarth * c;
+  print('Distancia en Kilométros:$distanceKm');
+  distanceMts = 1000 * distanceKm;
+  print('Distancia en Metros:$distanceMts');
+
+  return distanceKm;
+  //return distanceMts;
 }
