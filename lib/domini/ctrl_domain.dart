@@ -586,28 +586,14 @@ class CtrlDomain {
     }
   }
   //Carrega des de la base de dades, tota la informació d'un carregador de cat o bcn i la guarda al sistema
-  Future<void> getInfoChargerCoord(Coordenada coord) async {
-    var url = urlorg +'charger_info_cat?longitud='+ coord.longitud.toString() +'&latitud='+coord.latitud.toString();
-    var response = (await http.get(Uri.parse(url)));
-    var resp = jsonDecode(response.body);
-    for(var it in resp['items']){
-      Set<String>endollsPunt = <String>{};
-      for(var en in it['Sockets']){
-        endollsPunt.add(en['Connector_id'].toString());
-        Endoll endoll = Endoll(en['Connector_id'].toString(), it['_id'], en['State']);
-        var list = en['Connector_types'].toString().split(',');
-        for(var num in list){
-          typesendolls[int.parse(num)].endolls.add(it['_id']);
-          endoll.tipus.add(num);
-        }
-        endolls.add(endoll);
+  bool isChargerBCN(double lat, double long){
+    bool isBcn = false;
+    for(var pfav in coordBarcelona){
+      if(pfav.latitud == lat && pfav.longitud == long){
+        isBcn = true;
       }
-      if(it['Station_name']== null)it['Station_name']="Unknown";
-      if(it['Station_address']== null)it['Station_address']="Unknown";
-      coordPuntsCarrega.add(Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
-      EstacioCarrega estCarrega = EstacioCarrega.ambendolls(it['_id'], it['Station_name'], it['Station_address'],it['Station_municipi'] ,endollsPunt, Coordenada(double.parse(it['Station_lat'].toString()),double.parse(it['Station_lng'].toString())));
-      puntscarrega.add(estCarrega);
     }
+    return isBcn;
   }
   //Carrega des de la base de dades, tota la informació d'un carregador de cat o bcn la guarda en una llista que retorna
   Future<List<String>> getInfoCharger2(double lat, double long) async{
@@ -644,10 +630,13 @@ class CtrlDomain {
       }
       bool isfav = false;
       for(var fav in puntsFavCarrega){
-        if(lat == fav.coord.latitud && fav.coord.longitud== long) isfav=true;
+        if(lat == fav.coord.latitud && fav.coord.longitud == long) isfav=true;
       }
       infoC.add(isfav.toString());
       infoC.add(cat.toString());
+      print(infoC);
+
+      print(infoC.length);
     }
     return infoC;
   }
