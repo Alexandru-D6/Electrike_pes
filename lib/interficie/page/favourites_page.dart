@@ -131,7 +131,7 @@ class _AllFavsState extends State<AllFavs> {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
     List<String> titlesChargers = ctrlPresentation.getNomsFavsChargerPoints();
-
+    int numChargers = chargerPoints.length;
     List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
     List<String> titlesBicings = ctrlPresentation.getNomsFavsBicingPoints();
 
@@ -144,6 +144,8 @@ class _AllFavsState extends State<AllFavs> {
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = allFavPoints[index];
         String title = titles[index];
+        print(index);
+        if(index < numChargers) 
 
         return ListTile(
           title: Text(title),
