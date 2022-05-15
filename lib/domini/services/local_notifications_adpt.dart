@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
@@ -11,6 +12,23 @@ import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
+class InfoNotification extends Struct {
+  @Double()
+  external double lat;
+
+  @Double()
+  external double long;
+
+  @Int32()
+  external int dayOfTheWeek;
+
+  @Int32()
+  external int iniHour;
+
+  @Int32()
+  external int iniMinute;
+}
 
 class LocalNotificationAdpt {
   //NotificationService a singleton object
@@ -26,8 +44,8 @@ class LocalNotificationAdpt {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
 
-  //List of current notifications. Info for each: id, lat, long, dayOfTheWeek, iniHour, iniMinute
-  static final List<Tuple6<int, double, double, int, int, int>> _currentNotifications = [];
+  //Map of current notifications. Key: id
+  static final Map<int, InfoNotification> _currentNotifications = {};
 
   Future<void> init() async {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -96,7 +114,11 @@ class LocalNotificationAdpt {
     }
 
     int id = _createId();
-    _currentNotifications.add(Tuple6<int, double, double,int, int, int>(id,lat,long,when.weekday,when.hour,when.minute));
+    _currentNotifications[id]?.lat = lat;
+    _currentNotifications[id]?.long = long;
+    _currentNotifications[id]?.dayOfTheWeek = when.weekday;
+    _currentNotifications[id]?.iniHour = when.hour;
+    _currentNotifications[id]?.iniMinute = when.minute;
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         id,
@@ -117,19 +139,22 @@ class LocalNotificationAdpt {
 
   //Retorna l'id de la notificació identificada pels paràmetres.
   //Pre: Existeix una notificació dins de _currentNotifications identificada pels paràmetres passats
-  int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    Tuple6<int, double, double, int, int, int> l = _currentNotifications.firstWhere((item) {
-      item.item2 == lat && item.item3 == long && item.item4 == dayOfTheWeek && item.item5 == iniHour && item.item6 == iniMinute;
+  Future<int> _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    for (var id in _currentNotifications.keys) {
+      if (_currentNotifications[id]?.lat == lat && _currentNotifications[id]?.long == long &&
+          _currentNotifications[id]?.dayOfTheWeek == dayOfTheWeek && _currentNotifications[id]?.iniHour == iniHour &&
+          _currentNotifications[id]?.iniMinute == iniMinute) {
+        return id;
+      }
       throw StateError("No id found");
-    });
-    return l.item1;
+    }
   }
 
   Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
     Map<Tuple2<int,int>,List<int>> m = <Tuple2<int,int>,List<int>>{};
     for (int i = 0; i < _currentNotifications.length; ++i) {
-      if (_currentNotifications[i].item2 == lat && _currentNotifications[i].item3 == long) {
-        m[Tuple2(_currentNotifications[i].item5,_currentNotifications[i].item6)]?.add(_currentNotifications[i].item4);
+      if (_currentNotifications[i]?.lat == lat && _currentNotifications[i]?.long == long) {
+        m[Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute)]?.add(_currentNotifications[i]?.item4);
       }
     }
     return m;
@@ -137,7 +162,7 @@ class LocalNotificationAdpt {
 
 
   Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    int id = _findId(lat,long,dayOfTheWeek,iniHour,iniMinute);
+    int id = _findId(lat,long,dayOfTheWeek,iniHour,iniMinute) as int;
     _currentNotifications.removeWhere((element) => element.item1==id);
     await _flutterLocalNotificationsPlugin.cancel(id);
   }
