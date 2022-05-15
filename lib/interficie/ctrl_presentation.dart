@@ -306,7 +306,11 @@ class CtrlPresentation {
         GeoCoord orig = GeoCoord(value.latitude!, value.longitude!);
         RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
         //String origin = value.latitude.toString() + "," + value.longitude.toString();
-        //if (actualLocation != "Your location") origin = actualLocation;
+
+        if (actualLocation != "Your location") {
+          var oriT = await getMapsService.adressCoding(actualLocation);
+          orig = GeoCoord(oriT!.lat!, oriT.lng!);
+        }
         //todo: arreglar esto
         GoogleMap.of(getMapKey())?.displayRoute(
             orig,
