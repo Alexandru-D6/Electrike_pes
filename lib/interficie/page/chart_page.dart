@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/data_graphic.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import 'package:flutter_project/interficie/widget/day_of_week_picker_widget.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
@@ -40,7 +39,7 @@ class ChartPage extends StatefulWidget {
           ),
         DropdownButton<String>(
           value: dropdownValue,
-          icon: const Icon(Icons.arrow_downward),
+          icon: const Icon(Icons.arrow_drop_down_outlined),
           elevation: 16,
           style: const TextStyle(color: Colors.deepPurple),
           underline: Container(
