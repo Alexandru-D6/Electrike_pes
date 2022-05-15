@@ -126,23 +126,6 @@ class LocalNotificationAdpt {
     var entry = <int, InfoNotification>{id: infNN[0]};
     _currentNotifications.addEntries(entry.entries);
 
-    print(infNN[0]);
-
-    print(id);
-    print(lat);
-    print(_currentNotifications[id]!.lat);
-    print(long);
-    print(_currentNotifications[id]!.long);
-    print(when.weekday);
-    print(_currentNotifications[id]!.dayOfTheWeek);
-    print(when.hour);
-    print(_currentNotifications[id]!.iniHour);
-    print(when.minute);
-    print(_currentNotifications[id]!.iniMinute);
-
-
-
-
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         "Charger point " + dadesCargadors[1] + " state",
@@ -161,13 +144,6 @@ class LocalNotificationAdpt {
   }
 
   int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-
-    print(lat);
-    print(long);
-    print(dayOfTheWeek);
-    print(iniHour);
-    print(iniMinute);
-
     for (var id in _currentNotifications.keys) {
       if (_currentNotifications[id]!.lat == lat &&
           _currentNotifications[id]!.long == long &&
@@ -192,7 +168,6 @@ class LocalNotificationAdpt {
 
 
   Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    print(_currentNotifications);
     int id = _findId(lat,long,dayOfTheWeek,iniHour,iniMinute);
     _currentNotifications.remove(id);
     await _flutterLocalNotificationsPlugin.cancel(id);
