@@ -890,7 +890,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       '${origin}_$destination',
           () {
         DirectionsRendererOptions dro = DirectionsRendererOptions();
-        PolylineOptions po = PolylineOptions()..strokeColor = color == null ? "0xFFFFFFFF" : color.toHashString();
+        PolylineOptions po = PolylineOptions()..strokeColor = color == null ? Color(0x0000FF).toHashString() : color.toHashString();
         dro..suppressMarkers = true;
         dro..polylineOptions = po;
         DirectionsRenderer direction = DirectionsRenderer(dro);

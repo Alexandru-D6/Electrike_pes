@@ -906,7 +906,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             polylineId: polylineId,
             points: response.routes?.firstOrNull?.overviewPath?.mapList((_) => _.toLatLng()) ??
                 ((startLatLng != null && endLatLng != null) ? [startLatLng.toLatLng(), endLatLng.toLatLng()] : []),
-            color: color as Color,
+            color: color == null ? Color(0x0000FF) : color,
             startCap: Cap.roundCap,
             endCap: Cap.roundCap,
             width: 8,

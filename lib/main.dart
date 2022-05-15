@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
@@ -115,6 +116,18 @@ class _MainPageState extends State<MainPage> {
         ctrlPresentation.toMainPage(context);
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance!.addPostFrameCallback((_) async {
+      Location location = Location();
+      location.onLocationChanged.listen((event) {
+        print("cur location --> " + event.latitude.toString() + " - " + event.longitude.toString());
+      });
+    });
   }
 
   @override

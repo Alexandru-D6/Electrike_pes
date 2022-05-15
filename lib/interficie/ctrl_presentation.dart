@@ -23,6 +23,7 @@ import '../domini/data_graphic.dart';
 class CtrlPresentation {
   static final CtrlPresentation _singleton = CtrlPresentation._internal();
   CtrlDomain ctrlDomain = CtrlDomain();
+
   factory CtrlPresentation() {
     return _singleton;
   }
@@ -309,7 +310,7 @@ class CtrlPresentation {
           startInfo: 'Origin',
           endIcon: 'assets/images/rolls_royce.png',
           endInfo: 'Destination',
-          color: Colors.red,
+          color: Colors.amberAccent,
         );
 
       });
