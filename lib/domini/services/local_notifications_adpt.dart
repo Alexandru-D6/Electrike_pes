@@ -99,7 +99,7 @@ class LocalNotificationAdpt {
     _currentNotifications.add(Tuple6<int, double, double,int, int, int>(id,lat,long,when.weekday,when.hour,when.minute));
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-        0 /*id*/,
+        id,
         "Charger point " + dadesCargadors[1] + " state",
         "Your charger point has " +state+ " available chargers.",
         tz.TZDateTime.from(when, tz.local),
@@ -112,7 +112,7 @@ class LocalNotificationAdpt {
 
   int _createId() {
     final now = DateTime.now();
-    return now.microsecondsSinceEpoch.toInt();
+    return int.parse(now.microsecondsSinceEpoch.toString().substring(4,13));
   }
 
   //Retorna l'id de la notificació identificada pels paràmetres.

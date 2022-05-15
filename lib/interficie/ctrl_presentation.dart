@@ -452,15 +452,6 @@ class CtrlPresentation {
     return 8;
   }
 
-  void showInstantNotification(double lat, double long) {
-    ctrlDomain.showInstantNotification(lat, long);
-  }
-
-  //cal arreglar aquesta funció
-  void removeShceduledNotification(/*DateTime when, */double lat, double long) {
-    ctrlDomain.removeScheduledNotification(lat, long, 0, 0, 0);
-  }
-
   void share({required double latitude, required double longitude}) {
     print("share button");
   }
@@ -573,6 +564,16 @@ class CtrlPresentation {
   
   List<DataGraphic>getInfoGraphic(String day) {
     return ctrlDomain.getInfoGraphic(day);
+  }
+
+
+  void showInstantNotification(double lat, double long) {
+    ctrlDomain.showInstantNotification(lat, long);
+  }
+
+  //cal arreglar aquesta funció
+  void removeShceduledNotification(/*DateTime when, */double lat, double long) {
+    ctrlDomain.removeScheduledNotification(lat, long, 0, 0, 0);
   }
 
   void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
