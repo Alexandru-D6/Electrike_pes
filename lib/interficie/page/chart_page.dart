@@ -38,7 +38,28 @@ class ChartPage extends StatefulWidget {
               )
             ),
           ),
-          DayOfWeekPickerWidget(),
+        DropdownButton<String>(
+          value: dropdownValue,
+          icon: const Icon(Icons.arrow_downward),
+          elevation: 16,
+          style: const TextStyle(color: Colors.deepPurple),
+          underline: Container(
+            height: 2,
+            color: Colors.deepPurpleAccent,
+          ),
+          onChanged: (String? newValue) {
+            setState(() {
+              dropdownValue = newValue!;
+            });
+          },
+          items: <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',]
+          .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
           Container(
             padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
             alignment: Alignment.bottomCenter,
@@ -46,7 +67,7 @@ class ChartPage extends StatefulWidget {
               SizedBox(
                 width: 500.0,
                 height: 500.0,
-                child: OcupationChart(createData(), animate: false),
+                child: OcupationChart(createData(dropdownValue), animate: false),
               )
           )
         ]
@@ -54,10 +75,10 @@ class ChartPage extends StatefulWidget {
     );
   }
 
-  static List<charts.Series<DataGraphic, String>> createData() {
+  static List<charts.Series<DataGraphic, String>> createData(String dia) {
     //todo por aqui recibir la variable data que se vaya actualizando, hay que hablar de como hacerlo, mi idea es que vaya cambiando esta variable y el usuario para ver los cambios tenga que cargar un grafico nuevo, y nos dejamos de statefuls
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    final data = ctrlPresentation.getInfoGraphic("Sunday");
+    final data = ctrlPresentation.getInfoGraphic(dia);
 
     return [
       charts.Series<DataGraphic, String>(
