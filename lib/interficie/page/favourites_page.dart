@@ -45,15 +45,18 @@ class _FavsChargersState extends State<FavsChargers> {
                               color: Colors.blue,
                               onPressed: () {
                               //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
-                                ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 7, 11, 50);
-                                ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 7, 11, 51);
+                                //ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 1, 1, 00);
+                                ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 2, 1, 00);
+                                //ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 7, 18, 50);
                               }
                           ),
                         IconButton(
                             icon: (const Icon(Icons.settings)),
                             color: Colors.grey,
                             onPressed: () {
-                              ctrlPresentation.removeShceduledNotification(word.latitud, word.longitud);
+                              //ctrlPresentation.removeShceduledNotification(word.latitud, word.longitud, 1, 1, 00);
+                              ctrlPresentation.removeShceduledNotification(word.latitud, word.longitud, 2, 1, 00);
+                              //ctrlPresentation.removeShceduledNotification(word.latitud, word.longitud, 7, 18, 50);
                               //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
                             }
                         ),

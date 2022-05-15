@@ -844,7 +844,15 @@ class CtrlDomain {
   }
 
   void removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, dayOfTheWeek, iniHour, iniMinute);
+    var when = DateTime(DateTime.now().year, DateTime.now().month, dayOfTheWeek, iniHour, iniMinute);
+    when = when.toUtc();
+    dayOfTheWeek = when.day;
+    if (when.day >= 28) {
+      dayOfTheWeek = 7;
+    } else if (when.day > 7) {
+      dayOfTheWeek = 1;
+    }
+    serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, dayOfTheWeek, when.hour, when.minute);
   }
 
   void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) {

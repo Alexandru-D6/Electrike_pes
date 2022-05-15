@@ -571,9 +571,8 @@ class CtrlPresentation {
     ctrlDomain.showInstantNotification(lat, long);
   }
 
-  //cal arreglar aquesta funció
-  void removeShceduledNotification(/*DateTime when, */double lat, double long) {
-    ctrlDomain.removeScheduledNotification(lat, long, 0, 0, 0);
+  void removeShceduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    ctrlDomain.removeScheduledNotification(lat, long, dayOfTheWeek, iniHour, iniMinute);
   }
 
   void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {

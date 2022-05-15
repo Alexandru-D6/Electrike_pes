@@ -12,6 +12,8 @@ import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'dart:ffi' as ffi;
+import 'package:ffi/ffi.dart';
 
 class InfoNotification extends Struct {
   @Double()
@@ -114,11 +116,32 @@ class LocalNotificationAdpt {
     }
 
     int id = _createId();
-    _currentNotifications[id]?.lat = lat;
-    _currentNotifications[id]?.long = long;
-    _currentNotifications[id]?.dayOfTheWeek = when.weekday;
-    _currentNotifications[id]?.iniHour = when.hour;
-    _currentNotifications[id]?.iniMinute = when.minute;
+    Pointer<InfoNotification> infNN = malloc<InfoNotification>();
+
+    infNN[0].lat = lat;
+    infNN[0].long = long;
+    infNN[0].dayOfTheWeek = when.weekday;
+    infNN[0].iniHour = when.hour;
+    infNN[0].iniMinute = when.minute;
+    var entry = <int, InfoNotification>{id: infNN[0]};
+    _currentNotifications.addEntries(entry.entries);
+
+    print(infNN[0]);
+
+    print(id);
+    print(lat);
+    print(_currentNotifications[id]!.lat);
+    print(long);
+    print(_currentNotifications[id]!.long);
+    print(when.weekday);
+    print(_currentNotifications[id]!.dayOfTheWeek);
+    print(when.hour);
+    print(_currentNotifications[id]!.iniHour);
+    print(when.minute);
+    print(_currentNotifications[id]!.iniMinute);
+
+
+
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         id,
@@ -137,24 +160,31 @@ class LocalNotificationAdpt {
     return int.parse(now.microsecondsSinceEpoch.toString().substring(4,13));
   }
 
-  //Retorna l'id de la notificació identificada pels paràmetres.
-  //Pre: Existeix una notificació dins de _currentNotifications identificada pels paràmetres passats
-  Future<int> _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+  int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+
+    print(lat);
+    print(long);
+    print(dayOfTheWeek);
+    print(iniHour);
+    print(iniMinute);
+
     for (var id in _currentNotifications.keys) {
-      if (_currentNotifications[id]?.lat == lat && _currentNotifications[id]?.long == long &&
-          _currentNotifications[id]?.dayOfTheWeek == dayOfTheWeek && _currentNotifications[id]?.iniHour == iniHour &&
-          _currentNotifications[id]?.iniMinute == iniMinute) {
+      if (_currentNotifications[id]!.lat == lat &&
+          _currentNotifications[id]!.long == long &&
+          _currentNotifications[id]!.dayOfTheWeek == dayOfTheWeek &&
+          _currentNotifications[id]!.iniHour == iniHour &&
+          _currentNotifications[id]!.iniMinute == iniMinute) {
         return id;
       }
-      throw StateError("No id found");
     }
+    throw StateError("Notifications: No notification id found");
   }
 
   Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
     Map<Tuple2<int,int>,List<int>> m = <Tuple2<int,int>,List<int>>{};
-    for (int i = 0; i < _currentNotifications.length; ++i) {
+    for (var i in _currentNotifications.keys) {
       if (_currentNotifications[i]?.lat == lat && _currentNotifications[i]?.long == long) {
-        m[Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute)]?.add(_currentNotifications[i]?.item4);
+        m[Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute)]?.add(_currentNotifications[i]!.dayOfTheWeek);
       }
     }
     return m;
@@ -162,8 +192,9 @@ class LocalNotificationAdpt {
 
 
   Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    int id = _findId(lat,long,dayOfTheWeek,iniHour,iniMinute) as int;
-    _currentNotifications.removeWhere((element) => element.item1==id);
+    print(_currentNotifications);
+    int id = _findId(lat,long,dayOfTheWeek,iniHour,iniMinute);
+    _currentNotifications.remove(id);
     await _flutterLocalNotificationsPlugin.cancel(id);
   }
 
