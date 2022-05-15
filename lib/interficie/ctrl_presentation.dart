@@ -13,6 +13,7 @@ import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -578,5 +579,9 @@ class CtrlPresentation {
   void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     return ctrlDomain.addSheduledNotificationFavoriteChargePoint(lat, long, dayOfTheWeek, iniHour, iniMinute);
 }
+
+  /*Map<Tuple2<int,int>,List<int>>*/ void currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+    /*return */currentScheduledNotificationsOfAChargerPoint(lat,long);
+  }
 
 }

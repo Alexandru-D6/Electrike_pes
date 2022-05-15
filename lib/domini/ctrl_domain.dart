@@ -865,8 +865,21 @@ class CtrlDomain {
     Retorna un map que com a clau té: Hora i Minut
      i com a valor una llista de dies de la setmana (between 1 (Monday) to 7 (Sunday))
    */
-  Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
-    return serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
+  /*Map<Tuple2<int,int>,List<int>>*/ void currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+    Map<Tuple2<int,int>,List<int>> map = serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
+/*
+    for (var i in map.keys) {
+      for (int ii = 0; ii < map[i]!.length; i++)
+      _convertDayOfTheWeek(map[i]);
+    }
+  */
+
+    for (var i in map.keys) {
+      print(i);
+      print(map[i]);
+    }
+
+    //return map;
   }
 
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {

@@ -160,7 +160,16 @@ class LocalNotificationAdpt {
     Map<Tuple2<int,int>,List<int>> m = <Tuple2<int,int>,List<int>>{};
     for (var i in _currentNotifications.keys) {
       if (_currentNotifications[i]?.lat == lat && _currentNotifications[i]?.long == long) {
-        m[Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute)]?.add(_currentNotifications[i]!.dayOfTheWeek);
+
+        if (m[Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute)] == null) {
+          var entry = <Tuple2<int,int>,List<int>>{
+            Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute): [_currentNotifications[i]!.dayOfTheWeek]
+          };
+          m.addEntries(entry.entries);
+        }
+        else {
+          m[Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute)]!.add(_currentNotifications[i]!.dayOfTheWeek);
+        }
       }
     }
     return m;
