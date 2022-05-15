@@ -125,6 +125,17 @@ class LocalNotificationAdpt {
     return l.item1;
   }
 
+  Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+    Map<Tuple2<int,int>,List<int>> m = <Tuple2<int,int>,List<int>>{};
+    for (int i = 0; i < _currentNotifications.length; ++i) {
+      if (_currentNotifications[i].item2 == lat && _currentNotifications[i].item3 == long) {
+        m[Tuple2(_currentNotifications[i].item5,_currentNotifications[i].item6)]?.add(_currentNotifications[i].item4);
+      }
+    }
+    return m;
+  }
+
+
   Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     int id = _findId(lat,long,dayOfTheWeek,iniHour,iniMinute);
     _currentNotifications.removeWhere((element) => element.item1==id);

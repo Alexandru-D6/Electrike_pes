@@ -853,6 +853,14 @@ class CtrlDomain {
     }
   }
 
+  /*Retorna una llista (map) de notificacions que té un punt de càrrega (latitud i longitud).
+    Retorna un map que com a clau té: Hora i Minut
+     i com a valor una llista de dies de la setmana (between 1 (Monday) to 7 (Sunday))
+   */
+  Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+    return serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
+  }
+
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
