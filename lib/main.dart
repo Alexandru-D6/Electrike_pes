@@ -140,7 +140,7 @@ class _MainPageState extends State<MainPage> {
 
     super.initState();
 
-    SchedulerBinding.instance!.addPostFrameCallback((_) async {
+    SchedulerBinding.instance?.addPostFrameCallback((_) async {
 
     });
   }

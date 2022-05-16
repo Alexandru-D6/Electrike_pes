@@ -116,16 +116,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    //aa
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) async {
-      //codigo que ejcutar tras el build
-
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
 
     Location location = Location();

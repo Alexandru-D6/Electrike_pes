@@ -10,15 +10,14 @@ import 'dart:ui' as ui;
 import 'package:flinq/flinq.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
-import 'package:flutter_project/libraries/flutter_google_maps/src/core/route_response.dart';
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 import 'package:google_maps/google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show MarkerId;
 import 'package:uuid/uuid.dart';
 
+import '../core/route_response.dart';
 import '../core/google_map.dart' as gmap;
 import '../core/map_items.dart' as items_t;
-import '../core/route_response.dart';
 import '../core/utils.dart' as utils;
 import 'utils.dart';
 
@@ -646,7 +645,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _manager_route = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_route.values), _updateMarkersRoute, markerBuilder: _markerBuilder(Colors.yellow), levels: _cluster_levels);
 
     super.initState();
-    SchedulerBinding.instance!.addPostFrameCallback((_) {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
       /*for (var marker in widget.markers) {
         addMarker(marker);
       }*/ //para mi caso no hace falta ya que esto lo controlo yo de por si
