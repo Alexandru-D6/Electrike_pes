@@ -239,8 +239,8 @@ class _MyMapState extends State<MyMap> {
   @override
   void initState() {
     super.initState();
-
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
+     // ignore: unnecessary_non_null_assertion
+    SchedulerBinding.instance!.addPostFrameCallback((_) async {
       ctrlPresentation.setMapKey(_newKey);
       chargerMarkers();
 
