@@ -46,6 +46,15 @@ Future initializeSystem() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  Location location = Location();
+  location.onLocationChanged.listen((event) {
+    double? lat = event.latitude;
+    double? lng = event.longitude;
+    ctrlDomain.increaseDistance(lat!, lng!);
+    //print("cur location --> " + event.latitude.toString() + " - " + event.longitude.toString());
+  });
+
   runApp(MaterialApp(home: const MyApp(),
     navigatorKey: navigatorKey, debugShowCheckedModeBanner: false));
 }
@@ -132,13 +141,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
 
     SchedulerBinding.instance!.addPostFrameCallback((_) async {
-      Location location = Location();
-      location.onLocationChanged.listen((event) {
-        CtrlDomain ctrlDomain = CtrlDomain();
-        GeoCoord coords = event as GeoCoord;
-        ctrlDomain.increaseDistance(coords.latitude, coords.longitude);
-        //print("cur location --> " + event.latitude.toString() + " - " + event.longitude.toString());
-      });
+
     });
   }
 

@@ -64,8 +64,8 @@ class CtrlDomain {
   }
 
   //DATA ROUTES
-  RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
-  RutesSenseCarrega rutesSenseCarrega = RutesSenseCarrega();
+  late RutesAmbCarrega rutesAmbCarrega;
+  late RutesSenseCarrega rutesSenseCarrega;
 
   //SYSTEM
   Future<void> initializeSystem() async {
@@ -75,6 +75,10 @@ class CtrlDomain {
     await getChargersCoord('cat');
     await getChargersCoord('bcn');
     await getBicings();
+
+    rutesAmbCarrega = RutesAmbCarrega();
+    rutesSenseCarrega = RutesSenseCarrega();
+
   }
   void initializeTypes(){
     List<TipusEndollEnum> types= TipusEndollEnum.values;

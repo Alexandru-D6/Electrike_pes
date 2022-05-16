@@ -133,6 +133,8 @@ class _AllFavsState extends State<AllFavs> {
     List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
     List<String> titlesChargers = ctrlPresentation.getNomsFavsChargerPoints();
 
+    int numChargers = chargerPoints.length;
+
     List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
     List<String> titlesBicings = ctrlPresentation.getNomsFavsBicingPoints();
 
@@ -148,12 +150,17 @@ class _AllFavsState extends State<AllFavs> {
         bool hasNotifications = ctrlPresentation.hasNotifications(word.latitud, word.longitud);
         bool notificationsOn = ctrlPresentation.notificationsOn(word.latitud, word.longitud);
 
+        bool esBarcelona = false;
+        if(index < numChargers) {
+          esBarcelona = ctrlPresentation.esBarcelona(word.latitud, word.longitud);
+        }
+
         return ListTile(
           title: Text(title),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              IconButton(
+              if(esBarcelona) IconButton(
                   icon: (const Icon(Icons.bar_chart)),
                   color: Colors.green,
                   onPressed: () async {

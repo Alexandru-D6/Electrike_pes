@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async' show FutureOr;
-import 'dart:ui' show Color, VoidCallback;
 
 import 'package:flutter/material.dart';
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
