@@ -30,6 +30,9 @@ class InfoNotification extends Struct {
 
   @Int32()
   external int iniMinute;
+
+  @Bool()
+  external bool active;
 }
 
 class LocalNotificationAdpt {
@@ -106,17 +109,18 @@ class LocalNotificationAdpt {
 
   Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
 
-    Pointer<InfoNotification> infNN = malloc<InfoNotification>();
+    Pointer<InfoNotification> infN = malloc<InfoNotification>();
 
-    infNN[0].lat = lat;
-    infNN[0].long = long;
-    infNN[0].dayOfTheWeek = when.weekday;
-    infNN[0].iniHour = when.hour;
-    infNN[0].iniMinute = when.minute;
+    infN[0].lat = lat;
+    infN[0].long = long;
+    infN[0].dayOfTheWeek = when.weekday;
+    infN[0].iniHour = when.hour;
+    infN[0].iniMinute = when.minute;
+    infN[0].active = true;
 
     if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
       int id = _createId();
-      var entry = <int, InfoNotification>{id: infNN[0]};
+      var entry = <int, InfoNotification>{id: infN[0]};
       _currentNotifications.addEntries(entry.entries);
 
       CtrlDomain ctrlDomain = CtrlDomain();
@@ -192,6 +196,15 @@ class LocalNotificationAdpt {
     return m;
   }
 
+  bool hasNotificacions(double lat, double long) {
+    for (var id in _currentNotifications.keys) {
+      if (_currentNotifications[id]!.lat == lat &&
+          _currentNotifications[id]!.long == long) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     int id = _findId(lat,long,dayOfTheWeek,iniHour,iniMinute);

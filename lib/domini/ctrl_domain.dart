@@ -902,6 +902,10 @@ class CtrlDomain {
     return mapLocal;
   }
 
+  bool hasNotificacions(double lat, double long) {
+    return serviceLocator<LocalNotificationAdpt>().hasNotificacions(lat,long);
+  }
+
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);

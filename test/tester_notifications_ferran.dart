@@ -145,10 +145,10 @@ class _MainPageState extends State<MainPage> {
         fit: StackFit.expand,
         children: [ElevatedButton(onPressed: () {
         CtrlDomain ctrlDomain = CtrlDomain();
-        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 1, 1, 00);
-        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 2, 1, 00);
-        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 7, 18, 50);
-        ctrlDomain.currentScheduledNotificationsOfAChargerPoint(41.73682408, 1.82836016);}, child: const Text("Instant Notification"))],
+        //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 1, 1, 00);
+        //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 2, 1, 00);
+        //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 7, 18, 50);
+        print(ctrlDomain.hasNotificacions(41.73682408, 1.82836016));}, child: const Text("Instant Notification"))],
       ),
     );
   }
