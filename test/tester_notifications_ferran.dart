@@ -143,7 +143,12 @@ class _MainPageState extends State<MainPage> {
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: [ElevatedButton(onPressed: () => serviceLocator<LocalNotificationAdpt>().showInstantNotification(0.0, 0.0), child: const Text("Instant Notification"))],
+        children: [ElevatedButton(onPressed: () {
+        CtrlDomain ctrlDomain = CtrlDomain();
+        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 1, 1, 00);
+        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 2, 1, 00);
+        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 7, 18, 50);
+        ctrlDomain.currentScheduledNotificationsOfAChargerPoint(41.73682408, 1.82836016);}, child: const Text("Instant Notification"))],
       ),
     );
   }

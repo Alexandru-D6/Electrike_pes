@@ -844,15 +844,8 @@ class CtrlDomain {
   }
 
   void removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    var when = DateTime(DateTime.now().year, DateTime.now().month, dayOfTheWeek, iniHour, iniMinute);
-    when = when.toUtc();
-    dayOfTheWeek = when.day;
-    if (when.day >= 28) {
-      dayOfTheWeek = 7;
-    } else if (when.day > 7) {
-      dayOfTheWeek = 1;
-    }
-    serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, dayOfTheWeek, when.hour, when.minute);
+    Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
+    serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
   }
 
   void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) {
@@ -861,25 +854,63 @@ class CtrlDomain {
     }
   }
 
+  /*Retorna el dia de la setmana, la hora i el minut transformats segons el paràmetre toLocal:
+    True: Ho transforma de UTC a hora local
+    False: Ho transforma de hora local a UTC
+   */
+  Tuple3<int,int,int> _convertDayOfTheWeek(int dayOfTheWeek, int iniHour, int iniMinute, bool toLocal) {
+    DateTime when;
+    if (toLocal) {
+      when = DateTime.utc(DateTime.now().year, DateTime.now().month, dayOfTheWeek, iniHour, iniMinute);
+      when = when.toLocal();
+    } else {
+      when = DateTime(DateTime.now().year, DateTime.now().month, dayOfTheWeek, iniHour, iniMinute);
+      when = when.toUtc();
+    }
+    dayOfTheWeek = when.day;
+    if (when.day >= 28) {
+      dayOfTheWeek = 7;
+    } else if (when.day > 7) {
+      dayOfTheWeek = 1;
+    }
+
+    return Tuple3(dayOfTheWeek,when.hour,when.minute);
+  }
+
   /*Retorna una llista (map) de notificacions que té un punt de càrrega (latitud i longitud).
     Retorna un map que com a clau té: Hora i Minut
      i com a valor una llista de dies de la setmana (between 1 (Monday) to 7 (Sunday))
    */
-  /*Map<Tuple2<int,int>,List<int>>*/ void currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
-    Map<Tuple2<int,int>,List<int>> map = serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
-/*
-    for (var i in map.keys) {
-      for (int ii = 0; ii < map[i]!.length; i++)
-      _convertDayOfTheWeek(map[i]);
-    }
-  */
+  Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+    Map<Tuple2<int,int>,List<int>> mapUTC = serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
+    Map<Tuple2<int,int>,List<int>> mapLocal = <Tuple2<int,int>,List<int>>{};
+    Tuple3<int,int,int> t3;
 
-    for (var i in map.keys) {
+    for (var i in mapUTC.keys) {
+      for (int ii = 0; ii < mapUTC[i]!.length; ii++) {
+        t3 = _convertDayOfTheWeek(mapUTC[i]![ii], i.item1, i.item2, true);
+
+        if (mapLocal[Tuple2(t3.item2,t3.item3)] == null) {
+          var entry = <Tuple2<int,int>,List<int>>{ Tuple2(t3.item2,t3.item3): [t3.item1]};
+          mapLocal.addEntries(entry.entries);
+        }
+        else {
+          mapLocal[Tuple2(t3.item2, t3.item3)]!.add(t3.item1);
+        }
+      }
+    }
+
+    for (var i in mapUTC.keys) {
       print(i);
-      print(map[i]);
+      print(mapUTC[i]);
     }
 
-    //return map;
+    for (var i in mapLocal.keys) {
+      print(i);
+      print(mapLocal[i]);
+    }
+
+    return mapLocal;
   }
 
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {

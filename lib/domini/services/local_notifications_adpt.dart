@@ -105,17 +105,7 @@ class LocalNotificationAdpt {
   }
 
   Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
-    CtrlDomain ctrlDomain = CtrlDomain();
-    List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
 
-    late String state;
-    if (dadesCargadors[6] != "0" || dadesCargadors[10] != "0" || dadesCargadors[14] != "0"|| dadesCargadors[18] != "0") {
-      state = "<unknown>";
-    } else {
-      state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
-    }
-
-    int id = _createId();
     Pointer<InfoNotification> infNN = malloc<InfoNotification>();
 
     infNN[0].lat = lat;
@@ -123,19 +113,46 @@ class LocalNotificationAdpt {
     infNN[0].dayOfTheWeek = when.weekday;
     infNN[0].iniHour = when.hour;
     infNN[0].iniMinute = when.minute;
-    var entry = <int, InfoNotification>{id: infNN[0]};
-    _currentNotifications.addEntries(entry.entries);
 
-    await _flutterLocalNotificationsPlugin.zonedSchedule(
-        id,
-        "Charger point " + dadesCargadors[1] + " state",
-        "Your charger point has " +state+ " available chargers.",
-        tz.TZDateTime.from(when, tz.local),
-        NotificationDetails(android: _androidNotificationDetails),
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
+    if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
+      int id = _createId();
+      var entry = <int, InfoNotification>{id: infNN[0]};
+      _currentNotifications.addEntries(entry.entries);
+
+      CtrlDomain ctrlDomain = CtrlDomain();
+      List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
+
+      late String state;
+      if (dadesCargadors[6] != "0" || dadesCargadors[10] != "0" || dadesCargadors[14] != "0"|| dadesCargadors[18] != "0") {
+        state = "<unknown>";
+      } else {
+        state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
+      }
+
+      await _flutterLocalNotificationsPlugin.zonedSchedule(
+          id,
+          "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
+          "Your charger point has " +state+ " available chargers.",
+          tz.TZDateTime.from(when, tz.local),
+          NotificationDetails(android: _androidNotificationDetails),
+          androidAllowWhileIdle: true,
+          uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+          matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
+      }
+  }
+
+  bool _existsNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    for (var id in _currentNotifications.keys) {
+      if (_currentNotifications[id]!.lat == lat &&
+          _currentNotifications[id]!.long == long &&
+          _currentNotifications[id]!.dayOfTheWeek == dayOfTheWeek &&
+          _currentNotifications[id]!.iniHour == iniHour &&
+          _currentNotifications[id]!.iniMinute == iniMinute) {
+        return true;
+      }
+    }
+    return false;
   }
 
   int _createId() {
