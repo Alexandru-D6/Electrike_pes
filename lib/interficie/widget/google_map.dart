@@ -3,6 +3,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -130,7 +131,13 @@ class _MyMapState extends State<MyMap> {
               mapStyle: null,
               interactive: true,
 
-              onLongPress: (markerId) {
+              onLongPress: (pos) async {
+                String url = ctrlPresentation.generateUrlForLocation(pos);
+                await Clipboard.setData(ClipboardData(text: url));
+
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Added to clipboard the tapped location!"),
+                ));
               },
 
               /*onTap: (a) async {

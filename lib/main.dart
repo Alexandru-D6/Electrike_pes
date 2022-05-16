@@ -26,6 +26,9 @@ import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+
 import 'domini/services/local_notifications_adpt.dart';
 
 void main() => runApp(const SplashScreen());
@@ -36,6 +39,7 @@ Future initializeSystem() async {
   await ctrlDomain.initializeSystem();
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   setUpLocator();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -120,6 +124,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
+    initDynamicLinks();
+
     super.initState();
 
     SchedulerBinding.instance!.addPostFrameCallback((_) async {
@@ -151,5 +157,23 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
     );
+  }
+
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+
+  String? _linkMessage;
+  bool _isCreatingLink = false;
+
+  final String DynamicLink = 'https://test-app/helloworld';
+  final String Link = 'https://reactnativefirebase.page.link/bFkn';
+
+  void initDynamicLinks() {
+    dynamicLinks.onLink.listen((dynamicLinkData) {
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(context, dynamicLinkData.link.path);
+    }).onError((error) {
+      print('onLink error');
+      print(error.message);
+    });
   }
 }

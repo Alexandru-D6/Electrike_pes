@@ -177,6 +177,14 @@ class CtrlPresentation {
     return email;
   }
 
+  //42.6974402 - 0.8250418
+  String generateUrlForLocation(GeoCoord a) {
+    //Location location = Location();
+    //LocationData geo = await location.getLocation();
+    String res = "Hey! Check this location -> https://www.google.com/maps/search/?api=1&query=" + a.latitude.toString() + "," + a.longitude.toString();
+    return res;
+  }
+
   void mailto() async {
     String _url = "mailto:electrike.official@gmail.com?subject=Help&body=Hi%20Electrike%20team!";
     if (!await launchUrl(Uri.parse(_url))) throw 'Could not launch $_url';
