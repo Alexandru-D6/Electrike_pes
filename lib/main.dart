@@ -31,7 +31,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import 'domini/services/local_notifications_adpt.dart';
-
+final navigatorKey = GlobalKey<NavigatorState>();
 void main() => runApp(const SplashScreen());
 
 Future initializeSystem() async {
@@ -46,7 +46,8 @@ Future initializeSystem() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+  runApp(MaterialApp(home: const MyApp(),
+    navigatorKey: navigatorKey, debugShowCheckedModeBanner: false));
 }
 
 class MyApp extends StatelessWidget {

@@ -80,6 +80,18 @@ class EditInfoPoint extends StatefulWidget {
 }
 
 class _EditInfoPointState extends State<EditInfoPoint> {
+  List<String> point = List.filled(23, "");
+  @override
+  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
+    ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
+      setState(() {
+        point = element;
+        print(point[22]);
+      });
+    });
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +99,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
-        IconButton(
+        if(point[22] == "false") IconButton(
           onPressed: () async {
           await ctrlPresentation.getOcupationCharger(widget.latitude, widget.longitude);
           ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
@@ -168,7 +180,7 @@ class PointInfo extends StatefulWidget {
 }
 
 class _PointInfoState extends State<PointInfo> {
-  List<String> point = List.filled(21, "");
+  List<String> point = List.filled(23, ""); //si da error de size aumentar 1
 
   @override
   void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.

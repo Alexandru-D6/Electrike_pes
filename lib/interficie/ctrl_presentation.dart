@@ -18,6 +18,7 @@ import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../domini/data_graphic.dart';
+import '../main.dart';
 
 
 class CtrlPresentation {
@@ -27,6 +28,7 @@ class CtrlPresentation {
   factory CtrlPresentation() {
     return _singleton;
   }
+
   CtrlPresentation._internal();
 
   String email = "";
@@ -39,21 +41,24 @@ class CtrlPresentation {
   int idCarUser = 0;
   int routeType = 0; //0 es normal, 1 es puntos de carga y 2 es eco
   String bateria = "100"; // de normal 100
-
+  String distinmeters = "";
+  String durationinminutes = "";
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: "You aren't logged",//todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-      desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: AppLocalizations.of(context).alertSureDeleteCarContent,
+      title: "You aren't logged",
+      //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
+      desc: "You aren't logged so you don't have access to this screen because It would be empty.",
+      //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();
   }
 
-  toMainPage(BuildContext context){
+  toMainPage(BuildContext context) {
     //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/'));
   }
@@ -67,9 +72,9 @@ class CtrlPresentation {
     );
   }
 
-  toGaragePage(BuildContext context){
+  toGaragePage(BuildContext context) {
     //print(ModalRoute.of(context)?.settings.name);
-    if(email == "") {
+    if (email == "") {
       _showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -80,9 +85,9 @@ class CtrlPresentation {
     }
   }
 
-  toFavouritesPage(BuildContext context){
+  toFavouritesPage(BuildContext context) {
     //print(ModalRoute.of(context)?.settings.name);
-    if(email == "") {
+    if (email == "") {
       _showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -93,9 +98,9 @@ class CtrlPresentation {
     }
   }
 
-  toRewardsPage(BuildContext context){
+  toRewardsPage(BuildContext context) {
     //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
-    if(email == "") {
+    if (email == "") {
       _showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -106,7 +111,7 @@ class CtrlPresentation {
     }
   }
 
-  toInfoAppPage(BuildContext context){
+  toInfoAppPage(BuildContext context) {
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
@@ -115,16 +120,22 @@ class CtrlPresentation {
   }
 
   toFormCar(BuildContext context) {
-    if(email == ""){
+    if (email == "") {
       AwesomeDialog(
         context: context,
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
-        title: AppLocalizations.of(context).login,
-        desc: AppLocalizations.of(context).toAddCarLogin,
+        title: AppLocalizations
+            .of(context)
+            .login,
+        desc: AppLocalizations
+            .of(context)
+            .toAddCarLogin,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
-        btnOkText: AppLocalizations.of(context).login,
+        btnOkText: AppLocalizations
+            .of(context)
+            .login,
         btnOkOnPress: () {
           signInRoutine(context);
         },
@@ -132,7 +143,7 @@ class CtrlPresentation {
         headerAnimationLoop: false,
       ).show();
     }
-    else{
+    else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
         context,
@@ -150,7 +161,7 @@ class CtrlPresentation {
     );
   }
 
-  toChartPage(BuildContext context, String pointTitle){
+  toChartPage(BuildContext context, String pointTitle) {
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
@@ -177,9 +188,14 @@ class CtrlPresentation {
       arguments: NewNotificationArgs(latitud, longitud, title),
     );
   }
+
   //USER INFO FUNCTIONS
-  String getCurrentUsername(BuildContext context){
-    if(name == "" || name =="Pulsa per iniciar sessió" || name == "Click to log-in" || name == "Haga clic para iniciar sesión" ) name = AppLocalizations.of(context).clickToLogin;
+  String getCurrentUsername(BuildContext context) {
+    if (name == "" || name == "Pulsa per iniciar sessió" ||
+        name == "Click to log-in" || name == "Haga clic para iniciar sesión")
+      name = AppLocalizations
+          .of(context)
+          .clickToLogin;
     return name;
   }
 
@@ -229,7 +245,7 @@ class CtrlPresentation {
   }
 
   void logoutRoutine(BuildContext context) async {
-    if(email == "") {
+    if (email == "") {
       _showNotLogDialog(context);
     } else {
       resetUserValues();
@@ -240,15 +256,15 @@ class CtrlPresentation {
 
   void resetUserValues() {
     email = "";
-    name= "";
-    photoUrl= "";
+    name = "";
+    photoUrl = "";
   }
 
   void setUserValues(name, email, photoUrl) {
-     this.name = name;
-     this.email = email;
-     this.photoUrl = photoUrl;
-   }
+    this.name = name;
+    this.email = email;
+    this.photoUrl = photoUrl;
+  }
 
   Future<List<String>> getModelList(String brand) {
     return ctrlDomain.getAllModels(brand);
@@ -284,7 +300,7 @@ class CtrlPresentation {
     Location location = Location();
     ctrlDomain.selectVehicleUsuari(idCarUser);
 
-    if(routeType == 0){
+    if (routeType == 0) {
       location.getLocation().then((value) {
         String origin = value.latitude.toString() + "," + value.longitude.toString();
         if(actualLocation != "Your location") origin = actualLocation;
@@ -328,16 +344,17 @@ class CtrlPresentation {
           startInfo: 'Origin',
           endIcon: 'assets/images/rolls_royce.png',
           endInfo: 'Destination',
-          color: Colors.amberAccent,
+          color: Colors.brown,
         );
 
       });
     }
-    else if(routeType == 2){
+    else if (routeType == 2) {
       //todo: ruta ecologica
       location.getLocation().then((value) {
-        String origin = value.latitude.toString() + "," + value.longitude.toString();
-        if(actualLocation != "Your location") origin = actualLocation;
+        String origin = value.latitude.toString() + "," +
+            value.longitude.toString();
+        if (actualLocation != "Your location") origin = actualLocation;
         GoogleMap.of(getMapKey())?.addDirection(
             origin,
             destination,
@@ -346,12 +363,11 @@ class CtrlPresentation {
             endIcon: 'assets/images/rolls_royce.png',
             endInfo: 'Destination'
         );
-
       });
     }
   }
 
-  void clearAllRoutes(){
+  void clearAllRoutes() {
     GoogleMap.of(getMapKey())?.clearDirections();
   }
 
@@ -364,14 +380,15 @@ class CtrlPresentation {
       GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
     });
   }
-  void moveCameraToSpecificLocation(BuildContext context, double? lat, double? lng) {
+
+  void moveCameraToSpecificLocation(BuildContext context, double? lat,
+      double? lng) {
     //used to move camera to specific chargers or points
     //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
-      toMainPage(context);
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
-      });
-
+    toMainPage(context);
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
+    });
   }
 
   bool isAFavPoint(double latitud, double longitud) {
@@ -379,16 +396,22 @@ class CtrlPresentation {
   }
 
   void loveClicked(BuildContext context, double latitud, double longitud) {
-    if(email == ""){
+    if (email == "") {
       AwesomeDialog(
         context: context,
         dialogType: DialogType.INFO,
         animType: AnimType.BOTTOMSLIDE,
-        title: AppLocalizations.of(context).login,
-        desc: AppLocalizations.of(context).toAddFavLogin,
+        title: AppLocalizations
+            .of(context)
+            .login,
+        desc: AppLocalizations
+            .of(context)
+            .toAddFavLogin,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
-        btnOkText: AppLocalizations.of(context).login,
+        btnOkText: AppLocalizations
+            .of(context)
+            .login,
         btnOkOnPress: () {
           signInRoutine(context);
         },
@@ -429,13 +452,12 @@ class CtrlPresentation {
   }
 
   void saveCar(BuildContext context,
-                String name,
-                String brand,
-                String modelV,
-                String bat,
-                String eff,
-                List<String> lEndolls
-      ) {
+      String name,
+      String brand,
+      String modelV,
+      String bat,
+      String eff,
+      List<String> lEndolls) {
     ctrlDomain.addVUser(name, brand, modelV, bat, eff, lEndolls);
     toGaragePage(context);
   }
@@ -448,13 +470,20 @@ class CtrlPresentation {
       String bat,
       String eff,
       List<String> lEndolls) {
-    ctrlDomain.editVUser(carId, name, brand, modelV, bat, eff, lEndolls);
+    ctrlDomain.editVUser(
+        carId,
+        name,
+        brand,
+        modelV,
+        bat,
+        eff,
+        lEndolls);
     toGaragePage(context);
   }
 
-  Future<List<String>> getAllNamesBicing(List<Coordenada> c) async{
-    List<String> l = <String> [];
-    for(var i in c){
+  Future<List<String>> getAllNamesBicing(List<Coordenada> c) async {
+    List<String> l = <String>[];
+    for (var i in c) {
       String esto = (await ctrlDomain.getInfoBicing(i.latitud, i.longitud))[0];
       l.add(esto);
     }
@@ -470,7 +499,7 @@ class CtrlPresentation {
     ctrlDomain.setIdiom(idiom);
   }
 
-  bool islogged(){
+  bool islogged() {
     return ctrlDomain.islogged();
   }
 
@@ -483,7 +512,7 @@ class CtrlPresentation {
     return 8;
   }
 
-  void showInstantNotification(double lat, double long){
+  void showInstantNotification(double lat, double long) {
     ctrlDomain.showInstantNotification(lat, long);
   }
 
@@ -570,6 +599,30 @@ class CtrlPresentation {
                 ],
               ),
             ),
+            const SizedBox(width: 10),
+            buildIconLabeled(
+              icon: Icons.help,
+              color: Colors.yellow,
+              label: "Unknown State",
+              description: "Indicates the number of unknown state chargers.",
+            ),
+            const SizedBox(width: 10),
+            buildIconLabeled(
+              icon: Icons.warning,
+              color: Colors.amber,
+              label: "Crashed State",
+              description: "Indicates the number of crashed chargers.",
+            ),
+            const SizedBox(width: 10),
+            buildIconLabeled(
+              icon: Icons.stop_circle,
+              color: Colors.red,
+              label: "Not Available Chargers",
+              description: "Indicates the number of unavailable chargers.",
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -774,8 +827,8 @@ class CtrlPresentation {
   Future<void> getOcupationCharger(double latitude, double longitude) async {
     await ctrlDomain.getOcupationCharger(latitude, longitude);
   }
-  
-  List<DataGraphic>getInfoGraphic(String day) {
+
+  List<DataGraphic> getInfoGraphic(String day) {
     return ctrlDomain.getInfoGraphic(day);
   }
 
@@ -792,4 +845,64 @@ class CtrlPresentation {
     return notifications;
   }
   
+  void getDistDuration() async {
+    Location location = Location();
+    getMapsService.adressCoding(destination).then((destT) async {
+      GeoCoord desti = GeoCoord(destT!.lat!, destT.lng!);
+
+      GeoCoord origen;
+      location.getLocation().then((value) async {
+        if (actualLocation != "Your location") {
+         var origT = await getMapsService.adressCoding(destination);
+          origen = GeoCoord(origT!.lat!, origT.lng!);
+        }
+        else {
+        origen = GeoCoord(value.latitude!, value.longitude!);
+        }
+        print(origen);
+        print(desti);
+        ctrlDomain.infoRutaSenseCarrega(origen, desti).then((routeInfo) async{
+          distinmeters = routeInfo.distance;
+          print(distinmeters);
+          durationinminutes = routeInfo.duration;
+          print(durationinminutes);
+        });
+      });
+    });
+  }
+
+  bool esBarcelona(double latitud, double longitud) {
+    return ctrlDomain.isChargerBCN(latitud, longitud);
+  }
+  
+  void showMyDialog(String idTrofeu) {
+    AwesomeDialog(
+      context: navigatorKey.currentContext!,
+      dialogType: DialogType.INFO,
+      animType: AnimType.LEFTSLIDE,
+      title: "Trophy unlocked" + idTrofeu,
+      //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
+      desc: "You can see the trophy in the trophies menu",
+      //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
+    /*showDialog(
+        context: navigatorKey.currentContext!,
+        builder: (context) => Center(
+          child: Material(
+            color: Colors.transparent,
+            child: Text('Hello'),
+          ),
+        )
+    );*/
+  }
+
+  void increaseRouteCounter() {
+    ctrlDomain.increaseCalculatedroutes();
+  }
+
+  List<List<String>> getTrophies() {
+    return ctrlDomain.displayTrophy();
+  }
 }
