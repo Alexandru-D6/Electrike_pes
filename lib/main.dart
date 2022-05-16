@@ -161,14 +161,16 @@ class _MainPageState extends State<MainPage> {
 
   FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
-  String? _linkMessage;
-  bool _isCreatingLink = false;
+  //String? _linkMessage;
+  //bool _isCreatingLink = false;
 
-  final String DynamicLink = 'https://test-app/helloworld';
-  final String Link = 'https://reactnativefirebase.page.link/bFkn';
+  final String dynamicLink = 'https://test-app/helloworld';
+  final String link = 'https://reactnativefirebase.page.link/bFkn';
 
   void initDynamicLinks() {
     dynamicLinks.onLink.listen((dynamicLinkData) {
+      print("---> " + dynamicLinkData.link.toString());
+
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(context, dynamicLinkData.link.path);
     }).onError((error) {
