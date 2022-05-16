@@ -302,8 +302,8 @@ class CtrlPresentation {
     ctrlDomain.selectVehicleUsuari(idCarUser);
 
     if (routeType == 0) {
-      location.getLocation().then((value) {
-        String origin = value.latitude.toString() + "," + value.longitude.toString();
+      location.getLocation().then((value) async {
+        String origin = value.latitude!.toString() + "," + value.longitude!.toString();
         if(actualLocation != "Your location") origin = actualLocation;
         GoogleMap.of(getMapKey())?.displayRoute(
             origin,
@@ -830,7 +830,7 @@ class CtrlPresentation {
       GeoCoord origen;
       location.getLocation().then((value) async {
         if (actualLocation != "Your location") {
-          GeoCoord origT = await getMapsService.adressCoding(destination);
+          GeoCoord origT = await getMapsService.adressCoding(actualLocation);
           origen = GeoCoord(origT.latitude, origT.longitude);
         }
         else {
@@ -838,7 +838,7 @@ class CtrlPresentation {
         }
         print(origen);
         print(desti);
-        ctrlDomain.infoRutaSenseCarrega(origen, desti).then((routeInfo) async{
+        ctrlDomain.infoRutaSenseCarrega(origen, desti).then((routeInfo) async {
           distinmeters = routeInfo.distance;
           print(distinmeters);
           durationinminutes = routeInfo.duration;

@@ -23,6 +23,7 @@ class InfoRuta extends StatelessWidget {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     void _changeLatestBateryValue() {
       ctrlPresentation.bateria = textController.text;
+      //todo: cambiar esto para que llame a la ruta en funcion de su seleccionado
       //print('Second text field: ${ctrlPresentation.bateria}');
     }
     textController.addListener(_changeLatestBateryValue);
