@@ -210,7 +210,6 @@ class CtrlDomain {
   //USER CARS
   //Afegeix un vehicle a l'usuari
   void addVUser(String name, String brand, String modelV, String bat, String eff,List<String> lEndolls){
-
     List<String> endolls = <String>[];
     String schuko = "0";
     String mennekes = "0";
@@ -492,7 +491,7 @@ class CtrlDomain {
       var response = (await http.get(Uri.parse(url)));
       var resp = jsonDecode(response.body);
       for(var it in resp['items']){
-        nomsFavBicings.add('Bicing'+it['name']);
+        nomsFavBicings.add('Bicing '+it['name']);
       }
     }
   }
@@ -905,6 +904,7 @@ class CtrlDomain {
       List<String> trofeu = <String>[];
       trofeu.add(trophy.id.toString());
       trofeu.add(trophy.unlocked.toString());
+      trofeus.add(trofeu);
     }
     return trofeus;
   }
