@@ -22,56 +22,56 @@ class _FavsChargersState extends State<FavsChargers> {
     List<String> titlesChargers = ctrlPresentation.getNomsFavsChargerPoints();
 
     return ListView.separated(
-        itemCount: titlesChargers.length,
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-        itemBuilder: (BuildContext context, int index) {
-          Coordenada word = chargerPoints[index];
-          String title = titlesChargers[index];
+      itemCount: titlesChargers.length,
+      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      itemBuilder: (BuildContext context, int index) {
+        Coordenada word = chargerPoints[index];
+        String title = titlesChargers[index];
 
-          return ListTile(
-            title: Text(title),
-            trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        IconButton(
-                            icon: (const Icon(Icons.bar_chart)),
-                            color: Colors.green,
-                            onPressed: () async{
-                              await ctrlPresentation.getOcupationCharger(word.latitud, word.longitud);
-                              ctrlPresentation.toChartPage(context, title);
-                            }
-                        ),
-                          IconButton(
-                              icon: (const Icon(Icons.notification_add)),
-                              color: Colors.blue,
-                              onPressed: () {
-                              ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
-                              }
-                          ),
-                        IconButton(
-                            icon: (const Icon(Icons.settings)),
-                            color: Colors.grey,
-                            onPressed: () {
-                              //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
-                            }
-                        ),
-                        IconButton(
-                            icon: (const Icon(Icons.favorite)),
-                            color: Colors.red,
-                            onPressed: () {
-                              chargerPoints.remove(word);
-                              ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                              Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
-                            }
-                        ),
+        return ListTile(
+          title: Text(title),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              IconButton(
+                  icon: (const Icon(Icons.bar_chart)),
+                  color: Colors.green,
+                  onPressed: () async{
+                    await ctrlPresentation.getOcupationCharger(word.latitud, word.longitud);
+                    ctrlPresentation.toChartPage(context, title);
+                  }
+              ),
+              IconButton(
+                  icon: (const Icon(Icons.notification_add)),
+                  color: Colors.blue,
+                  onPressed: () {
+                    ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                  }
+              ),
+              IconButton(
+                  icon: (const Icon(Icons.settings)),
+                  color: Colors.grey,
+                  onPressed: () {
+                    //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                  }
+              ),
+              IconButton(
+                  icon: (const Icon(Icons.favorite)),
+                  color: Colors.red,
+                  onPressed: () {
+                    chargerPoints.remove(word);
+                    ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
+                    Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+                  }
+              ),
 
-              ],
-            ),
-            onTap: () {
-                ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
-            },
-          );
-        },
+            ],
+          ),
+          onTap: () {
+            ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
+          },
+        );
+      },
     );
   }
 }
@@ -132,7 +132,7 @@ class _AllFavsState extends State<AllFavs> {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
     List<String> titlesChargers = ctrlPresentation.getNomsFavsChargerPoints();
-    int numChargers = chargerPoints.length;
+
     List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
     List<String> titlesBicings = ctrlPresentation.getNomsFavsBicingPoints();
 
@@ -145,17 +145,15 @@ class _AllFavsState extends State<AllFavs> {
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = allFavPoints[index];
         String title = titles[index];
-        bool esBarcelona = false;
-        if(index < numChargers) {
-          esBarcelona = ctrlPresentation.esBarcelona(word.latitud, word.longitud);
-        }
+        bool hasNotifications = ctrlPresentation.hasNotifications(word.latitud, word.longitud);
+        bool notificationsOn = ctrlPresentation.notificationsOn(word.latitud, word.longitud);
 
         return ListTile(
           title: Text(title),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if(esBarcelona)IconButton(
+              IconButton(
                   icon: (const Icon(Icons.bar_chart)),
                   color: Colors.green,
                   onPressed: () async {

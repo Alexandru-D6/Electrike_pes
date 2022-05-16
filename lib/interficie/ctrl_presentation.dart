@@ -17,7 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../domini/data_graphic.dart';
+import 'package:flutter_project/domini/data_graphic.dart';
 import '../main.dart';
 
 
@@ -192,10 +192,11 @@ class CtrlPresentation {
   //USER INFO FUNCTIONS
   String getCurrentUsername(BuildContext context) {
     if (name == "" || name == "Pulsa per iniciar sessió" ||
-        name == "Click to log-in" || name == "Haga clic para iniciar sesión")
+        name == "Click to log-in" || name == "Haga clic para iniciar sesión") {
       name = AppLocalizations
           .of(context)
           .clickToLogin;
+    }
     return name;
   }
 
@@ -555,70 +556,46 @@ class CtrlPresentation {
 
   Widget makeBodyAlertChargePoint() {
     return SingleChildScrollView(
-        child:
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  buildHeader(
-                    name: "Station name", //todo: translate
-                    calle: "Street name", //todo: translate
-                    city: "City placed", //todo: translate
-                    numChargePlaces: "Charge places", //todo: translate
-                  ),
-                  const SizedBox(width: 20),
-                  buildIconLabeled(
-                    icon: Icons.check_circle_rounded,
-                    color: Colors.greenAccent,
-                    label: "Available Chargers", //todo: translate
-                    description: "Indicates the number of available chargers.", //todo: translate
-                  ),
-                  const SizedBox(width: 15),
-                  buildIconLabeled(
-                    icon: Icons.help,
-                    color: Colors.yellow,
-                    label: "Unknown State", //todo: translate
-                    description: "Indicates the number of unknown state chargers.", //todo: translate
-                  ),
-                  const SizedBox(width: 15),
-                  buildIconLabeled(
-                    icon: Icons.warning,
-                    color: Colors.amber,
-                    label: "Crashed State", //todo: translate
-                    description: "Indicates the number of crashed chargers.", //todo: translate
-                  ),
-                  const SizedBox(width: 15),
-                  buildIconLabeled(
-                    icon: Icons.stop_circle,
-                    color: Colors.red,
-                    label: "Not Available Chargers", //todo: translate
-                    description: "Indicates the number of unavailable chargers.", //todo: translate
-                  ),
-                ],
-              ),
+      child:
+      Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            buildHeader(
+              name: "Station name", //todo: translate
+              calle: "Street name", //todo: translate
+              city: "City placed", //todo: translate
+              numChargePlaces: "Charge places", //todo: translate
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 20),
+            buildIconLabeled(
+              icon: Icons.check_circle_rounded,
+              color: Colors.greenAccent,
+              label: "Available Chargers", //todo: translate
+              description: "Indicates the number of available chargers.", //todo: translate
+            ),
+            const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.help,
               color: Colors.yellow,
-              label: "Unknown State",
-              description: "Indicates the number of unknown state chargers.",
+              label: "Unknown State", //todo: translate
+              description: "Indicates the number of unknown state chargers.", //todo: translate
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.warning,
               color: Colors.amber,
-              label: "Crashed State",
-              description: "Indicates the number of crashed chargers.",
+              label: "Crashed State", //todo: translate
+              description: "Indicates the number of crashed chargers.", //todo: translate
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.stop_circle,
               color: Colors.red,
-              label: "Not Available Chargers",
-              description: "Indicates the number of unavailable chargers.",
+              label: "Not Available Chargers", //todo: translate
+              description: "Indicates the number of unavailable chargers.", //todo: translate
             ),
           ],
         ),
@@ -848,13 +825,13 @@ class CtrlPresentation {
   void getDistDuration() async {
     Location location = Location();
     getMapsService.adressCoding(destination).then((destT) async {
-      GeoCoord desti = GeoCoord(destT!.lat!, destT.lng!);
+      GeoCoord desti = GeoCoord(destT.latitude, destT.longitude);
 
       GeoCoord origen;
       location.getLocation().then((value) async {
         if (actualLocation != "Your location") {
-         var origT = await getMapsService.adressCoding(destination);
-          origen = GeoCoord(origT!.lat!, origT.lng!);
+          GeoCoord origT = await getMapsService.adressCoding(destination);
+          origen = GeoCoord(origT.latitude, origT.longitude);
         }
         else {
         origen = GeoCoord(value.latitude!, value.longitude!);

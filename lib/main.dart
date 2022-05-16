@@ -134,7 +134,10 @@ class _MainPageState extends State<MainPage> {
     SchedulerBinding.instance!.addPostFrameCallback((_) async {
       Location location = Location();
       location.onLocationChanged.listen((event) {
-        print("cur location --> " + event.latitude.toString() + " - " + event.longitude.toString());
+        CtrlDomain ctrlDomain = CtrlDomain();
+        GeoCoord coords = event as GeoCoord;
+        ctrlDomain.increaseDistance(coords.latitude, coords.longitude);
+        //print("cur location --> " + event.latitude.toString() + " - " + event.longitude.toString());
       });
     });
   }
