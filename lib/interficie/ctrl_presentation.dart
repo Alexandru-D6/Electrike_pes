@@ -662,4 +662,8 @@ class CtrlPresentation {
   void increaseRouteCounter() {
     ctrlDomain.increaseCalculatedroutes();
   }
+
+  List<List<String>> getTrophies() {
+    return ctrlDomain.displayTrophy();
+  }
 }
