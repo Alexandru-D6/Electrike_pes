@@ -161,7 +161,6 @@ class _StatefulPointInfoState extends State<StatefulPointInfo> {
       });
     });
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
   }
 
   @override

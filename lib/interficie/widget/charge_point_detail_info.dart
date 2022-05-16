@@ -189,7 +189,6 @@ class _PointInfoState extends State<PointInfo> {
       });
     });
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
   }
 
   @override

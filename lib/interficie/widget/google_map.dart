@@ -240,7 +240,7 @@ class _MyMapState extends State<MyMap> {
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance?.addPostFrameCallback((_) async {
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
       ctrlPresentation.setMapKey(_newKey);
       chargerMarkers();
 
