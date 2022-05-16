@@ -925,6 +925,7 @@ class CtrlDomain {
       List<String> trofeu = <String>[];
       trofeu.add(trophy.id.toString());
       trofeu.add(trophy.unlocked.toString());
+      trofeus.add(trofeu);
     }
     return trofeus;
   }
