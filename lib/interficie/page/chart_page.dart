@@ -51,7 +51,7 @@ class ChartPage extends StatefulWidget {
               dropdownValue = newValue!;
             });
           },
-          items: <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',]
+          items: <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',] //todo: peilin multiidiomas
           .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
@@ -96,7 +96,7 @@ class ChartPage extends StatefulWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: const Text('Charts'),
+      title: const Text('Charts'),//multiidiomas peilin
     );
   }
 
