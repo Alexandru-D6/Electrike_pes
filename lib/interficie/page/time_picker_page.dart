@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 
 
 class TimePickerPage extends StatefulWidget {
@@ -39,6 +40,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
 
   @override
   Widget build(BuildContext context) {
+    final notificationsInfo = ModalRoute.of(context)!.settings.arguments as NewNotificationArgs;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notifications settings"), //TODO:  translate

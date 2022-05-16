@@ -158,12 +158,22 @@ class CtrlPresentation {
     );
   }
 
-  toTimePicker(BuildContext context){
+  toNotificationsPage(BuildContext context, double latitud, double longitud, List<List<String>> notifications, String title) {
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.pushNamed(
+      context,
+      '/notificationsList',
+      arguments: NotificationsArgs(latitud, longitud, title, notifications),
+    );
+  }
+
+  toTimePicker(BuildContext context, double latitud, double longitud, String title){
     //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
       '/time',
+      arguments: NewNotificationArgs(latitud, longitud, title),
     );
   }
   //USER INFO FUNCTIONS
@@ -462,73 +472,150 @@ class CtrlPresentation {
   }
 
   void showLegendDialog(BuildContext context, String s) {
+    String title;
+    Widget body;
     switch (s){
       case "chargePoint":
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.INFO,
-          animType: AnimType.LEFTSLIDE,
-          title: "Leyenda Punto de carga",//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-          body: makeBodyAlertChargePoint(),
-          btnOkOnPress: () {},
-          headerAnimationLoop: false,
-        ).show();
+        title = "Leyenda Punto de carga";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        body = makeBodyAlertChargePoint();
         break;
       case "bicingPoint":
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.INFO,
-          animType: AnimType.LEFTSLIDE,
-          title: "You aren't logged",//todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-          desc: "You aren't logged so you don't have access to this screen because It would be empty.",//todo: AppLocalizations.of(context).alertSureDeleteCarContent,
-          btnOkOnPress: () {},
-          headerAnimationLoop: false,
-        ).show();
+        title = "Leyenda Punto de bicing";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        body = buildBicingHeader();
+        break;
+      case "favsPage":
+        title = "Leyenda Favs page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        body = makeFavouritesLegend();
         break;
       default:
+        title = "Default title";
+        body = makeBodyAlertChargePoint();
         break;
     }
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.LEFTSLIDE,
+      title: title,
+      body: body,
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
   }
 
   Widget makeBodyAlertChargePoint() {
     return SingleChildScrollView(
         child:
             Padding(
-              padding: const EdgeInsets.all(84.0),
+              padding: const EdgeInsets.all(18.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  buildHeader(
+                    name: "Station name", //todo: translate
+                    calle: "Street name", //todo: translate
+                    city: "City placed", //todo: translate
+                    numChargePlaces: "Charge places", //todo: translate
+                  ),
+                  const SizedBox(width: 20),
                   buildIconLabeled(
                     icon: Icons.check_circle_rounded,
                     color: Colors.greenAccent,
                     label: "Available Chargers", //todo: translate
-                    description: "Indicates the number of available chargers.",
+                    description: "Indicates the number of available chargers.", //todo: translate
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
                   buildIconLabeled(
                     icon: Icons.help,
                     color: Colors.yellow,
-                    label: "Unknown State",
-                    description: "Indicates the number of unknown state chargers.",
+                    label: "Unknown State", //todo: translate
+                    description: "Indicates the number of unknown state chargers.", //todo: translate
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
                   buildIconLabeled(
                     icon: Icons.warning,
                     color: Colors.amber,
-                    label: "Crashed State",
-                    description: "Indicates the number of crashed chargers.",
+                    label: "Crashed State", //todo: translate
+                    description: "Indicates the number of crashed chargers.", //todo: translate
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 15),
                   buildIconLabeled(
                     icon: Icons.stop_circle,
                     color: Colors.red,
-                    label: "Not Available Chargers",
-                    description: "Indicates the number of unavailable chargers.",
+                    label: "Not Available Chargers", //todo: translate
+                    description: "Indicates the number of unavailable chargers.", //todo: translate
                   ),
                 ],
               ),
             ),
+    );
+  }
+
+  Widget buildHeader({
+    required String name,
+    required String calle,
+    required String city,
+    required String numChargePlaces,
+  }) {
+    const Color fontColor = Colors.black;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Icon(Icons.ev_station, size: 60, color: fontColor,),
+        const SizedBox(width: 6),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                name,
+                style: const TextStyle(
+                  color: fontColor,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 1,
+              ),
+              AutoSizeText(
+                calle,
+                style: const TextStyle(
+                  color: fontColor,
+                ),
+                maxLines: 1,
+              ),
+              AutoSizeText(
+                city,
+                style: const TextStyle(
+                  color: fontColor,
+                ),
+                maxLines: 1,
+              ),
+
+              Row(
+                children: [
+                  AutoSizeText(
+                    numChargePlaces.toString(),
+                    style: const TextStyle(
+                      color: fontColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                  ),
+                  const Icon(
+                    Icons.local_parking,
+                    color: fontColor,
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -537,7 +624,9 @@ class CtrlPresentation {
     required Color color,
     required String label,
     required String description}) {
-    return Row(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(icon, color: color,),
         const SizedBox(width: 10),
@@ -557,9 +646,107 @@ class CtrlPresentation {
             color: Colors.black54,
             fontSize: 16,
           ),
-          maxLines: 1,
         ),
       ],
+    );
+  }
+
+  buildBicingHeader(){
+    const Color fontColor = Colors.black;
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const ListTile(
+            leading: Icon(Icons.pedal_bike, color: fontColor, size: 45,),
+            title: AutoSizeText(
+              "Bicing station name", //todo: translate
+              style: TextStyle(
+                color: fontColor,
+                fontSize: 24,
+              ),
+              maxLines: 1,
+            ),
+          ),
+          const Divider(
+            height: 16,
+            color: Colors.black54,
+          ),
+
+          buildIconLabeled(
+            icon: Icons.local_parking,
+            color: fontColor,
+            label: "Free bike holders", //todo: translate
+            description: "Indicates the number of free bike holders (parkings).", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.pedal_bike,
+            color: fontColor,
+            label: "Available pedal bikes", //todo: translate
+            description: "Indicates the number of available pedal bikes.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.electric_bike,
+            color: fontColor,
+            label: "Available electric bikes", //todo: translate
+            description: "Indicates the number of available electric bikes.", //todo: translate
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget makeFavouritesLegend() {
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          buildIconLabeled(
+            icon: Icons.touch_app,
+            color: Colors.black,
+            label: "Click on the name", //todo: translate
+            description: "you can navigate to the point on the map location by clicking on the name.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.bar_chart,
+            color: Colors.green,
+            label: "See concurrency station stats", //todo: translate
+            description: "Shows stats about the concurrency of station during the day.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.notifications_off,
+            color: Colors.lightBlueAccent,
+            label: "Disable the notifications of a point", //todo: translate
+            description: "Disable the entire notifications of a point (if have any).", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.notifications_active,
+            color: Colors.blue,
+            label: "Enable the notifications of a point", //todo: translate
+            description: "Enable the entire notifications of a point (if have any) and you will receive the state of the station at the notification moment you set.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.settings,
+            color: Colors.grey,
+            label: "Notification settings", //todo: translate
+            description: "Shows all the notifications created of a point. Here you can add more or delete others.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.favorite,
+            color: Colors.red,
+            label: "Remove from favourites", //todo: translate
+            description: "When it's clicked you can remove directly the point of your favourites list.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.filter_list_alt,
+            color: Colors.orangeAccent,
+            label: "Filter between types", //todo: translate
+            description: "Also you can filter the types of favourites points using the bottom buttons.", //todo: translate
+          ),
+        ],
+      ),
     );
   }
 
@@ -569,6 +756,19 @@ class CtrlPresentation {
   
   List<DataGraphic>getInfoGraphic(String day) {
     return ctrlDomain.getInfoGraphic(day);
+  }
+
+  bool hasNotifications(double latitud, double longitud) {
+    return true;
+  }
+
+  bool notificationsOn(double latitud, double longitud) {
+    return true;
+  }
+
+  List<List<String>> getNotifications(double latitud, double longitud) {
+    List<List<String>> notifications = [["18:24", "1", "3", "5"], ["18:00", "2", "4", "7", "6"], ["14:00", "1", "2","3", "4","5", "7", "6"]];
+    return notifications;
   }
   
 }
