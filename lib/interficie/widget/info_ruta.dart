@@ -75,6 +75,23 @@ class InfoRuta extends StatelessWidget {
             height: 16,
             color: Color(0x00000000),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text("Enter your battery left: "), //todo: peilin multi
+              SizedBox(
+                width: 40,
+                child:
+                TextField(
+                  keyboardType: TextInputType.number,
+                  controller: textController,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, CustomMaxValueInputFormatter(maxInputValue: 100)],
+
+                ),
+              ),
+              const Text("%"),
+            ],
+          ),
           const Text("Select a route type"),//todo: peilin multi
           const Divider(
             height: 16,
@@ -85,23 +102,6 @@ class InfoRuta extends StatelessWidget {
             height: 16,
             color: Color(0x00000000),
           ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text("Enter your battery left: "), //todo: peilin multi
-          SizedBox(
-            width: 40,
-            child:
-            TextField(
-              keyboardType: TextInputType.number,
-              controller: textController,
-              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, CustomMaxValueInputFormatter(maxInputValue: 100)],
-
-            ),
-          ),
-          const Text("%"),
-        ],
-      ),
           const Divider(
             height: 16,
             color: Color(0x00000000),

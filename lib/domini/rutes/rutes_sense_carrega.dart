@@ -11,7 +11,9 @@ import 'package:flutter_project/libraries/flutter_google_maps/src/core/route_res
 class RutesSenseCarrega {
   late RoutesResponse routesResponse;
 
-  RutesSenseCarrega();
+  RutesSenseCarrega() {
+    routesResponse = RoutesResponse.buit();
+  }
 
   Future<RoutesResponse> infoRutaEstandar (GeoCoord origen, GeoCoord desti) async {
     routesResponse.origen = origen;
