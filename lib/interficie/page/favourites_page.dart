@@ -49,7 +49,7 @@ class _FavsChargersState extends State<FavsChargers> {
                                 //ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 2, 1, 00);
                                 //ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 7, 18, 50);
                                 //ctrlPresentation.currentScheduledNotificationsOfAChargerPoint(word.latitud, word.longitud);
-                                ctrlPresentation.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 19, 37, [1,3,7]);
+                                ctrlPresentation.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 19, 56, [1,3,7]);
                               }
                           ),
                         IconButton(
@@ -60,7 +60,7 @@ class _FavsChargersState extends State<FavsChargers> {
                               //ctrlPresentation.removeShceduledNotification(word.latitud, word.longitud, 2, 1, 00);
                               //ctrlPresentation.removeShceduledNotification(word.latitud, word.longitud, 7, 18, 50);
                               //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
-                              ctrlPresentation.removeScheduledNotifications(41.73682408, 1.82836016, 19, 37, [3,7]);
+                              ctrlPresentation.removeScheduledNotifications(41.73682408, 1.82836016, 19, 56, [3,7]);
                             }
                         ),
                         IconButton(
