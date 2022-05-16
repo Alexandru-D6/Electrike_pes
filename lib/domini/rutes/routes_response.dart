@@ -35,6 +35,4 @@ class RoutesResponse {
   void setDistance (double distMeters) {
     distance = (distMeters/1000).toString();
   }
-
-
 }

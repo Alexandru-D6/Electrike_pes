@@ -22,6 +22,7 @@ import 'package:location/location.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:tuple/tuple.dart';
 
 class CtrlDomain {
   CtrlDomain._internal();
@@ -55,6 +56,10 @@ class CtrlDomain {
   factory CtrlDomain() {
     return _singleton;
   }
+
+  //DATA ROUTES
+  RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
+  RutesSenseCarrega rutesSenseCarrega = RutesSenseCarrega();
 
   //SYSTEM
   Future<void> initializeSystem() async {
@@ -858,16 +863,18 @@ class CtrlDomain {
   }
 
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
-    RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
+    //RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
     return routesResponse;
   }
 
   Future<RoutesResponse> infoRutaSenseCarrega(GeoCoord origen, GeoCoord desti) async {
-    RutesSenseCarrega rutesSenseCarrega = RutesSenseCarrega();
+    //RutesSenseCarrega rutesSenseCarrega = RutesSenseCarrega();
     RoutesResponse routesResponse = await rutesSenseCarrega.infoRutaEstandar(origen, desti);
     return routesResponse;
   }
+
+
 
   Future<void> getOcupationCharger(double lat, double lon) async {
     var url = urlorg + 'get_ocupation?lat='+ lat.toString() +'&lon='+ lon.toString();
