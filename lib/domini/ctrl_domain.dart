@@ -14,6 +14,7 @@ import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/rutes/rutes_amb_carrega.dart';
 import 'package:flutter_project/domini/tipus_endoll.dart';
 import 'package:flutter_project/domini/tipus_endoll_enum.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_project/domini/trofeu.dart';
 import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/domini/vehicle_usuari.dart';
@@ -74,6 +75,10 @@ class CtrlDomain {
     for(var t in types){
       typesendolls.add(TipusEndoll(t));
     }
+  }
+  String today(){
+    DateTime date = DateTime.now();
+    return DateFormat('EEEE').format(date);
   }
 
   //USER
