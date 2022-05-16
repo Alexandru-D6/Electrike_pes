@@ -9,7 +9,6 @@ import 'dart:ui';
 import 'package:flinq/flinq.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -598,11 +597,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _manager_route = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_route.values), _updateMarkersRoute, markerBuilder: _markerBuilder(Colors.green), levels: _cluster_levels_route);
 
     super.initState();
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
-      /*for (var marker in widget.markers) {
-        addMarker(marker);
-      }*/ //para mi caso no hace falta ya que esto lo controlo yo de por si
-    });
+
   }
 
   void _updateMarkersBicing(Set<Marker> markers) {

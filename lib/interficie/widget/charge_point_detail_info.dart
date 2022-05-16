@@ -90,7 +90,6 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       });
     });
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
   }
 
   @override

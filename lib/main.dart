@@ -139,10 +139,6 @@ class _MainPageState extends State<MainPage> {
     initDynamicLinks();
 
     super.initState();
-
-    SchedulerBinding.instance?.addPostFrameCallback((_) async {
-
-    });
   }
 
   @override
