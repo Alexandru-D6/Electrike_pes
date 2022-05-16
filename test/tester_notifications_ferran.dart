@@ -148,7 +148,9 @@ class _MainPageState extends State<MainPage> {
         //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 1, 1, 00);
         //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 2, 1, 00);
         //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 7, 18, 50);
-        print(ctrlDomain.hasNotificacions(41.73682408, 1.82836016));}, child: const Text("Instant Notification"))],
+        ctrlDomain.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 19, 30, [1,3,7]);
+        //ctrlDomain.removeScheduledNotifications(41.73682408, 1.82836016, 19, 30, [3,7]);
+        /*print(ctrlDomain.hasNotificacions(41.73682408, 1.82836016));*/}, child: const Text("Instant Notification"))],
       ),
     );
   }

@@ -123,6 +123,9 @@ class LocalNotificationAdpt {
       var entry = <int, InfoNotification>{id: infN[0]};
       _currentNotifications.addEntries(entry.entries);
 
+      print("Notification created: ");
+      print(id);
+
       CtrlDomain ctrlDomain = CtrlDomain();
       List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
 
@@ -174,7 +177,7 @@ class LocalNotificationAdpt {
         return id;
       }
     }
-    throw StateError("Notifications: No notification id found");
+    return -1;
   }
 
   Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
@@ -207,9 +210,15 @@ class LocalNotificationAdpt {
   }
 
   Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    int id = _findId(lat,long,dayOfTheWeek,iniHour,iniMinute);
-    _currentNotifications.remove(id);
-    await _flutterLocalNotificationsPlugin.cancel(id);
+    int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
+    if (id != -1) {
+      print("Removed the notification: "); print(id);
+      _currentNotifications.remove(id);
+      await _flutterLocalNotificationsPlugin.cancel(id);
+    }
+    else {
+      print("Notifications: No notification id found");
+    }
   }
 
   Future<void> cancelAllNotifications() async {

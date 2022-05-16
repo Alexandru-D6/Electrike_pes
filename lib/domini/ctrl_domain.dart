@@ -902,8 +902,23 @@ class CtrlDomain {
     return mapLocal;
   }
 
+  //Retorna true si el punt de càrrega té notificacions (independentment de si estan activades o desactivades)
   bool hasNotificacions(double lat, double long) {
     return serviceLocator<LocalNotificationAdpt>().hasNotificacions(lat,long);
+  }
+
+  //Afegeix tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday)
+  void addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    for (var day in daysOfTheWeek) {
+      addSheduledNotificationFavoriteChargePoint(lat, long, day, iniHour, iniMinute);
+    }
+  }
+
+  //Elimina tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday)
+  void removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    for (var day in daysOfTheWeek) {
+      removeScheduledNotification(lat, long, day, iniHour, iniMinute);
+    }
   }
 
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {

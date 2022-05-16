@@ -584,4 +584,12 @@ class CtrlPresentation {
     return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(lat,long);
   }
 
+  void addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    ctrlDomain.addSheduledNotificationsFavoriteChargePoint(lat, long, iniHour, iniMinute, daysOfTheWeek);
+  }
+
+  void removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    ctrlDomain.removeScheduledNotifications(lat, long, iniHour, iniMinute, daysOfTheWeek);
+  }
+
 }
