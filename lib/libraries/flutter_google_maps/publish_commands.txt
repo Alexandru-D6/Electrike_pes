@@ -1,4 +1,0 @@
-flutter packages pub publish --dry-run
-flutter packages pub publish
-
-pub uploader --package=<pkg_name> add <email>
