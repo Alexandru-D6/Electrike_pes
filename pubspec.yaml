@@ -47,7 +47,7 @@ dependencies:
   url_launcher: ^6.0.0
   get_it: ^7.2.0
   tuple: ^2.0.0
-  google_geocoding: ^0.2.0
+  google_geocoding_api: ^1.0.1+2
   google_sign_in: ^5.2.4
   location: ^4.3.0
   auto_size_text: ^3.0.0
@@ -81,6 +81,7 @@ dependencies:
   day_picker: ^2.1.1
   introduction_screen: ^3.0.2
   simple_speed_dial: ^0.1.6
+  firebase_dynamic_links: ^4.2.3
 
 dev_dependencies:
   integration_test:

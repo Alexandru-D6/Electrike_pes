@@ -23,6 +23,7 @@ import '../domini/data_graphic.dart';
 class CtrlPresentation {
   static final CtrlPresentation _singleton = CtrlPresentation._internal();
   CtrlDomain ctrlDomain = CtrlDomain();
+
   factory CtrlPresentation() {
     return _singleton;
   }
@@ -186,6 +187,14 @@ class CtrlPresentation {
     return email;
   }
 
+  //42.6974402 - 0.8250418
+  String generateUrlForLocation(GeoCoord a) {
+    //Location location = Location();
+    //LocationData geo = await location.getLocation();
+    String res = "Hey! Check this location -> https://www.google.com/maps/search/?api=1&query=" + a.latitude.toString() + "," + a.longitude.toString();
+    return res;
+  }
+
   void mailto() async {
     String _url = "mailto:electrike.official@gmail.com?subject=Help&body=Hi%20Electrike%20team!";
     if (!await launchUrl(Uri.parse(_url))) throw 'Could not launch $_url';
@@ -279,7 +288,7 @@ class CtrlPresentation {
       location.getLocation().then((value) {
         String origin = value.latitude.toString() + "," + value.longitude.toString();
         if(actualLocation != "Your location") origin = actualLocation;
-        GoogleMap.of(getMapKey())?.addDirection(
+        GoogleMap.of(getMapKey())?.displayRoute(
             origin,
             destination,
             startLabel: '1',
@@ -290,25 +299,37 @@ class CtrlPresentation {
       });
     }
     else if(routeType == 1){
-      var destT = await getMapsService.adressCoding(destination);
-      GeoCoord dest = GeoCoord(destT!.lat!, destT.lng!);
+        print(destination);
+      GeoCoord dest = await getMapsService.adressCoding(destination);
+
+      late GeoCoord orig;
+      if (actualLocation != "Your location") orig = await getMapsService.adressCoding(actualLocation);
+
       double bat = double.parse(bateria);
 
       location.getLocation().then((value) async {
-        GeoCoord orig = GeoCoord(value.latitude!, value.longitude!);
+        if (actualLocation == "Your location") orig = GeoCoord(value.latitude!, value.longitude!);
+
+          print("origen --> " + orig.toString());
+          print("destination --> " + dest.toString());
 
         RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
-        print(rutaCharger);
-        String origin = value.latitude.toString() + "," + value.longitude.toString();
-        if(actualLocation != "Your location") origin = actualLocation;
+
+          print(rutaCharger);
+          print(rutaCharger.waypoints);
+
+        String origin = orig.latitude.toString() + "," + orig.longitude.toString();
+
         GoogleMap.of(getMapKey())?.displayRoute(
-            orig,
-            dest,
-            waypoints: rutaCharger.waypoints,
-            startLabel: '1',
-            startInfo: 'Origin',
-            endIcon: 'assets/images/rolls_royce.png',
-            endInfo: 'Destination');
+          origin,
+          destination,
+          waypoints: rutaCharger.waypoints.isEmpty || rutaCharger.waypoints.first.latitude == -1.0 ? List<GeoCoord>.empty() : rutaCharger.waypoints,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'Destination',
+          color: Colors.amberAccent,
+        );
 
       });
     }
