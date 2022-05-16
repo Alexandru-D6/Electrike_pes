@@ -23,10 +23,10 @@ class InfoRuta extends StatelessWidget {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     void _changeLatestBateryValue() {
       ctrlPresentation.bateria = textController.text;
-      print('Second text field: ${ctrlPresentation.bateria}');
+      //print('Second text field: ${ctrlPresentation.bateria}');
     }
     textController.addListener(_changeLatestBateryValue);
-
+    ctrlPresentation.getDistDuration();
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
     if(userCarList.isNotEmpty) ctrlPresentation.idCarUser = 1;
     return Container(
@@ -36,7 +36,7 @@ class InfoRuta extends StatelessWidget {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: <Widget>[
-          const Text("Select one of your cars"),
+          const Text("Select one of your cars"), //todo: peilin multi
           ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
             height: 150,
             width: 150,
@@ -75,7 +75,24 @@ class InfoRuta extends StatelessWidget {
             height: 16,
             color: Color(0x00000000),
           ),
-          const Text("Select a route type"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text("Enter your battery left: "), //todo: peilin multi
+              SizedBox(
+                width: 40,
+                child:
+                TextField(
+                  keyboardType: TextInputType.number,
+                  controller: textController,
+                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, CustomMaxValueInputFormatter(maxInputValue: 100)],
+
+                ),
+              ),
+              const Text("%"),
+            ],
+          ),
+          const Text("Select a route type"),//todo: peilin multi
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -85,41 +102,22 @@ class InfoRuta extends StatelessWidget {
             height: 16,
             color: Color(0x00000000),
           ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text("Enter your battery left: "),
-          SizedBox(
-            width: 40,
-            child:
-            TextField(
-              keyboardType: TextInputType.number,
-              controller: textController,
-              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, CustomMaxValueInputFormatter(maxInputValue: 100)],
-
-            ),
-          ),
-          const Text("%"),
-        ],
-      ),
           const Divider(
             height: 16,
             color: Color(0x00000000),
           ),
       ElevatedButton(
           onPressed: () {
-              ctrlPresentation.toMainPage(context);
-              Future.delayed(const Duration(milliseconds: 500), ()
-              {
-                ctrlPresentation.makeRoute();
-              });
+            ctrlPresentation.makeRoute();
+            ctrlPresentation.toMainPage(context);
+            ctrlPresentation.increaseRouteCounter();
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),),
               primary: const Color(0xff8A84E2),
           ),
-          child: const Text('Start Route'),
+          child: const Text('Start Route'), //todo: peilin multi
       ),
         ],
       ),

@@ -4,6 +4,7 @@
 
 import 'dart:async' show FutureOr;
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:google_directions_api/google_directions_api.dart'
@@ -171,12 +172,12 @@ class GoogleMapState extends GoogleMapStateBase {
   Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords) => throw UnimplementedError();
 
   @override
-  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]) => throw UnimplementedError();
+  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, [List<GeoCoord>? waypoints]) => throw UnimplementedError();
 
   @override
   void displayRoute(
-      GeoCoord origin,
-      GeoCoord destination, {
+      dynamic origin,
+      dynamic destination, {
         List<GeoCoord>? waypoints,
         String? startLabel,
         String? startIcon,
@@ -184,6 +185,7 @@ class GoogleMapState extends GoogleMapStateBase {
         String? endLabel,
         String? endIcon,
         String? endInfo,
+        Color? color,
       }) => throw UnimplementedError();
 
   @override

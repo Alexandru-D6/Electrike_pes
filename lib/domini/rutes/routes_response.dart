@@ -4,8 +4,8 @@ class RoutesResponse {
   late GeoCoord origen;
   late GeoCoord destino;
   late List<GeoCoord> waypoints;
-  late double distance; // in metters
-  late double duration; // in minutes
+  late String distance; // in km
+  late String duration; // in hour
 
   RoutesResponse(this.origen, this.destino, this.waypoints);
   RoutesResponse.complete(this.origen, this.destino, this.waypoints, this.distance, this.duration);
@@ -22,19 +22,17 @@ class RoutesResponse {
     return result;
   }
 
-  double distanceToKm() {
-    return distance/1000;
-  }
-
-  double durationToHours() {
-    return duration/60;
-  }
-
   bool hasWaypoints() {
     bool result = false;
     if (waypoints.isNotEmpty) result = true;
     return result;
   }
 
+  void setDuration (double timeMin) {
+    duration = (timeMin/60).toString();
+  }
 
+  void setDistance (double distMeters) {
+    distance = (distMeters/1000).toString();
+  }
 }

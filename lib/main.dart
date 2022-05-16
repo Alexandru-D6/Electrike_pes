@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
@@ -26,8 +27,11 @@ import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'domini/services/local_notifications_adpt.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
+import 'domini/services/local_notifications_adpt.dart';
+final navigatorKey = GlobalKey<NavigatorState>();
 void main() => runApp(const SplashScreen());
 
 Future initializeSystem() async {
@@ -36,12 +40,23 @@ Future initializeSystem() async {
   await ctrlDomain.initializeSystem();
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   setUpLocator();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+
+  Location location = Location();
+  location.onLocationChanged.listen((event) {
+    double? lat = event.latitude;
+    double? lng = event.longitude;
+    ctrlDomain.increaseDistance(lat!, lng!);
+    //print("cur location --> " + event.latitude.toString() + " - " + event.longitude.toString());
+  });
+
+  runApp(MaterialApp(home: const MyApp(),
+    navigatorKey: navigatorKey, debugShowCheckedModeBanner: false));
 }
 
 class MyApp extends StatelessWidget {
@@ -120,6 +135,13 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void initState() {
+    initDynamicLinks();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     Location location = Location();
@@ -140,5 +162,25 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
     );
+  }
+
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+
+  //String? _linkMessage;
+  //bool _isCreatingLink = false;
+
+  final String dynamicLink = 'https://test-app/helloworld';
+  final String link = 'https://reactnativefirebase.page.link/bFkn';
+
+  void initDynamicLinks() {
+    dynamicLinks.onLink.listen((dynamicLinkData) {
+      print("---> " + dynamicLinkData.link.toString());
+
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(context, dynamicLinkData.link.path);
+    }).onError((error) {
+      print('onLink error');
+      print(error.message);
+    });
   }
 }

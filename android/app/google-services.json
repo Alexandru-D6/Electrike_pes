@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "689102118187",
+    "project_id": "electrike-4e818",
+    "storage_bucket": "electrike-4e818.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689102118187:android:723b702e04a1a1f36ab96e",
+        "android_client_info": {
+          "package_name": "com.pes.electrike"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmXWsje40oBfoEptwFTU-3TmSYK15z_gw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

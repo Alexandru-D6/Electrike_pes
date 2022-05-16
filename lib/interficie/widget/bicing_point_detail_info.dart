@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
-
-import '../../libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 
 class BicingPointDetailInformation extends StatelessWidget {
   const BicingPointDetailInformation({
@@ -162,7 +161,6 @@ class _StatefulPointInfoState extends State<StatefulPointInfo> {
       });
     });
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
   }
 
   @override
