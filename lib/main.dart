@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +28,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart' as geolocator;
 
 //import 'package:firebase_core/firebase_core.dart';
 //import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -47,16 +50,54 @@ Future initializeSystem() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  Location location = Location();
-  location.onLocationChanged.listen((event) {
-    double? lat = event.latitude;
-    double? lng = event.longitude;
-    ctrlDomain.increaseDistance(lat!, lng!);
-    //print("cur location --> " + event.latitude.toString() + " - " + event.longitude.toString());
-  });
-
   runApp(MaterialApp(home: const MyApp(),
     navigatorKey: navigatorKey, debugShowCheckedModeBanner: false));
+}
+
+void LocationService() async {
+  bool serviceEnabled;
+  geolocator.LocationPermission permission;
+
+  // Test if location services are enabled.
+  serviceEnabled = await geolocator.Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    // Location services are not enabled don't continue
+    // accessing the position and request users of the
+    // App to enable the location services.
+    return Future.error('Location services are disabled.');
+  }
+
+  permission = await geolocator.Geolocator.checkPermission();
+  if (permission == geolocator.LocationPermission.denied) {
+    permission = await geolocator.Geolocator.requestPermission();
+    if (permission == geolocator.LocationPermission.denied) {
+      // Permissions are denied, next time you could try
+      // requesting permissions again (this is also where
+      // Android's shouldShowRequestPermissionRationale
+      // returned true. According to Android guidelines
+      // your App should show an explanatory UI now.
+      return Future.error('Location permissions are denied');
+    }
+  }
+
+  if (permission == geolocator.LocationPermission.deniedForever) {
+    // Permissions are denied forever, handle appropriately.
+    return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.');
+  }
+
+  const geolocator.LocationSettings locationSettings = geolocator.LocationSettings(
+    accuracy: geolocator.LocationAccuracy.high,
+    distanceFilter: 100,
+  );
+  StreamSubscription<geolocator.Position> positionStream = geolocator.Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+          (geolocator.Position? position) {
+            if (position != null) {
+              CtrlDomain ctrlDomain = CtrlDomain();
+              ctrlDomain.increaseDistance(position.latitude, position.longitude);
+              print(position);
+            }
+      });
 }
 
 class MyApp extends StatelessWidget {
