@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -30,8 +31,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 
-//import 'package:firebase_core/firebase_core.dart';
-//import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 import 'domini/services/local_notifications_adpt.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -43,7 +44,20 @@ Future initializeSystem() async {
   await ctrlDomain.initializeSystem();
   GoogleMap.init('AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY');
   WidgetsFlutterBinding.ensureInitialized();
-  //await Firebase.initializeApp();
+
+  if (kIsWeb) {
+    await Firebase.initializeApp(options: const FirebaseOptions(
+        messagingSenderId: '689102118187',
+        appId: '1:689102118187:web:eeefbefadde65d8f6ab96e',
+        apiKey: 'AIzaSyDmLPtQl-ooebxol34Gyw5_2S5ROUFZ03I',
+        projectId: 'electrike-4e818',
+        storageBucket: 'electrike-4e818.appspot.com',
+        measurementId: 'G-EPVQ48946K',
+        authDomain: 'electrike-4e818.firebaseapp.com'));
+  } else {
+    await Firebase.initializeApp();
+  }
+
   setUpLocator();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -177,7 +191,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    //initDynamicLinks();
+    initDynamicLinks();
 
     super.initState();
   }
@@ -205,23 +219,24 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  //FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
 
   //String? _linkMessage;
   //bool _isCreatingLink = false;
 
-  /*final String dynamicLink = 'https://test-app/helloworld';
+  final String dynamicLink = 'https://test-app/helloworld';
   final String link = 'https://reactnativefirebase.page.link/bFkn';
 
   void initDynamicLinks() {
+    dynamicLinks.getInitialLink().then((value) => null);
     dynamicLinks.onLink.listen((dynamicLinkData) {
       print("---> " + dynamicLinkData.link.toString());
 
-      Navigator.popUntil(context, ModalRoute.withName('/'));
-      Navigator.pushNamed(context, dynamicLinkData.link.path);
+      //Navigator.popUntil(context, ModalRoute.withName('/'));
+      //Navigator.pushNamed(context, dynamicLinkData.link.path);
     }).onError((error) {
       print('onLink error');
       print(error.message);
     });
-  }*/
+  }
 }
