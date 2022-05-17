@@ -83,6 +83,7 @@ dependencies:
   introduction_screen: ^3.0.2
   simple_speed_dial: ^0.1.6
   firebase_dynamic_links: ^4.2.3
+  geolocator: ^8.2.1
 
 dev_dependencies:
   integration_test:
