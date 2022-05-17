@@ -902,6 +902,78 @@ class CtrlDomain {
     return mapLocal;
   }
 
+  List<List<String>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+    Map<Tuple2<int,int>,List<int>> mapUTC = serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
+    Map<Tuple2<int,int>,List<int>> mapLocal = <Tuple2<int,int>,List<int>>{};
+    Tuple3<int,int,int> t3;
+
+    for (var i in mapUTC.keys) {
+      for (int ii = 0; ii < mapUTC[i]!.length; ii++) {
+        t3 = _convertDayOfTheWeek(mapUTC[i]![ii], i.item1, i.item2, true);
+
+        if (mapLocal[Tuple2(t3.item2,t3.item3)] == null) {
+          var entry = <Tuple2<int,int>,List<int>>{ Tuple2(t3.item2,t3.item3): [t3.item1]};
+          mapLocal.addEntries(entry.entries);
+        }
+        else {
+          mapLocal[Tuple2(t3.item2, t3.item3)]!.add(t3.item1);
+        }
+      }
+    }
+//ACABAR!! AQUESTA ÉS LA BONA
+    List<List<String>> listLocal = [[]];
+    for (var key in mapLocal.keys) {
+      l.add([key.item1.toString() + ":" + key.item2.toString(), ]);
+      List<String> dies = [];
+      for (var value in mapLocal[key]) {
+        l.add(l);
+      }
+
+    }
+
+
+    return listLocal;
+  }
+
+
+  List<List<String>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+
+
+
+    Map<Tuple2<int,int>,List<int>> mapUTC = serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
+    List<List<String>> listLocal = [[]];
+    Tuple3<int,int,int> t3;
+    List<int> element = [];
+
+    for (var i in mapUTC.keys) {
+      late int minute, hour;
+      for (int ii = 0; ii < mapUTC[i]!.length; ii++) {
+        t3 = _convertDayOfTheWeek(mapUTC[i]![ii], i.item1, i.item2, true);
+        hour = t3.item2;
+        minute = t3.item3;
+        element.add(t3.item1);
+      }
+
+      listLocal.add([hour.toString() + ":" + minute.toString(), dies]);
+
+
+
+        if (mapLocal[Tuple2(t3.item2,t3.item3)] == null) {
+          var entry = <Tuple2<int,int>,List<int>>{ Tuple2(t3.item2,t3.item3): [t3.item1]};
+          mapLocal.addEntries(entry.entries);
+        }
+        else {
+          mapLocal[Tuple2(t3.item2, t3.item3)]!.add(t3.item1);
+        }
+      }
+      listLocal.add([t3.item2.toString() + ":" + t3.item3.toString(), t3.]);
+    }
+    return listLocal;
+  }
+
+
+
+
   //Retorna true si el punt de càrrega té notificacions (independentment de si estan activades o desactivades)
   bool hasNotificacions(double lat, double long) {
     return serviceLocator<LocalNotificationAdpt>().hasNotificacions(lat,long);
@@ -920,7 +992,23 @@ class CtrlDomain {
       removeScheduledNotification(lat, long, day, iniHour, iniMinute);
     }
   }
+/* Fer:
+  void enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
 
+  }
+
+  void disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+
+  }
+
+  void enableNotifications(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+
+  }
+
+  void disableNotifications(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+
+  }
+*/
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
