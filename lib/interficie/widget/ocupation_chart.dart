@@ -52,7 +52,8 @@ class OcupationChart extends StatelessWidget {
         charts.ChartTitle('Hores del dia', //todo: peilin multiidiomas
             behaviorPosition: charts.BehaviorPosition.bottom,
             titleOutsideJustification:
-            charts.OutsideJustification.middleDrawArea),
+            charts.OutsideJustification.middleDrawArea,
+        ),
       ],
       domainAxis: const charts.OrdinalAxisSpec(
           renderSpec: charts.SmallTickRendererSpec(
