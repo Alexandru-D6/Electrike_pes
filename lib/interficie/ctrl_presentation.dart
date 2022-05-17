@@ -241,8 +241,8 @@ class CtrlPresentation {
   void signInRoutine(BuildContext context) async {
     toMainPage(context);
     await serviceLocator<GoogleLoginAdpt>().login();
-    final provider = Provider.of<LocaleProvider>(context, listen: false);
-    provider.setLocale(Locale(ctrlDomain.usuari.idiom));
+    //final provider = Provider.of<LocaleProvider>(context, listen: false);
+    //provider.setLocale(Locale(ctrlDomain.usuari.idiom));
   }
 
   void logoutRoutine(BuildContext context) async {
