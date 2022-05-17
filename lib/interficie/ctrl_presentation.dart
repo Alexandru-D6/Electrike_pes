@@ -504,13 +504,9 @@ class CtrlPresentation {
     return ctrlDomain.islogged();
   }
 
-  List<String> getTrophiesDone() {
-    List<String> trophiesCompleted = ["Login", "Jump"];
-    return trophiesCompleted;
-  }
 
-  int getCO2saved() {
-    return 8;
+  double getCO2saved() {
+    return ctrlDomain.usuari.co2Estalviat;
   }
 
   void showInstantNotification(double lat, double long) {
@@ -855,13 +851,18 @@ class CtrlPresentation {
   void showMyDialog(String idTrofeu) {
     AwesomeDialog(
       context: navigatorKey.currentContext!,
-      dialogType: DialogType.INFO,
+      width: 500,
       animType: AnimType.LEFTSLIDE,
-      title: "Trophy unlocked" + idTrofeu,
-      //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-      desc: "You can see the trophy in the trophies menu",
-      //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
-      btnOkOnPress: () {},
+      dialogType: DialogType.NO_HEADER,
+      autoHide: const Duration(seconds: 4) ,
+      body: _makeTrophyBody(idTrofeu),
+      /*btnOkText:'View in the trophy menu',
+      btnOkIcon: Icons.emoji_events,
+      btnOkOnPress:(){toRewardsPageDialog(navigatorKey.currentContext!);},
+      btnOkColor: Colors.blue,*/
+      btnCancelText: 'Ok',
+      btnCancelOnPress: () {},
+      btnCancelColor: Colors.green,
       headerAnimationLoop: false,
     ).show();
     /*showDialog(
@@ -875,11 +876,61 @@ class CtrlPresentation {
     );*/
   }
 
+  _makeTrophyBody(String idTrofeu) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+           Image.asset('assets/trophies/trophy.png', width: 100),
+    const SizedBox(width: 10),
+    AutoSizeText(
+      "Trophy unlocked" + idTrofeu,
+    style: const TextStyle(
+    color: Colors.black,
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    ),
+    maxLines: 1,
+    ),
+    const SizedBox(width: 5),
+   const AutoSizeText(
+      "You can see the trophy in the trophies menu",
+    style: TextStyle(
+    color: Colors.black54,
+    fontSize: 16,
+    ),
+    ),
+          //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
+          //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
+
+        ],
+      ),
+    );
+  }
+
   void increaseRouteCounter() {
     ctrlDomain.increaseCalculatedroutes();
   }
 
   List<List<String>> getTrophies() {
     return ctrlDomain.displayTrophy();
+  }
+
+  toRewardsPageDialog(BuildContext context) {
+    //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
+    if (email == "") {
+      _showNotLogDialog(context);
+    } else {
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(
+        context,
+        '/rewards',
+      );
+    }
+  }
+
+  int numThrophyUnlocked(){
+    return ctrlDomain.numTrophyUnlocked();
   }
 }

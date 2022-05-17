@@ -11,9 +11,10 @@ class NumbersWidget extends StatelessWidget {
     children: <Widget>[
       buildButton(context, ctrlPresentation.getCarsList().length.toString(), AppLocalizations.of(context).vehicles, "garage"),
       buildDivider(),
-      buildButton(context, ctrlPresentation.getTrophiesDone().length.toString(), AppLocalizations.of(context).trophies, "trophies"),
+      buildButton(context, ctrlPresentation.numThrophyUnlocked().toString(), AppLocalizations.of(context).trophies, "trophies"),
       buildDivider(),
       buildButton(context, ctrlPresentation.getCO2saved().toString()+" kg", AppLocalizations.of(context).savedco2, "co2"),
+      //ToDo:Añadir más Parametros VICTOR
     ],
   );
   Widget buildDivider() => const SizedBox(

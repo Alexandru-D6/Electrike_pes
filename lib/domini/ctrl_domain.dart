@@ -970,4 +970,11 @@ class CtrlDomain {
     }
 
   }
+  int numTrophyUnlocked(){
+    int i = 0;
+    for(var t in usuari.trofeus){
+      if(t.unlocked)i++;
+    }
+    return i;
+  }
 }
