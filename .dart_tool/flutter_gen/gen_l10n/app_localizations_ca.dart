@@ -136,4 +136,25 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get savedco2 => 'CO2 salvat';
+
+  @override
+  String get day1 => 'Dilluns';
+
+  @override
+  String get day2 => 'Dimarts';
+
+  @override
+  String get day3 => 'Dimecres';
+
+  @override
+  String get day4 => 'Dijous';
+
+  @override
+  String get day5 => 'Divendres';
+
+  @override
+  String get day6 => 'Dissabte';
+
+  @override
+  String get day7 => 'Diumenge';
 }

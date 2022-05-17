@@ -347,6 +347,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved CO2'**
   String get savedco2;
+
+  /// No description provided for @day1.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get day1;
+
+  /// No description provided for @day2.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get day2;
+
+  /// No description provided for @day3.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get day3;
+
+  /// No description provided for @day4.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get day4;
+
+  /// No description provided for @day5.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get day5;
+
+  /// No description provided for @day6.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get day6;
+
+  /// No description provided for @day7.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get day7;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -136,4 +136,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedco2 => 'Saved CO2';
+
+  @override
+  String get day1 => 'Monday';
+
+  @override
+  String get day2 => 'Tuesday';
+
+  @override
+  String get day3 => 'Wednesday';
+
+  @override
+  String get day4 => 'Thursday';
+
+  @override
+  String get day5 => 'Friday';
+
+  @override
+  String get day6 => 'Saturday';
+
+  @override
+  String get day7 => 'Sunday';
 }

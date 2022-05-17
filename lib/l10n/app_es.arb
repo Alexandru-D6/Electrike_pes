@@ -62,5 +62,13 @@
   "save": "Guardar cambios",
   "vehicles": "Vehículos",
   "trophies": "Trofeos",
-  "savedco2": "CO2 salvado"
+  "savedco2": "CO2 salvado",
+
+  "day1": "Lunes",
+  "day2": "Martes",
+  "day3": "Miércoles",
+  "day4": "Jueves",
+  "day5": "Viernes",
+  "day6": "Sábado",
+  "day7": "Domingo"
 }

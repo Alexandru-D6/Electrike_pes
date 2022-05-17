@@ -136,4 +136,25 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get savedco2 => 'CO2 salvado';
+
+  @override
+  String get day1 => 'Lunes';
+
+  @override
+  String get day2 => 'Martes';
+
+  @override
+  String get day3 => 'Miércoles';
+
+  @override
+  String get day4 => 'Jueves';
+
+  @override
+  String get day5 => 'Viernes';
+
+  @override
+  String get day6 => 'Sábado';
+
+  @override
+  String get day7 => 'Domingo';
 }

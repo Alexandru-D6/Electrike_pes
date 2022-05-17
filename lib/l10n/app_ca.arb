@@ -63,5 +63,13 @@
   "save": "Guardar canvis",
   "vehicles": "Vehicles",
   "trophies": "Trofeus",
-  "savedco2": "CO2 salvat"
+  "savedco2": "CO2 salvat",
+
+   "day1": "Dilluns",
+   "day2": "Dimarts",
+   "day3": "Dimecres",
+   "day4": "Dijous",
+   "day5": "Divendres",
+   "day6": "Dissabte",
+   "day7": "Diumenge"
 }

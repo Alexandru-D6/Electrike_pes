@@ -3,6 +3,7 @@ import 'package:flutter_project/domini/data_graphic.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 
@@ -14,7 +15,7 @@ class ChartPage extends StatefulWidget {
   State<ChartPage> createState() => _ChartPageState();
 }
   class _ChartPageState extends State<ChartPage> {
-    String dropdownValue = 'Monday'; //todo: añadir dropdown
+    String dropdownValue = "Dilluns"; //todo: añadir dropdown
   @override
   Widget build(BuildContext context) {
     final pointTitle = ModalRoute.of(context)!.settings.arguments as String;
@@ -51,7 +52,9 @@ class ChartPage extends StatefulWidget {
               dropdownValue = newValue!;
             });
           },
-          items: <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',] //todo: peilin multiidiomas
+          items: <String>[AppLocalizations.of(context).day1, AppLocalizations.of(context).day2,
+            AppLocalizations.of(context).day3, AppLocalizations.of(context).day4, AppLocalizations.of(context).day5,
+            AppLocalizations.of(context).day6, AppLocalizations.of(context).day7] //todo: peilin multiidiomas
           .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
