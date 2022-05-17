@@ -882,4 +882,9 @@ class CtrlPresentation {
   List<List<String>> getTrophies() {
     return ctrlDomain.displayTrophy();
   }
+
+  void addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
+    //todo: conectar con notificaciones
+    //ctrlDomain.addNotification(latitud, longitud, hour, minute, selectedDays);
+  }
 }

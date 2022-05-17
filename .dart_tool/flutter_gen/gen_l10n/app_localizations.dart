@@ -300,6 +300,48 @@ abstract class AppLocalizations {
   /// **'Add point to favourites'**
   String get msgAddFav;
 
+  /// No description provided for @lunes.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get lunes;
+
+  /// No description provided for @martes.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get martes;
+
+  /// No description provided for @miercoles.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get miercoles;
+
+  /// No description provided for @jueves.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get jueves;
+
+  /// No description provided for @viernes.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get viernes;
+
+  /// No description provided for @sabado.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get sabado;
+
+  /// No description provided for @domingo.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get domingo;
+
   /// No description provided for @infoCar.
   ///
   /// In en, this message translates to:

@@ -2,7 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 
 class TimePickerPage extends StatefulWidget {
@@ -17,30 +20,20 @@ class _TimePickerPageState extends State<TimePickerPage> {
   TimeOfDay selectedTime = TimeOfDay.now();
   List<String> selectedDays = <String>[];
 
-  //todo: translate
-  final List<DayInWeek> _days = [
-    DayInWeek(
-      "Lunes",
-    ),
-    DayInWeek(
-      "Martes",
-    ),
-    DayInWeek(
-      "Miercoles",
-    ),
-    DayInWeek(
-      "Jueves",
-    ),
-    DayInWeek(
-      "Viernes",
-    ),
-    DayInWeek("Sabado"),
-    DayInWeek("Domingo"),
+  List<DayInWeek> _days(context) => [
+    DayInWeek(AppLocalizations.of(context).lunes),
+    DayInWeek(AppLocalizations.of(context).martes),
+    DayInWeek(AppLocalizations.of(context).miercoles),
+    DayInWeek(AppLocalizations.of(context).jueves),
+    DayInWeek(AppLocalizations.of(context).viernes),
+    DayInWeek(AppLocalizations.of(context).sabado),
+    DayInWeek(AppLocalizations.of(context).domingo),
   ];
 
   @override
   Widget build(BuildContext context) {
     final notificationsInfo = ModalRoute.of(context)!.settings.arguments as NewNotificationArgs;
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notifications settings"), //TODO:  translate
@@ -62,7 +55,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
                 SelectWeekDays(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  days: _days,
+                  days: _days(context),
                   onSelect: (values) {
                     selectedDays = values;
                     print(values);
@@ -140,6 +133,8 @@ class _TimePickerPageState extends State<TimePickerPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("You will be notified "+selectedDays.toString()+" at "+"${selectedTime.hour}:${selectedTime.minute}")),
           );
+          List<int> selectedDaysInt = daysToInt(selectedDays, context);
+          ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
         },
         heroTag: "Add notification",//todo:translate
         tooltip: "Add notification",//todo:translate
@@ -160,5 +155,78 @@ class _TimePickerPageState extends State<TimePickerPage> {
         selectedTime = timeOfDay;
       });
     }
+  }
+
+  List<int> daysToInt(List<String> selectedDays, BuildContext context) {
+    List<int> daysAsInt = <int>[];
+    for(int i = 0; i < selectedDays.length; ++i){
+      switch (selectedDays[i]){
+        case "Lunes":
+          if(!daysAsInt.contains(1)) daysAsInt.add(1);
+          break;
+        case "Monday":
+          if(!daysAsInt.contains(1)) daysAsInt.add(1);
+          break;
+        case "Dilluns":
+          if(!daysAsInt.contains(1)) daysAsInt.add(1);
+          break;
+        case "Martes":
+          if(!daysAsInt.contains(2)) daysAsInt.add(2);
+          break;
+        case "Tuesday":
+          if(!daysAsInt.contains(2)) daysAsInt.add(2);
+          break;
+        case "Dimarts":
+          if(!daysAsInt.contains(2)) daysAsInt.add(2);
+          break;
+        case "Dimecres":
+          if(!daysAsInt.contains(3)) daysAsInt.add(3);
+          break;
+        case "Miercoles":
+          if(!daysAsInt.contains(3)) daysAsInt.add(3);
+          break;
+        case "Wednesday":
+          if(!daysAsInt.contains(3)) daysAsInt.add(3);
+          break;
+        case "Jueves":
+          if(!daysAsInt.contains(4)) daysAsInt.add(4);
+          break;
+        case "Dijous":
+          if(!daysAsInt.contains(4)) daysAsInt.add(4);
+          break;
+        case "Thursday":
+          if(!daysAsInt.contains(4)) daysAsInt.add(4);
+          break;
+        case "Friday":
+          if(!daysAsInt.contains(5)) daysAsInt.add(5);
+          break;
+        case "Viernes":
+          if(!daysAsInt.contains(5)) daysAsInt.add(5);
+          break;
+        case "Divendres":
+          if(!daysAsInt.contains(5)) daysAsInt.add(5);
+          break;
+        case "Sabado":
+          if(!daysAsInt.contains(6)) daysAsInt.add(6);
+          break;
+        case "Saturday":
+          if(!daysAsInt.contains(6)) daysAsInt.add(6);
+          break;
+        case "Dissabte":
+          if(!daysAsInt.contains(6)) daysAsInt.add(6);
+          break;
+        case "Diumenge":
+          if(!daysAsInt.contains(7)) daysAsInt.add(7);
+          break;
+        case "Domingo":
+          if(!daysAsInt.contains(7)) daysAsInt.add(7);
+          break;
+        case "Sunday":
+          if(!daysAsInt.contains(7)) daysAsInt.add(7);
+          break;
+      }
+    }
+    daysAsInt.sort();
+    return daysAsInt;
   }
 }

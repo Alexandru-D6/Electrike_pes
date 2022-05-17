@@ -35,6 +35,13 @@
   "msgSelectChargers": "Selecciona al menys un carregador",
   "msgIntroNum": "Introdueix un número",
   "msgAddFav": "Afegir punt a favorits",
+  "lunes": "Dilluns",
+  "martes": "Dimarts",
+  "miercoles": "Dimecres",
+  "jueves": "Dijous",
+  "viernes": "Divendres",
+  "sabado": "Dissabte",
+  "domingo": "Diumenge",
 
   "infoCar": "El nom del vehicle és {selectedNameCar}\\n \n  La seva marca {selectedBrandCar}\\n\n  El seu model {selectedModelCar}\\n\n   Bateria {selectedBatteryCar} kWh\\n\n   Consum {selectedEffciencyCar} Wh/Km\\n\n El vehicle utilitza {selectedPlugs}\\n'''),",
   "@infoCar": {
