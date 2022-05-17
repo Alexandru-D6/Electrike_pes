@@ -54,7 +54,7 @@ Future initializeSystem() async {
     navigatorKey: navigatorKey, debugShowCheckedModeBanner: false));
 }
 
-void LocationService() async {
+/*void LocationService() async {
   bool serviceEnabled;
   geolocator.LocationPermission permission;
 
@@ -98,7 +98,7 @@ void LocationService() async {
               print(position);
             }
       });
-}
+}*/
 
 class MyApp extends StatelessWidget {
   static const String title = 'Electrike';
