@@ -13,6 +13,7 @@ import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -513,11 +514,6 @@ class CtrlPresentation {
     return 8;
   }
 
-  void showInstantNotification(double lat, double long) {
-    ctrlDomain.showInstantNotification(lat, long);
-  }
-
-
   void share({required double latitude, required double longitude}) {
     print("share button");
   }
@@ -887,4 +883,29 @@ class CtrlPresentation {
     //todo: conectar con notificaciones
     //ctrlDomain.addNotification(latitud, longitud, hour, minute, selectedDays);
   }
+
+  void showInstantNotification(double lat, double long) {
+    ctrlDomain.showInstantNotification(lat, long);
+  }
+
+  void removeShceduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    ctrlDomain.removeScheduledNotification(lat, long, dayOfTheWeek, iniHour, iniMinute);
+  }
+
+  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    return ctrlDomain.addSheduledNotificationFavoriteChargePoint(lat, long, dayOfTheWeek, iniHour, iniMinute);
+}
+
+  Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+    return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(lat,long);
+  }
+
+  void addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    ctrlDomain.addSheduledNotificationsFavoriteChargePoint(lat, long, iniHour, iniMinute, daysOfTheWeek);
+  }
+
+  void removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    ctrlDomain.removeScheduledNotifications(lat, long, iniHour, iniMinute, daysOfTheWeek);
+  }
+
 }
