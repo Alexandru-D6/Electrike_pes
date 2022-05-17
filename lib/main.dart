@@ -26,6 +26,7 @@ import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:flutter_project/l10n/l10n.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_project/misc/dynamic_link_utils.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -139,7 +140,6 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
-
         routes: {
           '/': (context) => const MainPage(),
           '/profile': (context) => const ProfilePage(),
@@ -165,7 +165,7 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   Future<void> askForPermission(Location location, BuildContext context) async {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -191,9 +191,33 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    initDynamicLinks();
+    WidgetsBinding.instance?.addObserver(this);
 
     super.initState();
+
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
+      initDynamicLinks();
+      DynamicLinkUtils.buildDynamicLink("information").then((value) => print("Information ---> " + value));
+      DynamicLinkUtils.buildDynamicLink("main").then((value) => print("MainPage ---> " + value));
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    ctrlPresentation.toMainPage(context);
+    setState(() {});
+    super.didChangeAppLifecycleState(state);
+    if(AppLifecycleState.paused == state) {
+      /// TODO: Stop music player
+    }
+    print(state);
   }
 
   @override
@@ -219,24 +243,70 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  FirebaseDynamicLinks dynamicLinks = FirebaseDynamicLinks.instance;
+  String url = "";
 
-  //String? _linkMessage;
-  //bool _isCreatingLink = false;
+  ///Retreive dynamic link firebase.
+  void initDynamicLinks() async {
+    final PendingDynamicLinkData? data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri? deepLink = data?.link;
 
-  final String dynamicLink = 'https://test-app/helloworld';
-  final String link = 'https://reactnativefirebase.page.link/bFkn';
+    if (deepLink != null) {
+      handleDynamicLink(deepLink);
+    }
 
-  void initDynamicLinks() {
-    dynamicLinks.getInitialLink().then((value) => null);
-    dynamicLinks.onLink.listen((dynamicLinkData) {
-      print("---> " + dynamicLinkData.link.toString());
+    FirebaseDynamicLinks.instance.onLink.listen((event) async {
+      final Uri? deepLink = event.link;
 
-      //Navigator.popUntil(context, ModalRoute.withName('/'));
-      //Navigator.pushNamed(context, dynamicLinkData.link.path);
+      if (deepLink != null) {
+        handleDynamicLink(deepLink);
+      }
     }).onError((error) {
       print('onLink error');
       print(error.message);
     });
   }
+
+  handleDynamicLink(Uri url) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    List<String> separatedString = [];
+    separatedString.addAll(url.path.split('/'));
+    if (separatedString[1] == "point") {
+
+      List<String> coords = [];
+      coords.addAll(separatedString[3].split(','));
+      double lat = double.parse(coords[0].toString());
+      double lng = double.parse(coords[1].toString());
+      BuildContext? mapContext = ctrlPresentation.getMapKey().currentContext;
+      if (separatedString[2] == "bicing") {
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("bicingPoints");
+        showInfoBicing(context, lat, lng);
+      }else {
+        GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers(
+            "chargerPoints");
+        showInfoCharger(context, lat, lng);
+      }
+      showInfoRuta(context);
+      ctrlPresentation.moveCameraToSpecificLocation(mapContext!, lat, lng);
+      setState(() {});
+
+    } else if (separatedString[1] == "location") {
+      List<String> coords = [];
+      coords.addAll(separatedString[2].split(','));
+      double lat = double.parse(coords[0].toString());
+      double lng = double.parse(coords[1].toString());
+      BuildContext? mapContext = ctrlPresentation.getMapKey().currentContext;
+      ctrlPresentation.moveCameraToSpecificLocation(mapContext!, lat, lng);
+      setState(() {});
+    } else if (separatedString[1] == "information") {
+      ctrlPresentation.toInfoAppPage(context);
+      setState(() {});
+    } else if (separatedString[1] == "main") {
+      ctrlPresentation.toMainPage(context);
+      setState(() {});
+    }
+
+  }
+
 }

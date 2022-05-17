@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
@@ -82,8 +83,13 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
-          onPressed: () {
-            ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude);
+          onPressed: () async {
+            String url = await ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude, type: "bicing");
+            await Clipboard.setData(ClipboardData(text: url));
+
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Added to clipboard the tapped point!"),
+            ));
           },
           icon: const Icon(
             Icons.share,

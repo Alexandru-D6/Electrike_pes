@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:vector_math/vector_math.dart' as math;
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
@@ -69,6 +70,7 @@ class CtrlDomain {
 
   //SYSTEM
   Future<void> initializeSystem() async {
+    if (kIsWeb) urlorg = 'https://obscure-lake-86305.herokuapp.com/http://electrike.ddns.net:3784/';
     usuari.usuarinull();
     initializeTypes();
     await getAllCars();
@@ -130,10 +132,10 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = resp['items'][0]['Name'];
       usuari.foto = resp['items'][0]['Img'];
-      usuari.co2Estalviat = resp['items'][0]['CO2'];
-      usuari.kmRecorregut = resp['items'][0]['km'];
-      usuari.counterRoutes = resp['items'][0]['routes_counter'];
-      usuari.counterVH = resp['items'][0]['cars_counter'];
+      usuari.co2Estalviat = double.parse(resp['items'][0]['CO2'].toString());
+      usuari.kmRecorregut = double.parse(resp['items'][0]['km'].toString());
+      usuari.counterRoutes = double.parse(resp['items'][0]['routes_counter'].toString());
+      usuari.counterVH = double.parse(resp['items'][0]['cars_counter'].toString());
 
       await login();
     }

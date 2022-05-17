@@ -11,6 +11,7 @@ import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/interficie/provider/locale_provider.dart';
+import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_project/domini/data_graphic.dart';
 import '../main.dart';
+import '../misc/dynamic_link_utils.dart';
 
 
 class CtrlPresentation {
@@ -518,8 +520,9 @@ class CtrlPresentation {
   }
 
 
-  void share({required double latitude, required double longitude}) {
-    print("share button");
+  Future<String> share({required double latitude, required double longitude, required String type}) async {
+    var url = await DynamicLinkUtils.buildDynamicLink("point/$type/$latitude,$longitude");
+    return "Hey, check this point => $url";
   }
 
   void showLegendDialog(BuildContext context, String s) {

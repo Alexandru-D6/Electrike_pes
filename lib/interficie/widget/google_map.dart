@@ -355,28 +355,28 @@ class _MyMapState extends State<MyMap> {
       }
     }
   }
+}
 
-  showInfoRuta(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        backgroundColor: cTransparent,
-        builder: (builder) {
-          return Stack(
-            children: [
-              Positioned(
-                left: 24,
-                right: 24,
-                bottom: 24,
-                child: Stack(
-                  children: const [
-                    InfoRuta(),
-                  ],
-                ),
-              ),
-            ],
-          );
-        });
-  }
+showInfoRuta(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: cTransparent,
+    builder: (builder) {
+      return Stack(
+        children: [
+          Positioned(
+            left: 24,
+            right: 24,
+            bottom: 24,
+            child: Stack(
+              children: const [
+                InfoRuta(),
+              ],
+            ),
+          ),
+        ],
+      );
+    });
 }
 
 Marker buildChargerMarker({ //todo:refactor para que funcione igual que con bicing
@@ -418,15 +418,14 @@ Marker buildBicingMarker({
   required double long,
   required BuildContext context,
 }) {
-  List<String> infoBicingPoint = <String>[];
   return Marker(
     GeoCoord(lat, long),
     icon: (!kIsWeb) ? "assets/images/bike.png" : "assets/images/bikeWeb.png", //todo: al poner custom marker no sale en la primera carga
-    onTap: (markerId) =>showInfoBicing(context, lat, long, infoBicingPoint)
+    onTap: (markerId) =>showInfoBicing(context, lat, long)
   );
 }
 
-showInfoBicing(BuildContext context, double lat, double long, List<String> infoBicingPoint) {
+showInfoBicing(BuildContext context, double lat, double long) {
   return showModalBottomSheet(
       context: context,
       backgroundColor: cTransparent,
@@ -439,7 +438,7 @@ showInfoBicing(BuildContext context, double lat, double long, List<String> infoB
               bottom: 24,
               child: Stack(
                 children: [
-                  BicingPointDetailInformation(latitud: lat, longitud: long,),
+                  BicingPointDetailInformation(latitud: lat, longitud: long),
                 ],
               ),
             ),
