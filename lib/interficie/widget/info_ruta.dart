@@ -50,8 +50,8 @@ class _InfoRutaState extends State<InfoRuta> {
         children: <Widget>[
           const Text("Select one of your cars"), //todo: peilin multi
           ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
-            height: 150,
-            width: 150,
+            height: 100,
+            width: 100,
             child: NotificationListener<ScrollEndNotification>(
               child: ScrollConfiguration(
                 behavior: ScrollConfiguration.of(context).copyWith(
@@ -72,7 +72,7 @@ class _InfoRutaState extends State<InfoRuta> {
               ),),
               onNotification: (notification) {
                 ctrlPresentation.idCarUser =
-                    (controller.position.pixels) ~/ 150 +
+                    (controller.position.pixels) ~/ 100 +
                         1; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
                 print(controller.position.pixels);
                 print(ctrlPresentation.idCarUser);
@@ -83,12 +83,12 @@ class _InfoRutaState extends State<InfoRuta> {
             ),
 
           ) : SizedBox(
-            height: 150,
-            width: 150,
+            height: 100,
+            width: 100,
             child: Image.asset("assets/brandCars/rayo.png"),
           ),
           const Divider(
-            height: 6,
+            height: 3,
             color: Color(0x00000000),
           ),
           Row(
@@ -201,10 +201,10 @@ class _InfoRutaState extends State<InfoRuta> {
       carImage = "assets/brandCars/defaultBMW.png";
     }
     return Container(
-      width: 150.0,
+      width: 100.0,
       decoration: BoxDecoration(
         //shape: BoxShape.rectangle,
-        border: Border.all(width: 5.0, color: const Color(0xff353535)),
+        border: Border.all(width: 6.0, color: const Color(0xff353535)),
         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
         color: const Color(0xffafafdc),
         image: DecorationImage(
