@@ -22,7 +22,10 @@ class InfoRuta extends StatelessWidget {
     final controller = ScrollController();
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     void _changeLatestBateryValue() {
-      ctrlPresentation.bateria = textController.text;
+      if(textController.text != '') {
+        ctrlPresentation.bateria = textController.text;
+        ctrlPresentation.getDistDuration();
+      }
       //todo: cambiar esto para que llame a la ruta en funcion de su seleccionado
       //print('Second text field: ${ctrlPresentation.bateria}');
     }
@@ -73,7 +76,7 @@ class InfoRuta extends StatelessWidget {
             child: Image.asset("assets/brandCars/rayo.png"),
           ),
           const Divider(
-            height: 16,
+            height: 6,
             color: Color(0x00000000),
           ),
           Row(
@@ -93,16 +96,16 @@ class InfoRuta extends StatelessWidget {
               const Text("%"),
             ],
           ),
+          const Divider(
+            height: 5,
+            color: Color(0x00000000),
+          ),
           const Text("Select a route type"),//todo: peilin multi
           const Divider(
             height: 16,
             color: Color(0x00000000),
           ),
           const CustomRadio(),
-          const Divider(
-            height: 16,
-            color: Color(0x00000000),
-          ),
           const Divider(
             height: 16,
             color: Color(0x00000000),

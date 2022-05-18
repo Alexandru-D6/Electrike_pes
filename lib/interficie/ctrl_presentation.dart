@@ -43,6 +43,8 @@ class CtrlPresentation {
   String bateria = "100"; // de normal 100
   String distinmeters = "";
   String durationinminutes = "";
+  List<GeoCoord> waypointsRuta = <GeoCoord>[];
+
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
@@ -330,17 +332,17 @@ class CtrlPresentation {
           print("origen --> " + orig.toString());
           print("destination --> " + dest.toString());
 
-        RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
+        //RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
 
-          print(rutaCharger);
-          print(rutaCharger.waypoints);
+         // print(rutaCharger);
+         // print(rutaCharger.waypoints);
 
         String origin = orig.latitude.toString() + "," + orig.longitude.toString();
 
         GoogleMap.of(getMapKey())?.displayRoute(
           origin,
           destination,
-          waypoints: rutaCharger.waypoints.isEmpty || rutaCharger.waypoints.first.latitude == -1.0 ? List<GeoCoord>.empty() : rutaCharger.waypoints,
+          waypoints: waypointsRuta.isEmpty || waypointsRuta.first.latitude == -1.0 ? List<GeoCoord>.empty() : waypointsRuta,
           startLabel: '1',
           startInfo: 'Origin',
           endIcon: 'assets/images/rolls_royce.png',
@@ -823,29 +825,51 @@ class CtrlPresentation {
   }
   
   void getDistDuration() async {
-    Location location = Location();
-    getMapsService.adressCoding(destination).then((destT) async {
-      GeoCoord desti = GeoCoord(destT.latitude, destT.longitude);
+      Location location = Location();
+      getMapsService.adressCoding(destination).then((destT) async {
+        GeoCoord desti = GeoCoord(destT.latitude, destT.longitude);
 
-      GeoCoord origen;
-      location.getLocation().then((value) async {
-        if (actualLocation != "Your location") {
-          GeoCoord origT = await getMapsService.adressCoding(actualLocation);
-          origen = GeoCoord(origT.latitude, origT.longitude);
-        }
-        else {
-        origen = GeoCoord(value.latitude!, value.longitude!);
-        }
-        print(origen);
-        print(desti);
-        ctrlDomain.infoRutaSenseCarrega(origen, desti).then((routeInfo) async {
-          distinmeters = routeInfo.distance;
-          print(distinmeters);
-          durationinminutes = routeInfo.duration;
-          print(durationinminutes);
+        GeoCoord origen;
+        location.getLocation().then((value) async {
+          if (actualLocation != "Your location") {
+            GeoCoord origT = await getMapsService.adressCoding(actualLocation);
+            origen = GeoCoord(origT.latitude, origT.longitude);
+          }
+          else {
+            origen = GeoCoord(value.latitude!, value.longitude!);
+          }
+          print(origen);
+          print(desti);
+          if(routeType == 0) {
+            ctrlDomain.infoRutaSenseCarrega(origen, desti).then((
+                routeInfo) async {
+              distinmeters = routeInfo.distance;
+              print(distinmeters);
+              durationinminutes = routeInfo.duration;
+              print(durationinminutes);
+            });
+          }
+          else if(routeType == 1){
+            double bat = double.parse(bateria);
+            print("origen --> " + origen.toString());
+            print("destination --> " + desti.toString());
+
+            RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(origen, desti, bat);
+            distinmeters = rutaCharger.distance;
+            print(distinmeters);
+            durationinminutes = rutaCharger.duration;
+            print(durationinminutes);
+            print(rutaCharger);
+            print(rutaCharger.waypoints);
+            waypointsRuta = rutaCharger.waypoints;
+            String origin = origen.latitude.toString() + "," + origen.longitude.toString();
+          }
+          else if(routeType == 2){
+            //todo:calculos necesarios ruta eco
+          }
         });
       });
-    });
+
   }
 
   bool esBarcelona(double latitud, double longitud) {
