@@ -86,10 +86,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get login => 'Iniciar sesión';
 
   @override
-  String get toAddCarLogin => '¡Para agregar un vehículo debes estar registrado!';
-
-  @override
-  String get toAddFavLogin => 'Para añadir un punto a favoritos tienes que iniciar sessión\n';
+  String get notLogged => 'Aún no has inicado sessión';
 
   @override
   String get clickToLogin => 'Haga clic para iniciar sesión';
@@ -157,4 +154,36 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get day7 => 'Domingo';
+
+  @override
+  String get notificationSettings => 'Configuración de notificaciones';
+
+  @override
+  String get receiveNoti => 'Repetición';
+
+  @override
+  String get time => 'Hora';
+
+  @override
+  String get addNoti => 'Añadir notificación';
+
+  @override
+  String notificationInfoMsg(Object days, Object hora, Object min) {
+    return 'Recibirás una notificación los $days a las $hora:$min';
+  }
+
+  @override
+  String get addFavPoints => 'Añadir punto a favoritos';
+
+  @override
+  String get explNoFav => 'Inicia sessión para consultar tus favoritos';
+
+  @override
+  String get hideMarkers => 'Esconder todos';
+
+  @override
+  String get showMarkers => 'Mostrar todos';
+
+  @override
+  String get favouritesMark => 'Favoritos';
 }

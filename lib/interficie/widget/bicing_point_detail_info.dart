@@ -4,6 +4,8 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class BicingPointDetailInformation extends StatelessWidget {
   const BicingPointDetailInformation({
@@ -117,7 +119,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
-          tooltip: 'Add points to favourites', //todo: translate App....of(context).[]
+          tooltip: AppLocalizations.of(context).addFavPoints, //TODO (Peilin) ready for test
           onPressed: () {
             ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
             if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {

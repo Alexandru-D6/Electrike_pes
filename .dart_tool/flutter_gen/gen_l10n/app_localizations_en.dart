@@ -86,10 +86,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Log-in';
 
   @override
-  String get toAddCarLogin => 'To add a car you must be logged!';
-
-  @override
-  String get toAddFavLogin => 'To add a point to your favourites you must be logged in\n';
+  String get notLogged => 'You aren\'t logged yet';
 
   @override
   String get clickToLogin => 'Click to log-in';
@@ -157,4 +154,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get day7 => 'Sunday';
+
+  @override
+  String get notificationSettings => 'Notification settings';
+
+  @override
+  String get receiveNoti => 'Frequency';
+
+  @override
+  String get time => 'Hour';
+
+  @override
+  String get addNoti => 'Add notification';
+
+  @override
+  String notificationInfoMsg(Object days, Object hora, Object min) {
+    return 'A notificacion will be sent in $days at $hora:$min';
+  }
+
+  @override
+  String get addFavPoints => 'Add point to favourites';
+
+  @override
+  String get explNoFav => 'Log-in to see your favourites';
+
+  @override
+  String get hideMarkers => 'Hide all';
+
+  @override
+  String get showMarkers => 'Show all';
+
+  @override
+  String get favouritesMark => 'Favourites';
 }
