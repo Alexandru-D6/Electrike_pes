@@ -1,11 +1,15 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/interficie/confetti.dart';
 import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
@@ -854,7 +858,7 @@ class CtrlPresentation {
       width: 500,
       animType: AnimType.LEFTSLIDE,
       dialogType: DialogType.NO_HEADER,
-      autoHide: const Duration(seconds: 4) ,
+      autoHide: const Duration(seconds: 6) ,
       body: _makeTrophyBody(idTrofeu),
       /*btnOkText:'View in the trophy menu',
       btnOkIcon: Icons.emoji_events,
@@ -865,23 +869,45 @@ class CtrlPresentation {
       btnCancelColor: Colors.green,
       headerAnimationLoop: false,
     ).show();
-    /*showDialog(
-        context: navigatorKey.currentContext!,
-        builder: (context) => Center(
-          child: Material(
-            color: Colors.transparent,
-            child: Text('Hello'),
-          ),
-        )
-    );*/
   }
 
   _makeTrophyBody(String idTrofeu) {
+    ConfettiController controllerCenterRight = ConfettiController(duration: const Duration(milliseconds: 700));
+    ConfettiController controllerCenterLeft = ConfettiController(duration: const Duration(milliseconds: 700));
+    controllerCenterLeft.play();
+    controllerCenterRight.play();
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          //CENTER RIGHT -- Emit left
+          Align(
+            alignment: Alignment.centerRight,
+            child: ConfettiWidget(
+              confettiController: controllerCenterRight,
+              blastDirection: pi, // radial value - RIGHT
+              emissionFrequency: 0.6,
+              minimumSize: const Size(15, 25), // set the minimum potential size for the confetti (width, height)
+              maximumSize: const Size(15, 25), // set the maximum potential size for the confetti (width, height)
+              numberOfParticles: 1,
+              gravity: 0.1,
+            ),
+          ),
+
+          //CENTER LEFT - Emit right
+          Align(
+            alignment: Alignment.centerLeft,
+            child: ConfettiWidget(
+              confettiController: controllerCenterLeft,
+              blastDirection: 0, // radial value - RIGHT
+              emissionFrequency: 0.6,
+              minimumSize: const Size(15, 25), // set the minimum potential size for the confetti (width, height)
+              maximumSize: const Size(15, 25), // set the maximum potential size for the confetti (width, height)
+              numberOfParticles: 1,
+              gravity: 0.1,
+            ),
+          ),
            Image.asset('assets/trophies/trophy.png', width: 100),
     const SizedBox(width: 10),
     AutoSizeText(
@@ -932,5 +958,13 @@ class CtrlPresentation {
 
   int numThrophyUnlocked(){
     return ctrlDomain.numTrophyUnlocked();
+  }
+
+  double getKmsaved(){
+    return ctrlDomain.usuari.kmRecorregut;
+  }
+
+  double getNumRoutessaved(){
+    return ctrlDomain.usuari.counterRoutes;
   }
 }
