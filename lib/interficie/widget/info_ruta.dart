@@ -31,6 +31,7 @@ class _InfoRutaState extends State<InfoRuta> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
@@ -103,7 +104,6 @@ class _InfoRutaState extends State<InfoRuta> {
                   onChanged: (value) {
                     ctrlPresentation.bateria = value;
                     ctrlPresentation.getDistDuration().then((value) {
-                      time = value;
                       setState(() {
                         time = value;
                       });
@@ -174,14 +174,15 @@ class _InfoRutaState extends State<InfoRuta> {
   Widget customRadioButton(String text, int index) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     return OutlinedButton(
-      onPressed: () async {
-        ctrlPresentation.getDistDuration().then((value) {
-          time = value;
+      onPressed: () {
           setState(() {
             ctrlPresentation.routeType = index;
-            time = value;
           });
-        });
+          ctrlPresentation.getDistDuration().then((value) {
+            setState(() {
+              time = value;
+            });
+          });
       },
       child: Text(
         text,
