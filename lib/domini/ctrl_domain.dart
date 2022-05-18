@@ -949,7 +949,7 @@ class CtrlDomain {
     }
   }
 
-  //Activa una notificació que té l'usuari programada però desactivada. Si estava activada, continuarà estat activada.
+  //Activa una notificació que té l'usuari programada però desactivada. Si estava activada, continuarà estant activada.
   void enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
     serviceLocator<LocalNotificationAdpt>().enableNotification(firstNotification, lat, long);
