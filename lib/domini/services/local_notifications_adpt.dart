@@ -1,5 +1,3 @@
-import 'dart:ffi';
-import 'dart:math';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,27 +10,21 @@ import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'dart:ffi' as ffi;
-import 'package:ffi/ffi.dart';
 
-class InfoNotification extends Struct {
-  @Double()
-  external double lat;
+class InfoNotification {
+  late double lat;
 
-  @Double()
-  external double long;
+  late double long;
 
-  @Int32()
-  external int dayOfTheWeek;
+  late int dayOfTheWeek;
 
-  @Int32()
-  external int iniHour;
+  late int iniHour;
 
-  @Int32()
-  external int iniMinute;
+  late int iniMinute;
 
-  @Bool()
-  external bool active;
+  late bool active;
+
+  InfoNotification(this.lat, this.long, this.dayOfTheWeek, this.iniHour, this.iniMinute, this.active);
 }
 
 class LocalNotificationAdpt {
@@ -111,18 +103,11 @@ class LocalNotificationAdpt {
 
   Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
 
-    Pointer<InfoNotification> infN = malloc<InfoNotification>();
-
-    infN[0].lat = lat;
-    infN[0].long = long;
-    infN[0].dayOfTheWeek = when.weekday;
-    infN[0].iniHour = when.hour;
-    infN[0].iniMinute = when.minute;
-    infN[0].active = true;
+    InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, true);
 
     if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
       int id = _createId();
-      var entry = <int, InfoNotification>{id: infN[0]};
+      var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
 
       CtrlDomain ctrlDomain = CtrlDomain();
