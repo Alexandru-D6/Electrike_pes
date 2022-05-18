@@ -900,16 +900,6 @@ class CtrlDomain {
       }
     }
 
-    for (var i in mapUTC.keys) {
-      print(i);
-      print(mapUTC[i]);
-    }
-
-    for (var i in mapLocal.keys) {
-      print(i);
-      print(mapLocal[i]);
-    }
-
     List<List<String>> listLocal = [];
     for (var key in mapLocal.keys) {
       List<String> l = [];
@@ -917,15 +907,11 @@ class CtrlDomain {
       if (minut == '0') minut = minut + '0';
       l.add(key.item1.toString() + ":" + minut);
       List<int>? dies = mapLocal[key];
-      print("Aquest són els dies de ");
-      print(key);
-      print(dies);
+
       for (var value in dies!) {
         l.add(value.toString());
       }
       listLocal.add(l);
-      print(l);
-      print(listLocal);
     }
     return listLocal;
   }

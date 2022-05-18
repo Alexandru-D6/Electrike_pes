@@ -52,6 +52,8 @@ class LocalNotificationAdpt {
   //Map of current notifications. Key: id
   static final Map<int, InfoNotification> _currentNotifications = {};
 
+  static late int lastIdCreated = 0;
+
   Future<void> init() async {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -160,8 +162,13 @@ class LocalNotificationAdpt {
   }
 
   int _createId() {
-    final now = DateTime.now();
-    return int.parse(now.microsecondsSinceEpoch.toString().substring(4,13));
+    if (lastIdCreated == 2^31 - 1) {
+      lastIdCreated = 1;
+    } else {
+      lastIdCreated += 1;
+    }
+    print(lastIdCreated);
+    return lastIdCreated;
   }
 
   int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
@@ -216,6 +223,7 @@ class LocalNotificationAdpt {
 
   Future<void> cancelAllNotifications() async {
     _currentNotifications.clear();
+    lastIdCreated = 0;
     await _flutterLocalNotificationsPlugin.cancelAll();
   }
 }
