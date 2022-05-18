@@ -824,7 +824,7 @@ class CtrlPresentation {
     return notifications;
   }
   
-  void getDistDuration() async {
+  Future<String> getDistDuration() async {
       Location location = Location();
       getMapsService.adressCoding(destination).then((destT) async {
         GeoCoord desti = GeoCoord(destT.latitude, destT.longitude);
@@ -847,6 +847,7 @@ class CtrlPresentation {
               print(distinmeters);
               durationinminutes = routeInfo.duration;
               print(durationinminutes);
+              return routeInfo.duration;
             });
           }
           else if(routeType == 1){
@@ -863,13 +864,15 @@ class CtrlPresentation {
             print(rutaCharger.waypoints);
             waypointsRuta = rutaCharger.waypoints;
             String origin = origen.latitude.toString() + "," + origen.longitude.toString();
+            return rutaCharger.duration;
           }
           else if(routeType == 2){
             //todo:calculos necesarios ruta eco
           }
+
         });
       });
-
+      return "mal";
   }
 
   bool esBarcelona(double latitud, double longitud) {

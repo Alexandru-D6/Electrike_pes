@@ -11,18 +11,23 @@ import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_project/interficie/widget/custom_radio_button.dart';
 
-class InfoRuta extends StatelessWidget {
+class InfoRuta extends StatefulWidget {
   const InfoRuta({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<InfoRuta> createState() => _InfoRutaState();
+}
+class _InfoRutaState extends State<InfoRuta> {
+  String time = "Undefined";
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
     final controller = ScrollController();
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     void _changeLatestBateryValue() {
-      if(textController.text != '') {
+      if (textController.text != '') {
         ctrlPresentation.bateria = textController.text;
         ctrlPresentation.getDistDuration();
       }
@@ -31,8 +36,12 @@ class InfoRuta extends StatelessWidget {
     }
     textController.addListener(_changeLatestBateryValue);
     ctrlPresentation.getDistDuration();
+    //setState(() {
+      time = ctrlPresentation.durationinminutes;
+      print(time);
+   // });
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
-    if(userCarList.isNotEmpty) ctrlPresentation.idCarUser = 1;
+    if (userCarList.isNotEmpty) ctrlPresentation.idCarUser = 1;
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(top: 50),
@@ -46,31 +55,35 @@ class InfoRuta extends StatelessWidget {
             width: 150,
             child: NotificationListener<ScrollEndNotification>(
               child: ScrollConfiguration(
-                behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
-                  PointerDeviceKind.touch,
-                  PointerDeviceKind.mouse,
-                },),child:ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: userCarList.length,
-                    itemBuilder: (context, index) => carItem(userCarList[index]),
+                behavior: ScrollConfiguration.of(context).copyWith(
+                  dragDevices: {
+                    PointerDeviceKind.touch,
+                    PointerDeviceKind.mouse,
+                  },), child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: userCarList.length,
+                itemBuilder: (context, index) => carItem(userCarList[index]),
 
-                    controller: controller,
-                    physics: const PageScrollPhysics(), //To stop 1 at a time
-                    // This next line does the trick.
-                    scrollDirection: Axis.horizontal,
+                controller: controller,
+                physics: const PageScrollPhysics(),
+                //To stop 1 at a time
+                // This next line does the trick.
+                scrollDirection: Axis.horizontal,
 
-                  ),),
+              ),),
               onNotification: (notification) {
-                ctrlPresentation.idCarUser = (controller.position.pixels)~/150 + 1; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
+                ctrlPresentation.idCarUser =
+                    (controller.position.pixels) ~/ 150 +
+                        1; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
                 print(controller.position.pixels);
                 print(ctrlPresentation.idCarUser);
                 // Return true to cancel the notification bubbling. Return false (or null) to
                 // allow the notification to continue to be dispatched to further ancestors.
                 return true;
               },
-              ),
+            ),
 
-            ): SizedBox(
+          ) : SizedBox(
             height: 150,
             width: 150,
             child: Image.asset("assets/brandCars/rayo.png"),
@@ -89,7 +102,10 @@ class InfoRuta extends StatelessWidget {
                 TextField(
                   keyboardType: TextInputType.number,
                   controller: textController,
-                  inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly, CustomMaxValueInputFormatter(maxInputValue: 100)],
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                    CustomMaxValueInputFormatter(maxInputValue: 100)
+                  ],
 
                 ),
               ),
@@ -100,7 +116,7 @@ class InfoRuta extends StatelessWidget {
             height: 5,
             color: Color(0x00000000),
           ),
-          const Text("Select a route type"),//todo: peilin multi
+          const Text("Select a route type"), //todo: peilin multi
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -110,51 +126,63 @@ class InfoRuta extends StatelessWidget {
             height: 16,
             color: Color(0x00000000),
           ),
-      ElevatedButton(
-          onPressed: () {
-            ctrlPresentation.makeRoute();
-            ctrlPresentation.toMainPage(context);
-            ctrlPresentation.increaseRouteCounter();
-          },
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),),
-              primary: const Color(0xff8A84E2),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text("Estimated time: "),
+                Text(time),
+              ]
           ),
-          child: const Text('Start Route'), //todo: peilin multi
-      ),
+          const Divider(
+            height: 16,
+            color: Color(0x00000000),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              ctrlPresentation.makeRoute();
+              ctrlPresentation.toMainPage(context);
+              ctrlPresentation.increaseRouteCounter();
+            },
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),),
+              primary: const Color(0xff8A84E2),
+            ),
+            child: const Text('Start Route'), //todo: peilin multi
+          ),
         ],
       ),
     );
   }
 
-  Widget carItem(List<String> car){
-    String carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
-    if(allCarsPathsImages.contains(carImage)) {
-      carImage = "assets/brandCars/"+car[2].toLowerCase()+".png";
+  Widget carItem(List<String> car) {
+    String carImage = "assets/brandCars/" + car[2].toLowerCase() + ".png";
+    if (allCarsPathsImages.contains(carImage)) {
+      carImage = "assets/brandCars/" + car[2].toLowerCase() + ".png";
     } else {
       carImage = "assets/brandCars/defaultBMW.png";
     }
     return Container(
-        width: 150.0,
-        decoration: BoxDecoration(
-          //shape: BoxShape.rectangle,
-          border: Border.all(width: 5.0, color: const Color(0xff353535)),
-          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-          color: const Color(0xffafafdc),
-          image: DecorationImage(
-            scale: 3,
-            image: AssetImage(carImage),
-          ),
+      width: 150.0,
+      decoration: BoxDecoration(
+        //shape: BoxShape.rectangle,
+        border: Border.all(width: 5.0, color: const Color(0xff353535)),
+        borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+        color: const Color(0xffafafdc),
+        image: DecorationImage(
+          scale: 3,
+          image: AssetImage(carImage),
         ),
-        child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(car[1]),
-        ),
+      ),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Text(car[1]),
+      ),
 
     );
   }
 }
+
 //Para poner un limite de bateria al 100% si se pasa se cambia a 100.
 class CustomMaxValueInputFormatter extends TextInputFormatter {
   final double maxInputValue;
