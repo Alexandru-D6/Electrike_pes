@@ -814,8 +814,6 @@ class CtrlPresentation {
   }
 
   List<List<String>> getNotifications(double latitud, double longitud) {
-    //List<List<String>> notifications = [["18:24", "1", "3", "5"], ["18:00", "2", "4", "7", "6"], ["14:00", "1", "2","3", "4","5", "7", "6"]];
-    //return notifications;
     return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(latitud,longitud);
   }
 
@@ -829,6 +827,22 @@ class CtrlPresentation {
 
   void showInstantNotification(double lat, double long) {
     ctrlDomain.showInstantNotification(lat, long);
+  }
+
+  void disableAllNotifications(double latitud, double longitud){
+    List<List<String>> notifications = getNotifications(latitud, longitud);
+    for(int i = 0; i < notifications.length; ++i){
+      List<String> notification = notifications[i];
+      ctrlDomain.disableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+    }
+  }
+
+  void enableAllNotifications(double latitud, double longitud){
+    List<List<String>> notifications = getNotifications(latitud, longitud);
+    for(int i = 0; i < notifications.length; ++i){
+      List<String> notification = notifications[i];
+      ctrlDomain.enableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+    }
   }
   
   void getDistDuration() async {

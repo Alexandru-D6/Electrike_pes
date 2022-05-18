@@ -174,14 +174,14 @@ class _AllFavsState extends State<AllFavs> {
                   (const Icon(Icons.notifications_active)) :
                   (const Icon(Icons.notifications_off)),
                   onPressed: () {
-                    if(!hasNotifications){
-
+                    if(notificationsOn){
+                      ctrlPresentation.disableAllNotifications(word.latitud, word.longitud);
                     }
                     else{
+                      ctrlPresentation.enableAllNotifications(word.latitud, word.longitud);
                       notificationsOn = !notificationsOn;
                       setState(() {
                         notificationsOn = !notificationsOn;
-
                         //todo: conectar para avisar que ahora quiere las notificaciones de la lista
                       });
                     }
