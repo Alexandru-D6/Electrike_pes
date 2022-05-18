@@ -799,6 +799,11 @@ class CtrlDomain {
     Si el punto de carga no es de Barcelona, se mostrará <unknown> en el status.
    */
   void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
+    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+  }
+
+  DateTime _adaptTime(int iniHour, int iniMinute, int dayOfTheWeek) {
     var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, iniHour, iniMinute);
     int daysToAdd = 0;
 
@@ -827,7 +832,7 @@ class CtrlDomain {
     firstNotification = DateTime(firstNotification.year, firstNotification.month, firstNotification.day + daysToAdd, firstNotification.hour, firstNotification.minute);
 
     firstNotification = firstNotification.toUtc();
-    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+    return firstNotification;
   }
 
   /*
@@ -846,6 +851,10 @@ class CtrlDomain {
   void removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
     serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
+  }
+
+  void removeAllNotifications() {
+    serviceLocator<LocalNotificationAdpt>().cancelAllNotifications();
   }
 
   void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) {
@@ -877,7 +886,7 @@ class CtrlDomain {
     return Tuple3(dayOfTheWeek,when.hour,when.minute);
   }
 
-  /*Retorna una llista (map) de notificacions que té un punt de càrrega (latitud i longitud).
+  /*Retorna una llista de notificacions que té un punt de càrrega (latitud i longitud) (estiguin activades o desactivades)
     Retorna un map que com a clau té: Hora i Minut
      i com a valor una llista de dies de la setmana (between 1 (Monday) to 7 (Sunday))
    */
@@ -904,7 +913,8 @@ class CtrlDomain {
     for (var key in mapLocal.keys) {
       List<String> l = [];
       String minut = key.item2.toString();
-      if (minut == '0') minut = minut + '0';
+      if (minut == '0' || minut == '1' || minut == '2'|| minut == '3'|| minut == '4'||
+          minut == '5'|| minut == '6'|| minut == '7'|| minut == '8'|| minut == '9') minut = '0' + minut;
       l.add(key.item1.toString() + ":" + minut);
       List<int>? dies = mapLocal[key];
 
@@ -921,36 +931,42 @@ class CtrlDomain {
     return serviceLocator<LocalNotificationAdpt>().hasNotificacions(lat,long);
   }
 
-  //Afegeix tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday)
+  //Afegeix tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
   void addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
     for (var day in daysOfTheWeek) {
       addSheduledNotificationFavoriteChargePoint(lat, long, day, iniHour, iniMinute);
     }
   }
 
-  //Elimina tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday)
+  //Elimina tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
   void removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
     for (var day in daysOfTheWeek) {
       removeScheduledNotification(lat, long, day, iniHour, iniMinute);
     }
   }
-/* Fer:
-  void enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
 
+  void enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
+    serviceLocator<LocalNotificationAdpt>().enableNotification(firstNotification, lat, long);
   }
 
   void disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-
+    Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
+    serviceLocator<LocalNotificationAdpt>().disableNotification(lat, long, t3.item1, t3.item2, t3.item3);
   }
 
-  void enableNotifications(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-
+  void enableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    for (var day in daysOfTheWeek) {
+      enableNotification(lat, long, day, iniHour, iniMinute);
+    }
   }
 
-  void disableNotifications(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-
+  void disableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    for (var day in daysOfTheWeek) {
+      disableNotification(lat, long, day, iniHour, iniMinute);
+    }
   }
-*/
+
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);

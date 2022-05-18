@@ -101,6 +101,30 @@ class LocalNotificationAdpt {
     );
   }
 
+  //Afegeix una notificació local al mòbil
+  Future<void> _createNotification(int id, DateTime when, double lat, double long) async {
+    CtrlDomain ctrlDomain = CtrlDomain();
+    List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
+
+    late String state;
+    if (dadesCargadors[6] != "0" || dadesCargadors[10] != "0" || dadesCargadors[14] != "0"|| dadesCargadors[18] != "0") {
+      state = "<unknown>";
+    } else {
+      state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
+    }
+
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
+        "Your charger point has " +state+ " available chargers.",
+        tz.TZDateTime.from(when, tz.local),
+        NotificationDetails(android: _androidNotificationDetails),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
+  }
+
   Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
 
     InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, true);
@@ -109,28 +133,8 @@ class LocalNotificationAdpt {
       int id = _createId();
       var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
-
-      CtrlDomain ctrlDomain = CtrlDomain();
-      List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
-
-      late String state;
-      if (dadesCargadors[6] != "0" || dadesCargadors[10] != "0" || dadesCargadors[14] != "0"|| dadesCargadors[18] != "0") {
-        state = "<unknown>";
-      } else {
-        state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
-      }
-
-      await _flutterLocalNotificationsPlugin.zonedSchedule(
-          id,
-          "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
-          "Your charger point has " +state+ " available chargers.",
-          tz.TZDateTime.from(when, tz.local),
-          NotificationDetails(android: _androidNotificationDetails),
-          androidAllowWhileIdle: true,
-          uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-          matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
-      }
+      _createNotification(id, when, lat, long);
+    }
   }
 
   bool _existsNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
@@ -198,9 +202,29 @@ class LocalNotificationAdpt {
     return false;
   }
 
+  void enableNotification(DateTime when, double lat, double long) {
+    int id = _findId(lat, long, when.weekday, when.hour, when.minute);
+    if (id != -1) {
+      _currentNotifications[id]!.active = true;
+      _createNotification(id, when, lat, long);
+    }
+  }
+
+  Future<void> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
+    if (id != -1) {
+      print("id found: ");
+      print(id);
+      await _flutterLocalNotificationsPlugin.cancel(id);
+      _currentNotifications[id]!.active = false;
+    }
+  }
+
   Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1) {
+      print("id found: ");
+      print(id);
       _currentNotifications.remove(id);
       await _flutterLocalNotificationsPlugin.cancel(id);
     }
@@ -212,7 +236,3 @@ class LocalNotificationAdpt {
     await _flutterLocalNotificationsPlugin.cancelAll();
   }
 }
-
-
-
-

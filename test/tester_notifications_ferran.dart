@@ -145,10 +145,15 @@ class _MainPageState extends State<MainPage> {
         fit: StackFit.expand,
         children: [ElevatedButton(onPressed: () {
         CtrlDomain ctrlDomain = CtrlDomain();
-        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 1, 1, 00);
-        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 2, 1, 00);
-        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 7, 18, 50);
-        ctrlDomain.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 19, 30, [1,3,7]);
+        //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 1, 1, 00);
+        //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 2, 1, 00);
+        //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 7, 18, 50);
+        //ctrlDomain.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 19, 30, [1,3,7]);
+        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 3, 11, 35);
+        //ctrlDomain.disableNotification(41.73682408, 1.82836016, 3, 11, 7);
+       // ctrlDomain.removeScheduledNotification(41.73682408, 1.82836016, 3, 11, 30);
+        ctrlDomain.removeAllNotifications();
+        //ctrlDomain.enbleNotification(41.73682408, 1.82836016, 3, 10, 52);
         print(ctrlDomain.currentScheduledNotificationsOfAChargerPoint(41.73682408, 1.82836016));
         //ctrlDomain.removeScheduledNotifications(41.73682408, 1.82836016, 19, 30, [3,7]);
         /*print(ctrlDomain.hasNotificacions(41.73682408, 1.82836016));*/}, child: const Text("Instant Notification"))],
