@@ -1,153 +1,4 @@
-/*
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_project/interficie/constants.dart';
-import 'package:flutter_project/interficie/ctrl_presentation.dart';
-import 'package:flutter_project/interficie/page/favourites_page.dart';
-import 'package:flutter_project/interficie/page/garage_page.dart';
-import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
-*/
-/*class LocalNotificationAdpt {
-  static final _instance = LocalNotificationAdpt._internal();
-
-  factory LocalNotificationAdpt() {
-    return _instance;
-  }
-
-  LocalNotificationAdpt._internal();
-
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
-
-}
- ------------ Atra versió:
-
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-class LocalNotificationAdpt {
-  static final _instance = LocalNotificationAdpt._internal();
-  factory LocalNotificationAdpt() {
-    return _instance;
-  }
-  LocalNotificationAdpt._internal();
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
-  final AndroidInitializationSettings initializationSettingsAndroid =
-  const AndroidInitializationSettings('assets/images/logo.png');
-}
-*/
-/*
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-class NotificationService extends ChangeNotifier {
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
-
-  //initilize
-
-  Future initialize() async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-    AndroidInitializationSettings androidInitializationSettings =
-    AndroidInitializationSettings("ic_launcher");
-
-    IOSInitializationSettings iosInitializationSettings =
-    IOSInitializationSettings();
-
-    final InitializationSettings initializationSettings =
-    InitializationSettings(
-        android: androidInitializationSettings,
-        iOS: iosInitializationSettings);
-
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
-
-  //Instant Notifications
-  Future instantNofitication() async {
-    var android = AndroidNotificationDetails("id", "channel", /*"description"*/);
-
-    var ios = IOSNotificationDetails();
-
-    var platform = new NotificationDetails(android: android, iOS: ios);
-
-    await _flutterLocalNotificationsPlugin.show(
-        0, "Demo instant notification", "Tap to do something", platform,
-        payload: "Welcome to demo app");
-  }
-
-  //Image notification
-  Future imageNotification() async {
-    var bigPicture = BigPictureStyleInformation(
-        DrawableResourceAndroidBitmap("ic_launcher"),
-        largeIcon: DrawableResourceAndroidBitmap("ic_launcher"),
-        contentTitle: "Demo image notification",
-        summaryText: "This is some text",
-        htmlFormatContent: true,
-        htmlFormatContentTitle: true);
-
-    var android = AndroidNotificationDetails("id", "channel", /*"description"*/
-        styleInformation: bigPicture);
-
-    var platform = new NotificationDetails(android: android);
-
-    await _flutterLocalNotificationsPlugin.show(
-        0, "Demo Image notification", "Tap to do something", platform,
-        payload: "Welcome to demo app");
-  }
-
-  //Stylish Notification
-  Future stylishNotification() async {
-    var android = AndroidNotificationDetails("id", "channel", /*"description"*/
-        color: Colors.deepOrange,
-        enableLights: true,
-        enableVibration: true,
-        largeIcon: DrawableResourceAndroidBitmap("ic_launcher"),
-        styleInformation: MediaStyleInformation(
-            htmlFormatContent: true, htmlFormatTitle: true));
-
-    var platform = new NotificationDetails(android: android);
-
-    await _flutterLocalNotificationsPlugin.show(
-        0, "Demo Stylish notification", "Tap to do something", platform);
-  }
-
-  //Sheduled Notification
-
-  Future sheduledNotification() async {
-    var interval = RepeatInterval.everyMinute;
-    var bigPicture = BigPictureStyleInformation(
-        DrawableResourceAndroidBitmap("ic_launcher"),
-        largeIcon: DrawableResourceAndroidBitmap("ic_launcher"),
-        contentTitle: "Demo image notification",
-        summaryText: "This is some text",
-        htmlFormatContent: true,
-        htmlFormatContentTitle: true);
-
-    var android = AndroidNotificationDetails("id", "channel", /*"description"*/
-        styleInformation: bigPicture);
-
-    var platform = new NotificationDetails(android: android);
-
-    await _flutterLocalNotificationsPlugin.periodicallyShow(
-        0,
-        "Demo Sheduled notification",
-        "Tap to do something",
-        interval,
-        platform);
-  }
-
-  //Cancel notification
-
-  Future cancelNotification() async {
-    await _flutterLocalNotificationsPlugin.cancelAll();
-  }
-}
-*/
-
-
+import 'package:tuple/tuple.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -160,6 +11,22 @@ import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+class InfoNotification {
+  late double lat;
+
+  late double long;
+
+  late int dayOfTheWeek;
+
+  late int iniHour;
+
+  late int iniMinute;
+
+  late bool active;
+
+  InfoNotification(this.lat, this.long, this.dayOfTheWeek, this.iniHour, this.iniMinute, this.active);
+}
+
 class LocalNotificationAdpt {
   //NotificationService a singleton object
   static final LocalNotificationAdpt _notificationService =
@@ -171,10 +38,13 @@ class LocalNotificationAdpt {
 
   LocalNotificationAdpt._internal();
 
-  static const channelId = '123';
-
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
+
+  //Map of current notifications. Key: id
+  static final Map<int, InfoNotification> _currentNotifications = {};
+
+  static late int lastIdCreated = 0;
 
   Future<void> init() async {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -204,8 +74,8 @@ class LocalNotificationAdpt {
   final AndroidNotificationDetails _androidNotificationDetails =
   const AndroidNotificationDetails(
     'id',
-    'channel',
-    channelDescription: 'description',
+    'Charger Ponints',
+    channelDescription: 'Will display a notification about the state of your favourite charger points you have set',
     playSound: true,
     priority: Priority.high,
     importance: Importance.high,
@@ -230,54 +100,22 @@ class LocalNotificationAdpt {
       NotificationDetails(android: _androidNotificationDetails),
     );
   }
-/*
-  Future<void> scheduleNotifications() async {
-    await _flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        "Notification Title",
-        "This is the Notification Body!",
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
-        NotificationDetails(android: _androidNotificationDetails),
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime);
-  }
-*/
 
-
-  Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
-
-
-/*
-    await _flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        "Notification Title",
-        "This is the Notification Body!",
-        tz.TZDateTime.utc(2022,5,4,8,21),
-        NotificationDetails(android: _androidNotificationDetails),
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime);
-
-
-    var interval = RepeatInterval.everyMinute;
-
-    var platform = NotificationDetails(android: _androidNotificationDetails);
- */
+  //Afegeix una notificació local al mòbil
+  Future<void> _createNotification(int id, DateTime when, double lat, double long) async {
     CtrlDomain ctrlDomain = CtrlDomain();
     List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
 
     late String state;
-    if (dadesCargadors[5] != "0") {
+    if (dadesCargadors[6] != "0" || dadesCargadors[10] != "0" || dadesCargadors[14] != "0"|| dadesCargadors[18] != "0") {
       state = "<unknown>";
     } else {
       state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
     }
 
-
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        "Charger point " + dadesCargadors[1] + " state",
+        id,
+        "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
         "Your charger point has " +state+ " available chargers.",
         tz.TZDateTime.from(when, tz.local),
         NotificationDetails(android: _androidNotificationDetails),
@@ -287,71 +125,114 @@ class LocalNotificationAdpt {
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
   }
 
-  Future sheduledNotification() async {
-    var interval = RepeatInterval.everyMinute;
-    /*var bigPicture = const BigPictureStyleInformation(
-        DrawableResourceAndroidBitmap("logo.png"),
-        largeIcon: DrawableResourceAndroidBitmap("logo.png"),
-        contentTitle: "Demo image notification",
-        summaryText: "This is some text",
-        htmlFormatContent: true,
-        htmlFormatContentTitle: true);
-*/
-    var android = const AndroidNotificationDetails("id", "channel", /*"description"
-        styleInformation: bigPicture*/);
+  Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
 
-    var platform = NotificationDetails(android: android);
+    InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, true);
 
-    await _flutterLocalNotificationsPlugin.periodicallyShow(
-        0,
-        "Demo Sheduled notification",
-        "Tap to do something",
-        interval,
-        platform);
+    if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
+      int id = _createId();
+      var entry = <int, InfoNotification>{id: infN};
+      _currentNotifications.addEntries(entry.entries);
+      _createNotification(id, when, lat, long);
+    }
   }
 
+  bool _existsNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    for (var id in _currentNotifications.keys) {
+      if (_currentNotifications[id]!.lat == lat &&
+          _currentNotifications[id]!.long == long &&
+          _currentNotifications[id]!.dayOfTheWeek == dayOfTheWeek &&
+          _currentNotifications[id]!.iniHour == iniHour &&
+          _currentNotifications[id]!.iniMinute == iniMinute) {
+        return true;
+      }
+    }
+    return false;
+  }
 
+  int _createId() {
+    if (lastIdCreated == 2^31 - 1) {
+      lastIdCreated = 1;
+    } else {
+      lastIdCreated += 1;
+    }
+    print(lastIdCreated);
+    return lastIdCreated;
+  }
 
+  int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    for (var id in _currentNotifications.keys) {
+      if (_currentNotifications[id]!.lat == lat &&
+          _currentNotifications[id]!.long == long &&
+          _currentNotifications[id]!.dayOfTheWeek == dayOfTheWeek &&
+          _currentNotifications[id]!.iniHour == iniHour &&
+          _currentNotifications[id]!.iniMinute == iniMinute) {
+        return id;
+      }
+    }
+    return -1;
+  }
 
+  Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+    Map<Tuple2<int,int>,List<int>> m = <Tuple2<int,int>,List<int>>{};
+    for (var i in _currentNotifications.keys) {
+      if (_currentNotifications[i]?.lat == lat && _currentNotifications[i]?.long == long) {
 
-  Future<void> cancelNotifications(int id) async {
-    await _flutterLocalNotificationsPlugin.cancel(id);
+        if (m[Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute)] == null) {
+          var entry = <Tuple2<int,int>,List<int>>{
+            Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute): [_currentNotifications[i]!.dayOfTheWeek]
+          };
+          m.addEntries(entry.entries);
+        }
+        else {
+          m[Tuple2(_currentNotifications[i]!.iniHour,_currentNotifications[i]!.iniMinute)]!.add(_currentNotifications[i]!.dayOfTheWeek);
+        }
+      }
+    }
+    return m;
+  }
+
+  bool hasNotificacions(double lat, double long) {
+    for (var id in _currentNotifications.keys) {
+      if (_currentNotifications[id]!.lat == lat &&
+          _currentNotifications[id]!.long == long) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void enableNotification(DateTime when, double lat, double long) {
+    int id = _findId(lat, long, when.weekday, when.hour, when.minute);
+    if (id != -1) {
+      _currentNotifications[id]!.active = true;
+      _createNotification(id, when, lat, long);
+    }
+  }
+
+  Future<void> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
+    if (id != -1) {
+      print("id found: ");
+      print(id);
+      await _flutterLocalNotificationsPlugin.cancel(id);
+      _currentNotifications[id]!.active = false;
+    }
+  }
+
+  Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
+    if (id != -1) {
+      print("id found: ");
+      print(id);
+      _currentNotifications.remove(id);
+      await _flutterLocalNotificationsPlugin.cancel(id);
+    }
   }
 
   Future<void> cancelAllNotifications() async {
+    _currentNotifications.clear();
+    lastIdCreated = 0;
     await _flutterLocalNotificationsPlugin.cancelAll();
   }
-
-
-
-  displayNotification({required String title, required String body}) async {
-    //print("doing test");
-    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
-        'your channel id', 'your channel name',  channelDescription: 'your channel description',
-        importance: Importance.max, priority: Priority.high);
-    var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-/*
-    var flutterLocalNotificationsPlugin;
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      'You change your theme',
-      'You changed your theme back !',
-      platformChannelSpecifics,
-      payload: 'It could be anything you pass',
-    );*/
-  }
-
-
-
-
 }
-
-Future selectNotification(String payload) async {
-  //handle your logic here
-}
-
-
-
-

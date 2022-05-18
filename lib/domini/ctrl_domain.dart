@@ -761,73 +761,165 @@ class CtrlDomain {
   }
 
   //NOTIFICACIONS
-  // Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
+  // Si el punto de carga no es de Barcelona, se mostrará <unknown> en el status.
+  // Sólo puede haber una notificacion instantania en un momento dado.
+  // Si se llama esta función y ya hay una notificación instantanea en este momento, ésta se sobreescribirá.
   void showInstantNotification(double lat, double long) {
     serviceLocator<LocalNotificationAdpt>().showInstantNotification(lat, long);
   }
   /*
-  day between 1 (Monday) to 7 (Sunday)
-    Si el punto de carga no es de Barcelona, se mostrará unknown en el status.
+    day between 1 (Monday) to 7 (Sunday)
+    Si el punto de carga no es de Barcelona, se mostrará <unknown> en el status.
    */
-  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int day, int iniHour, int iniMinute/*, int endHour*//*, int endMinute*/) {
+  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
+    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+  }
 
-    var dayOfTheWeek = DateTime(DateTime.now().year, DateTime.now().month, day, iniHour, iniMinute);
-    var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, DateTime.now().hour, iniMinute);
-    int daysToAdd;
+  DateTime _adaptTime(int iniHour, int iniMinute, int dayOfTheWeek) {
+    var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, iniHour, iniMinute);
+    int daysToAdd = 0;
 
     //si el dia donat és diferent del dia d'avui
-    if (day < DateTime.now().weekday) {
-      daysToAdd = 7 - (DateTime.now().weekday - day);
-      firstNotification.add(Duration(days: daysToAdd));
+    if (dayOfTheWeek < DateTime.now().weekday) {
+      daysToAdd = 7 - (DateTime.now().weekday - dayOfTheWeek);
     }
-    else if (day > DateTime.now().weekday) {
-      daysToAdd = day - DateTime.now().weekday;
-      firstNotification.add(Duration(days: daysToAdd));
-    }
-    /*else if (DateTime.now().hour < iniHour){
-
+    else if (dayOfTheWeek > DateTime.now().weekday) {
+      daysToAdd = dayOfTheWeek - DateTime.now().weekday;
     }
     //mateix dia
-    else if (DateTime.now().hour >= iniHour) {
-      //if (DateTime.now().hour < endHour) { //en aquest cas no apareixerà cap notificació fins la setmana següent.
-        //firstNotification = DateTime.now();
-    //  }
-     // else {
-        firstNotification.add(const Duration(days: 7));
-      //}
-    }
-    /*
-    else if (DateTime.now().minute <= minute) {
+    else if (DateTime.now().hour < iniHour){
 
     }
-    else if (DateTime.now().minute > minute) {
-      firstNotification.add(const Duration(days: 7));
+    else if (DateTime.now().hour > iniHour) {
+      daysToAdd = 7;
     }
-    */
+    //mateix dia i hora
+    else if (DateTime.now().minute < iniMinute) {
 
-    firstNotification = DateTime.utc(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
-    final pacificTimeZone = tz.getLocation('Europe/Paris');
-    //arreglar lo de les zones horaries.
-    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
-    */
+    }
+    else if (DateTime.now().minute >= iniMinute) {
+      daysToAdd = 7;
+    }
 
-    //print(firstNotification);
+    firstNotification = DateTime(firstNotification.year, firstNotification.month, firstNotification.day + daysToAdd, firstNotification.hour, firstNotification.minute);
 
-    firstNotification = DateTime(firstNotification.year, firstNotification.month, firstNotification.day, iniHour, iniMinute);
     firstNotification = firstNotification.toUtc();
-    //print(firstNotification);
+    return firstNotification;
+  }
 
-    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+  /*
+  For adding a list of scheduled notifications of a certain chargePoint.
+  Tuple3:
+    1r -> dayOfTheWeek (day between 1 (Monday) to 7 (Sunday))
+    2n -> iniHour
+    3r -> iniMinute
+   */
+  void addListOfSheduledNotificationFavoriteChargePoint(double lat, double long, List<Tuple3<int, int, int>> l) {
+    for (var notif in l) {
+      addSheduledNotificationFavoriteChargePoint(lat, long, notif.item1, notif.item2, notif.item3);
+    }
+  }
 
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
+  void removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
+    serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
+  }
 
+  void removeAllNotifications() {
+    serviceLocator<LocalNotificationAdpt>().cancelAllNotifications();
+  }
 
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
+  void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) {
+    for (var notif in l) {
+      removeScheduledNotification(lat, long, notif.item1, notif.item2, notif.item3);
+    }
+  }
 
-    //cancel notifications:
+  /*Retorna el dia de la setmana, la hora i el minut transformats segons el paràmetre toLocal:
+    True: Ho transforma de UTC a hora local
+    False: Ho transforma de hora local a UTC
+   */
+  Tuple3<int,int,int> _convertDayOfTheWeek(int dayOfTheWeek, int iniHour, int iniMinute, bool toLocal) {
+    DateTime when;
+    if (toLocal) {
+      when = DateTime.utc(DateTime.now().year, DateTime.now().month, dayOfTheWeek, iniHour, iniMinute);
+      when = when.toLocal();
+    } else {
+      when = DateTime(DateTime.now().year, DateTime.now().month, dayOfTheWeek, iniHour, iniMinute);
+      when = when.toUtc();
+    }
+    dayOfTheWeek = when.day;
+    if (when.day >= 28) {
+      dayOfTheWeek = 7;
+    } else if (when.day > 7) {
+      dayOfTheWeek = 1;
+    }
 
+    return Tuple3(dayOfTheWeek,when.hour,when.minute);
+  }
 
-    //------
+  /*Retorna una llista de notificacions que té un punt de càrrega (latitud i longitud) (estiguin activades o desactivades)
+    Retorna un map que com a clau té: Hora i Minut
+     i com a valor una llista de dies de la setmana (between 1 (Monday) to 7 (Sunday))
+   */
+  List<List<String>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+    Map<Tuple2<int,int>,List<int>> mapUTC = serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
+    Map<Tuple2<int,int>,List<int>> mapLocal = <Tuple2<int,int>,List<int>>{};
+    Tuple3<int,int,int> t3;
 
+    for (var i in mapUTC.keys) {
+      for (int ii = 0; ii < mapUTC[i]!.length; ii++) {
+        t3 = _convertDayOfTheWeek(mapUTC[i]![ii], i.item1, i.item2, true);
 
+        if (mapLocal[Tuple2(t3.item2,t3.item3)] == null) {
+          var entry = <Tuple2<int,int>,List<int>>{ Tuple2(t3.item2,t3.item3): [t3.item1]};
+          mapLocal.addEntries(entry.entries);
+        }
+        else {
+          mapLocal[Tuple2(t3.item2, t3.item3)]!.add(t3.item1);
+        }
+      }
+    }
+
+    List<List<String>> listLocal = [];
+    for (var key in mapLocal.keys) {
+      List<String> l = [];
+      String minut = key.item2.toString();
+      if (minut == '0' || minut == '1' || minut == '2'|| minut == '3'|| minut == '4'||
+          minut == '5'|| minut == '6'|| minut == '7'|| minut == '8'|| minut == '9') minut = '0' + minut;
+      l.add(key.item1.toString() + ":" + minut);
+      List<int>? dies = mapLocal[key];
+
+      for (var value in dies!) {
+        l.add(value.toString());
+      }
+      listLocal.add(l);
+    }
+    return listLocal;
+  }
+
+  //Retorna true si el punt de càrrega té notificacions (independentment de si estan activades o desactivades)
+  bool hasNotificacions(double lat, double long) {
+    return serviceLocator<LocalNotificationAdpt>().hasNotificacions(lat,long);
+  }
+
+  //Afegeix tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
+  void addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    for (var day in daysOfTheWeek) {
+      addSheduledNotificationFavoriteChargePoint(lat, long, day, iniHour, iniMinute);
+    }
+  }
+
+  /*Elimina tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
+  IMPORTANT: No cridar a funcions de crear una notificació i just després cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
+   */
+  void removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    for (var day in daysOfTheWeek) {
+      removeScheduledNotification(lat, long, day, iniHour, iniMinute);
+    }
   }
 
   Future<RoutesResponse> infoRutaSenseCarrega(GeoCoord origen, GeoCoord desti) async {
@@ -836,7 +928,29 @@ class CtrlDomain {
     return routesResponse;
   }
 
+  //Activa una notificació que té l'usuari programada però desactivada. Si estava activada, continuarà estat activada.
+  void enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
+    serviceLocator<LocalNotificationAdpt>().enableNotification(firstNotification, lat, long);
+  }
 
+  //Desactiva una notificació que té l'usuari programada.
+  void disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
+    serviceLocator<LocalNotificationAdpt>().disableNotification(lat, long, t3.item1, t3.item2, t3.item3);
+  }
+
+  void enableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    for (var day in daysOfTheWeek) {
+      enableNotification(lat, long, day, iniHour, iniMinute);
+    }
+  }
+
+  void disableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+    for (var day in daysOfTheWeek) {
+      disableNotification(lat, long, day, iniHour, iniMinute);
+    }
+  }
 
   Future<void> getOcupationCharger(double lat, double lon) async {
     var url = urlorg + 'get_ocupation?lat='+ lat.toString() +'&lon='+ lon.toString();
