@@ -20,28 +20,26 @@ class InfoRuta extends StatefulWidget {
   State<InfoRuta> createState() => _InfoRutaState();
 }
 class _InfoRutaState extends State<InfoRuta> {
-  String time = "Undefined";
+  String time = "";
+
+  void initState() {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    ctrlPresentation.getDistDuration().then((value) {
+      setState(() {
+        time = value;
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
     final controller = ScrollController();
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    void _changeLatestBateryValue() {
-      if (textController.text != '') {
-        ctrlPresentation.bateria = textController.text;
-        ctrlPresentation.getDistDuration();
-      }
-      //todo: cambiar esto para que llame a la ruta en funcion de su seleccionado
-      //print('Second text field: ${ctrlPresentation.bateria}');
-    }
-    textController.addListener(_changeLatestBateryValue);
-    ctrlPresentation.getDistDuration();
-    //setState(() {
-      time = ctrlPresentation.durationinminutes;
-      print(time);
-   // });
+
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
     if (userCarList.isNotEmpty) ctrlPresentation.idCarUser = 1;
+
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(top: 50),
@@ -99,29 +97,47 @@ class _InfoRutaState extends State<InfoRuta> {
               SizedBox(
                 width: 40,
                 child:
-                TextField(
+                TextFormField(
                   keyboardType: TextInputType.number,
-                  controller: textController,
+                  initialValue: ctrlPresentation.bateria,
+                  onChanged: (value) {
+                    ctrlPresentation.bateria = value;
+                    ctrlPresentation.getDistDuration().then((value) {
+                      time = value;
+                      setState(() {
+                        time = value;
+                      });
+                    });
+                  },
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly,
-                    CustomMaxValueInputFormatter(maxInputValue: 100)
+                  FilteringTextInputFormatter.digitsOnly,
+                  CustomMaxValueInputFormatter(maxInputValue: 100)
                   ],
 
-                ),
-              ),
-              const Text("%"),
+                  ),
+                  ),
+                  const Text("%"),
+                  ],
+                  ),
+                  const Divider(
+                  height: 5,
+                  color: Color(0x00000000),
+                  ),
+                  const Text("Select a route type"), //todo: peilin multi
+                  const Divider(
+                  height: 16,
+                  color: Color(0x00000000),
+                  ),
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                  customRadioButton("Normal", 0),
+              const SizedBox(width: 5),
+              customRadioButton("Charger Points", 1),
+              const SizedBox(width: 5),
+              customRadioButton("Eco", 2)
             ],
           ),
-          const Divider(
-            height: 5,
-            color: Color(0x00000000),
-          ),
-          const Text("Select a route type"), //todo: peilin multi
-          const Divider(
-            height: 16,
-            color: Color(0x00000000),
-          ),
-          const CustomRadio(),
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -151,6 +167,27 @@ class _InfoRutaState extends State<InfoRuta> {
             child: const Text('Start Route'), //todo: peilin multi
           ),
         ],
+      ),
+    );
+  }
+
+  Widget customRadioButton(String text, int index) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    return OutlinedButton(
+      onPressed: () async {
+        ctrlPresentation.getDistDuration().then((value) {
+          time = value;
+          setState(() {
+            ctrlPresentation.routeType = index;
+            time = value;
+          });
+        });
+      },
+      child: Text(
+        text,
+        style: TextStyle(
+          color: (ctrlPresentation.routeType == index) ? Colors.yellowAccent : Colors.black,
+        ),
       ),
     );
   }

@@ -826,53 +826,55 @@ class CtrlPresentation {
   
   Future<String> getDistDuration() async {
       Location location = Location();
-      getMapsService.adressCoding(destination).then((destT) async {
-        GeoCoord desti = GeoCoord(destT.latitude, destT.longitude);
+      var destT = await getMapsService.adressCoding(destination);
+      GeoCoord desti = GeoCoord(destT.latitude, destT.longitude);
 
-        GeoCoord origen;
-        location.getLocation().then((value) async {
-          if (actualLocation != "Your location") {
-            GeoCoord origT = await getMapsService.adressCoding(actualLocation);
-            origen = GeoCoord(origT.latitude, origT.longitude);
-          }
-          else {
-            origen = GeoCoord(value.latitude!, value.longitude!);
-          }
-          print(origen);
-          print(desti);
-          if(routeType == 0) {
-            ctrlDomain.infoRutaSenseCarrega(origen, desti).then((
-                routeInfo) async {
-              distinmeters = routeInfo.distance;
-              print(distinmeters);
-              durationinminutes = routeInfo.duration;
-              print(durationinminutes);
-              return routeInfo.duration;
-            });
-          }
-          else if(routeType == 1){
-            double bat = double.parse(bateria);
-            print("origen --> " + origen.toString());
-            print("destination --> " + desti.toString());
+      GeoCoord origen;
+      var value = await location.getLocation();
 
-            RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(origen, desti, bat);
-            distinmeters = rutaCharger.distance;
-            print(distinmeters);
-            durationinminutes = rutaCharger.duration;
-            print(durationinminutes);
-            print(rutaCharger);
-            print(rutaCharger.waypoints);
-            waypointsRuta = rutaCharger.waypoints;
-            String origin = origen.latitude.toString() + "," + origen.longitude.toString();
-            return rutaCharger.duration;
-          }
-          else if(routeType == 2){
-            //todo:calculos necesarios ruta eco
-          }
+      if (actualLocation != "Your location") {
+        GeoCoord origT = await getMapsService.adressCoding(actualLocation);
+        origen = GeoCoord(origT.latitude, origT.longitude);
+      }
+      else {
+        origen = GeoCoord(value.latitude!, value.longitude!);
+      }
+        print(origen);
+        print(desti);
 
-        });
-      });
-      return "mal";
+      String resDuration = "";
+      if(routeType == 0) {
+        var routeInfo = await ctrlDomain.infoRutaSenseCarrega(origen, desti);
+
+        distinmeters = routeInfo.distance;
+          print(distinmeters);
+        durationinminutes = routeInfo.duration;
+          print(durationinminutes);
+        resDuration = routeInfo.duration;
+      }
+      else if(routeType == 1){
+        double bat = double.parse(bateria);
+        print("origen --> " + origen.toString());
+        print("destination --> " + desti.toString());
+
+        var rutaCharger = await ctrlDomain.findSuitableRoute(origen, desti, bat);
+
+        distinmeters = rutaCharger.distance;
+        print(distinmeters);
+        durationinminutes = rutaCharger.duration;
+        print(durationinminutes);
+        print(rutaCharger);
+        print(rutaCharger.waypoints);
+        waypointsRuta = rutaCharger.waypoints;
+        String origin = origen.latitude.toString() + "," + origen.longitude.toString();
+        resDuration = rutaCharger.duration;
+      }
+      else if(routeType == 2){
+        //todo:calculos necesarios ruta eco
+        resDuration = "0.0";
+      }
+
+      return resDuration;
   }
 
   bool esBarcelona(double latitud, double longitud) {
