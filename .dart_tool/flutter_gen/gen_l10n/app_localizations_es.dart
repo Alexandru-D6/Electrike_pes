@@ -186,4 +186,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get favouritesMark => 'Favoritos';
+
+  @override
+  String get selectCar => 'Escoge un vehículo';
+
+  @override
+  String get actualBatMsg => 'Introduce la bateria restante';
+
+  @override
+  String get selectRouteType => 'Escoge un tipo de ruta';
+
+  @override
+  String get start => 'Iniciar';
 }

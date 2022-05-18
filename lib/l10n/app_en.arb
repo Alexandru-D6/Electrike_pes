@@ -91,6 +91,11 @@
    "showMarkers": "Show all",
    "chargers": "Chargers",
    "bicing": "Bicing",
-   "favouritesMark": "Favourites"
+   "favouritesMark": "Favourites",
+
+   "selectCar": "Select a vehicle",
+   "actualBatMsg": "Enter the remaining battery",
+   "selectRouteType": "Select a route type",
+   "start": "Start"
 
 }

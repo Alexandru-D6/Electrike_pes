@@ -443,6 +443,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Favourites'**
   String get favouritesMark;
+
+  /// No description provided for @selectCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a vehicle'**
+  String get selectCar;
+
+  /// No description provided for @actualBatMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the remaining battery'**
+  String get actualBatMsg;
+
+  /// No description provided for @selectRouteType.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a route type'**
+  String get selectRouteType;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

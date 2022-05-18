@@ -36,7 +36,7 @@ class InfoRuta extends StatelessWidget {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: <Widget>[
-          const Text("Select one of your cars"), //todo: peilin multi
+          Text(AppLocalizations.of(context).selectCar), //TODO (Peilin) ready for test
           ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
             height: 150,
             width: 150,
@@ -78,7 +78,7 @@ class InfoRuta extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text("Enter your battery left: "), //todo: peilin multi
+              Text(AppLocalizations.of(context).actualBatMsg), //TODO (Peilin) ready for test
               SizedBox(
                 width: 40,
                 child:
@@ -92,7 +92,7 @@ class InfoRuta extends StatelessWidget {
               const Text("%"),
             ],
           ),
-          const Text("Select a route type"),//todo: peilin multi
+          Text(AppLocalizations.of(context).selectRouteType),//TODO (Peilin) ready for test
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -117,7 +117,7 @@ class InfoRuta extends StatelessWidget {
               borderRadius: BorderRadius.circular(30.0),),
               primary: const Color(0xff8A84E2),
           ),
-          child: const Text('Start Route'), //todo: peilin multi
+          child: Text(AppLocalizations.of(context).start), //TODO (Peilin) ready for test
       ),
         ],
       ),

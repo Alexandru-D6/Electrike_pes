@@ -91,6 +91,11 @@
     "showMarkers": "Mostrar tots",
     "chargers": "Carregadors",
     "bicing": "Bicing",
-    "favouritesMark": "Favourits"
+    "favouritesMark": "Favourits",
+
+    "selectCar": "Escull un vehicle",
+    "actualBatMsg": "Introdueix la bateria restant",
+    "selectRouteType": "Escull un tipus de ruta",
+    "start": "Inicia"
 
 }
