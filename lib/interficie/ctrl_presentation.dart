@@ -806,7 +806,7 @@ class CtrlPresentation {
   }
 
   bool hasNotifications(double latitud, double longitud) {
-    return true;
+    return getNotifications(latitud, longitud).isNotEmpty;
   }
 
   bool notificationsOn(double latitud, double longitud) {
