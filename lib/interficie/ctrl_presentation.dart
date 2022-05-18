@@ -580,7 +580,7 @@ class CtrlPresentation {
     return ctrlDomain.addSheduledNotificationFavoriteChargePoint(lat, long, dayOfTheWeek, iniHour, iniMinute);
 }
 
-  Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
+  List<List<String>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
     return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(lat,long);
   }
 

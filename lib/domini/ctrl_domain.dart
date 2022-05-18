@@ -881,27 +881,6 @@ class CtrlDomain {
     Retorna un map que com a clau té: Hora i Minut
      i com a valor una llista de dies de la setmana (between 1 (Monday) to 7 (Sunday))
    */
-  Map<Tuple2<int,int>,List<int>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
-    Map<Tuple2<int,int>,List<int>> mapUTC = serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
-    Map<Tuple2<int,int>,List<int>> mapLocal = <Tuple2<int,int>,List<int>>{};
-    Tuple3<int,int,int> t3;
-
-    for (var i in mapUTC.keys) {
-      for (int ii = 0; ii < mapUTC[i]!.length; ii++) {
-        t3 = _convertDayOfTheWeek(mapUTC[i]![ii], i.item1, i.item2, true);
-
-        if (mapLocal[Tuple2(t3.item2,t3.item3)] == null) {
-          var entry = <Tuple2<int,int>,List<int>>{ Tuple2(t3.item2,t3.item3): [t3.item1]};
-          mapLocal.addEntries(entry.entries);
-        }
-        else {
-          mapLocal[Tuple2(t3.item2, t3.item3)]!.add(t3.item1);
-        }
-      }
-    }
-    return mapLocal;
-  }
-
   List<List<String>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
     Map<Tuple2<int,int>,List<int>> mapUTC = serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
     Map<Tuple2<int,int>,List<int>> mapLocal = <Tuple2<int,int>,List<int>>{};
@@ -920,59 +899,36 @@ class CtrlDomain {
         }
       }
     }
-//ACABAR!! AQUESTA ÉS LA BONA
-    List<List<String>> listLocal = [[]];
+
+    for (var i in mapUTC.keys) {
+      print(i);
+      print(mapUTC[i]);
+    }
+
+    for (var i in mapLocal.keys) {
+      print(i);
+      print(mapLocal[i]);
+    }
+
+    List<List<String>> listLocal = [];
     for (var key in mapLocal.keys) {
-      l.add([key.item1.toString() + ":" + key.item2.toString(), ]);
-      List<String> dies = [];
-      for (var value in mapLocal[key]) {
-        l.add(l);
+      List<String> l = [];
+      String minut = key.item2.toString();
+      if (minut == '0') minut = minut + '0';
+      l.add(key.item1.toString() + ":" + minut);
+      List<int>? dies = mapLocal[key];
+      print("Aquest són els dies de ");
+      print(key);
+      print(dies);
+      for (var value in dies!) {
+        l.add(value.toString());
       }
-
-    }
-
-
-    return listLocal;
-  }
-
-
-  List<List<String>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
-
-
-
-    Map<Tuple2<int,int>,List<int>> mapUTC = serviceLocator<LocalNotificationAdpt>().currentScheduledNotificationsOfAChargerPoint(lat, long);
-    List<List<String>> listLocal = [[]];
-    Tuple3<int,int,int> t3;
-    List<int> element = [];
-
-    for (var i in mapUTC.keys) {
-      late int minute, hour;
-      for (int ii = 0; ii < mapUTC[i]!.length; ii++) {
-        t3 = _convertDayOfTheWeek(mapUTC[i]![ii], i.item1, i.item2, true);
-        hour = t3.item2;
-        minute = t3.item3;
-        element.add(t3.item1);
-      }
-
-      listLocal.add([hour.toString() + ":" + minute.toString(), dies]);
-
-
-
-        if (mapLocal[Tuple2(t3.item2,t3.item3)] == null) {
-          var entry = <Tuple2<int,int>,List<int>>{ Tuple2(t3.item2,t3.item3): [t3.item1]};
-          mapLocal.addEntries(entry.entries);
-        }
-        else {
-          mapLocal[Tuple2(t3.item2, t3.item3)]!.add(t3.item1);
-        }
-      }
-      listLocal.add([t3.item2.toString() + ":" + t3.item3.toString(), t3.]);
+      listLocal.add(l);
+      print(l);
+      print(listLocal);
     }
     return listLocal;
   }
-
-
-
 
   //Retorna true si el punt de càrrega té notificacions (independentment de si estan activades o desactivades)
   bool hasNotificacions(double lat, double long) {
