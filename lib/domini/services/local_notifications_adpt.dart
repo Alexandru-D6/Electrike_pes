@@ -1,5 +1,3 @@
-import 'dart:ffi';
-import 'dart:math';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,27 +10,21 @@ import 'package:flutter_project/interficie/page/garage_page.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'dart:ffi' as ffi;
-import 'package:ffi/ffi.dart';
 
-class InfoNotification extends Struct {
-  @Double()
-  external double lat;
+class InfoNotification {
+  late double lat;
 
-  @Double()
-  external double long;
+  late double long;
 
-  @Int32()
-  external int dayOfTheWeek;
+  late int dayOfTheWeek;
 
-  @Int32()
-  external int iniHour;
+  late int iniHour;
 
-  @Int32()
-  external int iniMinute;
+  late int iniMinute;
 
-  @Bool()
-  external bool active;
+  late bool active;
+
+  InfoNotification(this.lat, this.long, this.dayOfTheWeek, this.iniHour, this.iniMinute, this.active);
 }
 
 class LocalNotificationAdpt {
@@ -51,6 +43,8 @@ class LocalNotificationAdpt {
 
   //Map of current notifications. Key: id
   static final Map<int, InfoNotification> _currentNotifications = {};
+
+  static late int lastIdCreated = 0;
 
   Future<void> init() async {
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -80,8 +74,8 @@ class LocalNotificationAdpt {
   final AndroidNotificationDetails _androidNotificationDetails =
   const AndroidNotificationDetails(
     'id',
-    'channel',
-    channelDescription: 'description',
+    'Charger Ponints',
+    channelDescription: 'Will display a notification about the state of your favourite charger points you have set',
     playSound: true,
     priority: Priority.high,
     importance: Importance.high,
@@ -107,43 +101,40 @@ class LocalNotificationAdpt {
     );
   }
 
+  //Afegeix una notificació local al mòbil
+  Future<void> _createNotification(int id, DateTime when, double lat, double long) async {
+    CtrlDomain ctrlDomain = CtrlDomain();
+    List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
+
+    late String state;
+    if (dadesCargadors[6] != "0" || dadesCargadors[10] != "0" || dadesCargadors[14] != "0"|| dadesCargadors[18] != "0") {
+      state = "<unknown>";
+    } else {
+      state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
+    }
+
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
+        "Your charger point has " +state+ " available chargers.",
+        tz.TZDateTime.from(when, tz.local),
+        NotificationDetails(android: _androidNotificationDetails),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
+  }
+
   Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
 
-    Pointer<InfoNotification> infN = malloc<InfoNotification>();
-
-    infN[0].lat = lat;
-    infN[0].long = long;
-    infN[0].dayOfTheWeek = when.weekday;
-    infN[0].iniHour = when.hour;
-    infN[0].iniMinute = when.minute;
-    infN[0].active = true;
+    InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, true);
 
     if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
       int id = _createId();
-      var entry = <int, InfoNotification>{id: infN[0]};
+      var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
-
-      CtrlDomain ctrlDomain = CtrlDomain();
-      List<String> dadesCargadors = await ctrlDomain.getInfoCharger2(lat,long);
-
-      late String state;
-      if (dadesCargadors[6] != "0" || dadesCargadors[10] != "0" || dadesCargadors[14] != "0"|| dadesCargadors[18] != "0") {
-        state = "<unknown>";
-      } else {
-        state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
-      }
-
-      await _flutterLocalNotificationsPlugin.zonedSchedule(
-          id,
-          "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
-          "Your charger point has " +state+ " available chargers.",
-          tz.TZDateTime.from(when, tz.local),
-          NotificationDetails(android: _androidNotificationDetails),
-          androidAllowWhileIdle: true,
-          uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-          matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
-      }
+      _createNotification(id, when, lat, long);
+    }
   }
 
   bool _existsNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
@@ -160,8 +151,13 @@ class LocalNotificationAdpt {
   }
 
   int _createId() {
-    final now = DateTime.now();
-    return int.parse(now.microsecondsSinceEpoch.toString().substring(4,13));
+    if (lastIdCreated == 2^31 - 1) {
+      lastIdCreated = 1;
+    } else {
+      lastIdCreated += 1;
+    }
+    print(lastIdCreated);
+    return lastIdCreated;
   }
 
   int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
@@ -206,9 +202,29 @@ class LocalNotificationAdpt {
     return false;
   }
 
+  void enableNotification(DateTime when, double lat, double long) {
+    int id = _findId(lat, long, when.weekday, when.hour, when.minute);
+    if (id != -1) {
+      _currentNotifications[id]!.active = true;
+      _createNotification(id, when, lat, long);
+    }
+  }
+
+  Future<void> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
+    if (id != -1) {
+      print("id found: ");
+      print(id);
+      await _flutterLocalNotificationsPlugin.cancel(id);
+      _currentNotifications[id]!.active = false;
+    }
+  }
+
   Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1) {
+      print("id found: ");
+      print(id);
       _currentNotifications.remove(id);
       await _flutterLocalNotificationsPlugin.cancel(id);
     }
@@ -216,10 +232,7 @@ class LocalNotificationAdpt {
 
   Future<void> cancelAllNotifications() async {
     _currentNotifications.clear();
+    lastIdCreated = 0;
     await _flutterLocalNotificationsPlugin.cancelAll();
   }
 }
-
-
-
-
