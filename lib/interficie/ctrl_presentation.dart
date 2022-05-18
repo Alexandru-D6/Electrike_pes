@@ -592,4 +592,16 @@ class CtrlPresentation {
     ctrlDomain.removeScheduledNotifications(lat, long, iniHour, iniMinute, daysOfTheWeek);
   }
 
+  void removeAllNotifications() {
+    ctrlDomain.removeAllNotifications();
+  }
+
+  void disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    ctrlDomain.disableNotification(lat, long, dayOfTheWeek, iniHour, iniMinute);
+  }
+
+  void enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+    ctrlDomain.enableNotification(lat, long, dayOfTheWeek, iniHour, iniMinute);
+  }
+
 }

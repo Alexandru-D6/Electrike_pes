@@ -74,8 +74,8 @@ class LocalNotificationAdpt {
   final AndroidNotificationDetails _androidNotificationDetails =
   const AndroidNotificationDetails(
     'id',
-    'channel',
-    channelDescription: 'description',
+    'Charger Ponints',
+    channelDescription: 'Will display a notification about the state of your favourite charger points you have set',
     playSound: true,
     priority: Priority.high,
     importance: Importance.high,

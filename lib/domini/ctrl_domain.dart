@@ -848,6 +848,7 @@ class CtrlDomain {
     }
   }
 
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
   void removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
     serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
@@ -857,6 +858,7 @@ class CtrlDomain {
     serviceLocator<LocalNotificationAdpt>().cancelAllNotifications();
   }
 
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
   void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) {
     for (var notif in l) {
       removeScheduledNotification(lat, long, notif.item1, notif.item2, notif.item3);
@@ -938,18 +940,22 @@ class CtrlDomain {
     }
   }
 
-  //Elimina tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
+  /*Elimina tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
+  IMPORTANT: No cridar a funcions de crear una notificació i just després cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
+   */
   void removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
     for (var day in daysOfTheWeek) {
       removeScheduledNotification(lat, long, day, iniHour, iniMinute);
     }
   }
 
+  //Activa una notificació que té l'usuari programada però desactivada. Si estava activada, continuarà estat activada.
   void enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
     serviceLocator<LocalNotificationAdpt>().enableNotification(firstNotification, lat, long);
   }
 
+  //Desactiva una notificació que té l'usuari programada.
   void disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
     serviceLocator<LocalNotificationAdpt>().disableNotification(lat, long, t3.item1, t3.item2, t3.item3);
