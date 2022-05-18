@@ -171,18 +171,18 @@ class CtrlPresentation {
     );
   }
 
-  toNotificationsPage(BuildContext context, double latitud, double longitud, List<List<String>> notifications, String title) {
-    Navigator.popUntil(context, ModalRoute.withName('/'));
+  toNotificationsPage(BuildContext context, double latitud, double longitud, String title) {
+    Navigator.popUntil(context, ModalRoute.withName('/favourites'));
     Navigator.pushNamed(
       context,
       '/notificationsList',
-      arguments: NotificationsArgs(latitud, longitud, title, notifications),
+      arguments: NotificationsArgs(latitud, longitud, title),
     );
   }
 
   toTimePicker(BuildContext context, double latitud, double longitud, String title){
     //print(ModalRoute.of(context)?.settings.name);
-    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.popUntil(context, ModalRoute.withName('/notificationsList'));
     Navigator.pushNamed(
       context,
       '/time',
@@ -814,8 +814,21 @@ class CtrlPresentation {
   }
 
   List<List<String>> getNotifications(double latitud, double longitud) {
-    List<List<String>> notifications = [["18:24", "1", "3", "5"], ["18:00", "2", "4", "7", "6"], ["14:00", "1", "2","3", "4","5", "7", "6"]];
-    return notifications;
+    //List<List<String>> notifications = [["18:24", "1", "3", "5"], ["18:00", "2", "4", "7", "6"], ["14:00", "1", "2","3", "4","5", "7", "6"]];
+    //return notifications;
+    return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(latitud,longitud);
+  }
+
+  void addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
+    ctrlDomain.addSheduledNotificationsFavoriteChargePoint(latitud, longitud, hour, minute, selectedDays);
+  }
+
+  void removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
+    ctrlDomain.removeScheduledNotifications(latitud, longitud, hour, minute, selectedDays);
+  }
+
+  void showInstantNotification(double lat, double long) {
+    ctrlDomain.showInstantNotification(lat, long);
   }
   
   void getDistDuration() async {
@@ -878,34 +891,4 @@ class CtrlPresentation {
   List<List<String>> getTrophies() {
     return ctrlDomain.displayTrophy();
   }
-
-  void addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
-    //todo: conectar con notificaciones
-    //ctrlDomain.addNotification(latitud, longitud, hour, minute, selectedDays);
-  }
-
-  void showInstantNotification(double lat, double long) {
-    ctrlDomain.showInstantNotification(lat, long);
-  }
-
-  void removeShceduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    ctrlDomain.removeScheduledNotification(lat, long, dayOfTheWeek, iniHour, iniMinute);
-  }
-
-  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    return ctrlDomain.addSheduledNotificationFavoriteChargePoint(lat, long, dayOfTheWeek, iniHour, iniMinute);
-}
-
-  List<List<String>> currentScheduledNotificationsOfAChargerPoint(double lat, double long) {
-    return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(lat,long);
-  }
-
-  void addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
-    ctrlDomain.addSheduledNotificationsFavoriteChargePoint(lat, long, iniHour, iniMinute, daysOfTheWeek);
-  }
-
-  void removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
-    ctrlDomain.removeScheduledNotifications(lat, long, iniHour, iniMinute, daysOfTheWeek);
-  }
-
 }

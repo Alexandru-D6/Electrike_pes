@@ -193,7 +193,7 @@ class _AllFavsState extends State<AllFavs> {
                   color: Colors.grey,
                   onPressed: () {
                     List<List<String>> notifications = ctrlPresentation.getNotifications(word.latitud, word.longitud);
-                    ctrlPresentation.toNotificationsPage(context, word.latitud, word.longitud, notifications, title);
+                    ctrlPresentation.toNotificationsPage(context, word.latitud, word.longitud, title);
                   }
               ),
               IconButton(

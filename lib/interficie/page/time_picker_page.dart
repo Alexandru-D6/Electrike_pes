@@ -135,6 +135,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
           );
           List<int> selectedDaysInt = daysToInt(selectedDays, context);
           ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
+          ctrlPresentation.toNotificationsPage(context, notificationsInfo.latitud, notificationsInfo.longitud, notificationsInfo.title);
         },
         heroTag: "Add notification",//todo:translate
         tooltip: "Add notification",//todo:translate
