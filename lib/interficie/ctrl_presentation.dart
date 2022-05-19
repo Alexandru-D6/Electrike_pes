@@ -41,8 +41,8 @@ class CtrlPresentation {
   int idCarUser = 0;
   int routeType = 0; //0 es normal, 1 es puntos de carga y 2 es eco
   String bateria = "100"; // de normal 100
-  String distinmeters = "";
-  String durationinminutes = "";
+  String distinkilometers = "";
+  String durationinhours = "";
   List<GeoCoord> waypointsRuta = <GeoCoord>[];
 
   //intercambiar vista
@@ -824,7 +824,7 @@ class CtrlPresentation {
     return notifications;
   }
   
-  Future<String> getDistDuration() async {
+  Future<List<String>> getDistDuration() async {
       Location location = Location();
       var destT = await getMapsService.adressCoding(destination);
       GeoCoord desti = GeoCoord(destT.latitude, destT.longitude);
@@ -843,13 +843,15 @@ class CtrlPresentation {
         print(desti);
 
       String resDuration = "";
+      String resDistance = "";
       if(routeType == 0) {
         var routeInfo = await ctrlDomain.infoRutaSenseCarrega(origen, desti);
 
-        distinmeters = routeInfo.distance;
-          print(distinmeters);
-        durationinminutes = routeInfo.duration;
-          print(durationinminutes);
+        distinkilometers = routeInfo.distance;
+          print(distinkilometers);
+        resDistance = routeInfo.distance;
+        durationinhours = routeInfo.duration;
+          print(durationinhours);
         resDuration = routeInfo.duration;
       }
       else if(routeType == 1){
@@ -859,22 +861,42 @@ class CtrlPresentation {
 
         var rutaCharger = await ctrlDomain.findSuitableRoute(origen, desti, bat);
 
-        distinmeters = rutaCharger.distance;
-        print(distinmeters);
-        durationinminutes = rutaCharger.duration;
-        print(durationinminutes);
+        distinkilometers = rutaCharger.distance;
+        print(distinkilometers);
+        durationinhours = rutaCharger.duration;
+        print(durationinhours);
         print(rutaCharger);
         print(rutaCharger.waypoints);
         waypointsRuta = rutaCharger.waypoints;
         String origin = origen.latitude.toString() + "," + origen.longitude.toString();
         resDuration = rutaCharger.duration;
+        resDistance = rutaCharger.distance;
       }
       else if(routeType == 2){
         //todo:calculos necesarios ruta eco
         resDuration = "0.0";
+        resDistance = "0";
       }
+      double temporalTime =  double.parse(resDuration);
+      resDuration = getTimeString(temporalTime); //conversion a segundos
+      resDistance = resDistance + " km";
+      List<String> res = [resDistance, resDuration];
+      return res;
+  }
 
-      return resDuration;
+  String getTimeString(double timeinHours){
+    int time = (timeinHours*3600).toInt(); //pasar a segundos
+    int hours = time~/3600;
+    int rest1 = time%3600;
+    int minutes = rest1~/60;
+    String res;
+    if(hours == 0) {
+      res = minutes.toString() + " min ";
+    }
+    else {
+      res = hours.toString() + " h " + minutes.toString() + " min ";
+    }
+    return res;
   }
 
   bool esBarcelona(double latitud, double longitud) {

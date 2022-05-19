@@ -21,12 +21,15 @@ class InfoRuta extends StatefulWidget {
 }
 class _InfoRutaState extends State<InfoRuta> {
   String time = "";
+  String distance = "";
 
+  @override
   void initState() {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     ctrlPresentation.getDistDuration().then((value) {
       setState(() {
-        time = value;
+        distance = value[0];
+        time = value[1];
       });
     });
     super.initState();
@@ -105,7 +108,8 @@ class _InfoRutaState extends State<InfoRuta> {
                     ctrlPresentation.bateria = value;
                     ctrlPresentation.getDistDuration().then((value) {
                       setState(() {
-                        time = value;
+                        distance = value[0];
+                        time = value[1];
                       });
                     });
                   },
@@ -147,6 +151,8 @@ class _InfoRutaState extends State<InfoRuta> {
               children: <Widget>[
                 const Text("Estimated time: "),
                 Text(time),
+                const Text("Estimated distance: "),
+                Text(distance),
               ]
           ),
           const Divider(
@@ -180,7 +186,8 @@ class _InfoRutaState extends State<InfoRuta> {
           });
           ctrlPresentation.getDistDuration().then((value) {
             setState(() {
-              time = value;
+              distance = value[0];
+              time = value[1];
             });
           });
       },
