@@ -12,9 +12,9 @@ import 'package:flutter_project/interficie/page/chart_page.dart';
 import 'package:flutter_project/interficie/page/edit_car_page.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
-import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
 import 'package:flutter_project/interficie/page/notifications_list_page.dart';
+import 'package:flutter_project/interficie/page/onboarding_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/interficie/page/splash_page.dart';
@@ -34,6 +34,7 @@ import 'package:geolocator/geolocator.dart' as geolocator;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'domini/services/local_notifications_adpt.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -64,9 +65,16 @@ Future initializeSystem() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  final prefs = await SharedPreferences.getInstance();
+  final showHome = prefs.getBool('showHome') ?? false;
 
-  runApp(MaterialApp(home: const MyApp(),
-    navigatorKey: navigatorKey, debugShowCheckedModeBanner: false));
+  runApp(
+      MaterialApp(
+        home: showHome ? const MyApp() : OnBoardingPage(),
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -102,7 +110,7 @@ class MyApp extends StatelessWidget {
           '/editCar': (context) => const EditCarPage(),
           '/favourites': (context) => const FilterFavsItems(),
           '/rewards': (context) => const RewardsPage(),
-          '/info': (context) => InformationAppPage(),
+          '/info': (context) => OnBoardingPage(),
           '/chart': (context) => const ChartPage(),
           '/time': (context) => TimePickerPage(),
           '/notificationsList': (context) => NotificationsListPage(),

@@ -10,7 +10,6 @@ import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/confetti.dart';
-import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
@@ -18,6 +17,7 @@ import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
@@ -60,6 +60,14 @@ class CtrlPresentation {
     location = Location();
     askForPermission(location, context);
 
+    location.onLocationChanged.listen((event) {
+      double? lat = event.latitude;
+      double? lng = event.longitude;
+      curLocation = GeoCoord(lat!, lng!);
+    });
+  }
+
+  void locationHR() {
     location.onLocationChanged.listen((event) {
       double? lat = event.latitude;
       double? lng = event.longitude;
@@ -297,6 +305,8 @@ class CtrlPresentation {
       toMainPage(context);
       await serviceLocator<GoogleLoginAdpt>().logout();
     }
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('showHome', false);
   }
 
   void resetUserValues() {
@@ -354,7 +364,7 @@ class CtrlPresentation {
           startInfo: 'Origin',
           endIcon: 'assets/images/rolls_royce.png',
           endInfo: 'Destination',
-          //color: Colors.blue,
+          color: Colors.blue,
       );
     }
     else if(routeType == 1){
@@ -836,7 +846,7 @@ class CtrlPresentation {
   }
 
   bool notificationsOn(double latitud, double longitud) {
-    return true;
+    return ctrlDomain.notificationsOn(latitud, longitud);
   }
 
   List<List<String>> getNotifications(double latitud, double longitud) {
@@ -909,6 +919,7 @@ class CtrlPresentation {
         print(durationinhours);
         print(rutaCharger);
         print(rutaCharger.waypoints);
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
         waypointsRuta = rutaCharger.waypoints;
         String origin = origen.latitude.toString() + "," + origen.longitude.toString();
         resDuration = rutaCharger.duration;
