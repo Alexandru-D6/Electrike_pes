@@ -364,7 +364,7 @@ class CtrlPresentation {
           startInfo: 'Origin',
           endIcon: 'assets/images/rolls_royce.png',
           endInfo: 'Destination',
-          //color: Colors.blue,
+          color: Colors.blue,
       );
     }
     else if(routeType == 1){
@@ -919,6 +919,7 @@ class CtrlPresentation {
         print(durationinhours);
         print(rutaCharger);
         print(rutaCharger.waypoints);
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
         waypointsRuta = rutaCharger.waypoints;
         String origin = origen.latitude.toString() + "," + origen.longitude.toString();
         resDuration = rutaCharger.duration;
