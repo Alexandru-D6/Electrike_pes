@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:google_place/google_place.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
@@ -24,13 +25,14 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         hint: ctrlPresentation.actualLocation,
         margins: const EdgeInsets.fromLTRB(60, 5, 60, 0),
         scrollPadding: const EdgeInsets.only(top: 60, bottom: 56),
-        transitionDuration: const Duration(milliseconds: 50),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionCurve: Curves.easeInOut,
         physics: const BouncingScrollPhysics(),
         axisAlignment: isPortrait ? 0.0 : -1.0,
         openAxisAlignment: 0.0,
-        debounceDelay: const Duration(milliseconds: 200),
+        debounceDelay: const Duration(milliseconds: 100),
         automaticallyImplyDrawerHamburger: false,
+        automaticallyImplyBackButton: false,
         onQueryChanged: (query) {
           updateRecomendations(query);
         },
@@ -69,14 +71,15 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       hint: ctrlPresentation.destination,
       margins: const EdgeInsets.fromLTRB(60, 60, 60, 0),
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-      transitionDuration: const Duration(milliseconds: 50),
+      transitionDuration: const Duration(milliseconds: 300),
       transitionCurve: Curves.easeInOut,
       physics: const BouncingScrollPhysics(),
       axisAlignment: isPortrait ? 0.0 : -1.0,
       openAxisAlignment: 0.0,
-      debounceDelay: const Duration(milliseconds: 200),
+      debounceDelay: const Duration(milliseconds: 100),
       automaticallyImplyDrawerHamburger: false,
       closeOnBackdropTap: true,
+      automaticallyImplyBackButton: false,
       onQueryChanged: (query) {
         updateRecomendations(query);
       },
@@ -87,10 +90,11 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         FloatingSearchBarAction(
           showIfOpened: false,
           child: CircularButton(
-            icon: const Icon(Icons.place),
+            icon: const Icon(Icons.directions),
             onPressed: () {
-              ctrlPresentation.moveCameraToLocation();
-              //TODO: para la location quiza
+              //TODO: hacer que mire si hay texto
+              showInfoRuta(context);
+              ctrlPresentation.clearAllRoutes();
             },
           ),
         ),
@@ -133,23 +137,19 @@ class _SearchBarWidget extends State<SearchBarWidget> {
 
   Widget buildRecomendationButtons({
     required List<String?> text,
-    required String origin
+    required String origin,
   }) {
     List<ListTile> list = <ListTile>[];
     for (var element in text) {
       list.add(ListTile(
         title: Text(element!, style: const TextStyle(fontSize: 18, color: Colors.black)),
-        onTap: () => {
-          setState((){}), //para que ponga el nombre en el hint
+        onTap: () {
+          setState((){}); //para que ponga el nombre en el hint
           if(origin == "false"){
-            ctrlPresentation.destination = element,
+            ctrlPresentation.destination = element;
+          }else {
+            ctrlPresentation.actualLocation = element;
           }
-          else
-            {
-              ctrlPresentation.actualLocation = element,
-            },
-          print(element),
-          print(text),
           //ctrlPresentation.toMainPage(context),
           //ctrlPresentation.makeRoute()
           },//TODO: llamar aqui que hacer con cada boton de la lista
