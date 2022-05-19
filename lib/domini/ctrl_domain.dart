@@ -973,6 +973,12 @@ class CtrlDomain {
     }
   }
 
+  //Retorna true si el punt de càrrega passat per paràmetre té almenys una notificació activada, altrament retora false.
+  //Si el punt de càrrega no existeix o no té cap notificació per aquest punt de càrrega retorna false.
+  bool notificationsOn(double lat, double long) {
+    return serviceLocator<LocalNotificationAdpt>().notificationsOn(lat, long);
+  }
+
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);

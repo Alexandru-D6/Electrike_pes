@@ -156,7 +156,6 @@ class LocalNotificationAdpt {
     } else {
       lastIdCreated += 1;
     }
-    print(lastIdCreated);
     return lastIdCreated;
   }
 
@@ -216,6 +215,18 @@ class LocalNotificationAdpt {
       await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications[id]!.active = false;
     }
+  }
+
+  //Si el punt de càrrega no existeix o no té cap notificació per aquest punt de càrrega retorna false.
+  bool notificationsOn(double lat, double long) {
+    for (var idNotif in _currentNotifications.keys) {
+      if (_currentNotifications[idNotif]!.lat == lat
+      && _currentNotifications[idNotif]!.long == long
+      && _currentNotifications[idNotif]!.active) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {

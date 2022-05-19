@@ -49,9 +49,11 @@ class _FavsChargersState extends State<FavsChargers> {
                                 //ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 2, 1, 00);
                                 //ctrlPresentation.addSheduledNotificationFavoriteChargePoint(word.latitud, word.longitud, 7, 18, 50);
                                 //ctrlPresentation.currentScheduledNotificationsOfAChargerPoint(word.latitud, word.longitud);
-                                ctrlPresentation.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 13, 17, [1,3,7]);
+                                //ctrlPresentation.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 13, 17, [1,3,7]);
+                                //print(ctrlPresentation.currentScheduledNotificationsOfAChargerPoint(41.73682408, 1.82836016));
+                                ctrlPresentation.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 3, 12, 18);
                                 print(ctrlPresentation.currentScheduledNotificationsOfAChargerPoint(41.73682408, 1.82836016));
-                                ctrlPresentation.disableNotification(41.73682408, 1.82836016, 3, 13, 17);
+                                ctrlPresentation.disableNotification(41.73682408, 1.82836016, 3, 12, 18);
                               }
                           ),
                         IconButton(
@@ -63,7 +65,9 @@ class _FavsChargersState extends State<FavsChargers> {
                               //ctrlPresentation.removeShceduledNotification(word.latitud, word.longitud, 7, 18, 50);
                               //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
                               //ctrlPresentation.removeScheduledNotifications(41.73682408, 1.82836016, 12, 46, [1,7]);
-                              ctrlPresentation.enableNotification(41.73682408, 1.82836016, 3, 13, 17);
+                             // ctrlPresentation.enableNotification(41.73682408, 1.82836016, 3, 13, 17);
+                              print("Estat del la notifiacació és:");
+                              print(ctrlPresentation.notificationsOn(41.73682408, 1.82836016));
                               print(ctrlPresentation.currentScheduledNotificationsOfAChargerPoint(41.73682408, 1.82836016));
                               //ctrlPresentation.removeAllNotifications();
                             }

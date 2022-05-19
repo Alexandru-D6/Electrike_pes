@@ -604,4 +604,8 @@ class CtrlPresentation {
     ctrlDomain.enableNotification(lat, long, dayOfTheWeek, iniHour, iniMinute);
   }
 
+  bool notificationsOn(double lat, double long) {
+    return ctrlDomain.notificationsOn(lat, long);
+  }
+
 }
