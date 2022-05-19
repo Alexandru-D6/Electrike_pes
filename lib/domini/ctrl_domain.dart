@@ -951,6 +951,12 @@ class CtrlDomain {
     }
   }
 
+  //Retorna true si el punt de càrrega passat per paràmetre té almenys una notificació activada, altrament retora false.
+  //Si el punt de càrrega no existeix o no té cap notificació per aquest punt de càrrega retorna false.
+  bool notificationsOn(double lat, double long) {
+    return serviceLocator<LocalNotificationAdpt>().notificationsOn(lat, long);
+  }
+
   Future<void> getOcupationCharger(double lat, double lon) async {
     var url = urlorg + 'get_ocupation?lat='+ lat.toString() +'&lon='+ lon.toString();
     var response = (await http.get(Uri.parse(url)));
