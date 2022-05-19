@@ -1043,4 +1043,12 @@ class CtrlPresentation {
   double getNumRoutessaved(){
     return ctrlDomain.usuari.counterRoutes;
   }
+
+  Future<List<List<String>>> getFAVChargers() {
+    return ctrlDomain.getFavChargers();
+  }
+
+  Future<List<List<String>>> getFAVBicing() {
+    return ctrlDomain.getFavBicing();
+  }
 }

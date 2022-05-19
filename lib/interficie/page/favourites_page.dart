@@ -15,25 +15,37 @@ class FavsChargers extends StatefulWidget {
 }
 
 class _FavsChargersState extends State<FavsChargers> {
+  List<List<String>> points = [["0","0","Chargin..."]];
+  @override
+  void initState() {
+    ctrlPresentation.getFAVChargers().then((element){
+      setState(() {
+        points = element;
+        print(points.length);
+        print(points);
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
-    List<String> titlesChargers = ctrlPresentation.getNomsFavsChargerPoints();
 
     return ListView.separated(
-      itemCount: titlesChargers.length,
+      itemCount: points.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
-        Coordenada word = chargerPoints[index];
-        String title = titlesChargers[index];
+        Coordenada word = Coordenada(double.parse(points[index][0]), double.parse(points[index][1]));
+        String title = points[index][2];
+
+        bool esBarcelona = ctrlPresentation.esBarcelona(word.latitud, word.longitud);
 
         return ListTile(
           title: Text(title),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              IconButton(
+              if(esBarcelona)IconButton(
                   icon: (const Icon(Icons.bar_chart)),
                   color: Colors.green,
                   onPressed: () async{
@@ -41,34 +53,35 @@ class _FavsChargersState extends State<FavsChargers> {
                     ctrlPresentation.toChartPage(context, title);
                   }
               ),
-              IconButton(
+              if(esBarcelona)IconButton(
                   icon: (const Icon(Icons.notification_add)),
                   color: Colors.blue,
                   onPressed: () {
                     ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
                   }
               ),
-              IconButton(
+              if(esBarcelona)IconButton(
                   icon: (const Icon(Icons.settings)),
                   color: Colors.grey,
                   onPressed: () {
                     //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
                   }
               ),
-              IconButton(
+              if(word.latitud != 0 && word.longitud != 0)IconButton(
                   icon: (const Icon(Icons.favorite)),
                   color: Colors.red,
                   onPressed: () {
-                    chargerPoints.remove(word);
+                    
+                    points.removeAt(index);
                     ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                    Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+                    setState(() {});
                   }
               ),
 
             ],
           ),
           onTap: () {
-            ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
+            if(word.latitud != 0 && word.longitud != 0)ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
           },
         );
       },
@@ -84,36 +97,49 @@ class FavsBicings extends StatefulWidget {
 }
 
 class _FavsBicingsState extends State<FavsBicings> {
-
+  List<List<String>> points = [["0","0","Charging..."]];
+  @override
+  void initState() {
+    ctrlPresentation.getFAVBicing().then((element){
+      setState(() {
+        points = element;
+        print(points.length);
+        print(points);
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
-
-    List<String> titlesBicing = ctrlPresentation.getNomsFavsBicingPoints();
     return ListView.separated(
-      itemCount: titlesBicing.length,
+      itemCount: points.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
-        Coordenada word = bicingPoints[index];
-        String title = titlesBicing[index];
-
-
-        return ListTile(
-          title: Text(title),
-          trailing: IconButton(
-              icon: (const Icon(Icons.favorite)),
-              color: Colors.red,
-              onPressed: () {
-                bicingPoints.remove(word);
-                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
-              }
-          ),
-          onTap: () {
-            ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
-          },
-        );
+        Coordenada word = Coordenada(double.parse(points[index][0]), double.parse(points[index][1]));
+        String title = points[index][2];
+        if(word.latitud != 0 && word.longitud != 0){
+          return ListTile(
+            title: Text(title),
+            trailing: IconButton(
+                icon: (const Icon(Icons.favorite)),
+                color: Colors.red,
+                onPressed: () {
+                  points.removeAt(index);
+                  ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
+                  setState(() {});
+                }
+            ),
+            onTap: () {
+              if(word.latitud != 0 && word.longitud != 0)ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
+            },
+          );
+        }
+        else{
+          return ListTile(
+            title: Text(title),
+          );
+        }
       },
     );
   }

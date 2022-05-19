@@ -183,8 +183,6 @@ class CtrlDomain {
       }
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
     }
-    getNomsFavBicing();
-    getNomsFavChargers();
     idiomfromLogin();
   }
   void idiomfromLogin() async {
@@ -414,35 +412,42 @@ class CtrlDomain {
   //Afageix un carregador a favorits
   void addFavCharger(double lat, double long)async{
     var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString()+'&name='+'pruebanombre';
-    await http.post(Uri.parse(url));
+    http.post(Uri.parse(url));
     puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
-    getNomsFavChargers();
+    print(puntsFavCarrega.length);
   }
   //Elimina un carregador de favorits
   void deleteFavCharger(double lat, double long)async{
     var url = urlorg +'remove_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
-    await http.post(Uri.parse(url));
+    http.post(Uri.parse(url));
     Favorit fav = Favorit(Coordenada(-1.0,0.0), '');
     for(var pfc in puntsFavCarrega){
       if(pfc.coord.latitud == lat && pfc.coord.longitud == long){
         fav = pfc;
       }
     }
-
     if(fav.coord.latitud != -1.0)puntsFavCarrega.remove(fav);
-    getNomsFavChargers();
+    print(puntsFavCarrega.length);
   }
   //Carrega els noms dels chatgers favorits
-  void getNomsFavChargers() async{
+  Future<List<List<String>>> getFavChargers() async{
+    List<List<String>> fav = <List<String>>[];
     nomsFavCarrega = <String>[];
     for(var c in puntsFavCarrega){
+      List<String> p = <String>[];
+      p.add(c.coord.latitud.toString());
+      p.add(c.coord.longitud.toString());
       var url = urlorg+'charger_information_cat?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
       var response = (await http.get(Uri.parse(url)));
       var resp = jsonDecode(response.body);
       for(var it in resp['items']){
-        nomsFavCarrega.add(it['Station_name']);
+        p.add(it['Station_name']);
       }
+      fav.add(p);
+
     }
+    print (fav);
+    return fav;
   }
 
   //USER FAV_BICING
@@ -473,19 +478,17 @@ class CtrlDomain {
   Future<void> addFavBicing(double lat, double long)async{
     var url = urlorg + 'add_fav_bicing?email=' + usuari.correu + '&lat=' + lat.toString() + '&lon=' + long.toString()+'&name'+'pruebanombre';
     puntsFavBicing.add(Favorit(Coordenada(lat, long),usuari.correu));
-    await http.post(Uri.parse(url));
-    getNomsFavBicing();
+    http.post(Uri.parse(url));
   }
   //Elimina un punt bicing de favorits
   void deleteFavBicing(double lat, double long)async{
     var url = urlorg +'remove_fav_bicing?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString();
-    await http.post(Uri.parse(url));
+    http.post(Uri.parse(url));
     Favorit fav = Favorit(Coordenada(-1.0,0.0), '');
     for(var pfb in puntsFavBicing){
       if(pfb.coord.latitud == lat && pfb.coord.longitud == long)fav = pfb;
     }
     if(fav.coord.latitud != -1.0)puntsFavBicing.remove(fav);
-    getNomsFavBicing();
   }
   //Carrega el nom dels bicinggs favorits
   Future<List<String>> getNamesFavBicing()async{
@@ -500,16 +503,21 @@ class CtrlDomain {
     }
     return namesBFav;
   }
-  void getNomsFavBicing() async{
-    nomsFavBicings = <String>[];
+  Future<List<List<String>>> getFavBicing() async{
+    List<List<String>> FavBicings = <List<String>>[];
     for(var c in puntsFavBicing){
+      List<String> p = <String>[];
+      p.add(c.coord.latitud.toString());
+      p.add(c.coord.longitud.toString());
       var url = urlorg+'bicing_info?longitud='+ c.coord.longitud.toString() +'&latitud='+c.coord.latitud.toString();
       var response = (await http.get(Uri.parse(url)));
       var resp = jsonDecode(response.body);
       for(var it in resp['items']){
-        nomsFavBicings.add('Bicing '+it['name']);
+        p.add('Bicing '+it['name']);
       }
+      FavBicings.add(p);
     }
+    return FavBicings;
   }
 
   //CARS
