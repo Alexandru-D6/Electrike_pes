@@ -1,11 +1,15 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/interficie/confetti.dart';
 import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
@@ -529,13 +533,9 @@ class CtrlPresentation {
     return ctrlDomain.islogged();
   }
 
-  List<String> getTrophiesDone() {
-    List<String> trophiesCompleted = ["Login", "Jump"];
-    return trophiesCompleted;
-  }
 
-  int getCO2saved() {
-    return 8;
+  double getCO2saved() {
+    return ctrlDomain.usuari.co2Estalviat;
   }
 
   void showInstantNotification(double lat, double long) {
@@ -908,24 +908,84 @@ class CtrlPresentation {
   void showMyDialog(String idTrofeu) {
     AwesomeDialog(
       context: navigatorKey.currentContext!,
-      dialogType: DialogType.INFO,
+      width: 500,
       animType: AnimType.LEFTSLIDE,
-      title: "Trophy unlocked" + idTrofeu,
-      //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-      desc: "You can see the trophy in the trophies menu",
-      //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
-      btnOkOnPress: () {},
+      dialogType: DialogType.NO_HEADER,
+      autoHide: const Duration(seconds: 6) ,
+      body: _makeTrophyBody(idTrofeu),
+      /*btnOkText:'View in the trophy menu',
+      btnOkIcon: Icons.emoji_events,
+      btnOkOnPress:(){toRewardsPageDialog(navigatorKey.currentContext!);},
+      btnOkColor: Colors.blue,*/
+      btnCancelText: 'Ok',
+      btnCancelOnPress: () {},
+      btnCancelColor: Colors.green,
       headerAnimationLoop: false,
     ).show();
-    /*showDialog(
-        context: navigatorKey.currentContext!,
-        builder: (context) => Center(
-          child: Material(
-            color: Colors.transparent,
-            child: Text('Hello'),
+  }
+
+  _makeTrophyBody(String idTrofeu) {
+    ConfettiController controllerCenterRight = ConfettiController(duration: const Duration(milliseconds: 700));
+    ConfettiController controllerCenterLeft = ConfettiController(duration: const Duration(milliseconds: 700));
+    controllerCenterLeft.play();
+    controllerCenterRight.play();
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          //CENTER RIGHT -- Emit left
+          Align(
+            alignment: Alignment.centerRight,
+            child: ConfettiWidget(
+              confettiController: controllerCenterRight,
+              blastDirection: pi, // radial value - RIGHT
+              emissionFrequency: 0.6,
+              minimumSize: const Size(15, 25), // set the minimum potential size for the confetti (width, height)
+              maximumSize: const Size(15, 25), // set the maximum potential size for the confetti (width, height)
+              numberOfParticles: 1,
+              gravity: 0.1,
+            ),
           ),
-        )
-    );*/
+
+          //CENTER LEFT - Emit right
+          Align(
+            alignment: Alignment.centerLeft,
+            child: ConfettiWidget(
+              confettiController: controllerCenterLeft,
+              blastDirection: 0, // radial value - RIGHT
+              emissionFrequency: 0.6,
+              minimumSize: const Size(15, 25), // set the minimum potential size for the confetti (width, height)
+              maximumSize: const Size(15, 25), // set the maximum potential size for the confetti (width, height)
+              numberOfParticles: 1,
+              gravity: 0.1,
+            ),
+          ),
+           Image.asset('assets/trophies/trophy.png', width: 100),
+    const SizedBox(width: 10),
+    AutoSizeText(
+      "Trophy unlocked" + idTrofeu,
+    style: const TextStyle(
+    color: Colors.black,
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+    ),
+    maxLines: 1,
+    ),
+    const SizedBox(width: 5),
+   const AutoSizeText(
+      "You can see the trophy in the trophies menu",
+    style: TextStyle(
+    color: Colors.black54,
+    fontSize: 16,
+    ),
+    ),
+          //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
+          //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
+
+        ],
+      ),
+    );
   }
 
   void increaseRouteCounter() {
@@ -934,5 +994,30 @@ class CtrlPresentation {
 
   List<List<String>> getTrophies() {
     return ctrlDomain.displayTrophy();
+  }
+
+  toRewardsPageDialog(BuildContext context) {
+    //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
+    if (email == "") {
+      _showNotLogDialog(context);
+    } else {
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.pushNamed(
+        context,
+        '/rewards',
+      );
+    }
+  }
+
+  int numThrophyUnlocked(){
+    return ctrlDomain.numTrophyUnlocked();
+  }
+
+  double getKmsaved(){
+    return ctrlDomain.usuari.kmRecorregut;
+  }
+
+  double getNumRoutessaved(){
+    return ctrlDomain.usuari.counterRoutes;
   }
 }

@@ -11,9 +11,15 @@ class NumbersWidget extends StatelessWidget {
     children: <Widget>[
       buildButton(context, ctrlPresentation.getCarsList().length.toString(), AppLocalizations.of(context).vehicles, "garage"),
       buildDivider(),
-      buildButton(context, ctrlPresentation.getTrophiesDone().length.toString(), AppLocalizations.of(context).trophies, "trophies"),
+      buildButton(context, ctrlPresentation.numThrophyUnlocked().toString(), AppLocalizations.of(context).trophies, "trophies"),
       buildDivider(),
       buildButton(context, ctrlPresentation.getCO2saved().toString()+" kg", AppLocalizations.of(context).savedco2, "co2"),
+      buildDivider(),
+      //ToDo:Añadir traducciones Peilin
+      buildButton(context, ctrlPresentation.getKmsaved().toString()+" km", AppLocalizations.of(context).savedco2, "kilometers done"),
+      buildDivider(),
+      //ToDo:Añadir traducciones Peilin
+      buildButton(context, ctrlPresentation.getNumRoutessaved().toString(), AppLocalizations.of(context).savedco2, "num routes calculated")
     ],
   );
   Widget buildDivider() => const SizedBox(
