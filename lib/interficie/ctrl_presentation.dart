@@ -896,27 +896,10 @@ class CtrlPresentation {
         resDuration = "0.0";
         resDistance = "0";
       }
-      double temporalTime =  double.parse(resDuration);
-      resDuration = getTimeString(temporalTime); //conversion a segundos
-      resDistance = resDistance + " km";
       List<String> res = [resDistance, resDuration];
       return res;
   }
 
-  String getTimeString(double timeinHours){
-    int time = (timeinHours*3600).toInt(); //pasar a segundos
-    int hours = time~/3600;
-    int rest1 = time%3600;
-    int minutes = rest1~/60;
-    String res;
-    if(hours == 0) {
-      res = minutes.toString() + " min ";
-    }
-    else {
-      res = hours.toString() + " h " + minutes.toString() + " min ";
-    }
-    return res;
-  }
 
   bool esBarcelona(double latitud, double longitud) {
     return ctrlDomain.isChargerBCN(latitud, longitud);
