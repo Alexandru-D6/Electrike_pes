@@ -373,19 +373,6 @@ class CtrlDomain {
     }
     return trobat;
   }
-  //Afegeix el punt a favorits
-  void toFavPoint(double latitud, double longitud) {
-    bool trobat = false;
-    for(var c in coordPuntsCarrega){
-      if(c.latitud == latitud && c.longitud == longitud){
-        trobat = true;
-        gestioFavChargers(latitud, longitud);
-      }
-    }
-    if(trobat == false){
-      gestioFavBicing(latitud, longitud);
-    }
-  }
 
   //USER FAV_CHARGER
   //Carrega els punts de carrega favorit de l'usuari

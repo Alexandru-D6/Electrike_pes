@@ -129,7 +129,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           ),
           tooltip: AppLocalizations.of(context).addFavPoints, //TODO (Peilin) ready for test
           onPressed: () {
-            ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
+            ctrlPresentation.loveClickedBicing(context, widget.latitude, widget.longitude);
             if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
               GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favBicingPoints");
             }

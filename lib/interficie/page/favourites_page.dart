@@ -109,8 +109,8 @@ class _FavsChargersState extends State<FavsChargers> {
                   color: Colors.red,
                   onPressed: () {
                     chargerPoints.remove(word);
-                    ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                    Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+                    ctrlPresentation.loveClickedCharger(context, word.latitud, word.longitud);
+                    setState(() {});
                   }
               ),
             ],
@@ -136,7 +136,8 @@ class _FavsBicingsState extends State<FavsBicings> {
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
+    List<Coordenada> bicingPoints = <Coordenada>[];
+    bicingPoints = ctrlPresentation.getFavsBicingPoints();
 
     List<String> titlesBicing = ctrlPresentation.getNomsFavsBicingPoints();
     return ListView.separated(
@@ -154,8 +155,10 @@ class _FavsBicingsState extends State<FavsBicings> {
               color: Colors.red,
               onPressed: () {
                 bicingPoints.remove(word);
-                ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+                ctrlPresentation.loveClickedBicing(context, word.latitud, word.longitud);
+                setState(() {
+
+                });
               }
           ),
           onTap: () {
