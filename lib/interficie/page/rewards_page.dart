@@ -40,7 +40,7 @@ class RewardsPage extends StatelessWidget {
                   c = Colors.amber;
                 }
               }
-              else {img = Image.asset('assets/trophies/trophy.png', width: 100);}
+              else {img = Image.asset('assets/trophies/lockedtrophy'+index.toString()+'.png', width: 100);}
 
               return Container(
                 alignment: Alignment.center,
