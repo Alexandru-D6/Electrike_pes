@@ -653,6 +653,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Number of available electric bicycles'**
   String get numElectric;
+
+  /// No description provided for @clickName.
+  ///
+  /// In en, this message translates to:
+  /// **'Click on the name'**
+  String get clickName;
+
+  /// No description provided for @clickNameDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'You can go to the location on the map by selecting the point'**
+  String get clickNameDescr;
+
+  /// No description provided for @seeConcurrencyChart.
+  ///
+  /// In en, this message translates to:
+  /// **'See station occupancy percentage'**
+  String get seeConcurrencyChart;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

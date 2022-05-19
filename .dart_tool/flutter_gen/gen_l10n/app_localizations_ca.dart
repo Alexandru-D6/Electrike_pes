@@ -291,4 +291,13 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get numElectric => 'Nombre de bicicletes elèctriques disponibles';
+
+  @override
+  String get clickName => 'Clica el nom';
+
+  @override
+  String get clickNameDescr => 'Pots anar a la localització en el mapa pulsant el punt';
+
+  @override
+  String get seeConcurrencyChart => 'Consulta els percentatges de ocupació';
 }

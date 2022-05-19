@@ -131,5 +131,9 @@
    "availablePedal": "Available pedal bikes",
    "numPedal": "Number of pedal bikes",
    "availableElectric": "Available electric bicycles",
-   "numElectric": "Number of available electric bicycles"
+   "numElectric": "Number of available electric bicycles",
+
+   "clickName": "Click on the name",
+   "clickNameDescr": "You can go to the location on the map by selecting the point",
+   "seeConcurrencyChart": "See station occupancy percentage"
 }

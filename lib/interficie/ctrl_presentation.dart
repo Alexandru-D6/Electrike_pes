@@ -558,7 +558,7 @@ class CtrlPresentation {
         break;
       case "favsPage":
         title = AppLocalizations.of(context).keyFavourites;//TODO (Peilin) ready for test
-        body = makeFavouritesLegend();
+        body = makeFavouritesLegend(context);
         break;
       default:
         title = "Default title";
@@ -770,7 +770,7 @@ class CtrlPresentation {
     );
   }
 
-  Widget makeFavouritesLegend() {
+  Widget makeFavouritesLegend(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: Column(
@@ -779,13 +779,13 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.touch_app,
             color: Colors.black,
-            label: "Click on the name", //todo: translate
-            description: "you can navigate to the point on the map location by clicking on the name.", //todo: translate
+            label: AppLocalizations.of(context).clickName, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).clickNameDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.bar_chart,
             color: Colors.green,
-            label: "See concurrency station stats", //todo: translate
+            label: AppLocalizations.of(context).seeConcurrencyChart, //TODO (Peilin) ready for test
             description: "Shows stats about the concurrency of station during the day.", //todo: translate
           ),
           buildIconLabeled(

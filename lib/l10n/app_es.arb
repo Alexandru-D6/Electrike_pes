@@ -130,6 +130,10 @@
    "availablePedal": "Disponibilidad de bicicletas de pedales",
    "numPedal": "Número de bicicletas de pedales",
    "availableElectric": "Disponibilidad de bicicletas eléctricas",
-   "numElectric": "Número de bicicletas eléctricas disponibles"
+   "numElectric": "Número de bicicletas eléctricas disponibles",
+
+   "clickName": "Pulsa el nombre",
+   "clickNameDescr": "Puedes ir a la localización en el mapa pulsando el punto",
+   "seeConcurrencyChart": "Consultar los porcentages de ocupación"
 
 }
