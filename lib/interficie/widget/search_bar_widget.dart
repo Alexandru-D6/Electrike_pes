@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:google_place/google_place.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
@@ -87,10 +88,11 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         FloatingSearchBarAction(
           showIfOpened: false,
           child: CircularButton(
-            icon: const Icon(Icons.place),
+            icon: const Icon(Icons.directions),
             onPressed: () {
-              ctrlPresentation.moveCameraToLocation();
-              //TODO: para la location quiza
+              //TODO: hacer que mire si hay texto
+              showInfoRuta(context);
+              ctrlPresentation.clearAllRoutes();
             },
           ),
         ),
