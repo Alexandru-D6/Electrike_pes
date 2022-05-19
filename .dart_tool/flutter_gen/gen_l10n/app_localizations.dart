@@ -671,6 +671,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See station occupancy percentage'**
   String get seeConcurrencyChart;
+
+  /// No description provided for @chartsDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows the occupation of the station during the day'**
+  String get chartsDescr;
+
+  /// No description provided for @disableNoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable notifications'**
+  String get disableNoti;
+
+  /// No description provided for @disableNotiDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable all notifications (if have any)'**
+  String get disableNotiDescr;
+
+  /// No description provided for @enableNoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications'**
+  String get enableNoti;
+
+  /// No description provided for @enableNotiDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable all notifications (if have any) so you can receive the occupancy rate of a charger'**
+  String get enableNotiDescr;
+
+  /// No description provided for @notificationSettingsDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows all the notifications created for the point. Here you can add more or delete others.'**
+  String get notificationSettingsDescr;
+
+  /// No description provided for @rmvFavs.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favourites'**
+  String get rmvFavs;
+
+  /// No description provided for @rmvFavsDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'You can remove directly the point from your favourites list.'**
+  String get rmvFavsDescr;
+
+  /// No description provided for @filterFavTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter between types'**
+  String get filterFavTypes;
+
+  /// No description provided for @filterFavTypesDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter the types of favourite points using the bottom buttons'**
+  String get filterFavTypesDescr;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

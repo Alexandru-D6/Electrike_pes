@@ -134,6 +134,19 @@
 
    "clickName": "Pulsa el nombre",
    "clickNameDescr": "Puedes ir a la localización en el mapa pulsando el punto",
-   "seeConcurrencyChart": "Consultar los porcentages de ocupación"
+   "seeConcurrencyChart": "Consultar los porcentages de ocupación",
+   "chartsDescr": "Muestra la ocupación de la estación de carga",
+
+   "disableNoti": "Desactivar notificaciones",
+   "disableNotiDescr": "Desactivar todas las notificaciones (si las hay)",
+   "enableNoti": "Activar notificaciones",
+   "enableNotiDescr": "Activar todas las notificaciones (si las hay) para recibir el estado de ocupación de un cargador",
+
+   "notificationSettingsDescr": "Muestra todas tus notificaciones para el punto. Aqui puedes añadir nuevas o eliminar existentes.",
+
+   "rmvFavs": "Eliminar de favoritos",
+   "rmvFavsDescr": "Puedes eliminar un punto de tu lista de favoritos.",
+   "filterFavTypes": "Filtra entre tipos",
+   "filterFavTypesDescr": "Filtra tus puntos favoritos usando el menú superior"
 
 }

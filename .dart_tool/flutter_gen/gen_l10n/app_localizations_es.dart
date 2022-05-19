@@ -300,4 +300,34 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get seeConcurrencyChart => 'Consultar los porcentages de ocupación';
+
+  @override
+  String get chartsDescr => 'Muestra la ocupación de la estación de carga';
+
+  @override
+  String get disableNoti => 'Desactivar notificaciones';
+
+  @override
+  String get disableNotiDescr => 'Desactivar todas las notificaciones (si las hay)';
+
+  @override
+  String get enableNoti => 'Activar notificaciones';
+
+  @override
+  String get enableNotiDescr => 'Activar todas las notificaciones (si las hay) para recibir el estado de ocupación de un cargador';
+
+  @override
+  String get notificationSettingsDescr => 'Muestra todas tus notificaciones para el punto. Aqui puedes añadir nuevas o eliminar existentes.';
+
+  @override
+  String get rmvFavs => 'Eliminar de favoritos';
+
+  @override
+  String get rmvFavsDescr => 'Puedes eliminar un punto de tu lista de favoritos.';
+
+  @override
+  String get filterFavTypes => 'Filtra entre tipos';
+
+  @override
+  String get filterFavTypesDescr => 'Filtra tus puntos favoritos usando el menú superior';
 }

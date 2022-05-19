@@ -300,4 +300,34 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get seeConcurrencyChart => 'Consulta els percentatges de ocupació';
+
+  @override
+  String get chartsDescr => 'Mostra l\'ocupació de l\'estació de càrrega';
+
+  @override
+  String get disableNoti => 'Desactivar notificacions';
+
+  @override
+  String get disableNotiDescr => 'Desactivar totes les notificacions (si n\'hi ha)';
+
+  @override
+  String get enableNoti => 'Activar notificacions';
+
+  @override
+  String get enableNotiDescr => 'Activar totes les notificacions (si n\'hi ha) per tal de rebre gàfics de concurrència del punt de càrrega';
+
+  @override
+  String get notificationSettingsDescr => 'Mostra les teves notificacions del carregador. Pots afegir de noves o eliminar-ne existents.';
+
+  @override
+  String get rmvFavs => 'Eliminar de favorits';
+
+  @override
+  String get rmvFavsDescr => 'Pots eliminar un punt de la texa llista de favorits';
+
+  @override
+  String get filterFavTypes => 'Filtra entre tipus';
+
+  @override
+  String get filterFavTypesDescr => 'Filtra els teus punts favorits utilitzant el menú superior';
 }

@@ -796,37 +796,37 @@ class CtrlPresentation {
             icon: Icons.bar_chart,
             color: Colors.green,
             label: AppLocalizations.of(context).seeConcurrencyChart, //TODO (Peilin) ready for test
-            description: "Shows stats about the concurrency of station during the day.", //todo: translate
+            description: AppLocalizations.of(context).chartsDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.notifications_off,
             color: Colors.lightBlueAccent,
-            label: "Disable the notifications of a point", //todo: translate
-            description: "Disable the entire notifications of a point (if have any).", //todo: translate
+            label: AppLocalizations.of(context).disableNoti, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).disableNotiDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.notifications_active,
             color: Colors.blue,
-            label: "Enable the notifications of a point", //todo: translate
-            description: "Enable the entire notifications of a point (if have any) and you will receive the state of the station at the notification moment you set.", //todo: translate
+            label: AppLocalizations.of(context).enableNoti, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).enableNotiDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.settings,
             color: Colors.grey,
-            label: "Notification settings", //todo: translate
-            description: "Shows all the notifications created of a point. Here you can add more or delete others.", //todo: translate
+            label: AppLocalizations.of(context).notificationSettings, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).notificationSettingsDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.favorite,
             color: Colors.red,
-            label: "Remove from favourites", //todo: translate
-            description: "When it's clicked you can remove directly the point of your favourites list.", //todo: translate
+            label: AppLocalizations.of(context).rmvFavs, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).rmvFavsDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.filter_list_alt,
             color: Colors.orangeAccent,
-            label: "Filter between types", //todo: translate
-            description: "Also you can filter the types of favourites points using the bottom buttons.", //todo: translate
+            label: AppLocalizations.of(context).filterFavTypes, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).filterFavTypesDescr, //TODO (Peilin) ready for test
           ),
         ],
       ),

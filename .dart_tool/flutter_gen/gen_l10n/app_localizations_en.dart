@@ -300,4 +300,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get seeConcurrencyChart => 'See station occupancy percentage';
+
+  @override
+  String get chartsDescr => 'Shows the occupation of the station during the day';
+
+  @override
+  String get disableNoti => 'Disable notifications';
+
+  @override
+  String get disableNotiDescr => 'Disable all notifications (if have any)';
+
+  @override
+  String get enableNoti => 'Enable notifications';
+
+  @override
+  String get enableNotiDescr => 'Enable all notifications (if have any) so you can receive the occupancy rate of a charger';
+
+  @override
+  String get notificationSettingsDescr => 'Shows all the notifications created for the point. Here you can add more or delete others.';
+
+  @override
+  String get rmvFavs => 'Remove from favourites';
+
+  @override
+  String get rmvFavsDescr => 'You can remove directly the point from your favourites list.';
+
+  @override
+  String get filterFavTypes => 'Filter between types';
+
+  @override
+  String get filterFavTypesDescr => 'Filter the types of favourite points using the bottom buttons';
 }

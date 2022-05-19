@@ -135,5 +135,18 @@
 
    "clickName": "Click on the name",
    "clickNameDescr": "You can go to the location on the map by selecting the point",
-   "seeConcurrencyChart": "See station occupancy percentage"
+   "seeConcurrencyChart": "See station occupancy percentage",
+   "chartsDescr": "Shows the occupation of the station during the day",
+
+   "disableNoti": "Disable notifications",
+   "disableNotiDescr": "Disable all notifications (if have any)",
+   "enableNoti": "Enable notifications",
+   "enableNotiDescr": "Enable all notifications (if have any) so you can receive the occupancy rate of a charger",
+
+   "notificationSettingsDescr": "Shows all the notifications created for the point. Here you can add more or delete others.",
+
+   "rmvFavs": "Remove from favourites",
+   "rmvFavsDescr": "You can remove directly the point from your favourites list.",
+   "filterFavTypes": "Filter between types",
+   "filterFavTypesDescr": "Filter the types of favourite points using the bottom buttons"
 }
