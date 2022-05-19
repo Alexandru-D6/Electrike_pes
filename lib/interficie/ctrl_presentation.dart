@@ -18,6 +18,7 @@ import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:provider/provider.dart';
+import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -215,18 +216,18 @@ class CtrlPresentation {
     );
   }
 
-  toNotificationsPage(BuildContext context, double latitud, double longitud, List<List<String>> notifications, String title) {
-    Navigator.popUntil(context, ModalRoute.withName('/'));
+  toNotificationsPage(BuildContext context, double latitud, double longitud, String title) {
+    Navigator.popUntil(context, ModalRoute.withName('/favourites'));
     Navigator.pushNamed(
       context,
       '/notificationsList',
-      arguments: NotificationsArgs(latitud, longitud, title, notifications),
+      arguments: NotificationsArgs(latitud, longitud, title),
     );
   }
 
   toTimePicker(BuildContext context, double latitud, double longitud, String title){
     //print(ModalRoute.of(context)?.settings.name);
-    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.popUntil(context, ModalRoute.withName('/notificationsList'));
     Navigator.pushNamed(
       context,
       '/time',
@@ -538,11 +539,6 @@ class CtrlPresentation {
     return ctrlDomain.usuari.co2Estalviat;
   }
 
-  void showInstantNotification(double lat, double long) {
-    ctrlDomain.showInstantNotification(lat, long);
-  }
-
-
   Future<String> share({required double latitude, required double longitude, required String type}) async {
     var url = await DynamicLinkUtils.buildDynamicLink("point/$type/$latitude,$longitude");
     return "Hey, check this point => $url";
@@ -836,7 +832,7 @@ class CtrlPresentation {
   }
 
   bool hasNotifications(double latitud, double longitud) {
-    return true;
+    return getNotifications(latitud, longitud).isNotEmpty;
   }
 
   bool notificationsOn(double latitud, double longitud) {
@@ -844,8 +840,35 @@ class CtrlPresentation {
   }
 
   List<List<String>> getNotifications(double latitud, double longitud) {
-    List<List<String>> notifications = [["18:24", "1", "3", "5"], ["18:00", "2", "4", "7", "6"], ["14:00", "1", "2","3", "4","5", "7", "6"]];
-    return notifications;
+    return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(latitud,longitud);
+  }
+
+  void addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
+    ctrlDomain.addSheduledNotificationsFavoriteChargePoint(latitud, longitud, hour, minute, selectedDays);
+  }
+
+  void removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
+    ctrlDomain.removeScheduledNotifications(latitud, longitud, hour, minute, selectedDays);
+  }
+
+  void showInstantNotification(double lat, double long) {
+    ctrlDomain.showInstantNotification(lat, long);
+  }
+
+  void disableAllNotifications(double latitud, double longitud){
+    List<List<String>> notifications = getNotifications(latitud, longitud);
+    for(int i = 0; i < notifications.length; ++i){
+      List<String> notification = notifications[i];
+      ctrlDomain.disableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+    }
+  }
+
+  void enableAllNotifications(double latitud, double longitud){
+    List<List<String>> notifications = getNotifications(latitud, longitud);
+    for(int i = 0; i < notifications.length; ++i){
+      List<String> notification = notifications[i];
+      ctrlDomain.enableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+    }
   }
   
   Future<List<String>> getDistDuration() async {

@@ -107,6 +107,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgAddFav => 'Add point to favourites';
 
   @override
+  String get lunes => 'Monday';
+
+  @override
+  String get martes => 'Tuesday';
+
+  @override
+  String get miercoles => 'Wednesday';
+
+  @override
+  String get jueves => 'Thursday';
+
+  @override
+  String get viernes => 'Friday';
+
+  @override
+  String get sabado => 'Saturday';
+
+  @override
+  String get domingo => 'Sunday';
+
+  @override
   String infoCar(Object selectedNameCar, Object selectedBrandCar, Object selectedModelCar, Object selectedBatteryCar, Object selectedEffciencyCar, Object selectedPlugs) {
     return 'The vehicle\'s name is $selectedNameCar\\n \n  It\'s Brand $selectedBrandCar\\n\n  It\'s model $selectedModelCar\\n\n   Battery $selectedBatteryCar kWh\\n\n   Effciency $selectedEffciencyCar Wh/Km\\n\n The vehicle uses $selectedPlugs\\n\'\'\'),';
   }

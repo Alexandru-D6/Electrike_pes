@@ -107,6 +107,27 @@ class AppLocalizationsCa extends AppLocalizations {
   String get msgAddFav => 'Afegir punt a favorits';
 
   @override
+  String get lunes => 'Dilluns';
+
+  @override
+  String get martes => 'Dimarts';
+
+  @override
+  String get miercoles => 'Dimecres';
+
+  @override
+  String get jueves => 'Dijous';
+
+  @override
+  String get viernes => 'Divendres';
+
+  @override
+  String get sabado => 'Dissabte';
+
+  @override
+  String get domingo => 'Diumenge';
+
+  @override
   String infoCar(Object selectedNameCar, Object selectedBrandCar, Object selectedModelCar, Object selectedBatteryCar, Object selectedEffciencyCar, Object selectedPlugs) {
     return 'El nom del vehicle és $selectedNameCar\\n \n  La seva marca $selectedBrandCar\\n\n  El seu model $selectedModelCar\\n\n   Bateria $selectedBatteryCar kWh\\n\n   Consum $selectedEffciencyCar Wh/Km\\n\n El vehicle utilitza $selectedPlugs\\n\'\'\'),';
   }

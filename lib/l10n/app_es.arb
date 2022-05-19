@@ -33,6 +33,13 @@
   "msgSelectChargers": "Selecciona al menos un cargador",
   "msgIntroNum": "Introduce un número",
   "msgAddFav": "Añadir punto a favoritos",
+  "lunes": "Lunes",
+  "martes": "Martes",
+  "miercoles": "Miercoles",
+  "jueves": "Jueves",
+  "viernes": "Viernes",
+  "sabado": "Sabado",
+  "domingo": "Domingo",
 
   "infoCar": "El nombre del vehículo es {selectedNameCar}\\n \n  Su marca {selectedBrandCar}\\n\n  Su modelo {selectedModelCar}\\n\n   Batería {selectedBatteryCar} kWh\\n\n   Consumo {selectedEffciencyCar} Wh/Km\\n\n El vehículo utiliza {selectedPlugs}\\n'''),",
   "@infoCar": {

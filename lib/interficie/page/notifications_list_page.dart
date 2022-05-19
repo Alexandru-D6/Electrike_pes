@@ -38,40 +38,42 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
   @override
   Widget build(BuildContext context) {
     final notificationsInfo = ModalRoute.of(context)!.settings.arguments as NotificationsArgs;
+    List<List<String>> notifications = ctrlPresentation.getNotifications(notificationsInfo.latitud, notificationsInfo.longitud);
     return Scaffold(
       appBar: buildAppBar(context, notificationsInfo.title, notificationsInfo.latitud, notificationsInfo.longitud),
-      body: notificationsInfo.notifications.isEmpty
+      body: notifications.isEmpty
           ? const Text("There's no notifications yet. Add one...")
           : AnimatedList(
         key: _key,
-        initialItemCount: notificationsInfo.notifications.length,
+        initialItemCount: notifications.length,
         itemBuilder: (context, index, animation) {
           print(index);
-          return _buildItem(notificationsInfo.notifications[index], animation, index);
+          return _buildItem(notifications[index], animation, index, notificationsInfo.latitud, notificationsInfo.longitud);
         },
       ),
     );
   }
 
-  Widget _buildItem(List<String> notifications, Animation<double> animation, int index) {
+  Widget _buildItem(List<String> notification, Animation<double> animation, int index, double latitud, double longitud) {
     return SizeTransition(
       sizeFactor: animation,
       child: Card(
         elevation: 2,
         child: ListTile(
           leading: AutoSizeText("Notification "+index.toString()),
-          title: Text(notifications[0]),
-          subtitle: Text(buildDays(notifications).toString()),
+          title: Text(notification[0]),
+          subtitle: Text(buildDays(notification).toString()),
           trailing: IconButton(
             icon: const Icon(
               Icons.delete,
               color: Colors.red,
             ),
             onPressed: () async{
-              _removeItem(index,notifications);
+              _removeItem(index,notification, latitud, longitud);
               await Future.delayed(const Duration(milliseconds: 350), () {});
+              ctrlPresentation.removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
               setState(() {
-                notifications.removeAt(index);
+                notification.removeAt(index);
               });
             },
           ),
@@ -79,14 +81,12 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
       ),
     );
   }
-
-  void _removeItem(int index, List<String> removeItem) {
+  void _removeItem(int index, List<String> removeItem, double latitud, double longitud) {
     builder(context, animation) {
-      return _buildItem(removeItem, animation, index);
+      return _buildItem(removeItem, animation, index, latitud, longitud);
     }
     _key.currentState?.removeItem(index, builder);
   }
-
   buildDays(List<String> notification) {
     List<String> days = <String>[];
     for(int i = 1; i<notification.length; ++i){
@@ -118,4 +118,5 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
     }
     return days;
   }
+
 }
