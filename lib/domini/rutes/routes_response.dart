@@ -43,6 +43,6 @@ class RoutesResponse {
   }
 
   void setDistance (double distMeters) {
-    distance = (distMeters/1000).toStringAsFixed(2);
+    distance = (distMeters/1000).toStringAsFixed(2) + " km ";
   }
 }
