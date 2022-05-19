@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
