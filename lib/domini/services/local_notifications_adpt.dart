@@ -126,8 +126,14 @@ class LocalNotificationAdpt {
   }
 
   Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
+    late bool active;
+    if (hasNotificacions(lat,long)) {
+      active = notificationsOn(lat, long);
+    } else {
+      active = true;
+    }
 
-    InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, true);
+    InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, active);
 
     if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
       int id = _createId();
