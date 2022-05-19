@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -61,6 +62,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           style: TextStyle(fontSize: 24),
         ),
         onPressed: () async{
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setBool('showHome', true);
           ctrlPresentation.toMainPage(context);
         }
     )
