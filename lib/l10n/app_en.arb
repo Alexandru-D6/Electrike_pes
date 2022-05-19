@@ -103,6 +103,12 @@
    "selectCar": "Select a vehicle",
    "actualBatMsg": "Enter the remaining battery",
    "selectRouteType": "Select a route type",
-   "start": "Start"
+   "start": "Start",
+   "occupationChart": "Occupation Chart",
+   "occupancy": "Occupancy",
+   "hours": "Hours",
+   "yourLocation": "My location",
+
+   "notLoggedMsg": "Log-in is required"
 
 }

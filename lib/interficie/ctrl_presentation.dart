@@ -95,10 +95,10 @@ class CtrlPresentation {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: "You aren't logged",
-      //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-      desc: "You aren't logged so you don't have access to this screen because It would be empty.",
-      //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
+      title: AppLocalizations.of(context).notLogged,
+      //TODO (Peilin) ready for test
+      desc: AppLocalizations.of(context).notLoggedMsg,
+      //TODO (Peilin) ready for test
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();
@@ -212,7 +212,7 @@ class CtrlPresentation {
     Navigator.pushNamed(
       context,
       '/chart',
-      arguments: pointTitle, //TODO: cosas de traducciones?
+      arguments: pointTitle,
     );
   }
 

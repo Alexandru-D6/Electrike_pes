@@ -103,6 +103,13 @@
     "selectCar": "Escull un vehicle",
     "actualBatMsg": "Introdueix la bateria restant",
     "selectRouteType": "Escull un tipus de ruta",
-    "start": "Inicia"
+    "start": "Inicia",
+    "occupationChart": "Gràfics d'ocupació",
+    "occupancy": "Ocupació",
+    "hours": "Hores",
+    "yourLocation": "La meva localització",
+
+    "notLoggedMsg": "Se requiere inicio de sesión"
+
 
 }

@@ -509,6 +509,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start'**
   String get start;
+
+  /// No description provided for @occupationChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupation Chart'**
+  String get occupationChart;
+
+  /// No description provided for @occupancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupancy'**
+  String get occupancy;
+
+  /// No description provided for @hours.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours'**
+  String get hours;
+
+  /// No description provided for @yourLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'My location'**
+  String get yourLocation;
+
+  /// No description provided for @notLoggedMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Log-in is required'**
+  String get notLoggedMsg;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

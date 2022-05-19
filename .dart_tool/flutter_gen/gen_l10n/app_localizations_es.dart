@@ -219,4 +219,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get start => 'Iniciar';
+
+  @override
+  String get occupationChart => 'Gráficas de ocupación';
+
+  @override
+  String get occupancy => 'Ocupación';
+
+  @override
+  String get hours => 'Horas';
+
+  @override
+  String get yourLocation => 'Mi localización';
+
+  @override
+  String get notLoggedMsg => 'Se requiere inicio de sessión';
 }

@@ -104,7 +104,7 @@ class RutesAmbCarrega {
           else {
             coordCharger = findSuitableCharger();
 
-            if (desti.longitude != -1.0 && desti.latitude != -1.0) {
+            if (coordCharger.longitude != -1.0 && coordCharger.latitude != -1.0) {
               routesResponse.waypoints.add(coordCharger);
               RouteResponse firstTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(origen, coordCharger);
               RouteResponse secTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(coordCharger, desti);
