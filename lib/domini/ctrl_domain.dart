@@ -39,7 +39,6 @@ class CtrlDomain {
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
   List<Coordenada> coordBarcelona = <Coordenada>[];
   List<Coordenada> coordCatalunya = <Coordenada>[];
-  List<Coordenada> coordCarregadorsPropers = <Coordenada>[];
   Map<String,List<List<double> > > dadesChargerselected = {};
 
   //DATA INFO SYSTEM
@@ -722,14 +721,19 @@ class CtrlDomain {
 
   List<Coordenada> getCompChargers() {
     List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
+    print("vehicle -->" + vhselected.brand + " -- " + vhselected.endolls.toString());
     List<Coordenada> carregadorsCompatibles = <Coordenada>[];
+
     for(var endoll in typesendolls) {
       for (var nom in endollsVh) {
+        print("--++>" + nom.toString() + " -- " + endoll.toString());
         if (endoll.tipus.name == nom) {
+          print("+-+->" + endoll.endolls.toString());
           carregadorsCompatibles.addAll(endoll.endolls);
         }
       }
     }
+    print("carregadorsCompatibles --> " + carregadorsCompatibles.toString());
     return carregadorsCompatibles;
   }
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
@@ -737,13 +741,15 @@ class CtrlDomain {
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
     return routesResponse;
   }
-  Future<void> getNearChargers(double lat, double lon, double radius) async{
+  Future<List<Coordenada>> getNearChargers(double lat, double lon, double radius) async{
     var urlc = urlorg+'near_chargers?lat='+ lat.toString() + '&lon=' + lon.toString() + '&dist=' + radius.toString();
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
+    List<Coordenada> coordCarregadorsPropers = <Coordenada>[];
     for(var info in respCars['items']){
       coordCarregadorsPropers.add(Coordenada(info['Station_lat'],info['Station_lng']));
     }
+    return coordCarregadorsPropers;
   }
 
   //NOTIFICACIONS

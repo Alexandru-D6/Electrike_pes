@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
@@ -40,9 +41,13 @@ class _InfoRutaState extends State<InfoRuta> {
     final textController = TextEditingController();
     final controller = ScrollController();
     CtrlPresentation ctrlPresentation = CtrlPresentation();
+    CtrlDomain ctrlDomain = CtrlDomain();
 
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
-    if (userCarList.isNotEmpty) ctrlPresentation.idCarUser = 1;
+    if (userCarList.isNotEmpty) {
+      ctrlPresentation.idCarUser = 1;
+      ctrlDomain.selectVehicleUsuari(ctrlPresentation.idCarUser);
+    }
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -77,6 +82,7 @@ class _InfoRutaState extends State<InfoRuta> {
                 ctrlPresentation.idCarUser =
                     (controller.position.pixels) ~/ 100 +
                         1; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
+                ctrlDomain.selectVehicleUsuari(ctrlPresentation.idCarUser);
                 print(controller.position.pixels);
                 print(ctrlPresentation.idCarUser);
                 // Return true to cancel the notification bubbling. Return false (or null) to
@@ -114,28 +120,28 @@ class _InfoRutaState extends State<InfoRuta> {
                     });
                   },
                   inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly,
-                  CustomMaxValueInputFormatter(maxInputValue: 100)
+                    FilteringTextInputFormatter.digitsOnly,
+                    CustomMaxValueInputFormatter(maxInputValue: 100)
                   ],
 
-                  ),
-                  ),
-                  const Text("%"),
-                  ],
-                  ),
-                  const Divider(
-                  height: 5,
-                  color: Color(0x00000000),
-                  ),
-                  const Text("Select a route type"), //todo: peilin multi
-                  const Divider(
-                  height: 16,
-                  color: Color(0x00000000),
-                  ),
-                  Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                  customRadioButton("Normal", 0),
+                ),
+              ),
+              const Text("%"),
+            ],
+          ),
+          const Divider(
+            height: 5,
+            color: Color(0x00000000),
+          ),
+          const Text("Select a route type"), //todo: peilin multi
+          const Divider(
+            height: 16,
+            color: Color(0x00000000),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              customRadioButton("Normal", 0),
               const SizedBox(width: 5),
               customRadioButton("Charger Points", 1),
               const SizedBox(width: 5),
