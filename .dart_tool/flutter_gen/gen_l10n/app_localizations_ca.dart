@@ -86,10 +86,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get login => 'Iniciar sessió';
 
   @override
-  String get toAddCarLogin => 'Per afegir un vehicle has d\'iniciar sessió';
-
-  @override
-  String get toAddFavLogin => 'Per afegir un punt a favorits has d\'iniciar sessió\n';
+  String get notLogged => 'Encara no has iniciat sessió';
 
   @override
   String get clickToLogin => 'Pulsa per iniciar sessió';
@@ -108,6 +105,27 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get msgAddFav => 'Afegir punt a favorits';
+
+  @override
+  String get lunes => 'Dilluns';
+
+  @override
+  String get martes => 'Dimarts';
+
+  @override
+  String get miercoles => 'Dimecres';
+
+  @override
+  String get jueves => 'Dijous';
+
+  @override
+  String get viernes => 'Divendres';
+
+  @override
+  String get sabado => 'Dissabte';
+
+  @override
+  String get domingo => 'Diumenge';
 
   @override
   String infoCar(Object selectedNameCar, Object selectedBrandCar, Object selectedModelCar, Object selectedBatteryCar, Object selectedEffciencyCar, Object selectedPlugs) {
@@ -136,4 +154,69 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get savedco2 => 'CO2 salvat';
+
+  @override
+  String get day1 => 'Dilluns';
+
+  @override
+  String get day2 => 'Dimarts';
+
+  @override
+  String get day3 => 'Dimecres';
+
+  @override
+  String get day4 => 'Dijous';
+
+  @override
+  String get day5 => 'Divendres';
+
+  @override
+  String get day6 => 'Dissabte';
+
+  @override
+  String get day7 => 'Diumenge';
+
+  @override
+  String get notificationSettings => 'Configuració de notificacions';
+
+  @override
+  String get receiveNoti => 'Repetició';
+
+  @override
+  String get time => 'Hora';
+
+  @override
+  String get addNoti => 'Afegir notificació';
+
+  @override
+  String notificationInfoMsg(Object days, Object hora, Object min) {
+    return 'Rebràs una notificació els $days a les $hora:$min';
+  }
+
+  @override
+  String get addFavPoints => 'Afegir punt a favorits';
+
+  @override
+  String get explNoFav => 'Inicia sessió per consultar els teus favorits';
+
+  @override
+  String get hideMarkers => 'Amagar tots';
+
+  @override
+  String get showMarkers => 'Mostrar tots';
+
+  @override
+  String get favouritesMark => 'Favourits';
+
+  @override
+  String get selectCar => 'Escull un vehicle';
+
+  @override
+  String get actualBatMsg => 'Introdueix la bateria restant';
+
+  @override
+  String get selectRouteType => 'Escull un tipus de ruta';
+
+  @override
+  String get start => 'Inicia';
 }

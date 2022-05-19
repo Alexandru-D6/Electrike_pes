@@ -25,8 +25,7 @@
   "chargerTypeLabel": "Selecciona los cargadores que puede utilizar (ten en cuenta los adaptadores en el caso de tener alguno)",
   "add": "Añadir",
   "login": "Iniciar sesión",
-  "toAddCarLogin": "¡Para agregar un vehículo debes estar registrado!",
-  "toAddFavLogin": "Para añadir un punto a favoritos tienes que iniciar sessión\n",
+  "notLogged": "Aún no has inicado sessión",
   "clickToLogin": "Haga clic para iniciar sesión",
   "alertSureDeleteCarTitle": "¿Estás seguro de que quieres eliminar este coche?",
   "alertSureDeleteCarContent": "La eliminación de este vehículo es permanente y eliminará todos los datos guardados asociados a éste.\n¿Estás seguro de que quieres continuar?",
@@ -34,6 +33,13 @@
   "msgSelectChargers": "Selecciona al menos un cargador",
   "msgIntroNum": "Introduce un número",
   "msgAddFav": "Añadir punto a favoritos",
+  "lunes": "Lunes",
+  "martes": "Martes",
+  "miercoles": "Miercoles",
+  "jueves": "Jueves",
+  "viernes": "Viernes",
+  "sabado": "Sabado",
+  "domingo": "Domingo",
 
   "infoCar": "El nombre del vehículo es {selectedNameCar}\\n \n  Su marca {selectedBrandCar}\\n\n  Su modelo {selectedModelCar}\\n\n   Batería {selectedBatteryCar} kWh\\n\n   Consumo {selectedEffciencyCar} Wh/Km\\n\n El vehículo utiliza {selectedPlugs}\\n'''),",
   "@infoCar": {
@@ -62,5 +68,40 @@
   "save": "Guardar cambios",
   "vehicles": "Vehículos",
   "trophies": "Trofeos",
-  "savedco2": "CO2 salvado"
+  "savedco2": "CO2 salvado",
+
+  "day1": "Lunes",
+  "day2": "Martes",
+  "day3": "Miércoles",
+  "day4": "Jueves",
+  "day5": "Viernes",
+  "day6": "Sábado",
+  "day7": "Domingo",
+
+  "notificationSettings": "Configuración de notificaciones",
+  "receiveNoti": "Repetición",
+  "time": "Hora",
+  "addNoti": "Añadir notificación",
+  "notificationInfoMsg": "Recibirás una notificación los {days} a las {hora}:{min}",
+     "@notificationInfoMsg": {
+          "placeholders": {
+              "days": {},
+              "hora": {},
+              "min": {}
+          }
+      },
+
+   "addFavPoints": "Añadir punto a favoritos",
+   "explNoFav": "Inicia sessión para consultar tus favoritos",
+   "hideMarkers": "Esconder todos",
+   "showMarkers": "Mostrar todos",
+   "chargers": "Cargadores",
+   "bicing": "Bicing",
+   "favouritesMark": "Favoritos",
+
+   "selectCar": "Escoge un vehículo",
+   "actualBatMsg": "Introduce la bateria restante",
+   "selectRouteType": "Escoge un tipo de ruta",
+   "start": "Iniciar"
+
 }

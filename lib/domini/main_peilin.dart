@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
           '/editCar': (context) => const EditCarPage(),
           '/favourites': (context) => const FilterFavsItems(),
           '/rewards': (context) => const RewardsPage(),
-          '/info': (context) => const InformationAppPage(),
+          '/info': (context) => InformationAppPage(),
           '/chart': (context) => const ChartPage(),
         },
       );
@@ -113,16 +113,6 @@ class _MainPageState extends State<MainPage> {
         ctrlPresentation.toMainPage(context);
       }
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    //aa
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) async {
-      //codigo que ejcutar tras el build
-
-    });
   }
 
   @override

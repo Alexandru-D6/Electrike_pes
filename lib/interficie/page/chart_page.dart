@@ -1,67 +1,103 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/data_graphic.dart';
 import 'package:flutter_project/interficie/constants.dart';
-//import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
-class ChartPage extends StatelessWidget {
+
+class ChartPage extends StatefulWidget {
   const ChartPage({Key? key}) : super(key: key);
 
   @override
+  State<ChartPage> createState() => _ChartPageState();
+}
+class _ChartPageState extends State<ChartPage> {
+  String dropdownValue = 'Monday'; //todo: DROPDOWN PROBLEM
+
+  @override
   Widget build(BuildContext context) {
+    //dropdownValue = AppLocalizations.of(context).day1;
     final pointTitle = ModalRoute.of(context)!.settings.arguments as String;
     //CtrlPresentation ctrlPresentation = CtrlPresentation();
     return Scaffold(
-      backgroundColor: mPrimaryColor,
+      backgroundColor: Colors.white,
       appBar: buildAppBar(context),
       body:
-      Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-            child:
-              RichText(
-                text: TextSpan(
-                  text: pointTitle,
-                  style: const TextStyle(color: Colors.white, fontSize: 25),
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child:
+                RichText(
+                  text: TextSpan(
+                    text: pointTitle,
+                    style: const TextStyle(color: Colors.black, fontSize: 25),
 
 
-              )
+                )
+              ),
             ),
+          DropdownButton<String>(
+            value: dropdownValue,
+            icon: const Icon(Icons.arrow_drop_down_outlined),
+            elevation: 16,
+            style: const TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String? newValue) {
+              setState(() {
+                dropdownValue = newValue!;
+              });
+            },
+                  /*AppLocalizations.of(context).day1, AppLocalizations.of(context).day2,
+                  AppLocalizations.of(context).day3, AppLocalizations.of(context).day4,
+                  AppLocalizations.of(context).day5, AppLocalizations.of(context).day6,
+                  AppLocalizations.of(context).day7,*/
+            items: <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',] //todo: peilin multiidiomas
+            .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
           ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-            alignment: Alignment.bottomCenter,
-            child:
-              SizedBox(
-                width: 500.0,
-                height: 500.0,
-                child: OcupationChart(createData(), animate: false),
-              )
-          )
-        ]
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              alignment: Alignment.bottomCenter,
+              child:
+                SizedBox(
+                  width: 500.0,
+                  height: 500.0,
+                  child: OcupationChart(createData(dropdownValue), animate: false),
+                )
+            )
+          ]
+        ),
       )
     );
   }
-  static List<charts.Series<OrdinalSales, String>> createData() {
+
+  static List<charts.Series<DataGraphic, String>> createData(String dia) {
     //todo por aqui recibir la variable data que se vaya actualizando, hay que hablar de como hacerlo, mi idea es que vaya cambiando esta variable y el usuario para ver los cambios tenga que cargar un grafico nuevo, y nos dejamos de statefuls
-    final data = [
-      OrdinalSales('2014', 25.00023),
-      OrdinalSales('2015', 2.5),
-      OrdinalSales('2016', 100),
-      OrdinalSales('2017', 75),
-    ];
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    final data = ctrlPresentation.getInfoGraphic(dia);
 
     return [
-      charts.Series<OrdinalSales, String>(
-          id: 'Sales',
-          domainFn: (OrdinalSales sales, _) => sales.year,
-          measureFn: (OrdinalSales sales, _) => sales.sales,
-          data: data,
-          // Set a label accessor to control the text of the bar label.
-          labelAccessorFn: (OrdinalSales sales, _) =>
-          '\$${sales.sales.toString()}')
+      charts.Series<DataGraphic, String>(
+        id: 'Ocupacio',
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        domainFn: (DataGraphic occupation, _) => occupation.hour.toInt().toString(),
+        measureFn: (DataGraphic occupation, _) => occupation.percentage.round(),
+        data: data,
+        // Set a label accessor to control the text of the bar label.
+
+      )
     ];
   }
 
@@ -69,7 +105,8 @@ class ChartPage extends StatelessWidget {
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
-      title: const Text('Charts'),
+      title: const Text('Charts'),//multiidiomas peilin
     );
   }
+
 }

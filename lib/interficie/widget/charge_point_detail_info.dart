@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
@@ -28,10 +29,30 @@ class ChargePointDetailInformation extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              EditInfoPoint(latitude: latitude, longitude: longitude,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      ctrlPresentation.showLegendDialog(context, "chargePoint");
+                    },
+                    icon: const Icon(
+                      Icons.info,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  EditInfoPoint(latitude: latitude, longitude: longitude,),
+                ],
+              ),
             ],
           ),
           const Divider(
@@ -60,6 +81,17 @@ class EditInfoPoint extends StatefulWidget {
 }
 
 class _EditInfoPointState extends State<EditInfoPoint> {
+  List<String> point = List.filled(23, "");
+  @override
+  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
+    ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
+      setState(() {
+        point = element;
+        print(point[22]);
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,19 +99,32 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
-        IconButton(
-          onPressed: () {
-            ctrlPresentation.toChartPage(context, "hacerlo de otra manera"); //TODO: posible error? ponerle las coordenadas y hacer consulta a database por ejemplo
+        if(point[22] == "false") IconButton(
+          onPressed: () async {
+          await ctrlPresentation.getOcupationCharger(widget.latitude, widget.longitude);
+          ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
+            ctrlPresentation.toChartPage(context, element[1]);
+          });
           },
           icon: const Icon(
             Icons.bar_chart,
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () async {
+            String url = await ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude, type: "charger");
+
+            await Clipboard.setData(ClipboardData(text: url));
+
+            Navigator.pop(context);
+
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Added to clipboard the tapped point!"),
+            ));
+          },
           icon: const Icon(
             Icons.share,
-          ),//TODO: Share
+          ),
         ),
       ],
     );
@@ -143,7 +188,7 @@ class PointInfo extends StatefulWidget {
 }
 
 class _PointInfoState extends State<PointInfo> {
-  List<String> point = List.filled(21, "");
+  List<String> point = List.filled(23, ""); //si da error de size aumentar 1
 
   @override
   void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
@@ -153,7 +198,6 @@ class _PointInfoState extends State<PointInfo> {
       });
     });
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
   }
 
   @override

@@ -101,5 +101,32 @@
     }
   </script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN9tjrv5YdkS1K-E1xP9UVLEkSnknU0yY"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDmLPtQl-ooebxol34Gyw5_2S5ROUFZ03I",
+      authDomain: "electrike-4e818.firebaseapp.com",
+      projectId: "electrike-4e818",
+      storageBucket: "electrike-4e818.appspot.com",
+      messagingSenderId: "689102118187",
+      appId: "1:689102118187:web:eeefbefadde65d8f6ab96e",
+      measurementId: "G-EPVQ48946K"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
 </body>
 </html>

@@ -35,8 +35,43 @@ class OcupationChart extends StatelessWidget {
       //       barRendererDecorator: new charts.BarLabelDecorator(
       //          insideLabelStyleSpec: new charts.TextStyleSpec(...),
       //          outsideLabelStyleSpec: new charts.TextStyleSpec(...)),
-      barRendererDecorator: charts.BarLabelDecorator<String>(),
-      domainAxis: const charts.OrdinalAxisSpec(),
+
+      // Configure the axis spec to show percentage values.
+      //primaryMeasureAxis: charts.NumericAxisSpec(),
+      //barRendererDecorator: charts.BarLabelDecorator<String>(),
+      behaviors: [
+        charts.ChartTitle('Grafica Ocupació', //todo: peilin multi
+            subTitle: '% Ocupació', //todo(): peilin multi
+            behaviorPosition: charts.BehaviorPosition.top,
+            titleOutsideJustification: charts.OutsideJustification.start,
+            // Set a larger inner padding than the default (10) to avoid
+            // rendering the text too close to the top measure axis tick label.
+            // The top tick label may extend upwards into the top margin region
+            // if it is located at the top of the draw area.
+            innerPadding: 18),
+        charts.ChartTitle('Hores del dia', //todo: peilin multiidiomas
+            behaviorPosition: charts.BehaviorPosition.bottom,
+            titleOutsideJustification:
+            charts.OutsideJustification.middleDrawArea,
+        ),
+      ],
+      domainAxis: const charts.OrdinalAxisSpec(
+          renderSpec: charts.SmallTickRendererSpec(
+        // Tick and Label styling here.
+          labelStyle: charts.TextStyleSpec(
+              fontSize: 9, // size in Pts.
+              color: charts.MaterialPalette.black),
+
+          // Change the line colors to match text color.
+          lineStyle: charts.LineStyleSpec(
+              color: charts.MaterialPalette.black)),
+
+      ),
+      primaryMeasureAxis: const charts.NumericAxisSpec(   //to see the 0-100 scale
+        tickProviderSpec:
+        charts.BasicNumericTickProviderSpec(zeroBound: false),
+        viewport: charts.NumericExtents(0.0, 100.0),
+      ),
     );
   }
 

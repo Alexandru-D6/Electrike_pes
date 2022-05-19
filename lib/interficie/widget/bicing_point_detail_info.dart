@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
+import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../libraries/flutter_google_maps/flutter_google_maps.dart';
 
 class BicingPointDetailInformation extends StatelessWidget {
   const BicingPointDetailInformation({
@@ -28,10 +30,30 @@ class BicingPointDetailInformation extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              EditInfoPoint(latitude: latitud, longitude: longitud,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      ctrlPresentation.showLegendDialog(context, "bicingPoint");
+                    },
+                    icon: const Icon(
+                      Icons.info,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  EditInfoPoint(latitude: latitud, longitude: longitud,),
+                ],
+              ),
             ],
           ),
           StatefulPointInfo(latitude: latitud, longitude: longitud,),
@@ -63,10 +85,19 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
-          onPressed: () {},
+          onPressed: () async {
+            String url = await ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude, type: "bicing");
+            await Clipboard.setData(ClipboardData(text: url));
+
+            Navigator.pop(context);
+
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Added to clipboard the tapped point!"),
+            ));
+          },
           icon: const Icon(
             Icons.share,
-          ),//TODO: Share
+          ),
         ),
       ],
     );
@@ -96,7 +127,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
-          tooltip: 'Add points to favourites', //todo: translate App....of(context).[]
+          tooltip: AppLocalizations.of(context).addFavPoints, //TODO (Peilin) ready for test
           onPressed: () {
             ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
             if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
@@ -140,7 +171,6 @@ class _StatefulPointInfoState extends State<StatefulPointInfo> {
       });
     });
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) => {});
   }
 
   @override

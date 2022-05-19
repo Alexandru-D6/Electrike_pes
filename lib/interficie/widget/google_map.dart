@@ -3,6 +3,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -10,10 +11,13 @@ import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_map
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
+import 'package:simple_speed_dial/simple_speed_dial.dart';
 import '../../domini/rutes/rutes_amb_carrega.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
 import 'info_ruta.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -95,8 +99,8 @@ class _MyMapState extends State<MyMap> {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
-      desc: "You aren't logged so you don't have any favourite point.",//todo: S.of(context).alertSureDeleteCarContent,
+      title: AppLocalizations.of(context).notLogged,//TODO (Peilin) ready for test
+      desc: AppLocalizations.of(context).explNoFav,//TODO (Peilin) ready for test
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();
@@ -129,7 +133,13 @@ class _MyMapState extends State<MyMap> {
               mapStyle: null,
               interactive: true,
 
-              onLongPress: (markerId) {
+              onLongPress: (pos) async {
+                String url = ctrlPresentation.generateUrlForLocation(pos);
+                await Clipboard.setData(ClipboardData(text: url));
+
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Added to clipboard the tapped location!"),
+                ));
               },
 
               /*onTap: (a) async {
@@ -167,7 +177,7 @@ class _MyMapState extends State<MyMap> {
                 zoomGesturesEnabled:true,
 
                 trafficEnabled: false,
-                zoomControlsEnabled: true,
+                zoomControlsEnabled: false,
               ),
 
 
@@ -186,12 +196,14 @@ class _MyMapState extends State<MyMap> {
           ),
 
           Positioned(
-            right: 56,
+            left: 16,
+            //right: 56,
+            right: kIsWeb ? 60 : 16,
             bottom: 16,
             child: FloatingActionButton(
               onPressed: () {
-                ctrlPresentation.clearAllRoutes();
                 showInfoRuta(context);
+                ctrlPresentation.clearAllRoutes();
               },
               heroTag: "Ruta",
               tooltip: "Empieza la ruta",
@@ -201,7 +213,7 @@ class _MyMapState extends State<MyMap> {
           ),
 
           Positioned(
-            left: 16,
+            //left: 16,
             right: kIsWeb ? 60 : 16,
             bottom: 16,
             child: Row(
@@ -229,7 +241,7 @@ class _MyMapState extends State<MyMap> {
   @override
   void initState() {
     super.initState();
-
+     // ignore: unnecessary_non_null_assertion
     SchedulerBinding.instance!.addPostFrameCallback((_) async {
       ctrlPresentation.setMapKey(_newKey);
       chargerMarkers();
@@ -237,40 +249,43 @@ class _MyMapState extends State<MyMap> {
     });
   }
 
-  Widget button(
+  SpeedDialChild button(
       { required String onPressed,
         required String heroTag,
         required String toolTip,
-        required Icon icon}) {
-    return FloatingActionButton(
+        required Icon icon,
+        required Color backgroundColor,
+        required Color foregroundColor}) {
+    return SpeedDialChild(
+      child: icon,
+      foregroundColor: foregroundColor,
+      backgroundColor: backgroundColor,
+      label: toolTip,
       onPressed: (){
         initMarkers(onPressed); //llamar a funcion de la libreria
       },
-      heroTag: heroTag,
-      tooltip: toolTip,
-      child: icon,
-      backgroundColor: mCardColor,
     );
   }
 
   List<Widget> _buildClearButtons() => [
     Padding(
       padding: const EdgeInsets.all(5.0),
-      child: AnimatedFloatingActionButton(
-          fabButtons: <Widget>[
-            button(onPressed: "default", heroTag: "hide", toolTip: "Hide markers", icon: const Icon(Icons.visibility_off)),
-            button(onPressed: "all", heroTag: "all", toolTip: "Show all markers", icon: const Icon(Icons.visibility)),
-            button(onPressed: "chargers", heroTag: "charger", toolTip: "See only chargers", icon: const Icon(Icons.power)),
-            button(onPressed: "bicing", heroTag: "bicing", toolTip: "See only bicing", icon: const Icon(Icons.pedal_bike)),
-            button(onPressed: "favs", heroTag: "favs", toolTip: "See only favourites", icon: const Icon(Icons.favorite)),
-          ],
-          colorStartAnimation: mPrimaryColor,
-          colorEndAnimation: Colors.red.shade900,
-          animatedIconData: AnimatedIcons.menu_close //To principal button
+      child: SpeedDial(
+        child: const Icon(Icons.filter_alt),
+        speedDialChildren: <SpeedDialChild>[
+          button(onPressed: "default", heroTag: "hide", toolTip: AppLocalizations.of(context).hideMarkers, icon: const Icon(Icons.visibility_off), backgroundColor: Colors.black12, foregroundColor: Colors.white), //TODO (Peilin) ready for test
+          button(onPressed: "all", heroTag: "all", toolTip: AppLocalizations.of(context).showMarkers, icon: const Icon(Icons.visibility), backgroundColor: Colors.black12, foregroundColor: Colors.black),
+          button(onPressed: "chargers", heroTag: "charger", toolTip: AppLocalizations.of(context).chargers, icon: const Icon(Icons.power), backgroundColor: mCardColor, foregroundColor: Colors.white),
+          button(onPressed: "bicing", heroTag: "bicing", toolTip: AppLocalizations.of(context).bicing, icon: const Icon(Icons.pedal_bike), backgroundColor: cBicingRed, foregroundColor: Colors.white),
+          button(onPressed: "favs", heroTag: "favs", toolTip: AppLocalizations.of(context).favouritesMark, icon: const Icon(Icons.favorite), backgroundColor: Colors.red, foregroundColor: Colors.white),
+        ],
+        closedForegroundColor: Colors.black,
+        openForegroundColor: Colors.white,
+        closedBackgroundColor: Colors.white,
+        openBackgroundColor: Colors.black,
       ),
     ),
   ];
-
 
   void buildChargerMarkers(BuildContext context, int filter) {
     //GoogleMap.of(ctrlPresentation.getMapKey())
@@ -342,28 +357,28 @@ class _MyMapState extends State<MyMap> {
       }
     }
   }
+}
 
-  showInfoRuta(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        backgroundColor: cTransparent,
-        builder: (builder) {
-          return Stack(
-            children: [
-              Positioned(
-                left: 24,
-                right: 24,
-                bottom: 24,
-                child: Stack(
-                  children: const [
-                    InfoRuta(),
-                  ],
-                ),
-              ),
-            ],
-          );
-        });
-  }
+showInfoRuta(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: cTransparent,
+    builder: (builder) {
+      return Stack(
+        children: [
+          Positioned(
+            left: 24,
+            right: 24,
+            bottom: 24,
+            child: Stack(
+              children: const [
+                InfoRuta(),
+              ],
+            ),
+          ),
+        ],
+      );
+    });
 }
 
 Marker buildChargerMarker({ //todo:refactor para que funcione igual que con bicing
@@ -405,15 +420,14 @@ Marker buildBicingMarker({
   required double long,
   required BuildContext context,
 }) {
-  List<String> infoBicingPoint = <String>[];
   return Marker(
     GeoCoord(lat, long),
     icon: (!kIsWeb) ? "assets/images/bike.png" : "assets/images/bikeWeb.png", //todo: al poner custom marker no sale en la primera carga
-    onTap: (markerId) =>showInfoBicing(context, lat, long, infoBicingPoint)
+    onTap: (markerId) =>showInfoBicing(context, lat, long)
   );
 }
 
-showInfoBicing(BuildContext context, double lat, double long, List<String> infoBicingPoint) {
+showInfoBicing(BuildContext context, double lat, double long) {
   return showModalBottomSheet(
       context: context,
       backgroundColor: cTransparent,
@@ -426,7 +440,7 @@ showInfoBicing(BuildContext context, double lat, double long, List<String> infoB
               bottom: 24,
               child: Stack(
                 children: [
-                  BicingPointDetailInformation(latitud: lat, longitud: long,),
+                  BicingPointDetailInformation(latitud: lat, longitud: long),
                 ],
               ),
             ),

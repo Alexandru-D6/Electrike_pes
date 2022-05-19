@@ -41,7 +41,7 @@ jobs:
       # build Flutter web version
       - run: flutter channel stable
       - run: flutter upgrade
-      - run: flutter build web --web-renderer html -t lib/main.dart
+      - run: flutter build web --release --base-href /pes_electrike/
       # Handle the deploy process of your project to GitHub Pages.
       # https://github.com/JamesIves/github-pages-deploy-action
       - uses: JamesIves/github-pages-deploy-action@releases/v3

@@ -3,9 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async' show FutureOr;
-import 'dart:ui' show Color, VoidCallback;
 
-import 'package:flutter/foundation.dart' show ValueChanged;
+import 'package:flutter/material.dart';
 import 'package:google_directions_api/google_directions_api.dart' show GeoCoord, GeoCoordBounds;
 
 import 'map_items.dart';
@@ -268,11 +267,11 @@ abstract class CustomFunctions {
   double getDistance(GeoCoord a, GeoCoord b);
   Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords);
 
-  Future<RouteResponse> getInfoRoute(GeoCoord origin, GeoCoord destination, [List<GeoCoord>? waypoints]);
+  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, [List<GeoCoord>? waypoints]);
 
   void displayRoute(
-    GeoCoord origin,
-      GeoCoord destination, {
+    dynamic origin,
+    dynamic destination, {
       List<GeoCoord>? waypoints,
       String? startLabel,
       String? startIcon,
@@ -280,6 +279,7 @@ abstract class CustomFunctions {
       String? endLabel,
       String? endIcon,
       String? endInfo,
+      Color? color,
   });
 
   void addChoosenMarkers(String group);
