@@ -33,7 +33,7 @@ class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
 
-  static var urlorg = 'https://obscure-lake-86305.herokuapp.com/http://electrike.ddns.net:3784/';
+  static var urlorg = 'http://electrike.ddns.net:3784/';
   //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];

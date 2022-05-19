@@ -116,6 +116,8 @@ class _EditInfoPointState extends State<EditInfoPoint> {
 
             await Clipboard.setData(ClipboardData(text: url));
 
+            Navigator.pop(context);
+
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Added to clipboard the tapped point!"),
             ));

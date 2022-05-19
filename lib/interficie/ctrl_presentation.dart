@@ -40,11 +40,47 @@ class CtrlPresentation {
   List<Coordenada> favs = <Coordenada>[];
   String actualLocation = "Your location";
   String destination = "Search...";
+  late Location location;
+  GeoCoord curLocation = const GeoCoord(0.0,0.0);
   int idCarUser = 0;
   int routeType = 0; //0 es normal, 1 es puntos de carga y 2 es eco
   String bateria = "100"; // de normal 100
   String distinmeters = "";
   String durationinminutes = "";
+
+  void initLocation(BuildContext context) {
+    location = Location();
+    askForPermission(location, context);
+
+    location.onLocationChanged.listen((event) {
+      double? lat = event.latitude;
+      double? lng = event.longitude;
+      curLocation = GeoCoord(lat!, lng!);
+    });
+  }
+
+  Future<void> askForPermission(Location location, BuildContext context) async {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted == PermissionStatus.granted) {
+        ctrlPresentation.toMainPage(context);
+      }
+    }
+  }
+
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
@@ -208,8 +244,6 @@ class CtrlPresentation {
 
   //42.6974402 - 0.8250418
   String generateUrlForLocation(GeoCoord a) {
-    //Location location = Location();
-    //LocationData geo = await location.getLocation();
     String res = "Hey! Check this location -> https://www.google.com/maps/search/?api=1&query=" + a.latitude.toString() + "," + a.longitude.toString();
     return res;
   }
@@ -300,25 +334,23 @@ class CtrlPresentation {
   bool getGoogleMapKeyState() => _googleMapInit;
 
   Future<void> makeRoute() async {
-    Location location = Location();
     ctrlDomain.selectVehicleUsuari(idCarUser);
 
     if (routeType == 0) {
-      location.getLocation().then((value) {
-        String origin = value.latitude.toString() + "," + value.longitude.toString();
-        if(actualLocation != "Your location") origin = actualLocation;
-        GoogleMap.of(getMapKey())?.displayRoute(
-            origin,
-            destination,
-            startLabel: '1',
-            startInfo: 'Origin',
-            endIcon: 'assets/images/rolls_royce.png',
-            endInfo: 'Destination'
-        );
-      });
+      String origin = curLocation.latitude.toString() + "," + curLocation.longitude.toString();
+      if(actualLocation != "Your location") origin = actualLocation;
+      GoogleMap.of(getMapKey())?.displayRoute(
+          origin,
+          destination,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'Destination',
+          //color: Colors.blue,
+      );
     }
     else if(routeType == 1){
-        print(destination);
+        //print(destination);
       GeoCoord dest = await getMapsService.adressCoding(destination);
 
       late GeoCoord orig;
@@ -326,47 +358,41 @@ class CtrlPresentation {
 
       double bat = double.parse(bateria);
 
-      location.getLocation().then((value) async {
-        if (actualLocation == "Your location") orig = GeoCoord(value.latitude!, value.longitude!);
+      if (actualLocation == "Your location") orig = GeoCoord(curLocation.latitude, curLocation.longitude);
 
-          print("origen --> " + orig.toString());
-          print("destination --> " + dest.toString());
+      //print("origen --> " + orig.toString());
+      //print("destination --> " + dest.toString());
 
-        RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
+      RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
 
-          print(rutaCharger);
-          print(rutaCharger.waypoints);
+      //print(rutaCharger);
+      //print(rutaCharger.waypoints);
 
-        String origin = orig.latitude.toString() + "," + orig.longitude.toString();
+      String origin = orig.latitude.toString() + "," + orig.longitude.toString();
 
-        GoogleMap.of(getMapKey())?.displayRoute(
-          origin,
-          destination,
-          waypoints: rutaCharger.waypoints.isEmpty || rutaCharger.waypoints.first.latitude == -1.0 ? List<GeoCoord>.empty() : rutaCharger.waypoints,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination',
-          color: Colors.brown,
-        );
-
-      });
+      GoogleMap.of(getMapKey())?.displayRoute(
+        origin,
+        destination,
+        waypoints: rutaCharger.waypoints.isEmpty || rutaCharger.waypoints.first.latitude == -1.0 ? List<GeoCoord>.empty() : rutaCharger.waypoints,
+        startLabel: '1',
+        startInfo: 'Origin',
+        endIcon: 'assets/images/rolls_royce.png',
+        endInfo: 'Destination',
+        color: Colors.brown,
+      );
     }
     else if (routeType == 2) {
       //todo: ruta ecologica
-      location.getLocation().then((value) {
-        String origin = value.latitude.toString() + "," +
-            value.longitude.toString();
-        if (actualLocation != "Your location") origin = actualLocation;
-        GoogleMap.of(getMapKey())?.addDirection(
-            origin,
-            destination,
-            startLabel: '1',
-            startInfo: 'Origin',
-            endIcon: 'assets/images/rolls_royce.png',
-            endInfo: 'Destination'
-        );
-      });
+      String origin = curLocation.latitude.toString() + "," + curLocation.longitude.toString();
+      if (actualLocation != "Your location") origin = actualLocation;
+      GoogleMap.of(getMapKey())?.addDirection(
+          origin,
+          destination,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'Destination'
+      );
     }
   }
 
@@ -375,13 +401,7 @@ class CtrlPresentation {
   }
 
   void moveCameraToLocation() {
-    Location location = Location();
-
-    location.getLocation().then((value) {
-      double? lat = value.latitude;
-      double? lng = value.longitude;
-      GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
-    });
+    GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(curLocation.latitude, curLocation.longitude), zoom: 17.5);
   }
 
   void moveCameraToSpecificLocation(BuildContext context, double? lat,
@@ -826,27 +846,25 @@ class CtrlPresentation {
   }
   
   void getDistDuration() async {
-    Location location = Location();
     getMapsService.adressCoding(destination).then((destT) async {
       GeoCoord desti = GeoCoord(destT.latitude, destT.longitude);
 
       GeoCoord origen;
-      location.getLocation().then((value) async {
-        if (actualLocation != "Your location") {
-          GeoCoord origT = await getMapsService.adressCoding(destination);
-          origen = GeoCoord(origT.latitude, origT.longitude);
-        }
-        else {
-        origen = GeoCoord(value.latitude!, value.longitude!);
-        }
-        print(origen);
-        print(desti);
-        ctrlDomain.infoRutaSenseCarrega(origen, desti).then((routeInfo) async{
-          distinmeters = routeInfo.distance;
-          print(distinmeters);
-          durationinminutes = routeInfo.duration;
-          print(durationinminutes);
-        });
+
+      if (actualLocation != "Your location") {
+        GeoCoord origT = await getMapsService.adressCoding(destination);
+        origen = GeoCoord(origT.latitude, origT.longitude);
+      }
+      else {
+        origen = GeoCoord(curLocation.latitude, curLocation.longitude);
+      }
+      print(origen);
+      print(desti);
+      ctrlDomain.infoRutaSenseCarrega(origen, desti).then((routeInfo) async{
+        distinmeters = routeInfo.distance;
+        print(distinmeters);
+        durationinminutes = routeInfo.duration;
+        print(durationinminutes);
       });
     });
   }

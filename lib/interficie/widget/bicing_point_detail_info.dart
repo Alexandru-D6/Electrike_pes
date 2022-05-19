@@ -87,6 +87,8 @@ class _EditInfoPointState extends State<EditInfoPoint> {
             String url = await ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude, type: "bicing");
             await Clipboard.setData(ClipboardData(text: url));
 
+            Navigator.pop(context);
+
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Added to clipboard the tapped point!"),
             ));

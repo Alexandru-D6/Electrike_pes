@@ -69,52 +69,6 @@ Future initializeSystem() async {
     navigatorKey: navigatorKey, debugShowCheckedModeBanner: false));
 }
 
-/*void LocationService() async {
-  bool serviceEnabled;
-  geolocator.LocationPermission permission;
-
-  // Test if location services are enabled.
-  serviceEnabled = await geolocator.Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    // Location services are not enabled don't continue
-    // accessing the position and request users of the
-    // App to enable the location services.
-    return Future.error('Location services are disabled.');
-  }
-
-  permission = await geolocator.Geolocator.checkPermission();
-  if (permission == geolocator.LocationPermission.denied) {
-    permission = await geolocator.Geolocator.requestPermission();
-    if (permission == geolocator.LocationPermission.denied) {
-      // Permissions are denied, next time you could try
-      // requesting permissions again (this is also where
-      // Android's shouldShowRequestPermissionRationale
-      // returned true. According to Android guidelines
-      // your App should show an explanatory UI now.
-      return Future.error('Location permissions are denied');
-    }
-  }
-
-  if (permission == geolocator.LocationPermission.deniedForever) {
-    // Permissions are denied forever, handle appropriately.
-    return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.');
-  }
-
-  const geolocator.LocationSettings locationSettings = geolocator.LocationSettings(
-    accuracy: geolocator.LocationAccuracy.high,
-    distanceFilter: 100,
-  );
-  StreamSubscription<geolocator.Position> positionStream = geolocator.Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-          (geolocator.Position? position) {
-            if (position != null) {
-              CtrlDomain ctrlDomain = CtrlDomain();
-              ctrlDomain.increaseDistance(position.latitude, position.longitude);
-              print(position);
-            }
-      });
-}*/
-
 class MyApp extends StatelessWidget {
   static const String title = 'Electrike';
 
@@ -167,28 +121,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
-  Future<void> askForPermission(Location location, BuildContext context) async {
-    CtrlPresentation ctrlPresentation = CtrlPresentation();
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted == PermissionStatus.granted) {
-        ctrlPresentation.toMainPage(context);
-      }
-    }
-  }
-
   @override
   void initState() {
     WidgetsBinding.instance?.addObserver(this);
@@ -197,8 +129,10 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       initDynamicLinks();
-      DynamicLinkUtils.buildDynamicLink("information").then((value) => print("Information ---> " + value));
-      DynamicLinkUtils.buildDynamicLink("main").then((value) => print("MainPage ---> " + value));
+      CtrlPresentation ctrlPresentation = CtrlPresentation();
+      ctrlPresentation.initLocation(context);
+      //DynamicLinkUtils.buildDynamicLink("information").then((value) => print("Information ---> " + value));
+      //DynamicLinkUtils.buildDynamicLink("main").then((value) => print("MainPage ---> " + value));
     });
   }
 
@@ -222,10 +156,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
-
-    Location location = Location();
-    askForPermission(location, context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       drawer: const NavigationDrawerWidget(),
@@ -242,8 +172,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
       ),
     );
   }
-
-  String url = "";
 
   ///Retreive dynamic link firebase.
   void initDynamicLinks() async {
@@ -280,17 +208,17 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
       if (separatedString[2] == "bicing") {
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
         GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("bicingPoints");
-        showInfoBicing(context, lat, lng);
+        ctrlPresentation.moveCameraToSpecificLocation(mapContext!, lat, lng);
+        setState(() {showInfoBicing(mapContext, lat, lng);});
+        return;
       }else {
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
         GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers(
             "chargerPoints");
-        showInfoCharger(context, lat, lng);
+        ctrlPresentation.moveCameraToSpecificLocation(mapContext!, lat, lng);
+        setState(() {showInfoCharger(mapContext, lat, lng);});
+        return;
       }
-      showInfoRuta(context);
-      ctrlPresentation.moveCameraToSpecificLocation(mapContext!, lat, lng);
-      setState(() {});
-
     } else if (separatedString[1] == "location") {
       List<String> coords = [];
       coords.addAll(separatedString[2].split(','));
