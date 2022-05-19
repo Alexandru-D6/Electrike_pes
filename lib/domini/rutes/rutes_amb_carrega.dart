@@ -83,6 +83,8 @@ class RutesAmbCarrega {
       double? temp = routeInfo.distanceMeters;
       if (temp! <= mRestants) { // si la autonomia del cotxe és superior al recorregut que ha de fer, dirigeix automàticament
         print("Aaaa");
+        print("------> " + temp.toString());
+        print("------> " + mRestants.toString());
         return routesResponse;
       }
       else {
@@ -97,14 +99,13 @@ class RutesAmbCarrega {
           await ctrlDomain.getNearChargers(
               coordLimit.latitude, coordLimit.longitude, radius);
 
-          print("radius: " + radius.toString() + "---> " + ctrlDomain.coordCarregadorsPropers.toString());
+          print("+++++: " + ctrlDomain.coordCarregadorsPropers.length.toString());
           if (ctrlDomain.coordCarregadorsPropers.isEmpty) {
             radius += 10.0;
           }
           else {
             coordCharger = findSuitableCharger();
-
-            if (desti.longitude != -1.0 && desti.latitude != -1.0) {
+            if (coordCharger.longitude != -1.0 && coordCharger.latitude != -1.0) {
               routesResponse.waypoints.add(coordCharger);
               RouteResponse firstTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(origen, coordCharger);
               RouteResponse secTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(coordCharger, desti);
@@ -113,6 +114,9 @@ class RutesAmbCarrega {
               routesResponse.setDuration(totalDuration);
               routesResponse.setDistance(totalDistance);
               trobat = true;
+            }
+            else {
+              radius += 10.0;
             }
           }
         }
