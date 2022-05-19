@@ -28,11 +28,21 @@ class RoutesResponse {
     return result;
   }
 
-  void setDuration (double timeMin) {
-    duration = (timeMin/60).toString();
+  void setDuration(double timeinHours){
+    int time = (timeinHours*3600).toInt(); //pasar a segundos
+    int hours = time~/3600;
+    int rest1 = time%3600;
+    int minutes = rest1~/60;
+    String res;
+    if(hours == 0) {
+      duration = minutes.toString() + " min ";
+    }
+    else {
+      duration = hours.toString() + " h " + minutes.toString() + " min ";
+    }
   }
 
   void setDistance (double distMeters) {
-    distance = (distMeters/1000).toString();
+    distance = (distMeters/1000).toStringAsFixed(2) + " km ";
   }
 }

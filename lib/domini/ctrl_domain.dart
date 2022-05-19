@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:vector_math/vector_math.dart' as math;
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
@@ -32,7 +33,7 @@ class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
 
-  static var urlorg = 'https://obscure-lake-86305.herokuapp.com/http://electrike.ddns.net:3784/';
+  static var urlorg = 'http://37.133.192.236:3784/';
   //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
@@ -69,6 +70,7 @@ class CtrlDomain {
 
   //SYSTEM
   Future<void> initializeSystem() async {
+    if (kIsWeb) urlorg = 'https://obscure-lake-86305.herokuapp.com/http://37.133.192.236:3784/';
     usuari.usuarinull();
     initializeTypes();
     await getAllCars();
@@ -130,10 +132,10 @@ class CtrlDomain {
       usuari.correu = email;
       usuari.name = resp['items'][0]['Name'];
       usuari.foto = resp['items'][0]['Img'];
-      usuari.co2Estalviat = resp['items'][0]['CO2'];
-      usuari.kmRecorregut = resp['items'][0]['km'];
-      usuari.counterRoutes = resp['items'][0]['routes_counter'];
-      usuari.counterVH = resp['items'][0]['cars_counter'];
+      usuari.co2Estalviat = double.parse(resp['items'][0]['CO2'].toString());
+      usuari.kmRecorregut = double.parse(resp['items'][0]['km'].toString());
+      usuari.counterRoutes = double.parse(resp['items'][0]['routes_counter'].toString());
+      usuari.counterVH = double.parse(resp['items'][0]['cars_counter'].toString());
 
       await login();
     }
@@ -219,7 +221,6 @@ class CtrlDomain {
       Trofeu trofeo = Trofeu(trofeu['id'], trofeu['Obtenido'], double.parse(trofeu['Limite'].toString()));
       usuari.trofeus.add(trofeo);
     }
-    //print(usuari.trofeus);
   }
 
   //USER CARS
@@ -393,7 +394,6 @@ class CtrlDomain {
     for(var f in puntsFavCarrega){
       listToPassFavs.add(f.coord);
     }
-    //print("NUMCARREGA"+puntsFavCarrega.toString());
     return listToPassFavs;
   }
   //S'encarrega de elminiar o afegir a favorits un put de carrega segons si era o no un favorit
@@ -518,6 +518,7 @@ class CtrlDomain {
     var url = urlorg +'cars';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
+    print(resp);
     for(var it in resp['items']){
       VhElectric vh = VhElectric.complet(it['_id'], it['Brand'], it['Vehicle'],double.parse(it['Effciency(Wh/Km)']), double.parse(it['Rage(Km)']), double.parse(it['Battery(kWh)']));
       vhElectrics.add(vh);
@@ -654,9 +655,7 @@ class CtrlDomain {
       }
       infoC.add(isfav.toString());
       infoC.add(cat.toString());
-      //print(infoC);
 
-      //print(infoC.length);
     }
     return infoC;
   }
@@ -952,6 +951,12 @@ class CtrlDomain {
     }
   }
 
+  //Retorna true si el punt de càrrega passat per paràmetre té almenys una notificació activada, altrament retora false.
+  //Si el punt de càrrega no existeix o no té cap notificació per aquest punt de càrrega retorna false.
+  bool notificationsOn(double lat, double long) {
+    return serviceLocator<LocalNotificationAdpt>().notificationsOn(lat, long);
+  }
+
   Future<void> getOcupationCharger(double lat, double lon) async {
     var url = urlorg + 'get_ocupation?lat='+ lat.toString() +'&lon='+ lon.toString();
     var response = (await http.get(Uri.parse(url)));
@@ -972,7 +977,6 @@ class CtrlDomain {
       dadesChargerselected[dada['WeekDay']]![0].add(double.parse(dada["Hour"].toString()));
       dadesChargerselected[dada['WeekDay']]![1].add(double.parse((double.parse(dada["Ocupation"].toString())/double.parse(dada["Capacity"].toString())*100.0).toStringAsFixed(2)));
     }
-    //print(dadesChargerselected);
   }
   //Obté les ades d'ocupació d'un dia
   List<DataGraphic> getInfoGraphic(String day){
@@ -988,6 +992,7 @@ class CtrlDomain {
   }
 
   //TROFEUS
+  //Calcula l'ahorrament de CO2
   void ahorramentCO2(double kmrecorreguts){
     if(islogged()) {
       double co2KmVHCombustible = 2392.0 * 6.0 / 100.0;
@@ -1007,30 +1012,31 @@ class CtrlDomain {
           usuari.trofeus[i].unlocked = true;
           var url1 = urlorg + 'modify_logro?email=' + usuari.correu + '&id=' +
               i.toString();
-          http.post(Uri.parse(url));
+          http.post(Uri.parse(url1));
         }
       }
     }
   }
+  //Incrementa el numero de rutes calulades pel usuari
   void increaseCalculatedroutes(){
     if(islogged()) {
       usuari.counterRoutes += 1;
-      var url = urlorg + 'change_routes_counter?email=' + usuari.correu +
-          '&num=' + usuari.counterRoutes.toString();
+      var url = urlorg + 'change_routes_counter?email=' + usuari.correu + '&num=' + usuari.counterRoutes.toString();
       http.post(Uri.parse(url));
       for (int i = 3; i < 6; ++i) {
-        if (usuari.trofeus[i].unlocked == false &&
-            usuari.trofeus[i].limit <= usuari.counterRoutes) {
+        if (usuari.trofeus[i].unlocked == false && usuari.trofeus[i].limit <= usuari.counterRoutes) {
           //unlock in presentation
           ctrlPresentation.showMyDialog("Trophy" + i.toString());
           usuari.trofeus[i].unlocked = true;
-          var url1 = urlorg + 'modify_logro?email=' + usuari.correu + '&id=' +
-              i.toString();
-          http.post(Uri.parse(url));
+          print('siiiiiiii');
+          print(i);
+          var url1 = urlorg + 'modify_logro?email=' + usuari.correu + '&id=' + i.toString();
+          http.post(Uri.parse(url1));
         }
       }
     }
   }
+  //Crea un llistat per a cada trofeu
   List<List<String>> displayTrophy(){
     List<List<String>> trofeus = <List<String>>[];
     for(var trophy in usuari.trofeus){
@@ -1041,6 +1047,7 @@ class CtrlDomain {
     }
     return trofeus;
   }
+  //Calcula la distancia recorreguda
   void increaseDistance(double newlat, double newlong){
     if(islogged() && pastpos.latitud == 0.0 && pastpos.longitud == 0.0){
       pastpos.latitud = newlat;
@@ -1078,10 +1085,18 @@ class CtrlDomain {
           ctrlPresentation.showMyDialog("Trophy" + i.toString());
           usuari.trofeus[i].unlocked = true;
           var url1 = urlorg + 'modify_logro?email='+ usuari.correu +'&id='+ i.toString();
-          http.post(Uri.parse(url));
+          http.post(Uri.parse(url1));
         }
       }
     }
 
+  }
+  //Dona el número de trofeus desbloquejats
+  int numTrophyUnlocked(){
+    int i = 0;
+    for(var t in usuari.trofeus){
+      if(t.unlocked)i++;
+    }
+    return i;
   }
 }

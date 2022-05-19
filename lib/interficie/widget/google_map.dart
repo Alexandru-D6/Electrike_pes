@@ -16,6 +16,8 @@ import '../../domini/rutes/rutes_amb_carrega.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
 import 'info_ruta.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 
 CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -97,8 +99,8 @@ class _MyMapState extends State<MyMap> {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: "You aren't logged",//todo: S.of(context).alertSureDeleteCarTitle,
-      desc: "You aren't logged so you don't have any favourite point.",//todo: S.of(context).alertSureDeleteCarContent,
+      title: AppLocalizations.of(context).notLogged,//TODO (Peilin) ready for test
+      desc: AppLocalizations.of(context).explNoFav,//TODO (Peilin) ready for test
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();
@@ -271,11 +273,11 @@ class _MyMapState extends State<MyMap> {
       child: SpeedDial(
         child: const Icon(Icons.filter_alt),
         speedDialChildren: <SpeedDialChild>[
-          button(onPressed: "default", heroTag: "hide", toolTip: "Hide markers", icon: const Icon(Icons.visibility_off), backgroundColor: Colors.black12, foregroundColor: Colors.white), //todo: translate
-          button(onPressed: "all", heroTag: "all", toolTip: "Show all markers", icon: const Icon(Icons.visibility), backgroundColor: Colors.black12, foregroundColor: Colors.black),
-          button(onPressed: "chargers", heroTag: "charger", toolTip: "See only chargers", icon: const Icon(Icons.power), backgroundColor: mCardColor, foregroundColor: Colors.white),
-          button(onPressed: "bicing", heroTag: "bicing", toolTip: "See only bicing", icon: const Icon(Icons.pedal_bike), backgroundColor: cBicingRed, foregroundColor: Colors.white),
-          button(onPressed: "favs", heroTag: "favs", toolTip: "See only favourites", icon: const Icon(Icons.favorite), backgroundColor: Colors.red, foregroundColor: Colors.white),
+          button(onPressed: "default", heroTag: "hide", toolTip: AppLocalizations.of(context).hideMarkers, icon: const Icon(Icons.visibility_off), backgroundColor: Colors.black12, foregroundColor: Colors.white), //TODO (Peilin) ready for test
+          button(onPressed: "all", heroTag: "all", toolTip: AppLocalizations.of(context).showMarkers, icon: const Icon(Icons.visibility), backgroundColor: Colors.black12, foregroundColor: Colors.black),
+          button(onPressed: "chargers", heroTag: "charger", toolTip: AppLocalizations.of(context).chargers, icon: const Icon(Icons.power), backgroundColor: mCardColor, foregroundColor: Colors.white),
+          button(onPressed: "bicing", heroTag: "bicing", toolTip: AppLocalizations.of(context).bicing, icon: const Icon(Icons.pedal_bike), backgroundColor: cBicingRed, foregroundColor: Colors.white),
+          button(onPressed: "favs", heroTag: "favs", toolTip: AppLocalizations.of(context).favouritesMark, icon: const Icon(Icons.favorite), backgroundColor: Colors.red, foregroundColor: Colors.white),
         ],
         closedForegroundColor: Colors.black,
         openForegroundColor: Colors.white,
@@ -355,28 +357,28 @@ class _MyMapState extends State<MyMap> {
       }
     }
   }
+}
 
-  showInfoRuta(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        backgroundColor: cTransparent,
-        builder: (builder) {
-          return Stack(
-            children: [
-              Positioned(
-                left: 24,
-                right: 24,
-                bottom: 24,
-                child: Stack(
-                  children: const [
-                    InfoRuta(),
-                  ],
-                ),
-              ),
-            ],
-          );
-        });
-  }
+showInfoRuta(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: cTransparent,
+    builder: (builder) {
+      return Stack(
+        children: [
+          Positioned(
+            left: 24,
+            right: 24,
+            bottom: 24,
+            child: Stack(
+              children: const [
+                InfoRuta(),
+              ],
+            ),
+          ),
+        ],
+      );
+    });
 }
 
 Marker buildChargerMarker({ //todo:refactor para que funcione igual que con bicing
@@ -418,15 +420,14 @@ Marker buildBicingMarker({
   required double long,
   required BuildContext context,
 }) {
-  List<String> infoBicingPoint = <String>[];
   return Marker(
     GeoCoord(lat, long),
     icon: (!kIsWeb) ? "assets/images/bike.png" : "assets/images/bikeWeb.png", //todo: al poner custom marker no sale en la primera carga
-    onTap: (markerId) =>showInfoBicing(context, lat, long, infoBicingPoint)
+    onTap: (markerId) =>showInfoBicing(context, lat, long)
   );
 }
 
-showInfoBicing(BuildContext context, double lat, double long, List<String> infoBicingPoint) {
+showInfoBicing(BuildContext context, double lat, double long) {
   return showModalBottomSheet(
       context: context,
       backgroundColor: cTransparent,
@@ -439,7 +440,7 @@ showInfoBicing(BuildContext context, double lat, double long, List<String> infoB
               bottom: 24,
               child: Stack(
                 children: [
-                  BicingPointDetailInformation(latitud: lat, longitud: long,),
+                  BicingPointDetailInformation(latitud: lat, longitud: long),
                 ],
               ),
             ),

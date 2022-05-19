@@ -16,6 +16,7 @@ class _CustomRadioState extends State<CustomRadio> {
         setState(() {
           ctrlPresentation.routeType = index;
         });
+        ctrlPresentation.getDistDuration();
       },
       child: Text(
         text,

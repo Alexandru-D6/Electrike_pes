@@ -8,11 +8,8 @@ class NotificationsArgs {
   final double latitud;
   final double longitud;
   final String title;
-  final List<List<String>> notifications;
 
-
-
-  NotificationsArgs(this.latitud, this.longitud, this.title, this.notifications);
+  NotificationsArgs(this.latitud, this.longitud, this.title);
 }
 
 class NewNotificationArgs {
