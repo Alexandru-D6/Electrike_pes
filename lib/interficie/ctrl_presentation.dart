@@ -354,7 +354,7 @@ class CtrlPresentation {
           startInfo: 'Origin',
           endIcon: 'assets/images/rolls_royce.png',
           endInfo: 'Destination',
-          //color: Colors.blue,
+          color: Colors.blue,
       );
     }
     else if(routeType == 1){
