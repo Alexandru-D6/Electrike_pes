@@ -836,7 +836,7 @@ class CtrlPresentation {
   }
 
   bool notificationsOn(double latitud, double longitud) {
-    return true;
+    return ctrlDomain.notificationsOn(latitud, longitud);
   }
 
   List<List<String>> getNotifications(double latitud, double longitud) {

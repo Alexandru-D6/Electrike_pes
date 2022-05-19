@@ -179,13 +179,10 @@ class _AllFavsState extends State<AllFavs> {
                     }
                     else{
                       ctrlPresentation.enableAllNotifications(word.latitud, word.longitud);
-                      notificationsOn = !notificationsOn;
-                      setState(() {
-                        notificationsOn = !notificationsOn;
-                        //todo: conectar para avisar que ahora quiere las notificaciones de la lista
-                      });
                     }
-                    ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
+                    setState(() {
+                      notificationsOn = ctrlPresentation.notificationsOn(word.latitud, word.longitud);
+                    });
                   }
               ),
               IconButton(
