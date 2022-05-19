@@ -132,7 +132,6 @@ class LocalNotificationAdpt {
     } else {
       active = true;
     }
-
     InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, active);
 
     if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
