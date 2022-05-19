@@ -123,10 +123,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   @override
   void initState() {
+    //ignore: invalid_null_aware_operator
     WidgetsBinding.instance?.addObserver(this);
 
     super.initState();
 
+    //ignore: invalid_null_aware_operator
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       initDynamicLinks();
       CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -138,6 +140,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   @override
   void dispose() {
+    //ignore: invalid_null_aware_operator
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
