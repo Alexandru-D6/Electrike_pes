@@ -21,11 +21,7 @@ class _SplashScreen extends State<SplashScreen> {
         home: AnimatedSplashScreen.withScreenFunction(
           splash: 'assets/images/logo.png',
           screenFunction: () async{
-            await initializeSystem();
-            final prefs = await SharedPreferences.getInstance();
-            final showHome = prefs.getBool('showHome') ?? false;
-            if (showHome) return const MainPage();
-            return OnBoardingPage();
+            return await initializeSystem();
           },
           splashTransition: SplashTransition.sizeTransition,
           pageTransitionType: PageTransitionType.leftToRight,

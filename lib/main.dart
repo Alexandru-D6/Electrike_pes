@@ -34,6 +34,7 @@ import 'package:geolocator/geolocator.dart' as geolocator;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'domini/services/local_notifications_adpt.dart';
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -64,9 +65,16 @@ Future initializeSystem() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  final prefs = await SharedPreferences.getInstance();
+  final showHome = prefs.getBool('showHome') ?? false;
 
-  runApp(MaterialApp(home: const MyApp(),
-    navigatorKey: navigatorKey, debugShowCheckedModeBanner: false));
+  runApp(
+      MaterialApp(
+        home: showHome ? const MyApp() : OnBoardingPage(),
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {
