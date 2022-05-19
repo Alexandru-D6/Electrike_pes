@@ -67,6 +67,14 @@ class CtrlPresentation {
     });
   }
 
+  void locationHR() {
+    location.onLocationChanged.listen((event) {
+      double? lat = event.latitude;
+      double? lng = event.longitude;
+      curLocation = GeoCoord(lat!, lng!);
+    });
+  }
+
   Future<void> askForPermission(Location location, BuildContext context) async {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     bool _serviceEnabled;

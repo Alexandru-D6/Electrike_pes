@@ -24,12 +24,12 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         hint: ctrlPresentation.actualLocation,
         margins: const EdgeInsets.fromLTRB(60, 5, 60, 0),
         scrollPadding: const EdgeInsets.only(top: 60, bottom: 56),
-        transitionDuration: const Duration(milliseconds: 50),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionCurve: Curves.easeInOut,
         physics: const BouncingScrollPhysics(),
         axisAlignment: isPortrait ? 0.0 : -1.0,
         openAxisAlignment: 0.0,
-        debounceDelay: const Duration(milliseconds: 200),
+        debounceDelay: const Duration(milliseconds: 100),
         automaticallyImplyDrawerHamburger: false,
         onQueryChanged: (query) {
           updateRecomendations(query);
@@ -69,12 +69,12 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       hint: ctrlPresentation.destination,
       margins: const EdgeInsets.fromLTRB(60, 60, 60, 0),
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-      transitionDuration: const Duration(milliseconds: 50),
+      transitionDuration: const Duration(milliseconds: 300),
       transitionCurve: Curves.easeInOut,
       physics: const BouncingScrollPhysics(),
       axisAlignment: isPortrait ? 0.0 : -1.0,
       openAxisAlignment: 0.0,
-      debounceDelay: const Duration(milliseconds: 200),
+      debounceDelay: const Duration(milliseconds: 100),
       automaticallyImplyDrawerHamburger: false,
       closeOnBackdropTap: true,
       onQueryChanged: (query) {
@@ -139,17 +139,16 @@ class _SearchBarWidget extends State<SearchBarWidget> {
     for (var element in text) {
       list.add(ListTile(
         title: Text(element!, style: const TextStyle(fontSize: 18, color: Colors.black)),
-        onTap: () => {
-          setState((){}), //para que ponga el nombre en el hint
+        onTap: () {
+          setState((){}); //para que ponga el nombre en el hint
           if(origin == "false"){
-            ctrlPresentation.destination = element,
+            ctrlPresentation.destination = element;
+          }else {
+            ctrlPresentation.actualLocation = element;
           }
-          else
-            {
-              ctrlPresentation.actualLocation = element,
-            },
-          print(element),
-          print(text),
+          print(element);
+          print(text);
+          widget.createState().deactivate();
           //ctrlPresentation.toMainPage(context),
           //ctrlPresentation.makeRoute()
           },//TODO: llamar aqui que hacer con cada boton de la lista
