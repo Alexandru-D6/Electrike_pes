@@ -373,18 +373,16 @@ class CtrlPresentation {
 
       String origin = orig.latitude.toString() + "," + orig.longitude.toString();
 
-        GoogleMap.of(getMapKey())?.displayRoute(
-          origin,
-          destination,
-          waypoints: waypointsRuta.isEmpty || waypointsRuta.first.latitude == -1.0 ? List<GeoCoord>.empty() : waypointsRuta,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination',
-          color: Colors.brown,
-        );
-
-      });
+      GoogleMap.of(getMapKey())?.displayRoute(
+        origin,
+        destination,
+        waypoints: waypointsRuta.isEmpty || waypointsRuta.first.latitude == -1.0 ? List<GeoCoord>.empty() : waypointsRuta,
+        startLabel: '1',
+        startInfo: 'Origin',
+        endIcon: 'assets/images/rolls_royce.png',
+        endInfo: 'Destination',
+        color: Colors.brown,
+      );
     }
     else if (routeType == 2) {
       //todo: ruta ecologica

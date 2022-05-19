@@ -33,7 +33,7 @@ class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
 
-  static var urlorg = 'http://electrike.ddns.net:3784/';
+  static var urlorg = 'http://37.133.192.236:3784/';
   //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
@@ -70,7 +70,7 @@ class CtrlDomain {
 
   //SYSTEM
   Future<void> initializeSystem() async {
-    if (kIsWeb) urlorg = 'https://obscure-lake-86305.herokuapp.com/http://electrike.ddns.net:3784/';
+    if (kIsWeb) urlorg = 'https://obscure-lake-86305.herokuapp.com/http://37.133.192.236:3784/';
     usuari.usuarinull();
     initializeTypes();
     await getAllCars();
@@ -520,6 +520,7 @@ class CtrlDomain {
     var url = urlorg +'cars';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
+    print(resp);
     for(var it in resp['items']){
       VhElectric vh = VhElectric.complet(it['_id'], it['Brand'], it['Vehicle'],double.parse(it['Effciency(Wh/Km)']), double.parse(it['Rage(Km)']), double.parse(it['Battery(kWh)']));
       vhElectrics.add(vh);
