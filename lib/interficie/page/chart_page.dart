@@ -102,10 +102,22 @@ class _ChartPageState extends State<ChartPage> {
   }
 
   AppBar buildAppBar(BuildContext context) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
     return AppBar(
       backgroundColor: mPrimaryColor,
       elevation: 0,
       title: const Text('Charts'),//multiidiomas peilin
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.info,
+            color: Colors.white,
+          ),
+          onPressed: (){
+            ctrlPresentation.showLegendDialog(context, "chartPage");
+          },
+        )
+      ],
     );
   }
 

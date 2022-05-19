@@ -570,6 +570,10 @@ class CtrlPresentation {
         title = "Leyenda Favs page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
         body = makeFavouritesLegend();
         break;
+      case "chartPage":
+        title = "Leyenda Charts page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        body = makeChartsLegend();
+        break;
       default:
         title = "Default title";
         body = makeBodyAlertChargePoint();
@@ -833,6 +837,46 @@ class CtrlPresentation {
     );
   }
 
+  Widget makeChartsLegend() {
+    return Padding(
+      padding: const EdgeInsets.all(18.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          buildIconLabeled(
+            icon: Icons.bar_chart,
+            color: Colors.green,
+            label: "In this page", //todo: translate
+            description: "You can see the stats about the concurrency of a station from Barcelona during the day.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.arrow_drop_down_circle_outlined,
+            color: Colors.black,
+            label: "Click on dropdown button", //todo: translate
+            description: "You can change the day and it's associated values from the plot by clicking on the dropdown button.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.family_restroom,
+            color: Colors.lightBlueAccent,
+            label: "Concurrency percentage", //todo: translate
+            description: "On the Y axis of the plot, you can see the concurrency percentage for a specific hour of the day.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.hourglass_bottom,
+            color: Colors.amber,
+            label: "Concurrency hours", //todo: translate
+            description: "On the X axis of the plot, you can see the hours of a day, where the bars indicating the concurrency are.", //todo: translate
+          ),
+          buildIconLabeled(
+            icon: Icons.error,
+            color: Colors.redAccent,
+            label: "Error", //todo: translate
+            description: "If the plot is empty, it could mean 2 things, nobody utilizes the charger or there's an error where you will need to update the page.", //todo: translate
+          ),
+        ],
+      ),
+    );
+  }
   Future<void> getOcupationCharger(double latitude, double longitude) async {
     await ctrlDomain.getOcupationCharger(latitude, longitude);
   }
