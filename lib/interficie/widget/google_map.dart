@@ -115,7 +115,12 @@ class _MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
-    _newKey = GlobalKey<GoogleMapStateBase>();
+    if (ctrlPresentation.getGoogleMapKeyState()) {
+      _newKey = ctrlPresentation.getMapKey();
+    } else {
+      _newKey = GlobalKey<GoogleMapStateBase>();
+    }
+
     double tempZoom = 0.0;
     Scaffold res = Scaffold(
       resizeToAvoidBottomInset: false,
