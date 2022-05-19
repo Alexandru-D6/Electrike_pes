@@ -87,7 +87,6 @@ class _EditInfoPointState extends State<EditInfoPoint> {
     ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
       setState(() {
         point = element;
-        print(point[22]);
       });
     });
     super.initState();
@@ -95,16 +94,24 @@ class _EditInfoPointState extends State<EditInfoPoint> {
 
   @override
   Widget build(BuildContext context) {
+    bool esBarcelona = point[22] == "false";
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
-        if(point[22] == "false") IconButton(
+        IconButton(
           onPressed: () async {
-          await ctrlPresentation.getOcupationCharger(widget.latitude, widget.longitude);
-          ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
-            ctrlPresentation.toChartPage(context, element[1]);
-          });
+            if(esBarcelona) {
+              await ctrlPresentation.getOcupationCharger(
+                  widget.latitude, widget.longitude);
+              ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude)
+                  .then((element) {
+                ctrlPresentation.toChartPage(context, element[1]);
+              });
+            }
+            else{
+              ctrlPresentation.showDialogNotFromBcn(context);
+            }
           },
           icon: const Icon(
             Icons.bar_chart,

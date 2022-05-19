@@ -1053,4 +1053,18 @@ class CtrlPresentation {
   double getNumRoutessaved(){
     return ctrlDomain.usuari.counterRoutes;
   }
+
+  void showDialogNotFromBcn(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: "Information not available", //TODO: TRANSLATE
+      desc: "Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.\n"
+          "Meanwhile, this function is only enabled for points only in Barcelona.", //TODO: TRANSLATE
+      btnOkText: "OK",
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
+  }
 }

@@ -42,7 +42,12 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
     return Scaffold(
       appBar: buildAppBar(context, notificationsInfo.title, notificationsInfo.latitud, notificationsInfo.longitud),
       body: notifications.isEmpty
-          ? const Text("There's no notifications yet. Add one...") //todo: translate AppLocalizations
+          ? const Center(
+            child: AutoSizeText("There's no notifications yet. Add one...",
+        style: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+        maxLines: 2,
+      ),
+          ) //todo: translate AppLocalizations
           : AnimatedList(
         key: _key,
         initialItemCount: notifications.length,
