@@ -234,4 +234,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notLoggedMsg => 'Log-in is required';
+
+  @override
+  String get keyChargers => 'Charging point key';
+
+  @override
+  String get keyBicing => 'Bicing station key';
+
+  @override
+  String get keyFavourites => 'Favourites key';
+
+  @override
+  String get stationName => 'Station name';
+
+  @override
+  String get streetName => 'Street name';
+
+  @override
+  String get availableChargers => 'Available';
+
+  @override
+  String get numChargers => 'Number of available chargers';
+
+  @override
+  String get unknownState => 'Unknown state';
+
+  @override
+  String get numUnknown => 'Number of chargers of unknown state';
+
+  @override
+  String get broken => 'Broken';
+
+  @override
+  String get numBroken => 'Number of broken chargers';
+
+  @override
+  String get notAvailable => 'Not available';
+
+  @override
+  String get numNotAvailable => 'Number of not available chargers';
+
+  @override
+  String get freePlaces => 'Free places';
+
+  @override
+  String get numFreePlaces => 'Number of free places';
+
+  @override
+  String get availablePedal => 'Available pedal bikes';
+
+  @override
+  String get numPedal => 'Number of pedal bikes';
+
+  @override
+  String get availableElectric => 'Available electric bicycles';
+
+  @override
+  String get numElectric => 'Number of available electric bicycles';
 }

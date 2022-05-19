@@ -549,20 +549,20 @@ class CtrlPresentation {
     Widget body;
     switch (s){
       case "chargePoint":
-        title = "Leyenda Punto de carga";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-        body = makeBodyAlertChargePoint();
+        title = AppLocalizations.of(context).keyChargers;//TODO (Peilin) ready for test
+        body = makeBodyAlertChargePoint(context);
         break;
       case "bicingPoint":
-        title = "Leyenda Punto de bicing";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-        body = buildBicingHeader();
+        title = AppLocalizations.of(context).keyBicing;//TODO (Peilin) ready for test
+        body = buildBicingHeader(context);
         break;
       case "favsPage":
-        title = "Leyenda Favs page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        title = AppLocalizations.of(context).keyFavourites;//TODO (Peilin) ready for test
         body = makeFavouritesLegend();
         break;
       default:
         title = "Default title";
-        body = makeBodyAlertChargePoint();
+        body = makeBodyAlertChargePoint(context);
         break;
     }
     AwesomeDialog(
@@ -576,7 +576,7 @@ class CtrlPresentation {
     ).show();
   }
 
-  Widget makeBodyAlertChargePoint() {
+  Widget makeBodyAlertChargePoint(BuildContext context) {
     return SingleChildScrollView(
       child:
       Padding(
@@ -586,8 +586,8 @@ class CtrlPresentation {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             buildHeader(
-              name: "Station name", //todo: translate
-              calle: "Street name", //todo: translate
+              name: AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+              calle: AppLocalizations.of(context).streetName, //TODO (Peilin) ready for test
               city: "City placed", //todo: translate
               numChargePlaces: "Charge places", //todo: translate
             ),
@@ -595,29 +595,29 @@ class CtrlPresentation {
             buildIconLabeled(
               icon: Icons.check_circle_rounded,
               color: Colors.greenAccent,
-              label: "Available Chargers", //todo: translate
-              description: "Indicates the number of available chargers.", //todo: translate
+              label: AppLocalizations.of(context).availableChargers, //TODO (Peilin) ready for test
+              description: AppLocalizations.of(context).numChargers, //TODO (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.help,
               color: Colors.yellow,
-              label: "Unknown State", //todo: translate
-              description: "Indicates the number of unknown state chargers.", //todo: translate
+              label: AppLocalizations.of(context).unknownState, //TODO (Peilin) ready for test
+              description: AppLocalizations.of(context).numUnknown, //TODO (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.warning,
               color: Colors.amber,
-              label: "Crashed State", //todo: translate
-              description: "Indicates the number of crashed chargers.", //todo: translate
+              label: AppLocalizations.of(context).broken, //TODO (Peilin) ready for test
+              description: AppLocalizations.of(context).numBroken, //TODO (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.stop_circle,
               color: Colors.red,
-              label: "Not Available Chargers", //todo: translate
-              description: "Indicates the number of unavailable chargers.", //todo: translate
+              label: AppLocalizations.of(context).notAvailable, //TODO (Peilin) ready for test
+              description: AppLocalizations.of(context).numNotAvailable, //TODO (Peilin) ready for test
             ),
           ],
         ),
@@ -724,18 +724,18 @@ class CtrlPresentation {
     );
   }
 
-  buildBicingHeader(){
+  buildBicingHeader(BuildContext context){
     const Color fontColor = Colors.black;
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ListTile(
-            leading: Icon(Icons.pedal_bike, color: fontColor, size: 45,),
+          ListTile(
+            leading: const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
             title: AutoSizeText(
-              "Bicing station name", //todo: translate
-              style: TextStyle(
+              AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+              style: const TextStyle(
                 color: fontColor,
                 fontSize: 24,
               ),
@@ -750,20 +750,20 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.local_parking,
             color: fontColor,
-            label: "Free bike holders", //todo: translate
-            description: "Indicates the number of free bike holders (parkings).", //todo: translate
+            label: AppLocalizations.of(context).freePlaces, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).numFreePlaces, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.pedal_bike,
             color: fontColor,
-            label: "Available pedal bikes", //todo: translate
-            description: "Indicates the number of available pedal bikes.", //todo: translate
+            label: AppLocalizations.of(context).availablePedal, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).numPedal, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.electric_bike,
             color: fontColor,
-            label: "Available electric bikes", //todo: translate
-            description: "Indicates the number of available electric bikes.", //todo: translate
+            label: AppLocalizations.of(context).availableElectric, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).numElectric, //TODO (Peilin) ready for test
           ),
         ],
       ),

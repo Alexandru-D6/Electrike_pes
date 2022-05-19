@@ -108,7 +108,28 @@
    "hours": "Horas",
    "yourLocation": "Mi localización",
 
-   "notLoggedMsg": "Se requiere inicio de sessión"
+   "notLoggedMsg": "Se requiere inicio de sessión",
+   "keyChargers": "Leyenda de puntos de carga",
+   "keyBicing": "Leyenda de estaciones Bicing",
+   "keyFavourites": "Llegenda de favorits",
 
+   "stationName": "Nombre de la estación",
+   "streetName": "Nombre de la calle",
+
+   "availableChargers": "Disponibles",
+   "numChargers": "Número de cargadores disponibles",
+   "unknownState": "Estado desconocido",
+   "numUnknown": "Número de cargadores de estado desconocido",
+   "broken": "Roto",
+   "numBroken": "Número de cargadores rotos",
+   "notAvailable": "No disponible",
+   "numNotAvailable": "Número de cargadores no disponibles",
+
+   "freePlaces": "Sitios libres",
+   "numFreePlaces": "Número de sitios libres",
+   "availablePedal": "Disponibilidad de bicicletas de pedales",
+   "numPedal": "Número de bicicletas de pedales",
+   "availableElectric": "Disponibilidad de bicicletas eléctricas",
+   "numElectric": "Número de bicicletas eléctricas disponibles"
 
 }

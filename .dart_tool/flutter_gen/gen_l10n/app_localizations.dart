@@ -539,6 +539,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log-in is required'**
   String get notLoggedMsg;
+
+  /// No description provided for @keyChargers.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging point key'**
+  String get keyChargers;
+
+  /// No description provided for @keyBicing.
+  ///
+  /// In en, this message translates to:
+  /// **'Bicing station key'**
+  String get keyBicing;
+
+  /// No description provided for @keyFavourites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourites key'**
+  String get keyFavourites;
+
+  /// No description provided for @stationName.
+  ///
+  /// In en, this message translates to:
+  /// **'Station name'**
+  String get stationName;
+
+  /// No description provided for @streetName.
+  ///
+  /// In en, this message translates to:
+  /// **'Street name'**
+  String get streetName;
+
+  /// No description provided for @availableChargers.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get availableChargers;
+
+  /// No description provided for @numChargers.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of available chargers'**
+  String get numChargers;
+
+  /// No description provided for @unknownState.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown state'**
+  String get unknownState;
+
+  /// No description provided for @numUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of chargers of unknown state'**
+  String get numUnknown;
+
+  /// No description provided for @broken.
+  ///
+  /// In en, this message translates to:
+  /// **'Broken'**
+  String get broken;
+
+  /// No description provided for @numBroken.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of broken chargers'**
+  String get numBroken;
+
+  /// No description provided for @notAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available'**
+  String get notAvailable;
+
+  /// No description provided for @numNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of not available chargers'**
+  String get numNotAvailable;
+
+  /// No description provided for @freePlaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Free places'**
+  String get freePlaces;
+
+  /// No description provided for @numFreePlaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of free places'**
+  String get numFreePlaces;
+
+  /// No description provided for @availablePedal.
+  ///
+  /// In en, this message translates to:
+  /// **'Available pedal bikes'**
+  String get availablePedal;
+
+  /// No description provided for @numPedal.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of pedal bikes'**
+  String get numPedal;
+
+  /// No description provided for @availableElectric.
+  ///
+  /// In en, this message translates to:
+  /// **'Available electric bicycles'**
+  String get availableElectric;
+
+  /// No description provided for @numElectric.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of available electric bicycles'**
+  String get numElectric;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

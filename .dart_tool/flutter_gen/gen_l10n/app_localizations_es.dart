@@ -234,4 +234,61 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get notLoggedMsg => 'Se requiere inicio de sessión';
+
+  @override
+  String get keyChargers => 'Leyenda de puntos de carga';
+
+  @override
+  String get keyBicing => 'Leyenda de estaciones Bicing';
+
+  @override
+  String get keyFavourites => 'Llegenda de favorits';
+
+  @override
+  String get stationName => 'Nombre de la estación';
+
+  @override
+  String get streetName => 'Nombre de la calle';
+
+  @override
+  String get availableChargers => 'Disponibles';
+
+  @override
+  String get numChargers => 'Número de cargadores disponibles';
+
+  @override
+  String get unknownState => 'Estado desconocido';
+
+  @override
+  String get numUnknown => 'Número de cargadores de estado desconocido';
+
+  @override
+  String get broken => 'Roto';
+
+  @override
+  String get numBroken => 'Número de cargadores rotos';
+
+  @override
+  String get notAvailable => 'No disponible';
+
+  @override
+  String get numNotAvailable => 'Número de cargadores no disponibles';
+
+  @override
+  String get freePlaces => 'Sitios libres';
+
+  @override
+  String get numFreePlaces => 'Número de sitios libres';
+
+  @override
+  String get availablePedal => 'Disponibilidad de bicicletas de pedales';
+
+  @override
+  String get numPedal => 'Número de bicicletas de pedales';
+
+  @override
+  String get availableElectric => 'Disponibilidad de bicicletas eléctricas';
+
+  @override
+  String get numElectric => 'Número de bicicletas eléctricas disponibles';
 }

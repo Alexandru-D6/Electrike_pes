@@ -234,4 +234,61 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get notLoggedMsg => 'Se requiere inicio de sesión';
+
+  @override
+  String get keyChargers => 'Llegenda de punts de càrrega';
+
+  @override
+  String get keyBicing => 'Llegenda d\'estacions Bicing';
+
+  @override
+  String get keyFavourites => 'Llegenda de Favorits';
+
+  @override
+  String get stationName => 'Nom de la estació';
+
+  @override
+  String get streetName => 'Nom del carrer';
+
+  @override
+  String get availableChargers => 'Disponibles';
+
+  @override
+  String get numChargers => 'Nombre de carregadors disponibles';
+
+  @override
+  String get unknownState => 'Estat desconegut';
+
+  @override
+  String get numUnknown => 'Nombre de carregadors d\'estat desconegut';
+
+  @override
+  String get broken => 'Espatllat';
+
+  @override
+  String get numBroken => 'Nombre de carregadors espatllats';
+
+  @override
+  String get notAvailable => 'No disponible';
+
+  @override
+  String get numNotAvailable => 'Nombre de carregadors no disponibles';
+
+  @override
+  String get freePlaces => 'Llocs lliures';
+
+  @override
+  String get numFreePlaces => 'Nombre de llocs lliures';
+
+  @override
+  String get availablePedal => 'Disponibilitat de bicicletes de pedals';
+
+  @override
+  String get numPedal => 'Nombre de bicicletes de pedals';
+
+  @override
+  String get availableElectric => 'Disponibilitat de bicicletes elèctriques';
+
+  @override
+  String get numElectric => 'Nombre de bicicletes elèctriques disponibles';
 }

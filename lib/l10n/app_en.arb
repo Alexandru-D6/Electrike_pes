@@ -109,6 +109,27 @@
    "hours": "Hours",
    "yourLocation": "My location",
 
-   "notLoggedMsg": "Log-in is required"
+   "notLoggedMsg": "Log-in is required",
+   "keyChargers": "Charging point key",
+   "keyBicing": "Bicing station key",
+   "keyFavourites": "Favourites key",
 
+   "stationName": "Station name",
+   "streetName": "Street name",
+
+   "availableChargers": "Available",
+   "numChargers": "Number of available chargers",
+   "unknownState": "Unknown state",
+   "numUnknown": "Number of chargers of unknown state",
+   "broken": "Broken",
+   "numBroken": "Number of broken chargers",
+   "notAvailable": "Not available",
+   "numNotAvailable": "Number of not available chargers",
+
+   "freePlaces": "Free places",
+   "numFreePlaces": "Number of free places",
+   "availablePedal": "Available pedal bikes",
+   "numPedal": "Number of pedal bikes",
+   "availableElectric": "Available electric bicycles",
+   "numElectric": "Number of available electric bicycles"
 }

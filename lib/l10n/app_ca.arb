@@ -109,7 +109,27 @@
     "hours": "Hores",
     "yourLocation": "La meva localització",
 
-    "notLoggedMsg": "Se requiere inicio de sesión"
+    "notLoggedMsg": "Se requiere inicio de sesión",
+    "keyChargers": "Llegenda de punts de càrrega",
+    "keyBicing": "Llegenda d'estacions Bicing",
+    "keyFavourites": "Llegenda de Favorits",
 
+    "stationName": "Nom de la estació",
+    "streetName": "Nom del carrer",
 
+    "availableChargers": "Disponibles",
+    "numChargers": "Nombre de carregadors disponibles",
+    "unknownState": "Estat desconegut",
+    "numUnknown": "Nombre de carregadors d'estat desconegut",
+    "broken": "Espatllat",
+    "numBroken": "Nombre de carregadors espatllats",
+    "notAvailable": "No disponible",
+    "numNotAvailable": "Nombre de carregadors no disponibles",
+
+    "freePlaces": "Llocs lliures",
+    "numFreePlaces": "Nombre de llocs lliures",
+    "availablePedal": "Disponibilitat de bicicletes de pedals",
+    "numPedal": "Nombre de bicicletes de pedals",
+    "availableElectric": "Disponibilitat de bicicletes elèctriques",
+    "numElectric": "Nombre de bicicletes elèctriques disponibles"
 }
