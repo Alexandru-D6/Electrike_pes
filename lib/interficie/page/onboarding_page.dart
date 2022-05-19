@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/domini/main_peilin.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -51,7 +52,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ? TextButton(
         style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(0),
           ),
           primary: Colors.white,
           backgroundColor: Colors.teal.shade700,
@@ -64,7 +65,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         onPressed: () async{
           final prefs = await SharedPreferences.getInstance();
           prefs.setBool('showHome', true);
-          ctrlPresentation.toMainPage(context);
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const MyApp()),
+          );
         }
     )
           : Container(
