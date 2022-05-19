@@ -106,6 +106,12 @@ class RutesAmbCarrega {
 
             if (desti.longitude != -1.0 && desti.latitude != -1.0) {
               routesResponse.waypoints.add(coordCharger);
+              RouteResponse firstTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(origen, coordCharger);
+              RouteResponse secTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(coordCharger, desti);
+              double totalDuration = (firstTram.durationMinutes!) + (secTram.durationMinutes!);
+              double totalDistance = (firstTram.distanceMeters!) + (secTram.distanceMeters!);
+              routesResponse.setDuration(totalDuration);
+              routesResponse.setDistance(totalDistance);
               trobat = true;
             }
           }

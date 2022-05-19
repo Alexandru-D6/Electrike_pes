@@ -26,8 +26,7 @@
   "chargerTypeLabel": "Selecciona els carregadors que pot utilitzar (tingues en compte també els adaptadors, en el cas de tenir-ne cap)",
   "add": "Afegir",
   "login": "Iniciar sessió",
-  "toAddCarLogin": "Per afegir un vehicle has d'iniciar sessió",
-  "toAddFavLogin": "Per afegir un punt a favorits has d'iniciar sessió\n",
+  "notLogged": "Encara no has iniciat sessió",
   "clickToLogin": "Pulsa per iniciar sessió",
   "alertSureDeleteCarTitle": "Estas segur de voler eliminar aquest vehicle?",
   "alertSureDeleteCarContent": "Borrar un vehicle és una acció permanent que elimina totes les dades associades.\n Estas segur de voler continuar?\n",
@@ -63,5 +62,40 @@
   "save": "Guardar canvis",
   "vehicles": "Vehicles",
   "trophies": "Trofeus",
-  "savedco2": "CO2 salvat"
+  "savedco2": "CO2 salvat",
+
+   "day1": "Dilluns",
+   "day2": "Dimarts",
+   "day3": "Dimecres",
+   "day4": "Dijous",
+   "day5": "Divendres",
+   "day6": "Dissabte",
+   "day7": "Diumenge",
+
+   "notificationSettings": "Configuració de notificacions",
+   "receiveNoti": "Repetició",
+   "time": "Hora",
+   "addNoti": "Afegir notificació",
+   "notificationInfoMsg": "Rebràs una notificació els {days} a les {hora}:{min}",
+   "@notificationInfoMsg": {
+        "placeholders": {
+            "days": {},
+            "hora": {},
+            "min": {}
+        }
+    },
+
+    "addFavPoints": "Afegir punt a favorits",
+    "explNoFav": "Inicia sessió per consultar els teus favorits",
+    "hideMarkers": "Amagar tots",
+    "showMarkers": "Mostrar tots",
+    "chargers": "Carregadors",
+    "bicing": "Bicing",
+    "favouritesMark": "Favourits",
+
+    "selectCar": "Escull un vehicle",
+    "actualBatMsg": "Introdueix la bateria restant",
+    "selectRouteType": "Escull un tipus de ruta",
+    "start": "Inicia"
+
 }

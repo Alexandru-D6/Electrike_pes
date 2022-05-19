@@ -51,7 +51,7 @@ class _InfoRutaState extends State<InfoRuta> {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: <Widget>[
-          const Text("Select one of your cars"), //todo: peilin multi
+          Text(AppLocalizations.of(context).selectCar), //TODO (Peilin) ready for test
           ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
             height: 100,
             width: 100,
@@ -97,7 +97,7 @@ class _InfoRutaState extends State<InfoRuta> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text("Enter your battery left: "), //todo: peilin multi
+              Text(AppLocalizations.of(context).actualBatMsg), //TODO (Peilin) ready for test
               SizedBox(
                 width: 40,
                 child:
@@ -142,6 +142,7 @@ class _InfoRutaState extends State<InfoRuta> {
               customRadioButton("Eco", 2)
             ],
           ),
+          Text(AppLocalizations.of(context).selectRouteType),//TODO (Peilin) ready for test
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -170,7 +171,7 @@ class _InfoRutaState extends State<InfoRuta> {
                 borderRadius: BorderRadius.circular(30.0),),
               primary: const Color(0xff8A84E2),
             ),
-            child: const Text('Start Route'), //todo: peilin multi
+            child: Text(AppLocalizations.of(context).start), //todo: peilin multi
           ),
         ],
       ),

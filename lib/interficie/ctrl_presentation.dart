@@ -171,7 +171,7 @@ class CtrlPresentation {
             .login,
         desc: AppLocalizations
             .of(context)
-            .toAddCarLogin,
+            .notLogged,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
         btnOkText: AppLocalizations
@@ -432,7 +432,7 @@ class CtrlPresentation {
             .login,
         desc: AppLocalizations
             .of(context)
-            .toAddFavLogin,
+            .notLogged,
         btnCancelOnPress: () {},
         btnOkIcon: (Icons.login),
         btnOkText: AppLocalizations

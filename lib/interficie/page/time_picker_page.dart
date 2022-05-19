@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class TimePickerPage extends StatefulWidget {
@@ -43,7 +45,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
     final notificationsInfo = ModalRoute.of(context)!.settings.arguments as NewNotificationArgs;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notifications settings"), //TODO:  translate
+        title:  Text(AppLocalizations.of(context).notificationSettings), //TODO (Peilin) ready for test
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -52,10 +54,10 @@ class _TimePickerPageState extends State<TimePickerPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const AutoSizeText("When do you want to receive notifications?",
-                  style: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+                 AutoSizeText(AppLocalizations.of(context).receiveNoti,
+                  style: const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
                   maxLines: 2,
-                ), //TODO:  translate
+                ), //TODO (Peilin) ready for test
 
                 const Divider(height: 20,),
 
@@ -118,7 +120,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
                       onPressed: () {
                         _selectTime(context);
                       },
-                      label: const Text("Choose Time"), //TODO: translate
+                      label: Text(AppLocalizations.of(context).time), //TODO (Peilin) ready for test
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -138,11 +140,11 @@ class _TimePickerPageState extends State<TimePickerPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("You will be notified "+selectedDays.toString()+" at "+"${selectedTime.hour}:${selectedTime.minute}")),
+            SnackBar(content: Text(AppLocalizations.of(context).notificationInfoMsg(selectedDays.toString(), selectedTime.hour.toString(), selectedTime.minute.toString()))), // TODO (Peilin) ready for test
           );
         },
-        heroTag: "Add notification",//todo:translate
-        tooltip: "Add notification",//todo:translate
+        heroTag: AppLocalizations.of(context).addNoti,//TODO (Peilin) ready for test
+        tooltip: AppLocalizations.of(context).addNoti,//TODO (Peilin) ready for test
         child: const Icon(Icons.more_time),
         backgroundColor: mPrimaryColor,
       ),

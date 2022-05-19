@@ -252,17 +252,11 @@ abstract class AppLocalizations {
   /// **'Log-in'**
   String get login;
 
-  /// No description provided for @toAddCarLogin.
+  /// No description provided for @notLogged.
   ///
   /// In en, this message translates to:
-  /// **'To add a car you must be logged!'**
-  String get toAddCarLogin;
-
-  /// No description provided for @toAddFavLogin.
-  ///
-  /// In en, this message translates to:
-  /// **'To add a point to your favourites you must be logged in\n'**
-  String get toAddFavLogin;
+  /// **'You aren\'t logged yet'**
+  String get notLogged;
 
   /// No description provided for @clickToLogin.
   ///
@@ -347,6 +341,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved CO2'**
   String get savedco2;
+
+  /// No description provided for @day1.
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get day1;
+
+  /// No description provided for @day2.
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get day2;
+
+  /// No description provided for @day3.
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get day3;
+
+  /// No description provided for @day4.
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get day4;
+
+  /// No description provided for @day5.
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get day5;
+
+  /// No description provided for @day6.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get day6;
+
+  /// No description provided for @day7.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get day7;
+
+  /// No description provided for @notificationSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification settings'**
+  String get notificationSettings;
+
+  /// No description provided for @receiveNoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency'**
+  String get receiveNoti;
+
+  /// No description provided for @time.
+  ///
+  /// In en, this message translates to:
+  /// **'Hour'**
+  String get time;
+
+  /// No description provided for @addNoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Add notification'**
+  String get addNoti;
+
+  /// No description provided for @notificationInfoMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'A notificacion will be sent in {days} at {hora}:{min}'**
+  String notificationInfoMsg(Object days, Object hora, Object min);
+
+  /// No description provided for @addFavPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Add point to favourites'**
+  String get addFavPoints;
+
+  /// No description provided for @explNoFav.
+  ///
+  /// In en, this message translates to:
+  /// **'Log-in to see your favourites'**
+  String get explNoFav;
+
+  /// No description provided for @hideMarkers.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide all'**
+  String get hideMarkers;
+
+  /// No description provided for @showMarkers.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all'**
+  String get showMarkers;
+
+  /// No description provided for @favouritesMark.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourites'**
+  String get favouritesMark;
+
+  /// No description provided for @selectCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a vehicle'**
+  String get selectCar;
+
+  /// No description provided for @actualBatMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the remaining battery'**
+  String get actualBatMsg;
+
+  /// No description provided for @selectRouteType.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a route type'**
+  String get selectRouteType;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

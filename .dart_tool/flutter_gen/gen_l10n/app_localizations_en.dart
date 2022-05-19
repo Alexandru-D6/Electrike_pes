@@ -86,10 +86,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Log-in';
 
   @override
-  String get toAddCarLogin => 'To add a car you must be logged!';
-
-  @override
-  String get toAddFavLogin => 'To add a point to your favourites you must be logged in\n';
+  String get notLogged => 'You aren\'t logged yet';
 
   @override
   String get clickToLogin => 'Click to log-in';
@@ -136,4 +133,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedco2 => 'Saved CO2';
+
+  @override
+  String get day1 => 'Monday';
+
+  @override
+  String get day2 => 'Tuesday';
+
+  @override
+  String get day3 => 'Wednesday';
+
+  @override
+  String get day4 => 'Thursday';
+
+  @override
+  String get day5 => 'Friday';
+
+  @override
+  String get day6 => 'Saturday';
+
+  @override
+  String get day7 => 'Sunday';
+
+  @override
+  String get notificationSettings => 'Notification settings';
+
+  @override
+  String get receiveNoti => 'Frequency';
+
+  @override
+  String get time => 'Hour';
+
+  @override
+  String get addNoti => 'Add notification';
+
+  @override
+  String notificationInfoMsg(Object days, Object hora, Object min) {
+    return 'A notificacion will be sent in $days at $hora:$min';
+  }
+
+  @override
+  String get addFavPoints => 'Add point to favourites';
+
+  @override
+  String get explNoFav => 'Log-in to see your favourites';
+
+  @override
+  String get hideMarkers => 'Hide all';
+
+  @override
+  String get showMarkers => 'Show all';
+
+  @override
+  String get favouritesMark => 'Favourites';
+
+  @override
+  String get selectCar => 'Select a vehicle';
+
+  @override
+  String get actualBatMsg => 'Enter the remaining battery';
+
+  @override
+  String get selectRouteType => 'Select a route type';
+
+  @override
+  String get start => 'Start';
 }

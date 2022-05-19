@@ -4,6 +4,7 @@ import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/ocupation_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
@@ -13,10 +14,12 @@ class ChartPage extends StatefulWidget {
   @override
   State<ChartPage> createState() => _ChartPageState();
 }
-  class _ChartPageState extends State<ChartPage> {
-    String dropdownValue = 'Monday'; //todo: añadir dropdown
+class _ChartPageState extends State<ChartPage> {
+  String dropdownValue = 'Monday'; //todo: DROPDOWN PROBLEM
+
   @override
   Widget build(BuildContext context) {
+    //dropdownValue = AppLocalizations.of(context).day1;
     final pointTitle = ModalRoute.of(context)!.settings.arguments as String;
     //CtrlPresentation ctrlPresentation = CtrlPresentation();
     return Scaffold(
@@ -52,6 +55,10 @@ class ChartPage extends StatefulWidget {
                 dropdownValue = newValue!;
               });
             },
+                  /*AppLocalizations.of(context).day1, AppLocalizations.of(context).day2,
+                  AppLocalizations.of(context).day3, AppLocalizations.of(context).day4,
+                  AppLocalizations.of(context).day5, AppLocalizations.of(context).day6,
+                  AppLocalizations.of(context).day7,*/
             items: <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',] //todo: peilin multiidiomas
             .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
@@ -83,12 +90,12 @@ class ChartPage extends StatefulWidget {
 
     return [
       charts.Series<DataGraphic, String>(
-          id: 'Ocupacio',
-          colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
-          domainFn: (DataGraphic occupation, _) => occupation.hour.toInt().toString(),
-          measureFn: (DataGraphic occupation, _) => occupation.percentage.round(),
-          data: data,
-          // Set a label accessor to control the text of the bar label.
+        id: 'Ocupacio',
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        domainFn: (DataGraphic occupation, _) => occupation.hour.toInt().toString(),
+        measureFn: (DataGraphic occupation, _) => occupation.percentage.round(),
+        data: data,
+        // Set a label accessor to control the text of the bar label.
 
       )
     ];
