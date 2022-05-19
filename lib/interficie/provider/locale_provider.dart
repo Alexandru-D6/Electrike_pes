@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/l10n/l10n.dart';
-import 'package:restart_app/restart_app.dart';
 
 class LocaleProvider extends ChangeNotifier {
   Locale _locale = const Locale("en");

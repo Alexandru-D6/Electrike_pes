@@ -31,6 +31,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         openAxisAlignment: 0.0,
         debounceDelay: const Duration(milliseconds: 100),
         automaticallyImplyDrawerHamburger: false,
+        automaticallyImplyBackButton: false,
         onQueryChanged: (query) {
           updateRecomendations(query);
         },
@@ -77,6 +78,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       debounceDelay: const Duration(milliseconds: 100),
       automaticallyImplyDrawerHamburger: false,
       closeOnBackdropTap: true,
+      automaticallyImplyBackButton: false,
       onQueryChanged: (query) {
         updateRecomendations(query);
       },
@@ -133,7 +135,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
 
   Widget buildRecomendationButtons({
     required List<String?> text,
-    required String origin
+    required String origin,
   }) {
     List<ListTile> list = <ListTile>[];
     for (var element in text) {
@@ -146,9 +148,6 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           }else {
             ctrlPresentation.actualLocation = element;
           }
-          print(element);
-          print(text);
-          widget.createState().deactivate();
           //ctrlPresentation.toMainPage(context),
           //ctrlPresentation.makeRoute()
           },//TODO: llamar aqui que hacer con cada boton de la lista
