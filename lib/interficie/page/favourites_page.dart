@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -174,6 +175,18 @@ class _AllFavsState extends State<AllFavs> {
                   (const Icon(Icons.notifications_active)) :
                   (const Icon(Icons.notifications_off)),
                   onPressed: () {
+                    if(!hasNotifications){
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.INFO,
+                        animType: AnimType.BOTTOMSLIDE,
+                        title: "Add alerts", //TODO: TRANSLATE
+                        desc: "You haven't got any alert associated to this point. Add at least one to receive notifications from this point.", //TODO: TRANSLATE
+                        btnOkText: "OK",
+                        btnOkOnPress: () {},
+                        headerAnimationLoop: false,
+                      ).show();
+                    }
                     if(notificationsOn){
                       ctrlPresentation.disableAllNotifications(word.latitud, word.longitud);
                     }

@@ -10,7 +10,6 @@ import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/confetti.dart';
-import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
@@ -18,6 +17,7 @@ import 'package:flutter_project/interficie/provider/locale_provider.dart';
 import 'package:flutter_project/interficie/widget/search_bar_widget.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:location/location.dart';
@@ -297,6 +297,8 @@ class CtrlPresentation {
       toMainPage(context);
       await serviceLocator<GoogleLoginAdpt>().logout();
     }
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('showHome', false);
   }
 
   void resetUserValues() {
