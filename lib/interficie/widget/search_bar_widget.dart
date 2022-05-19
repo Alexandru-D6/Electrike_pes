@@ -22,7 +22,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
     return Stack(children: <Widget>[
       FloatingSearchBar(
         hint: ctrlPresentation.actualLocation,
-        margins: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+        margins: const EdgeInsets.fromLTRB(60, 5, 60, 0),
         scrollPadding: const EdgeInsets.only(top: 60, bottom: 56),
         transitionDuration: const Duration(milliseconds: 50),
         transitionCurve: Curves.easeInOut,
@@ -67,7 +67,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       ),
         FloatingSearchBar(
       hint: ctrlPresentation.destination,
-      margins: const EdgeInsets.fromLTRB(10, 60, 10, 0),
+      margins: const EdgeInsets.fromLTRB(60, 60, 60, 0),
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
       transitionDuration: const Duration(milliseconds: 50),
       transitionCurve: Curves.easeInOut,
@@ -76,6 +76,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       openAxisAlignment: 0.0,
       debounceDelay: const Duration(milliseconds: 200),
       automaticallyImplyDrawerHamburger: false,
+      closeOnBackdropTap: true,
       onQueryChanged: (query) {
         updateRecomendations(query);
       },
@@ -154,7 +155,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           },//TODO: llamar aqui que hacer con cada boton de la lista
       ));
     }
-    return FloatingSearchBarScrollNotifier(child: Column(children: list));
+    return FloatingSearchBarScrollNotifier(child: Column(mainAxisSize: MainAxisSize.min, children: list));
 
   }
 

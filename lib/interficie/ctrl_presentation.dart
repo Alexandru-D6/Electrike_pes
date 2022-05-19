@@ -47,6 +47,9 @@ class CtrlPresentation {
   String bateria = "100"; // de normal 100
   String distinmeters = "";
   String durationinminutes = "";
+  String distinkilometers = "";
+  String durationinhours = "";
+  List<GeoCoord> waypointsRuta = <GeoCoord>[];
 
   void initLocation(BuildContext context) {
     location = Location();
@@ -80,7 +83,7 @@ class CtrlPresentation {
       }
     }
   }
-
+  
   //intercambiar vista
   _showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
@@ -358,28 +361,30 @@ class CtrlPresentation {
 
       double bat = double.parse(bateria);
 
-      if (actualLocation == "Your location") orig = GeoCoord(curLocation.latitude, curLocation.longitude);
+      if (actualLocation == "Your location") orig = curLocation;
 
       //print("origen --> " + orig.toString());
       //print("destination --> " + dest.toString());
 
-      RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
+        //RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
 
-      //print(rutaCharger);
-      //print(rutaCharger.waypoints);
+         // print(rutaCharger);
+         // print(rutaCharger.waypoints);
 
       String origin = orig.latitude.toString() + "," + orig.longitude.toString();
 
-      GoogleMap.of(getMapKey())?.displayRoute(
-        origin,
-        destination,
-        waypoints: rutaCharger.waypoints.isEmpty || rutaCharger.waypoints.first.latitude == -1.0 ? List<GeoCoord>.empty() : rutaCharger.waypoints,
-        startLabel: '1',
-        startInfo: 'Origin',
-        endIcon: 'assets/images/rolls_royce.png',
-        endInfo: 'Destination',
-        color: Colors.brown,
-      );
+        GoogleMap.of(getMapKey())?.displayRoute(
+          origin,
+          destination,
+          waypoints: waypointsRuta.isEmpty || waypointsRuta.first.latitude == -1.0 ? List<GeoCoord>.empty() : waypointsRuta,
+          startLabel: '1',
+          startInfo: 'Origin',
+          endIcon: 'assets/images/rolls_royce.png',
+          endInfo: 'Destination',
+          color: Colors.brown,
+        );
+
+      });
     }
     else if (routeType == 2) {
       //todo: ruta ecologica
@@ -845,28 +850,74 @@ class CtrlPresentation {
     return notifications;
   }
   
-  void getDistDuration() async {
-    getMapsService.adressCoding(destination).then((destT) async {
+  Future<List<String>> getDistDuration() async {
+      var destT = await getMapsService.adressCoding(destination);
       GeoCoord desti = GeoCoord(destT.latitude, destT.longitude);
 
-      GeoCoord origen;
+      GeoCoord origen = curLocation;
 
       if (actualLocation != "Your location") {
-        GeoCoord origT = await getMapsService.adressCoding(destination);
+        GeoCoord origT = await getMapsService.adressCoding(actualLocation);
         origen = GeoCoord(origT.latitude, origT.longitude);
       }
-      else {
-        origen = GeoCoord(curLocation.latitude, curLocation.longitude);
+        print(origen);
+        print(desti);
+
+      String resDuration = "";
+      String resDistance = "";
+      if(routeType == 0) {
+        var routeInfo = await ctrlDomain.infoRutaSenseCarrega(origen, desti);
+
+        distinkilometers = routeInfo.distance;
+          print(distinkilometers);
+        resDistance = routeInfo.distance;
+        durationinhours = routeInfo.duration;
+          print(durationinhours);
+        resDuration = routeInfo.duration;
       }
-      print(origen);
-      print(desti);
-      ctrlDomain.infoRutaSenseCarrega(origen, desti).then((routeInfo) async{
-        distinmeters = routeInfo.distance;
-        print(distinmeters);
-        durationinminutes = routeInfo.duration;
-        print(durationinminutes);
-      });
-    });
+      else if(routeType == 1){
+        double bat = double.parse(bateria);
+        print("origen --> " + origen.toString());
+        print("destination --> " + desti.toString());
+
+        var rutaCharger = await ctrlDomain.findSuitableRoute(origen, desti, bat);
+
+        distinkilometers = rutaCharger.distance;
+        print(distinkilometers);
+        durationinhours = rutaCharger.duration;
+        print(durationinhours);
+        print(rutaCharger);
+        print(rutaCharger.waypoints);
+        waypointsRuta = rutaCharger.waypoints;
+        String origin = origen.latitude.toString() + "," + origen.longitude.toString();
+        resDuration = rutaCharger.duration;
+        resDistance = rutaCharger.distance;
+      }
+      else if(routeType == 2){
+        //todo:calculos necesarios ruta eco
+        resDuration = "0.0";
+        resDistance = "0";
+      }
+      double temporalTime =  double.parse(resDuration);
+      resDuration = getTimeString(temporalTime); //conversion a segundos
+      resDistance = resDistance + " km";
+      List<String> res = [resDistance, resDuration];
+      return res;
+  }
+
+  String getTimeString(double timeinHours){
+    int time = (timeinHours*3600).toInt(); //pasar a segundos
+    int hours = time~/3600;
+    int rest1 = time%3600;
+    int minutes = rest1~/60;
+    String res;
+    if(hours == 0) {
+      res = minutes.toString() + " min ";
+    }
+    else {
+      res = hours.toString() + " h " + minutes.toString() + " min ";
+    }
+    return res;
   }
 
   bool esBarcelona(double latitud, double longitud) {

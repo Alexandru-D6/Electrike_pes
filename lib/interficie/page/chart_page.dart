@@ -23,53 +23,55 @@ class ChartPage extends StatefulWidget {
       backgroundColor: Colors.white,
       appBar: buildAppBar(context),
       body:
-      Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-            child:
-              RichText(
-                text: TextSpan(
-                  text: pointTitle,
-                  style: const TextStyle(color: Colors.black, fontSize: 25),
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child:
+                RichText(
+                  text: TextSpan(
+                    text: pointTitle,
+                    style: const TextStyle(color: Colors.black, fontSize: 25),
 
 
-              )
+                )
+              ),
             ),
+          DropdownButton<String>(
+            value: dropdownValue,
+            icon: const Icon(Icons.arrow_drop_down_outlined),
+            elevation: 16,
+            style: const TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String? newValue) {
+              setState(() {
+                dropdownValue = newValue!;
+              });
+            },
+            items: <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',] //todo: peilin multiidiomas
+            .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
           ),
-        DropdownButton<String>(
-          value: dropdownValue,
-          icon: const Icon(Icons.arrow_drop_down_outlined),
-          elevation: 16,
-          style: const TextStyle(color: Colors.deepPurple),
-          underline: Container(
-            height: 2,
-            color: Colors.deepPurpleAccent,
-          ),
-          onChanged: (String? newValue) {
-            setState(() {
-              dropdownValue = newValue!;
-            });
-          },
-          items: <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',] //todo: peilin multiidiomas
-          .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+              alignment: Alignment.bottomCenter,
+              child:
+                SizedBox(
+                  width: 500.0,
+                  height: 500.0,
+                  child: OcupationChart(createData(dropdownValue), animate: false),
+                )
+            )
+          ]
         ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-            alignment: Alignment.bottomCenter,
-            child:
-              SizedBox(
-                width: 500.0,
-                height: 500.0,
-                child: OcupationChart(createData(dropdownValue), animate: false),
-              )
-          )
-        ]
       )
     );
   }
