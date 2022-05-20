@@ -97,20 +97,6 @@ class CtrlPresentation {
   }
   
   //intercambiar vista
-  _showNotLogDialog(BuildContext context) {
-    return AwesomeDialog(
-      context: context,
-      dialogType: DialogType.INFO,
-      animType: AnimType.BOTTOMSLIDE,
-      title: "You aren't logged",
-      //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-      desc: "You aren't logged so you don't have access to this screen because It would be empty.",
-      //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
-      btnOkOnPress: () {},
-      headerAnimationLoop: false,
-    ).show();
-  }
-
   toMainPage(BuildContext context) {
     //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -174,27 +160,7 @@ class CtrlPresentation {
 
   toFormCar(BuildContext context) {
     if (email == "") {
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.INFO,
-        animType: AnimType.BOTTOMSLIDE,
-        title: AppLocalizations
-            .of(context)
-            .login,
-        desc: AppLocalizations
-            .of(context)
-            .notLogged,
-        btnCancelOnPress: () {},
-        btnOkIcon: (Icons.login),
-        btnOkText: AppLocalizations
-            .of(context)
-            .login,
-        btnOkOnPress: () {
-          signInRoutine(context);
-        },
-
-        headerAnimationLoop: false,
-      ).show();
+      _showNotLogDialog(context);
     }
     else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -437,7 +403,7 @@ class CtrlPresentation {
 
   void loveClickedCharger(BuildContext context, double latitud, double longitud) {
     if (email == "") {
-      showDialogNotLogged(context);
+      _showNotLogDialog(context);
     }
     else {
       ctrlDomain.gestioFavChargers(latitud, longitud);
@@ -446,36 +412,11 @@ class CtrlPresentation {
 
   void loveClickedBicing(BuildContext context, double latitud, double longitud) {
     if (email == "") {
-      showDialogNotLogged(context);
+      _showNotLogDialog(context);
     }
     else {
       ctrlDomain.gestioFavBicing(latitud, longitud);
     }
-  }
-
-
-  void showDialogNotLogged(BuildContext context){
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.INFO,
-      animType: AnimType.BOTTOMSLIDE,
-      title: AppLocalizations
-          .of(context)
-          .login,
-      desc: AppLocalizations
-          .of(context)
-          .notLogged,
-      btnCancelOnPress: () {},
-      btnOkIcon: (Icons.login),
-      btnOkText: AppLocalizations
-          .of(context)
-          .login,
-      btnOkOnPress: () {
-      signInRoutine(context);
-      },
-
-      headerAnimationLoop: false,
-    ).show();
   }
 
   void deleteAccount(BuildContext context) {
@@ -557,7 +498,6 @@ class CtrlPresentation {
     return ctrlDomain.islogged();
   }
 
-
   double getCO2saved() {
     return ctrlDomain.usuari.co2Estalviat;
   }
@@ -565,6 +505,30 @@ class CtrlPresentation {
   Future<String> share({required double latitude, required double longitude, required String type}) async {
     var url = await DynamicLinkUtils.buildDynamicLink("point/$type/$latitude,$longitude");
     return "Hey, check this point => $url";
+  }
+
+  _showNotLogDialog(BuildContext context) {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: AppLocalizations
+          .of(context)
+          .login,
+      desc: AppLocalizations
+          .of(context)
+          .notLogged,
+      btnCancelOnPress: () {},
+      btnOkIcon: (Icons.login),
+      btnOkText: AppLocalizations
+          .of(context)
+          .login,
+      btnOkOnPress: () {
+        signInRoutine(context);
+      },
+
+      headerAnimationLoop: false,
+    ).show();
   }
 
   void showLegendDialog(BuildContext context, String s) {
