@@ -56,6 +56,10 @@ class BicingPointDetailInformation extends StatelessWidget {
               ),
             ],
           ),
+          const Divider(
+            height: 16,
+            color: Colors.black54,
+          ),
           StatefulPointInfo(latitude: latitud, longitude: longitud,),
         ],
       ),
@@ -162,12 +166,13 @@ class StatefulPointInfo extends StatefulWidget {
 
 class _StatefulPointInfoState extends State<StatefulPointInfo> {
   List<String> infoBicingPoint = List.filled(21, "");
-
+  bool loading = true;
   @override
   void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
     ctrlPresentation.getInfoBicing(widget.latitude, widget.longitude).then((element){
       setState(() {
         infoBicingPoint = element;
+        loading = false;
       });
     });
     super.initState();
@@ -175,10 +180,13 @@ class _StatefulPointInfoState extends State<StatefulPointInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    if(loading) {
+      return const CircularProgressIndicator(color: Colors.black26);
+    }
+    else {
+      return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         ListTile(
           leading: const Icon(Icons.pedal_bike, color: Colors.white, size: 45,),
           title: AutoSizeText(
@@ -190,10 +198,7 @@ class _StatefulPointInfoState extends State<StatefulPointInfo> {
             maxLines: 1,
           ),
         ),
-        const Divider(
-          height: 16,
-          color: Colors.black54,
-        ),
+        const SizedBox(width: 15,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -210,6 +215,7 @@ class _StatefulPointInfoState extends State<StatefulPointInfo> {
         )
       ],
     );
+    }
   }
 }
 
