@@ -40,7 +40,6 @@ class RewardsPage extends StatelessWidget {
                   c = Colors.amber;
                 }
               }
-              else {img = Image.asset('assets/trophies/lockedtrophy'+index.toString()+'.png', width: 100);}
 
               return Container(//todo hacer bien el resize para movil
                 alignment: Alignment.center,
