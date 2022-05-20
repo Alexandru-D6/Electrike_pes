@@ -81,20 +81,9 @@ class EditInfoPoint extends StatefulWidget {
 }
 
 class _EditInfoPointState extends State<EditInfoPoint> {
-  List<String> point = List.filled(23, "");
-  @override
-  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
-    ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
-      setState(() {
-        point = element;
-      });
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    bool esBarcelona = point[22] == "false";
+    bool esBarcelona = !ctrlPresentation.esBarcelona(widget.latitude, widget.longitude);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -196,12 +185,13 @@ class PointInfo extends StatefulWidget {
 
 class _PointInfoState extends State<PointInfo> {
   List<String> point = List.filled(23, ""); //si da error de size aumentar 1
-
+  bool loading = true;
   @override
   void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
     ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
       setState(() {
         point = element;
+        loading = false;
       });
     });
     super.initState();
@@ -225,7 +215,12 @@ class _PointInfoState extends State<PointInfo> {
       ],
     );
 
-    return res;
+    if(loading) {
+      return const CircularProgressIndicator(color: Colors.black26);
+    }
+    else {
+      return res;
+    }
   }
 
   Widget buildHeader({
