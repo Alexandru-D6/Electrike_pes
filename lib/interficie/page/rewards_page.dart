@@ -21,8 +21,8 @@ class RewardsPage extends StatelessWidget {
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 300,
                 childAspectRatio: 3 / 2,
-                crossAxisSpacing: 30,
-                mainAxisSpacing: 30),
+                crossAxisSpacing: 40,
+                mainAxisSpacing: 40),
             itemCount: trophies.length,
             itemBuilder: (BuildContext ctx, index) {
               Image img = Image.asset('assets/trophies/trophy.png', width: 100);
@@ -42,11 +42,11 @@ class RewardsPage extends StatelessWidget {
               }
               else {img = Image.asset('assets/trophies/lockedtrophy'+index.toString()+'.png', width: 100);}
 
-              return Container(
+              return Container(//todo hacer bien el resize para movil
                 alignment: Alignment.center,
                 child: Column(
                     children: [
-                      const Text(" "),
+                      const Text(" "),//Todo generar espacio
                       CircleAvatar(
                         radius: 50,
                         backgroundColor: c,
