@@ -489,7 +489,7 @@ class CtrlDomain {
     return namesBFav;
   }
   Future<List<List<String>>> getFavBicing() async{
-    List<List<String>> FavBicings = <List<String>>[];
+    List<List<String>> favBicings = <List<String>>[];
     for(var c in puntsFavBicing){
       List<String> p = <String>[];
       p.add(c.coord.latitud.toString());
@@ -500,9 +500,9 @@ class CtrlDomain {
       for(var it in resp['items']){
         p.add('Bicing '+it['name']);
       }
-      FavBicings.add(p);
+      favBicings.add(p);
     }
-    return FavBicings;
+    return favBicings;
   }
 
   //CARS
