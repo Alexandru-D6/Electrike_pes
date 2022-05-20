@@ -25,7 +25,7 @@ class RewardsPage extends StatelessWidget {
                 mainAxisSpacing: 40),
             itemCount: trophies.length,
             itemBuilder: (BuildContext ctx, index) {
-              Image img = Image.asset('assets/trophies/trophy.png', width: 100);
+              Image img = Image.asset('assets/trophies/lockedtrophy.png', width: 100);
               Color c = Colors.black54;
               if(trophies[index][1] == "true") {
                 img = Image.asset('assets/trophies/trophy'+index.toString()+'.png', width: 100);
