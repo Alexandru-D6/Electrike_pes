@@ -436,33 +436,47 @@ class CtrlPresentation {
     return ctrlDomain.isAFavPoint(latitud, longitud);
   }
 
-  void loveClicked(BuildContext context, double latitud, double longitud) {
+  void loveClickedCharger(BuildContext context, double latitud, double longitud) {
     if (email == "") {
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.INFO,
-        animType: AnimType.BOTTOMSLIDE,
-        title: AppLocalizations
-            .of(context)
-            .login,
-        desc: AppLocalizations
-            .of(context)
-            .notLogged,
-        btnCancelOnPress: () {},
-        btnOkIcon: (Icons.login),
-        btnOkText: AppLocalizations
-            .of(context)
-            .login,
-        btnOkOnPress: () {
-          signInRoutine(context);
-        },
-
-        headerAnimationLoop: false,
-      ).show();
+      showDialogNotLogged(context);
     }
     else {
-      ctrlDomain.toFavPoint(latitud, longitud);
+      ctrlDomain.gestioFavChargers(latitud, longitud);
     }
+  }
+
+  void loveClickedBicing(BuildContext context, double latitud, double longitud) {
+    if (email == "") {
+      showDialogNotLogged(context);
+    }
+    else {
+      ctrlDomain.gestioFavBicing(latitud, longitud);
+    }
+  }
+
+
+  void showDialogNotLogged(BuildContext context){
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: AppLocalizations
+          .of(context)
+          .login,
+      desc: AppLocalizations
+          .of(context)
+          .notLogged,
+      btnCancelOnPress: () {},
+      btnOkIcon: (Icons.login),
+      btnOkText: AppLocalizations
+          .of(context)
+          .login,
+      btnOkOnPress: () {
+      signInRoutine(context);
+      },
+
+      headerAnimationLoop: false,
+    ).show();
   }
 
   void deleteAccount(BuildContext context) {
@@ -1053,5 +1067,27 @@ class CtrlPresentation {
 
   double getNumRoutessaved(){
     return ctrlDomain.usuari.counterRoutes;
+  }
+
+  void showDialogNotFromBcn(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: "Information not available", //TODO: TRANSLATE
+      desc: "Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.\n"
+          "Meanwhile, this function is only enabled for points only in Barcelona.", //TODO: TRANSLATE
+      btnOkText: "OK",
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
+  }
+
+  Future<List<List<String>>> getFAVChargers() {
+    return ctrlDomain.getFavChargers();
+  }
+
+  Future<List<List<String>>> getFAVBicing() {
+    return ctrlDomain.getFavBicing();
   }
 }

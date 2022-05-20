@@ -42,7 +42,12 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
     return Scaffold(
       appBar: buildAppBar(context, notificationsInfo.title, notificationsInfo.latitud, notificationsInfo.longitud),
       body: notifications.isEmpty
-          ? const Text("There's no notifications yet. Add one...")
+          ? const Center(
+            child: AutoSizeText("There's no notifications yet. Add one...",
+        style: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+        maxLines: 2,
+      ),
+          ) //todo: translate AppLocalizations
           : AnimatedList(
         key: _key,
         initialItemCount: notifications.length,
@@ -87,30 +92,31 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
     }
     _key.currentState?.removeItem(index, builder);
   }
+
   buildDays(List<String> notification) {
     List<String> days = <String>[];
     for(int i = 1; i<notification.length; ++i){
       switch(notification[i]){
         case "1":
-          days.add("Mon");
+          days.add("Mon"); //todo: translate AppLocalizations
           break;
         case "2":
-          days.add("Tues");
+          days.add("Tues"); //todo: translate AppLocalizations
           break;
         case "3":
-          days.add("Wedn");
+          days.add("Wedn"); //todo: translate AppLocalizations
           break;
         case "4":
-          days.add("Thurs");
+          days.add("Thurs"); //todo: translate AppLocalizations
           break;
         case "5":
-          days.add("Fri");
+          days.add("Fri"); //todo: translate AppLocalizations
           break;
         case "6":
-          days.add("Sat");
+          days.add("Sat"); //todo: translate AppLocalizations
           break;
         case "7":
-          days.add("Sun");
+          days.add("Sun"); //todo: translate AppLocalizations
           break;
         default:
           break;
