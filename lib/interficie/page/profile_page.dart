@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context) => Scaffold(
           drawer: const NavigationDrawerWidget(),
           appBar: AppBar(
-            title: const Text("Profile"),
+            title: const Text("Profile"), //todo: tranlsate
             backgroundColor: mPrimaryColor,
           ),
           body: Padding(
@@ -42,7 +42,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 24),
                 buildName(imgPath, name, email),
                 const SizedBox(height: 24),
-                const SizedBox(height: 24),
                 const NumbersWidget(),
                 const SizedBox(height: 48),
               ],
@@ -52,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
             backgroundColor: mCardColor,
             child: const Icon(Icons.delete_forever),
             onPressed: () {
-              _showMyDialog();
+              _showDialogDeleteUserAccountConfirmation();
             },
           ),
         ),
@@ -73,16 +72,17 @@ class _ProfilePageState extends State<ProfilePage> {
     ],
   );
 
-  _showMyDialog() {
+  _showDialogDeleteUserAccountConfirmation() {
     return AwesomeDialog(
       context: context,
       dialogType: DialogType.WARNING,
       animType: AnimType.BOTTOMSLIDE,
-      title: 'Are you sure you want to delete your account?',
-      desc: 'Deleting your account is permanent and will remove all content including cars, favourites points and profile settings.\nAre you sure you want to delete your account?\n',
+      title: 'Are you sure you want to delete your account?', //todo: translate
+      desc: 'Deleting your account is permanent and will remove all content including cars, favourites points and profile settings.\n'
+          'Are you sure you want to delete your account?\n', //todo: translate
       btnCancelOnPress: () {},
       btnOkIcon: (Icons.delete),
-      btnOkText: "Delete",
+      btnOkText: "Delete", //todo: translate
       btnOkOnPress: () {
         ctrlPresentation.deleteAccount(context);
       },

@@ -23,7 +23,7 @@ class RewardsPage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ResponsiveGridList(
               desiredItemWidth: 100,
-              minSpacing: 10,
+              minSpacing: 40,
               children: [for(var i=0; i<trophies.length; i+=1) i].map((index) {
                 Image img = Image.asset('assets/trophies/trophy.png', width: 100);
                 Color c = Colors.black54;
