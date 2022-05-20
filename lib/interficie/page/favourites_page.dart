@@ -7,7 +7,6 @@ import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class FavsChargers extends StatefulWidget {
   const FavsChargers({Key? key}) : super(key: key);
 
@@ -16,14 +15,14 @@ class FavsChargers extends StatefulWidget {
 }
 
 class _FavsChargersState extends State<FavsChargers> {
-  List<List<String>> points = [["0","0","Chargin..."]];
+  List<List<String>> points = [];
+  bool charging = true;
   @override
   void initState() {
     ctrlPresentation.getFAVChargers().then((element){
       setState(() {
         points = element;
-        print(points.length);
-        print(points);
+        charging = false;
       });
     });
     super.initState();
@@ -31,62 +30,122 @@ class _FavsChargersState extends State<FavsChargers> {
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
+    if(charging) {
+      return const CircularProgressIndicator(color: Colors.black26);
+    }
+    else {
+      return ListView.separated(
+        itemCount: points.length,
+        separatorBuilder: (BuildContext context, int index) => const Divider(),
+        itemBuilder: (BuildContext context, int index) {
+          Coordenada word = Coordenada(
+              double.parse(points[index][0]), double.parse(points[index][1]));
+          String title = points[index][2];
 
-    return ListView.separated(
-      itemCount: points.length,
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
-      itemBuilder: (BuildContext context, int index) {
-        Coordenada word = Coordenada(double.parse(points[index][0]), double.parse(points[index][1]));
-        String title = points[index][2];
+          bool hasNotifications = ctrlPresentation.hasNotifications(
+              word.latitud, word.longitud);
+          bool notificationsOn = ctrlPresentation.notificationsOn(
+              word.latitud, word.longitud);
 
-        bool esBarcelona = ctrlPresentation.esBarcelona(word.latitud, word.longitud);
+          bool esBarcelona = ctrlPresentation.esBarcelona(
+              word.latitud, word.longitud);
 
-        return ListTile(
-          title: Text(title),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              if(esBarcelona)IconButton(
-                  icon: (const Icon(Icons.bar_chart)),
-                  color: Colors.green,
-                  onPressed: () async{
-                    await ctrlPresentation.getOcupationCharger(word.latitud, word.longitud);
-                    ctrlPresentation.toChartPage(context, title);
-                  }
-              ),
-              if(esBarcelona)IconButton(
-                  icon: (const Icon(Icons.notification_add)),
-                  color: Colors.blue,
-                  onPressed: () {
-                    ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
-                  }
-              ),
-              if(esBarcelona)IconButton(
-                  icon: (const Icon(Icons.settings)),
-                  color: Colors.grey,
-                  onPressed: () {
-                    //ctrlPresentation.showInstantNotification(word.latitud, word.longitud);
-                  }
-              ),
-              if(word.latitud != 0 && word.longitud != 0)IconButton(
-                  icon: (const Icon(Icons.favorite)),
-                  color: Colors.red,
-                  onPressed: () {
-                    
-                    points.removeAt(index);
-                    ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                    setState(() {});
-                  }
-              ),
+          return ListTile(
+            title: Text(title),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                IconButton(
+                    icon: (const Icon(Icons.bar_chart)),
+                    color: esBarcelona ? Colors.green : Colors.black12,
+                    onPressed: () async {
+                      if (esBarcelona) {
+                        await ctrlPresentation.getOcupationCharger(
+                            word.latitud, word.longitud);
+                        ctrlPresentation.toChartPage(context, title);
+                      }
+                      else {
+                        ctrlPresentation.showDialogNotFromBcn(context);
+                      }
+                    }
+                ),
 
-            ],
-          ),
-          onTap: () {
-            if(word.latitud != 0 && word.longitud != 0)ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
-          },
-        );
-      },
-    );
+                IconButton(
+                    color: hasNotifications ? Colors.blue : Colors.black12,
+                    icon: notificationsOn ?
+                    (const Icon(Icons.notifications_active)) :
+                    (const Icon(Icons.notifications_off)),
+                    onPressed: () {
+                      if (!hasNotifications && esBarcelona) {
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.INFO,
+                          animType: AnimType.BOTTOMSLIDE,
+                          title: "Add alerts",
+                          //TODO: TRANSLATE
+                          desc: "You haven't got any alert associated to this point. Add at least one to receive notifications from this point.",
+                          //TODO: TRANSLATE
+                          btnOkText: "OK",
+                          btnOkOnPress: () {},
+                          headerAnimationLoop: false,
+                        ).show();
+                      }
+                      else if (!esBarcelona) {
+                        ctrlPresentation.showDialogNotFromBcn(context);
+                      }
+
+                      if (notificationsOn) {
+                        ctrlPresentation.disableAllNotifications(
+                            word.latitud, word.longitud);
+                      }
+                      else {
+                        ctrlPresentation.enableAllNotifications(
+                            word.latitud, word.longitud);
+                      }
+                      setState(() {
+                        notificationsOn = ctrlPresentation.notificationsOn(
+                            word.latitud, word.longitud);
+                      });
+                    }
+                ),
+
+                IconButton(
+                    icon: (const Icon(Icons.settings)),
+                    color: esBarcelona ? Colors.grey : Colors.black12,
+                    onPressed: () {
+                      if (esBarcelona) {
+                        List<List<String>> notifications = ctrlPresentation
+                            .getNotifications(word.latitud, word.longitud);
+                        ctrlPresentation.toNotificationsPage(
+                            context, word.latitud, word.longitud, title);
+                      }
+                      else {
+                        ctrlPresentation.showDialogNotFromBcn(context);
+                      }
+                    }
+                ),
+                IconButton(
+                    icon: (const Icon(Icons.favorite)),
+                    color: Colors.red,
+                    onPressed: () {
+                      points.removeAt(index);
+                      ctrlPresentation.loveClickedCharger(
+                          context, word.latitud, word.longitud);
+                      setState(() {
+                        //initState();
+                      });
+                    }
+                ),
+              ],
+            ),
+            onTap: () {
+              ctrlPresentation.moveCameraToSpecificLocation(
+                  context, word.latitud, word.longitud);
+            },
+          );
+        },
+      );
+    }
   }
 }
 
@@ -98,150 +157,46 @@ class FavsBicings extends StatefulWidget {
 }
 
 class _FavsBicingsState extends State<FavsBicings> {
-  List<List<String>> points = [["0","0","Charging..."]];
+  List<List<String>> points = [];
+  bool charging = true;
+
   @override
   void initState() {
     ctrlPresentation.getFAVBicing().then((element){
       setState(() {
         points = element;
-        print(points.length);
-        print(points);
+        charging = false;
       });
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
-    return ListView.separated(
+    if(charging) {
+      return const CircularProgressIndicator(color: Colors.black26);
+    } else {
+      return ListView.separated(
       itemCount: points.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
         Coordenada word = Coordenada(double.parse(points[index][0]), double.parse(points[index][1]));
         String title = points[index][2];
-        if(word.latitud != 0 && word.longitud != 0){
-          return ListTile(
-            title: Text(title),
-            trailing: IconButton(
-                icon: (const Icon(Icons.favorite)),
-                color: Colors.red,
-                onPressed: () {
-                  points.removeAt(index);
-                  ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                  setState(() {});
-                }
-            ),
-            onTap: () {
-              if(word.latitud != 0 && word.longitud != 0)ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
-            },
-          );
-        }
-        else{
-          return ListTile(
-            title: Text(title),
-          );
-        }
-      },
-    );
-  }
-}
 
-class AllFavs extends StatefulWidget {
-  const AllFavs({Key? key}) : super(key: key);
-
-  @override
-  State<AllFavs> createState() => _AllFavsState();
-}
-
-class _AllFavsState extends State<AllFavs> {
-  @override
-  Widget build(BuildContext context) {
-    CtrlPresentation ctrlPresentation = CtrlPresentation();
-    List<Coordenada> chargerPoints = ctrlPresentation.getFavsChargerPoints();
-    List<String> titlesChargers = ctrlPresentation.getNomsFavsChargerPoints();
-
-    int numChargers = chargerPoints.length;
-
-    List<Coordenada> bicingPoints = ctrlPresentation.getFavsBicingPoints();
-    List<String> titlesBicings = ctrlPresentation.getNomsFavsBicingPoints();
-
-    List<Coordenada> allFavPoints = chargerPoints + bicingPoints;
-    List<String> titles = titlesChargers+titlesBicings;
-
-    return ListView.separated(
-      itemCount: titles.length,
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
-      itemBuilder: (BuildContext context, int index) {
-        Coordenada word = allFavPoints[index];
-        String title = titles[index];
-        bool hasNotifications = ctrlPresentation.hasNotifications(word.latitud, word.longitud);
-        bool notificationsOn = ctrlPresentation.notificationsOn(word.latitud, word.longitud);
-
-        bool esBarcelona = false;
-        if(index < numChargers) {
-          esBarcelona = ctrlPresentation.esBarcelona(word.latitud, word.longitud);
-        }
 
         return ListTile(
           title: Text(title),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              if(esBarcelona) IconButton(
-                  icon: (const Icon(Icons.bar_chart)),
-                  color: Colors.green,
-                  onPressed: () async {
-                    await ctrlPresentation.getOcupationCharger(word.latitud, word.longitud);
-                    ctrlPresentation.toChartPage(context, title);
-                  }
-              ),
-              IconButton(
-                  color: hasNotifications ? Colors.blue : Colors.black12,
-                  icon: notificationsOn ?
-                  (const Icon(Icons.notifications_active)) :
-                  (const Icon(Icons.notifications_off)),
-                  onPressed: () {
-                    if(!hasNotifications){
-                      AwesomeDialog(
-                        context: context,
-                        dialogType: DialogType.INFO,
-                        animType: AnimType.BOTTOMSLIDE,
-                        title: "Add alerts", //TODO: TRANSLATE
-                        desc: "You haven't got any alert associated to this point. Add at least one to receive notifications from this point.", //TODO: TRANSLATE
-                        btnOkText: "OK",
-                        btnOkOnPress: () {},
-                        headerAnimationLoop: false,
-                      ).show();
-                    }
-                    if(notificationsOn){
-                      ctrlPresentation.disableAllNotifications(word.latitud, word.longitud);
-                    }
-                    else{
-                      ctrlPresentation.enableAllNotifications(word.latitud, word.longitud);
-                    }
-                    setState(() {
-                      notificationsOn = ctrlPresentation.notificationsOn(word.latitud, word.longitud);
-                    });
-                  }
-              ),
-              IconButton(
-                  icon: (const Icon(Icons.settings)),
-                  color: Colors.grey,
-                  onPressed: () {
-                    List<List<String>> notifications = ctrlPresentation.getNotifications(word.latitud, word.longitud);
-                    ctrlPresentation.toNotificationsPage(context, word.latitud, word.longitud, title);
-                  }
-              ),
-              IconButton(
-                  icon: (const Icon(Icons.favorite)),
-                  color: Colors.red,
-                  onPressed: () {
-                    chargerPoints.remove(word);
-                    ctrlPresentation.loveClicked(context, word.latitud, word.longitud);
-                    Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
-                  }
-              ),
-            ],
+          trailing: IconButton(
+              icon: (const Icon(Icons.favorite)),
+              color: Colors.red,
+              onPressed: () {
+                points.removeAt(index);
+                ctrlPresentation.loveClickedBicing(context, word.latitud, word.longitud);
+                setState(() {
+
+                });
+              }
           ),
           onTap: () {
             ctrlPresentation.moveCameraToSpecificLocation(context, word.latitud, word.longitud);
@@ -249,6 +204,7 @@ class _AllFavsState extends State<AllFavs> {
         );
       },
     );
+    }
   }
 }
 
@@ -262,7 +218,6 @@ class FilterFavsItems extends StatefulWidget {
 class _FilterFavsItemsState extends State<FilterFavsItems> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
-    AllFavs(),
     FavsChargers(),
     FavsBicings(),
   ];
@@ -304,19 +259,12 @@ class _FilterFavsItemsState extends State<FilterFavsItems> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(Icons.favorite_sharp),
-            label: AppLocalizations.of(context).allFavourites,
-            backgroundColor: Colors.red,
-          ),
-          BottomNavigationBarItem(
             icon: const Icon(Icons.electrical_services),
             label: AppLocalizations.of(context).chargers,
-            backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.pedal_bike),
             label: AppLocalizations.of(context).bicing,
-            backgroundColor: Colors.pink,
           ),
         ],
         currentIndex: _selectedIndex,

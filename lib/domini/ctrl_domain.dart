@@ -370,19 +370,6 @@ class CtrlDomain {
     }
     return trobat;
   }
-  //Afegeix el punt a favorits
-  void toFavPoint(double latitud, double longitud) {
-    bool trobat = false;
-    for(var c in coordPuntsCarrega){
-      if(c.latitud == latitud && c.longitud == longitud){
-        trobat = true;
-        gestioFavChargers(latitud, longitud);
-      }
-    }
-    if(trobat == false){
-      gestioFavBicing(latitud, longitud);
-    }
-  }
 
   //USER FAV_CHARGER
   //Carrega els punts de carrega favorit de l'usuari
@@ -413,7 +400,6 @@ class CtrlDomain {
     var url = urlorg +'add_fav_charger?email='+usuari.correu+'&lat='+lat.toString()+'&lon='+long.toString()+'&name='+'pruebanombre';
     http.post(Uri.parse(url));
     puntsFavCarrega.add(Favorit(Coordenada(lat, long),usuari.correu));
-    print(puntsFavCarrega.length);
   }
   //Elimina un carregador de favorits
   void deleteFavCharger(double lat, double long)async{
@@ -425,8 +411,8 @@ class CtrlDomain {
         fav = pfc;
       }
     }
+
     if(fav.coord.latitud != -1.0)puntsFavCarrega.remove(fav);
-    print(puntsFavCarrega.length);
   }
   //Carrega els noms dels chatgers favorits
   Future<List<List<String>>> getFavChargers() async{
