@@ -1082,4 +1082,12 @@ class CtrlPresentation {
       headerAnimationLoop: false,
     ).show();
   }
+
+  Future<List<List<String>>> getFAVChargers() {
+    return ctrlDomain.getFavChargers();
+  }
+
+  Future<List<List<String>>> getFAVBicing() {
+    return ctrlDomain.getFavBicing();
+  }
 }
