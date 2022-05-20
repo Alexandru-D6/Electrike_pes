@@ -42,8 +42,8 @@ class OcupationChart extends StatelessWidget {
       //primaryMeasureAxis: charts.NumericAxisSpec(),
       //barRendererDecorator: charts.BarLabelDecorator<String>(),
       behaviors: [
-        charts.ChartTitle(AppLocalizations.of(context).occupationChart, //TODO (Peilin) ready for test
-            subTitle: '%' + AppLocalizations.of(context).occupancy, //TODO (Peilin) ready for test
+        charts.ChartTitle(AppLocalizations.of(context).occupationChart,
+            subTitle: '%' + AppLocalizations.of(context).occupancy,
             behaviorPosition: charts.BehaviorPosition.top,
             titleOutsideJustification: charts.OutsideJustification.start,
             // Set a larger inner padding than the default (10) to avoid
@@ -51,7 +51,7 @@ class OcupationChart extends StatelessWidget {
             // The top tick label may extend upwards into the top margin region
             // if it is located at the top of the draw area.
             innerPadding: 18),
-        charts.ChartTitle(AppLocalizations.of(context).hours, //TODO (Peilin) ready for test
+        charts.ChartTitle(AppLocalizations.of(context).hours,
             behaviorPosition: charts.BehaviorPosition.bottom,
             titleOutsideJustification:
             charts.OutsideJustification.middleDrawArea,

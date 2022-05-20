@@ -56,7 +56,7 @@ class _InfoRutaState extends State<InfoRuta> {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: <Widget>[
-          Text(AppLocalizations.of(context).selectCar), //TODO (Peilin) ready for test
+          Text(AppLocalizations.of(context).selectCar),
           ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
             height: 100,
             width: 100,
@@ -103,7 +103,7 @@ class _InfoRutaState extends State<InfoRuta> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(AppLocalizations.of(context).actualBatMsg), //TODO (Peilin) ready for test
+              Text(AppLocalizations.of(context).actualBatMsg),
               SizedBox(
                 width: 40,
                 child:
@@ -133,7 +133,7 @@ class _InfoRutaState extends State<InfoRuta> {
             height: 5,
             color: Color(0x00000000),
           ),
-          const Text("Select a route type"), //todo: peilin multi
+          Text(AppLocalizations.of(context).selectRouteType),
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -141,14 +141,14 @@ class _InfoRutaState extends State<InfoRuta> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              customRadioButton("Normal", 0),
+              customRadioButton(AppLocalizations.of(context).standard, 0),
               const SizedBox(width: 5),
-              customRadioButton("Charger Points", 1),
+              customRadioButton(AppLocalizations.of(context).chargingStop, 1),
               const SizedBox(width: 5),
               customRadioButton("Eco", 2)
             ],
           ),
-          Text(AppLocalizations.of(context).selectRouteType),//TODO (Peilin) ready for test
+          Text(AppLocalizations.of(context).selectRouteType),
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -156,9 +156,9 @@ class _InfoRutaState extends State<InfoRuta> {
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text("Estimated time: "),
+                Text(AppLocalizations.of(context).duration + ':'),
                 Text(time),
-                const Text("Estimated distance: "),
+                Text(AppLocalizations.of(context).distance + ':'),
                 Text(distance),
               ]
           ),
@@ -177,7 +177,7 @@ class _InfoRutaState extends State<InfoRuta> {
                 borderRadius: BorderRadius.circular(30.0),),
               primary: const Color(0xff8A84E2),
             ),
-            child: Text(AppLocalizations.of(context).start), //todo: peilin multi
+            child: Text(AppLocalizations.of(context).start),
           ),
         ],
       ),

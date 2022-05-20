@@ -103,6 +103,8 @@
    "selectCar": "Select a vehicle",
    "actualBatMsg": "Enter the remaining battery",
    "selectRouteType": "Select a route type",
+   "standard": "Standard",
+   "chargingStop": "Charging stop",
    "start": "Start",
    "occupationChart": "Occupation Chart",
    "occupancy": "Occupancy",
@@ -148,5 +150,12 @@
    "rmvFavs": "Remove from favourites",
    "rmvFavsDescr": "You can remove directly the point from your favourites list.",
    "filterFavTypes": "Filter between types",
-   "filterFavTypesDescr": "Filter the types of favourite points using the bottom buttons"
+   "filterFavTypesDescr": "Filter the types of favourite points using the bottom buttons",
+
+   "addAlert": "Add alert",
+   "addAlertDescr": "You need to have at least one created alert associated with the point. ",
+   "skip": "SKIP",
+   "next": "NEXT",
+   "duration": "Duration",
+   "distance": "Distance"
 }

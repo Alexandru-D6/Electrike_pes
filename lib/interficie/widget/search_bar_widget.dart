@@ -49,8 +49,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
                 setState(() {});
                 ctrlPresentation.actualLocation = AppLocalizations.of(context).yourLocation;
                 ctrlPresentation.moveCameraToLocation();
-                //TODO (Peilin) ready for test
-              },
+                },
             ),
           ),
           FloatingSearchBarAction.searchToClear(

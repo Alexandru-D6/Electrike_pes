@@ -20,7 +20,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
       elevation: 0,
       title: AutoSizeText("Notifications point " + title,
         maxLines: 1,
-        overflow: TextOverflow.ellipsis,), //todo: AppLocalizations.of(context).garage LA PRIMERA PARTE
+        overflow: TextOverflow.ellipsis,), //todo: traduccion peilin
       actions: [
         IconButton(
           icon: const Icon(

@@ -218,6 +218,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectRouteType => 'Select a route type';
 
   @override
+  String get standard => 'Standard';
+
+  @override
+  String get chargingStop => 'Charging stop';
+
+  @override
   String get start => 'Start';
 
   @override
@@ -330,4 +336,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get filterFavTypesDescr => 'Filter the types of favourite points using the bottom buttons';
+
+  @override
+  String get addAlert => 'Add alert';
+
+  @override
+  String get addAlertDescr => 'You need to have at least one created alert associated with the point. ';
+
+  @override
+  String get skip => 'SKIP';
+
+  @override
+  String get next => 'NEXT';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get distance => 'Distance';
 }

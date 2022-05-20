@@ -218,6 +218,12 @@ class AppLocalizationsCa extends AppLocalizations {
   String get selectRouteType => 'Escull un tipus de ruta';
 
   @override
+  String get standard => 'Estàndard';
+
+  @override
+  String get chargingStop => 'Parada per càrrega';
+
+  @override
   String get start => 'Inicia';
 
   @override
@@ -330,4 +336,22 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get filterFavTypesDescr => 'Filtra els teus punts favorits utilitzant el menú superior';
+
+  @override
+  String get addAlert => 'Afegeix notificació';
+
+  @override
+  String get addAlertDescr => 'Necessites crear al menys una notificació associada a aquest punt de càrrega.';
+
+  @override
+  String get skip => 'SALTAR';
+
+  @override
+  String get next => 'SEGÜENT';
+
+  @override
+  String get duration => 'Temps';
+
+  @override
+  String get distance => 'Distància';
 }

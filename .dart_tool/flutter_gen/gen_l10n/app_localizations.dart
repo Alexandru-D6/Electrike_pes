@@ -504,6 +504,18 @@ abstract class AppLocalizations {
   /// **'Select a route type'**
   String get selectRouteType;
 
+  /// No description provided for @standard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get standard;
+
+  /// No description provided for @chargingStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging stop'**
+  String get chargingStop;
+
   /// No description provided for @start.
   ///
   /// In en, this message translates to:
@@ -731,6 +743,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Filter the types of favourite points using the bottom buttons'**
   String get filterFavTypesDescr;
+
+  /// No description provided for @addAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Add alert'**
+  String get addAlert;
+
+  /// No description provided for @addAlertDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to have at least one created alert associated with the point. '**
+  String get addAlertDescr;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'SKIP'**
+  String get skip;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT'**
+  String get next;
+
+  /// No description provided for @duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// No description provided for @distance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get distance;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -103,6 +103,8 @@
     "selectCar": "Escull un vehicle",
     "actualBatMsg": "Introdueix la bateria restant",
     "selectRouteType": "Escull un tipus de ruta",
+    "standard": "Estàndard",
+    "chargingStop": "Parada per càrrega",
     "start": "Inicia",
     "occupationChart": "Gràfics d'ocupació",
     "occupancy": "Ocupació",
@@ -148,5 +150,12 @@
     "rmvFavs": "Eliminar de favorits",
     "rmvFavsDescr": "Pots eliminar un punt de la texa llista de favorits",
     "filterFavTypes": "Filtra entre tipus",
-    "filterFavTypesDescr": "Filtra els teus punts favorits utilitzant el menú superior"
+    "filterFavTypesDescr": "Filtra els teus punts favorits utilitzant el menú superior",
+
+    "addAlert": "Afegeix notificació",
+    "addAlertDescr": "Necessites crear al menys una notificació associada a aquest punt de càrrega.",
+    "skip": "SALTAR",
+    "next": "SEGÜENT",
+    "duration": "Temps",
+    "distance": "Distància"
 }

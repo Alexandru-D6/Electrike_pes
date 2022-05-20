@@ -102,6 +102,8 @@
    "selectCar": "Escoge un vehículo",
    "actualBatMsg": "Introduce la bateria restante",
    "selectRouteType": "Escoge un tipo de ruta",
+   "standard": "Estándar",
+   "chargingStop": "Parada para cargar",
    "start": "Iniciar",
    "occupationChart": "Gráficas de ocupación",
    "occupancy": "Ocupación",
@@ -147,6 +149,13 @@
    "rmvFavs": "Eliminar de favoritos",
    "rmvFavsDescr": "Puedes eliminar un punto de tu lista de favoritos.",
    "filterFavTypes": "Filtra entre tipos",
-   "filterFavTypesDescr": "Filtra tus puntos favoritos usando el menú superior"
+   "filterFavTypesDescr": "Filtra tus puntos favoritos usando el menú superior",
+
+   "addAlert": "Añade notificación",
+   "addAlertDescr": "Necesitas crear el menos una notificación asociada a este punto de carga.",
+   "skip": "SALTAR",
+   "next": "SIGUIENTE",
+   "duration": "Tiempo",
+   "distance": "Distancia"
 
 }

@@ -180,8 +180,8 @@ class _AllFavsState extends State<AllFavs> {
                         context: context,
                         dialogType: DialogType.INFO,
                         animType: AnimType.BOTTOMSLIDE,
-                        title: "Add alerts", //TODO: TRANSLATE
-                        desc: "You haven't got any alert associated to this point. Add at least one to receive notifications from this point.", //TODO: TRANSLATE
+                        title: AppLocalizations.of(context).addAlert,
+                        desc: AppLocalizations.of(context).addAlertDescr,
                         btnOkText: "OK",
                         btnOkOnPress: () {},
                         headerAnimationLoop: false,

@@ -104,9 +104,7 @@ class CtrlPresentation {
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
       title: AppLocalizations.of(context).notLogged,
-      //TODO (Peilin) ready for test
       desc: AppLocalizations.of(context).notLoggedMsg,
-      //TODO (Peilin) ready for test
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();
@@ -559,15 +557,15 @@ class CtrlPresentation {
     Widget body;
     switch (s){
       case "chargePoint":
-        title = AppLocalizations.of(context).keyChargers;//TODO (Peilin) ready for test
+        title = AppLocalizations.of(context).keyChargers;
         body = makeBodyAlertChargePoint(context);
         break;
       case "bicingPoint":
-        title = AppLocalizations.of(context).keyBicing;//TODO (Peilin) ready for test
+        title = AppLocalizations.of(context).keyBicing;
         body = buildBicingHeader(context);
         break;
       case "favsPage":
-        title = AppLocalizations.of(context).keyFavourites;//TODO (Peilin) ready for test
+        title = AppLocalizations.of(context).keyFavourites;
         body = makeFavouritesLegend(context);
         break;
       default:
@@ -596,8 +594,8 @@ class CtrlPresentation {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             buildHeader(
-              name: AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
-              calle: AppLocalizations.of(context).streetName, //TODO (Peilin) ready for test
+              name: AppLocalizations.of(context).stationName,
+              calle: AppLocalizations.of(context).streetName,
               city: "City placed", //todo: translate
               numChargePlaces: "Charge places", //todo: translate
             ),
@@ -605,7 +603,7 @@ class CtrlPresentation {
             buildIconLabeled(
               icon: Icons.check_circle_rounded,
               color: Colors.greenAccent,
-              label: AppLocalizations.of(context).availableChargers, //TODO (Peilin) ready for test
+              label: AppLocalizations.of(context).availableChargers,
               description: AppLocalizations.of(context).numChargers, //TODO (Peilin) ready for test
             ),
             const SizedBox(width: 15),
