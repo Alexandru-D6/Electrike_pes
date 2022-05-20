@@ -1,6 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project/domini/user.dart';
+import 'package:flutter_project/domini/usuari.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
@@ -18,7 +18,10 @@ CtrlPresentation ctrlPresentation = CtrlPresentation();
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    User user = User(imagePath: ctrlPresentation.photoUrl, name: ctrlPresentation.name, email: ctrlPresentation.email, about: "", isDarkMode: false);
+    String imgPath = ctrlPresentation.photoUrl;
+    String name = ctrlPresentation.name;
+    String email = ctrlPresentation.email;
+
 
     return  Builder(
         builder: (context) => Scaffold(
@@ -33,16 +36,15 @@ class _ProfilePageState extends State<ProfilePage> {
               physics: const BouncingScrollPhysics(),
               children: [
                 ProfileWidget(
-                  imagePath: user.imagePath,
+                  imagePath: imgPath,
                   onClicked: () {  },
                 ),
                 const SizedBox(height: 24),
-                buildName(user),
+                buildName(imgPath, name, email),
                 const SizedBox(height: 24),
                 const SizedBox(height: 24),
                 const NumbersWidget(),
                 const SizedBox(height: 48),
-                buildAbout(user),
               ],
             ),
           ),
@@ -57,38 +59,18 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildName(User user) => Column(
+  Widget buildName(String imgPath, String name, String email) => Column(
     children: [
       Text(
-        user.name,
+        name,
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
       ),
       const SizedBox(height: 4),
       Text(
-        user.email,
+        email,
         style: const TextStyle(color: Colors.grey),
       )
     ],
-  );
-
-
-
-  Widget buildAbout(User user) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 48),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'About',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          user.about,
-          style: const TextStyle(fontSize: 16, height: 1.4),
-        ),
-      ],
-    ),
   );
 
   _showMyDialog() {
