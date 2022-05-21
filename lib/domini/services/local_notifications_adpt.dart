@@ -113,6 +113,8 @@ class LocalNotificationAdpt {
       state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
     }
 
+    print("Inside function _createNotification: ");
+    print(id);
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
@@ -127,29 +129,39 @@ class LocalNotificationAdpt {
 
   Future<int> scheduleNotifications(DateTime when, double lat, double long, int id) async {
     late bool active;
-    if (hasNotificacions(lat,long)) {
+    if (await hasNotificacions(lat,long)) {
       active = notificationsOn(lat, long);
     } else {
       active = true;
     }
     InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, active);
 
-    if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
+    if (!(await _existsNotification(lat, long, when.weekday, when.hour, when.minute))) {
       if (id == -1) {
         id = _createId();
       } else if (lastIdCreated < id) {
         lastIdCreated = id;
       }
+      print("Inside function sheduleNotifications: ");
       print(id);
+      print("active = ");
+      print(active);
+      print("lat: ");
+      print(lat);
+      print("long");
+      print(long);
+      print(when.weekday);
+      print(when.hour);
+      print(when.minute);
       var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
-      _createNotification(id, when, lat, long);
+      if (active) await _createNotification(id, when, lat, long);
       return id;
     }
     return -1;
   }
 
-  bool _existsNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+  Future<bool> _existsNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     for (var id in _currentNotifications.keys) {
       if (_currentNotifications[id]!.lat == lat &&
           _currentNotifications[id]!.long == long &&
@@ -203,7 +215,7 @@ class LocalNotificationAdpt {
     return m;
   }
 
-  bool hasNotificacions(double lat, double long) {
+  Future<bool> hasNotificacions(double lat, double long) async {
     for (var id in _currentNotifications.keys) {
       if (_currentNotifications[id]!.lat == lat &&
           _currentNotifications[id]!.long == long) {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:vector_math/vector_math.dart' as math;
 import 'dart:math';
@@ -183,7 +184,7 @@ class CtrlDomain {
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
     }
     idiomfromLogin();
-    getNotifications();
+    await getNotifications();
   }
   void idiomfromLogin() async {
     var url = urlorg + 'user_language?email=' + usuari.correu;
@@ -192,17 +193,52 @@ class CtrlDomain {
     usuari.idiom = resp['items'];
   }
 
-  void getNotifications() async {
+  Future<void> getNotifications() async {
     var url = urlorg +'get_user_notifications?email='+usuari.correu;
     var responseC = (await http.get(Uri.parse(url)));
-    var respC = jsonDecode(responseC.body);
+    var respC = await jsonDecode(responseC.body);
     for(var pfc in respC['items']) {
-      DateTime firstNotification = _adaptTime(int.parse(pfc['Hour'].toString()), int.parse(pfc['Minute'].toString()), int.parse(pfc['WeekDay'].toString()),false);
-      await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, double.parse(pfc['Lat'].toString()), double.parse(pfc['Lon'].toString()),int.parse(pfc['Id']));
-      if (!pfc['Activated']) {
+      //sleep(const Duration(seconds: 1));
+      print("Dins de getNotifications: ");
+      int hour = int.parse(pfc['Hour'].toString());
+      int minute = int.parse(pfc['Minute'].toString());
+      int weekDay = int.parse(pfc['WeekDay'].toString());
+
+      print(hour);
+      print(minute);
+      print(weekDay);
+      //DateTime firstNotification = await _adaptTime(hour, minute, weekDay, false);
+
+      double lat = double.parse(pfc['Lat'].toString());
+      double lon = double.parse(pfc['Lon'].toString());
+      int id = int.parse(pfc['Id']);
+
+      print(lat);
+      print(lon);
+      print(id);
+
+
+      DateTime firstNotification = await _adaptTime(hour, minute, weekDay, true);
+      await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, lon, id);
+
+
+
+      //DateTime firstNotification = await _adaptTime(hour, minute, weekDay, false);
+      //await addSheduledNotificationFavoriteChargePoint(lat, lon, firstNotification.weekday, firstNotification.hour, firstNotification.minute);
+
+     // DateTime firstNotification = await _adaptTime(hour, minute, weekDay,true);
+      print(firstNotification);
+      //await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, lon, id);
+
+
+
+      //await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, lon, id);
+
+      //sleep(const Duration(seconds: 1));
+     /* if (pfc['Activated'].toString???? == "false") {
         await serviceLocator<LocalNotificationAdpt>().disableNotification(double.parse(pfc['Lat'].toString()), double.parse(pfc['Lon'].toString()), int.parse(pfc['WeekDay'].toString()),
             int.parse(pfc['Hour'].toString()), int.parse(pfc['Minute'].toString()));
-      }
+      }*/
     }
   }
 
@@ -219,6 +255,7 @@ class CtrlDomain {
     }
     usuari.usuarinull();
     //resentation.resetUserValues();
+    removeAllNotifications();
   }
   //Elimina l'usuari de la base de dades i del domini
   void deleteaccount()async{
@@ -787,19 +824,19 @@ class CtrlDomain {
     Si el punto de carga no es de Barcelona, se mostrará <unknown> en el status.
    */
   Future<void> addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
+    DateTime firstNotification = await _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
     int id = await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long, -1);
     if (id != -1) {
       var url = urlorg + 'insert_notification?email=' + usuari.correu + '&id=' +
           id.toString() + '&lat=' + lat.toString() + '&lon=' + long.toString()
-          + '&day=' + firstNotification.weekday.toString() + '&hour=' +
-          firstNotification.hour.toString() + '&minute=' +
-          firstNotification.minute.toString();
+          + '&day=' + dayOfTheWeek.toString() + '&hour=' +
+          iniHour.toString() + '&minute=' +
+          iniMinute.toString();
       var response = (http.post(Uri.parse(url)));
     }
   }
 
-  DateTime _adaptTime(int iniHour, int iniMinute, int dayOfTheWeek, bool toUtc) {
+  Future<DateTime> _adaptTime(int iniHour, int iniMinute, int dayOfTheWeek, bool toUtc) async {
     var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, iniHour, iniMinute);
     int daysToAdd = 0;
 
@@ -844,7 +881,7 @@ class CtrlDomain {
     }
   }
 
-  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà! Utilitzar await.
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació es pot no eliminar! Utilitzar await.
   Future<void> removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
     int id = await serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
@@ -855,11 +892,12 @@ class CtrlDomain {
     }
   }
 
-  void removeAllNotifications() { //Todo: Afegir funció d'en Xavi perquè s'eliminin totes les notificacions de l'usuari de la BD
-    serviceLocator<LocalNotificationAdpt>().cancelAllNotifications();
+  //No elimna les notificacions de la BD
+  void removeAllNotifications() async {
+    await serviceLocator<LocalNotificationAdpt>().cancelAllNotifications();
   }
 
-  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà! Utilitzar await.
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació es pot no eliminar! Utilitzar await.
   void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) async {
     for (var notif in l) {
       await removeScheduledNotification(lat, long, notif.item1, notif.item2, notif.item3);
@@ -930,8 +968,8 @@ class CtrlDomain {
   }
 
   //Retorna true si el punt de càrrega té notificacions (independentment de si estan activades o desactivades)
-  bool hasNotificacions(double lat, double long) {
-    return serviceLocator<LocalNotificationAdpt>().hasNotificacions(lat,long);
+  Future<bool> hasNotificacions(double lat, double long) async {
+    return await serviceLocator<LocalNotificationAdpt>().hasNotificacions(lat,long);
   }
 
   //Afegeix tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
@@ -958,7 +996,7 @@ class CtrlDomain {
 
   //Activa una notificació que té l'usuari programada però desactivada. Si estava activada, continuarà estat activada.
   Future<void> enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
+    DateTime firstNotification = await _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
     int id = await serviceLocator<LocalNotificationAdpt>().enableNotification(firstNotification, lat, long);
     if (id != -1) {
       var url = urlorg + 'activate_notification?email=' + usuari.correu + '&id=' +
