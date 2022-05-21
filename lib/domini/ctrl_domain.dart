@@ -183,7 +183,7 @@ class CtrlDomain {
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
     }
     idiomfromLogin();
-    //getNotifications();
+    getNotifications();
   }
   void idiomfromLogin() async {
     var url = urlorg + 'user_language?email=' + usuari.correu;
@@ -191,18 +191,21 @@ class CtrlDomain {
     var resp = jsonDecode(response.body);
     usuari.idiom = resp['items'];
   }
-/* FER
+
   void getNotifications() async {
     var url = urlorg +'get_user_notifications?email='+usuari.correu;
     var responseC = (await http.get(Uri.parse(url)));
     var respC = jsonDecode(responseC.body);
     for(var pfc in respC['items']) {
-      if(pfc['lat'] != null || pfc['lon'] != null) {
-        puntsFavCarrega.add(Favorit(Coordenada(double.parse(pfc['lat']), double.parse(pfc['lon'])), usuari.correu));
+      DateTime firstNotification = _adaptTime(int.parse(pfc['Hour'].toString()), int.parse(pfc['Minute'].toString()), int.parse(pfc['WeekDay'].toString()),false);
+      await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, double.parse(pfc['Lat'].toString()), double.parse(pfc['Lon'].toString()),int.parse(pfc['Id']));
+      if (!pfc['Activated']) {
+        await serviceLocator<LocalNotificationAdpt>().disableNotification(double.parse(pfc['Lat'].toString()), double.parse(pfc['Lon'].toString()), int.parse(pfc['WeekDay'].toString()),
+            int.parse(pfc['Hour'].toString()), int.parse(pfc['Minute'].toString()));
       }
     }
   }
-*/
+
   //Elimina el continguts dels llistats referents als usuaris per quan fa logout
   void resetUserSystem(){
     vehiclesUsuari = <VehicleUsuari>[];
@@ -784,8 +787,8 @@ class CtrlDomain {
     Si el punto de carga no es de Barcelona, se mostrará <unknown> en el status.
    */
   Future<void> addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
-    int id = await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
+    int id = await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long, -1);
     if (id != -1) {
       var url = urlorg + 'insert_notification?email=' + usuari.correu + '&id=' +
           id.toString() + '&lat=' + lat.toString() + '&lon=' + long.toString()
@@ -796,7 +799,7 @@ class CtrlDomain {
     }
   }
 
-  DateTime _adaptTime(int iniHour, int iniMinute, int dayOfTheWeek) {
+  DateTime _adaptTime(int iniHour, int iniMinute, int dayOfTheWeek, bool toUtc) {
     var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, iniHour, iniMinute);
     int daysToAdd = 0;
 
@@ -824,7 +827,7 @@ class CtrlDomain {
 
     firstNotification = DateTime(firstNotification.year, firstNotification.month, firstNotification.day + daysToAdd, firstNotification.hour, firstNotification.minute);
 
-    firstNotification = firstNotification.toUtc();
+    if (toUtc) firstNotification = firstNotification.toUtc();
     return firstNotification;
   }
 
@@ -950,7 +953,7 @@ class CtrlDomain {
 
   //Activa una notificació que té l'usuari programada però desactivada. Si estava activada, continuarà estat activada.
   void enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
+    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
     serviceLocator<LocalNotificationAdpt>().enableNotification(firstNotification, lat, long);
   }
 

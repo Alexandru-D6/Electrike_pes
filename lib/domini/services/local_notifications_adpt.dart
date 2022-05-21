@@ -125,7 +125,7 @@ class LocalNotificationAdpt {
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
   }
 
-  Future<int> scheduleNotifications(DateTime when, double lat, double long) async {
+  Future<int> scheduleNotifications(DateTime when, double lat, double long, int id) async {
     late bool active;
     if (hasNotificacions(lat,long)) {
       active = notificationsOn(lat, long);
@@ -135,7 +135,12 @@ class LocalNotificationAdpt {
     InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, active);
 
     if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
-      int id = _createId();
+      if (id == -1) {
+        id = _createId();
+      } else if (lastIdCreated < id) {
+        lastIdCreated = id;
+      }
+      print(id);
       var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
       _createNotification(id, when, lat, long);
