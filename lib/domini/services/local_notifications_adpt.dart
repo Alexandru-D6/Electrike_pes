@@ -113,8 +113,8 @@ class LocalNotificationAdpt {
       state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
     }
 
-    print("Inside function _createNotification: ");
-    print(id);
+    //print("Inside function _createNotification: ");
+    //print(id);
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
@@ -141,7 +141,7 @@ class LocalNotificationAdpt {
         id = _createId();
       } else if (lastIdCreated < id) {
         lastIdCreated = id;
-      }
+      }/*
       print("Inside function sheduleNotifications: ");
       print(id);
       print("active = ");
@@ -152,7 +152,7 @@ class LocalNotificationAdpt {
       print(long);
       print(when.weekday);
       print(when.hour);
-      print(when.minute);
+      print(when.minute);*/
       var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
       if (active) await _createNotification(id, when, lat, long);
@@ -183,7 +183,7 @@ class LocalNotificationAdpt {
     return lastIdCreated;
   }
 
-  Future<int> _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+  int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     for (var id in _currentNotifications.keys) {
       if (_currentNotifications[id]!.lat == lat &&
           _currentNotifications[id]!.long == long &&
@@ -226,7 +226,7 @@ class LocalNotificationAdpt {
   }
 
   Future<int> enableNotification(DateTime when, double lat, double long) async {
-    int id = await _findId(lat, long, when.weekday, when.hour, when.minute);
+    int id = _findId(lat, long, when.weekday, when.hour, when.minute);
     if (id != -1 && !_currentNotifications[id]!.active) {
       _currentNotifications[id]!.active = true;
       await _createNotification(id, when, lat, long);
@@ -235,7 +235,7 @@ class LocalNotificationAdpt {
   }
 
   Future<int> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    int id = await _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
+    int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1 && _currentNotifications[id]!.active) {
       await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications[id]!.active = false;
@@ -256,13 +256,11 @@ class LocalNotificationAdpt {
   }
 
   Future<int> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    int id = await _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
+    int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1) {
       if (_currentNotifications[id]!.active) await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications.remove(id);
       if (lastIdCreated == id) --lastIdCreated;
-      print(id);
-      print(lastIdCreated);
     }
     return id;
   }
