@@ -183,6 +183,7 @@ class CtrlDomain {
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
     }
     idiomfromLogin();
+    //getNotifications();
   }
   void idiomfromLogin() async {
     var url = urlorg + 'user_language?email=' + usuari.correu;
@@ -190,6 +191,18 @@ class CtrlDomain {
     var resp = jsonDecode(response.body);
     usuari.idiom = resp['items'];
   }
+/* FER
+  void getNotifications() async {
+    var url = urlorg +'get_user_notifications?email='+usuari.correu;
+    var responseC = (await http.get(Uri.parse(url)));
+    var respC = jsonDecode(responseC.body);
+    for(var pfc in respC['items']) {
+      if(pfc['lat'] != null || pfc['lon'] != null) {
+        puntsFavCarrega.add(Favorit(Coordenada(double.parse(pfc['lat']), double.parse(pfc['lon'])), usuari.correu));
+      }
+    }
+  }
+*/
   //Elimina el continguts dels llistats referents als usuaris per quan fa logout
   void resetUserSystem(){
     vehiclesUsuari = <VehicleUsuari>[];
@@ -770,9 +783,17 @@ class CtrlDomain {
     day between 1 (Monday) to 7 (Sunday)
     Si el punto de carga no es de Barcelona, se mostrará <unknown> en el status.
    */
-  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+  Future<void> addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
-    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+    int id = await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+    if (id != -1) {
+      var url = urlorg + 'insert_notification?email=' + usuari.correu + '&id=' +
+          id.toString() + '&lat=' + lat.toString() + '&lon=' + long.toString()
+          + '&day=' + firstNotification.weekday.toString() + '&hour=' +
+          firstNotification.hour.toString() + '&minute=' +
+          firstNotification.minute.toString();
+      var response = (http.post(Uri.parse(url)));
+    }
   }
 
   DateTime _adaptTime(int iniHour, int iniMinute, int dayOfTheWeek) {
@@ -814,9 +835,9 @@ class CtrlDomain {
     2n -> iniHour
     3r -> iniMinute
    */
-  void addListOfSheduledNotificationFavoriteChargePoint(double lat, double long, List<Tuple3<int, int, int>> l) {
+  void addListOfSheduledNotificationFavoriteChargePoint(double lat, double long, List<Tuple3<int, int, int>> l) async {
     for (var notif in l) {
-      addSheduledNotificationFavoriteChargePoint(lat, long, notif.item1, notif.item2, notif.item3);
+      await addSheduledNotificationFavoriteChargePoint(lat, long, notif.item1, notif.item2, notif.item3);
     }
   }
 
@@ -906,9 +927,9 @@ class CtrlDomain {
   }
 
   //Afegeix tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
-  void addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+  Future<void> addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) async {
     for (var day in daysOfTheWeek) {
-      addSheduledNotificationFavoriteChargePoint(lat, long, day, iniHour, iniMinute);
+      await addSheduledNotificationFavoriteChargePoint(lat, long, day, iniHour, iniMinute);
     }
   }
 
@@ -933,7 +954,7 @@ class CtrlDomain {
     serviceLocator<LocalNotificationAdpt>().enableNotification(firstNotification, lat, long);
   }
 
-  //Desactiva una notificació que té l'usuari programada.
+  //Desactiva una notificació que té l'usuari programada. No s'ha de cridar just després de crear una notificació, sino no es desactivarà bé!
   void disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
     serviceLocator<LocalNotificationAdpt>().disableNotification(lat, long, t3.item1, t3.item2, t3.item3);
@@ -945,6 +966,7 @@ class CtrlDomain {
     }
   }
 
+  //No s'ha de cridar just després de crear una notificació, sino no es desactivarà bé!
   void disableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
     for (var day in daysOfTheWeek) {
       disableNotification(lat, long, day, iniHour, iniMinute);
