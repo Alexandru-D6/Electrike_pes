@@ -140,6 +140,7 @@ class LocalNotificationAdpt {
       } else if (lastIdCreated < id) {
         lastIdCreated = id;
       }
+      print(id);
       var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
       _createNotification(id, when, lat, long);
@@ -240,12 +241,16 @@ class LocalNotificationAdpt {
     return false;
   }
 
-  Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+  Future<int> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1) {
       if (_currentNotifications[id]!.active) await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications.remove(id);
+      if (lastIdCreated == id) --lastIdCreated;
+      print(id);
+      print(lastIdCreated);
     }
+    return id;
   }
 
   Future<void> cancelAllNotifications() async {

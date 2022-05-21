@@ -844,20 +844,25 @@ class CtrlDomain {
     }
   }
 
-  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
-  void removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà! Utilitzar await.
+  Future<void> removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
-    serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
+    int id = await serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
+    if (id != -1) {
+      var url = urlorg + 'remove_notification?email=' + usuari.correu + '&id=' +
+          id.toString();
+      var response = (http.post(Uri.parse(url)));
+    }
   }
 
   void removeAllNotifications() {
     serviceLocator<LocalNotificationAdpt>().cancelAllNotifications();
   }
 
-  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
-  void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) {
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà! Utilitzar await.
+  void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) async {
     for (var notif in l) {
-      removeScheduledNotification(lat, long, notif.item1, notif.item2, notif.item3);
+      await removeScheduledNotification(lat, long, notif.item1, notif.item2, notif.item3);
     }
   }
 
