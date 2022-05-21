@@ -140,7 +140,6 @@ class LocalNotificationAdpt {
       } else if (lastIdCreated < id) {
         lastIdCreated = id;
       }
-      print(id);
       var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
       _createNotification(id, when, lat, long);
