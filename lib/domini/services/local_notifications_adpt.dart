@@ -171,7 +171,7 @@ class LocalNotificationAdpt {
     return lastIdCreated;
   }
 
-  int _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+  Future<int> _findId(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     for (var id in _currentNotifications.keys) {
       if (_currentNotifications[id]!.lat == lat &&
           _currentNotifications[id]!.long == long &&
@@ -213,20 +213,22 @@ class LocalNotificationAdpt {
     return false;
   }
 
-  void enableNotification(DateTime when, double lat, double long) {
-    int id = _findId(lat, long, when.weekday, when.hour, when.minute);
+  Future<int> enableNotification(DateTime when, double lat, double long) async {
+    int id = await _findId(lat, long, when.weekday, when.hour, when.minute);
     if (id != -1 && !_currentNotifications[id]!.active) {
       _currentNotifications[id]!.active = true;
-      _createNotification(id, when, lat, long);
+      await _createNotification(id, when, lat, long);
     }
+    return id;
   }
 
-  Future<void> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
+  Future<int> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    int id = await _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1 && _currentNotifications[id]!.active) {
       await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications[id]!.active = false;
     }
+    return id;
   }
 
   //Si el punt de càrrega no existeix o no té cap notificació per aquest punt de càrrega retorna false.
@@ -242,7 +244,7 @@ class LocalNotificationAdpt {
   }
 
   Future<int> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
-    int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
+    int id = await _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1) {
       if (_currentNotifications[id]!.active) await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications.remove(id);
