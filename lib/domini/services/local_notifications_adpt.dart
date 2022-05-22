@@ -129,7 +129,7 @@ class LocalNotificationAdpt {
 
   Future<int> scheduleNotifications(DateTime when, double lat, double long, int id) async {
     late bool active;
-    if (await hasNotificacions(lat,long)) {
+    if (hasNotificacions(lat,long)) {
       active = notificationsOn(lat, long);
     } else {
       active = true;
@@ -215,7 +215,7 @@ class LocalNotificationAdpt {
     return m;
   }
 
-  Future<bool> hasNotificacions(double lat, double long) async {
+  bool hasNotificacions(double lat, double long) {
     for (var id in _currentNotifications.keys) {
       if (_currentNotifications[id]!.lat == lat &&
           _currentNotifications[id]!.long == long) {
@@ -237,9 +237,15 @@ class LocalNotificationAdpt {
   Future<int> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1 && _currentNotifications[id]!.active) {
+      print("Disable Notification: ");
+      print(id);
       await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications[id]!.active = false;
     }
+    else {
+      print("Id notification to disable not found");
+    }
+
     return id;
   }
 

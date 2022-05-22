@@ -227,8 +227,22 @@ class CtrlDomain {
         //print("DINS!!!");
 
         //notifDesact.add(Tuple5(lat,lon,hour,minute,weekDay));
-
-        await serviceLocator<LocalNotificationAdpt>().disableNotification(lat, lon, weekDay, hour, minute);
+        /*print("Disable Notification: ");
+        print(firstNotification.weekday);
+        print(firstNotification.hour);
+        print(firstNotification.minute);*/
+        Tuple3<int,int,int> t3 = _convertDayOfTheWeek(weekDay, hour, minute, false);
+        print("Disable Notification (time converted): ");
+        print(t3.item1);
+        print(t3.item2);
+        print(t3.item3);
+        print("Disable Notification (original time): ");
+        print(weekDay);
+        print(hour);
+        print(minute);
+        print(currentScheduledNotificationsOfAChargerPoint(lat, lon));
+        serviceLocator<LocalNotificationAdpt>().disableNotification(lat, lon, t3.item1, t3.item2, t3.item3);
+        //await serviceLocator<LocalNotificationAdpt>().disableNotification(lat, lon, firstNotification.weekday, firstNotification.hour, firstNotification.minute);
       }
     }
 /*
