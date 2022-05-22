@@ -113,8 +113,6 @@ class LocalNotificationAdpt {
       state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
     }
 
-    //print("Inside function _createNotification: ");
-    //print(id);
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
@@ -141,18 +139,8 @@ class LocalNotificationAdpt {
         id = _createId();
       } else if (lastIdCreated < id) {
         lastIdCreated = id;
-      }/*
-      print("Inside function sheduleNotifications: ");
-      print(id);
-      print("active = ");
-      print(active);
-      print("lat: ");
-      print(lat);
-      print("long");
-      print(long);
-      print(when.weekday);
-      print(when.hour);
-      print(when.minute);*/
+      }
+
       var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
       if (active) await _createNotification(id, when, lat, long);
@@ -237,13 +225,8 @@ class LocalNotificationAdpt {
   Future<int> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1 && _currentNotifications[id]!.active) {
-      print("Disable Notification: ");
-      print(id);
       await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications[id]!.active = false;
-    }
-    else {
-      print("Id notification to disable not found");
     }
 
     return id;

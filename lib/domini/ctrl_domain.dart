@@ -197,77 +197,26 @@ class CtrlDomain {
     var url = urlorg +'get_user_notifications?email='+usuari.correu;
     var responseC = (await http.get(Uri.parse(url)));
     var respC = await jsonDecode(responseC.body);
-    List<Tuple5<double,double,int,int,int>> notifDesact = []; //lat, long, hour, minute, weekDay -> notificacions desactivades
+
     for(var pfc in respC['items']) {
-      //sleep(const Duration(seconds: 1));
-      //print("Dins de getNotifications: ");
+
       int hour = int.parse(pfc['Hour'].toString());
       int minute = int.parse(pfc['Minute'].toString());
       int weekDay = int.parse(pfc['WeekDay'].toString());
-
-     // print(hour);
-     // print(minute);
-     // print(weekDay);
-      //DateTime firstNotification = await _adaptTime(hour, minute, weekDay, false);
 
       double lat = double.parse(pfc['Lat'].toString());
       double lon = double.parse(pfc['Lon'].toString());
       int id = int.parse(pfc['Id']);
 
-     // print(lat);
-     // print(lon);
-    //  print(id);
-
-
       DateTime firstNotification = await _adaptTime(hour, minute, weekDay, true);
       await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, lon, id);
 
       if (pfc['Activated'].toString() == "false") {
-        //sleep(const Duration(seconds: 1));
-        //print("DINS!!!");
-
-        //notifDesact.add(Tuple5(lat,lon,hour,minute,weekDay));
-        /*print("Disable Notification: ");
-        print(firstNotification.weekday);
-        print(firstNotification.hour);
-        print(firstNotification.minute);*/
         Tuple3<int,int,int> t3 = _convertDayOfTheWeek(weekDay, hour, minute, false);
-        print("Disable Notification (time converted): ");
-        print(t3.item1);
-        print(t3.item2);
-        print(t3.item3);
-        print("Disable Notification (original time): ");
-        print(weekDay);
-        print(hour);
-        print(minute);
-        print(currentScheduledNotificationsOfAChargerPoint(lat, lon));
+
         serviceLocator<LocalNotificationAdpt>().disableNotification(lat, lon, t3.item1, t3.item2, t3.item3);
-        //await serviceLocator<LocalNotificationAdpt>().disableNotification(lat, lon, firstNotification.weekday, firstNotification.hour, firstNotification.minute);
       }
     }
-/*
-    for (var punt in notifDesact) {
-      print("Iteració del bucle!");
-      List<List<String>> p = currentScheduledNotificationsOfAChargerPoint(punt.item1, punt.item2);
-      print(p);
-      List<List<String>> l = currentScheduledNotificationsOfAChargerPoint(41.73682408, 1.82836016);
-      print(l);
-      print(notificationsOn(41.73682408, 1.82836016));
-
-      await disableNotifications(41.73682408, 1.82836016,
-          punt.item3,
-          punt.item4,
-          punt.item5);
-
-      print("No té les notif activades");
-
-      print(punt.item3);
-      print(punt.item4);
-      print(punt.item5);
-
-    }
-    print("Done");
-*/
   }
 
   //Elimina el continguts dels llistats referents als usuaris per quan fa logout
