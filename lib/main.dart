@@ -70,7 +70,7 @@ Future initializeSystem() async {
 
   runApp(
       MaterialApp(
-        home: showHome ? const MyApp() : OnBoardingPage(),
+        home: const MyApp(),//showHome ? const MyApp() : OnBoardingPage(),
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false
       )
