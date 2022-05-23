@@ -35,10 +35,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         children: [
           buildPage(
             color: Colors.green.shade100,
-            title: "NAVIGATION",
+            title: "NAVIGATION", //todo: translate
             subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+            "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n"
+                "Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.", //todo: translate
+            widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif"),
           ),
           buildPage(
             color: Colors.green.shade100,
@@ -182,29 +183,33 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       SingleChildScrollView(
         child: Container(
           color: color,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 64,),
-              Text(
-                title,
-                style: TextStyle(
-                  color: Colors.teal.shade700,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 64,),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.teal.shade700,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24,),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 3),
-                child: Text(
-                  subtitle,
-                  style: const TextStyle(color: Colors.black54),
+                const SizedBox(height: 24,),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: Text(
+                    subtitle,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 64,),
-              widgetBuilt
-            ],
+                const SizedBox(height: 64,),
+                widgetBuilt,
+                const SizedBox(height: 64,),
+              ],
+            ),
           ),
         ),
       );
