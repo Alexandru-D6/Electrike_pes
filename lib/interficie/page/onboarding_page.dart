@@ -154,8 +154,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             SmoothPageIndicator(
               controller: controller,
               count: 11, //num paginas a displayear
-              effect: WormEffect(
+              effect: ScrollingDotsEffect(
+                activeStrokeWidth: 2.6,
+                activeDotScale: 1.3,
+                maxVisibleDots: 5,
+                radius: 8,
                 spacing: 16,
+                dotHeight: 12,
+                dotWidth: 12,
                 dotColor: Colors.black26,
                 activeDotColor: Colors.teal.shade700,
               ),
