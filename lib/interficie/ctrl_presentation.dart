@@ -682,9 +682,10 @@ class CtrlPresentation {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(icon, color: color,),
-        const SizedBox(width: 10),
+        const SizedBox(height: 8),
         AutoSizeText(
           label,
+          textAlign: TextAlign.center,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 18,
@@ -692,14 +693,16 @@ class CtrlPresentation {
           ),
           maxLines: 1,
         ),
-        const SizedBox(width: 5),
+        const SizedBox(height: 5),
         AutoSizeText(
           description,
+          textAlign: TextAlign.center,
           style: const TextStyle(
             color: Colors.black54,
             fontSize: 16,
           ),
         ),
+        const Divider(height: 20),
       ],
     );
   }
