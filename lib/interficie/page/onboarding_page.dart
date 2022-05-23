@@ -29,7 +29,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     List<Widget> pages = [
       buildPage(
         color: Colors.green.shade100,
-        title: "NAVIGATION", //todo: translate
+        title: "NAVIGATION", //todo: translate .toUpperCase()
         subtitle:
         "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n"
             "Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.", //todo: translate
@@ -37,86 +37,86 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "LOG-IN",
+        title: "LOG-IN", //todo: translate .toUpperCase()
         subtitle:
-        "Logueate con tu usuario para poder acceder a todos los datos de tu cuenta y seguir sumando puntos hacia una movilidad sostenible.",
+        "Logueate con tu usuario para poder acceder a todos los datos de tu cuenta y seguir sumando puntos hacia una movilidad sostenible.", //todo: translate
         widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "MAP",
+        title: AppLocalizations.of(context).map.toUpperCase(),
         subtitle:
         "Map page is the main screen of this app.",
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "SAVE YOUR FAVOURITES POINTS",
+        title: "SAVE YOUR FAVOURITES POINTS", //todo: translate
         subtitle:
-        "Salva tus puntos favoritos para consultar la información de éstos de manera más fácil.",
+        "Salva tus puntos favoritos para consultar la información de éstos de manera más fácil.", //todo: translate
         widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "GET YOUR LOCATION",
+        title: "GET YOUR LOCATION", //todo: translate .toUpperCase()
         subtitle:
-        "Pulsa en la esquina superior derecha al lado de las barras de búsqueda para hacer zoom de tu ubicación actual y poder ver qué te rodea.",
+        "Pulsa en la esquina superior derecha al lado de las barras de búsqueda para hacer zoom de tu ubicación actual y poder ver qué te rodea.", //todo: translate
         widgetBuilt: Image.asset("assets/onboardingScreenshots/getYourCurrentLocation.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "FILTRA LOS PUNTOS QUE QUIERES VER",
+        title: "FILTRA LOS PUNTOS QUE QUIERES VER", //todo: translate .toUpperCase()
         subtitle:
-        "Filtra los puntos según tus necesidades o escóndelos si lo deseas: esconder, verlos todos, sólo puntos de carga, sólo bicings o ver tus favoritos.",
+        "Filtra los puntos según tus necesidades o escóndelos si lo deseas: esconder, verlos todos, sólo puntos de carga, sólo bicings o ver tus favoritos.", //todo: translate
         widgetBuilt: Image.asset("assets/onboardingScreenshots/filterMarkers.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "GARAGE",
+        title: AppLocalizations.of(context).garage.toUpperCase(),
         subtitle:
-        "Map page is the main screen of this app.",
+        "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "FAVOURITES", //todo: translate
+        title: AppLocalizations.of(context).favourites.toUpperCase(),
         subtitle:
         "Localiza rápidamente tus puntos favoritos, añade alertas para recibir el estado de los puntos que desees cuando lo necesites, consulta las estadísticas de ocupación al instante o elimina aquellos puntos que ya no son relevantes en tu día a día...", //todo: translate
         widgetBuilt: ctrlPresentation.makeFavouritesLegend(context),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "ACHIEVEMENTS",
+        title: "ACHIEVEMENTS", //todo: translate .toUpperCase()
         subtitle:
-        "Map page is the main screen of this app.",
+        "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
         title: "LANGUAGE",
         subtitle:
-        "Map page is the main screen of this app.",
+        "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "INFO APP",
+        title: "INFO APP", //todo: translate .toUpperCase()
         subtitle:
-        "Map page is the main screen of this app.",
+        "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "CONTACT US",
+        title: "CONTACT US", //todo: translate .toUpperCase()
         subtitle:
-        "Map page is the main screen of this app.",
+        "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "LOG-OUT",
+        title: "LOG-OUT", //todo: translate .toUpperCase()
         subtitle:
-        "Map page is the main screen of this app.",
+        "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
     ];
