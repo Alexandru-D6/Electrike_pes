@@ -39,8 +39,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         color: Colors.green.shade100,
         title: "LOG-IN",
         subtitle:
-        "Map page is the main screen of this app.",
-        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+        "Logueate con tu usuario para poder acceder a todos los datos de tu cuenta y seguir sumando puntos hacia una movilidad sostenible.",
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif"),
       ),
       buildPage(
         color: Colors.green.shade100,
@@ -48,6 +48,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         subtitle:
         "Map page is the main screen of this app.",
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "GET YOUR LOCATION",
+        subtitle:
+        "Pulsa en la esquina superior derecha al lado de las barras de búsqueda para hacer zoom de tu ubicación actual y poder ver qué te rodea.",
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/getYourCurrentLocation.gif"),
       ),
       buildPage(
         color: Colors.green.shade100,
