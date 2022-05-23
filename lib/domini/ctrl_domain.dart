@@ -945,8 +945,8 @@ class CtrlDomain {
   }
 
   //Retorna true si el punt de càrrega té notificacions (independentment de si estan activades o desactivades)
-  Future<bool> hasNotificacions(double lat, double long) async {
-    return await serviceLocator<LocalNotificationAdpt>().hasNotificacions(lat,long);
+  bool hasNotificacions(double lat, double long) {
+    return serviceLocator<LocalNotificationAdpt>().hasNotificacions(lat,long);
   }
 
   //Afegeix tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
