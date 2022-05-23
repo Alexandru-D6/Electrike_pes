@@ -29,21 +29,87 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         controller: controller,
         onPageChanged: (index){
           setState(() {
-            isLastPage = index == 2;
+            isLastPage = index == 10;
           });
         },
         children: [
-          Container(
-            color: Colors.red,
-            child: const Center(child: Text('Text 1'),),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "NAVIGATION", //todo: translate
+            subtitle:
+            "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n"
+                "Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.", //todo: translate
+            widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif"),
           ),
-          Container(
-            color: Colors.green,
-            child: const Center(child: Text('Text 2'),),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "LOG-IN",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
           ),
-          Container(
-            color: Colors.blue,
-            child: const Center(child: Text('Text 3'),),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "MAP",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+          ),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "FILTRA LOS PUNTOS QUE QUIERES VER",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+          ),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "GARAGE",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+          ),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "FAVOURITES",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+          ),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "ACHIEVEMENTS",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+          ),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "LANGUAGE",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+          ),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "INFO APP",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+          ),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "CONTACT US",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+          ),
+          buildPage(
+            color: Colors.green.shade100,
+            title: "LOG-OUT",
+            subtitle:
+            "Map page is the main screen of this app.",
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
           ),
         ],
       ),
@@ -78,12 +144,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         children: [
           TextButton(
               child: const Text('SKIP'), //todo: translate
-              onPressed: ()=>controller.jumpToPage(2)
+              onPressed: ()=>controller.jumpToPage(10)
           ),
           Center(
             child: SmoothPageIndicator(
               controller: controller,
-              count: 3, //num paginas a displayear
+              count: 11, //num paginas a displayear
               effect: WormEffect(
                 spacing: 16,
                 dotColor: Colors.black26,
@@ -107,4 +173,44 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
   ),
   );
+
+  buildPage({
+    required Color color,
+    required Widget widgetBuilt,
+    required String title,
+    required String subtitle
+  }) =>
+      SingleChildScrollView(
+        child: Container(
+          color: color,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 64,),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.teal.shade700,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 24,),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: Text(
+                    subtitle,
+                    style: const TextStyle(color: Colors.black54),
+                  ),
+                ),
+                const SizedBox(height: 64,),
+                widgetBuilt,
+                const SizedBox(height: 64,),
+              ],
+            ),
+          ),
+        ),
+      );
 }
