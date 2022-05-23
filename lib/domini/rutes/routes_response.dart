@@ -6,6 +6,7 @@ class RoutesResponse {
   late List<GeoCoord> waypoints;
   late String distance; // in km
   late String duration; // in hour
+  late List<GeoCoord> coords;
 
   RoutesResponse(this.origen, this.destino, this.waypoints);
   RoutesResponse.complete(this.origen, this.destino, this.waypoints, this.distance, this.duration);

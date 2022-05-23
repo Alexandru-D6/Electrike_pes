@@ -38,12 +38,6 @@ class RutesAmbCarrega {
     List<double>? distMeters = infoRoutes?.distancesMeters;
     List<GeoCoord>? listCoord = infoRoutes?.coords;
 
-    print("--------------------------getCoordFromRoutDist------------------------------");
-      print(dist);
-      print(distMeters);
-      print(listCoord);
-    print("----------------------------------------------------------------------------");
-
     // La primera distància més gran o igual a la donada, si està més a prop que la anterior, la retornem.
     // En cas contrari, retornem la coordenada de la distància menor.
     for (int i=1; i<distMeters!.length; i++) {
@@ -58,9 +52,9 @@ class RutesAmbCarrega {
     return result;
   }
 
+  /// Troba algun carregador compatible dins de la llista donada
   GeoCoord findSuitableCharger(List<Coordenada> coordCarregadorsPropers) {
     GeoCoord result = const GeoCoord(-1.0, -1.0);
-    print("CarregadorsCompatibles --> " + carregadorsCompatibles.toString());
     for (var element in coordCarregadorsPropers) {
       for (var elem2 in carregadorsCompatibles) {
         if (element.latitud==elem2.latitud && element.longitud == elem2.longitud) {
@@ -71,7 +65,7 @@ class RutesAmbCarrega {
     return result;
   }
 
-  ///
+  /// Algorisme principal de càlcul de ruta ab carregador
   Future<RoutesResponse> algorismeMillorRuta(GeoCoord origen, GeoCoord desti, double bateriaPerc, double consum) async {
     GeoCoord coordCharger;
     routesResponse.origen = origen;
@@ -84,9 +78,6 @@ class RutesAmbCarrega {
 
       double? temp = routeInfo.distanceMeters;
       if (temp! <= mRestants) { // si la autonomia del cotxe és superior al recorregut que ha de fer, dirigeix automàticament
-        print("Aaaa");
-        print("------> " + temp.toString());
-        print("------> " + mRestants.toString());
         return routesResponse;
 
       }else {
@@ -98,20 +89,18 @@ class RutesAmbCarrega {
         while (!trobat) {
           List<Coordenada> coordCarregadorsPropers = await ctrlDomain.getNearChargers(coordLimit.latitude, coordLimit.longitude, radius);
 
-          print("+++++: " + coordCarregadorsPropers.length.toString());
-          print("radius --> " + radius.toString());
           if (coordCarregadorsPropers.isEmpty) {
             radius += 10.0;
 
           } else {
             coordCharger = findSuitableCharger(coordCarregadorsPropers);
-            print("Charger --> " + coordCharger.toString());
             if (coordCharger.longitude != -1.0 && coordCharger.latitude != -1.0) {
               routesResponse.waypoints.add(coordCharger);
               RouteResponse firstTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(origen, coordCharger);
               RouteResponse secTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(coordCharger, desti);
               double totalDuration = (firstTram.durationMinutes!) + (secTram.durationMinutes!);
               double totalDistance = (firstTram.distanceMeters!) + (secTram.distanceMeters!);
+              routesResponse.coords = (firstTram.coords!) + (secTram.coords!);
               routesResponse.setDuration(totalDuration);
               routesResponse.setDistance(totalDistance);
               trobat = true;
