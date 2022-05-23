@@ -103,6 +103,59 @@
    "selectCar": "Select a vehicle",
    "actualBatMsg": "Enter the remaining battery",
    "selectRouteType": "Select a route type",
-   "start": "Start"
+   "standard": "Standard",
+   "chargingStop": "Charging stop",
+   "start": "Start",
+   "occupationChart": "Occupation Chart",
+   "occupancy": "Occupancy",
+   "hours": "Hours",
+   "yourLocation": "My location",
 
+   "notLoggedMsg": "Log-in is required",
+   "keyChargers": "Charging point key",
+   "keyBicing": "Bicing station key",
+   "keyFavourites": "Favourites key",
+
+   "stationName": "Station name",
+   "streetName": "Street name",
+
+   "availableChargers": "Available",
+   "numChargers": "Number of available chargers",
+   "unknownState": "Unknown state",
+   "numUnknown": "Number of chargers of unknown state",
+   "broken": "Broken",
+   "numBroken": "Number of broken chargers",
+   "notAvailable": "Not available",
+   "numNotAvailable": "Number of not available chargers",
+
+   "freePlaces": "Free places",
+   "numFreePlaces": "Number of free places",
+   "availablePedal": "Available pedal bikes",
+   "numPedal": "Number of pedal bikes",
+   "availableElectric": "Available electric bicycles",
+   "numElectric": "Number of available electric bicycles",
+
+   "clickName": "Click on the name",
+   "clickNameDescr": "You can go to the location on the map by selecting the point",
+   "seeConcurrencyChart": "See station occupancy percentage",
+   "chartsDescr": "Shows the occupation of the station during the day",
+
+   "disableNoti": "Disable notifications",
+   "disableNotiDescr": "Disable all notifications (if have any)",
+   "enableNoti": "Enable notifications",
+   "enableNotiDescr": "Enable all notifications (if have any) so you can receive the occupancy rate of a charger",
+
+   "notificationSettingsDescr": "Shows all the notifications created for the point. Here you can add more or delete others.",
+
+   "rmvFavs": "Remove from favourites",
+   "rmvFavsDescr": "You can remove directly the point from your favourites list.",
+   "filterFavTypes": "Filter between types",
+   "filterFavTypesDescr": "Filter the types of favourite points using the bottom buttons",
+
+   "addAlert": "Add alert",
+   "addAlertDescr": "You need to have at least one created alert associated with the point. ",
+   "skip": "SKIP",
+   "next": "NEXT",
+   "duration": "Duration",
+   "distance": "Distance"
 }

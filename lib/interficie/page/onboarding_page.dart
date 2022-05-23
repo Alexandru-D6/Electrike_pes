@@ -3,6 +3,8 @@ import 'package:flutter_project/domini/main_peilin.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class OnBoardingPage extends StatefulWidget {
   @override
@@ -124,9 +126,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           backgroundColor: Colors.teal.shade700,
           minimumSize: const Size.fromHeight(80),
         ),
-        child: const Text(
-          'Get Started', //todo:translate
-          style: TextStyle(fontSize: 24),
+        child: Text(
+          AppLocalizations.of(context).start,
+          style: const TextStyle(fontSize: 24),
         ),
         onPressed: () async{
           final prefs = await SharedPreferences.getInstance();
@@ -143,7 +145,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextButton(
-              child: const Text('SKIP'), //todo: translate
+              child: Text(AppLocalizations.of(context).skip),
               onPressed: ()=>controller.jumpToPage(10)
           ),
           Center(
@@ -163,7 +165,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ),
           ),
           TextButton(
-              child: const Text('NEXT'), //todo: translate
+              child: Text(AppLocalizations.of(context).next),
               onPressed: ()=>controller.nextPage(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeInOut,

@@ -1,5 +1,7 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class OcupationChart extends StatelessWidget {
   final List<charts.Series> seriesList;
@@ -40,8 +42,8 @@ class OcupationChart extends StatelessWidget {
       //primaryMeasureAxis: charts.NumericAxisSpec(),
       //barRendererDecorator: charts.BarLabelDecorator<String>(),
       behaviors: [
-        charts.ChartTitle('Grafica Ocupació', //todo: peilin multi
-            subTitle: '% Ocupació', //todo(): peilin multi
+        charts.ChartTitle(AppLocalizations.of(context).occupationChart,
+            subTitle: '%' + AppLocalizations.of(context).occupancy,
             behaviorPosition: charts.BehaviorPosition.top,
             titleOutsideJustification: charts.OutsideJustification.start,
             // Set a larger inner padding than the default (10) to avoid
@@ -49,7 +51,7 @@ class OcupationChart extends StatelessWidget {
             // The top tick label may extend upwards into the top margin region
             // if it is located at the top of the draw area.
             innerPadding: 18),
-        charts.ChartTitle('Hores del dia', //todo: peilin multiidiomas
+        charts.ChartTitle(AppLocalizations.of(context).hours,
             behaviorPosition: charts.BehaviorPosition.bottom,
             titleOutsideJustification:
             charts.OutsideJustification.middleDrawArea,

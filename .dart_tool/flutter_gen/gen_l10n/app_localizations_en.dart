@@ -218,5 +218,140 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectRouteType => 'Select a route type';
 
   @override
+  String get standard => 'Standard';
+
+  @override
+  String get chargingStop => 'Charging stop';
+
+  @override
   String get start => 'Start';
+
+  @override
+  String get occupationChart => 'Occupation Chart';
+
+  @override
+  String get occupancy => 'Occupancy';
+
+  @override
+  String get hours => 'Hours';
+
+  @override
+  String get yourLocation => 'My location';
+
+  @override
+  String get notLoggedMsg => 'Log-in is required';
+
+  @override
+  String get keyChargers => 'Charging point key';
+
+  @override
+  String get keyBicing => 'Bicing station key';
+
+  @override
+  String get keyFavourites => 'Favourites key';
+
+  @override
+  String get stationName => 'Station name';
+
+  @override
+  String get streetName => 'Street name';
+
+  @override
+  String get availableChargers => 'Available';
+
+  @override
+  String get numChargers => 'Number of available chargers';
+
+  @override
+  String get unknownState => 'Unknown state';
+
+  @override
+  String get numUnknown => 'Number of chargers of unknown state';
+
+  @override
+  String get broken => 'Broken';
+
+  @override
+  String get numBroken => 'Number of broken chargers';
+
+  @override
+  String get notAvailable => 'Not available';
+
+  @override
+  String get numNotAvailable => 'Number of not available chargers';
+
+  @override
+  String get freePlaces => 'Free places';
+
+  @override
+  String get numFreePlaces => 'Number of free places';
+
+  @override
+  String get availablePedal => 'Available pedal bikes';
+
+  @override
+  String get numPedal => 'Number of pedal bikes';
+
+  @override
+  String get availableElectric => 'Available electric bicycles';
+
+  @override
+  String get numElectric => 'Number of available electric bicycles';
+
+  @override
+  String get clickName => 'Click on the name';
+
+  @override
+  String get clickNameDescr => 'You can go to the location on the map by selecting the point';
+
+  @override
+  String get seeConcurrencyChart => 'See station occupancy percentage';
+
+  @override
+  String get chartsDescr => 'Shows the occupation of the station during the day';
+
+  @override
+  String get disableNoti => 'Disable notifications';
+
+  @override
+  String get disableNotiDescr => 'Disable all notifications (if have any)';
+
+  @override
+  String get enableNoti => 'Enable notifications';
+
+  @override
+  String get enableNotiDescr => 'Enable all notifications (if have any) so you can receive the occupancy rate of a charger';
+
+  @override
+  String get notificationSettingsDescr => 'Shows all the notifications created for the point. Here you can add more or delete others.';
+
+  @override
+  String get rmvFavs => 'Remove from favourites';
+
+  @override
+  String get rmvFavsDescr => 'You can remove directly the point from your favourites list.';
+
+  @override
+  String get filterFavTypes => 'Filter between types';
+
+  @override
+  String get filterFavTypesDescr => 'Filter the types of favourite points using the bottom buttons';
+
+  @override
+  String get addAlert => 'Add alert';
+
+  @override
+  String get addAlertDescr => 'You need to have at least one created alert associated with the point. ';
+
+  @override
+  String get skip => 'SKIP';
+
+  @override
+  String get next => 'NEXT';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get distance => 'Distance';
 }

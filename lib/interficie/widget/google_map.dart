@@ -99,8 +99,8 @@ class _MyMapState extends State<MyMap> {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: AppLocalizations.of(context).notLogged,//TODO (Peilin) ready for test
-      desc: AppLocalizations.of(context).explNoFav,//TODO (Peilin) ready for test
+      title: AppLocalizations.of(context).notLogged,
+      desc: AppLocalizations.of(context).explNoFav,
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();

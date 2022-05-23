@@ -218,5 +218,140 @@ class AppLocalizationsCa extends AppLocalizations {
   String get selectRouteType => 'Escull un tipus de ruta';
 
   @override
+  String get standard => 'Estàndard';
+
+  @override
+  String get chargingStop => 'Parada per càrrega';
+
+  @override
   String get start => 'Inicia';
+
+  @override
+  String get occupationChart => 'Gràfics d\'ocupació';
+
+  @override
+  String get occupancy => 'Ocupació';
+
+  @override
+  String get hours => 'Hores';
+
+  @override
+  String get yourLocation => 'La meva localització';
+
+  @override
+  String get notLoggedMsg => 'Se requiere inicio de sesión';
+
+  @override
+  String get keyChargers => 'Llegenda de punts de càrrega';
+
+  @override
+  String get keyBicing => 'Llegenda d\'estacions Bicing';
+
+  @override
+  String get keyFavourites => 'Llegenda de Favorits';
+
+  @override
+  String get stationName => 'Nom de la estació';
+
+  @override
+  String get streetName => 'Nom del carrer';
+
+  @override
+  String get availableChargers => 'Disponibles';
+
+  @override
+  String get numChargers => 'Nombre de carregadors disponibles';
+
+  @override
+  String get unknownState => 'Estat desconegut';
+
+  @override
+  String get numUnknown => 'Nombre de carregadors d\'estat desconegut';
+
+  @override
+  String get broken => 'Espatllat';
+
+  @override
+  String get numBroken => 'Nombre de carregadors espatllats';
+
+  @override
+  String get notAvailable => 'No disponible';
+
+  @override
+  String get numNotAvailable => 'Nombre de carregadors no disponibles';
+
+  @override
+  String get freePlaces => 'Llocs lliures';
+
+  @override
+  String get numFreePlaces => 'Nombre de llocs lliures';
+
+  @override
+  String get availablePedal => 'Disponibilitat de bicicletes de pedals';
+
+  @override
+  String get numPedal => 'Nombre de bicicletes de pedals';
+
+  @override
+  String get availableElectric => 'Disponibilitat de bicicletes elèctriques';
+
+  @override
+  String get numElectric => 'Nombre de bicicletes elèctriques disponibles';
+
+  @override
+  String get clickName => 'Clica el nom';
+
+  @override
+  String get clickNameDescr => 'Pots anar a la localització en el mapa pulsant el punt';
+
+  @override
+  String get seeConcurrencyChart => 'Consulta els percentatges de ocupació';
+
+  @override
+  String get chartsDescr => 'Mostra l\'ocupació de l\'estació de càrrega';
+
+  @override
+  String get disableNoti => 'Desactivar notificacions';
+
+  @override
+  String get disableNotiDescr => 'Desactivar totes les notificacions (si n\'hi ha)';
+
+  @override
+  String get enableNoti => 'Activar notificacions';
+
+  @override
+  String get enableNotiDescr => 'Activar totes les notificacions (si n\'hi ha) per tal de rebre gàfics de concurrència del punt de càrrega';
+
+  @override
+  String get notificationSettingsDescr => 'Mostra les teves notificacions del carregador. Pots afegir de noves o eliminar-ne existents.';
+
+  @override
+  String get rmvFavs => 'Eliminar de favorits';
+
+  @override
+  String get rmvFavsDescr => 'Pots eliminar un punt de la texa llista de favorits';
+
+  @override
+  String get filterFavTypes => 'Filtra entre tipus';
+
+  @override
+  String get filterFavTypesDescr => 'Filtra els teus punts favorits utilitzant el menú superior';
+
+  @override
+  String get addAlert => 'Afegeix notificació';
+
+  @override
+  String get addAlertDescr => 'Necessites crear al menys una notificació associada a aquest punt de càrrega.';
+
+  @override
+  String get skip => 'SALTAR';
+
+  @override
+  String get next => 'SEGÜENT';
+
+  @override
+  String get duration => 'Temps';
+
+  @override
+  String get distance => 'Distància';
 }

@@ -504,11 +504,281 @@ abstract class AppLocalizations {
   /// **'Select a route type'**
   String get selectRouteType;
 
+  /// No description provided for @standard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get standard;
+
+  /// No description provided for @chargingStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging stop'**
+  String get chargingStop;
+
   /// No description provided for @start.
   ///
   /// In en, this message translates to:
   /// **'Start'**
   String get start;
+
+  /// No description provided for @occupationChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupation Chart'**
+  String get occupationChart;
+
+  /// No description provided for @occupancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupancy'**
+  String get occupancy;
+
+  /// No description provided for @hours.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours'**
+  String get hours;
+
+  /// No description provided for @yourLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'My location'**
+  String get yourLocation;
+
+  /// No description provided for @notLoggedMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Log-in is required'**
+  String get notLoggedMsg;
+
+  /// No description provided for @keyChargers.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging point key'**
+  String get keyChargers;
+
+  /// No description provided for @keyBicing.
+  ///
+  /// In en, this message translates to:
+  /// **'Bicing station key'**
+  String get keyBicing;
+
+  /// No description provided for @keyFavourites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourites key'**
+  String get keyFavourites;
+
+  /// No description provided for @stationName.
+  ///
+  /// In en, this message translates to:
+  /// **'Station name'**
+  String get stationName;
+
+  /// No description provided for @streetName.
+  ///
+  /// In en, this message translates to:
+  /// **'Street name'**
+  String get streetName;
+
+  /// No description provided for @availableChargers.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get availableChargers;
+
+  /// No description provided for @numChargers.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of available chargers'**
+  String get numChargers;
+
+  /// No description provided for @unknownState.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown state'**
+  String get unknownState;
+
+  /// No description provided for @numUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of chargers of unknown state'**
+  String get numUnknown;
+
+  /// No description provided for @broken.
+  ///
+  /// In en, this message translates to:
+  /// **'Broken'**
+  String get broken;
+
+  /// No description provided for @numBroken.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of broken chargers'**
+  String get numBroken;
+
+  /// No description provided for @notAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available'**
+  String get notAvailable;
+
+  /// No description provided for @numNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of not available chargers'**
+  String get numNotAvailable;
+
+  /// No description provided for @freePlaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Free places'**
+  String get freePlaces;
+
+  /// No description provided for @numFreePlaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of free places'**
+  String get numFreePlaces;
+
+  /// No description provided for @availablePedal.
+  ///
+  /// In en, this message translates to:
+  /// **'Available pedal bikes'**
+  String get availablePedal;
+
+  /// No description provided for @numPedal.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of pedal bikes'**
+  String get numPedal;
+
+  /// No description provided for @availableElectric.
+  ///
+  /// In en, this message translates to:
+  /// **'Available electric bicycles'**
+  String get availableElectric;
+
+  /// No description provided for @numElectric.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of available electric bicycles'**
+  String get numElectric;
+
+  /// No description provided for @clickName.
+  ///
+  /// In en, this message translates to:
+  /// **'Click on the name'**
+  String get clickName;
+
+  /// No description provided for @clickNameDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'You can go to the location on the map by selecting the point'**
+  String get clickNameDescr;
+
+  /// No description provided for @seeConcurrencyChart.
+  ///
+  /// In en, this message translates to:
+  /// **'See station occupancy percentage'**
+  String get seeConcurrencyChart;
+
+  /// No description provided for @chartsDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows the occupation of the station during the day'**
+  String get chartsDescr;
+
+  /// No description provided for @disableNoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable notifications'**
+  String get disableNoti;
+
+  /// No description provided for @disableNotiDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable all notifications (if have any)'**
+  String get disableNotiDescr;
+
+  /// No description provided for @enableNoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications'**
+  String get enableNoti;
+
+  /// No description provided for @enableNotiDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable all notifications (if have any) so you can receive the occupancy rate of a charger'**
+  String get enableNotiDescr;
+
+  /// No description provided for @notificationSettingsDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows all the notifications created for the point. Here you can add more or delete others.'**
+  String get notificationSettingsDescr;
+
+  /// No description provided for @rmvFavs.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favourites'**
+  String get rmvFavs;
+
+  /// No description provided for @rmvFavsDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'You can remove directly the point from your favourites list.'**
+  String get rmvFavsDescr;
+
+  /// No description provided for @filterFavTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter between types'**
+  String get filterFavTypes;
+
+  /// No description provided for @filterFavTypesDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter the types of favourite points using the bottom buttons'**
+  String get filterFavTypesDescr;
+
+  /// No description provided for @addAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Add alert'**
+  String get addAlert;
+
+  /// No description provided for @addAlertDescr.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to have at least one created alert associated with the point. '**
+  String get addAlertDescr;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'SKIP'**
+  String get skip;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT'**
+  String get next;
+
+  /// No description provided for @duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// No description provided for @distance.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get distance;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -102,6 +102,60 @@
    "selectCar": "Escoge un vehículo",
    "actualBatMsg": "Introduce la bateria restante",
    "selectRouteType": "Escoge un tipo de ruta",
-   "start": "Iniciar"
+   "standard": "Estándar",
+   "chargingStop": "Parada para cargar",
+   "start": "Iniciar",
+   "occupationChart": "Gráficas de ocupación",
+   "occupancy": "Ocupación",
+   "hours": "Horas",
+   "yourLocation": "Mi localización",
+
+   "notLoggedMsg": "Se requiere inicio de sessión",
+   "keyChargers": "Leyenda de puntos de carga",
+   "keyBicing": "Leyenda de estaciones Bicing",
+   "keyFavourites": "Llegenda de favorits",
+
+   "stationName": "Nombre de la estación",
+   "streetName": "Nombre de la calle",
+
+   "availableChargers": "Disponibles",
+   "numChargers": "Número de cargadores disponibles",
+   "unknownState": "Estado desconocido",
+   "numUnknown": "Número de cargadores de estado desconocido",
+   "broken": "Roto",
+   "numBroken": "Número de cargadores rotos",
+   "notAvailable": "No disponible",
+   "numNotAvailable": "Número de cargadores no disponibles",
+
+   "freePlaces": "Sitios libres",
+   "numFreePlaces": "Número de sitios libres",
+   "availablePedal": "Disponibilidad de bicicletas de pedales",
+   "numPedal": "Número de bicicletas de pedales",
+   "availableElectric": "Disponibilidad de bicicletas eléctricas",
+   "numElectric": "Número de bicicletas eléctricas disponibles",
+
+   "clickName": "Pulsa el nombre",
+   "clickNameDescr": "Puedes ir a la localización en el mapa pulsando el punto",
+   "seeConcurrencyChart": "Consultar los porcentages de ocupación",
+   "chartsDescr": "Muestra la ocupación de la estación de carga",
+
+   "disableNoti": "Desactivar notificaciones",
+   "disableNotiDescr": "Desactivar todas las notificaciones (si las hay)",
+   "enableNoti": "Activar notificaciones",
+   "enableNotiDescr": "Activar todas las notificaciones (si las hay) para recibir el estado de ocupación de un cargador",
+
+   "notificationSettingsDescr": "Muestra todas tus notificaciones para el punto. Aqui puedes añadir nuevas o eliminar existentes.",
+
+   "rmvFavs": "Eliminar de favoritos",
+   "rmvFavsDescr": "Puedes eliminar un punto de tu lista de favoritos.",
+   "filterFavTypes": "Filtra entre tipos",
+   "filterFavTypesDescr": "Filtra tus puntos favoritos usando el menú superior",
+
+   "addAlert": "Añade notificación",
+   "addAlertDescr": "Necesitas crear el menos una notificación asociada a este punto de carga.",
+   "skip": "SALTAR",
+   "next": "SIGUIENTE",
+   "duration": "Tiempo",
+   "distance": "Distancia"
 
 }

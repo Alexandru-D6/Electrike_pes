@@ -97,6 +97,18 @@ class CtrlPresentation {
   }
   
   //intercambiar vista
+  _showNotLogDialog(BuildContext context) {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.INFO,
+      animType: AnimType.BOTTOMSLIDE,
+      title: AppLocalizations.of(context).notLogged,
+      desc: AppLocalizations.of(context).notLoggedMsg,
+      btnOkOnPress: () {},
+      headerAnimationLoop: false,
+    ).show();
+  }
+
   toMainPage(BuildContext context) {
     //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -185,7 +197,7 @@ class CtrlPresentation {
     Navigator.pushNamed(
       context,
       '/chart',
-      arguments: pointTitle, //TODO: cosas de traducciones?
+      arguments: pointTitle,
     );
   }
 
@@ -507,45 +519,21 @@ class CtrlPresentation {
     return "Hey, check this point => $url";
   }
 
-  _showNotLogDialog(BuildContext context) {
-    return AwesomeDialog(
-      context: context,
-      dialogType: DialogType.INFO,
-      animType: AnimType.BOTTOMSLIDE,
-      title: AppLocalizations
-          .of(context)
-          .login,
-      desc: AppLocalizations
-          .of(context)
-          .notLogged,
-      btnCancelOnPress: () {},
-      btnOkIcon: (Icons.login),
-      btnOkText: AppLocalizations
-          .of(context)
-          .login,
-      btnOkOnPress: () {
-        signInRoutine(context);
-      },
-
-      headerAnimationLoop: false,
-    ).show();
-  }
-
   void showLegendDialog(BuildContext context, String s) {
     String title;
     Widget body;
     switch (s){
       case "chargePoint":
-        title = "Leyenda Punto de carga";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-        body = makeBodyAlertChargePoint();
+        title = AppLocalizations.of(context).keyChargers;
+        body = makeBodyAlertChargePoint(context);
         break;
       case "bicingPoint":
-        title = "Leyenda Punto de bicing";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-        body = buildBicingHeader();
+        title = AppLocalizations.of(context).keyBicing;
+        body = buildBicingHeader(context);
         break;
       case "favsPage":
-        title = "Leyenda Favs page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-        body = makeFavouritesLegend();
+        title = AppLocalizations.of(context).keyFavourites;
+        body = makeFavouritesLegend(context);
         break;
       case "chartPage":
         title = "Leyenda Charts page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
@@ -553,7 +541,7 @@ class CtrlPresentation {
         break;
       default:
         title = "Default title";
-        body = makeBodyAlertChargePoint();
+        body = makeBodyAlertChargePoint(context);
         break;
     }
     AwesomeDialog(
@@ -567,7 +555,7 @@ class CtrlPresentation {
     ).show();
   }
 
-  Widget makeBodyAlertChargePoint() {
+  Widget makeBodyAlertChargePoint(BuildContext context) {
     return SingleChildScrollView(
       child:
       Padding(
@@ -577,8 +565,8 @@ class CtrlPresentation {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             buildHeader(
-              name: "Station name", //todo: translate
-              calle: "Street name", //todo: translate
+              name: AppLocalizations.of(context).stationName,
+              calle: AppLocalizations.of(context).streetName,
               city: "City placed", //todo: translate
               numChargePlaces: "Charge places", //todo: translate
             ),
@@ -586,29 +574,29 @@ class CtrlPresentation {
             buildIconLabeled(
               icon: Icons.check_circle_rounded,
               color: Colors.greenAccent,
-              label: "Available Chargers", //todo: translate
-              description: "Indicates the number of available chargers.", //todo: translate
+              label: AppLocalizations.of(context).availableChargers,
+              description: AppLocalizations.of(context).numChargers, //TODO (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.help,
               color: Colors.yellow,
-              label: "Unknown State", //todo: translate
-              description: "Indicates the number of unknown state chargers.", //todo: translate
+              label: AppLocalizations.of(context).unknownState, //TODO (Peilin) ready for test
+              description: AppLocalizations.of(context).numUnknown, //TODO (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.warning,
               color: Colors.amber,
-              label: "Crashed State", //todo: translate
-              description: "Indicates the number of crashed chargers.", //todo: translate
+              label: AppLocalizations.of(context).broken, //TODO (Peilin) ready for test
+              description: AppLocalizations.of(context).numBroken, //TODO (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.stop_circle,
               color: Colors.red,
-              label: "Not Available Chargers", //todo: translate
-              description: "Indicates the number of unavailable chargers.", //todo: translate
+              label: AppLocalizations.of(context).notAvailable, //TODO (Peilin) ready for test
+              description: AppLocalizations.of(context).numNotAvailable, //TODO (Peilin) ready for test
             ),
           ],
         ),
@@ -715,18 +703,18 @@ class CtrlPresentation {
     );
   }
 
-  buildBicingHeader(){
+  buildBicingHeader(BuildContext context){
     const Color fontColor = Colors.black;
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ListTile(
-            leading: Icon(Icons.pedal_bike, color: fontColor, size: 45,),
+          ListTile(
+            leading: const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
             title: AutoSizeText(
-              "Bicing station name", //todo: translate
-              style: TextStyle(
+              AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+              style: const TextStyle(
                 color: fontColor,
                 fontSize: 24,
               ),
@@ -741,27 +729,27 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.local_parking,
             color: fontColor,
-            label: "Free bike holders", //todo: translate
-            description: "Indicates the number of free bike holders (parkings).", //todo: translate
+            label: AppLocalizations.of(context).freePlaces, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).numFreePlaces, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.pedal_bike,
             color: fontColor,
-            label: "Available pedal bikes", //todo: translate
-            description: "Indicates the number of available pedal bikes.", //todo: translate
+            label: AppLocalizations.of(context).availablePedal, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).numPedal, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.electric_bike,
             color: fontColor,
-            label: "Available electric bikes", //todo: translate
-            description: "Indicates the number of available electric bikes.", //todo: translate
+            label: AppLocalizations.of(context).availableElectric, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).numElectric, //TODO (Peilin) ready for test
           ),
         ],
       ),
     );
   }
 
-  Widget makeFavouritesLegend() {
+  Widget makeFavouritesLegend(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: Column(
@@ -770,44 +758,44 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.touch_app,
             color: Colors.black,
-            label: "Click on the name", //todo: translate
-            description: "you can navigate to the point on the map location by clicking on the name.", //todo: translate
+            label: AppLocalizations.of(context).clickName, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).clickNameDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.bar_chart,
             color: Colors.green,
-            label: "See concurrency station stats", //todo: translate
-            description: "Shows stats about the concurrency of station during the day.", //todo: translate
+            label: AppLocalizations.of(context).seeConcurrencyChart, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).chartsDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.notifications_off,
             color: Colors.lightBlueAccent,
-            label: "Disable the notifications of a point", //todo: translate
-            description: "Disable the entire notifications of a point (if have any).", //todo: translate
+            label: AppLocalizations.of(context).disableNoti, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).disableNotiDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.notifications_active,
             color: Colors.blue,
-            label: "Enable the notifications of a point", //todo: translate
-            description: "Enable the entire notifications of a point (if have any) and you will receive the state of the station at the notification moment you set.", //todo: translate
+            label: AppLocalizations.of(context).enableNoti, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).enableNotiDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.settings,
             color: Colors.grey,
-            label: "Notification settings", //todo: translate
-            description: "Shows all the notifications created of a point. Here you can add more or delete others.", //todo: translate
+            label: AppLocalizations.of(context).notificationSettings, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).notificationSettingsDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.favorite,
             color: Colors.red,
-            label: "Remove from favourites", //todo: translate
-            description: "When it's clicked you can remove directly the point of your favourites list.", //todo: translate
+            label: AppLocalizations.of(context).rmvFavs, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).rmvFavsDescr, //TODO (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.filter_list_alt,
             color: Colors.orangeAccent,
-            label: "Filter between types", //todo: translate
-            description: "Also you can filter the types of favourites points using the bottom buttons.", //todo: translate
+            label: AppLocalizations.of(context).filterFavTypes, //TODO (Peilin) ready for test
+            description: AppLocalizations.of(context).filterFavTypesDescr, //TODO (Peilin) ready for test
           ),
         ],
       ),

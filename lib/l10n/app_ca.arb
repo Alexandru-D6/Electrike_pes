@@ -103,6 +103,59 @@
     "selectCar": "Escull un vehicle",
     "actualBatMsg": "Introdueix la bateria restant",
     "selectRouteType": "Escull un tipus de ruta",
-    "start": "Inicia"
+    "standard": "Estàndard",
+    "chargingStop": "Parada per càrrega",
+    "start": "Inicia",
+    "occupationChart": "Gràfics d'ocupació",
+    "occupancy": "Ocupació",
+    "hours": "Hores",
+    "yourLocation": "La meva localització",
 
+    "notLoggedMsg": "Se requiere inicio de sesión",
+    "keyChargers": "Llegenda de punts de càrrega",
+    "keyBicing": "Llegenda d'estacions Bicing",
+    "keyFavourites": "Llegenda de Favorits",
+
+    "stationName": "Nom de la estació",
+    "streetName": "Nom del carrer",
+
+    "availableChargers": "Disponibles",
+    "numChargers": "Nombre de carregadors disponibles",
+    "unknownState": "Estat desconegut",
+    "numUnknown": "Nombre de carregadors d'estat desconegut",
+    "broken": "Espatllat",
+    "numBroken": "Nombre de carregadors espatllats",
+    "notAvailable": "No disponible",
+    "numNotAvailable": "Nombre de carregadors no disponibles",
+
+    "freePlaces": "Llocs lliures",
+    "numFreePlaces": "Nombre de llocs lliures",
+    "availablePedal": "Disponibilitat de bicicletes de pedals",
+    "numPedal": "Nombre de bicicletes de pedals",
+    "availableElectric": "Disponibilitat de bicicletes elèctriques",
+    "numElectric": "Nombre de bicicletes elèctriques disponibles",
+
+    "clickName": "Clica el nom",
+    "clickNameDescr": "Pots anar a la localització en el mapa pulsant el punt",
+    "seeConcurrencyChart": "Consulta els percentatges de ocupació",
+    "chartsDescr": "Mostra l'ocupació de l'estació de càrrega",
+
+    "disableNoti": "Desactivar notificacions",
+    "disableNotiDescr": "Desactivar totes les notificacions (si n'hi ha)",
+    "enableNoti": "Activar notificacions",
+    "enableNotiDescr": "Activar totes les notificacions (si n'hi ha) per tal de rebre gàfics de concurrència del punt de càrrega",
+
+    "notificationSettingsDescr": "Mostra les teves notificacions del carregador. Pots afegir de noves o eliminar-ne existents.",
+
+    "rmvFavs": "Eliminar de favorits",
+    "rmvFavsDescr": "Pots eliminar un punt de la texa llista de favorits",
+    "filterFavTypes": "Filtra entre tipus",
+    "filterFavTypesDescr": "Filtra els teus punts favorits utilitzant el menú superior",
+
+    "addAlert": "Afegeix notificació",
+    "addAlertDescr": "Necessites crear al menys una notificació associada a aquest punt de càrrega.",
+    "skip": "SALTAR",
+    "next": "SEGÜENT",
+    "duration": "Temps",
+    "distance": "Distància"
 }
