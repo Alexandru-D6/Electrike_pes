@@ -44,6 +44,7 @@ class _InfoRutaState extends State<InfoRuta> {
     CtrlDomain ctrlDomain = CtrlDomain();
 
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
+    print(userCarList.length);
     if (userCarList.isNotEmpty) {
       ctrlPresentation.idCarUser = 1;
       ctrlDomain.selectVehicleUsuari(ctrlPresentation.idCarUser);
@@ -57,7 +58,7 @@ class _InfoRutaState extends State<InfoRuta> {
       child: Column(
         children: <Widget>[
           Text(AppLocalizations.of(context).selectCar), //TODO (Peilin) ready for test
-          ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
+          (ctrlPresentation.getCurrentUserMail() != "" && ctrlPresentation.getCarsList().isNotEmpty ) ? SizedBox(
             height: 100,
             width: 100,
             child: NotificationListener<ScrollEndNotification>(
@@ -104,6 +105,7 @@ class _InfoRutaState extends State<InfoRuta> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(AppLocalizations.of(context).actualBatMsg), //TODO (Peilin) ready for test
+              Container(margin: const EdgeInsets.only(right: 10)),
               SizedBox(
                 width: 40,
                 child:
@@ -133,7 +135,7 @@ class _InfoRutaState extends State<InfoRuta> {
             height: 5,
             color: Color(0x00000000),
           ),
-          const Text("Select a route type"), //todo: peilin multi
+          Text(AppLocalizations.of(context).selectRouteType),//TODO (Peilin) ready for test
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -148,7 +150,6 @@ class _InfoRutaState extends State<InfoRuta> {
               customRadioButton("Eco", 2)
             ],
           ),
-          Text(AppLocalizations.of(context).selectRouteType),//TODO (Peilin) ready for test
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -158,6 +159,15 @@ class _InfoRutaState extends State<InfoRuta> {
               children: <Widget>[
                 const Text("Estimated time: "),
                 Text(time),
+              ]
+          ),
+          const Divider(
+            height: 5,
+            color: Color(0x00000000),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
                 const Text("Estimated distance: "),
                 Text(distance),
               ]
