@@ -33,14 +33,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         subtitle:
         "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n"
             "Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.", //todo: translate
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif"),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
         title: "LOG-IN",
         subtitle:
         "Logueate con tu usuario para poder acceder a todos los datos de tu cuenta y seguir sumando puntos hacia una movilidad sostenible.",
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif"),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
@@ -51,17 +51,24 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
       buildPage(
         color: Colors.green.shade100,
+        title: "SAVE YOUR FAVOURITES POINTS",
+        subtitle:
+        "Salva tus puntos favoritos para consultar la información de éstos de manera más fácil.",
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: 250,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
         title: "GET YOUR LOCATION",
         subtitle:
         "Pulsa en la esquina superior derecha al lado de las barras de búsqueda para hacer zoom de tu ubicación actual y poder ver qué te rodea.",
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/getYourCurrentLocation.gif"),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/getYourCurrentLocation.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
         title: "FILTRA LOS PUNTOS QUE QUIERES VER",
         subtitle:
-        "Map page is the main screen of this app.",
-        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+        "Filtra los puntos según tus necesidades o escóndelos si lo deseas: esconder, verlos todos, sólo puntos de carga, sólo bicings o ver tus favoritos.",
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/filterMarkers.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
@@ -212,6 +219,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 const SizedBox(height: 64,),
                 Text(
                   title,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.teal.shade700,
                     fontSize: 32,
@@ -227,7 +235,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     style: const TextStyle(color: Colors.black54),
                   ),
                 ),
-                const SizedBox(height: 64,),
+                const SizedBox(height: 40,),
                 widgetBuilt,
                 const SizedBox(height: 64,),
               ],
