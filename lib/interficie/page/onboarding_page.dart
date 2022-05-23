@@ -25,96 +25,99 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    List<Widget> pages = [
+      buildPage(
+        color: Colors.green.shade100,
+        title: "NAVIGATION", //todo: translate
+        subtitle:
+        "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n"
+            "Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.", //todo: translate
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "LOG-IN",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "MAP",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "FILTRA LOS PUNTOS QUE QUIERES VER",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "GARAGE",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "FAVOURITES",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: ctrlPresentation.makeFavouritesLegend(context),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "ACHIEVEMENTS",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "LANGUAGE",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "INFO APP",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "CONTACT US",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: "LOG-OUT",
+        subtitle:
+        "Map page is the main screen of this app.",
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+    ];
+
+    return Scaffold(
     body: Container(
       padding: const EdgeInsets.only(bottom: 80),
       child: PageView(
         controller: controller,
         onPageChanged: (index){
           setState(() {
-            isLastPage = index == 10;
+            isLastPage = index == (pages.length-1);
           });
         },
-        children: [
-          buildPage(
-            color: Colors.green.shade100,
-            title: "NAVIGATION", //todo: translate
-            subtitle:
-            "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n"
-                "Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.", //todo: translate
-            widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "LOG-IN",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "MAP",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "FILTRA LOS PUNTOS QUE QUIERES VER",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "GARAGE",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "FAVOURITES",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: ctrlPresentation.makeFavouritesLegend(context),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "ACHIEVEMENTS",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "LANGUAGE",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "INFO APP",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "CONTACT US",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "LOG-OUT",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-        ],
+        children: pages,
       ),
     ),
     bottomSheet: isLastPage
@@ -153,7 +156,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             child:
             SmoothPageIndicator(
               controller: controller,
-              count: 11, //num paginas a displayear
+              count: pages.length, //num paginas a displayear
               effect: ScrollingDotsEffect(
                 activeStrokeWidth: 2.6,
                 activeDotScale: 1.3,
@@ -183,6 +186,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
   ),
   );
+  }
 
   buildPage({
     required Color color,
