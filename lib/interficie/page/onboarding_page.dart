@@ -194,7 +194,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         child: Container(
           color: color,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -212,6 +212,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 3),
                   child: Text(
                     subtitle,
+                    textAlign: TextAlign.justify,
                     style: const TextStyle(color: Colors.black54),
                   ),
                 ),
