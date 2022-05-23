@@ -52,7 +52,6 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
         key: _key,
         initialItemCount: notifications.length,
         itemBuilder: (context, index, animation) {
-          print(index);
           return _buildItem(notifications[index], animation, index, notificationsInfo.latitud, notificationsInfo.longitud);
         },
       ),

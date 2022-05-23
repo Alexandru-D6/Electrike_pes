@@ -360,6 +360,24 @@ abstract class AppLocalizations {
   /// **'You aren\'t logged'**
   String get infoDialogNotLog;
 
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
@@ -383,6 +401,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved CO2'**
   String get savedco2;
+
+  /// No description provided for @kilometerstraveled.
+  ///
+  /// In en, this message translates to:
+  /// **'Kilometerstraveled'**
+  String get kilometerstraveled;
+
+  /// No description provided for @routestaken.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes taken'**
+  String get routestaken;
+
+  /// No description provided for @deleteaccountquestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete your account?'**
+  String get deleteaccountquestion;
+
+  /// No description provided for @deleteaccountdesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting the account is permanent and will remove all content including cars, favourites points and profile settings.'**
+  String get deleteaccountdesc;
 
   /// No description provided for @day1.
   ///
@@ -528,6 +570,12 @@ abstract class AppLocalizations {
   /// **'Occupation Chart'**
   String get occupationChart;
 
+  /// No description provided for @occupationChartlegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupation Chart Legend'**
+  String get occupationChartlegend;
+
   /// No description provided for @occupancy.
   ///
   /// In en, this message translates to:
@@ -545,6 +593,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My location'**
   String get yourLocation;
+
+  /// No description provided for @thispage.
+  ///
+  /// In en, this message translates to:
+  /// **'In this page'**
+  String get thispage;
+
+  /// No description provided for @thispagedesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You can see the stats about the concurrency of a charge station from Barcelona during the day.'**
+  String get thispagedesc;
+
+  /// No description provided for @clickdropdownbutton.
+  ///
+  /// In en, this message translates to:
+  /// **'Click on dropdown button'**
+  String get clickdropdownbutton;
+
+  /// No description provided for @clickdropdownbuttondesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You can change the day and it\'s associated values to the plot by clicking on the dropdown button.'**
+  String get clickdropdownbuttondesc;
+
+  /// No description provided for @concurrencypercentage.
+  ///
+  /// In en, this message translates to:
+  /// **'Concurrency percentage'**
+  String get concurrencypercentage;
+
+  /// No description provided for @concurrencypercentagedesc.
+  ///
+  /// In en, this message translates to:
+  /// **'On the Y axis of the plot, you can see the concurrency percentage for a specific hour of the day.'**
+  String get concurrencypercentagedesc;
+
+  /// No description provided for @concurrencyhours.
+  ///
+  /// In en, this message translates to:
+  /// **'Concurrency hours'**
+  String get concurrencyhours;
+
+  /// No description provided for @concurrencyhoursdesc.
+  ///
+  /// In en, this message translates to:
+  /// **'On the X axis of the plot, you can see the hours of a day, where the bars indicating the concurrency are.'**
+  String get concurrencyhoursdesc;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @errordesc.
+  ///
+  /// In en, this message translates to:
+  /// **'If the plot is empty, it could mean 2 things, nobody utilizes the charger or there\'s an error where you will need to update the page.'**
+  String get errordesc;
 
   /// No description provided for @notLoggedMsg.
   ///
@@ -753,8 +861,14 @@ abstract class AppLocalizations {
   /// No description provided for @addAlertDescr.
   ///
   /// In en, this message translates to:
-  /// **'You need to have at least one created alert associated with the point. '**
+  /// **'You need to have at least one created alert associated with the point.'**
   String get addAlertDescr;
+
+  /// No description provided for @addalertdesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t got any alert associated with this point. Add at least one to receive notifications from this point.'**
+  String get addalertdesc;
 
   /// No description provided for @skip.
   ///
@@ -779,6 +893,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Distance'**
   String get distance;
+
+  /// No description provided for @unlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'unlocked'**
+  String get unlocked;
+
+  /// No description provided for @locked.
+  ///
+  /// In en, this message translates to:
+  /// **'locked'**
+  String get locked;
+
+  /// No description provided for @state.
+  ///
+  /// In en, this message translates to:
+  /// **'State: '**
+  String get state;
+
+  /// No description provided for @nametrophy.
+  ///
+  /// In en, this message translates to:
+  /// **'Trophy: '**
+  String get nametrophy;
+
+  /// No description provided for @trophy0.
+  ///
+  /// In en, this message translates to:
+  /// **'Your first vehicle!'**
+  String get trophy0;
+
+  /// No description provided for @trophy1.
+  ///
+  /// In en, this message translates to:
+  /// **'Three is a multitude of vehicles'**
+  String get trophy1;
+
+  /// No description provided for @trophy2.
+  ///
+  /// In en, this message translates to:
+  /// **'Your garage is amazing!'**
+  String get trophy2;
+
+  /// No description provided for @trophy3.
+  ///
+  /// In en, this message translates to:
+  /// **'Destiny found'**
+  String get trophy3;
+
+  /// No description provided for @trophy4.
+  ///
+  /// In en, this message translates to:
+  /// **'Excursionist'**
+  String get trophy4;
+
+  /// No description provided for @trophy5.
+  ///
+  /// In en, this message translates to:
+  /// **'Globetrotter'**
+  String get trophy5;
+
+  /// No description provided for @trophy6.
+  ///
+  /// In en, this message translates to:
+  /// **'Less CO2'**
+  String get trophy6;
+
+  /// No description provided for @trophy7.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s time to save'**
+  String get trophy7;
+
+  /// No description provided for @trophy8.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving the planet'**
+  String get trophy8;
+
+  /// No description provided for @trophy9.
+  ///
+  /// In en, this message translates to:
+  /// **'The first kilometers'**
+  String get trophy9;
+
+  /// No description provided for @trophy10.
+  ///
+  /// In en, this message translates to:
+  /// **'Reaching 100'**
+  String get trophy10;
+
+  /// No description provided for @trophy11.
+  ///
+  /// In en, this message translates to:
+  /// **'The road is your life'**
+  String get trophy11;
+
+  /// No description provided for @trophy0desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add 1 vehicle to the garage'**
+  String get trophy0desc;
+
+  /// No description provided for @trophy1desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add 3 vehicles to the garage'**
+  String get trophy1desc;
+
+  /// No description provided for @trophy2desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add 5 vehicles to the garage'**
+  String get trophy2desc;
+
+  /// No description provided for @trophy3desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Do 1 route'**
+  String get trophy3desc;
+
+  /// No description provided for @trophy4desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Do 10 routes'**
+  String get trophy4desc;
+
+  /// No description provided for @trophy5desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Do 50 routes'**
+  String get trophy5desc;
+
+  /// No description provided for @trophy6desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Save 5 kg of CO2, using an electric vehicle'**
+  String get trophy6desc;
+
+  /// No description provided for @trophy7desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Save 20 kg of CO2, using an electric vehicle'**
+  String get trophy7desc;
+
+  /// No description provided for @trophy8desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Save 50 kg of CO2, using an electric vehicle'**
+  String get trophy8desc;
+
+  /// No description provided for @trophy9desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel 20 km with electric vehicles'**
+  String get trophy9desc;
+
+  /// No description provided for @trophy10desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel 100 km with electric vehicles'**
+  String get trophy10desc;
+
+  /// No description provided for @trophy11desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel 200 km with electric vehicles'**
+  String get trophy11desc;
+
+  /// No description provided for @defaulttitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Default title'**
+  String get defaulttitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

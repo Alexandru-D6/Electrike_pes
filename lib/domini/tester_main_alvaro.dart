@@ -27,9 +27,7 @@ double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
   c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
   distanceKm = radiusEarth * c;
-  print('Distancia en Kilométros:$distanceKm');
   distanceMts = 1000 * distanceKm;
-  print('Distancia en Metros:$distanceMts');
 
   return distanceKm;
   //return distanceMts;

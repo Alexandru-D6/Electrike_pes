@@ -144,6 +144,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get infoDialogNotLog => 'No se ha iniciado sesión';
 
   @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get delete => 'Eliminar';
+
+  @override
+  String get profile => 'Perfil';
+
+  @override
   String get save => 'Guardar cambios';
 
   @override
@@ -153,7 +162,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trophies => 'Trofeos';
 
   @override
-  String get savedco2 => 'CO2 salvado';
+  String get savedco2 => 'CO2 ahorrado';
+
+  @override
+  String get kilometerstraveled => 'Kilómetros recorridos';
+
+  @override
+  String get routestaken => 'Rutas realizadas';
+
+  @override
+  String get deleteaccountquestion => '¿Estás seguro de que quieres eliminar tu cuenta?';
+
+  @override
+  String get deleteaccountdesc => 'La eliminación de la cuenta es permanente y eliminará todo el contenido, incluidos los vehículos, los puntos favoritos y la configuración del perfil.';
 
   @override
   String get day1 => 'Lunes';
@@ -230,6 +251,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get occupationChart => 'Gráficas de ocupación';
 
   @override
+  String get occupationChartlegend => 'Leyenda de Gráficas de Ocupación';
+
+  @override
   String get occupancy => 'Ocupación';
 
   @override
@@ -237,6 +261,36 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get yourLocation => 'Mi localización';
+
+  @override
+  String get thispage => 'En esta página';
+
+  @override
+  String get thispagedesc => 'Puedes ver las estadísticas sobre la concurrencia de una estación de carga de Barcelona durante el día.';
+
+  @override
+  String get clickdropdownbutton => 'Clic en el botón desplegable';
+
+  @override
+  String get clickdropdownbuttondesc => 'Puede cambiar el día y sus valores asociados al gráfico haciendo clic en el botón desplegable.';
+
+  @override
+  String get concurrencypercentage => 'Porcentaje de concurrencia';
+
+  @override
+  String get concurrencypercentagedesc => 'En el eje Y del gráfico, puedes ver el porcentaje de simultaneidad para una hora específica del día.';
+
+  @override
+  String get concurrencyhours => 'Horas de concurrencias';
+
+  @override
+  String get concurrencyhoursdesc => 'En el eje X del gráfico, puedes ver las horas de un día, donde están las barras que indican la concurrencia.';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get errordesc => 'Si la gráfica está vacía, puede significar 2 cosas, nadie utiliza el cargador o hay un error en el que deberá actualizar la página.';
 
   @override
   String get notLoggedMsg => 'Se requiere inicio de sessión';
@@ -338,10 +392,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get filterFavTypesDescr => 'Filtra tus puntos favoritos usando el menú superior';
 
   @override
-  String get addAlert => 'Añade notificación';
+  String get addAlert => 'Añadir notificación';
 
   @override
   String get addAlertDescr => 'Necesitas crear el menos una notificación asociada a este punto de carga.';
+
+  @override
+  String get addalertdesc => 'No tienes ninguna notificación asociada a este punto. Agrega al menos uno para recibir notificaciones desde este punto.';
 
   @override
   String get skip => 'SALTAR';
@@ -354,4 +411,91 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get distance => 'Distancia';
+
+  @override
+  String get unlocked => 'desbloqueado';
+
+  @override
+  String get locked => 'bloqueado';
+
+  @override
+  String get state => 'Estado: ';
+
+  @override
+  String get nametrophy => 'Trofeo: ';
+
+  @override
+  String get trophy0 => '¡Tu primer vehículo!';
+
+  @override
+  String get trophy1 => 'Tres son una multitud de vehículos';
+
+  @override
+  String get trophy2 => '¡Tu garaje es impresionante!';
+
+  @override
+  String get trophy3 => 'Destino encontrado';
+
+  @override
+  String get trophy4 => 'Excursionista';
+
+  @override
+  String get trophy5 => 'Trotamundos';
+
+  @override
+  String get trophy6 => 'Menos CO2';
+
+  @override
+  String get trophy7 => 'Es hora de ahorrar';
+
+  @override
+  String get trophy8 => 'Salvando el planeta';
+
+  @override
+  String get trophy9 => 'Los primeros kilómetros';
+
+  @override
+  String get trophy10 => 'Llegando a los 100';
+
+  @override
+  String get trophy11 => 'La carretera es tu vida';
+
+  @override
+  String get trophy0desc => 'Añade 1 vehículo al garaje';
+
+  @override
+  String get trophy1desc => 'Añade 3 vehículos al garaje';
+
+  @override
+  String get trophy2desc => 'Añade 5 vehículos al garaje';
+
+  @override
+  String get trophy3desc => 'Haz 1 ruta';
+
+  @override
+  String get trophy4desc => 'Haz 10 rutas';
+
+  @override
+  String get trophy5desc => 'Haz 50 rutas';
+
+  @override
+  String get trophy6desc => 'Ahorra 5 kg de CO2, usando un vehículo eléctrico';
+
+  @override
+  String get trophy7desc => 'Ahorra 20 kg de CO2, usando un vehículo eléctrico';
+
+  @override
+  String get trophy8desc => 'Ahorra 50 kg de CO2, usando un vehículo eléctrico';
+
+  @override
+  String get trophy9desc => 'Recorre 20 km con vehículos eléctricos';
+
+  @override
+  String get trophy10desc => 'Recorre 100 km con vehículos eléctricos';
+
+  @override
+  String get trophy11desc => 'Recorre 200 km con vehículos eléctricos';
+
+  @override
+  String get defaulttitle => 'Default title';
 }

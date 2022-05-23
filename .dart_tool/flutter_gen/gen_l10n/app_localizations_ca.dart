@@ -144,6 +144,15 @@ class AppLocalizationsCa extends AppLocalizations {
   String get infoDialogNotLog => 'No s\'ha iniciat sessió';
 
   @override
+  String get cancel => 'Cancel·lar';
+
+  @override
+  String get delete => 'Eliminar';
+
+  @override
+  String get profile => 'Perfil';
+
+  @override
   String get save => 'Guardar canvis';
 
   @override
@@ -153,7 +162,19 @@ class AppLocalizationsCa extends AppLocalizations {
   String get trophies => 'Trofeus';
 
   @override
-  String get savedco2 => 'CO2 salvat';
+  String get savedco2 => 'CO2 estalviat';
+
+  @override
+  String get kilometerstraveled => 'Quilòmetres recorreguts';
+
+  @override
+  String get routestaken => 'Rutes realitzades';
+
+  @override
+  String get deleteaccountquestion => 'Estàs segur que vols eliminar el teu compte?';
+
+  @override
+  String get deleteaccountdesc => 'L\'eliminació del compte és permanent i eliminarà tot el contingut, inclosos els vehicles, els punts preferits i la configuració del perfil.';
 
   @override
   String get day1 => 'Dilluns';
@@ -230,6 +251,9 @@ class AppLocalizationsCa extends AppLocalizations {
   String get occupationChart => 'Gràfics d\'ocupació';
 
   @override
+  String get occupationChartlegend => 'Llegenda de Gràfics d\'Ocupació';
+
+  @override
   String get occupancy => 'Ocupació';
 
   @override
@@ -237,6 +261,36 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get yourLocation => 'La meva localització';
+
+  @override
+  String get thispage => 'En aquesta pàgina';
+
+  @override
+  String get thispagedesc => 'Pots veure les estadístiques sobre la concurrència d\'una estació de carrèga de Barcelona durant el dia.';
+
+  @override
+  String get clickdropdownbutton => 'Clic al botó desplegable';
+
+  @override
+  String get clickdropdownbuttondesc => 'Pots canviar el dia i els seus valors associats a la gràfica fent clic al botó desplegable.';
+
+  @override
+  String get concurrencypercentage => 'Percentatge de concurrència';
+
+  @override
+  String get concurrencypercentagedesc => 'A l\'eix Y de la trama, pots veure el percentatge de concurrència per a una hora específica del dia.';
+
+  @override
+  String get concurrencyhours => 'Hores de concurrència';
+
+  @override
+  String get concurrencyhoursdesc => 'A l\'eix X de la trama, pots veure les hores d\'un dia, on hi ha les barres que indiquen la concurrència.';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get errordesc => 'Si la gràfica està buida, pot significar 2 coses, ningú fa servir el carregador o hi ha un error en què haureu d\'actualitzar la pàgina.';
 
   @override
   String get notLoggedMsg => 'Se requiere inicio de sesión';
@@ -344,6 +398,9 @@ class AppLocalizationsCa extends AppLocalizations {
   String get addAlertDescr => 'Necessites crear al menys una notificació associada a aquest punt de càrrega.';
 
   @override
+  String get addalertdesc => 'No tens cap notificació associada a aquest punt. Afegiu almenys una per rebre notificacions des d\'aquest punt.';
+
+  @override
   String get skip => 'SALTAR';
 
   @override
@@ -354,4 +411,91 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get distance => 'Distància';
+
+  @override
+  String get unlocked => 'desbloquejat';
+
+  @override
+  String get locked => 'bloquejat';
+
+  @override
+  String get state => 'Estat: ';
+
+  @override
+  String get nametrophy => 'Trofeu: ';
+
+  @override
+  String get trophy0 => 'El teu primer vehicle!';
+
+  @override
+  String get trophy1 => 'Tres són una multitud de vehicles';
+
+  @override
+  String get trophy2 => 'El teu garatge és increïble!';
+
+  @override
+  String get trophy3 => 'Destinació trobada';
+
+  @override
+  String get trophy4 => 'Excursionista';
+
+  @override
+  String get trophy5 => 'Rodamón';
+
+  @override
+  String get trophy6 => 'Menys CO2';
+
+  @override
+  String get trophy7 => 'És hora d\'estalviar';
+
+  @override
+  String get trophy8 => 'Salvant el planeta';
+
+  @override
+  String get trophy9 => 'Els primers quilòmetes';
+
+  @override
+  String get trophy10 => 'Arribant als 100';
+
+  @override
+  String get trophy11 => 'La carretera és la teva vida';
+
+  @override
+  String get trophy0desc => 'Afegeix 1 vehicle al garatge';
+
+  @override
+  String get trophy1desc => 'Afegeix 3 vehicles al garatge';
+
+  @override
+  String get trophy2desc => 'Afegeix 5 vehicles al garatge';
+
+  @override
+  String get trophy3desc => 'Fes 1 ruta';
+
+  @override
+  String get trophy4desc => 'Fes 10 rutes';
+
+  @override
+  String get trophy5desc => 'Fes 50 ruta';
+
+  @override
+  String get trophy6desc => 'Estalvia 5 kg de CO2, usant un vehicle elèctric';
+
+  @override
+  String get trophy7desc => 'Estalvia 20 kg de CO2, usant un vehicle elèctric';
+
+  @override
+  String get trophy8desc => 'Estalvia 50 kg de CO2, usant un vehicle elèctric';
+
+  @override
+  String get trophy9desc => 'Recorre 20 km amb vehicles elèctrics';
+
+  @override
+  String get trophy10desc => 'Recorre 100 km amb vehicles elèctrics';
+
+  @override
+  String get trophy11desc => 'Recorre 200 km amb vehicles elèctrics';
+
+  @override
+  String get defaulttitle => 'Títol per defecte';
 }

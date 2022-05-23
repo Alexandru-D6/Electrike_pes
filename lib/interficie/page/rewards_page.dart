@@ -13,12 +13,12 @@ class RewardsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     List<List<String>> trophies = ctrlPresentation.getTrophies();
-    print(trophies);
+
     return Scaffold(
         drawer: const NavigationDrawerWidget(),
         //esto es para que aparezca el botón de menú lateral
         appBar: AppBar(
-          title: const Text('Rewards'), //todo: translate
+          title: Text(AppLocalizations.of(context).achievements), //todo: translate
           centerTitle: false,
           backgroundColor: Colors.orange,
         ),
@@ -43,9 +43,61 @@ class RewardsPage extends StatelessWidget {
                       c = Colors.amber;
                     }
                   }
+                  String trophyname = "error";
+                  String trophydesc = "error";
+                  switch (trophies[index][0]){
+                    case "0":
+                      trophyname=AppLocalizations.of(context).trophy0;
+                      trophydesc=AppLocalizations.of(context).trophy0desc;
+                      break;
+                    case "1":
+                      trophyname=AppLocalizations.of(context).trophy1;
+                      trophydesc=AppLocalizations.of(context).trophy1desc;
+                      break;
+                    case "2":
+                      trophyname=AppLocalizations.of(context).trophy2;
+                      trophydesc=AppLocalizations.of(context).trophy2desc;
+                      break;
+                    case "3":
+                      trophyname=AppLocalizations.of(context).trophy3;
+                      trophydesc=AppLocalizations.of(context).trophy3desc;
+                      break;
+                    case "4":
+                      trophyname=AppLocalizations.of(context).trophy4;
+                      trophydesc=AppLocalizations.of(context).trophy4desc;
+                      break;
+                    case "5":
+                      trophyname=AppLocalizations.of(context).trophy5;
+                      trophydesc=AppLocalizations.of(context).trophy5desc;
+                      break;
+                    case "6":
+                      trophyname=AppLocalizations.of(context).trophy6;
+                      trophydesc=AppLocalizations.of(context).trophy6desc;
+                      break;
+                    case "7":
+                      trophyname=AppLocalizations.of(context).trophy7;
+                      trophydesc=AppLocalizations.of(context).trophy7desc;
+                      break;
+                    case "8":
+                      trophyname=AppLocalizations.of(context).trophy8;
+                      trophydesc=AppLocalizations.of(context).trophy8desc;
+                      break;
+                    case "9":
+                      trophyname=AppLocalizations.of(context).trophy9;
+                      trophydesc=AppLocalizations.of(context).trophy9desc;
+                      break;
+                    case "10":
+                      trophyname=AppLocalizations.of(context).trophy10;
+                      trophydesc=AppLocalizations.of(context).trophy10desc;
+                      break;
+                    case "11":
+                      trophyname=AppLocalizations.of(context).trophy11;
+                      trophydesc=AppLocalizations.of(context).trophy11desc;
+                      break;
+                  }
 
                   return InkWell(
-                      onTap: (){_showNotLogDialog(context, index, trophies[index][1], img, c);},
+                      onTap: (){_showNotLogDialog(context, trophyname,trophydesc, trophies[index][1], img, c);},
                       child: Container(
                       alignment: Alignment.center,
                       child: Column(
@@ -59,7 +111,7 @@ class RewardsPage extends StatelessWidget {
                                 child: ClipOval(child: img),
                               ),
                             ),
-                            AutoSizeText(trophies[index][0]), //ToDo:nombres y descripciones Peilin
+                            AutoSizeText(trophyname), //ToDo:nombres y descripciones Peilin
                             const SizedBox(height: 15,)
                           ]
                       )
@@ -72,17 +124,13 @@ class RewardsPage extends StatelessWidget {
   }
 }
 
-_showNotLogDialog(BuildContext context, int index, String state, Image img, Color c) {
+_showNotLogDialog(BuildContext context, String name, String desc, String state, Image img, Color c) {
   AwesomeDialog(
     context: context,
     width: 500,
     animType: AnimType.LEFTSLIDE,
     dialogType: DialogType.NO_HEADER,
-    body: _makeTrophyBody(index, state,img, c),
-    /*btnOkText:'View in the trophy menu',
-      btnOkIcon: Icons.emoji_events,
-      btnOkOnPress:(){toRewardsPageDialog(navigatorKey.currentContext!);},
-      btnOkColor: Colors.blue,*/
+    body: _makeTrophyBody(context, name, desc, state,img, c),
     btnCancelText: 'Ok',
     btnCancelOnPress: () {},
     btnCancelColor: Colors.green,
@@ -90,13 +138,13 @@ _showNotLogDialog(BuildContext context, int index, String state, Image img, Colo
   ).show();
 }
 
-_makeTrophyBody(int index, String st, Image img, Color c) {
+_makeTrophyBody(BuildContext context,String name, String desc, String st, Image img, Color c) {
   late String state;
   if(st == "true"){
-    state = "unlocked";
+    state = AppLocalizations.of(context).unlocked;
   }
   else {
-    state = "locked";
+    state = AppLocalizations.of(context).locked;
   }
   return SingleChildScrollView(
     child: Column(
@@ -113,7 +161,7 @@ _makeTrophyBody(int index, String st, Image img, Color c) {
         ),
         const SizedBox(width: 10),
         AutoSizeText(
-          "Trophy: " + index.toString(),
+          AppLocalizations.of(context).nametrophy + name,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 18,
@@ -123,7 +171,7 @@ _makeTrophyBody(int index, String st, Image img, Color c) {
         ),
         const SizedBox(width: 5),
         AutoSizeText(
-          "State: " + state,
+          AppLocalizations.of(context).state + state,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 16,
@@ -131,9 +179,9 @@ _makeTrophyBody(int index, String st, Image img, Color c) {
           maxLines: 1,
         ),
         const SizedBox(width: 5),
-        const AutoSizeText(
-          "You can see the trophy in the trophies menu",
-          style: TextStyle(
+        AutoSizeText(
+          desc,
+          style: const TextStyle(
             color: Colors.black54,
             fontSize: 16,
           ),

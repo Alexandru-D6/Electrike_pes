@@ -81,9 +81,9 @@ class _FavsChargersState extends State<FavsChargers> {
                           context: context,
                           dialogType: DialogType.INFO,
                           animType: AnimType.BOTTOMSLIDE,
-                          title: "Add alerts",
+                          title: AppLocalizations.of(context).addAlert,
                           //TODO: TRANSLATE
-                          desc: "You haven't got any alert associated to this point. Add at least one to receive notifications from this point.",
+                          desc: AppLocalizations.of(context).addalertdesc,
                           //TODO: TRANSLATE
                           btnOkText: "OK",
                           btnOkOnPress: () {},
