@@ -74,7 +74,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             title: "FAVOURITES",
             subtitle:
             "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+            widgetBuilt: ctrlPresentation.makeFavouritesLegend(),
           ),
           buildPage(
             color: Colors.green.shade100,
