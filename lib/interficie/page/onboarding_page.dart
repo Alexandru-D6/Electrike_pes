@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/main_peilin.dart';
-import 'package:flutter_project/interficie/page/profile_page.dart';
+import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,6 +13,7 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final controller = PageController();
+  CtrlPresentation ctrlPresentation = CtrlPresentation();
 
   bool isLastPage = false;
 
@@ -76,7 +77,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             title: "FAVOURITES",
             subtitle:
             "Map page is the main screen of this app.",
-            widgetBuilt: ctrlPresentation.makeFavouritesLegend(context),
+            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
           ),
           buildPage(
             color: Colors.green.shade100,
