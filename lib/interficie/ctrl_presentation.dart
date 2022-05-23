@@ -71,6 +71,7 @@ class CtrlPresentation {
       double? lat = event.latitude;
       double? lng = event.longitude;
       curLocation = GeoCoord(lat!, lng!);
+      ctrlDomain.increaseDistance(lat, lng);
     });
   }
 
