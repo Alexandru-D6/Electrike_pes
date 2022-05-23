@@ -77,7 +77,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             title: "FAVOURITES",
             subtitle:
             "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+            widgetBuilt: ctrlPresentation.makeFavouritesLegend(context),
           ),
           buildPage(
             color: Colors.green.shade100,
@@ -150,7 +150,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               onPressed: ()=>controller.jumpToPage(10)
           ),
           Center(
-            child: SmoothPageIndicator(
+            child:
+            SmoothPageIndicator(
               controller: controller,
               count: 11, //num paginas a displayear
               effect: WormEffect(
