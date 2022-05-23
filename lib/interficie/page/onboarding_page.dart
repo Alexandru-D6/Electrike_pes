@@ -79,9 +79,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "FAVOURITES",
+        title: "FAVOURITES", //todo: translate
         subtitle:
-        "Map page is the main screen of this app.",
+        "Localiza rápidamente tus puntos favoritos, añade alertas para recibir el estado de los puntos que desees cuando lo necesites, consulta las estadísticas de ocupación al instante o elimina aquellos puntos que ya no son relevantes en tu día a día...", //todo: translate
         widgetBuilt: ctrlPresentation.makeFavouritesLegend(context),
       ),
       buildPage(
@@ -164,7 +164,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         children: [
           TextButton(
               child: Text(AppLocalizations.of(context).skip),
-              onPressed: ()=>controller.jumpToPage(10)
+              onPressed: ()=>controller.jumpToPage(pages.length-1)
           ),
           Center(
             child:
