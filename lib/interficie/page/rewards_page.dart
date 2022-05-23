@@ -19,7 +19,7 @@ class RewardsPage extends StatelessWidget {
         //esto es para que aparezca el botón de menú lateral
         appBar: AppBar(
           title: const Text('Rewards'), //todo: translate
-          centerTitle: true,
+          centerTitle: false,
           backgroundColor: Colors.orange,
         ),
         body: Padding(
