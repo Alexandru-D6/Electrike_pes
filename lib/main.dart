@@ -69,11 +69,43 @@ Future initializeSystem() async {
   final showHome = prefs.getBool('showHome') ?? false;
 
   runApp(
-      MaterialApp(
-        home: const MyApp(),//showHome ? const MyApp() : OnBoardingPage(),
-        navigatorKey: navigatorKey,
-        debugShowCheckedModeBanner: false
+      ChangeNotifierProvider(
+          create: (context) => LocaleProvider(),
+          builder: (context, child) {
+            final provider = Provider.of<LocaleProvider>(context);
+            return MaterialApp(
+              home: showHome ? const MyApp() : OnBoardingPage(),
+              navigatorKey: navigatorKey,
+              debugShowCheckedModeBanner: false,
+              locale: provider.locale,
+              supportedLocales: L10n.all,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+            );
+          }
       )
+      /*MaterialApp( /////IMPORTANTE, NO BORRAR PORFAVOR, PUEDE SERNOS UTIL PARA UN FUTURO
+        home: showHome ? const MyApp() : OnBoardingPage(),
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        create: (context) => LocaleProvider(),
+        builder: (context, child) {
+          final provider = Provider.of<LocaleProvider>(context);
+          return MaterialApp(
+            locale: provider.locale,
+            supportedLocales: L10n.all,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],);
+        }
+      )*/
   );
 }
 
