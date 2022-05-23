@@ -42,7 +42,7 @@ class CtrlPresentation {
   String photoUrl = "";
   String idiom = "en";
   List<Coordenada> favs = <Coordenada>[];
-  String actualLocation = "Your location";
+  String actualLocation = "My location";
   String destination = "Search...";
   late Location location;
   GeoCoord curLocation = const GeoCoord(0.0,0.0);
@@ -333,7 +333,7 @@ class CtrlPresentation {
 
     if (routeType == 0) {
       String origin = curLocation.latitude.toString() + "," + curLocation.longitude.toString();
-      if(actualLocation != "Your location") origin = actualLocation;
+      if(actualLocation != "My location") origin = actualLocation;
       GoogleMap.of(getMapKey())?.displayRoute(
           origin,
           destination,
@@ -349,11 +349,11 @@ class CtrlPresentation {
       GeoCoord dest = await getMapsService.adressCoding(destination);
 
       late GeoCoord orig;
-      if (actualLocation != "Your location") orig = await getMapsService.adressCoding(actualLocation);
+      if (actualLocation != "My location") orig = await getMapsService.adressCoding(actualLocation);
 
       double bat = double.parse(bateria);
 
-      if (actualLocation == "Your location") orig = curLocation;
+      if (actualLocation == "My location") orig = curLocation;
 
       //print("origen --> " + orig.toString());
       //print("destination --> " + dest.toString());
@@ -379,7 +379,7 @@ class CtrlPresentation {
     else if (routeType == 2) {
       //todo: ruta ecologica
       String origin = curLocation.latitude.toString() + "," + curLocation.longitude.toString();
-      if (actualLocation != "Your location") origin = actualLocation;
+      if (actualLocation != "My location") origin = actualLocation;
       GoogleMap.of(getMapKey())?.addDirection(
           origin,
           destination,
@@ -896,7 +896,7 @@ class CtrlPresentation {
 
       GeoCoord origen = curLocation;
 
-      if (actualLocation != "Your location") {
+      if (actualLocation != "My location") {
         GeoCoord origT = await getMapsService.adressCoding(actualLocation);
         origen = GeoCoord(origT.latitude, origT.longitude);
       }
