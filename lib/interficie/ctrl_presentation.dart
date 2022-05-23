@@ -830,31 +830,31 @@ class CtrlPresentation {
     return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(latitud,longitud);
   }
 
-  void addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
-    ctrlDomain.addSheduledNotificationsFavoriteChargePoint(latitud, longitud, hour, minute, selectedDays);
+  void addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) async {
+    await ctrlDomain.addSheduledNotificationsFavoriteChargePoint(latitud, longitud, hour, minute, selectedDays);
   }
 
-  void removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
-    ctrlDomain.removeScheduledNotifications(latitud, longitud, hour, minute, selectedDays);
+  void removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) async {
+    await ctrlDomain.removeScheduledNotifications(latitud, longitud, hour, minute, selectedDays);
   }
 
   void showInstantNotification(double lat, double long) {
     ctrlDomain.showInstantNotification(lat, long);
   }
 
-  void disableAllNotifications(double latitud, double longitud){
+  void disableAllNotifications(double latitud, double longitud) async {
     List<List<String>> notifications = getNotifications(latitud, longitud);
     for(int i = 0; i < notifications.length; ++i){
       List<String> notification = notifications[i];
-      ctrlDomain.disableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+      await ctrlDomain.disableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
     }
   }
 
-  void enableAllNotifications(double latitud, double longitud){
+  void enableAllNotifications(double latitud, double longitud) async{
     List<List<String>> notifications = getNotifications(latitud, longitud);
     for(int i = 0; i < notifications.length; ++i){
       List<String> notification = notifications[i];
-      ctrlDomain.enableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+      await ctrlDomain.enableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
     }
   }
   
