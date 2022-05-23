@@ -779,6 +779,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Distance'**
   String get distance;
+
+  /// No description provided for @navigation.
+  ///
+  /// In en, this message translates to:
+  /// **'NAVIGATION'**
+  String get navigation;
+
+  /// No description provided for @navigationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'To navigate the application you can do it through the side menu by clicking on the symbol located in the upper left corner of your device or also by sliding from the left side to the right of the screen (without navigation gestures enabled).\n But be very careful, to access certain screens you must have previously logged in to be able to load your data.'**
+  String get navigationDescription;
+
+  /// No description provided for @loginDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in with your user to be able to access all your account data and continue adding points towards sustainable mobility.'**
+  String get loginDescription;
+
+  /// No description provided for @getLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FIND YOURSELF ON THE MAP'**
+  String get getLocationTitle;
+
+  /// No description provided for @getLocationDescritpion.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap in the top right corner next to the search bars to zoom in on your current location so you can see what\'s around you.'**
+  String get getLocationDescritpion;
+
+  /// No description provided for @appInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'APP INFORMATION'**
+  String get appInfo;
+
+  /// No description provided for @appInfoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Normally on each screen there are visible symbols with an \'i\' of information on the screen. Also, when you start the application for the first time, the tutorial will open. You should not worry about the following times, if you have seen the tutorial once, it will not return to you to leave until you log-out.'**
+  String get appInfoDescription;
+
+  /// No description provided for @favDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Quickly locate your favorite points, add alerts to receive the status of the points you want when you need it, check the occupancy statistics instantly or delete those points that are no longer relevant in your day-to-day...'**
+  String get favDescription;
+
+  /// No description provided for @addNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add reminders'**
+  String get addNotificationTitle;
+
+  /// No description provided for @addNotificationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add reminders so that the application notifies you of the status of the selected point whenever you want.'**
+  String get addNotificationDescription;
+
+  /// No description provided for @savePointsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE YOUR FAVOURITES POINTS'**
+  String get savePointsTitle;
+
+  /// No description provided for @savePointsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Save your favorite points to consult their information more easily.'**
+  String get savePointsDescription;
+
+  /// No description provided for @filtraDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter the points according to your needs or hide them if you wish: hide, see them all, only charging points, only bicings or see your favorites.'**
+  String get filtraDescription;
+
+  /// No description provided for @filtraTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FILTER THE POINTS YOU WANT TO SEE'**
+  String get filtraTitle;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

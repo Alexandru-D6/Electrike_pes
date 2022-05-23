@@ -29,45 +29,38 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     List<Widget> pages = [
       buildPage(
         color: Colors.green.shade100,
-        title: "NAVIGATION", //todo: translate .toUpperCase()
-        subtitle:
-        "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n"
-            "Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.", //todo: translate
+        title: AppLocalizations.of(context).navigation.toUpperCase(),
+        subtitle: AppLocalizations.of(context).navigationDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "LOG-IN", //todo: translate .toUpperCase()
-        subtitle:
-        "Logueate con tu usuario para poder acceder a todos los datos de tu cuenta y seguir sumando puntos hacia una movilidad sostenible.", //todo: translate
+        title: AppLocalizations.of(context).login.toUpperCase(),
+        subtitle: AppLocalizations.of(context).loginDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).map.toUpperCase(),
-        subtitle:
-        "Map page is the main screen of this app.",
+        subtitle: "Map page is the main screen of this app.", //todo: cuando tengamos todo lo de rutas solved
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "SAVE YOUR FAVOURITES POINTS", //todo: translate
-        subtitle:
-        "Salva tus puntos favoritos para consultar la información de éstos de manera más fácil.", //todo: translate
+        title: AppLocalizations.of(context).savePointsTitle.toUpperCase(),
+        subtitle:AppLocalizations.of(context).savePointsDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "GET YOUR LOCATION", //todo: translate .toUpperCase()
-        subtitle:
-        "Pulsa en la esquina superior derecha al lado de las barras de búsqueda para hacer zoom de tu ubicación actual y poder ver qué te rodea.", //todo: translate
+        title: AppLocalizations.of(context).getLocationTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).getLocationDescritpion,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/getYourCurrentLocation.gif", width: 250,),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "FILTRA LOS PUNTOS QUE QUIERES VER", //todo: translate .toUpperCase()
-        subtitle:
-        "Filtra los puntos según tus necesidades o escóndelos si lo deseas: esconder, verlos todos, sólo puntos de carga, sólo bicings o ver tus favoritos.", //todo: translate
+        title: AppLocalizations.of(context).filtraTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).filtraDescription.toUpperCase(),
         widgetBuilt: Image.asset("assets/onboardingScreenshots/filterMarkers.gif", width: 250,),
       ),
       buildPage(
@@ -75,46 +68,51 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         title: AppLocalizations.of(context).garage.toUpperCase(),
         subtitle:
         "Map page is the main screen of this app.", //todo in progress
-        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addCar.gif"),
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).favourites.toUpperCase(),
-        subtitle:
-        "Localiza rápidamente tus puntos favoritos, añade alertas para recibir el estado de los puntos que desees cuando lo necesites, consulta las estadísticas de ocupación al instante o elimina aquellos puntos que ya no son relevantes en tu día a día...", //todo: translate
+        subtitle: AppLocalizations.of(context).favDescription,
         widgetBuilt: ctrlPresentation.makeFavouritesLegend(context),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "ACHIEVEMENTS", //todo: translate .toUpperCase()
+        title: AppLocalizations.of(context).addNotificationTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).addNotificationDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addNotificationDemo.gif", width: 250,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).achievements.toUpperCase(),
         subtitle:
         "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "LANGUAGE",
+        title: AppLocalizations.of(context).language.toUpperCase(),
         subtitle:
         "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "INFO APP", //todo: translate .toUpperCase()
+        title: AppLocalizations.of(context).appInfo.toUpperCase(),
+        subtitle:
+        AppLocalizations.of(context).appInfoDescription,
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).contactUs.toUpperCase(),
         subtitle:
         "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
       ),
       buildPage(
         color: Colors.green.shade100,
-        title: "CONTACT US", //todo: translate .toUpperCase()
-        subtitle:
-        "Map page is the main screen of this app.", //todo in progress
-        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-      ),
-      buildPage(
-        color: Colors.green.shade100,
-        title: "LOG-OUT", //todo: translate .toUpperCase()
+        title: AppLocalizations.of(context).logout.toUpperCase(),
         subtitle:
         "Map page is the main screen of this app.", //todo in progress
         widgetBuilt: Image.asset("assets/brandCars/ds.png"),
