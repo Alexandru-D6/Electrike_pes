@@ -111,7 +111,11 @@ class RewardsPage extends StatelessWidget {
                                 child: ClipOval(child: img),
                               ),
                             ),
-                            AutoSizeText(trophyname), //ToDo:nombres y descripciones Peilin
+                            const SizedBox(height: 15,),
+                            AutoSizeText(
+                              trophyname,
+                              textAlign: TextAlign.center,
+                            ), //ToDo:nombres y descripciones Peilin
                             const SizedBox(height: 15,)
                           ]
                       )

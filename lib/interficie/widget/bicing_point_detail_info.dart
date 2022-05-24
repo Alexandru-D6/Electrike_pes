@@ -44,6 +44,7 @@ class BicingPointDetailInformation extends StatelessWidget {
                     icon: const Icon(
                       Icons.info,
                     ),
+                    tooltip: "Pene",
                   ),
                 ],
               ),
@@ -89,6 +90,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
+          tooltip: "Pene",
           onPressed: () async {
             String url = await ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude, type: "bicing");
             await Clipboard.setData(ClipboardData(text: url));

@@ -32,7 +32,7 @@
 
     "msgSelectChargers": "Selecciona al menos un cargador",
     "msgIntroNum": "Introduce un número",
-    "msgAddFav": "Añadir punto a favoritos",
+    "msgAddFav": "Añadir o eliminar punto favorito",
     "lunes": "Lunes",
     "martes": "Martes",
     "miercoles": "Miercoles",
@@ -99,7 +99,7 @@
       },
 
 
-   "addFavPoints": "Añadir punto a favoritos",
+   "addFavPoints": "Añadir o eliminar punto favorito",
    "explNoFav": "Inicia sessión para consultar tus favoritos",
    "hideMarkers": "Esconder todos",
    "showMarkers": "Mostrar todos",
@@ -206,6 +206,30 @@
           "trophy9desc":"Recorre 20 km con vehículos eléctricos",
           "trophy10desc":"Recorre 100 km con vehículos eléctricos",
           "trophy11desc":"Recorre 200 km con vehículos eléctricos",
+
+          "navigation": "NAVEGA POR LA APLICACIÓN",
+         "navigationDescription": "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.",
+
+         "loginDescription":"Logueate con tu usuario para poder acceder a todos los datos de tu cuenta y seguir sumando puntos hacia una movilidad sostenible.",
+
+         "getLocationTitle": "OBTENGA SU UBICACIÓN",
+         "getLocationDescritpion":  "Pulsa en la esquina superior derecha al lado de las barras de búsqueda para hacer zoom de tu ubicación actual y poder ver qué te rodea.",
+
+         "appInfo": "INFORMACIÓN DE LA APLICACIÓN",
+         "appInfoDescription": "Normalmente en cada pantalla hay símbolos visibles con una 'i' de información sobre la pantalla. Además al iniciar la aplicación por primera vez se abrirá el tutorial. No debes preocuparte por las siguientes veces, si has visto una vez el tutorial no te volverá a salir hasta que hagas log-out.",
+
+         "favDescription": "Localiza rápidamente tus puntos favoritos, añade alertas para recibir el estado de los puntos que desees cuando lo necesites, consulta las estadísticas de ocupación al instante o elimina aquellos puntos que ya no son relevantes en tu día a día...",
+
+         "addNotificationTitle": "Añade recordatorios",
+         "addNotificationDescription": "Añade recordatorios para que la aplicación te avise del estado del punto seleccionado cuando desees.",
+
+         "savePointsTitle": "SAVE YOUR FAVOURITES POINTS",
+         "savePointsDescription": "Salva tus puntos favoritos para consultar la información de éstos de manera más fácil.",
+
+         "filtraDescription": "Filtra los puntos según tus necesidades o escóndelos si lo deseas: esconder, verlos todos, sólo puntos de carga, sólo bicings o ver tus favoritos.",
+         "filtraTitle": "FILTRA LOS PUNTOS QUE QUIERES VER",
+
+    "addcargarage": "Añade un vehículo al garaje",
 
    "defaulttitle" : "Default title"
 }

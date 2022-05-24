@@ -104,7 +104,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get msgIntroNum => 'Introdueix un número';
 
   @override
-  String get msgAddFav => 'Afegir punt a favorits';
+  String get msgAddFav => 'Afegir o eliminar punt favorit';
 
   @override
   String get lunes => 'Dilluns';
@@ -215,7 +215,7 @@ class AppLocalizationsCa extends AppLocalizations {
   }
 
   @override
-  String get addFavPoints => 'Afegir punt a favorits';
+  String get addFavPoints => 'Afegir o eliminar punt favorit';
 
   @override
   String get explNoFav => 'Inicia sessió per consultar els teus favorits';
@@ -495,6 +495,51 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get trophy11desc => 'Recorre 200 km amb vehicles elèctrics';
+
+  @override
+  String get navigation => 'NAVEGA PER LA APLICACIÓ';
+
+  @override
+  String get navigationDescription => 'Per navegar per l\'aplicació podeu fer-ho mitjançant el menú lateral clicant sobre el símbol situat a la cantonada superior esquerra del vostre dispositiu o també lliscant des del lateral esquerre cap a la dreta de la pantalla (sense els gestos de navegació habilitats).\n Però molt de compte, per accedir a determinades pantalles has d\'haver iniciat sessió prèviament per poder carregar les teves dades.';
+
+  @override
+  String get loginDescription => 'Logueja\'t amb el teu usuari per poder accedir a totes les dades del teu compte i continuar sumant punts cap a una mobilitat sostenible.';
+
+  @override
+  String get getLocationTitle => 'TROBA\'T AL MAPA';
+
+  @override
+  String get getLocationDescritpion => 'Fes clic a la cantonada superior dreta al costat de les barres de cerca per fer zoom de la teva ubicació actual i poder veure què t\'envolta.';
+
+  @override
+  String get appInfo => 'INFORMACIÓ SOBRE LA APLICACIÓ';
+
+  @override
+  String get appInfoDescription => 'Normalment a cada pantalla hi ha símbols visibles amb una \'i\' d\'informació sobre la pantalla. A més en iniciar l\'aplicació per primera vegada s\'obrirà el tutorial. No t\'has de preocupar per les següents vegades, si has vist una vegada el tutorial no et tornarà a sortir fins que facis log-out.';
+
+  @override
+  String get favDescription => 'Localitza ràpidament els teus punts favorits, afegeix alertes per rebre l\'estat dels punts que vulguis quan ho necessitis, consulta les estadístiques d\'ocupació a l\'instant o elimina aquells punts que ja no són rellevants al teu dia a dia...';
+
+  @override
+  String get addNotificationTitle => 'Afegeix recordatoris';
+
+  @override
+  String get addNotificationDescription => 'Afegeix recordatoris perquè l\'aplicació t\'avisi de l\'estat del punt seleccionat quan vulguis.';
+
+  @override
+  String get savePointsTitle => 'SAVE YOUR FAVOURITES POINTS';
+
+  @override
+  String get savePointsDescription => 'Salva els teus punts preferits per consultar la informació d\'aquests de manera més fàcil.';
+
+  @override
+  String get filtraDescription => 'Filtra els punts segons les teves necessitats o amaga\'ls si ho desitges: amagar, veure\'ls tots, només punts de càrrega, només bicings o veure els teus favorits.';
+
+  @override
+  String get filtraTitle => 'FILTRA ELS PUNTS QUE VOLS VEURE';
+
+  @override
+  String get addcargarage => 'Afegeix un vehicle al garatge';
 
   @override
   String get defaulttitle => 'Títol per defecte';

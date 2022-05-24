@@ -104,7 +104,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgIntroNum => 'Introduce a number';
 
   @override
-  String get msgAddFav => 'Add point to favourites';
+  String get msgAddFav => 'Add or remove a favorite point';
 
   @override
   String get lunes => 'Monday';
@@ -215,7 +215,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get addFavPoints => 'Add point to favourites';
+  String get addFavPoints => 'Add or remove a favorite point';
 
   @override
   String get explNoFav => 'Log-in to see your favourites';
@@ -495,6 +495,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trophy11desc => 'Travel 200 km with electric vehicles';
+
+  @override
+  String get navigation => 'NAVIGATION';
+
+  @override
+  String get navigationDescription => 'To navigate the application you can do it through the side menu by clicking on the symbol located in the upper left corner of your device or also by sliding from the left side to the right of the screen (without navigation gestures enabled).\n But be very careful, to access certain screens you must have previously logged in to be able to load your data.';
+
+  @override
+  String get loginDescription => 'Log in with your user to be able to access all your account data and continue adding points towards sustainable mobility.';
+
+  @override
+  String get getLocationTitle => 'FIND YOURSELF ON THE MAP';
+
+  @override
+  String get getLocationDescritpion => 'Tap in the top right corner next to the search bars to zoom in on your current location so you can see what\'s around you.';
+
+  @override
+  String get appInfo => 'APP INFORMATION';
+
+  @override
+  String get appInfoDescription => 'Normally on each screen there are visible symbols with an \'i\' of information on the screen. Also, when you start the application for the first time, the tutorial will open. You should not worry about the following times, if you have seen the tutorial once, it will not return to you to leave until you log-out.';
+
+  @override
+  String get favDescription => 'Quickly locate your favorite points, add alerts to receive the status of the points you want when you need it, check the occupancy statistics instantly or delete those points that are no longer relevant in your day-to-day...';
+
+  @override
+  String get addNotificationTitle => 'Add reminders';
+
+  @override
+  String get addNotificationDescription => 'Add reminders so that the application notifies you of the status of the selected point whenever you want.';
+
+  @override
+  String get savePointsTitle => 'SAVE YOUR FAVOURITES POINTS';
+
+  @override
+  String get savePointsDescription => 'Save your favorite points to consult their information more easily.';
+
+  @override
+  String get filtraDescription => 'Filter the points according to your needs or hide them if you wish: hide, see them all, only charging points, only bicings or see your favorites.';
+
+  @override
+  String get filtraTitle => 'FILTER THE POINTS YOU WANT TO SEE';
+
+  @override
+  String get addcargarage => 'Add a vehicle to the garage';
 
   @override
   String get defaulttitle => 'Default title';

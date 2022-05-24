@@ -29,6 +29,7 @@ class GaragePage extends StatelessWidget {
       title: Text(AppLocalizations.of(context).garage),
       actions: [
         IconButton(
+          tooltip: AppLocalizations.of(context).addcargarage,
           icon: const Icon(
             Icons.add_circle_rounded,
             color: Colors.white,
