@@ -150,7 +150,6 @@ class _InfoRutaState extends State<InfoRuta> {
               customRadioButton("Eco", 2)
             ],
           ),
-          Text(AppLocalizations.of(context).selectRouteType),
           const Divider(
             height: 16,
             color: Color(0x00000000),
