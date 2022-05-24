@@ -103,9 +103,21 @@ class CtrlPresentation {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: AppLocalizations.of(context).notLogged,
-      desc: AppLocalizations.of(context).notLoggedMsg,
-      btnOkOnPress: () {},
+      title: AppLocalizations
+          .of(context)
+          .login,
+      desc: AppLocalizations
+          .of(context)
+          .notLogged,
+      btnCancelOnPress: () {},
+      btnOkIcon: (Icons.login),
+      btnOkText: AppLocalizations
+          .of(context)
+          .login,
+      btnOkOnPress: () {
+        signInRoutine(context);
+      },
+
       headerAnimationLoop: false,
     ).show();
   }
