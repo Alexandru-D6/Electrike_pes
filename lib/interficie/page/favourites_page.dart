@@ -56,6 +56,7 @@ class _FavsChargersState extends State<FavsChargers> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 IconButton(
+                    tooltip: "Pene",
                     icon: (const Icon(Icons.bar_chart)),
                     color: esBarcelona ? Colors.green : Colors.black12,
                     onPressed: () async {
@@ -71,6 +72,7 @@ class _FavsChargersState extends State<FavsChargers> {
                 ),
 
                 IconButton(
+                    tooltip: "Pene",
                     color: hasNotifications ? Colors.blue : Colors.black12,
                     icon: notificationsOn ?
                     (const Icon(Icons.notifications_active)) :
@@ -81,9 +83,9 @@ class _FavsChargersState extends State<FavsChargers> {
                           context: context,
                           dialogType: DialogType.INFO,
                           animType: AnimType.BOTTOMSLIDE,
-                          title: "Add alerts",
+                          title: AppLocalizations.of(context).addAlert,
                           //TODO: TRANSLATE
-                          desc: "You haven't got any alert associated to this point. Add at least one to receive notifications from this point.",
+                          desc: AppLocalizations.of(context).addalertdesc,
                           //TODO: TRANSLATE
                           btnOkText: "OK",
                           btnOkOnPress: () {},
@@ -110,6 +112,7 @@ class _FavsChargersState extends State<FavsChargers> {
                 ),
 
                 IconButton(
+                    tooltip: "Pene",
                     icon: (const Icon(Icons.settings)),
                     color: esBarcelona ? Colors.grey : Colors.black12,
                     onPressed: () {
@@ -125,6 +128,7 @@ class _FavsChargersState extends State<FavsChargers> {
                     }
                 ),
                 IconButton(
+                    tooltip: "Pene",
                     icon: (const Icon(Icons.favorite)),
                     color: Colors.red,
                     onPressed: () {
@@ -188,6 +192,7 @@ class _FavsBicingsState extends State<FavsBicings> {
         return ListTile(
           title: Text(title),
           trailing: IconButton(
+              tooltip: "Pene",
               icon: (const Icon(Icons.favorite)),
               color: Colors.red,
               onPressed: () {
@@ -236,6 +241,7 @@ class _FilterFavsItemsState extends State<FilterFavsItems> {
       title: Text(AppLocalizations.of(context).favourites),
       actions: [
         IconButton(
+          tooltip: "Pene",
           icon: const Icon(
             Icons.info,
             color: Colors.white,

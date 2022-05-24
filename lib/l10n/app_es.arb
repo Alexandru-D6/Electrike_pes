@@ -30,45 +30,52 @@
   "alertSureDeleteCarTitle": "¿Estás seguro de que quieres eliminar este coche?",
   "alertSureDeleteCarContent": "La eliminación de este vehículo es permanente y eliminará todos los datos guardados asociados a éste.\n¿Estás seguro de que quieres continuar?",
 
-  "msgSelectChargers": "Selecciona al menos un cargador",
-  "msgIntroNum": "Introduce un número",
-  "msgAddFav": "Añadir punto a favoritos",
-  "lunes": "Lunes",
-  "martes": "Martes",
-  "miercoles": "Miercoles",
-  "jueves": "Jueves",
-  "viernes": "Viernes",
-  "sabado": "Sabado",
-  "domingo": "Domingo",
+    "msgSelectChargers": "Selecciona al menos un cargador",
+    "msgIntroNum": "Introduce un número",
+    "msgAddFav": "Añadir o eliminar punto favorito",
+    "lunes": "Lunes",
+    "martes": "Martes",
+    "miercoles": "Miercoles",
+    "jueves": "Jueves",
+    "viernes": "Viernes",
+    "sabado": "Sabado",
+    "domingo": "Domingo",
 
-  "infoCar": "El nombre del vehículo es {selectedNameCar}\\n \n  Su marca {selectedBrandCar}\\n\n  Su modelo {selectedModelCar}\\n\n   Batería {selectedBatteryCar} kWh\\n\n   Consumo {selectedEffciencyCar} Wh/Km\\n\n El vehículo utiliza {selectedPlugs}\\n'''),",
-  "@infoCar": {
-    "placeholders": {
-      "selectedNameCar": {},
-      "selectedBrandCar": {},
-      "selectedModelCar": {},
-      "selectedBatteryCar": {},
-      "selectedEffciencyCar": {},
-      "selectedPlugs": {}
-    }
-  },
+    "infoCar": "El nombre del vehículo es {selectedNameCar}\\n \n  Su marca {selectedBrandCar}\\n\n  Su modelo {selectedModelCar}\\n\n   Batería {selectedBatteryCar} kWh\\n\n   Consumo {selectedEffciencyCar} Wh/Km\\n\n El vehículo utiliza {selectedPlugs}\\n'''),",
+    "@infoCar": {
+      "placeholders": {
+        "selectedNameCar": {},
+        "selectedBrandCar": {},
+        "selectedModelCar": {},
+        "selectedBatteryCar": {},
+        "selectedEffciencyCar": {},
+        "selectedPlugs": {}
+      }
+    },
 
-  "textWithPlaceholder": "Welcome {name}",
+    "textWithPlaceholder": "Welcome {name}",
 
-  "textWithPlaceholders": "My name is {lastName}, {firstName} {lastName}",
-  "@textWithPlaceholders": {
-    "placeholders": {
-      "firstName": {},
-      "lastName": {}
-    }
-  },
+    "textWithPlaceholders": "My name is {lastName}, {firstName} {lastName}",
+    "@textWithPlaceholders": {
+      "placeholders": {
+        "firstName": {},
+        "lastName": {}
+      }
+    },
 
   "infoDialogNotLog": "No se ha iniciado sesión",
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
 
+  "profile": "Perfil",
   "save": "Guardar cambios",
   "vehicles": "Vehículos",
   "trophies": "Trofeos",
-  "savedco2": "CO2 salvado",
+  "savedco2": "CO2 ahorrado",
+  "kilometerstraveled": "Kilómetros recorridos",
+  "routestaken": "Rutas realizadas",
+  "deleteaccountquestion": "¿Estás seguro de que quieres eliminar tu cuenta?",
+  "deleteaccountdesc": "La eliminación de la cuenta es permanente y eliminará todo el contenido, incluidos los vehículos, los puntos favoritos y la configuración del perfil.",
 
   "day1": "Lunes",
   "day2": "Martes",
@@ -91,7 +98,8 @@
           }
       },
 
-   "addFavPoints": "Añadir punto a favoritos",
+
+   "addFavPoints": "Añadir o eliminar punto favorito",
    "explNoFav": "Inicia sessión para consultar tus favoritos",
    "hideMarkers": "Esconder todos",
    "showMarkers": "Mostrar todos",
@@ -106,16 +114,27 @@
    "chargingStop": "Parada para cargar",
    "start": "Iniciar",
    "occupationChart": "Gráficas de ocupación",
+   "occupationChartlegend": "Leyenda de Gráficas de Ocupación",
    "occupancy": "Ocupación",
    "hours": "Horas",
    "yourLocation": "Mi localización",
+   "thispage": "En esta página",
+   "thispagedesc": "Puedes ver las estadísticas sobre la concurrencia de una estación de carga de Barcelona durante el día.",
+   "clickdropdownbutton": "Clic en el botón desplegable",
+   "clickdropdownbuttondesc": "Puede cambiar el día y sus valores asociados al gráfico haciendo clic en el botón desplegable.",
+   "concurrencypercentage": "Porcentaje de concurrencia",
+   "concurrencypercentagedesc":"En el eje Y del gráfico, puedes ver el porcentaje de simultaneidad para una hora específica del día.",
+    "concurrencyhours":"Horas de concurrencias",
+    "concurrencyhoursdesc":"En el eje X del gráfico, puedes ver las horas de un día, donde están las barras que indican la concurrencia.",
+    "error": "Error",
+    "errordesc": "Si la gráfica está vacía, puede significar 2 cosas, nadie utiliza el cargador o hay un error en el que deberá actualizar la página.",
 
    "notLoggedMsg": "Se requiere inicio de sessión",
    "keyChargers": "Leyenda de puntos de carga",
    "keyBicing": "Leyenda de estaciones Bicing",
    "keyFavourites": "Llegenda de favorits",
 
-   "stationName": "Nombre de la estación",
+"stationName": "Nombre de la estación",
    "streetName": "Nombre de la calle",
 
    "availableChargers": "Disponibles",
@@ -151,32 +170,66 @@
    "filterFavTypes": "Filtra entre tipos",
    "filterFavTypesDescr": "Filtra tus puntos favoritos usando el menú superior",
 
-   "addAlert": "Añade notificación",
-   "addAlertDescr": "Necesitas crear el menos una notificación asociada a este punto de carga.",
-   "skip": "SALTAR",
-   "next": "SIGUIENTE",
-   "duration": "Tiempo",
-   "distance": "Distancia",
+   "addAlert": "Añadir notificación",
+      "addAlertDescr": "Necesitas crear el menos una notificación asociada a este punto de carga.",
+      "addalertdesc": "No tienes ninguna notificación asociada a este punto. Agrega al menos uno para recibir notificaciones desde este punto.",
+      "skip": "SALTAR",
+      "next": "SIGUIENTE",
+      "duration": "Tiempo",
+      "distance": "Distancia",
 
-   "navigation": "NAVEGA POR LA APLICACIÓN",
-   "navigationDescription": "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.",
+      "unlocked":"desbloqueado",
+          "locked": "bloqueado",
+          "state":"Estado: ",
+          "nametrophy":"Trofeo: ",
+          "trophy0":"¡Tu primer vehículo!",
+          "trophy1":"Tres son una multitud de vehículos",
+          "trophy2":"¡Tu garaje es impresionante!",
+          "trophy3":"Destino encontrado",
+          "trophy4":"Excursionista",
+          "trophy5":"Trotamundos",
+          "trophy6":"Menos CO2",
+          "trophy7":"Es hora de ahorrar",
+          "trophy8":"Salvando el planeta",
+          "trophy9":"Los primeros kilómetros",
+          "trophy10":"Llegando a los 100",
+          "trophy11":"La carretera es tu vida",
+          "trophy0desc":"Añade 1 vehículo al garaje",
+          "trophy1desc":"Añade 3 vehículos al garaje",
+          "trophy2desc":"Añade 5 vehículos al garaje",
+          "trophy3desc":"Haz 1 ruta",
+          "trophy4desc":"Haz 10 rutas",
+          "trophy5desc":"Haz 50 rutas",
+          "trophy6desc":"Ahorra 5 kg de CO2, usando un vehículo eléctrico",
+          "trophy7desc":"Ahorra 20 kg de CO2, usando un vehículo eléctrico",
+          "trophy8desc":"Ahorra 50 kg de CO2, usando un vehículo eléctrico",
+          "trophy9desc":"Recorre 20 km con vehículos eléctricos",
+          "trophy10desc":"Recorre 100 km con vehículos eléctricos",
+          "trophy11desc":"Recorre 200 km con vehículos eléctricos",
 
-   "loginDescription":"Logueate con tu usuario para poder acceder a todos los datos de tu cuenta y seguir sumando puntos hacia una movilidad sostenible.",
+          "navigation": "NAVEGA POR LA APLICACIÓN",
+         "navigationDescription": "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.",
 
-   "getLocationTitle": "OBTENGA SU UBICACIÓN",
-   "getLocationDescritpion":  "Pulsa en la esquina superior derecha al lado de las barras de búsqueda para hacer zoom de tu ubicación actual y poder ver qué te rodea.",
+         "loginDescription":"Logueate con tu usuario para poder acceder a todos los datos de tu cuenta y seguir sumando puntos hacia una movilidad sostenible.",
 
-   "appInfo": "INFORMACIÓN DE LA APLICACIÓN",
-   "appInfoDescription": "Normalmente en cada pantalla hay símbolos visibles con una 'i' de información sobre la pantalla. Además al iniciar la aplicación por primera vez se abrirá el tutorial. No debes preocuparte por las siguientes veces, si has visto una vez el tutorial no te volverá a salir hasta que hagas log-out.",
+         "getLocationTitle": "OBTENGA SU UBICACIÓN",
+         "getLocationDescritpion":  "Pulsa en la esquina superior derecha al lado de las barras de búsqueda para hacer zoom de tu ubicación actual y poder ver qué te rodea.",
 
-   "favDescription": "Localiza rápidamente tus puntos favoritos, añade alertas para recibir el estado de los puntos que desees cuando lo necesites, consulta las estadísticas de ocupación al instante o elimina aquellos puntos que ya no son relevantes en tu día a día...",
+         "appInfo": "INFORMACIÓN DE LA APLICACIÓN",
+         "appInfoDescription": "Normalmente en cada pantalla hay símbolos visibles con una 'i' de información sobre la pantalla. Además al iniciar la aplicación por primera vez se abrirá el tutorial. No debes preocuparte por las siguientes veces, si has visto una vez el tutorial no te volverá a salir hasta que hagas log-out.",
 
-   "addNotificationTitle": "Añade recordatorios",
-   "addNotificationDescription": "Añade recordatorios para que la aplicación te avise del estado del punto seleccionado cuando desees.",
+         "favDescription": "Localiza rápidamente tus puntos favoritos, añade alertas para recibir el estado de los puntos que desees cuando lo necesites, consulta las estadísticas de ocupación al instante o elimina aquellos puntos que ya no son relevantes en tu día a día...",
 
-   "savePointsTitle": "SAVE YOUR FAVOURITES POINTS",
-   "savePointsDescription": "Salva tus puntos favoritos para consultar la información de éstos de manera más fácil.",
+         "addNotificationTitle": "Añade recordatorios",
+         "addNotificationDescription": "Añade recordatorios para que la aplicación te avise del estado del punto seleccionado cuando desees.",
 
-   "filtraDescription": "Filtra los puntos según tus necesidades o escóndelos si lo deseas: esconder, verlos todos, sólo puntos de carga, sólo bicings o ver tus favoritos.",
-   "filtraTitle": "FILTRA LOS PUNTOS QUE QUIERES VER"
+         "savePointsTitle": "SAVE YOUR FAVOURITES POINTS",
+         "savePointsDescription": "Salva tus puntos favoritos para consultar la información de éstos de manera más fácil.",
+
+         "filtraDescription": "Filtra los puntos según tus necesidades o escóndelos si lo deseas: esconder, verlos todos, sólo puntos de carga, sólo bicings o ver tus favoritos.",
+         "filtraTitle": "FILTRA LOS PUNTOS QUE QUIERES VER",
+
+    "addcargarage": "Añade un vehículo al garaje",
+
+   "defaulttitle" : "Default title"
 }

@@ -6,6 +6,7 @@ import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/lateral_menu_widget.dart';
 import 'package:flutter_project/interficie/widget/numbers_widget.dart';
 import 'package:flutter_project/interficie/widget/profile_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class ProfilePage extends StatefulWidget {
@@ -27,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context) => Scaffold(
           drawer: const NavigationDrawerWidget(),
           appBar: AppBar(
-            title: const Text("Profile"), //todo: tranlsate
+            title: Text(AppLocalizations.of(context).profile),
             backgroundColor: mPrimaryColor,
           ),
           body: Padding(
@@ -77,12 +78,13 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       dialogType: DialogType.WARNING,
       animType: AnimType.BOTTOMSLIDE,
-      title: 'Are you sure you want to delete your account?', //todo: translate
-      desc: 'Deleting your account is permanent and will remove all content including cars, favourites points and profile settings.\n'
-          'Are you sure you want to delete your account?\n', //todo: translate
+      title: AppLocalizations.of(context).deleteaccountquestion,
+      desc: AppLocalizations.of(context).deleteaccountdesc+'\n'+
+        AppLocalizations.of(context).deleteaccountquestion +'\n',
       btnCancelOnPress: () {},
+      btnCancelText: AppLocalizations.of(context).cancel,
       btnOkIcon: (Icons.delete),
-      btnOkText: "Delete", //todo: translate
+      btnOkText: AppLocalizations.of(context).delete,
       btnOkOnPress: () {
         ctrlPresentation.deleteAccount(context);
       },

@@ -194,7 +194,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     if(AppLifecycleState.paused == state) {
       /// TODO: Stop music player
     }
-    print(state);
   }
 
   @override
