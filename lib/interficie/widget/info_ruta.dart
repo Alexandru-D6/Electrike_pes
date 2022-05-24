@@ -57,7 +57,7 @@ class _InfoRutaState extends State<InfoRuta> {
       child: Column(
         children: <Widget>[
           Text(AppLocalizations.of(context).selectCar),
-          ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
+          (ctrlPresentation.getCurrentUserMail() != "" && ctrlPresentation.getCarsList().isNotEmpty ) ? SizedBox(
             height: 100,
             width: 100,
             child: NotificationListener<ScrollEndNotification>(
@@ -83,8 +83,6 @@ class _InfoRutaState extends State<InfoRuta> {
                     (controller.position.pixels) ~/ 100 +
                         1; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
                 ctrlDomain.selectVehicleUsuari(ctrlPresentation.idCarUser);
-                print(controller.position.pixels);
-                print(ctrlPresentation.idCarUser);
                 // Return true to cancel the notification bubbling. Return false (or null) to
                 // allow the notification to continue to be dispatched to further ancestors.
                 return true;
@@ -104,6 +102,7 @@ class _InfoRutaState extends State<InfoRuta> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(AppLocalizations.of(context).actualBatMsg),
+              Container(margin: const EdgeInsets.only(right: 10)),
               SizedBox(
                 width: 40,
                 child:
@@ -148,7 +147,6 @@ class _InfoRutaState extends State<InfoRuta> {
               customRadioButton("Eco", 2)
             ],
           ),
-          Text(AppLocalizations.of(context).selectRouteType),
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -158,6 +156,15 @@ class _InfoRutaState extends State<InfoRuta> {
               children: <Widget>[
                 Text(AppLocalizations.of(context).duration + ':'),
                 Text(time),
+              ]
+          ),
+          const Divider(
+            height: 5,
+            color: Color(0x00000000),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
                 Text(AppLocalizations.of(context).distance + ':'),
                 Text(distance),
               ]

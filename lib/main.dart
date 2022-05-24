@@ -69,11 +69,43 @@ Future initializeSystem() async {
   final showHome = prefs.getBool('showHome') ?? false;
 
   runApp(
-      MaterialApp(
+      ChangeNotifierProvider(
+          create: (context) => LocaleProvider(),
+          builder: (context, child) {
+            final provider = Provider.of<LocaleProvider>(context);
+            return MaterialApp(
+              home: showHome ? const MyApp() : OnBoardingPage(),
+              navigatorKey: navigatorKey,
+              debugShowCheckedModeBanner: false,
+              locale: provider.locale,
+              supportedLocales: L10n.all,
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+            );
+          }
+      )
+      /*MaterialApp( /////IMPORTANTE, NO BORRAR PORFAVOR, PUEDE SERNOS UTIL PARA UN FUTURO
         home: showHome ? const MyApp() : OnBoardingPage(),
         navigatorKey: navigatorKey,
-        debugShowCheckedModeBanner: false
-      )
+        debugShowCheckedModeBanner: false,
+        create: (context) => LocaleProvider(),
+        builder: (context, child) {
+          final provider = Provider.of<LocaleProvider>(context);
+          return MaterialApp(
+            locale: provider.locale,
+            supportedLocales: L10n.all,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],);
+        }
+      )*/
   );
 }
 
@@ -162,7 +194,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     if(AppLifecycleState.paused == state) {
       /// TODO: Stop music player
     }
-    print(state);
   }
 
   @override

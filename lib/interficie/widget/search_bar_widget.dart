@@ -18,11 +18,22 @@ class _SearchBarWidget extends State<SearchBarWidget> {
   List<String?> recomendations = <String?>[];
   CtrlPresentation ctrlPresentation = CtrlPresentation();
 
+  late FloatingSearchBarController controller;
+  late FloatingSearchBarController controller2;
+
+  @override
+  void initState(){
+    super.initState();
+    controller = FloatingSearchBarController();
+    controller2 = FloatingSearchBarController();
+  }
+
   @override
   Widget build(BuildContext context) {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return Stack(children: <Widget>[
       FloatingSearchBar(
+        controller: controller2,
         hint: ctrlPresentation.actualLocation,
         margins: const EdgeInsets.fromLTRB(60, 5, 60, 0),
         scrollPadding: const EdgeInsets.only(top: 60, bottom: 56),
@@ -68,6 +79,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         },
       ),
         FloatingSearchBar(
+          controller: controller,
       hint: ctrlPresentation.destination,
       margins: const EdgeInsets.fromLTRB(60, 60, 60, 0),
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
@@ -89,14 +101,14 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       actions: [
         FloatingSearchBarAction(
           showIfOpened: false,
-          child: CircularButton(
+          child: (ctrlPresentation.destination != "Search...") ? CircularButton(
             icon: const Icon(Icons.directions),
             onPressed: () {
               //TODO: hacer que mire si hay texto
               showInfoRuta(context);
               ctrlPresentation.clearAllRoutes();
             },
-          ),
+          ) : Container(),
         ),
         FloatingSearchBarAction.searchToClear(
           showIfClosed: false,
@@ -108,7 +120,10 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           child: Material(
             color: Colors.white,
             elevation: 4.0,
-            child: buildRecomendationButtons(text: recomendations, origin: "false"),
+            child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [buildRecomendationButtons(text: recomendations, origin: "false")],
+            ),
           ),
         );
       },
@@ -147,9 +162,13 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           setState((){}); //para que ponga el nombre en el hint
           if(origin == "false"){
             ctrlPresentation.destination = element;
+            controller.close();
           }else {
             ctrlPresentation.actualLocation = element;
+            controller2.close();
           }
+
+
           //ctrlPresentation.toMainPage(context),
           //ctrlPresentation.makeRoute()
           },//TODO: llamar aqui que hacer con cada boton de la lista

@@ -19,14 +19,12 @@ class GoogleMapsAdpt {
   }
 
   Future<GeoCoord> adressCoding(String adreca) async {
-    print(adreca);
 
     var result = await googleGeocoding.search(adreca.split(",").first);
     var temp = result.results.first.geometry?.location;
     double? lat = temp?.lat;
     double? lng = temp?.lng;
-
-    print(GeoCoord(lat!, lng!));
+    GeoCoord(lat!, lng!);
 
     return GeoCoord(lat, lng);
   }

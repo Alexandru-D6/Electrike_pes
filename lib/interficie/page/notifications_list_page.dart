@@ -10,6 +10,14 @@ class NotificationsListPage extends StatefulWidget {
   _NotificationsListPageState createState() => _NotificationsListPageState();
 }
 
+class NotificationsArgs {
+  final double latitud;
+  final double longitud;
+  final String title;
+
+  NotificationsArgs(this.latitud, this.longitud, this.title);
+}
+
 class _NotificationsListPageState extends State<NotificationsListPage> {
   final GlobalKey<AnimatedListState> _key = GlobalKey();
   CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -23,6 +31,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
         overflow: TextOverflow.ellipsis,), //todo: traduccion peilin
       actions: [
         IconButton(
+          tooltip: "Pene",
           icon: const Icon(
             Icons.notification_add,
             color: Colors.white,
@@ -52,7 +61,6 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
         key: _key,
         initialItemCount: notifications.length,
         itemBuilder: (context, index, animation) {
-          print(index);
           return _buildItem(notifications[index], animation, index, notificationsInfo.latitud, notificationsInfo.longitud);
         },
       ),
@@ -69,6 +77,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
           title: Text(notification[0]),
           subtitle: Text(buildDays(notification).toString()),
           trailing: IconButton(
+            tooltip: "Pene",
             icon: const Icon(
               Icons.delete,
               color: Colors.red,

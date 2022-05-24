@@ -19,7 +19,7 @@ class _SplashScreen extends State<SplashScreen> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: AnimatedSplashScreen.withScreenFunction(
-          splash: 'assets/images/logo.png',
+          splash: 'assets/images/logo2.png',
           screenFunction: () async{
             return await initializeSystem();
           },

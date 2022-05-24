@@ -20,9 +20,12 @@ class VehicleUsuari {
     image = "";
     brand = "";
     model = "";
-    battery = 100;
-    efficiency = 80;
-    endolls = <String>[];
+    battery = 63;
+    efficiency = 180;
+    endolls = [  "Schuko",
+      "Mennekes",
+      "Chademo",
+      "CCSCombo2"];
   }
 
   VehicleUsuari.built();

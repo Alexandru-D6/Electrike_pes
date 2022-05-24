@@ -58,7 +58,6 @@ class _TimePickerPageState extends State<TimePickerPage> {
                   days: _days(context),
                   onSelect: (values) {
                     selectedDays = values;
-                    print(values);
                   },
                   boxDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),
@@ -119,7 +118,14 @@ class _TimePickerPageState extends State<TimePickerPage> {
                       ),
                     ),
                     const Spacer(),
-                    AutoSizeText("${selectedTime.hour}:${selectedTime.minute}", style: const TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),),
+                    GestureDetector(
+                      onTap: (){
+                        _selectTime(context);
+                      },
+                      child:
+                        AutoSizeText("${selectedTime.hour}:${selectedTime.minute}", style: const TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),),
+                    ),
+
                   ],
                 ),
               ],

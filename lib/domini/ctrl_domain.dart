@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:vector_math/vector_math.dart' as math;
 import 'dart:math';
@@ -33,7 +34,7 @@ class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
 
-  static var urlorg = 'http://37.133.192.236:3784/';
+  static var urlorg = 'http://electrike.ddns.net:3784/';
   //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
@@ -69,7 +70,7 @@ class CtrlDomain {
 
   //SYSTEM
   Future<void> initializeSystem() async {
-    if (kIsWeb) urlorg = 'https://obscure-lake-86305.herokuapp.com/http://37.133.192.236:3784/';
+    if (kIsWeb) urlorg = 'https://obscure-lake-86305.herokuapp.com/http://electrike.ddns.net:3784/';
     usuari.usuarinull();
     initializeTypes();
     await getAllCars();
@@ -183,6 +184,7 @@ class CtrlDomain {
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
     }
     idiomfromLogin();
+    await getNotifications();
   }
   void idiomfromLogin() async {
     var url = urlorg + 'user_language?email=' + usuari.correu;
@@ -190,6 +192,33 @@ class CtrlDomain {
     var resp = jsonDecode(response.body);
     usuari.idiom = resp['items'];
   }
+
+  Future<void> getNotifications() async {
+    var url = urlorg +'get_user_notifications?email='+usuari.correu;
+    var responseC = (await http.get(Uri.parse(url)));
+    var respC = await jsonDecode(responseC.body);
+
+    for(var pfc in respC['items']) {
+
+      int hour = int.parse(pfc['Hour'].toString());
+      int minute = int.parse(pfc['Minute'].toString());
+      int weekDay = int.parse(pfc['WeekDay'].toString());
+
+      double lat = double.parse(pfc['Lat'].toString());
+      double lon = double.parse(pfc['Lon'].toString());
+      int id = int.parse(pfc['Id']);
+
+      DateTime firstNotification = await _adaptTime(hour, minute, weekDay, true);
+      await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, lon, id);
+
+      if (pfc['Activated'].toString() == "false") {
+        Tuple3<int,int,int> t3 = _convertDayOfTheWeek(weekDay, hour, minute, false);
+
+        serviceLocator<LocalNotificationAdpt>().disableNotification(lat, lon, t3.item1, t3.item2, t3.item3);
+      }
+    }
+  }
+
   //Elimina el continguts dels llistats referents als usuaris per quan fa logout
   void resetUserSystem(){
     vehiclesUsuari = <VehicleUsuari>[];
@@ -203,6 +232,7 @@ class CtrlDomain {
     }
     usuari.usuarinull();
     //resentation.resetUserValues();
+    removeAllNotifications();
   }
   //Elimina l'usuari de la base de dades i del domini
   void deleteaccount()async{
@@ -431,7 +461,6 @@ class CtrlDomain {
       fav.add(p);
 
     }
-    print (fav);
     return fav;
   }
 
@@ -511,7 +540,6 @@ class CtrlDomain {
     var url = urlorg +'cars';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
-    print(resp);
     for(var it in resp['items']){
       VhElectric vh = VhElectric.complet(it['_id'], it['Brand'], it['Vehicle'],double.parse(it['Effciency(Wh/Km)']), double.parse(it['Rage(Km)']), double.parse(it['Battery(kWh)']));
       vhElectrics.add(vh);
@@ -728,19 +756,15 @@ class CtrlDomain {
 
   List<Coordenada> getCompChargers() {
     List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
-    print("vehicle -->" + vhselected.brand + " -- " + vhselected.endolls.toString());
     List<Coordenada> carregadorsCompatibles = <Coordenada>[];
 
     for(var endoll in typesendolls) {
       for (var nom in endollsVh) {
-        print("--++>" + nom.toString() + " -- " + endoll.toString());
         if (endoll.tipus.name == nom) {
-          print("+-+->" + endoll.endolls.toString());
           carregadorsCompatibles.addAll(endoll.endolls);
         }
       }
     }
-    print("carregadorsCompatibles --> " + carregadorsCompatibles.toString());
     return carregadorsCompatibles;
   }
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
@@ -770,12 +794,20 @@ class CtrlDomain {
     day between 1 (Monday) to 7 (Sunday)
     Si el punto de carga no es de Barcelona, se mostrará <unknown> en el status.
    */
-  void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
-    serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
+  Future<void> addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    DateTime firstNotification = await _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
+    int id = await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long, -1);
+    if (id != -1) {
+      var url = urlorg + 'insert_notification?email=' + usuari.correu + '&id=' +
+          id.toString() + '&lat=' + lat.toString() + '&lon=' + long.toString()
+          + '&day=' + dayOfTheWeek.toString() + '&hour=' +
+          iniHour.toString() + '&minute=' +
+          iniMinute.toString();
+      var response = (http.post(Uri.parse(url)));
+    }
   }
 
-  DateTime _adaptTime(int iniHour, int iniMinute, int dayOfTheWeek) {
+  Future<DateTime> _adaptTime(int iniHour, int iniMinute, int dayOfTheWeek, bool toUtc) async {
     var firstNotification = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, iniHour, iniMinute);
     int daysToAdd = 0;
 
@@ -803,7 +835,7 @@ class CtrlDomain {
 
     firstNotification = DateTime(firstNotification.year, firstNotification.month, firstNotification.day + daysToAdd, firstNotification.hour, firstNotification.minute);
 
-    firstNotification = firstNotification.toUtc();
+    if (toUtc) firstNotification = firstNotification.toUtc();
     return firstNotification;
   }
 
@@ -814,26 +846,32 @@ class CtrlDomain {
     2n -> iniHour
     3r -> iniMinute
    */
-  void addListOfSheduledNotificationFavoriteChargePoint(double lat, double long, List<Tuple3<int, int, int>> l) {
+  void addListOfSheduledNotificationFavoriteChargePoint(double lat, double long, List<Tuple3<int, int, int>> l) async {
     for (var notif in l) {
-      addSheduledNotificationFavoriteChargePoint(lat, long, notif.item1, notif.item2, notif.item3);
+      await addSheduledNotificationFavoriteChargePoint(lat, long, notif.item1, notif.item2, notif.item3);
     }
   }
 
-  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
-  void removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació es pot no eliminar! Utilitzar await.
+  Future<void> removeScheduledNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
-    serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
+    int id = await serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
+    if (id != -1) {
+      var url = urlorg + 'remove_notification?email=' + usuari.correu + '&id=' +
+          id.toString();
+      var response = (http.post(Uri.parse(url)));
+    }
   }
 
-  void removeAllNotifications() {
-    serviceLocator<LocalNotificationAdpt>().cancelAllNotifications();
+  //No elimna les notificacions de la BD
+  void removeAllNotifications() async {
+    await serviceLocator<LocalNotificationAdpt>().cancelAllNotifications();
   }
 
-  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
-  void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) {
+  //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació es pot no eliminar! Utilitzar await.
+  void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) async {
     for (var notif in l) {
-      removeScheduledNotification(lat, long, notif.item1, notif.item2, notif.item3);
+      await removeScheduledNotification(lat, long, notif.item1, notif.item2, notif.item3);
     }
   }
 
@@ -906,18 +944,18 @@ class CtrlDomain {
   }
 
   //Afegeix tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
-  void addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+  Future<void> addSheduledNotificationsFavoriteChargePoint(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) async {
     for (var day in daysOfTheWeek) {
-      addSheduledNotificationFavoriteChargePoint(lat, long, day, iniHour, iniMinute);
+      await addSheduledNotificationFavoriteChargePoint(lat, long, day, iniHour, iniMinute);
     }
   }
 
   /*Elimina tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
   IMPORTANT: No cridar a funcions de crear una notificació i just després cridar per eliminar-la. Si es fa, la notificació no s'eliminarà!
    */
-  void removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+  Future<void> removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) async {
     for (var day in daysOfTheWeek) {
-      removeScheduledNotification(lat, long, day, iniHour, iniMinute);
+      await removeScheduledNotification(lat, long, day, iniHour, iniMinute);
     }
   }
 
@@ -928,26 +966,37 @@ class CtrlDomain {
   }
 
   //Activa una notificació que té l'usuari programada però desactivada. Si estava activada, continuarà estat activada.
-  void enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    DateTime firstNotification = _adaptTime(iniHour, iniMinute, dayOfTheWeek);
-    serviceLocator<LocalNotificationAdpt>().enableNotification(firstNotification, lat, long);
-  }
-
-  //Desactiva una notificació que té l'usuari programada.
-  void disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
-    Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
-    serviceLocator<LocalNotificationAdpt>().disableNotification(lat, long, t3.item1, t3.item2, t3.item3);
-  }
-
-  void enableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
-    for (var day in daysOfTheWeek) {
-      enableNotification(lat, long, day, iniHour, iniMinute);
+  Future<void> enableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    DateTime firstNotification = await _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
+    int id = await serviceLocator<LocalNotificationAdpt>().enableNotification(firstNotification, lat, long);
+    if (id != -1) {
+      var url = urlorg + 'activate_notification?email=' + usuari.correu + '&id=' +
+          id.toString();
+      var response = (http.post(Uri.parse(url)));
     }
   }
 
-  void disableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) {
+  //Desactiva una notificació que té l'usuari programada. No s'ha de cridar just després de crear una notificació, sino no es desactivarà bé!
+  Future<void> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+    Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
+    int id = await serviceLocator<LocalNotificationAdpt>().disableNotification(lat, long, t3.item1, t3.item2, t3.item3);
+    if (id != -1) {
+      var url = urlorg + 'deactivate_notification?email=' + usuari.correu + '&id=' +
+          id.toString();
+      var response = (http.post(Uri.parse(url)));
+    }
+  }
+
+  Future<void> enableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) async {
     for (var day in daysOfTheWeek) {
-      disableNotification(lat, long, day, iniHour, iniMinute);
+      await enableNotification(lat, long, day, iniHour, iniMinute);
+    }
+  }
+
+  //No s'ha de cridar just després de crear una notificació, sino no es desactivarà bé!
+  Future<void> disableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) async {
+    for (var day in daysOfTheWeek) {
+      await disableNotification(lat, long, day, iniHour, iniMinute);
     }
   }
 
@@ -1028,8 +1077,6 @@ class CtrlDomain {
           //unlock in presentation
           ctrlPresentation.showMyDialog("Trophy" + i.toString());
           usuari.trofeus[i].unlocked = true;
-          print('siiiiiiii');
-          print(i);
           var url1 = urlorg + 'modify_logro?email=' + usuari.correu + '&id=' + i.toString();
           http.post(Uri.parse(url1));
         }
