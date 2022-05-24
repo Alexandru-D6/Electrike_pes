@@ -231,5 +231,10 @@
 
     "addcargarage": "Add a vehicle to the garage",
     "legend": "Legend",
+    "occupancychart": "Occupancy chart",
+    "share":"Share",
+    "notiEnableDis":"Enable or disable notifications of a charger",
+    "confnoti":"Configure charger notifications",
+
    "defaulttitle" : "Default title"
 }

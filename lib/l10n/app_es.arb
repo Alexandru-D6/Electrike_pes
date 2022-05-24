@@ -231,6 +231,10 @@
 
     "addcargarage": "Añade un vehículo al garaje",
     "legend":"Leyenda",
+    "occupancychart": "Gráfica de ocupación",
+    "share": "Compartir",
+    "notiEnableDis": "Activar o desactivar notificaciones de un cargador",
+    "confnoti":"Configurar notificaciones del cargador",
 
    "defaulttitle" : "Default title"
 }

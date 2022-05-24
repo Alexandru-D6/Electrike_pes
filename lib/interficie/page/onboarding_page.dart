@@ -25,96 +25,111 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    List<Widget> pages = [
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).navigation.toUpperCase(),
+        subtitle: AppLocalizations.of(context).navigationDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif", width: 250,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).login.toUpperCase(),
+        subtitle: AppLocalizations.of(context).loginDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif", width: 250,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).map.toUpperCase(),
+        subtitle: "Map page is the main screen of this app.", //todo: cuando tengamos todo lo de rutas solved
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).savePointsTitle.toUpperCase(),
+        subtitle:AppLocalizations.of(context).savePointsDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: 250,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).getLocationTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).getLocationDescritpion,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/getYourCurrentLocation.gif", width: 250,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).filtraTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).filtraDescription.toUpperCase(),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/filterMarkers.gif", width: 250,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).garage.toUpperCase(),
+        subtitle:
+        "Map page is the main screen of this app.", //todo in progress
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addCar.gif"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).favourites.toUpperCase(),
+        subtitle: AppLocalizations.of(context).favDescription,
+        widgetBuilt: ctrlPresentation.makeFavouritesLegend(context),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).addNotificationTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).addNotificationDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addNotificationDemo.gif", width: 250,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).achievements.toUpperCase(),
+        subtitle:
+        "Map page is the main screen of this app.", //todo in progress
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).language.toUpperCase(),
+        subtitle:
+        "Map page is the main screen of this app.", //todo in progress
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).appInfo.toUpperCase(),
+        subtitle:
+        AppLocalizations.of(context).appInfoDescription,
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).contactUs.toUpperCase(),
+        subtitle:
+        "Map page is the main screen of this app.", //todo in progress
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).logout.toUpperCase(),
+        subtitle:
+        "Map page is the main screen of this app.", //todo in progress
+        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+      ),
+    ];
+
+    return Scaffold(
     body: Container(
       padding: const EdgeInsets.only(bottom: 80),
       child: PageView(
         controller: controller,
         onPageChanged: (index){
           setState(() {
-            isLastPage = index == 10;
+            isLastPage = index == (pages.length-1);
           });
         },
-        children: [
-          buildPage(
-            color: Colors.green.shade100,
-            title: "NAVIGATION", //todo: translate
-            subtitle:
-            "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n"
-                "Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.", //todo: translate
-            widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "LOG-IN",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "MAP",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "FILTRA LOS PUNTOS QUE QUIERES VER",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "GARAGE",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "FAVOURITES",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "ACHIEVEMENTS",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "LANGUAGE",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "INFO APP",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "CONTACT US",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-          buildPage(
-            color: Colors.green.shade100,
-            title: "LOG-OUT",
-            subtitle:
-            "Map page is the main screen of this app.",
-            widgetBuilt: Image.asset("assets/brandCars/ds.png"),
-          ),
-        ],
+        children: pages,
       ),
     ),
     bottomSheet: isLastPage
@@ -147,14 +162,21 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         children: [
           TextButton(
               child: Text(AppLocalizations.of(context).skip),
-              onPressed: ()=>controller.jumpToPage(10)
+              onPressed: ()=>controller.jumpToPage(pages.length-1)
           ),
           Center(
-            child: SmoothPageIndicator(
+            child:
+            SmoothPageIndicator(
               controller: controller,
-              count: 11, //num paginas a displayear
-              effect: WormEffect(
+              count: pages.length, //num paginas a displayear
+              effect: ScrollingDotsEffect(
+                activeStrokeWidth: 2.6,
+                activeDotScale: 1.3,
+                maxVisibleDots: 5,
+                radius: 8,
                 spacing: 16,
+                dotHeight: 12,
+                dotWidth: 12,
                 dotColor: Colors.black26,
                 activeDotColor: Colors.teal.shade700,
               ),
@@ -176,6 +198,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
   ),
   );
+  }
 
   buildPage({
     required Color color,
@@ -187,13 +210,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         child: Container(
           color: color,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 64,),
                 Text(
                   title,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.teal.shade700,
                     fontSize: 32,
@@ -205,10 +229,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 3),
                   child: Text(
                     subtitle,
+                    textAlign: TextAlign.justify,
                     style: const TextStyle(color: Colors.black54),
                   ),
                 ),
-                const SizedBox(height: 64,),
+                const SizedBox(height: 40,),
                 widgetBuilt,
                 const SizedBox(height: 64,),
               ],

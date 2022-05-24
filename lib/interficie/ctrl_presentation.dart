@@ -9,6 +9,7 @@ import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/interficie/page/notifications_list_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
@@ -103,9 +104,21 @@ class CtrlPresentation {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: AppLocalizations.of(context).notLogged,
-      desc: AppLocalizations.of(context).notLoggedMsg,
-      btnOkOnPress: () {},
+      title: AppLocalizations
+          .of(context)
+          .login,
+      desc: AppLocalizations
+          .of(context)
+          .notLogged,
+      btnCancelOnPress: () {},
+      btnOkIcon: (Icons.login),
+      btnOkText: AppLocalizations
+          .of(context)
+          .login,
+      btnOkOnPress: () {
+        signInRoutine(context);
+      },
+
       headerAnimationLoop: false,
     ).show();
   }
@@ -265,8 +278,8 @@ class CtrlPresentation {
   void signInRoutine(BuildContext context) async {
     toMainPage(context);
     await getLoginService.login();
-    //final provider = Provider.of<LocaleProvider>(context, listen: false);
-    //provider.setLocale(Locale(ctrlDomain.usuari.idiom));
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    provider.setLocale(Locale(ctrlDomain.usuari.idiom));
   }
 
   void logoutRoutine(BuildContext context) async {
@@ -332,10 +345,10 @@ class CtrlPresentation {
       GoogleMap.of(getMapKey())?.displayRoute(
           origin,
           destination,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination',
+          startLabel: "Origin",
+          startInfo: "Origin",
+          endLabel: "Destination",
+          endInfo: "Destination",
           color: Colors.blue,
       );
     }
@@ -359,10 +372,10 @@ class CtrlPresentation {
         origin,
         destination,
         waypoints: waypointsRuta.isEmpty || waypointsRuta.first.latitude == -1.0 ? List<GeoCoord>.empty() : waypointsRuta,
-        startLabel: '1',
-        startInfo: 'Origin',
-        endIcon: 'assets/images/rolls_royce.png',
-        endInfo: 'Destination',
+        startLabel: "Origin",
+        startInfo: "Origin",
+        endLabel: "Destination",
+        endInfo: "Destination",
         color: Colors.brown,
       );
     }
@@ -373,10 +386,10 @@ class CtrlPresentation {
       GoogleMap.of(getMapKey())?.addDirection(
           origin,
           destination,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination'
+        startLabel: "Origin",
+        startInfo: "Origin",
+        endLabel: "Destination",
+        endInfo: "Destination",
       );
     }
   }
@@ -408,6 +421,13 @@ class CtrlPresentation {
       _showNotLogDialog(context);
     }
     else {
+      if(isAFavPoint(latitud, longitud) && hasNotifications(latitud, longitud)){
+        List<List<String>> notifications = getNotifications(latitud, longitud);
+        for(int i = 0; i< notifications.length; ++i){
+          List<String> notification = notifications[i];
+          removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+        }
+      }
       ctrlDomain.gestioFavChargers(latitud, longitud);
     }
   }
@@ -603,12 +623,11 @@ class CtrlPresentation {
     const Color fontColor = Colors.black;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Icon(Icons.ev_station, size: 60, color: fontColor,),
         const SizedBox(width: 6),
-        Expanded(
-          child: Column(
+        Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AutoSizeText(
@@ -655,7 +674,7 @@ class CtrlPresentation {
 
               const SizedBox(height: 16),
             ],
-          ),
+
         ),
       ],
     );
@@ -671,9 +690,10 @@ class CtrlPresentation {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(icon, color: color,),
-        const SizedBox(width: 10),
+        const SizedBox(height: 8),
         AutoSizeText(
           label,
+          textAlign: TextAlign.center,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 18,
@@ -681,14 +701,16 @@ class CtrlPresentation {
           ),
           maxLines: 1,
         ),
-        const SizedBox(width: 5),
+        const SizedBox(height: 5),
         AutoSizeText(
           description,
+          textAlign: TextAlign.center,
           style: const TextStyle(
             color: Colors.black54,
             fontSize: 16,
           ),
         ),
+        const Divider(height: 20),
       ],
     );
   }
@@ -698,19 +720,24 @@ class CtrlPresentation {
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ListTile(
-            leading: const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
-            title: AutoSizeText(
-              AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
-              style: const TextStyle(
-                color: fontColor,
-                fontSize: 24,
-              ),
-              maxLines: 1,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
+                const SizedBox(width: 15,),
+                AutoSizeText(
+                  AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+                  style: const TextStyle(
+                    color: fontColor,
+                    fontSize: 24,
+                  ),
+                  maxLines: 1,
+                ),
+              ],
             ),
-          ),
           const Divider(
             height: 16,
             color: Colors.black54,
