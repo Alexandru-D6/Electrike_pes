@@ -432,6 +432,13 @@ class CtrlPresentation {
       _showNotLogDialog(context);
     }
     else {
+      if(isAFavPoint(latitud, longitud) && hasNotifications(latitud, longitud)){
+        List<List<String>> notifications = getNotifications(latitud, longitud);
+        for(int i = 0; i< notifications.length; ++i){
+          List<String> notification = notifications[i];
+          removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+        }
+      }
       ctrlDomain.gestioFavChargers(latitud, longitud);
     }
   }
@@ -727,16 +734,20 @@ class CtrlPresentation {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-            ListTile(
-              leading: const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
-              title: AutoSizeText(
-                AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
-                style: const TextStyle(
-                  color: fontColor,
-                  fontSize: 24,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
+                const SizedBox(width: 15,),
+                AutoSizeText(
+                  AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+                  style: const TextStyle(
+                    color: fontColor,
+                    fontSize: 24,
+                  ),
+                  maxLines: 1,
                 ),
-                maxLines: 1,
-              ),
+              ],
             ),
           const Divider(
             height: 16,
