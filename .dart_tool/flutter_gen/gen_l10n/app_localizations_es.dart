@@ -542,5 +542,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addcargarage => 'Añade un vehículo al garaje';
 
   @override
+  String get legend => 'Leyenda';
+
+  @override
   String get defaulttitle => 'Default title';
 }

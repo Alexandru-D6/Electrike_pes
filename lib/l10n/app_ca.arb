@@ -229,5 +229,6 @@
         "filtraTitle": "FILTRA ELS PUNTS QUE VOLS VEURE",
 
        "addcargarage": "Afegeix un vehicle al garatge",
+       "legend": "Llegenda",
     "defaulttitle" : "Títol per defecte"
 }

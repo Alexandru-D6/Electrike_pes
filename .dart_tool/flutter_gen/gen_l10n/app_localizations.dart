@@ -1152,6 +1152,12 @@ abstract class AppLocalizations {
   /// **'Add a vehicle to the garage'**
   String get addcargarage;
 
+  /// No description provided for @legend.
+  ///
+  /// In en, this message translates to:
+  /// **'Legend'**
+  String get legend;
+
   /// No description provided for @defaulttitle.
   ///
   /// In en, this message translates to:

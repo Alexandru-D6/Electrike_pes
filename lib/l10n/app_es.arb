@@ -230,6 +230,7 @@
          "filtraTitle": "FILTRA LOS PUNTOS QUE QUIERES VER",
 
     "addcargarage": "Añade un vehículo al garaje",
+    "legend":"Leyenda",
 
    "defaulttitle" : "Default title"
 }

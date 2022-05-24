@@ -109,7 +109,7 @@ class _ChartPageState extends State<ChartPage> {
       title: const Text('Charts'),//multiidiomas peilin
       actions: [
         IconButton(
-          tooltip: "Pene",
+          tooltip: AppLocalizations.of(context).legend,
           icon: const Icon(
             Icons.info,
             color: Colors.white,
