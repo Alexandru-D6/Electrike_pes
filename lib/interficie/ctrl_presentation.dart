@@ -283,8 +283,8 @@ class CtrlPresentation {
   void signInRoutine(BuildContext context) async {
     toMainPage(context);
     await getLoginService.login();
-    //final provider = Provider.of<LocaleProvider>(context, listen: false);
-    //provider.setLocale(Locale(ctrlDomain.usuari.idiom));
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    provider.setLocale(Locale(ctrlDomain.usuari.idiom));
   }
 
   void logoutRoutine(BuildContext context) async {
@@ -350,10 +350,10 @@ class CtrlPresentation {
       GoogleMap.of(getMapKey())?.displayRoute(
           origin,
           destination,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination',
+          startLabel: "Origin",
+          startInfo: "Origin",
+          endLabel: "Destination",
+          endInfo: "Destination",
           color: Colors.blue,
       );
     }
@@ -382,10 +382,10 @@ class CtrlPresentation {
         origin,
         destination,
         waypoints: waypointsRuta.isEmpty || waypointsRuta.first.latitude == -1.0 ? List<GeoCoord>.empty() : waypointsRuta,
-        startLabel: '1',
-        startInfo: 'Origin',
-        endIcon: 'assets/images/rolls_royce.png',
-        endInfo: 'Destination',
+        startLabel: "Origin",
+        startInfo: "Origin",
+        endLabel: "Destination",
+        endInfo: "Destination",
         color: Colors.brown,
       );
     }
@@ -396,10 +396,10 @@ class CtrlPresentation {
       GoogleMap.of(getMapKey())?.addDirection(
           origin,
           destination,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination'
+        startLabel: "Origin",
+        startInfo: "Origin",
+        endLabel: "Destination",
+        endInfo: "Destination",
       );
     }
   }
