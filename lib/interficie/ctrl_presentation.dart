@@ -124,12 +124,10 @@ class CtrlPresentation {
   }
 
   toMainPage(BuildContext context) {
-    //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/'));
   }
 
   toProfilePage(BuildContext context) {
-    //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/'));
     Navigator.pushNamed(
       context,
@@ -138,7 +136,6 @@ class CtrlPresentation {
   }
 
   toGaragePage(BuildContext context) {
-    //print(ModalRoute.of(context)?.settings.name);
     if (email == "") {
       _showNotLogDialog(context);
     } else {
@@ -151,7 +148,6 @@ class CtrlPresentation {
   }
 
   toFavouritesPage(BuildContext context) {
-    //print(ModalRoute.of(context)?.settings.name);
     if (email == "") {
       _showNotLogDialog(context);
     } else {
@@ -164,7 +160,6 @@ class CtrlPresentation {
   }
 
   toRewardsPage(BuildContext context) {
-    //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
     if (email == "") {
       _showNotLogDialog(context);
     } else {
@@ -225,7 +220,6 @@ class CtrlPresentation {
   }
 
   toTimePicker(BuildContext context, double latitud, double longitud, String title){
-    //print(ModalRoute.of(context)?.settings.name);
     Navigator.popUntil(context, ModalRoute.withName('/notificationsList'));
     Navigator.pushNamed(
       context,
@@ -250,7 +244,7 @@ class CtrlPresentation {
   }
 
   //42.6974402 - 0.8250418
-  String generateUrlForLocation(GeoCoord a) {
+  String generateUrlForLocation(GeoCoord a) {//todo translate
     String res = "Hey! Check this location -> https://www.google.com/maps/search/?api=1&query=" + a.latitude.toString() + "," + a.longitude.toString();
     return res;
   }
@@ -284,8 +278,8 @@ class CtrlPresentation {
   void signInRoutine(BuildContext context) async {
     toMainPage(context);
     await getLoginService.login();
-    //final provider = Provider.of<LocaleProvider>(context, listen: false);
-    //provider.setLocale(Locale(ctrlDomain.usuari.idiom));
+    final provider = Provider.of<LocaleProvider>(context, listen: false);
+    provider.setLocale(Locale(ctrlDomain.usuari.idiom));
   }
 
   void logoutRoutine(BuildContext context) async {
@@ -351,15 +345,14 @@ class CtrlPresentation {
       GoogleMap.of(getMapKey())?.displayRoute(
           origin,
           destination,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination',
+          startLabel: "Origin",
+          startInfo: "Origin",
+          endLabel: "Destination",
+          endInfo: "Destination",
           color: Colors.blue,
       );
     }
     else if(routeType == 1){
-        //print(destination);
       GeoCoord dest = await getMapsService.adressCoding(destination);
 
       late GeoCoord orig;
@@ -369,13 +362,9 @@ class CtrlPresentation {
 
       if (actualLocation == "My location") orig = curLocation;
 
-      //print("origen --> " + orig.toString());
-      //print("destination --> " + dest.toString());
 
         //RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
 
-         // print(rutaCharger);
-         // print(rutaCharger.waypoints);
 
       String origin = orig.latitude.toString() + "," + orig.longitude.toString();
 
@@ -383,10 +372,10 @@ class CtrlPresentation {
         origin,
         destination,
         waypoints: waypointsRuta.isEmpty || waypointsRuta.first.latitude == -1.0 ? List<GeoCoord>.empty() : waypointsRuta,
-        startLabel: '1',
-        startInfo: 'Origin',
-        endIcon: 'assets/images/rolls_royce.png',
-        endInfo: 'Destination',
+        startLabel: "Origin",
+        startInfo: "Origin",
+        endLabel: "Destination",
+        endInfo: "Destination",
         color: Colors.brown,
       );
     }
@@ -397,10 +386,10 @@ class CtrlPresentation {
       GoogleMap.of(getMapKey())?.addDirection(
           origin,
           destination,
-          startLabel: '1',
-          startInfo: 'Origin',
-          endIcon: 'assets/images/rolls_royce.png',
-          endInfo: 'Destination'
+        startLabel: "Origin",
+        startInfo: "Origin",
+        endLabel: "Destination",
+        endInfo: "Destination",
       );
     }
   }
@@ -432,6 +421,13 @@ class CtrlPresentation {
       _showNotLogDialog(context);
     }
     else {
+      if(isAFavPoint(latitud, longitud) && hasNotifications(latitud, longitud)){
+        List<List<String>> notifications = getNotifications(latitud, longitud);
+        for(int i = 0; i< notifications.length; ++i){
+          List<String> notification = notifications[i];
+          removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+        }
+      }
       ctrlDomain.gestioFavChargers(latitud, longitud);
     }
   }
@@ -550,11 +546,11 @@ class CtrlPresentation {
         body = makeFavouritesLegend(context);
         break;
       case "chartPage":
-        title = "Leyenda Charts page";//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
-        body = makeChartsLegend();
+        title = AppLocalizations.of(context).occupationChartlegend;//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        body = makeChartsLegend(context);
         break;
       default:
-        title = "Default title";
+        title = AppLocalizations.of(context).defaulttitle;
         body = makeBodyAlertChargePoint(context);
         break;
     }
@@ -727,16 +723,20 @@ class CtrlPresentation {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-            ListTile(
-              leading: const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
-              title: AutoSizeText(
-                AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
-                style: const TextStyle(
-                  color: fontColor,
-                  fontSize: 24,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
+                const SizedBox(width: 15,),
+                AutoSizeText(
+                  AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+                  style: const TextStyle(
+                    color: fontColor,
+                    fontSize: 24,
+                  ),
+                  maxLines: 1,
                 ),
-                maxLines: 1,
-              ),
+              ],
             ),
           const Divider(
             height: 16,
@@ -819,7 +819,7 @@ class CtrlPresentation {
     );
   }
 
-  Widget makeChartsLegend() {
+  Widget makeChartsLegend(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: Column(
@@ -828,32 +828,32 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.bar_chart,
             color: Colors.green,
-            label: "In this page", //todo: translate
-            description: "You can see the stats about the concurrency of a station from Barcelona during the day.", //todo: translate
+            label: AppLocalizations.of(context).thispage,
+            description: AppLocalizations.of(context).thispagedesc,
           ),
           buildIconLabeled(
             icon: Icons.arrow_drop_down_circle_outlined,
             color: Colors.black,
-            label: "Click on dropdown button", //todo: translate
-            description: "You can change the day and it's associated values from the plot by clicking on the dropdown button.", //todo: translate
+            label: AppLocalizations.of(context).clickdropdownbutton,
+            description: AppLocalizations.of(context).clickdropdownbuttondesc,
           ),
           buildIconLabeled(
             icon: Icons.family_restroom,
             color: Colors.lightBlueAccent,
-            label: "Concurrency percentage", //todo: translate
-            description: "On the Y axis of the plot, you can see the concurrency percentage for a specific hour of the day.", //todo: translate
+            label: AppLocalizations.of(context).concurrencypercentage, //todo: translate
+            description: AppLocalizations.of(context).concurrencypercentagedesc, //todo: translate
           ),
           buildIconLabeled(
             icon: Icons.hourglass_bottom,
             color: Colors.amber,
-            label: "Concurrency hours", //todo: translate
-            description: "On the X axis of the plot, you can see the hours of a day, where the bars indicating the concurrency are.", //todo: translate
+            label: AppLocalizations.of(context).concurrencyhours, //todo: translate
+            description: AppLocalizations.of(context).concurrencyhoursdesc, //todo: translate
           ),
           buildIconLabeled(
             icon: Icons.error,
             color: Colors.redAccent,
-            label: "Error", //todo: translate
-            description: "If the plot is empty, it could mean 2 things, nobody utilizes the charger or there's an error where you will need to update the page.", //todo: translate
+            label: AppLocalizations.of(context).error, //todo: translate
+            description: AppLocalizations.of(context).errordesc, //todo: translate
           ),
         ],
       ),
@@ -917,8 +917,6 @@ class CtrlPresentation {
         GeoCoord origT = await getMapsService.adressCoding(actualLocation);
         origen = GeoCoord(origT.latitude, origT.longitude);
       }
-        print(origen);
-        print(desti);
 
       String resDuration = "";
       String resDistance = "";
@@ -926,26 +924,17 @@ class CtrlPresentation {
         var routeInfo = await ctrlDomain.infoRutaSenseCarrega(origen, desti);
 
         distinkilometers = routeInfo.distance;
-          print(distinkilometers);
         resDistance = routeInfo.distance;
         durationinhours = routeInfo.duration;
-          print(durationinhours);
         resDuration = routeInfo.duration;
       }
       else if(routeType == 1){
         double bat = double.parse(bateria);
-        print("origen --> " + origen.toString());
-        print("destination --> " + desti.toString());
 
         var rutaCharger = await ctrlDomain.findSuitableRoute(origen, desti, bat);
 
         distinkilometers = rutaCharger.distance;
-        print(distinkilometers);
         durationinhours = rutaCharger.duration;
-        print(durationinhours);
-        print(rutaCharger);
-        print(rutaCharger.waypoints);
-        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
         waypointsRuta = rutaCharger.waypoints;
         String origin = origen.latitude.toString() + "," + origen.longitude.toString();
         resDuration = rutaCharger.duration;
@@ -1057,7 +1046,6 @@ class CtrlPresentation {
   }
 
   toRewardsPageDialog(BuildContext context) {
-    //print(ModalRoute.of(context)?.settings.name); ///this could be handy if we want to know the current route from where we calling
     if (email == "") {
       _showNotLogDialog(context);
     } else {

@@ -101,14 +101,14 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       actions: [
         FloatingSearchBarAction(
           showIfOpened: false,
-          child: CircularButton(
+          child: (ctrlPresentation.destination != "Search...") ? CircularButton(
             icon: const Icon(Icons.directions),
             onPressed: () {
               //TODO: hacer que mire si hay texto
               showInfoRuta(context);
               ctrlPresentation.clearAllRoutes();
             },
-          ),
+          ) : Container(),
         ),
         FloatingSearchBarAction.searchToClear(
           showIfClosed: false,

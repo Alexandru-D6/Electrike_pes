@@ -5,7 +5,6 @@ main() async {
 
  // var firstNotification = DateTime.now();
   //firstNotification.add(const Duration(days: 7));
- // print(firstNotification);
 }
 
 void addSheduledNotificationFavoriteChargePoint(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
@@ -57,10 +56,8 @@ void addSheduledNotificationFavoriteChargePoint(double lat, double long, int day
       }
     }
 */
-  print(firstNotification);
 
   firstNotification = firstNotification.toUtc();
-  //print(firstNotification);
 
   // serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long);
 }

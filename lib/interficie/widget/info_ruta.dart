@@ -44,7 +44,6 @@ class _InfoRutaState extends State<InfoRuta> {
     CtrlDomain ctrlDomain = CtrlDomain();
 
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
-    print(userCarList.length);
     if (userCarList.isNotEmpty) {
       ctrlPresentation.idCarUser = 1;
       ctrlDomain.selectVehicleUsuari(ctrlPresentation.idCarUser);
@@ -84,8 +83,6 @@ class _InfoRutaState extends State<InfoRuta> {
                     (controller.position.pixels) ~/ 100 +
                         1; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
                 ctrlDomain.selectVehicleUsuari(ctrlPresentation.idCarUser);
-                print(controller.position.pixels);
-                print(ctrlPresentation.idCarUser);
                 // Return true to cancel the notification bubbling. Return false (or null) to
                 // allow the notification to continue to be dispatched to further ancestors.
                 return true;
@@ -150,7 +147,6 @@ class _InfoRutaState extends State<InfoRuta> {
               customRadioButton("Eco", 2)
             ],
           ),
-          Text(AppLocalizations.of(context).selectRouteType),
           const Divider(
             height: 16,
             color: Color(0x00000000),

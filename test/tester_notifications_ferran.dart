@@ -155,9 +155,7 @@ class _MainPageState extends State<MainPage> {
        // ctrlDomain.removeScheduledNotification(41.73682408, 1.82836016, 3, 11, 30);
         //ctrlDomain.removeAllNotifications();
         //ctrlDomain.enbleNotification(41.73682408, 1.82836016, 3, 10, 52);
-        print(ctrlDomain.currentScheduledNotificationsOfAChargerPoint(41.73682408, 1.82836016));
         //ctrlDomain.disableNotification(41.73682408, 1.82836016, 3, 12, 18);
-        //print(ctrlDomain.notificationsOn(41.73682408, 1.82836016));
         //ctrlDomain.removeScheduledNotifications(41.73682408, 1.82836016, 19, 30, [3,7]);
         /*print(ctrlDomain.hasNotificacions(41.73682408, 1.82836016));*/}, child: const Text("Instant Notification"))],
       ),

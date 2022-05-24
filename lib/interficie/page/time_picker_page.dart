@@ -58,7 +58,6 @@ class _TimePickerPageState extends State<TimePickerPage> {
                   days: _days(context),
                   onSelect: (values) {
                     selectedDays = values;
-                    print(values);
                   },
                   boxDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),

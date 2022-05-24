@@ -222,7 +222,6 @@ class _EditCarPageState extends State<EditCarPage> {
       return null;
     },
     onSaved: (bool? value) {
-      //print(value);
     },
     onChanged: (value) {
       if (value) {

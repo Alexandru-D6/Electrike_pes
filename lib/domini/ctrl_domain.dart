@@ -34,9 +34,7 @@ class CtrlDomain {
   CtrlDomain._internal();
   static final CtrlDomain _singleton =  CtrlDomain._internal();
 
-  static var urlorg = /*'https://obscure-lake-86305.herokuapp.com/ 'https://electrike.ddns.net:3784/';
-  */
-  'http://37.133.192.236:3784/';
+  static var urlorg = 'http://electrike.ddns.net:3784/';
   //DATA COORD SYSTEM
   List<Coordenada> coordBicings = <Coordenada>[];
   List<Coordenada> coordPuntsCarrega = <Coordenada>[];
@@ -72,7 +70,7 @@ class CtrlDomain {
 
   //SYSTEM
   Future<void> initializeSystem() async {
-    if (kIsWeb) urlorg = 'https://obscure-lake-86305.herokuapp.com/http://37.133.192.236:3784/';
+    if (kIsWeb) urlorg = 'https://obscure-lake-86305.herokuapp.com/http://electrike.ddns.net:3784/';
     usuari.usuarinull();
     initializeTypes();
     await getAllCars();
@@ -463,7 +461,6 @@ class CtrlDomain {
       fav.add(p);
 
     }
-    print (fav);
     return fav;
   }
 
@@ -543,7 +540,6 @@ class CtrlDomain {
     var url = urlorg +'cars';
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
-    print(resp);
     for(var it in resp['items']){
       VhElectric vh = VhElectric.complet(it['_id'], it['Brand'], it['Vehicle'],double.parse(it['Effciency(Wh/Km)']), double.parse(it['Rage(Km)']), double.parse(it['Battery(kWh)']));
       vhElectrics.add(vh);
@@ -760,19 +756,15 @@ class CtrlDomain {
 
   List<Coordenada> getCompChargers() {
     List<String> endollsVh = vhselected.endolls; // nombres de enchufes del VH
-    print("vehicle -->" + vhselected.brand + " -- " + vhselected.endolls.toString());
     List<Coordenada> carregadorsCompatibles = <Coordenada>[];
 
     for(var endoll in typesendolls) {
       for (var nom in endollsVh) {
-        print("--++>" + nom.toString() + " -- " + endoll.toString());
         if (endoll.tipus.name == nom) {
-          print("+-+->" + endoll.endolls.toString());
           carregadorsCompatibles.addAll(endoll.endolls);
         }
       }
     }
-    print("carregadorsCompatibles --> " + carregadorsCompatibles.toString());
     return carregadorsCompatibles;
   }
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
@@ -1085,8 +1077,6 @@ class CtrlDomain {
           //unlock in presentation
           ctrlPresentation.showMyDialog("Trophy" + i.toString());
           usuari.trofeus[i].unlocked = true;
-          print('siiiiiiii');
-          print(i);
           var url1 = urlorg + 'modify_logro?email=' + usuari.correu + '&id=' + i.toString();
           http.post(Uri.parse(url1));
         }
