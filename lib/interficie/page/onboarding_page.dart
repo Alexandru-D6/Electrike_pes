@@ -94,7 +94,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         title: AppLocalizations.of(context).language.toUpperCase(),
         subtitle:
         "Map page is the main screen of this app.", //todo in progress
-        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/languages.gif"),
       ),
       buildPage(
         color: Colors.green.shade100,
