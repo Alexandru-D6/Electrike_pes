@@ -37,6 +37,7 @@ class ChargePointDetailInformation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
+                    tooltip: "Pene",
                     onPressed: () {
                       ctrlPresentation.showLegendDialog(context, "chargePoint");
                     },
@@ -81,36 +82,34 @@ class EditInfoPoint extends StatefulWidget {
 }
 
 class _EditInfoPointState extends State<EditInfoPoint> {
-  List<String> point = List.filled(23, "");
-  @override
-  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
-    ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
-      setState(() {
-        point = element;
-        print(point[22]);
-      });
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+    bool esBarcelona = ctrlPresentation.esBarcelona(widget.latitude, widget.longitude);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
-        if(point[22] == "false") IconButton(
+        IconButton(
+          tooltip: "Pene",
           onPressed: () async {
-          await ctrlPresentation.getOcupationCharger(widget.latitude, widget.longitude);
-          ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
-            ctrlPresentation.toChartPage(context, element[1]);
-          });
+            if(esBarcelona) {
+              await ctrlPresentation.getOcupationCharger(
+                  widget.latitude, widget.longitude);
+              ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude)
+                  .then((element) {
+                ctrlPresentation.toChartPage(context, element[1]);
+              });
+            }
+            else{
+              ctrlPresentation.showDialogNotFromBcn(context);
+            }
           },
           icon: const Icon(
             Icons.bar_chart,
           ),
         ),
         IconButton(
+          tooltip: "Pene",
           onPressed: () async {
             String url = await ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude, type: "charger");
 
@@ -156,7 +155,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           ),
           tooltip: AppLocalizations.of(context).msgAddFav,
           onPressed: () {
-              ctrlPresentation.loveClicked(context, widget.latitude, widget.longitude);
+              ctrlPresentation.loveClickedCharger(context, widget.latitude, widget.longitude);
               if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
                 GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favChargerPoints");
               }
@@ -189,12 +188,13 @@ class PointInfo extends StatefulWidget {
 
 class _PointInfoState extends State<PointInfo> {
   List<String> point = List.filled(23, ""); //si da error de size aumentar 1
-
+  bool loading = true;
   @override
   void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
     ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
       setState(() {
         point = element;
+        loading = false;
       });
     });
     super.initState();
@@ -218,7 +218,12 @@ class _PointInfoState extends State<PointInfo> {
       ],
     );
 
-    return res;
+    if(loading) {
+      return const CircularProgressIndicator(color: Colors.black26);
+    }
+    else {
+      return res;
+    }
   }
 
   Widget buildHeader({

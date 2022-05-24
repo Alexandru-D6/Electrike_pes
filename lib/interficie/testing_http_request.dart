@@ -7,8 +7,8 @@ import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/chart_page.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
-import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
+import 'package:flutter_project/interficie/page/onboarding_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/interficie/page/splash_page.dart';
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
       '/newCar': (context) => const NewCarPage(),
       '/favourites': (context) => const FilterFavsItems(),
       '/rewards': (context) => const RewardsPage(),
-      '/info': (context) => InformationAppPage(),
+      '/info': (context) => OnBoardingPage(),
       '/chart': (context) => const ChartPage(),
     },
   );
@@ -105,7 +105,6 @@ class _MainPageState extends State<MainPage> {
             child: const Text('SignUp', style: TextStyle(fontSize: 20.0),),
             onPressed: () {
               GoogleMap.of(key)?.getInfoRoute(const GeoCoord(41.382040, 2.102865), const GeoCoord(41.387655, 2.124727), <GeoCoord>[const GeoCoord(41.391845, 2.108814)]).then((value) {
-                //print("ok");
               });
             },
           ),

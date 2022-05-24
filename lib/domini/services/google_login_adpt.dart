@@ -29,11 +29,17 @@ class GoogleLoginAdpt {
       _googleSignIn = _googleSignInAndroid;
     }
 
-    final user = await _googleSignIn.signIn();
     late String name, email, photoUrl;
-    if(user?.displayName != null) name = user!.displayName.toString();
-    if(user?.email != null) email = user!.email.toString();
-    if(user?.photoUrl != null) photoUrl = user!.photoUrl.toString();
+    late GoogleSignInAccount? user;
+
+    try {
+      user = await _googleSignIn.signIn();
+      if (user?.displayName != null) name = user!.displayName.toString();
+      if (user?.email != null) email = user!.email.toString();
+      if (user?.photoUrl != null) photoUrl = user!.photoUrl.toString();
+    }catch(e) {
+      print("error: --> " + e.toString());
+    }
 
     await ctrlDomain.initializeUser(email, name, photoUrl);
 

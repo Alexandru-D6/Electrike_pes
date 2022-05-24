@@ -6,6 +6,7 @@ class RoutesResponse {
   late List<GeoCoord> waypoints;
   late String distance; // in km
   late String duration; // in hour
+  late List<GeoCoord> coords;
 
   RoutesResponse(this.origen, this.destino, this.waypoints);
   RoutesResponse.complete(this.origen, this.destino, this.waypoints, this.distance, this.duration);
@@ -29,7 +30,7 @@ class RoutesResponse {
   }
 
   void setDuration(double timeinHours){
-    int time = (timeinHours*3600).toInt(); //pasar a segundos
+    int time = (timeinHours*60).toInt(); //pasar a segundos
     int hours = time~/3600;
     int rest1 = time%3600;
     int minutes = rest1~/60;

@@ -99,8 +99,8 @@ class _MyMapState extends State<MyMap> {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: AppLocalizations.of(context).notLogged,//TODO (Peilin) ready for test
-      desc: AppLocalizations.of(context).explNoFav,//TODO (Peilin) ready for test
+      title: AppLocalizations.of(context).notLogged,
+      desc: AppLocalizations.of(context).explNoFav,
       btnOkOnPress: () {},
       headerAnimationLoop: false,
     ).show();
@@ -115,7 +115,12 @@ class _MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
-    _newKey = GlobalKey<GoogleMapStateBase>();
+    if (ctrlPresentation.getGoogleMapKeyState()) {
+      _newKey = ctrlPresentation.getMapKey();
+    } else {
+      _newKey = GlobalKey<GoogleMapStateBase>();
+    }
+
     double tempZoom = 0.0;
     Scaffold res = Scaffold(
       resizeToAvoidBottomInset: false,
@@ -192,23 +197,6 @@ class _MyMapState extends State<MyMap> {
                 zoomControl: true,
                 dragGestures: false,
               ),
-            ),
-          ),
-
-          Positioned(
-            left: 16,
-            //right: 56,
-            right: kIsWeb ? 60 : 16,
-            bottom: 16,
-            child: FloatingActionButton(
-              onPressed: () {
-                showInfoRuta(context);
-                ctrlPresentation.clearAllRoutes();
-              },
-              heroTag: "Ruta",
-              tooltip: "Empieza la ruta",
-              child: const Icon(Icons.play_arrow),
-              backgroundColor: const Color(0xff8A84E2),
             ),
           ),
 

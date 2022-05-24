@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
@@ -40,9 +41,13 @@ class _InfoRutaState extends State<InfoRuta> {
     final textController = TextEditingController();
     final controller = ScrollController();
     CtrlPresentation ctrlPresentation = CtrlPresentation();
+    CtrlDomain ctrlDomain = CtrlDomain();
 
     List<List<String>> userCarList = ctrlPresentation.getCarsList();
-    if (userCarList.isNotEmpty) ctrlPresentation.idCarUser = 1;
+    if (userCarList.isNotEmpty) {
+      ctrlPresentation.idCarUser = 1;
+      ctrlDomain.selectVehicleUsuari(ctrlPresentation.idCarUser);
+    }
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -51,8 +56,8 @@ class _InfoRutaState extends State<InfoRuta> {
           color: mPrimaryColor, borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: <Widget>[
-          Text(AppLocalizations.of(context).selectCar), //TODO (Peilin) ready for test
-          ctrlPresentation.getCurrentUserMail() != "" ? SizedBox(
+          Text(AppLocalizations.of(context).selectCar),
+          (ctrlPresentation.getCurrentUserMail() != "" && ctrlPresentation.getCarsList().isNotEmpty ) ? SizedBox(
             height: 100,
             width: 100,
             child: NotificationListener<ScrollEndNotification>(
@@ -77,8 +82,7 @@ class _InfoRutaState extends State<InfoRuta> {
                 ctrlPresentation.idCarUser =
                     (controller.position.pixels) ~/ 100 +
                         1; //dividir el numero de pixeles por el espacio que ocupen los containers. 200 ahora mismo.
-                print(controller.position.pixels);
-                print(ctrlPresentation.idCarUser);
+                ctrlDomain.selectVehicleUsuari(ctrlPresentation.idCarUser);
                 // Return true to cancel the notification bubbling. Return false (or null) to
                 // allow the notification to continue to be dispatched to further ancestors.
                 return true;
@@ -97,7 +101,8 @@ class _InfoRutaState extends State<InfoRuta> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(AppLocalizations.of(context).actualBatMsg), //TODO (Peilin) ready for test
+              Text(AppLocalizations.of(context).actualBatMsg),
+              Container(margin: const EdgeInsets.only(right: 10)),
               SizedBox(
                 width: 40,
                 child:
@@ -114,35 +119,34 @@ class _InfoRutaState extends State<InfoRuta> {
                     });
                   },
                   inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly,
-                  CustomMaxValueInputFormatter(maxInputValue: 100)
+                    FilteringTextInputFormatter.digitsOnly,
+                    CustomMaxValueInputFormatter(maxInputValue: 100)
                   ],
 
-                  ),
-                  ),
-                  const Text("%"),
-                  ],
-                  ),
-                  const Divider(
-                  height: 5,
-                  color: Color(0x00000000),
-                  ),
-                  const Text("Select a route type"), //todo: peilin multi
-                  const Divider(
-                  height: 16,
-                  color: Color(0x00000000),
-                  ),
-                  Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                  customRadioButton("Normal", 0),
+                ),
+              ),
+              const Text("%"),
+            ],
+          ),
+          const Divider(
+            height: 5,
+            color: Color(0x00000000),
+          ),
+          Text(AppLocalizations.of(context).selectRouteType),
+          const Divider(
+            height: 16,
+            color: Color(0x00000000),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              customRadioButton(AppLocalizations.of(context).standard, 0),
               const SizedBox(width: 5),
-              customRadioButton("Charger Points", 1),
+              customRadioButton(AppLocalizations.of(context).chargingStop, 1),
               const SizedBox(width: 5),
               customRadioButton("Eco", 2)
             ],
           ),
-          Text(AppLocalizations.of(context).selectRouteType),//TODO (Peilin) ready for test
           const Divider(
             height: 16,
             color: Color(0x00000000),
@@ -150,9 +154,18 @@ class _InfoRutaState extends State<InfoRuta> {
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text("Estimated time: "),
+                Text(AppLocalizations.of(context).duration + ':'),
                 Text(time),
-                const Text("Estimated distance: "),
+              ]
+          ),
+          const Divider(
+            height: 5,
+            color: Color(0x00000000),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+                Text(AppLocalizations.of(context).distance + ':'),
                 Text(distance),
               ]
           ),
@@ -171,7 +184,7 @@ class _InfoRutaState extends State<InfoRuta> {
                 borderRadius: BorderRadius.circular(30.0),),
               primary: const Color(0xff8A84E2),
             ),
-            child: Text(AppLocalizations.of(context).start), //todo: peilin multi
+            child: Text(AppLocalizations.of(context).start),
           ),
         ],
       ),

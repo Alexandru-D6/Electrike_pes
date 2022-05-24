@@ -125,19 +125,31 @@ class LocalNotificationAdpt {
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime); // en principi això fa que es repeteixi totes les setmanes
   }
 
-  Future<void> scheduleNotifications(DateTime when, double lat, double long) async {
+  Future<int> scheduleNotifications(DateTime when, double lat, double long, int id) async {
+    late bool active;
+    if (hasNotificacions(lat,long)) {
+      active = notificationsOn(lat, long);
+    } else {
+      active = true;
+    }
+    InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, active);
 
-    InfoNotification infN = InfoNotification(lat, long, when.weekday, when.hour, when.minute, true);
+    if (!(await _existsNotification(lat, long, when.weekday, when.hour, when.minute))) {
+      if (id == -1) {
+        id = _createId();
+      } else if (lastIdCreated < id) {
+        lastIdCreated = id;
+      }
 
-    if (!_existsNotification(lat, long, when.weekday, when.hour, when.minute)) {
-      int id = _createId();
       var entry = <int, InfoNotification>{id: infN};
       _currentNotifications.addEntries(entry.entries);
-      _createNotification(id, when, lat, long);
+      if (active) await _createNotification(id, when, lat, long);
+      return id;
     }
+    return -1;
   }
 
-  bool _existsNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
+  Future<bool> _existsNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     for (var id in _currentNotifications.keys) {
       if (_currentNotifications[id]!.lat == lat &&
           _currentNotifications[id]!.long == long &&
@@ -201,20 +213,23 @@ class LocalNotificationAdpt {
     return false;
   }
 
-  void enableNotification(DateTime when, double lat, double long) {
+  Future<int> enableNotification(DateTime when, double lat, double long) async {
     int id = _findId(lat, long, when.weekday, when.hour, when.minute);
     if (id != -1 && !_currentNotifications[id]!.active) {
       _currentNotifications[id]!.active = true;
-      _createNotification(id, when, lat, long);
+      await _createNotification(id, when, lat, long);
     }
+    return id;
   }
 
-  Future<void> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+  Future<int> disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1 && _currentNotifications[id]!.active) {
       await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications[id]!.active = false;
     }
+
+    return id;
   }
 
   //Si el punt de càrrega no existeix o no té cap notificació per aquest punt de càrrega retorna false.
@@ -229,12 +244,14 @@ class LocalNotificationAdpt {
     return false;
   }
 
-  Future<void> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
+  Future<int> cancelNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) async {
     int id = _findId(lat, long, dayOfTheWeek, iniHour, iniMinute);
     if (id != -1) {
       if (_currentNotifications[id]!.active) await _flutterLocalNotificationsPlugin.cancel(id);
       _currentNotifications.remove(id);
+      if (lastIdCreated == id) --lastIdCreated;
     }
+    return id;
   }
 
   Future<void> cancelAllNotifications() async {

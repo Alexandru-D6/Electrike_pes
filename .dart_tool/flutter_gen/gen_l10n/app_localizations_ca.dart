@@ -104,7 +104,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get msgIntroNum => 'Introdueix un número';
 
   @override
-  String get msgAddFav => 'Afegir punt a favorits';
+  String get msgAddFav => 'Afegir o eliminar punt favorit';
 
   @override
   String get lunes => 'Dilluns';
@@ -144,6 +144,15 @@ class AppLocalizationsCa extends AppLocalizations {
   String get infoDialogNotLog => 'No s\'ha iniciat sessió';
 
   @override
+  String get cancel => 'Cancel·lar';
+
+  @override
+  String get delete => 'Eliminar';
+
+  @override
+  String get profile => 'Perfil';
+
+  @override
   String get save => 'Guardar canvis';
 
   @override
@@ -153,7 +162,19 @@ class AppLocalizationsCa extends AppLocalizations {
   String get trophies => 'Trofeus';
 
   @override
-  String get savedco2 => 'CO2 salvat';
+  String get savedco2 => 'CO2 estalviat';
+
+  @override
+  String get kilometerstraveled => 'Quilòmetres recorreguts';
+
+  @override
+  String get routestaken => 'Rutes realitzades';
+
+  @override
+  String get deleteaccountquestion => 'Estàs segur que vols eliminar el teu compte?';
+
+  @override
+  String get deleteaccountdesc => 'L\'eliminació del compte és permanent i eliminarà tot el contingut, inclosos els vehicles, els punts preferits i la configuració del perfil.';
 
   @override
   String get day1 => 'Dilluns';
@@ -194,7 +215,7 @@ class AppLocalizationsCa extends AppLocalizations {
   }
 
   @override
-  String get addFavPoints => 'Afegir punt a favorits';
+  String get addFavPoints => 'Afegir o eliminar punt favorit';
 
   @override
   String get explNoFav => 'Inicia sessió per consultar els teus favorits';
@@ -218,5 +239,308 @@ class AppLocalizationsCa extends AppLocalizations {
   String get selectRouteType => 'Escull un tipus de ruta';
 
   @override
+  String get standard => 'Estàndard';
+
+  @override
+  String get chargingStop => 'Parada per càrrega';
+
+  @override
   String get start => 'Inicia';
+
+  @override
+  String get occupationChart => 'Gràfics d\'ocupació';
+
+  @override
+  String get occupationChartlegend => 'Llegenda de Gràfics d\'Ocupació';
+
+  @override
+  String get occupancy => 'Ocupació';
+
+  @override
+  String get hours => 'Hores';
+
+  @override
+  String get yourLocation => 'La meva localització';
+
+  @override
+  String get thispage => 'En aquesta pàgina';
+
+  @override
+  String get thispagedesc => 'Pots veure les estadístiques sobre la concurrència d\'una estació de carrèga de Barcelona durant el dia.';
+
+  @override
+  String get clickdropdownbutton => 'Clic al botó desplegable';
+
+  @override
+  String get clickdropdownbuttondesc => 'Pots canviar el dia i els seus valors associats a la gràfica fent clic al botó desplegable.';
+
+  @override
+  String get concurrencypercentage => 'Percentatge de concurrència';
+
+  @override
+  String get concurrencypercentagedesc => 'A l\'eix Y de la trama, pots veure el percentatge de concurrència per a una hora específica del dia.';
+
+  @override
+  String get concurrencyhours => 'Hores de concurrència';
+
+  @override
+  String get concurrencyhoursdesc => 'A l\'eix X de la trama, pots veure les hores d\'un dia, on hi ha les barres que indiquen la concurrència.';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get errordesc => 'Si la gràfica està buida, pot significar 2 coses, ningú fa servir el carregador o hi ha un error en què haureu d\'actualitzar la pàgina.';
+
+  @override
+  String get notLoggedMsg => 'Se requiere inicio de sesión';
+
+  @override
+  String get keyChargers => 'Llegenda de punts de càrrega';
+
+  @override
+  String get keyBicing => 'Llegenda d\'estacions Bicing';
+
+  @override
+  String get keyFavourites => 'Llegenda de Favorits';
+
+  @override
+  String get stationName => 'Nom de la estació';
+
+  @override
+  String get streetName => 'Nom del carrer';
+
+  @override
+  String get availableChargers => 'Disponibles';
+
+  @override
+  String get numChargers => 'Nombre de carregadors disponibles';
+
+  @override
+  String get unknownState => 'Estat desconegut';
+
+  @override
+  String get numUnknown => 'Nombre de carregadors d\'estat desconegut';
+
+  @override
+  String get broken => 'Espatllat';
+
+  @override
+  String get numBroken => 'Nombre de carregadors espatllats';
+
+  @override
+  String get notAvailable => 'No disponible';
+
+  @override
+  String get numNotAvailable => 'Nombre de carregadors no disponibles';
+
+  @override
+  String get freePlaces => 'Llocs lliures';
+
+  @override
+  String get numFreePlaces => 'Nombre de llocs lliures';
+
+  @override
+  String get availablePedal => 'Disponibilitat de bicicletes de pedals';
+
+  @override
+  String get numPedal => 'Nombre de bicicletes de pedals';
+
+  @override
+  String get availableElectric => 'Disponibilitat de bicicletes elèctriques';
+
+  @override
+  String get numElectric => 'Nombre de bicicletes elèctriques disponibles';
+
+  @override
+  String get clickName => 'Clica el nom';
+
+  @override
+  String get clickNameDescr => 'Pots anar a la localització en el mapa pulsant el punt';
+
+  @override
+  String get seeConcurrencyChart => 'Consulta els percentatges de ocupació';
+
+  @override
+  String get chartsDescr => 'Mostra l\'ocupació de l\'estació de càrrega';
+
+  @override
+  String get disableNoti => 'Desactivar notificacions';
+
+  @override
+  String get disableNotiDescr => 'Desactivar totes les notificacions (si n\'hi ha)';
+
+  @override
+  String get enableNoti => 'Activar notificacions';
+
+  @override
+  String get enableNotiDescr => 'Activar totes les notificacions (si n\'hi ha) per tal de rebre gàfics de concurrència del punt de càrrega';
+
+  @override
+  String get notificationSettingsDescr => 'Mostra les teves notificacions del carregador. Pots afegir de noves o eliminar-ne existents.';
+
+  @override
+  String get rmvFavs => 'Eliminar de favorits';
+
+  @override
+  String get rmvFavsDescr => 'Pots eliminar un punt de la texa llista de favorits';
+
+  @override
+  String get filterFavTypes => 'Filtra entre tipus';
+
+  @override
+  String get filterFavTypesDescr => 'Filtra els teus punts favorits utilitzant el menú superior';
+
+  @override
+  String get addAlert => 'Afegeix notificació';
+
+  @override
+  String get addAlertDescr => 'Necessites crear al menys una notificació associada a aquest punt de càrrega.';
+
+  @override
+  String get addalertdesc => 'No tens cap notificació associada a aquest punt. Afegiu almenys una per rebre notificacions des d\'aquest punt.';
+
+  @override
+  String get skip => 'SALTAR';
+
+  @override
+  String get next => 'SEGÜENT';
+
+  @override
+  String get duration => 'Temps';
+
+  @override
+  String get distance => 'Distància';
+
+  @override
+  String get unlocked => 'desbloquejat';
+
+  @override
+  String get locked => 'bloquejat';
+
+  @override
+  String get state => 'Estat: ';
+
+  @override
+  String get nametrophy => 'Trofeu: ';
+
+  @override
+  String get trophy0 => 'El teu primer vehicle!';
+
+  @override
+  String get trophy1 => 'Tres són una multitud de vehicles';
+
+  @override
+  String get trophy2 => 'El teu garatge és increïble!';
+
+  @override
+  String get trophy3 => 'Destinació trobada';
+
+  @override
+  String get trophy4 => 'Excursionista';
+
+  @override
+  String get trophy5 => 'Rodamón';
+
+  @override
+  String get trophy6 => 'Menys CO2';
+
+  @override
+  String get trophy7 => 'És hora d\'estalviar';
+
+  @override
+  String get trophy8 => 'Salvant el planeta';
+
+  @override
+  String get trophy9 => 'Els primers quilòmetes';
+
+  @override
+  String get trophy10 => 'Arribant als 100';
+
+  @override
+  String get trophy11 => 'La carretera és la teva vida';
+
+  @override
+  String get trophy0desc => 'Afegeix 1 vehicle al garatge';
+
+  @override
+  String get trophy1desc => 'Afegeix 3 vehicles al garatge';
+
+  @override
+  String get trophy2desc => 'Afegeix 5 vehicles al garatge';
+
+  @override
+  String get trophy3desc => 'Fes 1 ruta';
+
+  @override
+  String get trophy4desc => 'Fes 10 rutes';
+
+  @override
+  String get trophy5desc => 'Fes 50 ruta';
+
+  @override
+  String get trophy6desc => 'Estalvia 5 kg de CO2, usant un vehicle elèctric';
+
+  @override
+  String get trophy7desc => 'Estalvia 20 kg de CO2, usant un vehicle elèctric';
+
+  @override
+  String get trophy8desc => 'Estalvia 50 kg de CO2, usant un vehicle elèctric';
+
+  @override
+  String get trophy9desc => 'Recorre 20 km amb vehicles elèctrics';
+
+  @override
+  String get trophy10desc => 'Recorre 100 km amb vehicles elèctrics';
+
+  @override
+  String get trophy11desc => 'Recorre 200 km amb vehicles elèctrics';
+
+  @override
+  String get navigation => 'NAVEGA PER LA APLICACIÓ';
+
+  @override
+  String get navigationDescription => 'Per navegar per l\'aplicació podeu fer-ho mitjançant el menú lateral clicant sobre el símbol situat a la cantonada superior esquerra del vostre dispositiu o també lliscant des del lateral esquerre cap a la dreta de la pantalla (sense els gestos de navegació habilitats).\n Però molt de compte, per accedir a determinades pantalles has d\'haver iniciat sessió prèviament per poder carregar les teves dades.';
+
+  @override
+  String get loginDescription => 'Logueja\'t amb el teu usuari per poder accedir a totes les dades del teu compte i continuar sumant punts cap a una mobilitat sostenible.';
+
+  @override
+  String get getLocationTitle => 'TROBA\'T AL MAPA';
+
+  @override
+  String get getLocationDescritpion => 'Fes clic a la cantonada superior dreta al costat de les barres de cerca per fer zoom de la teva ubicació actual i poder veure què t\'envolta.';
+
+  @override
+  String get appInfo => 'INFORMACIÓ SOBRE LA APLICACIÓ';
+
+  @override
+  String get appInfoDescription => 'Normalment a cada pantalla hi ha símbols visibles amb una \'i\' d\'informació sobre la pantalla. A més en iniciar l\'aplicació per primera vegada s\'obrirà el tutorial. No t\'has de preocupar per les següents vegades, si has vist una vegada el tutorial no et tornarà a sortir fins que facis log-out.';
+
+  @override
+  String get favDescription => 'Localitza ràpidament els teus punts favorits, afegeix alertes per rebre l\'estat dels punts que vulguis quan ho necessitis, consulta les estadístiques d\'ocupació a l\'instant o elimina aquells punts que ja no són rellevants al teu dia a dia...';
+
+  @override
+  String get addNotificationTitle => 'Afegeix recordatoris';
+
+  @override
+  String get addNotificationDescription => 'Afegeix recordatoris perquè l\'aplicació t\'avisi de l\'estat del punt seleccionat quan vulguis.';
+
+  @override
+  String get savePointsTitle => 'SAVE YOUR FAVOURITES POINTS';
+
+  @override
+  String get savePointsDescription => 'Salva els teus punts preferits per consultar la informació d\'aquests de manera més fàcil.';
+
+  @override
+  String get filtraDescription => 'Filtra els punts segons les teves necessitats o amaga\'ls si ho desitges: amagar, veure\'ls tots, només punts de càrrega, només bicings o veure els teus favorits.';
+
+  @override
+  String get filtraTitle => 'FILTRA ELS PUNTS QUE VOLS VEURE';
+
+  @override
+  String get addcargarage => 'Afegeix un vehicle al garatge';
+
+  @override
+  String get defaulttitle => 'Títol per defecte';
 }

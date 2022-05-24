@@ -8,8 +8,8 @@ import 'package:flutter_project/interficie/page/chart_page.dart';
 import 'package:flutter_project/interficie/page/edit_car_page.dart';
 import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/garage_page.dart';
-import 'package:flutter_project/interficie/page/information_app_page.dart';
 import 'package:flutter_project/interficie/page/new_car_page.dart';
+import 'package:flutter_project/interficie/page/onboarding_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/page/rewards_page.dart';
 import 'package:flutter_project/interficie/page/splash_page.dart';
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
             '/editCar': (context) => const EditCarPage(),
             '/favourites': (context) => const FilterFavsItems(),
             '/rewards': (context) => const RewardsPage(),
-            '/info': (context) => InformationAppPage(),
+            '/info': (context) => OnBoardingPage(),
             '/chart': (context) => const ChartPage(),
           },
         );
@@ -148,16 +148,14 @@ class _MainPageState extends State<MainPage> {
         //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 1, 1, 00);
         //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 2, 1, 00);
         //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 7, 18, 50);
-        //ctrlDomain.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 19, 30, [1,3,7]);
+        ctrlDomain.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 19, 30, [1,3,7]);
         ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 3, 12, 18);
         //ctrlDomain.showInstantNotification(41.73682408, 1.82836016);
         //ctrlDomain.disableNotification(41.73682408, 1.82836016, 3, 11, 7);
        // ctrlDomain.removeScheduledNotification(41.73682408, 1.82836016, 3, 11, 30);
         //ctrlDomain.removeAllNotifications();
         //ctrlDomain.enbleNotification(41.73682408, 1.82836016, 3, 10, 52);
-        print(ctrlDomain.currentScheduledNotificationsOfAChargerPoint(41.73682408, 1.82836016));
-        ctrlDomain.disableNotification(41.73682408, 1.82836016, 3, 12, 18);
-        print(ctrlDomain.notificationsOn(41.73682408, 1.82836016));
+        //ctrlDomain.disableNotification(41.73682408, 1.82836016, 3, 12, 18);
         //ctrlDomain.removeScheduledNotifications(41.73682408, 1.82836016, 19, 30, [3,7]);
         /*print(ctrlDomain.hasNotificacions(41.73682408, 1.82836016));*/}, child: const Text("Instant Notification"))],
       ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
+import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:google_place/google_place.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class SearchBarWidget extends StatefulWidget {
@@ -16,21 +18,33 @@ class _SearchBarWidget extends State<SearchBarWidget> {
   List<String?> recomendations = <String?>[];
   CtrlPresentation ctrlPresentation = CtrlPresentation();
 
+  late FloatingSearchBarController controller;
+  late FloatingSearchBarController controller2;
+
+  @override
+  void initState(){
+    super.initState();
+    controller = FloatingSearchBarController();
+    controller2 = FloatingSearchBarController();
+  }
+
   @override
   Widget build(BuildContext context) {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return Stack(children: <Widget>[
       FloatingSearchBar(
+        controller: controller2,
         hint: ctrlPresentation.actualLocation,
         margins: const EdgeInsets.fromLTRB(60, 5, 60, 0),
         scrollPadding: const EdgeInsets.only(top: 60, bottom: 56),
-        transitionDuration: const Duration(milliseconds: 50),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionCurve: Curves.easeInOut,
         physics: const BouncingScrollPhysics(),
         axisAlignment: isPortrait ? 0.0 : -1.0,
         openAxisAlignment: 0.0,
-        debounceDelay: const Duration(milliseconds: 200),
+        debounceDelay: const Duration(milliseconds: 100),
         automaticallyImplyDrawerHamburger: false,
+        automaticallyImplyBackButton: false,
         onQueryChanged: (query) {
           updateRecomendations(query);
         },
@@ -44,10 +58,9 @@ class _SearchBarWidget extends State<SearchBarWidget> {
               icon: const Icon(Icons.place),
               onPressed: () {
                 setState(() {});
-                ctrlPresentation.actualLocation = "Your location";
+                ctrlPresentation.actualLocation = AppLocalizations.of(context).yourLocation;
                 ctrlPresentation.moveCameraToLocation();
-                //TODO: para la location quiza
-              },
+                },
             ),
           ),
           FloatingSearchBarAction.searchToClear(
@@ -66,17 +79,19 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         },
       ),
         FloatingSearchBar(
+          controller: controller,
       hint: ctrlPresentation.destination,
       margins: const EdgeInsets.fromLTRB(60, 60, 60, 0),
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-      transitionDuration: const Duration(milliseconds: 50),
+      transitionDuration: const Duration(milliseconds: 300),
       transitionCurve: Curves.easeInOut,
       physics: const BouncingScrollPhysics(),
       axisAlignment: isPortrait ? 0.0 : -1.0,
       openAxisAlignment: 0.0,
-      debounceDelay: const Duration(milliseconds: 200),
+      debounceDelay: const Duration(milliseconds: 100),
       automaticallyImplyDrawerHamburger: false,
       closeOnBackdropTap: true,
+      automaticallyImplyBackButton: false,
       onQueryChanged: (query) {
         updateRecomendations(query);
       },
@@ -86,13 +101,14 @@ class _SearchBarWidget extends State<SearchBarWidget> {
       actions: [
         FloatingSearchBarAction(
           showIfOpened: false,
-          child: CircularButton(
-            icon: const Icon(Icons.place),
+          child: (ctrlPresentation.destination != "Search...") ? CircularButton(
+            icon: const Icon(Icons.directions),
             onPressed: () {
-              ctrlPresentation.moveCameraToLocation();
-              //TODO: para la location quiza
+              //TODO: hacer que mire si hay texto
+              showInfoRuta(context);
+              ctrlPresentation.clearAllRoutes();
             },
-          ),
+          ) : Container(),
         ),
         FloatingSearchBarAction.searchToClear(
           showIfClosed: false,
@@ -104,7 +120,10 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           child: Material(
             color: Colors.white,
             elevation: 4.0,
-            child: buildRecomendationButtons(text: recomendations, origin: "false"),
+            child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [buildRecomendationButtons(text: recomendations, origin: "false")],
+            ),
           ),
         );
       },
@@ -133,23 +152,23 @@ class _SearchBarWidget extends State<SearchBarWidget> {
 
   Widget buildRecomendationButtons({
     required List<String?> text,
-    required String origin
+    required String origin,
   }) {
     List<ListTile> list = <ListTile>[];
     for (var element in text) {
       list.add(ListTile(
         title: Text(element!, style: const TextStyle(fontSize: 18, color: Colors.black)),
-        onTap: () => {
-          setState((){}), //para que ponga el nombre en el hint
+        onTap: () {
+          setState((){}); //para que ponga el nombre en el hint
           if(origin == "false"){
-            ctrlPresentation.destination = element,
+            ctrlPresentation.destination = element;
+            controller.close();
+          }else {
+            ctrlPresentation.actualLocation = element;
+            controller2.close();
           }
-          else
-            {
-              ctrlPresentation.actualLocation = element,
-            },
-          print(element),
-          print(text),
+
+
           //ctrlPresentation.toMainPage(context),
           //ctrlPresentation.makeRoute()
           },//TODO: llamar aqui que hacer con cada boton de la lista
