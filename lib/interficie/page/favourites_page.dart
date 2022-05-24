@@ -56,7 +56,7 @@ class _FavsChargersState extends State<FavsChargers> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 IconButton(
-                    tooltip: "Pene",
+                    tooltip: AppLocalizations.of(context).occupancychart,
                     icon: (const Icon(Icons.bar_chart)),
                     color: esBarcelona ? Colors.green : Colors.black12,
                     onPressed: () async {
@@ -72,7 +72,7 @@ class _FavsChargersState extends State<FavsChargers> {
                 ),
 
                 IconButton(
-                    tooltip: "Pene",
+                    tooltip: AppLocalizations.of(context).notiEnableDis,
                     color: hasNotifications ? Colors.blue : Colors.black12,
                     icon: notificationsOn ?
                     (const Icon(Icons.notifications_active)) :
@@ -112,7 +112,7 @@ class _FavsChargersState extends State<FavsChargers> {
                 ),
 
                 IconButton(
-                    tooltip: "Pene",
+                    tooltip: AppLocalizations.of(context).confnoti,
                     icon: (const Icon(Icons.settings)),
                     color: esBarcelona ? Colors.grey : Colors.black12,
                     onPressed: () {
@@ -128,7 +128,7 @@ class _FavsChargersState extends State<FavsChargers> {
                     }
                 ),
                 IconButton(
-                    tooltip: "Pene",
+                    tooltip: AppLocalizations.of(context).addFavPoints,
                     icon: (const Icon(Icons.favorite)),
                     color: Colors.red,
                     onPressed: () {
@@ -192,7 +192,7 @@ class _FavsBicingsState extends State<FavsBicings> {
         return ListTile(
           title: Text(title),
           trailing: IconButton(
-              tooltip: "Pene",
+              tooltip: AppLocalizations.of(context).addFavPoints,
               icon: (const Icon(Icons.favorite)),
               color: Colors.red,
               onPressed: () {
@@ -241,7 +241,7 @@ class _FilterFavsItemsState extends State<FilterFavsItems> {
       title: Text(AppLocalizations.of(context).favourites),
       actions: [
         IconButton(
-          tooltip: "Pene",
+          tooltip: AppLocalizations.of(context).legend,
           icon: const Icon(
             Icons.info,
             color: Colors.white,

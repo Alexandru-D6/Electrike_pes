@@ -1062,6 +1062,18 @@ abstract class AppLocalizations {
   /// **'Travel 200 km with electric vehicles'**
   String get trophy11desc;
 
+  /// No description provided for @trophyunlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Trophy unlocked: '**
+  String get trophyunlocked;
+
+  /// No description provided for @trophymainmenu.
+  ///
+  /// In en, this message translates to:
+  /// **'You can see the trophy in the trophies menu'**
+  String get trophymainmenu;
+
   /// No description provided for @navigation.
   ///
   /// In en, this message translates to:
@@ -1157,6 +1169,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Legend'**
   String get legend;
+
+  /// No description provided for @occupancychart.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupancy chart'**
+  String get occupancychart;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @notiEnableDis.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable or disable notifications of a charger'**
+  String get notiEnableDis;
+
+  /// No description provided for @confnoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure charger notifications'**
+  String get confnoti;
+
+  /// No description provided for @eliminaNoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete a notification'**
+  String get eliminaNoti;
 
   /// No description provided for @defaulttitle.
   ///

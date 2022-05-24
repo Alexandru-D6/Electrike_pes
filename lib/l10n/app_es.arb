@@ -206,6 +206,8 @@
           "trophy9desc":"Recorre 20 km con vehículos eléctricos",
           "trophy10desc":"Recorre 100 km con vehículos eléctricos",
           "trophy11desc":"Recorre 200 km con vehículos eléctricos",
+          "trophyunlocked": "Trofeo desbloqueado: ",
+          "trophymainmenu":"Puedes ver el trofeo en el menú de trofeos",
 
           "navigation": "NAVEGA POR LA APLICACIÓN",
          "navigationDescription": "Para navegar por la aplicación puedes hacerlo mediante el menú lateral clicando sobre el símbolo situado en la esquina superior izquierda de tu dispositivo o también deslizando desde el lateral izquierdo hacia la derecha de la pantalla (sin los gestos de navegación habilitados).\n Pero mucho cuidado, para acceder a determinadas pantallas debes haber iniciado sesión previamente para poder cargar tus datos.",
@@ -235,6 +237,7 @@
     "share": "Compartir",
     "notiEnableDis": "Activar o desactivar notificaciones de un cargador",
     "confnoti":"Configurar notificaciones del cargador",
+    "eliminaNoti":"Eliminar notificación",
 
    "defaulttitle" : "Default title"
 }

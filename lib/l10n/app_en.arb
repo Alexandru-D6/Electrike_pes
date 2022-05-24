@@ -206,6 +206,8 @@
     "trophy9desc":"Travel 20 km with electric vehicles",
     "trophy10desc":"Travel 100 km with electric vehicles",
     "trophy11desc":"Travel 200 km with electric vehicles",
+    "trophyunlocked": "Trophy unlocked: ",
+    "trophymainmenu":"You can see the trophy in the trophies menu",
 
    "navigation": "NAVIGATION",
    "navigationDescription": "To navigate the application you can do it through the side menu by clicking on the symbol located in the upper left corner of your device or also by sliding from the left side to the right of the screen (without navigation gestures enabled).\n But be very careful, to access certain screens you must have previously logged in to be able to load your data.",
@@ -235,6 +237,7 @@
     "share":"Share",
     "notiEnableDis":"Enable or disable notifications of a charger",
     "confnoti":"Configure charger notifications",
+    "eliminaNoti":"Delete a notification",
 
    "defaulttitle" : "Default title"
 }

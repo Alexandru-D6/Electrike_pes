@@ -37,7 +37,7 @@ class ChargePointDetailInformation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
-                    tooltip: "Pene",
+                    tooltip: AppLocalizations.of(context).legend,
                     onPressed: () {
                       ctrlPresentation.showLegendDialog(context, "chargePoint");
                     },
@@ -90,7 +90,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
-          tooltip: "Pene",
+          tooltip: AppLocalizations.of(context).occupancychart,
           onPressed: () async {
             if(esBarcelona) {
               await ctrlPresentation.getOcupationCharger(
@@ -109,7 +109,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
           ),
         ),
         IconButton(
-          tooltip: "Pene",
+          tooltip: AppLocalizations.of(context).share,
           onPressed: () async {
             String url = await ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude, type: "charger");
 

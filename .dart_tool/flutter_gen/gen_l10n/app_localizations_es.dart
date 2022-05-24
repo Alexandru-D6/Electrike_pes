@@ -497,6 +497,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trophy11desc => 'Recorre 200 km con vehículos eléctricos';
 
   @override
+  String get trophyunlocked => 'Trofeo desbloqueado: ';
+
+  @override
+  String get trophymainmenu => 'Puedes ver el trofeo en el menú de trofeos';
+
+  @override
   String get navigation => 'NAVEGA POR LA APLICACIÓN';
 
   @override
@@ -543,6 +549,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get legend => 'Leyenda';
+
+  @override
+  String get occupancychart => 'Gráfica de ocupación';
+
+  @override
+  String get share => 'Compartir';
+
+  @override
+  String get notiEnableDis => 'Activar o desactivar notificaciones de un cargador';
+
+  @override
+  String get confnoti => 'Configurar notificaciones del cargador';
+
+  @override
+  String get eliminaNoti => 'Eliminar notificación';
 
   @override
   String get defaulttitle => 'Default title';

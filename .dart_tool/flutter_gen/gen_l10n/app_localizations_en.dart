@@ -497,6 +497,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trophy11desc => 'Travel 200 km with electric vehicles';
 
   @override
+  String get trophyunlocked => 'Trophy unlocked: ';
+
+  @override
+  String get trophymainmenu => 'You can see the trophy in the trophies menu';
+
+  @override
   String get navigation => 'NAVIGATION';
 
   @override
@@ -543,6 +549,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legend => 'Legend';
+
+  @override
+  String get occupancychart => 'Occupancy chart';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get notiEnableDis => 'Enable or disable notifications of a charger';
+
+  @override
+  String get confnoti => 'Configure charger notifications';
+
+  @override
+  String get eliminaNoti => 'Delete a notification';
 
   @override
   String get defaulttitle => 'Default title';

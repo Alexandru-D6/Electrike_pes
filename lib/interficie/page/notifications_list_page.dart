@@ -31,7 +31,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
         overflow: TextOverflow.ellipsis,), //todo: traduccion peilin
       actions: [
         IconButton(
-          tooltip: "Pene",
+          tooltip: AppLocalizations.of(context).addNoti,
           icon: const Icon(
             Icons.notification_add,
             color: Colors.white,
@@ -77,7 +77,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
           title: Text(notification[0]),
           subtitle: Text(buildDays(notification).toString()),
           trailing: IconButton(
-            tooltip: "Pene",
+            tooltip: AppLocalizations.of(context).eliminaNoti,
             icon: const Icon(
               Icons.delete,
               color: Colors.red,

@@ -955,13 +955,53 @@ class CtrlPresentation {
   }
   
   void showMyDialog(String idTrofeu) {
+
+    String trophyname = "error";
+    switch (idTrofeu){
+      case "0":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy0;
+        break;
+      case "1":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy1;
+        break;
+      case "2":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy2;
+        break;
+      case "3":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy3;
+        break;
+      case "4":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy4;
+        break;
+      case "5":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy5;
+        break;
+      case "6":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy6;
+        break;
+      case "7":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy7;
+        break;
+      case "8":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy8;
+        break;
+      case "9":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy9;
+        break;
+      case "10":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy10;
+        break;
+      case "11":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy11;
+        break;
+    }
     AwesomeDialog(
       context: navigatorKey.currentContext!,
       width: 500,
       animType: AnimType.LEFTSLIDE,
       dialogType: DialogType.NO_HEADER,
       autoHide: const Duration(seconds: 6) ,
-      body: _makeTrophyBody(idTrofeu),
+      body: _makeTrophyBody(navigatorKey.currentContext!,trophyname),
       /*btnOkText:'View in the trophy menu',
       btnOkIcon: Icons.emoji_events,
       btnOkOnPress:(){toRewardsPageDialog(navigatorKey.currentContext!);},
@@ -973,7 +1013,7 @@ class CtrlPresentation {
     ).show();
   }
 
-  _makeTrophyBody(String idTrofeu) {
+  _makeTrophyBody(BuildContext context, String idTrofeu) {
     ConfettiController controllerCenterRight = ConfettiController(duration: const Duration(milliseconds: 700));
     ConfettiController controllerCenterLeft = ConfettiController(duration: const Duration(milliseconds: 700));
     controllerCenterLeft.play();
@@ -1013,7 +1053,7 @@ class CtrlPresentation {
            Image.asset('assets/trophies/trophy.png', width: 100),
     const SizedBox(width: 10),
     AutoSizeText(
-      "Trophy unlocked" + idTrofeu,
+      AppLocalizations.of(context).trophyunlocked + idTrofeu,
     style: const TextStyle(
     color: Colors.black,
     fontSize: 18,
@@ -1022,8 +1062,8 @@ class CtrlPresentation {
     maxLines: 1,
     ),
     const SizedBox(width: 5),
-   const AutoSizeText(
-      "You can see the trophy in the trophies menu",
+    AutoSizeText(
+     AppLocalizations.of(context).trophymainmenu,
     style: TextStyle(
     color: Colors.black54,
     fontSize: 16,
