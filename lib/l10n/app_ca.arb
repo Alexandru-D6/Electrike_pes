@@ -33,7 +33,7 @@
 
   "msgSelectChargers": "Selecciona al menys un carregador",
   "msgIntroNum": "Introdueix un número",
-  "msgAddFav": "Afegir punt a favorits",
+  "msgAddFav": "Afegir o eliminar punt favorit",
   "lunes": "Dilluns",
   "martes": "Dimarts",
   "miercoles": "Dimecres",
@@ -65,11 +65,18 @@
   },
 
   "infoDialogNotLog": "No s'ha iniciat sessió",
+  "cancel": "Cancel·lar",
+  "delete": "Eliminar",
 
+  "profile": "Perfil",
   "save": "Guardar canvis",
   "vehicles": "Vehicles",
   "trophies": "Trofeus",
-  "savedco2": "CO2 salvat",
+  "savedco2": "CO2 estalviat",
+  "kilometerstraveled": "Quilòmetres recorreguts",
+  "routestaken": "Rutes realitzades",
+  "deleteaccountquestion": "Estàs segur que vols eliminar el teu compte?",
+  "deleteaccountdesc": "L'eliminació del compte és permanent i eliminarà tot el contingut, inclosos els vehicles, els punts preferits i la configuració del perfil.",
 
    "day1": "Dilluns",
    "day2": "Dimarts",
@@ -92,7 +99,7 @@
         }
     },
 
-    "addFavPoints": "Afegir punt a favorits",
+    "addFavPoints": "Afegir o eliminar punt favorit",
     "explNoFav": "Inicia sessió per consultar els teus favorits",
     "hideMarkers": "Amagar tots",
     "showMarkers": "Mostrar tots",
@@ -107,9 +114,20 @@
     "chargingStop": "Parada per càrrega",
     "start": "Inicia",
     "occupationChart": "Gràfics d'ocupació",
+    "occupationChartlegend": "Llegenda de Gràfics d'Ocupació",
     "occupancy": "Ocupació",
     "hours": "Hores",
     "yourLocation": "La meva localització",
+    "thispage":"En aquesta pàgina",
+    "thispagedesc":"Pots veure les estadístiques sobre la concurrència d'una estació de carrèga de Barcelona durant el dia.",
+    "clickdropdownbutton":"Clic al botó desplegable",
+    "clickdropdownbuttondesc": "Pots canviar el dia i els seus valors associats a la gràfica fent clic al botó desplegable.",
+    "concurrencypercentage": "Percentatge de concurrència",
+    "concurrencypercentagedesc":"A l'eix Y de la trama, pots veure el percentatge de concurrència per a una hora específica del dia.",
+    "concurrencyhours":"Hores de concurrència",
+    "concurrencyhoursdesc":"A l'eix X de la trama, pots veure les hores d'un dia, on hi ha les barres que indiquen la concurrència.",
+    "error": "Error",
+    "errordesc": "Si la gràfica està buida, pot significar 2 coses, ningú fa servir el carregador o hi ha un error en què haureu d'actualitzar la pàgina.",
 
     "notLoggedMsg": "Se requiere inicio de sesión",
     "keyChargers": "Llegenda de punts de càrrega",
@@ -154,6 +172,7 @@
 
     "addAlert": "Afegeix notificació",
     "addAlertDescr": "Necessites crear al menys una notificació associada a aquest punt de càrrega.",
+    "addalertdesc":"No tens cap notificació associada a aquest punt. Afegiu almenys una per rebre notificacions des d'aquest punt.",
     "skip": "SALTAR",
     "next": "SEGÜENT",
     "duration": "Temps",
@@ -179,4 +198,36 @@
 
     "filtraDescription": "Filtra els punts segons les teves necessitats o amaga'ls si ho desitges: amagar, veure'ls tots, només punts de càrrega, només bicings o veure els teus favorits.",
     "filtraTitle": "FILTRA ELS PUNTS QUE VOLS VEURE"
+
+    "unlocked":"desbloquejat",
+    "locked": "bloquejat",
+    "state":"Estat: ",
+     "nametrophy":"Trofeu: ",
+     "trophy0":"El teu primer vehicle!",
+     "trophy1":"Tres són una multitud de vehicles",
+     "trophy2":"El teu garatge és increïble!",
+     "trophy3":"Destinació trobada",
+     "trophy4":"Excursionista",
+     "trophy5":"Rodamón",
+     "trophy6":"Menys CO2",
+     "trophy7":"És hora d'estalviar",
+     "trophy8":"Salvant el planeta",
+     "trophy9":"Els primers quilòmetes",
+     "trophy10":"Arribant als 100",
+     "trophy11":"La carretera és la teva vida",
+     "trophy0desc":"Afegeix 1 vehicle al garatge",
+     "trophy1desc":"Afegeix 3 vehicles al garatge",
+     "trophy2desc":"Afegeix 5 vehicles al garatge",
+     "trophy3desc":"Fes 1 ruta",
+     "trophy4desc":"Fes 10 rutes",
+     "trophy5desc":"Fes 50 ruta",
+     "trophy6desc":"Estalvia 5 kg de CO2, usant un vehicle elèctric",
+     "trophy7desc":"Estalvia 20 kg de CO2, usant un vehicle elèctric",
+     "trophy8desc":"Estalvia 50 kg de CO2, usant un vehicle elèctric",
+     "trophy9desc":"Recorre 20 km amb vehicles elèctrics",
+     "trophy10desc":"Recorre 100 km amb vehicles elèctrics",
+     "trophy11desc":"Recorre 200 km amb vehicles elèctrics",
+
+    "addcargarage": "Afegeix un vehicle al garatge",
+    "defaulttitle" : "Títol per defecte"
 }
