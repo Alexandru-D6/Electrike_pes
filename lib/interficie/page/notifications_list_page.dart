@@ -10,6 +10,14 @@ class NotificationsListPage extends StatefulWidget {
   _NotificationsListPageState createState() => _NotificationsListPageState();
 }
 
+class NotificationsArgs {
+  final double latitud;
+  final double longitud;
+  final String title;
+
+  NotificationsArgs(this.latitud, this.longitud, this.title);
+}
+
 class _NotificationsListPageState extends State<NotificationsListPage> {
   final GlobalKey<AnimatedListState> _key = GlobalKey();
   CtrlPresentation ctrlPresentation = CtrlPresentation();
