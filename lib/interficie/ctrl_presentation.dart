@@ -9,6 +9,7 @@ import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/interficie/page/notifications_list_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
@@ -626,12 +627,11 @@ class CtrlPresentation {
     const Color fontColor = Colors.black;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Icon(Icons.ev_station, size: 60, color: fontColor,),
         const SizedBox(width: 6),
-        Expanded(
-          child: Column(
+        Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AutoSizeText(
@@ -678,7 +678,7 @@ class CtrlPresentation {
 
               const SizedBox(height: 16),
             ],
-          ),
+
         ),
       ],
     );
@@ -724,19 +724,20 @@ class CtrlPresentation {
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ListTile(
-            leading: const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
-            title: AutoSizeText(
-              AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
-              style: const TextStyle(
-                color: fontColor,
-                fontSize: 24,
+            ListTile(
+              leading: const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
+              title: AutoSizeText(
+                AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+                style: const TextStyle(
+                  color: fontColor,
+                  fontSize: 24,
+                ),
+                maxLines: 1,
               ),
-              maxLines: 1,
             ),
-          ),
           const Divider(
             height: 16,
             color: Colors.black54,
