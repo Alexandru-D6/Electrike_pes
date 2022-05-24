@@ -727,16 +727,20 @@ class CtrlPresentation {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-            ListTile(
-              leading: const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
-              title: AutoSizeText(
-                AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
-                style: const TextStyle(
-                  color: fontColor,
-                  fontSize: 24,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
+                const SizedBox(width: 15,),
+                AutoSizeText(
+                  AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+                  style: const TextStyle(
+                    color: fontColor,
+                    fontSize: 24,
+                  ),
+                  maxLines: 1,
                 ),
-                maxLines: 1,
-              ),
+              ],
             ),
           const Divider(
             height: 16,
