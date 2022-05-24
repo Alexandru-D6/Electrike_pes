@@ -432,6 +432,13 @@ class CtrlPresentation {
       _showNotLogDialog(context);
     }
     else {
+      if(isAFavPoint(latitud, longitud) && hasNotifications(latitud, longitud)){
+        List<List<String>> notifications = getNotifications(latitud, longitud);
+        for(int i = 0; i< notifications.length; ++i){
+          List<String> notification = notifications[i];
+          removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+        }
+      }
       ctrlDomain.gestioFavChargers(latitud, longitud);
     }
   }
