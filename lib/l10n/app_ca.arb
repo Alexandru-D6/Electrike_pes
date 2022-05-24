@@ -197,10 +197,10 @@
     "savePointsDescription": "Salva els teus punts preferits per consultar la informació d'aquests de manera més fàcil.",
 
     "filtraDescription": "Filtra els punts segons les teves necessitats o amaga'ls si ho desitges: amagar, veure'ls tots, només punts de càrrega, només bicings o veure els teus favorits.",
-    "filtraTitle": "FILTRA ELS PUNTS QUE VOLS VEURE"
+    "filtraTitle": "FILTRA ELS PUNTS QUE VOLS VEURE",
 
     "unlocked":"desbloquejat",
-    "locked": "bloquejat",
+    "locked":"bloquejat",
     "state":"Estat: ",
      "nametrophy":"Trofeu: ",
      "trophy0":"El teu primer vehicle!",
