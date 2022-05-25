@@ -576,4 +576,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapDescription => 'La página del mapa es la pantalla principal de esta aplicación. Desde ella podrás acceder a todas las funcionalidades principales de nuestra aplicación: desde añadir tus puntos favoritos, filtrar los tipos de puntos remarcados en el mapa, calcular rutas optimizadas y mucho más... ';
+
+  @override
+  String get languageDescription => 'Our application has different languages with which to interact: Catalan, Spanish or English. What are you waiting for? Choose the one with which you feel most comfortable! The configuration you choose will be saved so that from any device with which you connect you can pick up where you left off.';
+
+  @override
+  String get contactUsDescription => 'Have you found any operating problem, do you have any suggestions for improvement or do you not know how to do something? Contact our technical team, we will try to respond to your comment as soon as possible.';
 }

@@ -241,5 +241,7 @@
        "stRouteDescription": "Agafa la via més ràpida! No perdis temps amb aquesta ruta però tampoc corris gaire per si de cas hi ha algun radar... que pot sortir el viatge més car que la gasolina!",
        "chRouteTitle": "RUTA A TRAVÉS DE PUNTS DE CÀRREGA",
        "chRouteDescription": "Assegura que arribaràs a destí sense haver de trucar a la grua. Electrike optimitzarà la teva ruta perquè quan et quedis sense bateria tinguis on recarregar bateries.",
-       "mapDescription":"La pàgina del mapa és la pantalla principal d'aquesta aplicació. Des d'ella podràs accedir a totes les funcionalitats principals de la nostra aplicació: des d'afegir els teus punts preferits, filtrar els tipus de punts remarcats al mapa, calcular rutes optimitzades i molt més..."
+       "mapDescription":"La pàgina del mapa és la pantalla principal d'aquesta aplicació. Des d'ella podràs accedir a totes les funcionalitats principals de la nostra aplicació: des d'afegir els teus punts preferits, filtrar els tipus de punts remarcats al mapa, calcular rutes optimitzades i molt més...",
+       "languageDescription": "La nostra aplicació disposa de diferents idiomes amb què interactuar: català, espanyol o anglès. A què esperes? Escull aquell amb el que et sentis més còmode! La configuració que escullis serà guardada perquè des de qualsevol dispositiu amb què et connectis puguis seguir on ho vas deixar.",
+       "contactUsDescription": "Has trobat algun problema de funcionament, tens algun suggeriment de millora o no saps com es fa alguna cosa? Contacta amb el nostre equip tècnic, intentarem donar resposta al teu comentari com més aviat millor."
 }

@@ -576,4 +576,10 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get mapDescription => 'La pàgina del mapa és la pantalla principal d\'aquesta aplicació. Des d\'ella podràs accedir a totes les funcionalitats principals de la nostra aplicació: des d\'afegir els teus punts preferits, filtrar els tipus de punts remarcats al mapa, calcular rutes optimitzades i molt més...';
+
+  @override
+  String get languageDescription => 'La nostra aplicació disposa de diferents idiomes amb què interactuar: català, espanyol o anglès. A què esperes? Escull aquell amb el que et sentis més còmode! La configuració que escullis serà guardada perquè des de qualsevol dispositiu amb què et connectis puguis seguir on ho vas deixar.';
+
+  @override
+  String get contactUsDescription => 'Has trobat algun problema de funcionament, tens algun suggeriment de millora o no saps com es fa alguna cosa? Contacta amb el nostre equip tècnic, intentarem donar resposta al teu comentari com més aviat millor.';
 }

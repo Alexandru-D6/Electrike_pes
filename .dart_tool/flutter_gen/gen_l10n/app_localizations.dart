@@ -1223,6 +1223,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'La página del mapa es la pantalla principal de esta aplicación. Desde ella podrás acceder a todas las funcionalidades principales de nuestra aplicación: desde añadir tus puntos favoritos, filtrar los tipos de puntos remarcados en el mapa, calcular rutas optimizadas y mucho más... '**
   String get mapDescription;
+
+  /// No description provided for @languageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Our application has different languages with which to interact: Catalan, Spanish or English. What are you waiting for? Choose the one with which you feel most comfortable! The configuration you choose will be saved so that from any device with which you connect you can pick up where you left off.'**
+  String get languageDescription;
+
+  /// No description provided for @contactUsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Have you found any operating problem, do you have any suggestions for improvement or do you not know how to do something? Contact our technical team, we will try to respond to your comment as soon as possible.'**
+  String get contactUsDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
