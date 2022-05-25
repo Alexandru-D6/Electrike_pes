@@ -231,5 +231,10 @@
 
     "addcargarage": "Añade un vehículo al garaje",
 
-   "defaulttitle" : "Default title"
+   "defaulttitle" : "Default title",
+
+   "addCarDescription": "Añade vehículos a tu garage para optimizar tus rutas y así saber cuándo deberás parar a recargar las baterías. El proceso es bien simple: ponle el apelativo cariñoso que quieras a tu vehículo; añade los datos de marca y modelo (nosotros te proponemos algunos comúnes); si tu modelo se encuentra en nuestra base de datos se autocompletará la información numérica, de no ser así deberás añadirla manualmente; finalmente añade los cargadores compatibles contigo y sólo queda ¡disfrutar del viaje!",
+   "profileDescription": "Consulta tus datos, el resúmen de tu cuenta y mira tu progreso.",
+   "deleteAccountTitle": "Elimina tu cuenta y tus datos",
+   "deleteAccountDescription": "Para eliminar tu cuenta y tus datos de nuestros servidores debes dirigirte a tu Perfil y pulsar en la esquina inferior derecha de la pantalla la basura."
 }

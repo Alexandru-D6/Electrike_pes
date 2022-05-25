@@ -26,18 +26,31 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    double widthGif = 220;
     List<Widget> pages = [
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).navigation.toUpperCase(),
         subtitle: AppLocalizations.of(context).navigationDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif", width: 250,),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif", width: widthGif,),
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).login.toUpperCase(),
         subtitle: AppLocalizations.of(context).loginDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif", width: 250,),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif", width: widthGif,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).profile.toUpperCase(),
+        subtitle: AppLocalizations.of(context).profileDescription,
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: gif correcto
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).deleteAccountTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).deleteAccountDescription,
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: gif correcto
       ),
       buildPage(
         color: Colors.green.shade100,
@@ -49,26 +62,25 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).savePointsTitle.toUpperCase(),
         subtitle:AppLocalizations.of(context).savePointsDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: 250,),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: widthGif,),
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).getLocationTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).getLocationDescritpion,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/getYourCurrentLocation.gif", width: 250,),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/getYourCurrentLocation.gif", width: widthGif,),
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).filtraTitle.toUpperCase(),
-        subtitle: AppLocalizations.of(context).filtraDescription.toUpperCase(),
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/filterMarkers.gif", width: 250,),
+        subtitle: AppLocalizations.of(context).filtraDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/filterMarkers.gif", width: widthGif,),
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).garage.toUpperCase(),
-        subtitle:
-        "Map page is the main screen of this app.", //todo in progress
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/addCar.gif"),
+        subtitle: AppLocalizations.of(context).addCarDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addCar.gif", width: widthGif,),
       ),
       buildPage(
         color: Colors.green.shade100,
@@ -80,7 +92,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).addNotificationTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).addNotificationDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/addNotificationDemo.gif", width: 250,),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addNotificationDemo.gif", width: widthGif,),
       ),
       buildPage(
         color: Colors.green.shade100,
@@ -94,7 +106,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         title: AppLocalizations.of(context).language.toUpperCase(),
         subtitle:
         "Map page is the main screen of this app.", //todo in progress
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/languages.gif", width: 250,),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/languages.gif", width: widthGif,),
       ),
       buildPage(
         color: Colors.green.shade100,

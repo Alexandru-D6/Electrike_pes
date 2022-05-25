@@ -543,4 +543,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get defaulttitle => 'Default title';
+
+  @override
+  String get addCarDescription => 'Add vehicles to your garage to optimize your routes and thus know when you should stop to recharge the batteries. The process is very simple: give your vehicle the affectionate name you want; add the brand and model data (we propose some common ); if your model is in our database, the numerical information will autocomplete, otherwise you will have to add it manually; finally add the chargers compatible with you and all that remains is to enjoy the trip!';
+
+  @override
+  String get profileDescription => 'Check your data, your account summary and see your progress.';
+
+  @override
+  String get deleteAccountTitle => 'Delete your account and data';
+
+  @override
+  String get deleteAccountDescription => 'To delete your account and your data from our servers you must go to your Profile and click on the trash in the lower right corner of the screen.';
 }

@@ -1157,6 +1157,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Default title'**
   String get defaulttitle;
+
+  /// No description provided for @addCarDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add vehicles to your garage to optimize your routes and thus know when you should stop to recharge the batteries. The process is very simple: give your vehicle the affectionate name you want; add the brand and model data (we propose some common ); if your model is in our database, the numerical information will autocomplete, otherwise you will have to add it manually; finally add the chargers compatible with you and all that remains is to enjoy the trip!'**
+  String get addCarDescription;
+
+  /// No description provided for @profileDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your data, your account summary and see your progress.'**
+  String get profileDescription;
+
+  /// No description provided for @deleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account and data'**
+  String get deleteAccountTitle;
+
+  /// No description provided for @deleteAccountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'To delete your account and your data from our servers you must go to your Profile and click on the trash in the lower right corner of the screen.'**
+  String get deleteAccountDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
