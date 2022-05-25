@@ -240,6 +240,8 @@
     "eliminaNoti":"Eliminar notificación",
     "edit": "Editar",
     "editCar": "Edita tu vehículo",
+    "sorrychart1":"Lo sentimos, este punto no pertenece a Barcelona. Estamos trabajando para ofrecer en un futuro esta información.",
+    "sorrychart2": "Mientras tanto, esta función solo está habilitada para puntos solo en Barcelona.",
 
    "defaulttitle" : "Default title"
 }

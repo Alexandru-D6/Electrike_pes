@@ -1212,6 +1212,18 @@ abstract class AppLocalizations {
   /// **'Edit your vehicle'**
   String get editCar;
 
+  /// No description provided for @sorrychart1.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.'**
+  String get sorrychart1;
+
+  /// No description provided for @sorrychart2.
+  ///
+  /// In en, this message translates to:
+  /// **'Meanwhile, this function is only enabled for points only in Barcelona.'**
+  String get sorrychart2;
+
   /// No description provided for @defaulttitle.
   ///
   /// In en, this message translates to:

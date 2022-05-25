@@ -240,6 +240,8 @@
     "eliminaNoti":"Delete a notification",
     "edit": "Edit",
     "editCar": "Edit your vehicle",
+    "sorrychart1": "Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.",
+    "sorrychart2": "Meanwhile, this function is only enabled for points only in Barcelona.",
 
    "defaulttitle" : "Default title"
 }

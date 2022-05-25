@@ -572,5 +572,11 @@ class AppLocalizationsCa extends AppLocalizations {
   String get editCar => 'Edita el teu vehicle';
 
   @override
+  String get sorrychart1 => 'Ho sentim, aquest punt no pertany a Barcelona. Estem treballant per oferir en un futur aquesta informació.';
+
+  @override
+  String get sorrychart2 => 'Mentrestant, aquesta funció només està habilitada per a punts només a Barcelona.';
+
+  @override
   String get defaulttitle => 'Títol per defecte';
 }

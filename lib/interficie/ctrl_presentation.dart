@@ -1136,9 +1136,9 @@ class CtrlPresentation {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: "Information not available", //TODO: TRANSLATE
-      desc: "Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.\n"
-          "Meanwhile, this function is only enabled for points only in Barcelona.", //TODO: TRANSLATE
+      title: AppLocalizations.of(context).notAvailable,
+      desc: AppLocalizations.of(context).sorrychart1+"\n"+
+          AppLocalizations.of(context).sorrychart2,
       btnOkText: "OK",
       btnOkOnPress: () {},
       headerAnimationLoop: false,

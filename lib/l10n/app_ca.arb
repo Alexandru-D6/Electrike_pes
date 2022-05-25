@@ -239,6 +239,8 @@
        "eliminaNoti":"Eliminar notificació",
        "edit": "Editar",
        "editCar": "Edita el teu vehicle",
+       "sorrychart1": "Ho sentim, aquest punt no pertany a Barcelona. Estem treballant per oferir en un futur aquesta informació.",
+       "sorrychart2": "Mentrestant, aquesta funció només està habilitada per a punts només a Barcelona.",
 
     "defaulttitle" : "Títol per defecte"
 }
