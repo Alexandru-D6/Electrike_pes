@@ -44,43 +44,43 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).profile.toUpperCase(),
         subtitle: AppLocalizations.of(context).profileDescription,
-        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: gif correcto
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: GIF CORRECTO
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).deleteAccountTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).deleteAccountDescription,
-        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: gif correcto
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: GIF CORRECTO
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).map.toUpperCase(),
-        subtitle: "Map page is the main screen of this app.", //todo: cuando tengamos todo lo de rutas solved
-        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,),
+        subtitle: AppLocalizations.of(context).mapDescription,
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: GIF CORRECTO
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).stRouteTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).stRouteDescription,
-        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,),
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: GIF CORRECTO
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).chRouteTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).chRouteDescription,
-        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,),
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: GIF CORRECTO
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).ecoRouteTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).ecoRouteDescription,
-        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,),
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,), //todo: GIF CORRECTO
       ),
       buildPage(
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).savePointsTitle.toUpperCase(),
         subtitle:AppLocalizations.of(context).savePointsDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: widthGif,),
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: widthGif,), //todo: GIF CORRECTO
       ),
       buildPage(
         color: Colors.green.shade100,

@@ -242,5 +242,6 @@
       "stRouteTitle": "FASTEST ROUTE",
       "stRouteDescription": "Take the fastest route! Don't waste time with this route, but don't run too much either, in case there is a radar... which can make the trip more expensive than gasoline!",
       "chRouteTitle": "ROUTE THROUGH CHARGING POINTS",
-      "chRouteDescription": "It ensures that you will reach your destination without having to call the tow truck. Electrike will optimize your route so that when you run out of battery you have a place to recharge your batteries."
+      "chRouteDescription": "It ensures that you will reach your destination without having to call the tow truck. Electrike will optimize your route so that when you run out of battery you have a place to recharge your batteries.",
+      "mapDescription": "La página del mapa es la pantalla principal de esta aplicación. Desde ella podrás acceder a todas las funcionalidades principales de nuestra aplicación: desde añadir tus puntos favoritos, filtrar los tipos de puntos remarcados en el mapa, calcular rutas optimizadas y mucho más... "
 }

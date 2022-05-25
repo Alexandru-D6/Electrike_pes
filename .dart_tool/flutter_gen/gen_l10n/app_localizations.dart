@@ -1217,6 +1217,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'It ensures that you will reach your destination without having to call the tow truck. Electrike will optimize your route so that when you run out of battery you have a place to recharge your batteries.'**
   String get chRouteDescription;
+
+  /// No description provided for @mapDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'La página del mapa es la pantalla principal de esta aplicación. Desde ella podrás acceder a todas las funcionalidades principales de nuestra aplicación: desde añadir tus puntos favoritos, filtrar los tipos de puntos remarcados en el mapa, calcular rutas optimizadas y mucho más... '**
+  String get mapDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

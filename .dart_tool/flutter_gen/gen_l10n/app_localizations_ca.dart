@@ -573,4 +573,7 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get chRouteDescription => 'Assegura que arribaràs a destí sense haver de trucar a la grua. Electrike optimitzarà la teva ruta perquè quan et quedis sense bateria tinguis on recarregar bateries.';
+
+  @override
+  String get mapDescription => 'La pàgina del mapa és la pantalla principal d\'aquesta aplicació. Des d\'ella podràs accedir a totes les funcionalitats principals de la nostra aplicació: des d\'afegir els teus punts preferits, filtrar els tipus de punts remarcats al mapa, calcular rutes optimitzades i molt més...';
 }
