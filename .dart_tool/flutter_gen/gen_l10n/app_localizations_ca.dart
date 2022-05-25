@@ -593,6 +593,12 @@ class AppLocalizationsCa extends AppLocalizations {
   String get contactUsDescription => 'Has trobat algun problema de funcionament, tens algun suggeriment de millora o no saps com es fa alguna cosa? Contacta amb el nostre equip tècnic, intentarem donar resposta al teu comentari com més aviat millor.';
 
   @override
+  String get logoutDescription => 'Cierra la sesión en tu dispositivo para mantener tu información segura o para poder consultar otra cuenta.';
+
+  @override
+  String get achievementsDescription => 'Consulta tu progreso y los logros que vayas desbloqueando a medida que usas la aplicación. Sé la envidia de tus amistades con el mayor número de trofeos. Cuando desbloquées algún logro se te notificará y preparate para la fiesta...';
+
+  @override
   String get addcargarage => 'Afegeix un vehicle al garatge';
 
   @override

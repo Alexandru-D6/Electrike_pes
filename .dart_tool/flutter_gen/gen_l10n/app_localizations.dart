@@ -1254,6 +1254,18 @@ abstract class AppLocalizations {
   /// **'Have you found any operating problem, do you have any suggestions for improvement or do you not know how to do something? Contact our technical team, we will try to respond to your comment as soon as possible.'**
   String get contactUsDescription;
 
+  /// No description provided for @logoutDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of your device to keep your information safe or to check another account.'**
+  String get logoutDescription;
+
+  /// No description provided for @achievementsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'See your progress and unlock achievements as you use the app. Be the envy of your friends with the most trophies. When you unlock an achievement you will be notified and get ready for the party...'**
+  String get achievementsDescription;
+
   /// No description provided for @addcargarage.
   ///
   /// In en, this message translates to:
