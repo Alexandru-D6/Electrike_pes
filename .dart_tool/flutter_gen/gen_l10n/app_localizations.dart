@@ -1176,6 +1176,84 @@ abstract class AppLocalizations {
   /// **'FILTER THE POINTS YOU WANT TO SEE'**
   String get filtraTitle;
 
+  /// No description provided for @addCarDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add vehicles to your garage to optimize your routes and thus know when you should stop to recharge the batteries. The process is very simple: give your vehicle the affectionate name you want; add the brand and model data (we propose some common ); if your model is in our database, the numerical information will autocomplete, otherwise you will have to add it manually; finally add the chargers compatible with you and all that remains is to enjoy the trip!'**
+  String get addCarDescription;
+
+  /// No description provided for @profileDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your data, your account summary and see your progress.'**
+  String get profileDescription;
+
+  /// No description provided for @deleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account and data'**
+  String get deleteAccountTitle;
+
+  /// No description provided for @deleteAccountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'To delete your account and your data from our servers you must go to your Profile and click on the trash in the lower right corner of the screen.'**
+  String get deleteAccountDescription;
+
+  /// No description provided for @ecoRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CLEAN ROUTE'**
+  String get ecoRouteTitle;
+
+  /// No description provided for @ecoRouteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Electrike will optimize the route so that your trip passes through the points with the least pollution and you can enjoy your trip with the windows open.'**
+  String get ecoRouteDescription;
+
+  /// No description provided for @stRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FASTEST ROUTE'**
+  String get stRouteTitle;
+
+  /// No description provided for @stRouteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the fastest route! Don\'t waste time with this route, but don\'t run too much either, in case there is a radar... which can make the trip more expensive than gasoline!'**
+  String get stRouteDescription;
+
+  /// No description provided for @chRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ROUTE THROUGH CHARGING POINTS'**
+  String get chRouteTitle;
+
+  /// No description provided for @chRouteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'It ensures that you will reach your destination without having to call the tow truck. Electrike will optimize your route so that when you run out of battery you have a place to recharge your batteries.'**
+  String get chRouteDescription;
+
+  /// No description provided for @mapDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'La página del mapa es la pantalla principal de esta aplicación. Desde ella podrás acceder a todas las funcionalidades principales de nuestra aplicación: desde añadir tus puntos favoritos, filtrar los tipos de puntos remarcados en el mapa, calcular rutas optimizadas y mucho más... '**
+  String get mapDescription;
+
+  /// No description provided for @languageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Our application has different languages with which to interact: Catalan, Spanish or English. What are you waiting for? Choose the one with which you feel most comfortable! The configuration you choose will be saved so that from any device with which you connect you can pick up where you left off.'**
+  String get languageDescription;
+
+  /// No description provided for @contactUsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Have you found any operating problem, do you have any suggestions for improvement or do you not know how to do something? Contact our technical team, we will try to respond to your comment as soon as possible.'**
+  String get contactUsDescription;
+
   /// No description provided for @addcargarage.
   ///
   /// In en, this message translates to:
