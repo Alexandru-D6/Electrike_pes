@@ -246,8 +246,8 @@ class CtrlPresentation {
   }
 
   //42.6974402 - 0.8250418
-  String generateUrlForLocation(GeoCoord a) {//todo translate
-    String res = "Hey! Check this location -> https://www.google.com/maps/search/?api=1&query=" + a.latitude.toString() + "," + a.longitude.toString();
+  String generateUrlForLocation(GeoCoord a) {
+    String res = AppLocalizations.of(navigatorKey.currentContext!).textlink + "-> https://www.google.com/maps/search/?api=1&query=" + a.latitude.toString() + "," + a.longitude.toString();
     return res;
   }
 
@@ -548,7 +548,7 @@ class CtrlPresentation {
         body = makeFavouritesLegend(context);
         break;
       case "chartPage":
-        title = AppLocalizations.of(context).occupationChartlegend;//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        title = AppLocalizations.of(context).occupationChartlegend;
         body = makeChartsLegend(context);
         break;
       default:

@@ -246,5 +246,16 @@
        "sorrychart1": "Ho sentim, aquest punt no pertany a Barcelona. Estem treballant per oferir en un futur aquesta informació.",
        "sorrychart2": "Mentrestant, aquesta funció només està habilitada per a punts només a Barcelona.",
 
+       "shortday1":"Dl",
+       "shortday2":"Dt",
+       "shortday3":"Dc",
+       "shortday4":"Dj",
+       "shortday5":"Dv",
+       "shortday6":"Ds",
+       "shortday7":"Dg",
+
+      "textlink":"Ei! Mira aquesta ubicació ",
+      "addedclip":"La ubicació tocada s'ha afegit al porta-retalls!",
+
     "defaulttitle" : "Títol per defecte"
 }

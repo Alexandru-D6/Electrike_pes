@@ -590,5 +590,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sorrychart2 => 'Meanwhile, this function is only enabled for points only in Barcelona.';
 
   @override
+  String get shortday1 => 'Mon';
+
+  @override
+  String get shortday2 => 'Tues';
+
+  @override
+  String get shortday3 => 'Wedn';
+
+  @override
+  String get shortday4 => 'Thurs';
+
+  @override
+  String get shortday5 => 'Fri';
+
+  @override
+  String get shortday6 => 'Sat';
+
+  @override
+  String get shortday7 => 'Sun';
+
+  @override
+  String get textlink => 'Hey! Check this location ';
+
+  @override
+  String get addedclip => 'Added to clipboard the tapped location!';
+
+  @override
   String get defaulttitle => 'Default title';
 }

@@ -1248,6 +1248,60 @@ abstract class AppLocalizations {
   /// **'Meanwhile, this function is only enabled for points only in Barcelona.'**
   String get sorrychart2;
 
+  /// No description provided for @shortday1.
+  ///
+  /// In en, this message translates to:
+  /// **'Mon'**
+  String get shortday1;
+
+  /// No description provided for @shortday2.
+  ///
+  /// In en, this message translates to:
+  /// **'Tues'**
+  String get shortday2;
+
+  /// No description provided for @shortday3.
+  ///
+  /// In en, this message translates to:
+  /// **'Wedn'**
+  String get shortday3;
+
+  /// No description provided for @shortday4.
+  ///
+  /// In en, this message translates to:
+  /// **'Thurs'**
+  String get shortday4;
+
+  /// No description provided for @shortday5.
+  ///
+  /// In en, this message translates to:
+  /// **'Fri'**
+  String get shortday5;
+
+  /// No description provided for @shortday6.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat'**
+  String get shortday6;
+
+  /// No description provided for @shortday7.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun'**
+  String get shortday7;
+
+  /// No description provided for @textlink.
+  ///
+  /// In en, this message translates to:
+  /// **'Hey! Check this location '**
+  String get textlink;
+
+  /// No description provided for @addedclip.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to clipboard the tapped location!'**
+  String get addedclip;
+
   /// No description provided for @defaulttitle.
   ///
   /// In en, this message translates to:

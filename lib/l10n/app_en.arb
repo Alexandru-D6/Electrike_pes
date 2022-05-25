@@ -247,5 +247,16 @@
     "sorrychart1": "Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.",
     "sorrychart2": "Meanwhile, this function is only enabled for points only in Barcelona.",
 
+   "shortday1":"Mon",
+   "shortday2":"Tues",
+   "shortday3":"Wedn",
+   "shortday4":"Thurs",
+   "shortday5":"Fri",
+   "shortday6":"Sat",
+   "shortday7":"Sun",
+
+   "textlink":"Hey! Check this location ",
+   "addedclip":"Added to clipboard the tapped location!",
+
    "defaulttitle" : "Default title"
 }

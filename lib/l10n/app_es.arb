@@ -247,5 +247,16 @@
     "sorrychart1":"Lo sentimos, este punto no pertenece a Barcelona. Estamos trabajando para ofrecer en un futuro esta información.",
     "sorrychart2": "Mientras tanto, esta función solo está habilitada para puntos solo en Barcelona.",
 
+   "shortday1":"Lun",
+   "shortday2":"Mart",
+   "shortday3":"Miérc",
+   "shortday4":"Juev",
+   "shortday5":"Vier",
+   "shortday6":"Sáb",
+   "shortday7":"Dom",
+
+   "textlink":"¡Oye! Mira esta ubicación ",
+   "addedclip":"¡La ubicación tocada se ha agregado al portapapeles!",
+
    "defaulttitle" : "Default title"
 }

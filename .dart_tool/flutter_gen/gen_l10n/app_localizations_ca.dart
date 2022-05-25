@@ -590,5 +590,32 @@ class AppLocalizationsCa extends AppLocalizations {
   String get sorrychart2 => 'Mentrestant, aquesta funció només està habilitada per a punts només a Barcelona.';
 
   @override
+  String get shortday1 => 'Dl';
+
+  @override
+  String get shortday2 => 'Dt';
+
+  @override
+  String get shortday3 => 'Dc';
+
+  @override
+  String get shortday4 => 'Dj';
+
+  @override
+  String get shortday5 => 'Dv';
+
+  @override
+  String get shortday6 => 'Ds';
+
+  @override
+  String get shortday7 => 'Dg';
+
+  @override
+  String get textlink => 'Ei! Mira aquesta ubicació ';
+
+  @override
+  String get addedclip => 'La ubicació tocada s\'ha afegit al porta-retalls!';
+
+  @override
   String get defaulttitle => 'Títol per defecte';
 }

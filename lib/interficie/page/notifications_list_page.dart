@@ -107,25 +107,25 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
     for(int i = 1; i<notification.length; ++i){
       switch(notification[i]){
         case "1":
-          days.add("Mon"); //todo: translate AppLocalizations
+          days.add(AppLocalizations.of(context).shortday1);
           break;
         case "2":
-          days.add("Tues"); //todo: translate AppLocalizations
+          days.add(AppLocalizations.of(context).shortday2);
           break;
         case "3":
-          days.add("Wedn"); //todo: translate AppLocalizations
+          days.add(AppLocalizations.of(context).shortday3);
           break;
         case "4":
-          days.add("Thurs"); //todo: translate AppLocalizations
+          days.add(AppLocalizations.of(context).shortday4);
           break;
         case "5":
-          days.add("Fri"); //todo: translate AppLocalizations
+          days.add(AppLocalizations.of(context).shortday5);
           break;
         case "6":
-          days.add("Sat"); //todo: translate AppLocalizations
+          days.add(AppLocalizations.of(context).shortday6);
           break;
         case "7":
-          days.add("Sun"); //todo: translate AppLocalizations
+          days.add(AppLocalizations.of(context).shortday7);
           break;
         default:
           break;

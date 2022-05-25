@@ -131,8 +131,8 @@ class _MyMapState extends State<MyMap> {
                 String url = ctrlPresentation.generateUrlForLocation(pos);
                 await Clipboard.setData(ClipboardData(text: url));
 
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Added to clipboard the tapped location!"),//TODO: pregunta a alex si se traduce
+                ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+                  content: Text(AppLocalizations.of(context).addedclip),
                 ));
               },
 
