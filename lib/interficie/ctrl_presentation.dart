@@ -99,7 +99,7 @@ class CtrlPresentation {
   }
   
   //intercambiar vista
-  _showNotLogDialog(BuildContext context) {
+  showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
       context: context,
       dialogType: DialogType.INFO,
@@ -110,6 +110,8 @@ class CtrlPresentation {
       desc: AppLocalizations
           .of(context)
           .notLogged,
+      btnCancelText: AppLocalizations
+          .of(context).cancel,
       btnCancelOnPress: () {},
       btnOkIcon: (Icons.login),
       btnOkText: AppLocalizations
@@ -137,7 +139,7 @@ class CtrlPresentation {
 
   toGaragePage(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
@@ -149,7 +151,7 @@ class CtrlPresentation {
 
   toFavouritesPage(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
@@ -161,7 +163,7 @@ class CtrlPresentation {
 
   toRewardsPage(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
@@ -181,7 +183,7 @@ class CtrlPresentation {
 
   toFormCar(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     }
     else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -284,7 +286,7 @@ class CtrlPresentation {
 
   void logoutRoutine(BuildContext context) async {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       resetUserValues();
       toMainPage(context);
@@ -418,7 +420,7 @@ class CtrlPresentation {
 
   void loveClickedCharger(BuildContext context, double latitud, double longitud) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     }
     else {
       if(isAFavPoint(latitud, longitud) && hasNotifications(latitud, longitud)){
@@ -434,7 +436,7 @@ class CtrlPresentation {
 
   void loveClickedBicing(BuildContext context, double latitud, double longitud) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     }
     else {
       ctrlDomain.gestioFavBicing(latitud, longitud);
@@ -957,6 +959,7 @@ class CtrlPresentation {
   void showMyDialog(String idTrofeu) {
 
     String trophyname = "error";
+
     switch (idTrofeu){
       case "0":
         trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy0;
@@ -1001,7 +1004,7 @@ class CtrlPresentation {
       animType: AnimType.LEFTSLIDE,
       dialogType: DialogType.NO_HEADER,
       autoHide: const Duration(seconds: 6) ,
-      body: _makeTrophyBody(navigatorKey.currentContext!,trophyname),
+      body: _makeTrophyBody(navigatorKey.currentContext!,trophyname, idTrofeu),
       /*btnOkText:'View in the trophy menu',
       btnOkIcon: Icons.emoji_events,
       btnOkOnPress:(){toRewardsPageDialog(navigatorKey.currentContext!);},
@@ -1013,11 +1016,23 @@ class CtrlPresentation {
     ).show();
   }
 
-  _makeTrophyBody(BuildContext context, String idTrofeu) {
+  _makeTrophyBody(BuildContext context, String name, String id) {
     ConfettiController controllerCenterRight = ConfettiController(duration: const Duration(milliseconds: 700));
     ConfettiController controllerCenterLeft = ConfettiController(duration: const Duration(milliseconds: 700));
     controllerCenterLeft.play();
     controllerCenterRight.play();
+    Color c = const Color(0x00000000);
+    if(id == "0" || id == "3" || id == "6" || id == "9" ){
+      c = const Color(0xC2C94B11);
+
+    }
+    else if(id == "1" || id ==  "4"|| id == "7" || id == "10" ){
+      c = Colors.grey;
+    }
+    else {
+      c = const Color(0xFFFFD700);
+    }
+    Image img = Image.asset('assets/trophies/trophy'+id+'.png', width: 100);
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -1050,10 +1065,17 @@ class CtrlPresentation {
               gravity: 0.1,
             ),
           ),
-           Image.asset('assets/trophies/trophy.png', width: 100),
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: c,
+            child: Padding(
+              padding: const EdgeInsets.all(5), // Border radius
+              child: ClipOval(child: img),
+            ),
+          ),
     const SizedBox(width: 10),
     AutoSizeText(
-      AppLocalizations.of(context).trophyunlocked + idTrofeu,
+      AppLocalizations.of(context).trophyunlocked + name,
     style: const TextStyle(
     color: Colors.black,
     fontSize: 18,
@@ -1064,10 +1086,10 @@ class CtrlPresentation {
     const SizedBox(width: 5),
     AutoSizeText(
      AppLocalizations.of(context).trophymainmenu,
-    style: TextStyle(
-    color: Colors.black54,
-    fontSize: 16,
-    ),
+    style: const TextStyle(
+      color: Colors.black54,
+      fontSize: 16,
+      ),
     ),
           //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
           //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
@@ -1087,7 +1109,7 @@ class CtrlPresentation {
 
   toRewardsPageDialog(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(

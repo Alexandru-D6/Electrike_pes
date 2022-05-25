@@ -566,5 +566,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get eliminaNoti => 'Delete a notification';
 
   @override
+  String get edit => 'Edit';
+
+  @override
+  String get editCar => 'Edit your vehicle';
+
+  @override
   String get defaulttitle => 'Default title';
 }

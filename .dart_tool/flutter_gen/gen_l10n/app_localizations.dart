@@ -1200,6 +1200,18 @@ abstract class AppLocalizations {
   /// **'Delete a notification'**
   String get eliminaNoti;
 
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @editCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit your vehicle'**
+  String get editCar;
+
   /// No description provided for @defaulttitle.
   ///
   /// In en, this message translates to:

@@ -12,7 +12,6 @@ import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/src/core/markers_information.dart';
 import 'package:simple_speed_dial/simple_speed_dial.dart';
-import '../../domini/rutes/rutes_amb_carrega.dart';
 import 'bicing_point_detail_info.dart';
 import 'charge_point_detail_info.dart';
 import 'info_ruta.dart';
@@ -57,7 +56,7 @@ class _MyMapState extends State<MyMap> {
         break;
       case "favs":
         if(ctrlPresentation.email == "") {
-          _showNotLogDialog(context);
+          ctrlPresentation.showNotLogDialog(context);
         } else {
           GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
           buildFavs("favChargerPoints");
@@ -94,17 +93,7 @@ class _MyMapState extends State<MyMap> {
     }
   }
 
-  _showNotLogDialog(BuildContext context) {
-    return AwesomeDialog(
-      context: context,
-      dialogType: DialogType.INFO,
-      animType: AnimType.BOTTOMSLIDE,
-      title: AppLocalizations.of(context).notLogged,
-      desc: AppLocalizations.of(context).explNoFav,
-      btnOkOnPress: () {},
-      headerAnimationLoop: false,
-    ).show();
-  }
+
 
   Future<void> chargerMarkers() async {
     buildChargerMarkers(context, 1);

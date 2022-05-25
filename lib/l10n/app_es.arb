@@ -238,6 +238,8 @@
     "notiEnableDis": "Activar o desactivar notificaciones de un cargador",
     "confnoti":"Configurar notificaciones del cargador",
     "eliminaNoti":"Eliminar notificación",
+    "edit": "Editar",
+    "editCar": "Edita tu vehículo",
 
    "defaulttitle" : "Default title"
 }

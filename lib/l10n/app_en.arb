@@ -238,6 +238,8 @@
     "notiEnableDis":"Enable or disable notifications of a charger",
     "confnoti":"Configure charger notifications",
     "eliminaNoti":"Delete a notification",
+    "edit": "Edit",
+    "editCar": "Edit your vehicle",
 
    "defaulttitle" : "Default title"
 }

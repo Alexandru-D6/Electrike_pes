@@ -566,5 +566,11 @@ class AppLocalizationsCa extends AppLocalizations {
   String get eliminaNoti => 'Eliminar notificació';
 
   @override
+  String get edit => 'Editar';
+
+  @override
+  String get editCar => 'Edita el teu vehicle';
+
+  @override
   String get defaulttitle => 'Títol per defecte';
 }

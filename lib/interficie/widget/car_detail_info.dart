@@ -85,9 +85,9 @@ class EditInfoCar extends StatelessWidget {
               )
             )
           ),
-          child: const Text(
-            'Edit',
-            style: TextStyle(
+          child: Text(
+            AppLocalizations.of(context).edit,
+            style: const TextStyle(
               color: Colors.white,
             ),
           ),
@@ -105,9 +105,9 @@ class EditInfoCar extends StatelessWidget {
                   )
               )
           ),
-          child: const Text(
-            'Delete',
-            style: TextStyle(
+          child:Text(
+            AppLocalizations.of(context).delete,
+            style: const TextStyle(
               color: Colors.white,
             ),
           ),
@@ -123,8 +123,9 @@ class EditInfoCar extends StatelessWidget {
       title: AppLocalizations.of(context).alertSureDeleteCarTitle,
       desc: AppLocalizations.of(context).alertSureDeleteCarContent,
       btnCancelOnPress: () {},
+      btnCancelText: AppLocalizations.of(context).cancel,
       btnOkIcon: (Icons.delete),
-      btnOkText: "Delete",
+      btnOkText: AppLocalizations.of(context).delete,
       btnOkOnPress: () {
         ctrlPresentation.deleteCar(context, carId);
       },
@@ -132,36 +133,6 @@ class EditInfoCar extends StatelessWidget {
     ).show();
   }
 }
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Text(
-              '369',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Text(
-              'Ride',
-              style: TextStyle(
-                fontSize: 10,
-              ),
-            ),
-          ],
-        )
-      ],
-    );
-  }
 
 
 class CarInfo extends StatelessWidget {

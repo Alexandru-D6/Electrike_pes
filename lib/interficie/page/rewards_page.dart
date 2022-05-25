@@ -33,14 +33,14 @@ class RewardsPage extends StatelessWidget {
                   if(trophies[index][1] == "true") {
                     img = Image.asset('assets/trophies/trophy'+index.toString()+'.png', width: 100);
                     if(index == 0 || index == 3 || index == 6 ||index == 9 ){
-                      c = Colors.deepOrangeAccent;
+                      c = const Color(0xC2C94B11);
 
                     }
                     else if(index == 1 || index ==  4|| index == 7 ||index == 10 ){
-                      c = Colors.white38;
+                      c = Colors.grey;
                     }
                     else {
-                      c = Colors.amber;
+                      c = const Color(0xFFFFD700);
                     }
                   }
                   String trophyname = "error";
