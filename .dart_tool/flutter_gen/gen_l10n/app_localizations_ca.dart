@@ -582,4 +582,10 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get contactUsDescription => 'Has trobat algun problema de funcionament, tens algun suggeriment de millora o no saps com es fa alguna cosa? Contacta amb el nostre equip tècnic, intentarem donar resposta al teu comentari com més aviat millor.';
+
+  @override
+  String get logoutDescription => 'Tanca la sessió al dispositiu per mantenir la teva informació segura o per poder consultar un altre compte.';
+
+  @override
+  String get achievementsDescription => 'Consulta el teu progrés i els èxits que vagis desbloquejant a mesura que fas servir l\'aplicació. Sigues l\'enveja de les teves amistats amb el major nombre de trofeus. Quan desbloquis algun èxit se\'t notificarà i prepara\'t per a la festa...';
 }

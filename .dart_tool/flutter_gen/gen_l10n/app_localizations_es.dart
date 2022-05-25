@@ -582,4 +582,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get contactUsDescription => '¿Has encontrado algún problema de funcionamiento, tienes alguna sugerencia de mejora o no sabes cómo se hace algo? Contacta con nuestro equipo técnico, intentaremos dar respuesta a tu comentario lo antes posible.';
+
+  @override
+  String get logoutDescription => 'Cierra la sesión en tu dispositivo para mantener tu información segura o para poder consultar otra cuenta.';
+
+  @override
+  String get achievementsDescription => 'Consulta tu progreso y los logros que vayas desbloqueando a medida que usas la aplicación. Sé la envidia de tus amistades con el mayor número de trofeos. Cuando desbloquées algún logro se te notificará y preparate para la fiesta...';
 }
