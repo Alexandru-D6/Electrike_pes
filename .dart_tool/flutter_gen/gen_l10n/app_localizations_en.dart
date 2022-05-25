@@ -204,6 +204,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get receiveNoti => 'Frequency';
 
   @override
+  String get notification => 'Notification ';
+
+  @override
   String get time => 'Hour';
 
   @override
@@ -309,6 +312,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get streetName => 'Street name';
+
+  @override
+  String get cityName => 'City name';
+
+  @override
+  String get chargeplaces => 'Charge places';
 
   @override
   String get availableChargers => 'Available';
@@ -564,6 +573,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eliminaNoti => 'Delete a notification';
+
+  @override
+  String get anynoti => 'There\'s no notifications yet. Add one...';
 
   @override
   String get edit => 'Edit';

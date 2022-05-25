@@ -84,9 +84,9 @@ class _FavsChargersState extends State<FavsChargers> {
                           dialogType: DialogType.INFO,
                           animType: AnimType.BOTTOMSLIDE,
                           title: AppLocalizations.of(context).addAlert,
-                          //TODO: TRANSLATE
+
                           desc: AppLocalizations.of(context).addalertdesc,
-                          //TODO: TRANSLATE
+
                           btnOkText: "OK",
                           btnOkOnPress: () {},
                           headerAnimationLoop: false,

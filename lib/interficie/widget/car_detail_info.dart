@@ -149,7 +149,7 @@ class CarInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          car[1], //TODO: name
+          car[1],
           style: const TextStyle(
             color: Colors.white,
             fontSize: 24,

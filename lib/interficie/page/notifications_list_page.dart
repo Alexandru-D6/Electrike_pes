@@ -28,7 +28,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
       elevation: 0,
       title: AutoSizeText("Notifications point " + title,
         maxLines: 1,
-        overflow: TextOverflow.ellipsis,), //todo: traduccion peilin
+        overflow: TextOverflow.ellipsis,), // traduccion peilin
       actions: [
         IconButton(
           tooltip: AppLocalizations.of(context).addNoti,
@@ -51,12 +51,12 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
     return Scaffold(
       appBar: buildAppBar(context, notificationsInfo.title, notificationsInfo.latitud, notificationsInfo.longitud),
       body: notifications.isEmpty
-          ? const Center(
-            child: AutoSizeText("There's no notifications yet. Add one...",
-        style: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          ? Center(
+            child: AutoSizeText(AppLocalizations.of(context).anynoti,
+        style: const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
         maxLines: 2,
       ),
-          ) //todo: translate AppLocalizations
+          )
           : AnimatedList(
         key: _key,
         initialItemCount: notifications.length,
@@ -73,7 +73,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
       child: Card(
         elevation: 2,
         child: ListTile(
-          leading: AutoSizeText("Notification "+index.toString()),
+          leading: AutoSizeText(AppLocalizations.of(context).notification+index.toString()),
           title: Text(notification[0]),
           subtitle: Text(buildDays(notification).toString()),
           trailing: IconButton(

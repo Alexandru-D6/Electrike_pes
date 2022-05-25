@@ -132,7 +132,7 @@ class _MyMapState extends State<MyMap> {
                 await Clipboard.setData(ClipboardData(text: url));
 
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Added to clipboard the tapped location!"),
+                  content: Text("Added to clipboard the tapped location!"),//TODO: pregunta a alex si se traduce
                 ));
               },
 
@@ -250,7 +250,7 @@ class _MyMapState extends State<MyMap> {
       child: SpeedDial(
         child: const Icon(Icons.filter_alt),
         speedDialChildren: <SpeedDialChild>[
-          button(onPressed: "default", heroTag: "hide", toolTip: AppLocalizations.of(context).hideMarkers, icon: const Icon(Icons.visibility_off), backgroundColor: Colors.black12, foregroundColor: Colors.white), //TODO (Peilin) ready for test
+          button(onPressed: "default", heroTag: "hide", toolTip: AppLocalizations.of(context).hideMarkers, icon: const Icon(Icons.visibility_off), backgroundColor: Colors.black12, foregroundColor: Colors.white), //(Peilin) ready for test
           button(onPressed: "all", heroTag: "all", toolTip: AppLocalizations.of(context).showMarkers, icon: const Icon(Icons.visibility), backgroundColor: Colors.black12, foregroundColor: Colors.black),
           button(onPressed: "chargers", heroTag: "charger", toolTip: AppLocalizations.of(context).chargers, icon: const Icon(Icons.power), backgroundColor: mCardColor, foregroundColor: Colors.white),
           button(onPressed: "bicing", heroTag: "bicing", toolTip: AppLocalizations.of(context).bicing, icon: const Icon(Icons.pedal_bike), backgroundColor: cBicingRed, foregroundColor: Colors.white),

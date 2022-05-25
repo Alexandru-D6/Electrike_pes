@@ -112,7 +112,7 @@ class _NewCarPageState extends State<NewCarPage> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    for(var i = 0; i < allPlugTypeList.length; i++) buildCheckbox(allPlugTypeList[i]), //TODO: CALL TO DOMAIN TO GET THE PLUG TYPES
+                    for(var i = 0; i < allPlugTypeList.length; i++) buildCheckbox(allPlugTypeList[i]),
                     const SizedBox(height: 30),
                     buildSubmit(context)
                   ],
@@ -278,7 +278,7 @@ class _NewCarPageState extends State<NewCarPage> {
         ScaffoldMessenger.of(context)
           ..removeCurrentSnackBar()
           ..showSnackBar(SnackBar(
-            content: Text(//todo: TRADUCCION selectedPlugs no se si te sirve como string
+            content: Text(
                 AppLocalizations.of(context).infoCar(selectedNameCar.toString(), selectedBrandCar.toString(), selectedModelCar.toString(), selectedBatteryCar.toString(), selectedEffciencyCar.toString(), selectedPlugs.toString())),
           ));
       }

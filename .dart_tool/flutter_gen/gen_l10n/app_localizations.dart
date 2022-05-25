@@ -480,6 +480,12 @@ abstract class AppLocalizations {
   /// **'Frequency'**
   String get receiveNoti;
 
+  /// No description provided for @notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification '**
+  String get notification;
+
   /// No description provided for @time.
   ///
   /// In en, this message translates to:
@@ -689,6 +695,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Street name'**
   String get streetName;
+
+  /// No description provided for @cityName.
+  ///
+  /// In en, this message translates to:
+  /// **'City name'**
+  String get cityName;
+
+  /// No description provided for @chargeplaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Charge places'**
+  String get chargeplaces;
 
   /// No description provided for @availableChargers.
   ///
@@ -1199,6 +1217,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete a notification'**
   String get eliminaNoti;
+
+  /// No description provided for @anynoti.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s no notifications yet. Add one...'**
+  String get anynoti;
 
   /// No description provided for @edit.
   ///

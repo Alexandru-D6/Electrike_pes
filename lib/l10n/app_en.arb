@@ -87,6 +87,7 @@
 
   "notificationSettings": "Notification settings",
   "receiveNoti": "Frequency",
+  "notification":"Notification ",
   "time": "Hour",
   "addNoti": "Add notification",
   "notificationInfoMsg": "A notificacion will be sent in {days} at {hora}:{min}",
@@ -136,6 +137,8 @@
 
    "stationName": "Station name",
    "streetName": "Street name",
+   "cityName": "City name",
+   "chargeplaces": "Charge places",
 
    "availableChargers": "Available",
    "numChargers": "Number of available chargers",
@@ -238,6 +241,7 @@
     "notiEnableDis":"Enable or disable notifications of a charger",
     "confnoti":"Configure charger notifications",
     "eliminaNoti":"Delete a notification",
+    "anynoti":"There's no notifications yet. Add one...",
     "edit": "Edit",
     "editCar": "Edit your vehicle",
     "sorrychart1": "Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.",

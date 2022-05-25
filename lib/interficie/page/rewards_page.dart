@@ -18,7 +18,7 @@ class RewardsPage extends StatelessWidget {
         drawer: const NavigationDrawerWidget(),
         //esto es para que aparezca el botón de menú lateral
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context).achievements), //todo: translate
+          title: Text(AppLocalizations.of(context).achievements), //translate
           centerTitle: false,
           backgroundColor: Colors.orange,
         ),
@@ -115,7 +115,7 @@ class RewardsPage extends StatelessWidget {
                             AutoSizeText(
                               trophyname,
                               textAlign: TextAlign.center,
-                            ), //ToDo:nombres y descripciones Peilin
+                            ),
                             const SizedBox(height: 15,)
                           ]
                       )
@@ -190,9 +190,6 @@ _makeTrophyBody(BuildContext context,String name, String desc, String st, Image 
             fontSize: 16,
           ),
         ),
-        //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-        //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
-
       ],
     ),
   );

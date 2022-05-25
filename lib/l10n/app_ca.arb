@@ -88,6 +88,7 @@
 
    "notificationSettings": "Configuració de notificacions",
    "receiveNoti": "Repetició",
+   "notification":"Notificació ",
    "time": "Hora",
    "addNoti": "Afegir notificació",
    "notificationInfoMsg": "Rebràs una notificació els {days} a les {hora}:{min}",
@@ -136,6 +137,8 @@
 
     "stationName": "Nom de la estació",
     "streetName": "Nom del carrer",
+    "cityName": "Nom de la ciutat",
+    "chargeplaces": "Places de carregadors",
 
     "availableChargers": "Disponibles",
     "numChargers": "Nombre de carregadors disponibles",
@@ -237,6 +240,7 @@
        "notiEnableDis": "Activar o desactivar notificacions d'un carregador",
        "confnoti":"Configurar notificacions del carregador",
        "eliminaNoti":"Eliminar notificació",
+       "anynoti":"Encara hi ha notificacions. Afegeix-ne una...",
        "edit": "Editar",
        "editCar": "Edita el teu vehicle",
        "sorrychart1": "Ho sentim, aquest punt no pertany a Barcelona. Estem treballant per oferir en un futur aquesta informació.",

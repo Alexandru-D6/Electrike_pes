@@ -407,7 +407,7 @@ class CtrlPresentation {
   void moveCameraToSpecificLocation(BuildContext context, double? lat,
       double? lng) {
     //used to move camera to specific chargers or points
-    //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
+    //todo: a veces funciona, otras no, no tengo ni la menor idea de porque. Pues me comes la pinga
     toMainPage(context);
     Future.delayed(const Duration(milliseconds: 1000), () {
       GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
@@ -579,36 +579,36 @@ class CtrlPresentation {
             buildHeader(
               name: AppLocalizations.of(context).stationName,
               calle: AppLocalizations.of(context).streetName,
-              city: "City placed", //todo: translate
-              numChargePlaces: "Charge places", //todo: translate
+              city: AppLocalizations.of(context).cityName,
+              numChargePlaces: AppLocalizations.of(context).chargeplaces,
             ),
             const SizedBox(width: 20),
             buildIconLabeled(
               icon: Icons.check_circle_rounded,
               color: Colors.greenAccent,
               label: AppLocalizations.of(context).availableChargers,
-              description: AppLocalizations.of(context).numChargers, //TODO (Peilin) ready for test
+              description: AppLocalizations.of(context).numChargers, // (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.help,
               color: Colors.yellow,
-              label: AppLocalizations.of(context).unknownState, //TODO (Peilin) ready for test
-              description: AppLocalizations.of(context).numUnknown, //TODO (Peilin) ready for test
+              label: AppLocalizations.of(context).unknownState, // (Peilin) ready for test
+              description: AppLocalizations.of(context).numUnknown, // (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.warning,
               color: Colors.amber,
-              label: AppLocalizations.of(context).broken, //TODO (Peilin) ready for test
-              description: AppLocalizations.of(context).numBroken, //TODO (Peilin) ready for test
+              label: AppLocalizations.of(context).broken, // (Peilin) ready for test
+              description: AppLocalizations.of(context).numBroken, // (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.stop_circle,
               color: Colors.red,
-              label: AppLocalizations.of(context).notAvailable, //TODO (Peilin) ready for test
-              description: AppLocalizations.of(context).numNotAvailable, //TODO (Peilin) ready for test
+              label: AppLocalizations.of(context).notAvailable, // (Peilin) ready for test
+              description: AppLocalizations.of(context).numNotAvailable, //(Peilin) ready for test
             ),
           ],
         ),
@@ -731,7 +731,7 @@ class CtrlPresentation {
                 const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
                 const SizedBox(width: 15,),
                 AutoSizeText(
-                  AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+                  AppLocalizations.of(context).stationName, // (Peilin) ready for test
                   style: const TextStyle(
                     color: fontColor,
                     fontSize: 24,
@@ -748,20 +748,20 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.local_parking,
             color: fontColor,
-            label: AppLocalizations.of(context).freePlaces, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).numFreePlaces, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).freePlaces, // (Peilin) ready for test
+            description: AppLocalizations.of(context).numFreePlaces, // (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.pedal_bike,
             color: fontColor,
-            label: AppLocalizations.of(context).availablePedal, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).numPedal, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).availablePedal, // (Peilin) ready for test
+            description: AppLocalizations.of(context).numPedal, // (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.electric_bike,
             color: fontColor,
-            label: AppLocalizations.of(context).availableElectric, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).numElectric, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).availableElectric, // (Peilin) ready for test
+            description: AppLocalizations.of(context).numElectric, // (Peilin) ready for test
           ),
         ],
       ),
@@ -777,44 +777,44 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.touch_app,
             color: Colors.black,
-            label: AppLocalizations.of(context).clickName, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).clickNameDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).clickName, // (Peilin) ready for test
+            description: AppLocalizations.of(context).clickNameDescr, // (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.bar_chart,
             color: Colors.green,
-            label: AppLocalizations.of(context).seeConcurrencyChart, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).chartsDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).seeConcurrencyChart, // (Peilin) ready for test
+            description: AppLocalizations.of(context).chartsDescr, // (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.notifications_off,
             color: Colors.lightBlueAccent,
-            label: AppLocalizations.of(context).disableNoti, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).disableNotiDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).disableNoti,
+            description: AppLocalizations.of(context).disableNotiDescr,
           ),
           buildIconLabeled(
             icon: Icons.notifications_active,
             color: Colors.blue,
-            label: AppLocalizations.of(context).enableNoti, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).enableNotiDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).enableNoti,
+            description: AppLocalizations.of(context).enableNotiDescr,
           ),
           buildIconLabeled(
             icon: Icons.settings,
             color: Colors.grey,
-            label: AppLocalizations.of(context).notificationSettings, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).notificationSettingsDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).notificationSettings,
+            description: AppLocalizations.of(context).notificationSettingsDescr,
           ),
           buildIconLabeled(
             icon: Icons.favorite,
             color: Colors.red,
-            label: AppLocalizations.of(context).rmvFavs, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).rmvFavsDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).rmvFavs,
+            description: AppLocalizations.of(context).rmvFavsDescr,
           ),
           buildIconLabeled(
             icon: Icons.filter_list_alt,
             color: Colors.orangeAccent,
-            label: AppLocalizations.of(context).filterFavTypes, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).filterFavTypesDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).filterFavTypes,
+            description: AppLocalizations.of(context).filterFavTypesDescr,
           ),
         ],
       ),
@@ -842,20 +842,20 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.family_restroom,
             color: Colors.lightBlueAccent,
-            label: AppLocalizations.of(context).concurrencypercentage, //todo: translate
-            description: AppLocalizations.of(context).concurrencypercentagedesc, //todo: translate
+            label: AppLocalizations.of(context).concurrencypercentage,
+            description: AppLocalizations.of(context).concurrencypercentagedesc,
           ),
           buildIconLabeled(
             icon: Icons.hourglass_bottom,
             color: Colors.amber,
-            label: AppLocalizations.of(context).concurrencyhours, //todo: translate
-            description: AppLocalizations.of(context).concurrencyhoursdesc, //todo: translate
+            label: AppLocalizations.of(context).concurrencyhours,
+            description: AppLocalizations.of(context).concurrencyhoursdesc,
           ),
           buildIconLabeled(
             icon: Icons.error,
             color: Colors.redAccent,
-            label: AppLocalizations.of(context).error, //todo: translate
-            description: AppLocalizations.of(context).errordesc, //todo: translate
+            label: AppLocalizations.of(context).error,
+            description: AppLocalizations.of(context).errordesc,
           ),
         ],
       ),
@@ -1091,9 +1091,6 @@ class CtrlPresentation {
       fontSize: 16,
       ),
     ),
-          //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-          //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
-
         ],
       ),
     );

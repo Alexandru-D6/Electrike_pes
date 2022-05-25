@@ -190,7 +190,7 @@ class _PointInfoState extends State<PointInfo> {
   List<String> point = List.filled(23, ""); //si da error de size aumentar 1
   bool loading = true;
   @override
-  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
+  void initState() {
     ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
       setState(() {
         point = element;

@@ -204,6 +204,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get receiveNoti => 'Repetición';
 
   @override
+  String get notification => 'Notificación ';
+
+  @override
   String get time => 'Hora';
 
   @override
@@ -309,6 +312,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get streetName => 'Nombre de la calle';
+
+  @override
+  String get cityName => 'Nombre de la ciudad';
+
+  @override
+  String get chargeplaces => 'Plazas de cargadores';
 
   @override
   String get availableChargers => 'Disponibles';
@@ -564,6 +573,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eliminaNoti => 'Eliminar notificación';
+
+  @override
+  String get anynoti => 'Aún no hay notificaciones. Añade uno...';
 
   @override
   String get edit => 'Editar';
