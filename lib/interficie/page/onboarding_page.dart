@@ -56,7 +56,25 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).map.toUpperCase(),
         subtitle: "Map page is the main screen of this app.", //todo: cuando tengamos todo lo de rutas solved
-        widgetBuilt: Image.asset("assets/brandCars/ds.png"),
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).stRouteTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).stRouteDescription,
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).chRouteTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).chRouteDescription,
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,),
+      ),
+      buildPage(
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).ecoRouteTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).ecoRouteDescription,
+        widgetBuilt: Image.asset("assets/brandCars/ds.png", width: widthGif,),
       ),
       buildPage(
         color: Colors.green.shade100,

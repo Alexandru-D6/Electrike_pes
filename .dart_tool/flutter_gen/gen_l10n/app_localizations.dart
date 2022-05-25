@@ -1181,6 +1181,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'To delete your account and your data from our servers you must go to your Profile and click on the trash in the lower right corner of the screen.'**
   String get deleteAccountDescription;
+
+  /// No description provided for @ecoRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CLEAN ROUTE'**
+  String get ecoRouteTitle;
+
+  /// No description provided for @ecoRouteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Electrike will optimize the route so that your trip passes through the points with the least pollution and you can enjoy your trip with the windows open.'**
+  String get ecoRouteDescription;
+
+  /// No description provided for @stRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FASTEST ROUTE'**
+  String get stRouteTitle;
+
+  /// No description provided for @stRouteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the fastest route! Don\'t waste time with this route, but don\'t run too much either, in case there is a radar... which can make the trip more expensive than gasoline!'**
+  String get stRouteDescription;
+
+  /// No description provided for @chRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ROUTE THROUGH CHARGING POINTS'**
+  String get chRouteTitle;
+
+  /// No description provided for @chRouteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'It ensures that you will reach your destination without having to call the tow truck. Electrike will optimize your route so that when you run out of battery you have a place to recharge your batteries.'**
+  String get chRouteDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

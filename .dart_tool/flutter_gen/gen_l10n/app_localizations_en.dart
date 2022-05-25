@@ -555,4 +555,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteAccountDescription => 'To delete your account and your data from our servers you must go to your Profile and click on the trash in the lower right corner of the screen.';
+
+  @override
+  String get ecoRouteTitle => 'CLEAN ROUTE';
+
+  @override
+  String get ecoRouteDescription => 'Electrike will optimize the route so that your trip passes through the points with the least pollution and you can enjoy your trip with the windows open.';
+
+  @override
+  String get stRouteTitle => 'FASTEST ROUTE';
+
+  @override
+  String get stRouteDescription => 'Take the fastest route! Don\'t waste time with this route, but don\'t run too much either, in case there is a radar... which can make the trip more expensive than gasoline!';
+
+  @override
+  String get chRouteTitle => 'ROUTE THROUGH CHARGING POINTS';
+
+  @override
+  String get chRouteDescription => 'It ensures that you will reach your destination without having to call the tow truck. Electrike will optimize your route so that when you run out of battery you have a place to recharge your batteries.';
 }

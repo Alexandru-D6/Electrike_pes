@@ -234,5 +234,11 @@
     "addCarDescription": "Afegeix vehicles al teu garatge per optimitzar les teves rutes i així saber quan hauràs de parar a recarregar les bateries. El procés és ben simple: posa-li l'apel·latiu afectuós que vulguis al teu vehicle; afegeix les dades de marca i model (nosaltres et proposem alguns comuns ); si el teu model es troba a la nostra base de dades s'autocompletarà la informació numèrica, si no és així hauràs d'afegir-la manualment; finalment afegeix els carregadors compatibles amb tu i només queda gaudir del viatge!",
     "profileDescription": "Consulta les teves dades, el resum del teu compte i mira el teu progrés.",
     "deleteAccountTitle": "Elimina el teu compte i les teves dades",
-    "deleteAccountDescription": "Per eliminar el teu compte i les teves dades dels nostres servidors has de dirigir-te al teu Perfil i prémer a la cantonada inferior dreta de la pantalla les escombraries."
+    "deleteAccountDescription": "Per eliminar el teu compte i les teves dades dels nostres servidors has de dirigir-te al teu Perfil i prémer a la cantonada inferior dreta de la pantalla les escombraries.",
+    "ecoRouteTitle": "RUTA NETA",
+       "ecoRouteDescription": "Electrike optimitzarà la ruta perquè el teu viatge passi pels punts amb menys contaminació i puguis gaudir del teu viatge amb les finestres obertes.",
+       "stRouteTitle": "RUTA MÉS RÀPIDA",
+       "stRouteDescription": "Agafa la via més ràpida! No perdis temps amb aquesta ruta però tampoc corris gaire per si de cas hi ha algun radar... que pot sortir el viatge més car que la gasolina!",
+       "chRouteTitle": "RUTA A TRAVÉS DE PUNTS DE CÀRREGA",
+       "chRouteDescription": "Assegura que arribaràs a destí sense haver de trucar a la grua. Electrike optimitzarà la teva ruta perquè quan et quedis sense bateria tinguis on recarregar bateries."
 }

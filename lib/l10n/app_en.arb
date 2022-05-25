@@ -236,5 +236,11 @@
    "addCarDescription": "Add vehicles to your garage to optimize your routes and thus know when you should stop to recharge the batteries. The process is very simple: give your vehicle the affectionate name you want; add the brand and model data (we propose some common ); if your model is in our database, the numerical information will autocomplete, otherwise you will have to add it manually; finally add the chargers compatible with you and all that remains is to enjoy the trip!",
    "profileDescription": "Check your data, your account summary and see your progress.",
    "deleteAccountTitle": "Delete your account and data",
-   "deleteAccountDescription": "To delete your account and your data from our servers you must go to your Profile and click on the trash in the lower right corner of the screen."
+   "deleteAccountDescription": "To delete your account and your data from our servers you must go to your Profile and click on the trash in the lower right corner of the screen.",
+   "ecoRouteTitle": "CLEAN ROUTE",
+      "ecoRouteDescription": "Electrike will optimize the route so that your trip passes through the points with the least pollution and you can enjoy your trip with the windows open.",
+      "stRouteTitle": "FASTEST ROUTE",
+      "stRouteDescription": "Take the fastest route! Don't waste time with this route, but don't run too much either, in case there is a radar... which can make the trip more expensive than gasoline!",
+      "chRouteTitle": "ROUTE THROUGH CHARGING POINTS",
+      "chRouteDescription": "It ensures that you will reach your destination without having to call the tow truck. Electrike will optimize your route so that when you run out of battery you have a place to recharge your batteries."
 }
