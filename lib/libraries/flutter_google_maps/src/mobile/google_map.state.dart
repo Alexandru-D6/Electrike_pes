@@ -40,7 +40,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   final _inside_bicing = const ["bicingPoints", "favBicingPoints"];
 
   final List<double> _cluster_levels = const [1, 3, 5, 7, 10, 13, 14.25, 14.5, 20.0];
-  final List<double> _cluster_levels_route = const [1,2,3];
+  final List<double> _cluster_levels_route = const [1,2,3,4,5,6,7,20];
 
   Set<Marker> _shown_markers_bicing = <Marker>{};
   Set<Marker> _shown_markers_charger = <Marker>{};
@@ -341,7 +341,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             if (startIcon != null || startInfo != null || startLabel != null) {
               addMarkerRaw(
                 startLatLng,
-                "route1",
+                "route",
                 icon: startIcon ?? 'assets/images/marker_a.png',
                 info: startInfo ?? leg!.startAddress,
                 label: startLabel,
@@ -349,7 +349,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             } else {
               addMarkerRaw(
                 startLatLng,
-                "route1",
+                "route",
                 icon: 'assets/images/marker_a.png',
                 info: leg!.startAddress,
               );
@@ -362,7 +362,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             if (endIcon != null || endInfo != null || endLabel != null) {
               addMarkerRaw(
                 endLatLng,
-                "route1",
+                "route",
                 icon: endIcon ?? 'assets/images/marker_b.png',
                 info: endInfo ?? leg!.endAddress,
                 label: endLabel,
@@ -370,7 +370,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             } else {
               addMarkerRaw(
                 endLatLng,
-                "route1",
+                "route",
                 icon: 'assets/images/marker_b.png',
                 info: leg!.endAddress,
               );
@@ -388,7 +388,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             width: 8,
           );
 
-          addChoosenMarkers("route1");
+          addChoosenMarkers("route");
 
           _setState(() => _polylines[key] = polyline);
         }
@@ -420,10 +420,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       _directionMarkerCoords.remove(end);
     }
 
-    _markers.remove("route1");
-    _markers.remove("route2");
-    clearGroupMarkers("route1");
-    clearGroupMarkers("route2");
+    _markers.remove("route");
+    clearGroupMarkers("route");
     _shown_markers_route.clear();
     _items_route.clear();
 
@@ -445,10 +443,8 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
     _polylines.clear();
 
-    _markers.remove("route1");
-    _markers.remove("route2");
-    clearGroupMarkers("route1");
-    clearGroupMarkers("route2");
+    _markers.remove("route");
+    clearGroupMarkers("route");
     _shown_markers_route.clear();
     _items_route.clear();
 
@@ -644,7 +640,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       String? icon = cluster.items.first.icon;
       return Marker(
         markerId: MarkerId(cluster.getId()),
-        onTap: func != null ? () => func(cluster.location.toString()) : null,
+        onTap: func != null ? () => func(cluster.location.toString()) : () => _controller?.getZoomLevel().then((value) => moveCamera(cluster.location.toGeoCoord(), zoom: value+2.0)),
         consumeTapEvents: cluster.items.first.onTap != null,
         position: cluster.location,
         icon: icon == null ? BitmapDescriptor.defaultMarker : await _getBmpDesc('${fixAssetPath(icon)}$icon'),
@@ -860,7 +856,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             if (startIcon != null || startInfo != null || startLabel != null) {
               addMarkerRaw(
                 startLatLng,
-                "route1",
+                "route",
                 icon: startIcon ?? 'assets/images/marker_a.png',
                 info: startInfo ?? leg!.startAddress,
                 label: startLabel,
@@ -868,7 +864,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             } else {
               addMarkerRaw(
                 startLatLng,
-                "route1",
+                "route",
                 icon: 'assets/images/marker_a.png',
                 info: leg!.startAddress,
               );
@@ -881,7 +877,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             if (endIcon != null || endInfo != null || endLabel != null) {
               addMarkerRaw(
                 endLatLng,
-                "route1",
+                "route",
                 icon: endIcon ?? 'assets/images/marker_b.png',
                 info: endInfo ?? leg!.endAddress,
                 label: endLabel,
@@ -889,7 +885,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
             } else {
               addMarkerRaw(
                 endLatLng,
-                "route1",
+                "route",
                 icon: 'assets/images/marker_b.png',
                 info: leg!.endAddress,
               );
@@ -908,11 +904,10 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           );
 
           waypoints?.forEach((element) {
-            addMarkerRaw(element, "route2");
+            addMarkerRaw(element, "route", icon: "assets/images/me.png");
           });
 
-          addChoosenMarkers("route1");
-          addChoosenMarkers("route2");
+          addChoosenMarkers("route");
 
           _setState(() => _polylines[key] = polyline);
         }
@@ -955,14 +950,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       _items_general.addAll(_markers["default"]!);
     }
 
-    if (_markers.containsKey("route1")) {
-      _items_route.addAll(_markers["route1"]!);
-    }
-
-    if (_markers.containsKey("route2")) {
-      _items_route.addAll(_markers["route2"]!);
-    }
-
     _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
     _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
     _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
@@ -994,8 +981,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
       }else if (group.contains("route")) {
         _items_route.clear();
-        if (_markers.containsKey(group == "route1" ? "route2" : group))
-          _items_route.addAll(_markers[group == "route1" ? "route2" : group]!);
 
         _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
       }
