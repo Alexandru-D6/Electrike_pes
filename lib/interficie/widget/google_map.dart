@@ -74,6 +74,7 @@ class _MyMapState extends State<MyMap> {
       default:
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
         GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("default");
+        GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("route");
         break;
     }
   }
