@@ -15,10 +15,18 @@ class ChartPage extends StatefulWidget {
   State<ChartPage> createState() => _ChartPageState();
 }
 class _ChartPageState extends State<ChartPage> {
-  String dropdownValue = 'Monday'; //todo: DROPDOWN PROBLEM
+  String dropdownValue = "Monday"; //todo: DROPDOWN PROBLEM
+  bool firstime = false;
 
   @override
   Widget build(BuildContext context) {
+    if(!firstime){
+      setState(() {
+        dropdownValue = AppLocalizations.of(context).day1;
+        firstime = true;
+      });
+    }
+
     //dropdownValue = AppLocalizations.of(context).day1;
     final pointTitle = ModalRoute.of(context)!.settings.arguments as String;
     //CtrlPresentation ctrlPresentation = CtrlPresentation();
@@ -59,7 +67,7 @@ class _ChartPageState extends State<ChartPage> {
                   AppLocalizations.of(context).day3, AppLocalizations.of(context).day4,
                   AppLocalizations.of(context).day5, AppLocalizations.of(context).day6,
                   AppLocalizations.of(context).day7,*/
-            items: <String>['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',] //todo: peilin multiidiomas
+            items: <String>[AppLocalizations.of(context).day1, AppLocalizations.of(context).day2, AppLocalizations.of(context).day3, AppLocalizations.of(context).day4, AppLocalizations.of(context).day5, AppLocalizations.of(context).day6, AppLocalizations.of(context).day7,] //todo: peilin multiidiomas
             .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
