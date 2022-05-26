@@ -291,7 +291,7 @@ class CtrlDomain {
         if(!usuari.trofeus[i].unlocked && usuari.trofeus[i].limit<= usuari.counterVH){
           usuari.trofeus[i].unlocked = true;
           //unlock in presentation
-          ctrlPresentation.showMyDialog("Trophy" + i.toString());
+          ctrlPresentation.showMyDialog(i.toString());
           var url = urlorg +'modify_logro?email='+usuari.correu+'&id='+i.toString();
           http.post(Uri.parse(url));
         }
@@ -1056,7 +1056,7 @@ class CtrlDomain {
         if (usuari.trofeus[i].unlocked == false &&
             usuari.trofeus[i].limit <= usuari.co2Estalviat) {
           //unlock in presentation
-          ctrlPresentation.showMyDialog("Trophy" + i.toString());
+          ctrlPresentation.showMyDialog(i.toString());
 
           usuari.trofeus[i].unlocked = true;
           var url1 = urlorg + 'modify_logro?email=' + usuari.correu + '&id=' +
@@ -1075,7 +1075,7 @@ class CtrlDomain {
       for (int i = 3; i < 6; ++i) {
         if (usuari.trofeus[i].unlocked == false && usuari.trofeus[i].limit <= usuari.counterRoutes) {
           //unlock in presentation
-          ctrlPresentation.showMyDialog("Trophy" + i.toString());
+          ctrlPresentation.showMyDialog(i.toString());
           usuari.trofeus[i].unlocked = true;
           var url1 = urlorg + 'modify_logro?email=' + usuari.correu + '&id=' + i.toString();
           http.post(Uri.parse(url1));
@@ -1129,7 +1129,7 @@ class CtrlDomain {
       for(int i = 9; i < 12; ++i){
         if(usuari.trofeus[i].unlocked == false && usuari.trofeus[i].limit <= usuari.kmRecorregut){
           //unlock in presentation
-          ctrlPresentation.showMyDialog("Trophy" + i.toString());
+          ctrlPresentation.showMyDialog(i.toString());
           usuari.trofeus[i].unlocked = true;
           var url1 = urlorg + 'modify_logro?email='+ usuari.correu +'&id='+ i.toString();
           http.post(Uri.parse(url1));

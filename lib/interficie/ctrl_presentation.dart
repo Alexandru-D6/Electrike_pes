@@ -64,14 +64,6 @@ class CtrlPresentation {
       double? lat = event.latitude;
       double? lng = event.longitude;
       curLocation = GeoCoord(lat!, lng!);
-    });
-  }
-
-  void locationHR() {
-    location.onLocationChanged.listen((event) {
-      double? lat = event.latitude;
-      double? lng = event.longitude;
-      curLocation = GeoCoord(lat!, lng!);
       ctrlDomain.increaseDistance(lat, lng);
     });
   }
@@ -99,7 +91,7 @@ class CtrlPresentation {
   }
   
   //intercambiar vista
-  _showNotLogDialog(BuildContext context) {
+  showNotLogDialog(BuildContext context) {
     return AwesomeDialog(
       context: context,
       dialogType: DialogType.INFO,
@@ -110,6 +102,8 @@ class CtrlPresentation {
       desc: AppLocalizations
           .of(context)
           .notLogged,
+      btnCancelText: AppLocalizations
+          .of(context).cancel,
       btnCancelOnPress: () {},
       btnOkIcon: (Icons.login),
       btnOkText: AppLocalizations
@@ -137,7 +131,7 @@ class CtrlPresentation {
 
   toGaragePage(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
@@ -149,7 +143,7 @@ class CtrlPresentation {
 
   toFavouritesPage(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
@@ -161,7 +155,7 @@ class CtrlPresentation {
 
   toRewardsPage(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
@@ -181,7 +175,7 @@ class CtrlPresentation {
 
   toFormCar(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     }
     else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -244,8 +238,8 @@ class CtrlPresentation {
   }
 
   //42.6974402 - 0.8250418
-  String generateUrlForLocation(GeoCoord a) {//todo translate
-    String res = "Hey! Check this location -> https://www.google.com/maps/search/?api=1&query=" + a.latitude.toString() + "," + a.longitude.toString();
+  String generateUrlForLocation(GeoCoord a) {
+    String res = AppLocalizations.of(navigatorKey.currentContext!).textlink + "-> https://www.google.com/maps/search/?api=1&query=" + a.latitude.toString() + "," + a.longitude.toString();
     return res;
   }
 
@@ -284,7 +278,7 @@ class CtrlPresentation {
 
   void logoutRoutine(BuildContext context) async {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       resetUserValues();
       toMainPage(context);
@@ -405,7 +399,7 @@ class CtrlPresentation {
   void moveCameraToSpecificLocation(BuildContext context, double? lat,
       double? lng) {
     //used to move camera to specific chargers or points
-    //todo: a veces funciona, otras no, no tengo ni la menor idea de porque.
+    //todo: a veces funciona, otras no, no tengo ni la menor idea de porque. Pues me comes la pinga
     toMainPage(context);
     Future.delayed(const Duration(milliseconds: 1000), () {
       GoogleMap.of(getMapKey())?.moveCamera(GeoCoord(lat!, lng!), zoom: 17.5);
@@ -418,7 +412,7 @@ class CtrlPresentation {
 
   void loveClickedCharger(BuildContext context, double latitud, double longitud) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     }
     else {
       if(isAFavPoint(latitud, longitud) && hasNotifications(latitud, longitud)){
@@ -434,7 +428,7 @@ class CtrlPresentation {
 
   void loveClickedBicing(BuildContext context, double latitud, double longitud) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     }
     else {
       ctrlDomain.gestioFavBicing(latitud, longitud);
@@ -546,7 +540,7 @@ class CtrlPresentation {
         body = makeFavouritesLegend(context);
         break;
       case "chartPage":
-        title = AppLocalizations.of(context).occupationChartlegend;//todo: translate AppLocalizations.of(context).alertSureDeleteCarTitle,
+        title = AppLocalizations.of(context).occupationChartlegend;
         body = makeChartsLegend(context);
         break;
       default:
@@ -577,36 +571,36 @@ class CtrlPresentation {
             buildHeader(
               name: AppLocalizations.of(context).stationName,
               calle: AppLocalizations.of(context).streetName,
-              city: "City placed", //todo: translate
-              numChargePlaces: "Charge places", //todo: translate
+              city: AppLocalizations.of(context).cityName,
+              numChargePlaces: AppLocalizations.of(context).chargeplaces,
             ),
             const SizedBox(width: 20),
             buildIconLabeled(
               icon: Icons.check_circle_rounded,
               color: Colors.greenAccent,
               label: AppLocalizations.of(context).availableChargers,
-              description: AppLocalizations.of(context).numChargers, //TODO (Peilin) ready for test
+              description: AppLocalizations.of(context).numChargers, // (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.help,
               color: Colors.yellow,
-              label: AppLocalizations.of(context).unknownState, //TODO (Peilin) ready for test
-              description: AppLocalizations.of(context).numUnknown, //TODO (Peilin) ready for test
+              label: AppLocalizations.of(context).unknownState, // (Peilin) ready for test
+              description: AppLocalizations.of(context).numUnknown, // (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.warning,
               color: Colors.amber,
-              label: AppLocalizations.of(context).broken, //TODO (Peilin) ready for test
-              description: AppLocalizations.of(context).numBroken, //TODO (Peilin) ready for test
+              label: AppLocalizations.of(context).broken, // (Peilin) ready for test
+              description: AppLocalizations.of(context).numBroken, // (Peilin) ready for test
             ),
             const SizedBox(width: 15),
             buildIconLabeled(
               icon: Icons.stop_circle,
               color: Colors.red,
-              label: AppLocalizations.of(context).notAvailable, //TODO (Peilin) ready for test
-              description: AppLocalizations.of(context).numNotAvailable, //TODO (Peilin) ready for test
+              label: AppLocalizations.of(context).notAvailable, // (Peilin) ready for test
+              description: AppLocalizations.of(context).numNotAvailable, //(Peilin) ready for test
             ),
           ],
         ),
@@ -729,7 +723,7 @@ class CtrlPresentation {
                 const Icon(Icons.pedal_bike, color: fontColor, size: 45,),
                 const SizedBox(width: 15,),
                 AutoSizeText(
-                  AppLocalizations.of(context).stationName, //TODO (Peilin) ready for test
+                  AppLocalizations.of(context).stationName, // (Peilin) ready for test
                   style: const TextStyle(
                     color: fontColor,
                     fontSize: 24,
@@ -746,20 +740,20 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.local_parking,
             color: fontColor,
-            label: AppLocalizations.of(context).freePlaces, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).numFreePlaces, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).freePlaces, // (Peilin) ready for test
+            description: AppLocalizations.of(context).numFreePlaces, // (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.pedal_bike,
             color: fontColor,
-            label: AppLocalizations.of(context).availablePedal, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).numPedal, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).availablePedal, // (Peilin) ready for test
+            description: AppLocalizations.of(context).numPedal, // (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.electric_bike,
             color: fontColor,
-            label: AppLocalizations.of(context).availableElectric, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).numElectric, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).availableElectric, // (Peilin) ready for test
+            description: AppLocalizations.of(context).numElectric, // (Peilin) ready for test
           ),
         ],
       ),
@@ -775,44 +769,44 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.touch_app,
             color: Colors.black,
-            label: AppLocalizations.of(context).clickName, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).clickNameDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).clickName, // (Peilin) ready for test
+            description: AppLocalizations.of(context).clickNameDescr, // (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.bar_chart,
             color: Colors.green,
-            label: AppLocalizations.of(context).seeConcurrencyChart, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).chartsDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).seeConcurrencyChart, // (Peilin) ready for test
+            description: AppLocalizations.of(context).chartsDescr, // (Peilin) ready for test
           ),
           buildIconLabeled(
             icon: Icons.notifications_off,
             color: Colors.lightBlueAccent,
-            label: AppLocalizations.of(context).disableNoti, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).disableNotiDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).disableNoti,
+            description: AppLocalizations.of(context).disableNotiDescr,
           ),
           buildIconLabeled(
             icon: Icons.notifications_active,
             color: Colors.blue,
-            label: AppLocalizations.of(context).enableNoti, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).enableNotiDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).enableNoti,
+            description: AppLocalizations.of(context).enableNotiDescr,
           ),
           buildIconLabeled(
             icon: Icons.settings,
             color: Colors.grey,
-            label: AppLocalizations.of(context).notificationSettings, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).notificationSettingsDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).notificationSettings,
+            description: AppLocalizations.of(context).notificationSettingsDescr,
           ),
           buildIconLabeled(
             icon: Icons.favorite,
             color: Colors.red,
-            label: AppLocalizations.of(context).rmvFavs, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).rmvFavsDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).rmvFavs,
+            description: AppLocalizations.of(context).rmvFavsDescr,
           ),
           buildIconLabeled(
             icon: Icons.filter_list_alt,
             color: Colors.orangeAccent,
-            label: AppLocalizations.of(context).filterFavTypes, //TODO (Peilin) ready for test
-            description: AppLocalizations.of(context).filterFavTypesDescr, //TODO (Peilin) ready for test
+            label: AppLocalizations.of(context).filterFavTypes,
+            description: AppLocalizations.of(context).filterFavTypesDescr,
           ),
         ],
       ),
@@ -840,20 +834,20 @@ class CtrlPresentation {
           buildIconLabeled(
             icon: Icons.family_restroom,
             color: Colors.lightBlueAccent,
-            label: AppLocalizations.of(context).concurrencypercentage, //todo: translate
-            description: AppLocalizations.of(context).concurrencypercentagedesc, //todo: translate
+            label: AppLocalizations.of(context).concurrencypercentage,
+            description: AppLocalizations.of(context).concurrencypercentagedesc,
           ),
           buildIconLabeled(
             icon: Icons.hourglass_bottom,
             color: Colors.amber,
-            label: AppLocalizations.of(context).concurrencyhours, //todo: translate
-            description: AppLocalizations.of(context).concurrencyhoursdesc, //todo: translate
+            label: AppLocalizations.of(context).concurrencyhours,
+            description: AppLocalizations.of(context).concurrencyhoursdesc,
           ),
           buildIconLabeled(
             icon: Icons.error,
             color: Colors.redAccent,
-            label: AppLocalizations.of(context).error, //todo: translate
-            description: AppLocalizations.of(context).errordesc, //todo: translate
+            label: AppLocalizations.of(context).error,
+            description: AppLocalizations.of(context).errordesc,
           ),
         ],
       ),
@@ -955,13 +949,54 @@ class CtrlPresentation {
   }
   
   void showMyDialog(String idTrofeu) {
+
+    String trophyname = "error";
+
+    switch (idTrofeu){
+      case "0":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy0;
+        break;
+      case "1":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy1;
+        break;
+      case "2":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy2;
+        break;
+      case "3":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy3;
+        break;
+      case "4":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy4;
+        break;
+      case "5":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy5;
+        break;
+      case "6":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy6;
+        break;
+      case "7":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy7;
+        break;
+      case "8":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy8;
+        break;
+      case "9":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy9;
+        break;
+      case "10":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy10;
+        break;
+      case "11":
+        trophyname=AppLocalizations.of(navigatorKey.currentContext!).trophy11;
+        break;
+    }
     AwesomeDialog(
       context: navigatorKey.currentContext!,
       width: 500,
       animType: AnimType.LEFTSLIDE,
       dialogType: DialogType.NO_HEADER,
       autoHide: const Duration(seconds: 6) ,
-      body: _makeTrophyBody(idTrofeu),
+      body: _makeTrophyBody(navigatorKey.currentContext!,trophyname, idTrofeu),
       /*btnOkText:'View in the trophy menu',
       btnOkIcon: Icons.emoji_events,
       btnOkOnPress:(){toRewardsPageDialog(navigatorKey.currentContext!);},
@@ -973,11 +1008,23 @@ class CtrlPresentation {
     ).show();
   }
 
-  _makeTrophyBody(String idTrofeu) {
+  _makeTrophyBody(BuildContext context, String name, String id) {
     ConfettiController controllerCenterRight = ConfettiController(duration: const Duration(milliseconds: 700));
     ConfettiController controllerCenterLeft = ConfettiController(duration: const Duration(milliseconds: 700));
     controllerCenterLeft.play();
     controllerCenterRight.play();
+    Color c = const Color(0x00000000);
+    if(id == "0" || id == "3" || id == "6" || id == "9" ){
+      c = const Color(0xC2C94B11);
+
+    }
+    else if(id == "1" || id ==  "4"|| id == "7" || id == "10" ){
+      c = Colors.grey;
+    }
+    else {
+      c = const Color(0xFFFFD700);
+    }
+    Image img = Image.asset('assets/trophies/trophy'+id+'.png', width: 100);
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -1010,10 +1057,17 @@ class CtrlPresentation {
               gravity: 0.1,
             ),
           ),
-           Image.asset('assets/trophies/trophy.png', width: 100),
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: c,
+            child: Padding(
+              padding: const EdgeInsets.all(5), // Border radius
+              child: ClipOval(child: img),
+            ),
+          ),
     const SizedBox(width: 10),
     AutoSizeText(
-      "Trophy unlocked" + idTrofeu,
+      AppLocalizations.of(context).trophyunlocked + name,
     style: const TextStyle(
     color: Colors.black,
     fontSize: 18,
@@ -1022,16 +1076,13 @@ class CtrlPresentation {
     maxLines: 1,
     ),
     const SizedBox(width: 5),
-   const AutoSizeText(
-      "You can see the trophy in the trophies menu",
-    style: TextStyle(
-    color: Colors.black54,
-    fontSize: 16,
+    AutoSizeText(
+     AppLocalizations.of(context).trophymainmenu,
+    style: const TextStyle(
+      color: Colors.black54,
+      fontSize: 16,
+      ),
     ),
-    ),
-          //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-          //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
-
         ],
       ),
     );
@@ -1047,7 +1098,7 @@ class CtrlPresentation {
 
   toRewardsPageDialog(BuildContext context) {
     if (email == "") {
-      _showNotLogDialog(context);
+      showNotLogDialog(context);
     } else {
       Navigator.popUntil(context, ModalRoute.withName('/'));
       Navigator.pushNamed(
@@ -1074,9 +1125,9 @@ class CtrlPresentation {
       context: context,
       dialogType: DialogType.INFO,
       animType: AnimType.BOTTOMSLIDE,
-      title: "Information not available", //TODO: TRANSLATE
-      desc: "Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.\n"
-          "Meanwhile, this function is only enabled for points only in Barcelona.", //TODO: TRANSLATE
+      title: AppLocalizations.of(context).notAvailable,
+      desc: AppLocalizations.of(context).sorrychart1+"\n"+
+          AppLocalizations.of(context).sorrychart2,
       btnOkText: "OK",
       btnOkOnPress: () {},
       headerAnimationLoop: false,

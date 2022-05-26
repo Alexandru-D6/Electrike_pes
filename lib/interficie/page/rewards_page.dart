@@ -18,7 +18,7 @@ class RewardsPage extends StatelessWidget {
         drawer: const NavigationDrawerWidget(),
         //esto es para que aparezca el botón de menú lateral
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context).achievements), //todo: translate
+          title: Text(AppLocalizations.of(context).achievements), //translate
           centerTitle: false,
           backgroundColor: Colors.orange,
         ),
@@ -33,14 +33,14 @@ class RewardsPage extends StatelessWidget {
                   if(trophies[index][1] == "true") {
                     img = Image.asset('assets/trophies/trophy'+index.toString()+'.png', width: 100);
                     if(index == 0 || index == 3 || index == 6 ||index == 9 ){
-                      c = Colors.deepOrangeAccent;
+                      c = const Color(0xC2C94B11);
 
                     }
                     else if(index == 1 || index ==  4|| index == 7 ||index == 10 ){
-                      c = Colors.white38;
+                      c = Colors.grey;
                     }
                     else {
-                      c = Colors.amber;
+                      c = const Color(0xFFFFD700);
                     }
                   }
                   String trophyname = "error";
@@ -115,7 +115,7 @@ class RewardsPage extends StatelessWidget {
                             AutoSizeText(
                               trophyname,
                               textAlign: TextAlign.center,
-                            ), //ToDo:nombres y descripciones Peilin
+                            ),
                             const SizedBox(height: 15,)
                           ]
                       )
@@ -190,9 +190,6 @@ _makeTrophyBody(BuildContext context,String name, String desc, String st, Image 
             fontSize: 16,
           ),
         ),
-        //todo: AppLocalizations.of(context).alertSureDeleteCarTitle,
-        //todo: AppLocalizations.of(context).alertSureDeleteCarContent,
-
       ],
     ),
   );
