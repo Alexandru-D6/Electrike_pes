@@ -904,7 +904,12 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           );
 
           waypoints?.forEach((element) {
-            addMarkerRaw(element, "route", icon: "assets/images/me.png");
+            if (_markers["chargerPoints"]!.containsKey(element.toString())) {
+              _markers.putIfAbsent("route", () => Map<String,items_t.Marker>());
+              _markers["route"]!.putIfAbsent(element.toString(), () => _markers["chargerPoints"]![element.toString()]!);
+            }else {
+              addMarkerRaw(element, "route", icon: "assets/images/me.png");
+            }
           });
 
           addChoosenMarkers("route");
