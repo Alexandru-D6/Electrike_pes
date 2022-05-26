@@ -1397,6 +1397,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Default title'**
   String get defaulttitle;
+
+  /// No description provided for @startTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a travel'**
+  String get startTravel;
+
+  /// No description provided for @startTravelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your address of origin and the destination of your trip. If you do not enter any of the origin, the current location will be taken by default. Select the vehicle with which you are going to travel using the arrows or by moving sideways. Now It only remains for you to enter the remaining battery and the type of route you want to do and enjoy the trip.'**
+  String get startTravelDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

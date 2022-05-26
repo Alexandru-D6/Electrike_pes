@@ -663,4 +663,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get defaulttitle => 'Default title';
+
+  @override
+  String get startTravel => 'Start a travel';
+
+  @override
+  String get startTravelDescription => 'Enter your address of origin and the destination of your trip. If you do not enter any of the origin, the current location will be taken by default. Select the vehicle with which you are going to travel using the arrows or by moving sideways. Now It only remains for you to enter the remaining battery and the type of route you want to do and enjoy the trip.';
 }

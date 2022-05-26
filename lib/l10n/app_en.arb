@@ -289,5 +289,7 @@
       "languageDescription": "Our application has different languages with which to interact: Catalan, Spanish or English. What are you waiting for? Choose the one with which you feel most comfortable! The configuration you choose will be saved so that from any device with which you connect you can pick up where you left off.",
       "contactUsDescription": "Have you found any operating problem, do you have any suggestions for improvement or do you not know how to do something? Contact our technical team, we will try to respond to your comment as soon as possible.",
       "logoutDescription": "Sign out of your device to keep your information safe or to check another account.",
-      "achievementsDescription": "See your progress and unlock achievements as you use the app. Be the envy of your friends with the most trophies. When you unlock an achievement you will be notified and get ready for the party..."
+      "achievementsDescription": "See your progress and unlock achievements as you use the app. Be the envy of your friends with the most trophies. When you unlock an achievement you will be notified and get ready for the party...",
+      "startTravel": "Start a travel",
+         "startTravelDescription": "Enter your address of origin and the destination of your trip. If you do not enter any of the origin, the current location will be taken by default. Select the vehicle with which you are going to travel using the arrows or by moving sideways. Now It only remains for you to enter the remaining battery and the type of route you want to do and enjoy the trip."
 }

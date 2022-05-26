@@ -40,31 +40,37 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         subtitle: AppLocalizations.of(context).loginDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif", width: widthGif,),
       ),
-      buildPage(
+      buildPage(//DONE
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).profile.toUpperCase(),
         subtitle: AppLocalizations.of(context).profileDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/profile.gif", width: widthGif,),
       ),
-      buildPage(
+      buildPage(//DONE
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).deleteAccountTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).deleteAccountDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/deleteAccount.gif", width: widthGif,),
       ),
-      buildPage(
+      buildPage(//DONE
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).map.toUpperCase(),
         subtitle: AppLocalizations.of(context).mapDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/map.gif", width: widthGif,),
       ),
-      buildPage(
+      buildPage(//DONE
+        color: Colors.green.shade100,
+        title: AppLocalizations.of(context).startTravel.toUpperCase(),
+        subtitle: AppLocalizations.of(context).startTravelDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/travel.gif", width: widthGif,),
+      ),
+      buildPage(//DONE
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).stRouteTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).stRouteDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/st.gif", width: widthGif,),
       ),
-      buildPage(
+      buildPage(//DONE
         color: Colors.green.shade100,
         title: AppLocalizations.of(context).chRouteTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).chRouteDescription,
