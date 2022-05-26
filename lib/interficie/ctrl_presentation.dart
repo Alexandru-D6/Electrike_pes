@@ -343,7 +343,7 @@ class CtrlPresentation {
           startInfo: "Origin",
           endLabel: "Destination",
           endInfo: "Destination",
-          color: Colors.blue,
+          color: const Color(0xff941c2f)
       );
     }
     else if(routeType == 1){
@@ -370,20 +370,21 @@ class CtrlPresentation {
         startInfo: "Origin",
         endLabel: "Destination",
         endInfo: "Destination",
-        color: Colors.brown,
+        color: const Color(0xff3b30cf),
       );
     }
     else if (routeType == 2) {
       //todo: ruta ecologica
       String origin = curLocation.latitude.toString() + "," + curLocation.longitude.toString();
       if (actualLocation != "My location") origin = actualLocation;
-      GoogleMap.of(getMapKey())?.addDirection(
+      GoogleMap.of(getMapKey())?.displayRoute(
           origin,
           destination,
         startLabel: "Origin",
         startInfo: "Origin",
         endLabel: "Destination",
         endInfo: "Destination",
+        color: const Color(0xff48ac9c),
       );
     }
   }
