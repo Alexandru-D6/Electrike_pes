@@ -117,8 +117,8 @@ class _EditInfoPointState extends State<EditInfoPoint> {
 
             Navigator.pop(context);
 
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Added to clipboard the tapped point!"),
+            ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+              content: Text(AppLocalizations.of(context).addedclip),
             ));
           },
           icon: const Icon(
