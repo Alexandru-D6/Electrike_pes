@@ -22,17 +22,17 @@ class NumbersWidget extends StatelessWidget {
 
       ResponsiveGridCol(
         xs: 4,
-        child: buildButton(context, ctrlPresentation.getCO2saved().toString()+" kg", AppLocalizations.of(context).savedco2, "co2"),
+        child: buildButton(context, ctrlPresentation.getNumRoutessaved().ceil().toString(), AppLocalizations.of(context).routestaken, "num routes calculated"),
       ),
 
       ResponsiveGridCol(
         xs: 4,
-        child: buildButton(context, ctrlPresentation.getKmsaved().toString()+" km", AppLocalizations.of(context).kilometerstraveled, "kilometers done"),
+        child: buildButton(context, ctrlPresentation.getCO2saved().toStringAsFixed(2)+" kg", AppLocalizations.of(context).savedco2, "co2"),
       ),
 
       ResponsiveGridCol(
         xs: 4,
-        child: buildButton(context, ctrlPresentation.getNumRoutessaved().toString(), AppLocalizations.of(context).routestaken, "num routes calculated"),
+        child: buildButton(context, ctrlPresentation.getKmsaved().toStringAsFixed(2)+" km", AppLocalizations.of(context).kilometerstraveled, "kilometers done"),
       ),
 
     ],
@@ -45,9 +45,8 @@ class NumbersWidget extends StatelessWidget {
   Widget buildButton(BuildContext context, String value, String text, String toPage) =>
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: MaterialButton(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          onPressed: () {
+        child: GestureDetector(
+          onTap: () {
             switch (toPage){
               case "garage":
                 ctrlPresentation.toGaragePage(context);
@@ -61,27 +60,33 @@ class NumbersWidget extends StatelessWidget {
                 break;
             }
           },
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildDivider(),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  AutoSizeText(
-                    value,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  AutoSizeText(
-                    text,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    AutoSizeText(
+                      value,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 2),
+                    AutoSizeText(
+                      text,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
               buildDivider(),
             ],

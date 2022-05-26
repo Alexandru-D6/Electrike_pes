@@ -405,7 +405,7 @@ abstract class AppLocalizations {
   /// No description provided for @kilometerstraveled.
   ///
   /// In en, this message translates to:
-  /// **'Kilometerstraveled'**
+  /// **'Kilometers traveled'**
   String get kilometerstraveled;
 
   /// No description provided for @routestaken.

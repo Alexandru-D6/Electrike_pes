@@ -165,7 +165,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get savedco2 => 'Saved CO2';
 
   @override
-  String get kilometerstraveled => 'Kilometerstraveled';
+  String get kilometerstraveled => 'Kilometers traveled';
 
   @override
   String get routestaken => 'Routes taken';
