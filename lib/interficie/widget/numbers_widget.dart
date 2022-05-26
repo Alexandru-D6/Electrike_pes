@@ -8,17 +8,16 @@ class NumbersWidget extends StatelessWidget {
   const NumbersWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) => Wrap(
-      direction: Axis.horizontal,
-      alignment: WrapAlignment.center,
-      spacing: 1.0, // gap between adjacent chips
-      runSpacing: 7.0, // gap between lines
-      children: <Widget>[
-        buildButton(context, ctrlPresentation.getCarsList().length.toString(), AppLocalizations.of(context).vehicles, "garage"),
-        buildButton(context, ctrlPresentation.numThrophyUnlocked().toString(), AppLocalizations.of(context).trophies, "trophies"),
-        buildButton(context, ctrlPresentation.getNumRoutessaved().ceil().toString(), AppLocalizations.of(context).routestaken, "num routes calculated"),
-        buildButton(context, ctrlPresentation.getCO2saved().toStringAsFixed(2)+" kg", AppLocalizations.of(context).savedco2, "co2"),
-        buildButton(context, ctrlPresentation.getKmsaved().toStringAsFixed(2)+" km", AppLocalizations.of(context).kilometerstraveled, "kilometers done"),
-      ],
+    spacing: 8.0, // gap between adjacent chips
+    runSpacing: 12.0, // gap between lines
+    alignment: WrapAlignment.center,
+    children: <Widget>[
+      buildButton(context, ctrlPresentation.getCarsList().length.toString(), AppLocalizations.of(context).vehicles, "garage"),
+      buildButton(context, ctrlPresentation.numThrophyUnlocked().toString(), AppLocalizations.of(context).trophies, "trophies"),
+      buildButton(context, ctrlPresentation.getNumRoutessaved().ceil().toString(), AppLocalizations.of(context).routestaken, "num routes calculated"),
+      buildButton(context, ctrlPresentation.getCO2saved().toStringAsFixed(2)+" kg", AppLocalizations.of(context).savedco2, "co2"),
+      buildButton(context, ctrlPresentation.getKmsaved().toStringAsFixed(2)+" km", AppLocalizations.of(context).kilometerstraveled, "kilometers done"),
+    ],
   );
 
   Widget buildDivider() => const SizedBox(
@@ -27,9 +26,7 @@ class NumbersWidget extends StatelessWidget {
   );
 
   Widget buildButton(BuildContext context, String value, String text, String toPage) =>
-      Container(
-        padding: const EdgeInsets.all(8.0),
-        child: GestureDetector(
+     GestureDetector(
           onTap: () {
             switch (toPage){
               case "garage":
@@ -44,14 +41,11 @@ class NumbersWidget extends StatelessWidget {
                 break;
             }
           },
-          //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               buildDivider(),
               Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     AutoSizeText(
                       value,
@@ -73,6 +67,5 @@ class NumbersWidget extends StatelessWidget {
               buildDivider(),
             ],
           ),
-        ),
       );
 }
