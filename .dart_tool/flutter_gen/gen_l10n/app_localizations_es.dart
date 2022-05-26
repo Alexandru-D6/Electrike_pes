@@ -663,4 +663,49 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get defaulttitle => 'Default title';
+
+  @override
+  String get addCarDescription => 'Añade vehículos a tu garage para optimizar tus rutas y así saber cuándo deberás parar a recargar las baterías. El proceso es bien simple: ponle el apelativo cariñoso que quieras a tu vehículo; añade los datos de marca y modelo (nosotros te proponemos algunos comúnes); si tu modelo se encuentra en nuestra base de datos se autocompletará la información numérica, de no ser así deberás añadirla manualmente; finalmente añade los cargadores compatibles contigo y sólo queda ¡disfrutar del viaje!';
+
+  @override
+  String get profileDescription => 'Consulta tus datos, el resúmen de tu cuenta y mira tu progreso.';
+
+  @override
+  String get deleteAccountTitle => 'Elimina tu cuenta y tus datos';
+
+  @override
+  String get deleteAccountDescription => 'Para eliminar tu cuenta y tus datos de nuestros servidores debes dirigirte a tu Perfil y pulsar en la esquina inferior derecha de la pantalla la basura.';
+
+  @override
+  String get ecoRouteTitle => 'RUTA LIMPIA';
+
+  @override
+  String get ecoRouteDescription => 'Electrike optimizará la ruta para que tu viaje pase por los puntos con menos contaminación y puedas disfrutar de tu viaje con las ventanas abiertas.';
+
+  @override
+  String get stRouteTitle => 'RUTA MÁS RÁPIDA';
+
+  @override
+  String get stRouteDescription => '¡Coge la vía más rápida! No pierdas tiempo con esta ruta pero tampoco corras mucho por si a caso hay algún radar... que ¡puede salir el viaje más caro que la gasolina!';
+
+  @override
+  String get chRouteTitle => 'RUTA POR PUNTOS DE CARGA';
+
+  @override
+  String get chRouteDescription => 'Asegura que llegarás a destino sin tener que llamar a la grúa. Electrike optimizará tu ruta para que cuando te vayas a quedar sin batería tengas dónde recargar baterías.';
+
+  @override
+  String get mapDescription => 'The map page is the main screen of this application. From it you will be able to access all the main functionalities of our application: from adding your favorite points, filtering the types of points highlighted on the map, calculating optimized routes and much more...';
+
+  @override
+  String get languageDescription => 'Nuestra aplicación dispone de diferentes idiomas con los que interactuar: catalan, español o inglés. ¿A qué esperas? ¡Escoge aquel con el que te sientas más cómodo! La configuración que escojas será guardada para que desde cualquier dispositivo con el que te conectes puedas seguir donde lo dejaste.';
+
+  @override
+  String get contactUsDescription => '¿Has encontrado algún problema de funcionamiento, tienes alguna sugerencia de mejora o no sabes cómo se hace algo? Contacta con nuestro equipo técnico, intentaremos dar respuesta a tu comentario lo antes posible.';
+
+  @override
+  String get logoutDescription => 'Cierra la sesión en tu dispositivo para mantener tu información segura o para poder consultar otra cuenta.';
+
+  @override
+  String get achievementsDescription => 'Consulta tu progreso y los logros que vayas desbloqueando a medida que usas la aplicación. Sé la envidia de tus amistades con el mayor número de trofeos. Cuando desbloquées algún logro se te notificará y preparate para la fiesta...';
 }

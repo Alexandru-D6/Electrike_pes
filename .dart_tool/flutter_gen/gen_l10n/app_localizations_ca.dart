@@ -663,4 +663,49 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get defaulttitle => 'Títol per defecte';
+
+  @override
+  String get addCarDescription => 'Afegeix vehicles al teu garatge per optimitzar les teves rutes i així saber quan hauràs de parar a recarregar les bateries. El procés és ben simple: posa-li l\'apel·latiu afectuós que vulguis al teu vehicle; afegeix les dades de marca i model (nosaltres et proposem alguns comuns ); si el teu model es troba a la nostra base de dades s\'autocompletarà la informació numèrica, si no és així hauràs d\'afegir-la manualment; finalment afegeix els carregadors compatibles amb tu i només queda gaudir del viatge!';
+
+  @override
+  String get profileDescription => 'Consulta les teves dades, el resum del teu compte i mira el teu progrés.';
+
+  @override
+  String get deleteAccountTitle => 'Elimina el teu compte i les teves dades';
+
+  @override
+  String get deleteAccountDescription => 'Per eliminar el teu compte i les teves dades dels nostres servidors has de dirigir-te al teu Perfil i prémer a la cantonada inferior dreta de la pantalla les escombraries.';
+
+  @override
+  String get ecoRouteTitle => 'RUTA NETA';
+
+  @override
+  String get ecoRouteDescription => 'Electrike optimitzarà la ruta perquè el teu viatge passi pels punts amb menys contaminació i puguis gaudir del teu viatge amb les finestres obertes.';
+
+  @override
+  String get stRouteTitle => 'RUTA MÉS RÀPIDA';
+
+  @override
+  String get stRouteDescription => 'Agafa la via més ràpida! No perdis temps amb aquesta ruta però tampoc corris gaire per si de cas hi ha algun radar... que pot sortir el viatge més car que la gasolina!';
+
+  @override
+  String get chRouteTitle => 'RUTA A TRAVÉS DE PUNTS DE CÀRREGA';
+
+  @override
+  String get chRouteDescription => 'Assegura que arribaràs a destí sense haver de trucar a la grua. Electrike optimitzarà la teva ruta perquè quan et quedis sense bateria tinguis on recarregar bateries.';
+
+  @override
+  String get mapDescription => 'La pàgina del mapa és la pantalla principal d\'aquesta aplicació. Des d\'ella podràs accedir a totes les funcionalitats principals de la nostra aplicació: des d\'afegir els teus punts preferits, filtrar els tipus de punts remarcats al mapa, calcular rutes optimitzades i molt més...';
+
+  @override
+  String get languageDescription => 'La nostra aplicació disposa de diferents idiomes amb què interactuar: català, espanyol o anglès. A què esperes? Escull aquell amb el que et sentis més còmode! La configuració que escullis serà guardada perquè des de qualsevol dispositiu amb què et connectis puguis seguir on ho vas deixar.';
+
+  @override
+  String get contactUsDescription => 'Has trobat algun problema de funcionament, tens algun suggeriment de millora o no saps com es fa alguna cosa? Contacta amb el nostre equip tècnic, intentarem donar resposta al teu comentari com més aviat millor.';
+
+  @override
+  String get logoutDescription => 'Tanca la sessió al dispositiu per mantenir la teva informació segura o per poder consultar un altre compte.';
+
+  @override
+  String get achievementsDescription => 'Consulta el teu progrés i els èxits que vagis desbloquejant a mesura que fas servir l\'aplicació. Sigues l\'enveja de les teves amistats amb el major nombre de trofeus. Quan desbloquis algun èxit se\'t notificarà i prepara\'t per a la festa...';
 }
