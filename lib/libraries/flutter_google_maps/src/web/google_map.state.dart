@@ -359,7 +359,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                   addMarkerRaw(
                     startLatLng.toGeoCoord(),
                     "route",
-                    icon: 'assets/images/marker_a.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_aWeb.png',
                     info: leg?.startAddress,
                   );
                 }
@@ -379,7 +379,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                   addMarkerRaw(
                     endLatLng.toGeoCoord(),
                     "route",
-                    icon: 'assets/images/marker_b.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_bWeb.png',
                     info: leg?.endAddress,
                   );
                 }
@@ -729,7 +729,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         consumeTapEvents: cluster.items.first.onTap != null,
         position: cluster.location,
         infoWindow: tryThis.InfoWindow(
-          title: cluster.items.first.icon != null ? icon : "packages/google_maps_cluster_manager/assets/images/defaultMarker.png",
+          title: cluster.items.first.icon != null ? icon : "packages/google_maps_cluster_manager/assets/images/defaultMarkerWeb.png",
         )
       );
       
@@ -910,14 +910,14 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                 if (startIcon != null || startInfo != null || startLabel != null) {
                   addMarker(items_t.Marker(
                     startLatLng.toGeoCoord(),
-                    icon: 'assets/images/marker_a.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_aWeb.png',
                     info: startInfo ?? leg?.startAddress,
                     label: startLabel,
                   ), group: "route");
                 } else {
                   addMarker(items_t.Marker(
                     startLatLng.toGeoCoord(),
-                    icon: 'assets/images/marker_a.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_aWeb.png',
                     info: leg?.startAddress,
                   ), group: "route");
                 }
@@ -928,24 +928,26 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                 if (endIcon != null || endInfo != null || endLabel != null) {
                   addMarker(items_t.Marker(
                     endLatLng.toGeoCoord(),
-                    icon: 'assets/images/marker_b.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_bWeb.png',
                     info: endInfo ?? leg?.endAddress,
                     label: endLabel,
                   ), group: "route");
                 } else {
                   addMarker(items_t.Marker(
                     endLatLng.toGeoCoord(),
-                    icon: 'assets/images/marker_b.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_bWeb.png',
                     info: leg?.endAddress,
                   ), group: "route");
                 }
               }
 
               waypoints?.forEach((element) {
-                addMarker(items_t.Marker(
-                  element,
-                  icon: "assets/images/meWeb.png",
-                ), group: "route");
+                if (_markers_colection["chargerPoints"]!.containsKey(element.toString())) {
+                  _markers_colection.putIfAbsent("route", () => Map<String,items_t.Marker>());
+                  _markers_colection["route"]!.putIfAbsent(element.toString(), () => _markers_colection["chargerPoints"]![element.toString()]!);
+                }else {
+                  addMarker(items_t.Marker(element, icon: "assets/images/meWeb.png",), group: "route");
+                }
               });
 
               addChoosenMarkers("route");

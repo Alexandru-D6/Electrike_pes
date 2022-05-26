@@ -1029,6 +1029,29 @@ class CtrlDomain {
   }
   //Obté les ades d'ocupació d'un dia
   List<DataGraphic> getInfoGraphic(String day){
+
+    if(day=="Monday"||day=="Lunes" || day == "Dilluns"){
+      day="Monday";
+    }
+    else if(day=="Tuesday"|| day=="Martes" || day == "Dimarts"){
+      day="Tuesday";
+    }
+    else if(day=="Wednesday"|| day=="Miércoles" || day == "Dimecres"){
+      day="Wednesday";
+    }
+    else if(day=="Thursday"||day=="Jueves" || day == "Dijous"){
+      day="Thursday";
+    }
+    else if(day=="Friday" || day=="Viernes" || day == "Divendres"){
+      day="Friday";
+    }
+    else if(day=="Saturday"|| day=="Sábado" || day == "Dissabte"){
+      day="Saturday";
+    }
+    else {
+      day ="Sunday";
+    }
+
     List<DataGraphic> data = <DataGraphic>[];
     if(dadesChargerselected[day]!.isNotEmpty){
       var temp = dadesChargerselected[day]![0];
