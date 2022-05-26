@@ -798,6 +798,7 @@ class CtrlDomain {
     DateTime firstNotification = await _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
     int id = await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long, -1);
     if (id != -1) {
+      print("hello");
       var url = urlorg + 'insert_notification?email=' + usuari.correu + '&id=' +
           id.toString() + '&lat=' + lat.toString() + '&lon=' + long.toString()
           + '&day=' + dayOfTheWeek.toString() + '&hour=' +
@@ -956,6 +957,7 @@ class CtrlDomain {
   Future<void> removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) async {
     for (var day in daysOfTheWeek) {
       await removeScheduledNotification(lat, long, day, iniHour, iniMinute);
+      sleep(const Duration(milliseconds: 400)); //Perque s'esborrin correctament a la base de dades.
     }
   }
 
