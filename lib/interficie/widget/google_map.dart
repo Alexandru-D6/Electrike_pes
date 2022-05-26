@@ -122,7 +122,7 @@ class _MyMapState extends State<MyMap> {
               markers: const <Marker>{},
               initialZoom: 9,
               //final isWebMobile = kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android)
-              //minZoom: 3, //todo min zoom en web??
+              //minZoom: 3,
               initialPosition: const GeoCoord(41.8204600, 1.8676800), // Catalunya
               mapType: MapType.roadmap,
               mapStyle: null,
@@ -359,7 +359,7 @@ showInfoRuta(BuildContext context) {
     });
 }
 
-Marker buildChargerMarker({ //todo:refactor para que funcione igual que con bicing
+Marker buildChargerMarker({
   required double lat,
   required double long,
   required BuildContext context,
@@ -400,7 +400,7 @@ Marker buildBicingMarker({
 }) {
   return Marker(
     GeoCoord(lat, long),
-    icon: (!kIsWeb) ? "assets/images/bike.png" : "assets/images/bikeWeb.png", //todo: al poner custom marker no sale en la primera carga
+    icon: (!kIsWeb) ? "assets/images/bike.png" : "assets/images/bikeWeb.png",
     onTap: (markerId) =>showInfoBicing(context, lat, long)
   );
 }

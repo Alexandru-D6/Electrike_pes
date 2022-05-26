@@ -15,7 +15,7 @@ class ChartPage extends StatefulWidget {
   State<ChartPage> createState() => _ChartPageState();
 }
 class _ChartPageState extends State<ChartPage> {
-  String dropdownValue = "Monday"; //todo: DROPDOWN PROBLEM
+  String dropdownValue = "Monday";
   bool firstime = false;
 
   @override
@@ -67,7 +67,7 @@ class _ChartPageState extends State<ChartPage> {
                   AppLocalizations.of(context).day3, AppLocalizations.of(context).day4,
                   AppLocalizations.of(context).day5, AppLocalizations.of(context).day6,
                   AppLocalizations.of(context).day7,*/
-            items: <String>[AppLocalizations.of(context).day1, AppLocalizations.of(context).day2, AppLocalizations.of(context).day3, AppLocalizations.of(context).day4, AppLocalizations.of(context).day5, AppLocalizations.of(context).day6, AppLocalizations.of(context).day7,] //todo: peilin multiidiomas
+            items: <String>[AppLocalizations.of(context).day1, AppLocalizations.of(context).day2, AppLocalizations.of(context).day3, AppLocalizations.of(context).day4, AppLocalizations.of(context).day5, AppLocalizations.of(context).day6, AppLocalizations.of(context).day7,]
             .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -92,7 +92,6 @@ class _ChartPageState extends State<ChartPage> {
   }
 
   static List<charts.Series<DataGraphic, String>> createData(String dia) {
-    //todo por aqui recibir la variable data que se vaya actualizando, hay que hablar de como hacerlo, mi idea es que vaya cambiando esta variable y el usuario para ver los cambios tenga que cargar un grafico nuevo, y nos dejamos de statefuls
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     final data = ctrlPresentation.getInfoGraphic(dia);
 
