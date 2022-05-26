@@ -48,7 +48,16 @@ class _InfoRutaState extends State<InfoRuta> {
       ctrlPresentation.idCarUser = 1;
       ctrlDomain.selectVehicleUsuari(ctrlPresentation.idCarUser);
     }
-
+    void restaPosicio() {
+      if(ctrlPresentation.getCurrentUserMail() != "" && ctrlPresentation.getCarsList().isNotEmpty ) {
+        controller.jumpTo(controller.position.pixels - 100);
+      }
+    }
+    void sumaPosicio() {
+      if(ctrlPresentation.getCurrentUserMail() != "" && ctrlPresentation.getCarsList().isNotEmpty ) {
+        controller.jumpTo(controller.position.pixels + 100);
+      }
+    }
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(top: 50),
@@ -57,6 +66,12 @@ class _InfoRutaState extends State<InfoRuta> {
       child: Column(
         children: <Widget>[
           Text(AppLocalizations.of(context).selectCar),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+            IconButton(
+                onPressed: (){restaPosicio();},
+                icon: const Icon(Icons.arrow_back_ios)),
           (ctrlPresentation.getCurrentUserMail() != "" && ctrlPresentation.getCarsList().isNotEmpty ) ? SizedBox(
             height: 100,
             width: 100,
@@ -93,6 +108,11 @@ class _InfoRutaState extends State<InfoRuta> {
             height: 100,
             width: 100,
             child: Image.asset("assets/brandCars/rayo.png"),
+          ),
+            IconButton(
+                onPressed: (){sumaPosicio();},
+                icon: const Icon(Icons.arrow_forward_ios)),
+          ],
           ),
           const Divider(
             height: 3,
@@ -191,6 +211,7 @@ class _InfoRutaState extends State<InfoRuta> {
     );
   }
 
+
   Widget customRadioButton(String text, int index) {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     return OutlinedButton(
@@ -240,6 +261,7 @@ class _InfoRutaState extends State<InfoRuta> {
 
     );
   }
+
 }
 
 //Para poner un limite de bateria al 100% si se pasa se cambia a 100.
