@@ -7,43 +7,27 @@ import 'package:responsive_grid/responsive_grid.dart';
 class NumbersWidget extends StatelessWidget {
   const NumbersWidget({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => ResponsiveGridRow(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: [
-      ResponsiveGridCol(
-        xs: 4,
-        child: buildButton(context, ctrlPresentation.getCarsList().length.toString(), AppLocalizations.of(context).vehicles, "garage"),
-      ),
-
-      ResponsiveGridCol(
-        xs: 4,
-        child: buildButton(context, ctrlPresentation.numThrophyUnlocked().toString(), AppLocalizations.of(context).trophies, "trophies"),
-      ),
-
-      ResponsiveGridCol(
-        xs: 4,
-        child: buildButton(context, ctrlPresentation.getNumRoutessaved().ceil().toString(), AppLocalizations.of(context).routestaken, "num routes calculated"),
-      ),
-
-      ResponsiveGridCol(
-        xs: 4,
-        child: buildButton(context, ctrlPresentation.getCO2saved().toStringAsFixed(2)+" kg", AppLocalizations.of(context).savedco2, "co2"),
-      ),
-
-      ResponsiveGridCol(
-        xs: 4,
-        child: buildButton(context, ctrlPresentation.getKmsaved().toStringAsFixed(2)+" km", AppLocalizations.of(context).kilometerstraveled, "kilometers done"),
-      ),
-
-    ],
+  Widget build(BuildContext context) => Wrap(
+      direction: Axis.horizontal,
+      alignment: WrapAlignment.center,
+      spacing: 1.0, // gap between adjacent chips
+      runSpacing: 7.0, // gap between lines
+      children: <Widget>[
+        buildButton(context, ctrlPresentation.getCarsList().length.toString(), AppLocalizations.of(context).vehicles, "garage"),
+        buildButton(context, ctrlPresentation.numThrophyUnlocked().toString(), AppLocalizations.of(context).trophies, "trophies"),
+        buildButton(context, ctrlPresentation.getNumRoutessaved().ceil().toString(), AppLocalizations.of(context).routestaken, "num routes calculated"),
+        buildButton(context, ctrlPresentation.getCO2saved().toStringAsFixed(2)+" kg", AppLocalizations.of(context).savedco2, "co2"),
+        buildButton(context, ctrlPresentation.getKmsaved().toStringAsFixed(2)+" km", AppLocalizations.of(context).kilometerstraveled, "kilometers done"),
+      ],
   );
+
   Widget buildDivider() => const SizedBox(
     height: 24,
     child: VerticalDivider(),
   );
 
   Widget buildButton(BuildContext context, String value, String text, String toPage) =>
-      Padding(
+      Container(
         padding: const EdgeInsets.all(8.0),
         child: GestureDetector(
           onTap: () {
@@ -65,8 +49,7 @@ class NumbersWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildDivider(),
-              Expanded(
-                child: Column(
+              Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -86,7 +69,6 @@ class NumbersWidget extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ],
-                ),
               ),
               buildDivider(),
             ],
