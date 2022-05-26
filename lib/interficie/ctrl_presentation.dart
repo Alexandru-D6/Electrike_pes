@@ -64,14 +64,6 @@ class CtrlPresentation {
       double? lat = event.latitude;
       double? lng = event.longitude;
       curLocation = GeoCoord(lat!, lng!);
-    });
-  }
-
-  void locationHR() {
-    location.onLocationChanged.listen((event) {
-      double? lat = event.latitude;
-      double? lng = event.longitude;
-      curLocation = GeoCoord(lat!, lng!);
       ctrlDomain.increaseDistance(lat, lng);
     });
   }
