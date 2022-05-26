@@ -104,7 +104,6 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           child: (ctrlPresentation.destination != "Search...") ? CircularButton(
             icon: const Icon(Icons.directions),
             onPressed: () {
-              //TODO: hacer que mire si hay texto
               showInfoRuta(context);
               ctrlPresentation.clearAllRoutes();
             },
@@ -171,7 +170,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
 
           //ctrlPresentation.toMainPage(context),
           //ctrlPresentation.makeRoute()
-          },//TODO: llamar aqui que hacer con cada boton de la lista
+          },
       ));
     }
     return FloatingSearchBarScrollNotifier(child: Column(mainAxisSize: MainAxisSize.min, children: list));
