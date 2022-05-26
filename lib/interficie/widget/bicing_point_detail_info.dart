@@ -44,7 +44,7 @@ class BicingPointDetailInformation extends StatelessWidget {
                     icon: const Icon(
                       Icons.info,
                     ),
-                    tooltip: "Pene",
+                    tooltip: AppLocalizations.of(context).legend,
                   ),
                 ],
               ),
@@ -90,7 +90,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
-          tooltip: "Pene",
+          tooltip: AppLocalizations.of(context).share,
           onPressed: () async {
             String url = await ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude, type: "bicing");
             await Clipboard.setData(ClipboardData(text: url));
@@ -133,7 +133,7 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Icons.favorite : Icons.favorite_border,
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
-          tooltip: AppLocalizations.of(context).addFavPoints, //TODO (Peilin) ready for test
+          tooltip: AppLocalizations.of(context).addFavPoints, // (Peilin) ready for test
           onPressed: () {
             ctrlPresentation.loveClickedBicing(context, widget.latitude, widget.longitude);
             if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
@@ -170,7 +170,7 @@ class _StatefulPointInfoState extends State<StatefulPointInfo> {
   List<String> infoBicingPoint = List.filled(21, "");
   bool loading = true;
   @override
-  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
+  void initState() {
     ctrlPresentation.getInfoBicing(widget.latitude, widget.longitude).then((element){
       setState(() {
         infoBicingPoint = element;

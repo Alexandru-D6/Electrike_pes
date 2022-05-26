@@ -204,6 +204,9 @@ class AppLocalizationsCa extends AppLocalizations {
   String get receiveNoti => 'Repetició';
 
   @override
+  String get notification => 'Notificació ';
+
+  @override
   String get time => 'Hora';
 
   @override
@@ -309,6 +312,12 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get streetName => 'Nom del carrer';
+
+  @override
+  String get cityName => 'Nom de la ciutat';
+
+  @override
+  String get chargeplaces => 'Places de carregadors';
 
   @override
   String get availableChargers => 'Disponibles';
@@ -497,6 +506,12 @@ class AppLocalizationsCa extends AppLocalizations {
   String get trophy11desc => 'Recorre 200 km amb vehicles elèctrics';
 
   @override
+  String get trophyunlocked => 'Trofeu desbloquejat: ';
+
+  @override
+  String get trophymainmenu => 'Pots verure el trofeu en el menú de trofeus';
+
+  @override
   String get navigation => 'NAVEGA PER LA APLICACIÓ';
 
   @override
@@ -539,7 +554,112 @@ class AppLocalizationsCa extends AppLocalizations {
   String get filtraTitle => 'FILTRA ELS PUNTS QUE VOLS VEURE';
 
   @override
+  String get addCarDescription => 'Afegeix vehicles al teu garatge per optimitzar les teves rutes i així saber quan hauràs de parar a recarregar les bateries. El procés és ben simple: posa-li l\'apel·latiu afectuós que vulguis al teu vehicle; afegeix les dades de marca i model (nosaltres et proposem alguns comuns ); si el teu model es troba a la nostra base de dades s\'autocompletarà la informació numèrica, si no és així hauràs d\'afegir-la manualment; finalment afegeix els carregadors compatibles amb tu i només queda gaudir del viatge!';
+
+  @override
+  String get profileDescription => 'Consulta les teves dades, el resum del teu compte i mira el teu progrés.';
+
+  @override
+  String get deleteAccountTitle => 'Elimina el teu compte i les teves dades';
+
+  @override
+  String get deleteAccountDescription => 'Per eliminar el teu compte i les teves dades dels nostres servidors has de dirigir-te al teu Perfil i prémer a la cantonada inferior dreta de la pantalla les escombraries.';
+
+  @override
+  String get ecoRouteTitle => 'RUTA NETA';
+
+  @override
+  String get ecoRouteDescription => 'Electrike optimitzarà la ruta perquè el teu viatge passi pels punts amb menys contaminació i puguis gaudir del teu viatge amb les finestres obertes.';
+
+  @override
+  String get stRouteTitle => 'RUTA MÉS RÀPIDA';
+
+  @override
+  String get stRouteDescription => 'Agafa la via més ràpida! No perdis temps amb aquesta ruta però tampoc corris gaire per si de cas hi ha algun radar... que pot sortir el viatge més car que la gasolina!';
+
+  @override
+  String get chRouteTitle => 'RUTA A TRAVÉS DE PUNTS DE CÀRREGA';
+
+  @override
+  String get chRouteDescription => 'Assegura que arribaràs a destí sense haver de trucar a la grua. Electrike optimitzarà la teva ruta perquè quan et quedis sense bateria tinguis on recarregar bateries.';
+
+  @override
+  String get mapDescription => 'La pàgina del mapa és la pantalla principal d\'aquesta aplicació. Des d\'ella podràs accedir a totes les funcionalitats principals de la nostra aplicació: des d\'afegir els teus punts preferits, filtrar els tipus de punts remarcats al mapa, calcular rutes optimitzades i molt més...';
+
+  @override
+  String get languageDescription => 'La nostra aplicació disposa de diferents idiomes amb què interactuar: català, espanyol o anglès. A què esperes? Escull aquell amb el que et sentis més còmode! La configuració que escullis serà guardada perquè des de qualsevol dispositiu amb què et connectis puguis seguir on ho vas deixar.';
+
+  @override
+  String get contactUsDescription => 'Has trobat algun problema de funcionament, tens algun suggeriment de millora o no saps com es fa alguna cosa? Contacta amb el nostre equip tècnic, intentarem donar resposta al teu comentari com més aviat millor.';
+
+  @override
+  String get logoutDescription => 'Cierra la sesión en tu dispositivo para mantener tu información segura o para poder consultar otra cuenta.';
+
+  @override
+  String get achievementsDescription => 'Consulta tu progreso y los logros que vayas desbloqueando a medida que usas la aplicación. Sé la envidia de tus amistades con el mayor número de trofeos. Cuando desbloquées algún logro se te notificará y preparate para la fiesta...';
+
+  @override
   String get addcargarage => 'Afegeix un vehicle al garatge';
+
+  @override
+  String get legend => 'Llegenda';
+
+  @override
+  String get occupancychart => 'Gràfica d\'ocupació';
+
+  @override
+  String get share => 'Compartir';
+
+  @override
+  String get notiEnableDis => 'Activar o desactivar notificacions d\'un carregador';
+
+  @override
+  String get confnoti => 'Configurar notificacions del carregador';
+
+  @override
+  String get eliminaNoti => 'Eliminar notificació';
+
+  @override
+  String get anynoti => 'Encara hi ha notificacions. Afegeix-ne una...';
+
+  @override
+  String get edit => 'Editar';
+
+  @override
+  String get editCar => 'Edita el teu vehicle';
+
+  @override
+  String get sorrychart1 => 'Ho sentim, aquest punt no pertany a Barcelona. Estem treballant per oferir en un futur aquesta informació.';
+
+  @override
+  String get sorrychart2 => 'Mentrestant, aquesta funció només està habilitada per a punts només a Barcelona.';
+
+  @override
+  String get shortday1 => 'Dl';
+
+  @override
+  String get shortday2 => 'Dt';
+
+  @override
+  String get shortday3 => 'Dc';
+
+  @override
+  String get shortday4 => 'Dj';
+
+  @override
+  String get shortday5 => 'Dv';
+
+  @override
+  String get shortday6 => 'Ds';
+
+  @override
+  String get shortday7 => 'Dg';
+
+  @override
+  String get textlink => 'Ei! Mira aquesta ubicació ';
+
+  @override
+  String get addedclip => 'La ubicació tocada s\'ha afegit al porta-retalls!';
 
   @override
   String get defaulttitle => 'Títol per defecte';

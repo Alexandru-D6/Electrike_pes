@@ -57,7 +57,7 @@ class _EditCarPageState extends State<EditCarPage> {
     String plugTitle = AppLocalizations.of(context).chargerTypeLabel;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).newCar),
+        title: Text(AppLocalizations.of(context).editCar),
         centerTitle: true,
         backgroundColor: mCardColor,
       ),

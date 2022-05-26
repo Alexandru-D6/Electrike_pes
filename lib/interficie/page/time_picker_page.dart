@@ -36,7 +36,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
     CtrlPresentation ctrlPresentation = CtrlPresentation();
     return Scaffold(
       appBar: AppBar(
-        title:  Text(AppLocalizations.of(context).notificationSettings), //TODO (Peilin) ready for test
+        title:  Text(AppLocalizations.of(context).notificationSettings), // (Peilin) ready for test
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -48,7 +48,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
                  AutoSizeText(AppLocalizations.of(context).receiveNoti,
                   style: const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
                   maxLines: 2,
-                ), //TODO (Peilin) ready for test
+                ), //(Peilin) ready for test
 
                 const Divider(height: 20,),
 
@@ -110,7 +110,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
                       onPressed: () {
                         _selectTime(context);
                       },
-                      label: Text(AppLocalizations.of(context).time), //TODO (Peilin) ready for test
+                      label: Text(AppLocalizations.of(context).time), // (Peilin) ready for test
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -137,14 +137,14 @@ class _TimePickerPageState extends State<TimePickerPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(AppLocalizations.of(context).notificationInfoMsg(selectedDays.toString(), selectedTime.hour.toString(), selectedTime.minute.toString()))), // TODO (Peilin) ready for test
+            SnackBar(content: Text(AppLocalizations.of(context).notificationInfoMsg(selectedDays.toString(), selectedTime.hour.toString(), selectedTime.minute.toString()))), // (Peilin) ready for test
           );
           List<int> selectedDaysInt = daysToInt(selectedDays, context);
           ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
           ctrlPresentation.toNotificationsPage(context, notificationsInfo.latitud, notificationsInfo.longitud, notificationsInfo.title);
         },
-        heroTag: AppLocalizations.of(context).addNoti,//TODO (Peilin) ready for test
-        tooltip: AppLocalizations.of(context).addNoti,//TODO (Peilin) ready for test
+        heroTag: AppLocalizations.of(context).addNoti,// (Peilin) ready for test
+        tooltip: AppLocalizations.of(context).addNoti,// (Peilin) ready for test
         child: const Icon(Icons.more_time),
         backgroundColor: mPrimaryColor,
       ),

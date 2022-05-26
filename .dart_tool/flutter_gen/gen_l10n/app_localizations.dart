@@ -480,6 +480,12 @@ abstract class AppLocalizations {
   /// **'Frequency'**
   String get receiveNoti;
 
+  /// No description provided for @notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification '**
+  String get notification;
+
   /// No description provided for @time.
   ///
   /// In en, this message translates to:
@@ -689,6 +695,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Street name'**
   String get streetName;
+
+  /// No description provided for @cityName.
+  ///
+  /// In en, this message translates to:
+  /// **'City name'**
+  String get cityName;
+
+  /// No description provided for @chargeplaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Charge places'**
+  String get chargeplaces;
 
   /// No description provided for @availableChargers.
   ///
@@ -1062,6 +1080,18 @@ abstract class AppLocalizations {
   /// **'Travel 200 km with electric vehicles'**
   String get trophy11desc;
 
+  /// No description provided for @trophyunlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Trophy unlocked: '**
+  String get trophyunlocked;
+
+  /// No description provided for @trophymainmenu.
+  ///
+  /// In en, this message translates to:
+  /// **'You can see the trophy in the trophies menu'**
+  String get trophymainmenu;
+
   /// No description provided for @navigation.
   ///
   /// In en, this message translates to:
@@ -1146,11 +1176,221 @@ abstract class AppLocalizations {
   /// **'FILTER THE POINTS YOU WANT TO SEE'**
   String get filtraTitle;
 
+  /// No description provided for @addCarDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add vehicles to your garage to optimize your routes and thus know when you should stop to recharge the batteries. The process is very simple: give your vehicle the affectionate name you want; add the brand and model data (we propose some common ); if your model is in our database, the numerical information will autocomplete, otherwise you will have to add it manually; finally add the chargers compatible with you and all that remains is to enjoy the trip!'**
+  String get addCarDescription;
+
+  /// No description provided for @profileDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your data, your account summary and see your progress.'**
+  String get profileDescription;
+
+  /// No description provided for @deleteAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account and data'**
+  String get deleteAccountTitle;
+
+  /// No description provided for @deleteAccountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'To delete your account and your data from our servers you must go to your Profile and click on the trash in the lower right corner of the screen.'**
+  String get deleteAccountDescription;
+
+  /// No description provided for @ecoRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CLEAN ROUTE'**
+  String get ecoRouteTitle;
+
+  /// No description provided for @ecoRouteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Electrike will optimize the route so that your trip passes through the points with the least pollution and you can enjoy your trip with the windows open.'**
+  String get ecoRouteDescription;
+
+  /// No description provided for @stRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FASTEST ROUTE'**
+  String get stRouteTitle;
+
+  /// No description provided for @stRouteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the fastest route! Don\'t waste time with this route, but don\'t run too much either, in case there is a radar... which can make the trip more expensive than gasoline!'**
+  String get stRouteDescription;
+
+  /// No description provided for @chRouteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ROUTE THROUGH CHARGING POINTS'**
+  String get chRouteTitle;
+
+  /// No description provided for @chRouteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'It ensures that you will reach your destination without having to call the tow truck. Electrike will optimize your route so that when you run out of battery you have a place to recharge your batteries.'**
+  String get chRouteDescription;
+
+  /// No description provided for @mapDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'La página del mapa es la pantalla principal de esta aplicación. Desde ella podrás acceder a todas las funcionalidades principales de nuestra aplicación: desde añadir tus puntos favoritos, filtrar los tipos de puntos remarcados en el mapa, calcular rutas optimizadas y mucho más... '**
+  String get mapDescription;
+
+  /// No description provided for @languageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Our application has different languages with which to interact: Catalan, Spanish or English. What are you waiting for? Choose the one with which you feel most comfortable! The configuration you choose will be saved so that from any device with which you connect you can pick up where you left off.'**
+  String get languageDescription;
+
+  /// No description provided for @contactUsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Have you found any operating problem, do you have any suggestions for improvement or do you not know how to do something? Contact our technical team, we will try to respond to your comment as soon as possible.'**
+  String get contactUsDescription;
+
+  /// No description provided for @logoutDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of your device to keep your information safe or to check another account.'**
+  String get logoutDescription;
+
+  /// No description provided for @achievementsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'See your progress and unlock achievements as you use the app. Be the envy of your friends with the most trophies. When you unlock an achievement you will be notified and get ready for the party...'**
+  String get achievementsDescription;
+
   /// No description provided for @addcargarage.
   ///
   /// In en, this message translates to:
   /// **'Add a vehicle to the garage'**
   String get addcargarage;
+
+  /// No description provided for @legend.
+  ///
+  /// In en, this message translates to:
+  /// **'Legend'**
+  String get legend;
+
+  /// No description provided for @occupancychart.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupancy chart'**
+  String get occupancychart;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @notiEnableDis.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable or disable notifications of a charger'**
+  String get notiEnableDis;
+
+  /// No description provided for @confnoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure charger notifications'**
+  String get confnoti;
+
+  /// No description provided for @eliminaNoti.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete a notification'**
+  String get eliminaNoti;
+
+  /// No description provided for @anynoti.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s no notifications yet. Add one...'**
+  String get anynoti;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @editCar.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit your vehicle'**
+  String get editCar;
+
+  /// No description provided for @sorrychart1.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.'**
+  String get sorrychart1;
+
+  /// No description provided for @sorrychart2.
+  ///
+  /// In en, this message translates to:
+  /// **'Meanwhile, this function is only enabled for points only in Barcelona.'**
+  String get sorrychart2;
+
+  /// No description provided for @shortday1.
+  ///
+  /// In en, this message translates to:
+  /// **'Mon'**
+  String get shortday1;
+
+  /// No description provided for @shortday2.
+  ///
+  /// In en, this message translates to:
+  /// **'Tues'**
+  String get shortday2;
+
+  /// No description provided for @shortday3.
+  ///
+  /// In en, this message translates to:
+  /// **'Wedn'**
+  String get shortday3;
+
+  /// No description provided for @shortday4.
+  ///
+  /// In en, this message translates to:
+  /// **'Thurs'**
+  String get shortday4;
+
+  /// No description provided for @shortday5.
+  ///
+  /// In en, this message translates to:
+  /// **'Fri'**
+  String get shortday5;
+
+  /// No description provided for @shortday6.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat'**
+  String get shortday6;
+
+  /// No description provided for @shortday7.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun'**
+  String get shortday7;
+
+  /// No description provided for @textlink.
+  ///
+  /// In en, this message translates to:
+  /// **'Hey! Check this location '**
+  String get textlink;
+
+  /// No description provided for @addedclip.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to clipboard the tapped location!'**
+  String get addedclip;
 
   /// No description provided for @defaulttitle.
   ///

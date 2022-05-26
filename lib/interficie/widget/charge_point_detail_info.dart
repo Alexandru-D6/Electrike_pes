@@ -37,7 +37,7 @@ class ChargePointDetailInformation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
-                    tooltip: "Pene",
+                    tooltip: AppLocalizations.of(context).legend,
                     onPressed: () {
                       ctrlPresentation.showLegendDialog(context, "chargePoint");
                     },
@@ -90,7 +90,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
       children: [
         StatefulFavouriteButton(latitude: widget.latitude, longitude: widget.longitude,),
         IconButton(
-          tooltip: "Pene",
+          tooltip: AppLocalizations.of(context).occupancychart,
           onPressed: () async {
             if(esBarcelona) {
               await ctrlPresentation.getOcupationCharger(
@@ -109,7 +109,7 @@ class _EditInfoPointState extends State<EditInfoPoint> {
           ),
         ),
         IconButton(
-          tooltip: "Pene",
+          tooltip: AppLocalizations.of(context).share,
           onPressed: () async {
             String url = await ctrlPresentation.share(latitude: widget.latitude, longitude: widget.longitude, type: "charger");
 
@@ -190,7 +190,7 @@ class _PointInfoState extends State<PointInfo> {
   List<String> point = List.filled(23, ""); //si da error de size aumentar 1
   bool loading = true;
   @override
-  void initState() { //todo: crear el build de tal manera que haya un tiempo de carga hasta que se reciba la respuesta de la API.
+  void initState() {
     ctrlPresentation.getInfoCharger(widget.latitude, widget.longitude).then((element){
       setState(() {
         point = element;

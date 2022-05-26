@@ -204,6 +204,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get receiveNoti => 'Frequency';
 
   @override
+  String get notification => 'Notification ';
+
+  @override
   String get time => 'Hour';
 
   @override
@@ -309,6 +312,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get streetName => 'Street name';
+
+  @override
+  String get cityName => 'City name';
+
+  @override
+  String get chargeplaces => 'Charge places';
 
   @override
   String get availableChargers => 'Available';
@@ -497,6 +506,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trophy11desc => 'Travel 200 km with electric vehicles';
 
   @override
+  String get trophyunlocked => 'Trophy unlocked: ';
+
+  @override
+  String get trophymainmenu => 'You can see the trophy in the trophies menu';
+
+  @override
   String get navigation => 'NAVIGATION';
 
   @override
@@ -539,7 +554,112 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filtraTitle => 'FILTER THE POINTS YOU WANT TO SEE';
 
   @override
+  String get addCarDescription => 'Add vehicles to your garage to optimize your routes and thus know when you should stop to recharge the batteries. The process is very simple: give your vehicle the affectionate name you want; add the brand and model data (we propose some common ); if your model is in our database, the numerical information will autocomplete, otherwise you will have to add it manually; finally add the chargers compatible with you and all that remains is to enjoy the trip!';
+
+  @override
+  String get profileDescription => 'Check your data, your account summary and see your progress.';
+
+  @override
+  String get deleteAccountTitle => 'Delete your account and data';
+
+  @override
+  String get deleteAccountDescription => 'To delete your account and your data from our servers you must go to your Profile and click on the trash in the lower right corner of the screen.';
+
+  @override
+  String get ecoRouteTitle => 'CLEAN ROUTE';
+
+  @override
+  String get ecoRouteDescription => 'Electrike will optimize the route so that your trip passes through the points with the least pollution and you can enjoy your trip with the windows open.';
+
+  @override
+  String get stRouteTitle => 'FASTEST ROUTE';
+
+  @override
+  String get stRouteDescription => 'Take the fastest route! Don\'t waste time with this route, but don\'t run too much either, in case there is a radar... which can make the trip more expensive than gasoline!';
+
+  @override
+  String get chRouteTitle => 'ROUTE THROUGH CHARGING POINTS';
+
+  @override
+  String get chRouteDescription => 'It ensures that you will reach your destination without having to call the tow truck. Electrike will optimize your route so that when you run out of battery you have a place to recharge your batteries.';
+
+  @override
+  String get mapDescription => 'La página del mapa es la pantalla principal de esta aplicación. Desde ella podrás acceder a todas las funcionalidades principales de nuestra aplicación: desde añadir tus puntos favoritos, filtrar los tipos de puntos remarcados en el mapa, calcular rutas optimizadas y mucho más... ';
+
+  @override
+  String get languageDescription => 'Our application has different languages with which to interact: Catalan, Spanish or English. What are you waiting for? Choose the one with which you feel most comfortable! The configuration you choose will be saved so that from any device with which you connect you can pick up where you left off.';
+
+  @override
+  String get contactUsDescription => 'Have you found any operating problem, do you have any suggestions for improvement or do you not know how to do something? Contact our technical team, we will try to respond to your comment as soon as possible.';
+
+  @override
+  String get logoutDescription => 'Sign out of your device to keep your information safe or to check another account.';
+
+  @override
+  String get achievementsDescription => 'See your progress and unlock achievements as you use the app. Be the envy of your friends with the most trophies. When you unlock an achievement you will be notified and get ready for the party...';
+
+  @override
   String get addcargarage => 'Add a vehicle to the garage';
+
+  @override
+  String get legend => 'Legend';
+
+  @override
+  String get occupancychart => 'Occupancy chart';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get notiEnableDis => 'Enable or disable notifications of a charger';
+
+  @override
+  String get confnoti => 'Configure charger notifications';
+
+  @override
+  String get eliminaNoti => 'Delete a notification';
+
+  @override
+  String get anynoti => 'There\'s no notifications yet. Add one...';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get editCar => 'Edit your vehicle';
+
+  @override
+  String get sorrychart1 => 'Sorry, this point does not belong to Barcelona. We are working to offer in a future this information.';
+
+  @override
+  String get sorrychart2 => 'Meanwhile, this function is only enabled for points only in Barcelona.';
+
+  @override
+  String get shortday1 => 'Mon';
+
+  @override
+  String get shortday2 => 'Tues';
+
+  @override
+  String get shortday3 => 'Wedn';
+
+  @override
+  String get shortday4 => 'Thurs';
+
+  @override
+  String get shortday5 => 'Fri';
+
+  @override
+  String get shortday6 => 'Sat';
+
+  @override
+  String get shortday7 => 'Sun';
+
+  @override
+  String get textlink => 'Hey! Check this location ';
+
+  @override
+  String get addedclip => 'Added to clipboard the tapped location!';
 
   @override
   String get defaulttitle => 'Default title';
