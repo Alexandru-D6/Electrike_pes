@@ -359,7 +359,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                   addMarkerRaw(
                     startLatLng.toGeoCoord(),
                     "route",
-                    icon: 'assets/images/marker_aWeb.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_aWeb.png',
                     info: leg?.startAddress,
                   );
                 }
@@ -379,7 +379,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                   addMarkerRaw(
                     endLatLng.toGeoCoord(),
                     "route",
-                    icon: 'assets/images/marker_bWeb.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_bWeb.png',
                     info: leg?.endAddress,
                   );
                 }
@@ -910,14 +910,14 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                 if (startIcon != null || startInfo != null || startLabel != null) {
                   addMarker(items_t.Marker(
                     startLatLng.toGeoCoord(),
-                    icon: 'assets/images/marker_aWeb.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_aWeb.png',
                     info: startInfo ?? leg?.startAddress,
                     label: startLabel,
                   ), group: "route");
                 } else {
                   addMarker(items_t.Marker(
                     startLatLng.toGeoCoord(),
-                    icon: 'assets/images/marker_aWeb.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_aWeb.png',
                     info: leg?.startAddress,
                   ), group: "route");
                 }
@@ -928,14 +928,14 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
                 if (endIcon != null || endInfo != null || endLabel != null) {
                   addMarker(items_t.Marker(
                     endLatLng.toGeoCoord(),
-                    icon: 'assets/images/marker_bWeb.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_bWeb.png',
                     info: endInfo ?? leg?.endAddress,
                     label: endLabel,
                   ), group: "route");
                 } else {
                   addMarker(items_t.Marker(
                     endLatLng.toGeoCoord(),
-                    icon: 'assets/images/marker_bWeb.png',
+                    icon: 'packages/google_maps_cluster_manager/assets/images/marker_bWeb.png',
                     info: leg?.endAddress,
                   ), group: "route");
                 }

@@ -589,7 +589,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   void initState() {
     _manager_bicing = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_bicing.values), _updateMarkersBicing, markerBuilder: _markerBuilder(Colors.red), levels: _cluster_levels);
     _manager_general = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_general.values), _updateMarkersGeneral, markerBuilder: _markerBuilder(Colors.blue), levels: _cluster_levels);
-    _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.yellow), levels: _cluster_levels);
+    _manager_charger = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_charger.values), _updateMarkersCharger, markerBuilder: _markerBuilder(Colors.blue), levels: _cluster_levels);
     _manager_route = ClusterManager<items_t.Marker>(Set<items_t.Marker>.of(_items_route.values), _updateMarkersRoute, markerBuilder: _markerBuilder(Colors.green), levels: _cluster_levels_route);
 
     super.initState();
