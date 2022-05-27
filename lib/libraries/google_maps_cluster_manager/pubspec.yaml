@@ -27,6 +27,10 @@ flutter:
   assets:
     - assets/images/marker_a.png
     - assets/images/marker_b.png
+    - assets/images/marker_aWeb.png
+    - assets/images/marker_bWeb.png
     - assets/images/bicingCluster.png
     - assets/images/defaultMarker.png
+    - assets/images/defaultMarkerWeb.png
     - assets/images/carsCluster.png
+    - assets/images/routeCluster.png
