@@ -129,15 +129,17 @@ class _MainPageState extends State<MainPage> {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RutesEco rutesEco = RutesEco();
     RoutesResponse routesResponse = RoutesResponse.buit();
-    WidgetsBinding.instance?.addPostFrameCallback((_) async => {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
       //sdffdssdfdsffds
-      ctrlDomain.vhselected = VehicleUsuari.buit(),
-      print("--->"),
-      print(ctrlDomain.vhselected),
-      routesResponse = await rutesAmbCarrega.algorismeMillorRuta(const GeoCoord(41.274758, 1.940732), const GeoCoord(41.865140, 3.148968), 10, 30),
-      print("---> Resposta rCarregadors:"),
-      print(routesResponse),
-      happyLungsAdpt.getEcoPoints(const GeoCoord(41.366073, 2.118719))
+      Future.delayed(const Duration(milliseconds: 5000), () async {
+        ctrlDomain.vhselected = VehicleUsuari.buit();
+        print("--->");
+        print(ctrlDomain.vhselected);
+        routesResponse = await rutesAmbCarrega.algorismeMillorRuta(const GeoCoord(41.274758, 1.940732), const GeoCoord(41.865140, 3.148968), 10, 30);
+        print("---> Resposta rCarregadors:");
+        print(routesResponse);
+        happyLungsAdpt.getEcoPoints(const GeoCoord(41.366073, 2.118719));
+      });
     });
   }
 
