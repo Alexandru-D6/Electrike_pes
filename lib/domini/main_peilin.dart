@@ -139,6 +139,8 @@ class _MainPageState extends State<MainPage> {
         print("---> Resposta rCarregadors:");
         print(routesResponse);
         happyLungsAdpt.getEcoPoints(const GeoCoord(41.366073, 2.118719));
+        rutesEco.getEcoWaypoints(routesResponse.coords);
+
       });
     });
   }

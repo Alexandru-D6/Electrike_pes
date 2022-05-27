@@ -21,8 +21,6 @@ class HappyLungsAdpt {
       }
     }
     print(result);
-    /// PROBLEMAS CON SORT
-    print(result);
     return result;
   }
 

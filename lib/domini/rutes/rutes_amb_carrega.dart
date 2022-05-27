@@ -60,11 +60,7 @@ class RutesAmbCarrega {
       for (var elem2 in carregadorsCompatibles) {
         // Si troba un carregador compatible, comprova que no hi hagi un altre més a prop del destí final
         if (element.latitud==elem2.latitud && element.longitud == elem2.longitud) {
-          auxDist = await GoogleMap.of(ctrlPresentation.getMapKey())!.getDistance(desti, GeoCoord(elem2.latitud, elem2.longitud));
-          if (auxDist<minDist) {
-            minDist = auxDist;
-            result = GeoCoord(elem2.latitud, elem2.longitud);
-          }
+          result = GeoCoord(elem2.latitud, elem2.longitud);
         }
       }
     }
@@ -97,9 +93,12 @@ class RutesAmbCarrega {
 
           if (coordCarregadorsPropers.isEmpty) {
             radius += 10.0;
-
+            print("---> Radius:");
+            print(radius);
           } else {
             coordCharger = await findSuitableCharger(coordCarregadorsPropers, desti);
+            print("---> Coord charger:");
+            print(coordCharger);
             if (coordCharger.longitude != -1.0 && coordCharger.latitude != -1.0) {
               routesResponse.waypoints.add(coordCharger);
               RouteResponse firstTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(origen, coordCharger);
