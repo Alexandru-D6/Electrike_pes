@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_project/domini/ctrl_domain.dart';
+import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/rutes/rutes_amb_carrega.dart';
+import 'package:flutter_project/domini/rutes/rutes_eco.dart';
+import 'package:flutter_project/domini/services/happy_lungs_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/domini/vehicle_usuari.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/page/chart_page.dart';
@@ -113,6 +117,28 @@ class _MainPageState extends State<MainPage> {
         ctrlPresentation.toMainPage(context);
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    
+    CtrlDomain ctrlDomain = CtrlDomain();
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
+    HappyLungsAdpt happyLungsAdpt = HappyLungsAdpt();
+    RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
+    RutesEco rutesEco = RutesEco();
+    RoutesResponse routesResponse = RoutesResponse.buit();
+    WidgetsBinding.instance?.addPostFrameCallback((_) async => {
+      //sdffdssdfdsffds
+      ctrlDomain.vhselected = VehicleUsuari.buit(),
+      print("--->"),
+      print(ctrlDomain.vhselected),
+      routesResponse = await rutesAmbCarrega.algorismeMillorRuta(const GeoCoord(41.274758, 1.940732), const GeoCoord(41.865140, 3.148968), 10, 30),
+      print("---> Resposta rCarregadors:"),
+      print(routesResponse),
+      happyLungsAdpt.getEcoPoints(const GeoCoord(41.366073, 2.118719))
+    });
   }
 
   @override

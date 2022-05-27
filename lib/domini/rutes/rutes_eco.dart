@@ -28,6 +28,8 @@ class RutesEco {
   Future<RoutesResponse> obtenirRutaCarregador (GeoCoord origen, GeoCoord desti, double bateriaPerc, double consum) async{
     RoutesResponse result = RoutesResponse.buit();
     result = await rutesAmbCarrega.algorismeMillorRuta(origen, desti, bateriaPerc, consum);
+    print("---> Charger coords:");
+    print (result);
     return result;
   }
 
@@ -37,31 +39,47 @@ class RutesEco {
 
     for (var coord in coordRuta) {
       GeoCoord ecoWayPoint = const GeoCoord(-1.0, -1.0);
-      /*
-       //TODO Peilin: connectar para testing con happyLungs
-      List<GeoCoord> ecoCoords = happyLungsAdpt.getEcoPoints(coord); //obtenim els punts ecològics de cada coordenada de la nostra ruta
-      for (var ecoord in ecoCoords) {
-        auxDist = await GoogleMap.of(ctrlPresentation.getMapKey())!.getDistance(ecoord, coord);
+      Map<double, GeoCoord> ecoCoords = await happyLungsAdpt.getEcoPoints(coord); //obtenim els punts ecològics de cada coordenada de la nostra ruta
+      for (var eco in ecoCoords.entries) {
+        auxDist = await GoogleMap.of(ctrlPresentation.getMapKey())!.getDistance(eco.value, coord);
+
         if (auxDist < minDist) { // dins de les coords que ens retornen, només seleccionem aquella que està més a prop de la ruta original
-          ecoWayPoint = ecoord;
+          ecoWayPoint = eco.value;
           minDist = auxDist;
         }
       }
-      */
       //només afegir a llistat de waypoints eco si existeix punt ecologic a prop
       if (ecoWayPoint.latitude != -1.0 && ecoWayPoint.longitude != -1.0) {
         routesResponse.addWaypoint(ecoWayPoint);
       }
+      else {
+        routesResponse.addWaypoint(coord);
+      }
     }
   }
 
+  /// Obtenim les distancia, duracio i conjunt de coordenades de la ruta ecologica
+  Future<void> fillEcoInfo (GeoCoord origen, GeoCoord desti) async {
+    var myList = routesResponse.waypoints;
+    double totalDist = 0.0, totalDur = 0.0;
+    RouteResponse routeInfo;
+    for (int i=1; i<=myList.length; i++) {
+      routeInfo= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(myList[i-1], myList[i]);
+      totalDist += routeInfo.distanceMeters!;
+      totalDur += routeInfo.durationMinutes!;
+      routesResponse.coords.addAll(routeInfo.coords!);
+    }
+    routesResponse.origen = origen;
+    routesResponse.destino = desti;
+    routesResponse.setDuration(totalDur);
+    routesResponse.setDistance(totalDist);
+  }
+
+  /// Algorisme principal de trobada de ruta eco
   Future<RoutesResponse> algorismeEco (GeoCoord origen, GeoCoord desti, double bateriaPerc, double consum) async{
     RoutesResponse resultAmbCarrega = await obtenirRutaCarregador(origen, desti, bateriaPerc, consum);
     getEcoWaypoints(resultAmbCarrega.coords);
-
+    fillEcoInfo(origen, desti);
     return routesResponse;
   }
-
-
-
 }

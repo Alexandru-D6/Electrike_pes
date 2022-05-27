@@ -4,23 +4,26 @@ import 'package:http/http.dart' as http;
 import 'package:google_directions_api/google_directions_api.dart';
 
 class HappyLungsAdpt {
-  final urlorg = 'http://ec2-15-237-124-151.eu-west-3.compute.amazonaws.com:7000/v1/contamination/';
-  final radius = 1500; //metres
+  final urlorg = 'http://ec2-18-208-246-30.compute-1.amazonaws.com:7000/v1/contamination/';
+  final radius = 20000; //metres
 
   HappyLungsAdpt();
 
-/*
-  Future<List<GeoCoord>> getEcoPoints(GeoCoord geoCoord) async{
-    List<GeoCoord> result = <GeoCoord>[];
+  Future<Map<double, GeoCoord>> getEcoPoints(GeoCoord geoCoord) async{
+    print("-------------->");
+    Map<double, GeoCoord> result = {};
     var urlc = urlorg+ geoCoord.latitude.toString() + '/' + geoCoord.longitude.toString() + '/' + radius.toString();
     var aux = (await http.get(Uri.parse(urlc)));
     var respUrl = jsonDecode(aux.body);
     for (var coord in respUrl) {
       if (coord['value'] >= 2) {
-        result.add(GeoCoord(coord['lat'], coord['lon']));
+        result[coord['distance']] = GeoCoord(double.parse(coord['latitude']), double.parse(coord['longitude']));
       }
     }
+    print(result);
+    /// PROBLEMAS CON SORT
+    print(result);
     return result;
-  }*/
+  }
 
 }
