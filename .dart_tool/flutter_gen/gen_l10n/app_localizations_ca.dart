@@ -668,5 +668,15 @@ class AppLocalizationsCa extends AppLocalizations {
   String get startTravel => 'Comença un viatge';
 
   @override
+  String maxValueCarForm(Object max) {
+    return 'El valor no pot ser major a $max.';
+  }
+
+  @override
+  String minValueCarForm(Object min) {
+    return 'El valor no pot ser menor a $min.';
+  }
+
+  @override
   String get startTravelDescription => 'Introdueix la teva adreça d\'origen i la de destinació del teu viatge. En cas de no posar-ne cap d\'origen es prendrà per defecte la ubicació actual. Selecciona mitjançant les fletxes o desplaçant cap als costats el vehicle amb què viatjaràs. Ara ja només queda que introdueixis la bateria que queda i el tipus de ruta que vols fer i gaudir del viatge.';
 }

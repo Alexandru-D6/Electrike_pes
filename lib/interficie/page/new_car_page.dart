@@ -86,7 +86,7 @@ class _NewCarPageState extends State<NewCarPage> {
                       returnable: "selectedModelCar",
                     ),
                     const SizedBox(height: 13),
-                    buildNumField(
+                    buildNumFieldBattery(
                       icon: Icons.battery_charging_full,
                       hint: '107.8',
                       label: AppLocalizations.of(context).carBatteryLabel,
@@ -94,7 +94,7 @@ class _NewCarPageState extends State<NewCarPage> {
                       returnable: "selectedBatteryCar",
                     ),
                     const SizedBox(height: 13),
-                    buildNumField(
+                    buildNumFieldEfficiency(
                       icon: Icons.battery_unknown,
                       hint: '168',
                       label: AppLocalizations.of(context).carEfficiency,
@@ -223,7 +223,7 @@ class _NewCarPageState extends State<NewCarPage> {
     contentPadding: const EdgeInsets.all(1),
   );
 
-  Widget buildNumField({
+  Widget buildNumFieldBattery({
     required String hint,
     required String label,
     required IconData icon,
@@ -242,12 +242,62 @@ class _NewCarPageState extends State<NewCarPage> {
         border: const OutlineInputBorder(),
       ),
       validator: (value) {
+        double minBattery = 10;
+        double maxBattery = 300;
         if(value == null) {
           return null;
         }
         final n = num.tryParse(value);
         if(n == null) {
           return AppLocalizations.of(context).msgIntroNum;
+        } else if (double.parse(controllerBatteryCar.text) < minBattery) {
+          controllerBatteryCar.text = minBattery.toStringAsFixed(2);
+          return AppLocalizations.of(context).minValueCarForm(minBattery.toString());
+        } else if (double.parse(controllerBatteryCar.text) > maxBattery) {
+          controllerBatteryCar.text = maxBattery.toStringAsFixed(2);
+          return AppLocalizations.of(context).maxValueCarForm(maxBattery.toString());
+        }
+        return null;
+      },
+      onSaved: (value) {
+        saveRoutine(value, returnable);
+      },
+    );
+  }
+
+  Widget buildNumFieldEfficiency({
+    required String hint,
+    required String label,
+    required IconData icon,
+    required TextEditingController controller, String? returnable,
+  }) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+      ],
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        prefixIcon: Icon(icon),
+        border: const OutlineInputBorder(),
+      ),
+      validator: (value) {
+        double minEfficiency = 30;
+        double maxEfficiency = 1000;
+        if(value == null) {
+          return null;
+        }
+        final n = num.tryParse(value);
+        if(n == null) {
+          return AppLocalizations.of(context).msgIntroNum;
+        } else if (double.parse(controllerEffciencyCar.text) < minEfficiency) {
+          controllerEffciencyCar.text = minEfficiency.toStringAsFixed(2);
+          return AppLocalizations.of(context).maxValueCarForm(minEfficiency.toString());
+        } else if (double.parse(controllerEffciencyCar.text) > maxEfficiency) {
+          controllerEffciencyCar.text = maxEfficiency.toStringAsFixed(2);
+          return AppLocalizations.of(context).maxValueCarForm(maxEfficiency.toString());
         }
         return null;
       },
