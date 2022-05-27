@@ -294,7 +294,7 @@ class _NewCarPageState extends State<NewCarPage> {
           return AppLocalizations.of(context).msgIntroNum;
         } else if (double.parse(controllerEffciencyCar.text) < minEfficiency) {
           controllerEffciencyCar.text = minEfficiency.toStringAsFixed(2);
-          return AppLocalizations.of(context).maxValueCarForm(minEfficiency.toString());
+          return AppLocalizations.of(context).minValueCarForm(minEfficiency.toString());
         } else if (double.parse(controllerEffciencyCar.text) > maxEfficiency) {
           controllerEffciencyCar.text = maxEfficiency.toStringAsFixed(2);
           return AppLocalizations.of(context).maxValueCarForm(maxEfficiency.toString());
