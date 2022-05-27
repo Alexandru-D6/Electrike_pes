@@ -27,126 +27,132 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   @override
   Widget build(BuildContext context) {
     double widthGif = 220;
+    Color temaProfile = Colors.blue.shade100;
+    Color temaMap = Colors.green.shade100;
+    Color temaFavs = Colors.purple.shade100;
+    Color temaCars = Colors.indigo.shade100;
+    Color temaRewards = Colors.orange.shade100;
+    Color temaOthers = Colors.yellow.shade100;
     List<Widget> pages = [
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaProfile,
         title: AppLocalizations.of(context).navigation.toUpperCase(),
         subtitle: AppLocalizations.of(context).navigationDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/NavigationGIF.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaProfile,
         title: AppLocalizations.of(context).login.toUpperCase(),
         subtitle: AppLocalizations.of(context).loginDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/login.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaProfile,
+        title: AppLocalizations.of(context).logout.toUpperCase(),
+        subtitle: AppLocalizations.of(context).logoutDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/logout.gif", width: widthGif,),
+      ),
+      buildPage(//DONE
+        color: temaProfile,
         title: AppLocalizations.of(context).profile.toUpperCase(),
         subtitle: AppLocalizations.of(context).profileDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/profile.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaProfile,
         title: AppLocalizations.of(context).deleteAccountTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).deleteAccountDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/deleteAccount.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaMap,
         title: AppLocalizations.of(context).map.toUpperCase(),
         subtitle: AppLocalizations.of(context).mapDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/map.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
-        title: AppLocalizations.of(context).startTravel.toUpperCase(),
-        subtitle: AppLocalizations.of(context).startTravelDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/travel.gif", width: widthGif,),
-      ),
-      buildPage(//DONE
-        color: Colors.green.shade100,
-        title: AppLocalizations.of(context).stRouteTitle.toUpperCase(),
-        subtitle: AppLocalizations.of(context).stRouteDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/st.gif", width: widthGif,),
-      ),
-      buildPage(//DONE
-        color: Colors.green.shade100,
-        title: AppLocalizations.of(context).chRouteTitle.toUpperCase(),
-        subtitle: AppLocalizations.of(context).chRouteDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/ch.gif", width: widthGif,),
-      ),
-      buildPage(
-        color: Colors.green.shade100,
-        title: AppLocalizations.of(context).ecoRouteTitle.toUpperCase(),
-        subtitle: AppLocalizations.of(context).ecoRouteDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/eco.gif", width: widthGif,),
-      ),
-      buildPage(//DONE
-        color: Colors.green.shade100,
-        title: AppLocalizations.of(context).savePointsTitle.toUpperCase(),
-        subtitle:AppLocalizations.of(context).savePointsDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: widthGif,),
-      ),
-      buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaMap,
         title: AppLocalizations.of(context).getLocationTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).getLocationDescritpion,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/getYourCurrentLocation.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaMap,
+        title: AppLocalizations.of(context).startTravel.toUpperCase(),
+        subtitle: AppLocalizations.of(context).startTravelDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/travel.gif", width: widthGif,),
+      ),
+      buildPage(//DONE
+        color: temaMap,
+        title: AppLocalizations.of(context).stRouteTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).stRouteDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/st.gif", width: widthGif,),
+      ),
+      buildPage(//DONE
+        color: temaMap,
+        title: AppLocalizations.of(context).chRouteTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).chRouteDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/ch.gif", width: widthGif,),
+      ),
+      buildPage(
+        color: temaMap,
+        title: AppLocalizations.of(context).ecoRouteTitle.toUpperCase(),
+        subtitle: AppLocalizations.of(context).ecoRouteDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/eco.gif", width: widthGif,),
+      ),
+      buildPage(//DONE
+        color: temaFavs,
+        title: AppLocalizations.of(context).savePointsTitle.toUpperCase(),
+        subtitle:AppLocalizations.of(context).savePointsDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addFavourites.gif", width: widthGif,),
+      ),
+      buildPage(//DONE
+        color: temaFavs,
         title: AppLocalizations.of(context).filtraTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).filtraDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/filterMarkers.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
-        title: AppLocalizations.of(context).garage.toUpperCase(),
-        subtitle: AppLocalizations.of(context).addCarDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/addCar.gif", width: widthGif,),
-      ),
-      buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaFavs,
         title: AppLocalizations.of(context).favourites.toUpperCase(),
         subtitle: AppLocalizations.of(context).favDescription,
         widgetBuilt: ctrlPresentation.makeFavouritesLegend(context),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaFavs,
         title: AppLocalizations.of(context).addNotificationTitle.toUpperCase(),
         subtitle: AppLocalizations.of(context).addNotificationDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/addNotificationDemo.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaCars,
+        title: AppLocalizations.of(context).garage.toUpperCase(),
+        subtitle: AppLocalizations.of(context).addCarDescription,
+        widgetBuilt: Image.asset("assets/onboardingScreenshots/addCar.gif", width: widthGif,),
+      ),
+      buildPage(//DONE
+        color: temaRewards,
         title: AppLocalizations.of(context).achievements.toUpperCase(),
         subtitle: AppLocalizations.of(context).achievementsDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/rewards.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaOthers,
         title: AppLocalizations.of(context).language.toUpperCase(),
         subtitle: AppLocalizations.of(context).languageDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/languages.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaOthers,
         title: AppLocalizations.of(context).appInfo.toUpperCase(),
         subtitle: AppLocalizations.of(context).appInfoDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/tutorial.gif", width: widthGif,),
       ),
       buildPage(//DONE
-        color: Colors.green.shade100,
+        color: temaOthers,
         title: AppLocalizations.of(context).contactUs.toUpperCase(),
         subtitle: AppLocalizations.of(context).contactUsDescription,
         widgetBuilt: Image.asset("assets/onboardingScreenshots/contactUs.gif", width: widthGif,),
-      ),
-      buildPage(//DONE
-        color: Colors.green.shade100,
-        title: AppLocalizations.of(context).logout.toUpperCase(),
-        subtitle: AppLocalizations.of(context).logoutDescription,
-        widgetBuilt: Image.asset("assets/onboardingScreenshots/logout.gif", width: widthGif,),
       ),
     ];
 
