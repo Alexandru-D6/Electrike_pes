@@ -36,6 +36,10 @@ class _TimePickerPageState extends State<TimePickerPage> {
   Widget build(BuildContext context) {
     final notificationsInfo = ModalRoute.of(context)!.settings.arguments as NewNotificationArgs;
     CtrlPresentation ctrlPresentation = CtrlPresentation();
+    String minut = selectedTime.minute.toString();
+    if (minut == '0' || minut == '1' || minut == '2'|| minut == '3'|| minut == '4'||
+        minut == '5'|| minut == '6'|| minut == '7'|| minut == '8'|| minut == '9') minut = '0' + minut;
+
     return Scaffold(
       appBar: AppBar(
         title:  Text(AppLocalizations.of(context).notificationSettings), // (Peilin) ready for test
@@ -125,7 +129,7 @@ class _TimePickerPageState extends State<TimePickerPage> {
                         _selectTime(context);
                       },
                       child:
-                        AutoSizeText("${selectedTime.hour}:${selectedTime.minute}", style: const TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),),
+                        AutoSizeText("${selectedTime.hour}:$minut", style: const TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),),
                     ),
 
                   ],

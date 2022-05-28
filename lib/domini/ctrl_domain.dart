@@ -798,13 +798,25 @@ class CtrlDomain {
     DateTime firstNotification = await _adaptTime(iniHour, iniMinute, dayOfTheWeek,true);
     int id = await serviceLocator<LocalNotificationAdpt>().scheduleNotifications(firstNotification, lat, long, -1);
     if (id != -1) {
-      print("hello");
       var url = urlorg + 'insert_notification?email=' + usuari.correu + '&id=' +
           id.toString() + '&lat=' + lat.toString() + '&lon=' + long.toString()
           + '&day=' + dayOfTheWeek.toString() + '&hour=' +
           iniHour.toString() + '&minute=' +
           iniMinute.toString();
-      var response = (http.post(Uri.parse(url)));
+      var response = (await http.post(Uri.parse(url)));
+
+      late bool active;
+      if (hasNotificacions(lat,long)) {
+        active = notificationsOn(lat, long);
+      } else {
+        active = true;
+      }
+
+      if (!active) { //Disable notification in the database.
+        var url = urlorg + 'deactivate_notification?email=' + usuari.correu + '&id=' +
+            id.toString();
+        var response = (await http.post(Uri.parse(url)));
+      }
     }
   }
 
