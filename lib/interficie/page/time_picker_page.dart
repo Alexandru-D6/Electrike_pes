@@ -147,7 +147,9 @@ class _TimePickerPageState extends State<TimePickerPage> {
           );
           List<int> selectedDaysInt = daysToInt(selectedDays, context);
           ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
+          Future.delayed(const Duration(milliseconds: 1300), () {
           ctrlPresentation.toNotificationsPage(context, notificationsInfo.latitud, notificationsInfo.longitud, notificationsInfo.title);
+          });
         },
         heroTag: AppLocalizations.of(context).addNoti,// (Peilin) ready for test
         tooltip: AppLocalizations.of(context).addNoti,// (Peilin) ready for test
