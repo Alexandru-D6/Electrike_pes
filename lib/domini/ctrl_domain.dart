@@ -870,9 +870,13 @@ class CtrlDomain {
     Tuple3<int,int,int> t3 = _convertDayOfTheWeek(dayOfTheWeek, iniHour, iniMinute, false);
     int id = await serviceLocator<LocalNotificationAdpt>().cancelNotification(lat, long, t3.item1, t3.item2, t3.item3);
     if (id != -1) {
-      var url = urlorg + 'remove_notification?email=' + usuari.correu + '&id=' +
-          id.toString();
-      var response = (http.post(Uri.parse(url)));
+      //Perque s'esborrin correctament a la base de dades.
+      await Future.delayed(const Duration(milliseconds: 350), () async {
+        var url = urlorg + 'remove_notification?email=' + usuari.correu +
+            '&id=' +
+            id.toString();
+        var response = (http.post(Uri.parse(url)));
+      });
     }
   }
 
@@ -969,7 +973,6 @@ class CtrlDomain {
   Future<void> removeScheduledNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) async {
     for (var day in daysOfTheWeek) {
       await removeScheduledNotification(lat, long, day, iniHour, iniMinute);
-      sleep(const Duration(milliseconds: 400)); //Perque s'esborrin correctament a la base de dades.
     }
   }
 
