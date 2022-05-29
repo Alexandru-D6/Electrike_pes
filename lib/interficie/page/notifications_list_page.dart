@@ -48,7 +48,8 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final notificationsInfo = ModalRoute.of(context)!.settings.arguments as NotificationsArgs;
+    final NotificationsArgs notificationsInfo = ModalRoute.of(context)!.settings.arguments as NotificationsArgs;
+
     List<List<String>> notifications = ctrlPresentation.getNotifications(notificationsInfo.latitud, notificationsInfo.longitud);
     return Scaffold(
       appBar: buildAppBar(context, notificationsInfo.title, notificationsInfo.latitud, notificationsInfo.longitud),
