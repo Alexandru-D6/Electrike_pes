@@ -144,6 +144,26 @@ class CtrlDomain {
   }
   //Carrega la informació dels objectes favorits de l'usuari
   Future<void> login() async{
+
+    getFavBicingDB();
+    getFavChargerDB();
+    getUserCarsDB();
+    idiomfromLogin();
+    getNotifications();
+  }
+
+  void getFavBicingDB() async {
+    var url = urlorg +'get_user_fav_bicings?email='+usuari.correu;
+    var responseB = (await http.get(Uri.parse(url)));
+    var respB = jsonDecode(responseB.body);
+    for(var pfb in respB['items']){
+      if(pfb['lat'] != null || pfb['lon'] != null){
+        puntsFavBicing.add(Favorit(Coordenada(double.parse(pfb['lat']),double.parse(pfb['lon'])), usuari.correu));
+      }
+    }
+  }
+
+  void getFavChargerDB() async {
     var url = urlorg +'get_user_fav_chargers?email='+usuari.correu;
     var responseC = (await http.get(Uri.parse(url)));
     var respC = jsonDecode(responseC.body);
@@ -152,16 +172,9 @@ class CtrlDomain {
         puntsFavCarrega.add(Favorit(Coordenada(double.parse(pfc['lat']), double.parse(pfc['lon'])), usuari.correu));
       }
     }
+  }
 
-    url = urlorg +'get_user_fav_bicings?email='+usuari.correu;
-    var responseB = (await http.get(Uri.parse(url)));
-    var respB = jsonDecode(responseB.body);
-    for(var pfb in respB['items']){
-      if(pfb['lat'] != null || pfb['lon'] != null){
-        puntsFavBicing.add(Favorit(Coordenada(double.parse(pfb['lat']),double.parse(pfb['lon'])), usuari.correu));
-      }
-    }
-
+  void getUserCarsDB() async {
     var urlc = urlorg +'get_cars_user?email='+usuari.correu;
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
@@ -183,12 +196,10 @@ class CtrlDomain {
         endolls.add('CCSCombo2');
         typesendolls[3].cars.add(favcar['Id'].toString());
       }
-    vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
+      vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
     }
-
-    idiomfromLogin();
-    await getNotifications(); //TODO mirar despues
   }
+
   void idiomfromLogin() async {
     var url = urlorg + 'user_language?email=' + usuari.correu;
     var response = (await http.get(Uri.parse(url)));
