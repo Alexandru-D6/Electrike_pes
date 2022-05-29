@@ -38,6 +38,7 @@ class LocalNotificationAdpt {
   FlutterLocalNotificationsPlugin();
 
   //Map of current notifications. Key: id
+  //ignore: prefer_final_fields
   Map<String, InfoNotification> _currentNotifications = {};
   int lastId = 0;
 

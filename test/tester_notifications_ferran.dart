@@ -148,8 +148,8 @@ class _MainPageState extends State<MainPage> {
         //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 1, 1, 00);
         //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 2, 1, 00);
         //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 7, 18, 50);
-        ctrlDomain.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 19, 30, [1,3,7]);
-        ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 3, 12, 18);
+        //ctrlDomain.addSheduledNotificationsFavoriteChargePoint(41.73682408, 1.82836016, 19, 30, [1,3,7]);
+        //ctrlDomain.addSheduledNotificationFavoriteChargePoint(41.73682408, 1.82836016, 3, 12, 18);
         //ctrlDomain.showInstantNotification(41.73682408, 1.82836016);
         //ctrlDomain.disableNotification(41.73682408, 1.82836016, 3, 11, 7);
        // ctrlDomain.removeScheduledNotification(41.73682408, 1.82836016, 3, 11, 30);
