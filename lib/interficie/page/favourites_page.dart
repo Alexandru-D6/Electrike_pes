@@ -11,10 +11,10 @@ class FavsChargers extends StatefulWidget {
   const FavsChargers({Key? key}) : super(key: key);
 
   @override
-  State<FavsChargers> createState() => _FavsChargersState();
+  State<FavsChargers> createState() => FavsChargersState();
 }
 
-class _FavsChargersState extends State<FavsChargers> {
+class FavsChargersState extends State<FavsChargers> {
   List<List<String>> points = [];
   bool charging = true;
   @override
@@ -29,7 +29,7 @@ class _FavsChargersState extends State<FavsChargers> {
   }
   @override
   Widget build(BuildContext context) {
-    CtrlPresentation ctrlPresentation = CtrlPresentation();
+
     if(charging) {
       return const CircularProgressIndicator(color: Colors.black26);
     }
@@ -222,6 +222,7 @@ class FilterFavsItems extends StatefulWidget {
 
 class _FilterFavsItemsState extends State<FilterFavsItems> {
   int _selectedIndex = 0;
+
   static const List<Widget> _widgetOptions = <Widget>[
     FavsChargers(),
     FavsBicings(),

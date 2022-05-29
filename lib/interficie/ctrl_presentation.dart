@@ -9,6 +9,7 @@ import 'package:flutter_project/domini/ctrl_domain.dart';
 import 'package:flutter_project/domini/rutes/routes_response.dart';
 import 'package:flutter_project/domini/services/google_login_adpt.dart';
 import 'package:flutter_project/domini/services/service_locator.dart';
+import 'package:flutter_project/interficie/page/favourites_page.dart';
 import 'package:flutter_project/interficie/page/notifications_list_page.dart';
 import 'package:flutter_project/interficie/page/profile_page.dart';
 import 'package:flutter_project/interficie/widget/edit_car_arguments.dart';
@@ -205,7 +206,8 @@ class CtrlPresentation {
   }
 
   toNotificationsPage(BuildContext context, double latitud, double longitud, String title) {
-    Navigator.popUntil(context, ModalRoute.withName('/favourites'));
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    toFavouritesPage(context);
     Navigator.pushNamed(
       context,
       '/notificationsList',
@@ -214,7 +216,8 @@ class CtrlPresentation {
   }
 
   toTimePicker(BuildContext context, double latitud, double longitud, String title){
-    Navigator.popUntil(context, ModalRoute.withName('/notificationsList'));
+    Navigator.popUntil(context, ModalRoute.withName('/'));
+    toNotificationsPage(context, latitud, longitud, title);
     Navigator.pushNamed(
       context,
       '/time',
@@ -337,9 +340,10 @@ class CtrlPresentation {
       _myMapkey = GlobalKey<MyMapState>();
       _myMapKeyInit = true;
     }
-
     return _myMapkey;
   }
+
+  late GlobalKey<FavsChargersState> favsChargersKey;
 
   Future<void> makeRoute() async {
     ctrlDomain.selectVehicleUsuari(idCarUser);
@@ -430,7 +434,7 @@ class CtrlPresentation {
         List<List<String>> notifications = getNotifications(latitud, longitud);
         for(int i = 0; i< notifications.length; ++i){
           List<String> notification = notifications[i];
-          await removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+          removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
         }
       }
       ctrlDomain.gestioFavChargers(latitud, longitud);
@@ -884,12 +888,12 @@ class CtrlPresentation {
     return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(latitud,longitud);
   }
 
-  void addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) async {
-    await ctrlDomain.addSheduledNotificationsFavoriteChargePoint(latitud, longitud, hour, minute, selectedDays);
+  void addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
+    ctrlDomain.addSheduledNotificationsFavoriteChargePoint(latitud, longitud, hour, minute, selectedDays);
   }
 
-  Future<void> removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) async {
-    await ctrlDomain.removeScheduledNotifications(latitud, longitud, hour, minute, selectedDays);
+  void removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
+    ctrlDomain.removeScheduledNotifications(latitud, longitud, hour, minute, selectedDays);
   }
 
   void showInstantNotification(double lat, double long) {
