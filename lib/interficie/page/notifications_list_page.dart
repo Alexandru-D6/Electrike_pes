@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -85,7 +87,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
             onPressed: () async{
               _removeItem(index,notification, latitud, longitud);
               await Future.delayed(const Duration(milliseconds: 350), () {});
-              ctrlPresentation.removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+              await ctrlPresentation.removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
               setState(() {
                 notification.removeAt(index);
               });

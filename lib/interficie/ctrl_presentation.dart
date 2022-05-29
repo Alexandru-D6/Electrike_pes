@@ -421,7 +421,7 @@ class CtrlPresentation {
     return ctrlDomain.isAFavPoint(latitud, longitud);
   }
 
-  void loveClickedCharger(BuildContext context, double latitud, double longitud) {
+  Future<void> loveClickedCharger(BuildContext context, double latitud, double longitud) async {
     if (email == "") {
       showNotLogDialog(context);
     }
@@ -430,7 +430,7 @@ class CtrlPresentation {
         List<List<String>> notifications = getNotifications(latitud, longitud);
         for(int i = 0; i< notifications.length; ++i){
           List<String> notification = notifications[i];
-          removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+          await removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
         }
       }
       ctrlDomain.gestioFavChargers(latitud, longitud);
@@ -888,7 +888,7 @@ class CtrlPresentation {
     await ctrlDomain.addSheduledNotificationsFavoriteChargePoint(latitud, longitud, hour, minute, selectedDays);
   }
 
-  void removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) async {
+  Future<void> removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) async {
     await ctrlDomain.removeScheduledNotifications(latitud, longitud, hour, minute, selectedDays);
   }
 
