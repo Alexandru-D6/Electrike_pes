@@ -1,34 +1,34 @@
 import 'package:vector_math/vector_math.dart' as math;
 import 'dart:math';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 main() async {
-
+getAllCars();
 
 }
-double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
-  int radiusEarth = 6371;
-  double distanceKm;
-  double distanceMts;
-  double dlat, dlng;
-  double a;
-  double c;
+void getAllCars() async {
+  double minbat = 1000000.0;
+  double maxbat = 0.0;
+  double minef = 1000000.0;
+  double maxef = 0.0;
+  var url = 'http://electrike.ddns.net:3784/cars';
+  var response = (await http.get(Uri.parse(url)));
+  var resp = jsonDecode(response.body);
+  int i = 0;
+  for(var it in resp['items']){
+    print(i);
+    i++;
+    print(it['Effciency(Wh/Km)']);
+    if(double.parse(it['Effciency(Wh/Km)'].toString()) > maxef) maxef = double.parse(it['Effciency(Wh/Km)']);
+    if(double.parse(it['Effciency(Wh/Km)'].toString()) < minef) minef = double.parse(it['Effciency(Wh/Km)']);
+    if(double.parse(it['Battery(kWh)']) > maxbat) maxbat = double.parse(it['Battery(kWh)']);
+    if(double.parse(it['Battery(kWh)']) < minbat) minbat = double.parse(it['Battery(kWh)']);
+    print('Bat:'+ minbat.toString()+'/'+maxbat.toString()+'/'+ double.parse(it['Battery(kWh)'].toString()).toString());
+    print('Ef:'+ minef.toString()+'/'+maxef.toString()+'/'+double.parse(it['Effciency(Wh/Km)'].toString()).toString());
 
-  //Convertimos de grados a radianes
-  lat1 = math.radians(lat1);
-  lat2 = math.radians(lat2);
-  lng1 = math.radians(lng1);
-  lng2 = math.radians(lng2);
-  // Fórmula del semiverseno
-  dlat = lat2 - lat1;
-  dlng = lng2 - lng1;
-  a = sin(dlat / 2) * sin(dlat / 2) +
-      cos(lat1) * cos(lat2) * (sin(dlng / 2)) * (sin(dlng / 2));
-  c = 2 * atan2(sqrt(a), sqrt(1 - a));
-
-  distanceKm = radiusEarth * c;
-  distanceMts = 1000 * distanceKm;
-
-  return distanceKm;
-  //return distanceMts;
+  }
+  print('FinalBat:'+ minbat.toString()+'/'+maxbat.toString());
+  print('FinalEf:'+ minef.toString()+'/'+maxef.toString());
 }

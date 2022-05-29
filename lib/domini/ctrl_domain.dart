@@ -1171,6 +1171,7 @@ class CtrlDomain {
         data.add(DataGraphic(temp[i], temp2[i]));
       }
     }
+    data.sort((a,b)=>a.hour.compareTo(b.hour));
     return data;
   }
 
