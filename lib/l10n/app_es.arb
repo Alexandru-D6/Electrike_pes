@@ -291,6 +291,18 @@
    "logoutDescription": "Cierra la sesión en tu dispositivo para mantener tu información segura o para poder consultar otra cuenta.",
    "achievementsDescription": "Consulta tu progreso y los logros que vayas desbloqueando a medida que usas la aplicación. Sé la envidia de tus amistades con el mayor número de trofeos. Cuando desbloquées algún logro se te notificará y preparate para la fiesta...",
    "startTravel": "Empieza un viaje",
-   "startTravelDescription": "Introduce tu dirección de origen y la de destino de tu viaje. En caso de no poner ninguna de origen se tomará por defecto la ubicación actual. Selecciona mediante las flechas o desplazando hacia los lados el vehículo con el que vas a viajar. Ahora ya sólo queda que introduzcas la batería que queda y el tipo de ruta que quieres hacer y disfrutar del viaje."
+   "startTravelDescription": "Introduce tu dirección de origen y la de destino de tu viaje. En caso de no poner ninguna de origen se tomará por defecto la ubicación actual. Selecciona mediante las flechas o desplazando hacia los lados el vehículo con el que vas a viajar. Ahora ya sólo queda que introduzcas la batería que queda y el tipo de ruta que quieres hacer y disfrutar del viaje.",
+   "maxValueCarForm": "El valor no puede ser mayor a {max}.",
+    "@maxValueCarForm": {
+         "placeholders": {
+             "max": {}
+         }
+     },
+ "minValueCarForm": "El valor no puede ser menor a {min}.",
+ "@minValueCarForm": {
+      "placeholders": {
+          "min": {}
+      }
+  }
 
 }

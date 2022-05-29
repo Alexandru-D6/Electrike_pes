@@ -1404,6 +1404,18 @@ abstract class AppLocalizations {
   /// **'Start a travel'**
   String get startTravel;
 
+  /// No description provided for @maxValueCarForm.
+  ///
+  /// In en, this message translates to:
+  /// **'The value cannot be greater than {max}.'**
+  String maxValueCarForm(Object max);
+
+  /// No description provided for @minValueCarForm.
+  ///
+  /// In en, this message translates to:
+  /// **'The value cannot be less than {min}.'**
+  String minValueCarForm(Object min);
+
   /// No description provided for @startTravelDescription.
   ///
   /// In en, this message translates to:

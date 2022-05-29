@@ -291,5 +291,18 @@
       "logoutDescription": "Sign out of your device to keep your information safe or to check another account.",
       "achievementsDescription": "See your progress and unlock achievements as you use the app. Be the envy of your friends with the most trophies. When you unlock an achievement you will be notified and get ready for the party...",
       "startTravel": "Start a travel",
+      "maxValueCarForm": "The value cannot be greater than {max}.",
+       "@maxValueCarForm": {
+            "placeholders": {
+                "max": {}
+            }
+        },
+        "minValueCarForm": "The value cannot be less than {min}.",
+        "@minValueCarForm": {
+             "placeholders": {
+                 "min": {}
+             }
+         },
          "startTravelDescription": "Enter your address of origin and the destination of your trip. If you do not enter any of the origin, the current location will be taken by default. Select the vehicle with which you are going to travel using the arrows or by moving sideways. Now It only remains for you to enter the remaining battery and the type of route you want to do and enjoy the trip."
+
 }
