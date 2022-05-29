@@ -971,9 +971,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
         _items_bicing.addAll(_markers_colection[group]!);
         _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
       }else if (group.contains("route")){
-        print(group);
-        print(_markers_colection.keys);
-        print(_markers_colection["route"]);
         _items_route.addAll(_markers_colection[group]!);
         _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
       }else {

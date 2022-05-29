@@ -280,13 +280,11 @@ class CtrlPresentation {
   }
 
   void logoutRoutine(BuildContext context) async {
-    if (email == "") {
-      showNotLogDialog(context);
-    } else {
-      resetUserValues();
-      toMainPage(context);
-      await serviceLocator<GoogleLoginAdpt>().logout();
-    }
+
+    resetUserValues();
+    toMainPage(context);
+    await serviceLocator<GoogleLoginAdpt>().logout();
+
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool('showHome', false);
   }
@@ -432,8 +430,7 @@ class CtrlPresentation {
     else {
       if(isAFavPoint(latitud, longitud) && hasNotifications(latitud, longitud)){
         List<List<String>> notifications = getNotifications(latitud, longitud);
-        for(int i = 0; i< notifications.length; ++i){
-          List<String> notification = notifications[i];
+        for (var notification in notifications) {
           removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
         }
       }
@@ -904,7 +901,7 @@ class CtrlPresentation {
     List<List<String>> notifications = getNotifications(latitud, longitud);
     for(int i = 0; i < notifications.length; ++i){
       List<String> notification = notifications[i];
-      await ctrlDomain.disableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+      ctrlDomain.disableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
     }
   }
 
@@ -912,7 +909,7 @@ class CtrlPresentation {
     List<List<String>> notifications = getNotifications(latitud, longitud);
     for(int i = 0; i < notifications.length; ++i){
       List<String> notification = notifications[i];
-      await ctrlDomain.enableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+      ctrlDomain.enableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
     }
   }
   

@@ -952,7 +952,6 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       }
 
       _current_displaying.add(group);
-      print(_current_displaying);
     }
   }
 

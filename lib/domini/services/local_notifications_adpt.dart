@@ -180,7 +180,7 @@ class LocalNotificationAdpt {
   String disableNotification(double lat, double long, int dayOfTheWeek, int iniHour, int iniMinute) {
     String id = _genId(lat, long, dayOfTheWeek, iniHour, iniMinute);
 
-    if (_currentNotifications.containsKey(id) && !_currentNotifications[id]!.active) {
+    if (_currentNotifications.containsKey(id) && _currentNotifications[id]!.active) {
       _flutterLocalNotificationsPlugin.cancel(_currentNotifications[id]!.id);
       _currentNotifications[id]!.active = false;
       return id;
@@ -216,6 +216,7 @@ class LocalNotificationAdpt {
 
   void cancelAllNotifications() {
     _currentNotifications.clear();
+    lastId = 0;
     _flutterLocalNotificationsPlugin.cancelAll();
   }
 }
