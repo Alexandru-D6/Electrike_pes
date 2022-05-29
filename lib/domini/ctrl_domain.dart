@@ -108,6 +108,7 @@ class CtrlDomain {
   }
   //Fa el login o signups depenent si esta a la base de dades o no
   Future<void> initializeUser(String email, String name, String img)async {
+    ctrlPresentation.setUserValues(name, email, img);
     var url = urlorg +'exist_user?email='+email;
     var response = (await http.get(Uri.parse(url)));
     var resp = jsonDecode(response.body);
@@ -137,10 +138,9 @@ class CtrlDomain {
       usuari.counterRoutes = double.parse(resp['items'][0]['routes_counter'].toString());
       usuari.counterVH = double.parse(resp['items'][0]['cars_counter'].toString());
 
-      await login();
+      login();
     }
     getTrofeus();
-    ctrlPresentation.setUserValues(name, email, img);
   }
   //Carrega la informació dels objectes favorits de l'usuari
   Future<void> login() async{
@@ -152,6 +152,7 @@ class CtrlDomain {
         puntsFavCarrega.add(Favorit(Coordenada(double.parse(pfc['lat']), double.parse(pfc['lon'])), usuari.correu));
       }
     }
+
     url = urlorg +'get_user_fav_bicings?email='+usuari.correu;
     var responseB = (await http.get(Uri.parse(url)));
     var respB = jsonDecode(responseB.body);
@@ -160,6 +161,7 @@ class CtrlDomain {
         puntsFavBicing.add(Favorit(Coordenada(double.parse(pfb['lat']),double.parse(pfb['lon'])), usuari.correu));
       }
     }
+
     var urlc = urlorg +'get_cars_user?email='+usuari.correu;
     var responseCars = (await http.get(Uri.parse(urlc)));
     var respCars = jsonDecode(responseCars.body);
@@ -183,8 +185,9 @@ class CtrlDomain {
       }
     vehiclesUsuari.add(VehicleUsuari(favcar['Id'],favcar['Name'], favcar['Brand'],favcar['Vehicle'],double.parse(favcar['Battery']),double.parse(favcar['Efficiency']), endolls));
     }
+
     idiomfromLogin();
-    await getNotifications();
+    await getNotifications(); //TODO mirar despues
   }
   void idiomfromLogin() async {
     var url = urlorg + 'user_language?email=' + usuari.correu;

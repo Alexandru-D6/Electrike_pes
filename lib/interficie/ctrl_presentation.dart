@@ -271,7 +271,7 @@ class CtrlPresentation {
 
   void signInRoutine(BuildContext context) async {
     toMainPage(context);
-    await getLoginService.login();
+    getLoginService.login();
     final provider = Provider.of<LocaleProvider>(context, listen: false);
     provider.setLocale(Locale(ctrlDomain.usuari.idiom));
   }
@@ -324,11 +324,22 @@ class CtrlPresentation {
     _key = key;
   }
 
+  bool getGoogleMapKeyState() => _googleMapInit;
+
   GlobalKey<GoogleMapStateBase> getMapKey() {
     return _key;
   }
 
-  bool getGoogleMapKeyState() => _googleMapInit;
+  late GlobalKey<MyMapState> _myMapkey;
+  bool _myMapKeyInit = false;
+  GlobalKey<MyMapState> getMyMapkey() {
+    if (!_myMapKeyInit) {
+      _myMapkey = GlobalKey<MyMapState>();
+      _myMapKeyInit = true;
+    }
+
+    return _myMapkey;
+  }
 
   Future<void> makeRoute() async {
     ctrlDomain.selectVehicleUsuari(idCarUser);

@@ -25,7 +25,7 @@ class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
 
   @override
-  _MyMapState createState() => _MyMapState();
+  MyMapState createState() => MyMapState();
 
   Marker markerCharger(BuildContext context, double latitude, double longitude) {
     return buildChargerMarker(lat: latitude, long: longitude, context: context);
@@ -36,7 +36,7 @@ class MyMap extends StatefulWidget {
   }
 }
 
-class _MyMapState extends State<MyMap> {
+class MyMapState extends State<MyMap> {
   double currentZoom = 11.0;
   GeoCoord lastCoord = const GeoCoord(10.00, 20.00);
   late BuildContext ctx;
@@ -94,7 +94,9 @@ class _MyMapState extends State<MyMap> {
     }
   }
 
-
+  void setStateMod() {
+    setState(() {});
+  }
 
   Future<void> chargerMarkers() async {
     buildChargerMarkers(context, 1);

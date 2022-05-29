@@ -73,11 +73,6 @@ class ClusterManager<T extends ClusterItem> {
     if (withUpdate) updateMap();
   }
 
-  void setMapZoomW(double zoom, {bool withUpdate = true}) async {
-    _zoom = zoom;
-    if (withUpdate) updateMap();
-  }
-
   /// Method called on map update to update cluster. Can also be manually called to force update.
   void updateMap() {
     _updateClusters();

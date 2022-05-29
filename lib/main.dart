@@ -198,6 +198,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   @override
   Widget build(BuildContext context) {
+    CtrlPresentation ctrlPresentation = CtrlPresentation();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       drawer: const NavigationDrawerWidget(),
@@ -207,9 +208,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
       ),
       body: Stack(
         fit: StackFit.expand,
-        children: const [
-          MyMap(),
-          SearchBarWidget(),
+        children: [
+          MyMap(key: ctrlPresentation.getMyMapkey()),
+          const SearchBarWidget(),
         ],
       ),
     );

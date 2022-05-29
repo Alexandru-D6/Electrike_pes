@@ -130,10 +130,10 @@ class ClusterManager<T extends ClusterItem> {
     }
   }
 
-  void onCameraMoveW(double zoom, {forceUpdate = false}) {
+  void onCameraMoveW(double zoom, gmapW.GMap map_web, {forceUpdate = false}) {
     _zoom = zoom;
     if (forceUpdate) {
-      updateMap();
+      updateMapW(map_web);
     }
   }
 

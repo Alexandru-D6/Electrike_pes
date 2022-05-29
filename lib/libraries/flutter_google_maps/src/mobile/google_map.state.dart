@@ -212,21 +212,25 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     if (group == null) group = "default";
 
     _markers.putIfAbsent(group, () => Map<String,items_t.Marker>());
-    _markers[group]!.putIfAbsent(key, () => marker);
+    if(!_markers[group]!.containsKey(key)) _markers[group]!.putIfAbsent(key, () => marker);
 
     if (_current_displaying.contains(group)) {
       if (_inside_charger.contains(group)) {
         _items_charger.putIfAbsent(key, () => marker);
         _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
+        _manager_charger.updateMap();
       }else if (_inside_bicing.contains(group)) {
         _items_bicing.putIfAbsent(key, () => marker);
         _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+        _manager_bicing.updateMap();
       }else if (group.contains("route")){
         _items_route.putIfAbsent(key, () => marker);
         _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
+        _manager_route.updateMap();
       }else {
         _items_general.putIfAbsent(key, () => marker);
         _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+        _manager_general.updateMap();
       }
     }
   }
@@ -250,22 +254,27 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
 
     if(deleteIt) {
-      _markers[group]?.remove(key);
-      if (_current_displaying.contains(group)) {
+      _setState(() {
+        _markers[group]?.remove(key);
+
         if (_inside_charger.contains(group)) {
           _items_charger.remove(key);
+          _shown_markers_charger.clear();
           _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
         }else if (_inside_bicing.contains(group)) {
           _items_bicing.remove(key);
           _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
+          _manager_bicing.updateMap();
         }else if (group!.contains("route")){
           _items_route.remove(key);
           _manager_route.setItems(List<items_t.Marker>.of(_items_route.values));
+          _manager_route.updateMap();
         }else {
           _items_general.remove(key);
           _manager_general.setItems(List<items_t.Marker>.of(_items_general.values));
+          _manager_general.updateMap();
         }
-      }
+      });
     }
   }
 
@@ -600,6 +609,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _setState(() {
       _shown_markers_bicing.clear();
       _shown_markers_bicing = markers;
+      _current_displaying = _current_displaying;
     });
   }
 
@@ -607,6 +617,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _setState(() {
       _shown_markers_general.clear();
       _shown_markers_general = markers;
+      _current_displaying = _current_displaying;
     });
   }
 
@@ -614,6 +625,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _setState(() {
       _shown_markers_charger.clear();
       _shown_markers_charger = markers;
+      _current_displaying = _current_displaying;
     });
   }
 
@@ -621,6 +633,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     _setState(() {
       _shown_markers_route.clear();
       _shown_markers_route = markers;
+      _current_displaying = _current_displaying;
     });
   }
 
@@ -939,21 +952,17 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
       }
 
       _current_displaying.add(group);
+      print(_current_displaying);
     }
   }
 
   @override
   void clearChoosenMarkers() {
 
-    _current_displaying = {"default"};
     _items_charger.clear();
     _items_general.clear();
     _items_bicing.clear();
     _items_route.clear();
-
-    if (_markers.containsKey("default")) {
-      _items_general.addAll(_markers["default"]!);
-    }
 
     _manager_charger.setItems(List<items_t.Marker>.of(_items_charger.values));
     _manager_bicing.setItems(List<items_t.Marker>.of(_items_bicing.values));
@@ -964,7 +973,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   @override
   void clearGroupMarkers(String group) {
     if (_markers.containsKey(group)) {
-      _markers[group] = Map<String, items_t.Marker>();
+      _markers[group]?.clear();
     }else return;
 
     if (_current_displaying.contains(group)) {

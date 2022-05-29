@@ -135,16 +135,19 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           ),
           tooltip: AppLocalizations.of(context).addFavPoints, // (Peilin) ready for test
           onPressed: () {
-            ctrlPresentation.loveClickedBicing(context, widget.latitude, widget.longitude);
-            if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
-              GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favBicingPoints");
-            }
-            else {
-              GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
-                  const MyMap().markerBicing(
-                      context, widget.latitude, widget.longitude), group: "favBicingPoints");
-            }
-            Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+            setState(() {
+
+              if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
+                GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favBicingPoints");
+              }
+              else {
+                var marker = const MyMap().markerBicing(context, widget.latitude, widget.longitude);
+                GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(marker, group: "favBicingPoints");
+              }
+
+              ctrlPresentation.loveClickedBicing(context, widget.latitude, widget.longitude);
+              Navigator.pop(context);
+            });
           },
         ),
       ],

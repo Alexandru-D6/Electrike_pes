@@ -155,16 +155,20 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
           ),
           tooltip: AppLocalizations.of(context).msgAddFav,
           onPressed: () {
-              ctrlPresentation.loveClickedCharger(context, widget.latitude, widget.longitude);
+            setState(() {
+
               if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
                 GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favChargerPoints");
               }
               else {
-                GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
-                  const MyMap().markerCharger(
-                      context, widget.latitude, widget.longitude), group: "favChargerPoints");
+                var marker = const MyMap().markerCharger(context, widget.latitude, widget.longitude);
+                GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(marker, group: "favChargerPoints");
               }
-              Future.delayed(const Duration(milliseconds: 200), () { setState(() {});  });
+
+              ctrlPresentation.loveClickedCharger(context, widget.latitude, widget.longitude);
+              Navigator.pop(context);
+
+            });
           },
         ),
       ],

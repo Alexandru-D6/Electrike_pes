@@ -212,37 +212,30 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
   @override
   void addMarker(items_t.Marker marker,{String? group}) {
-    /*addMarkerRaw(
-      marker.position,
-      "default",
-      label: marker.label,
-      icon: marker.icon,
-      info: marker.info,
-      infoSnippet: marker.infoSnippet,
-      onTap: marker.onTap,
-      onInfoWindowTap: marker.onInfoWindowTap,
-    );*/
     final key = marker.position.toString();
     if (group == null) group = "default";
 
     _markers_colection.putIfAbsent(group, () => Map<String,items_t.Marker>());
-    _markers_colection[group]!.putIfAbsent(key, () => marker);
+    if (!_markers_colection[group]!.containsKey(key)) _markers_colection[group]!.putIfAbsent(key, () => marker);
 
     if (_current_displaying.contains(group)) {
       if (_inside_charger.contains(group)) {
         _items_charger.putIfAbsent(key, () => marker);
         _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
+        _manager_charger.updateMapW(_map!);
       }else if (_inside_bicing.contains(group)) {
         _items_bicing.putIfAbsent(key, () => marker);
         _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
-      }else if (group.contains("route")){
+        _manager_bicing.updateMapW(_map!);
+      }else if (group == "route"){
         _items_route.putIfAbsent(key, () => marker);
         _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
+        _manager_route.updateMapW(_map!);
       }else {
         _items_general.putIfAbsent(key, () => marker);
         _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
+        _manager_general.updateMapW(_map!);
       }
-
     }
   }
 
@@ -265,19 +258,24 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
     }
 
     if(deleteIt) {
-      if (_current_displaying.contains(group)) { //todo: marker?.map = null; revisar que no haya que eliminarlo de esta manera o al menos como hacerlo ejje. Maybe los shown_markers?
+      _markers_colection[group]?.remove(key);
+      if (_current_displaying.contains(group)) {
         if (_inside_charger.contains(group)) {
           _items_charger.remove(key);
           _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
+          _manager_charger.updateMapW(_map!);
         }else if (_inside_bicing.contains(group)) {
           _items_bicing.remove(key);
           _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
+          _manager_bicing.updateMapW(_map!);
         }else if (group!.contains("route")){
           _items_route.remove(key);
           _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
+          _manager_route.updateMapW(_map!);
         }else {
           _items_general.remove(key);
           _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
+          _manager_general.updateMapW(_map!);
         }
       }
     }
@@ -992,29 +990,21 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
     clearMarkers();
 
-    _current_displaying = {"default"};
     _items_charger.clear();
     _items_general.clear();
     _items_bicing.clear();
     _items_route.clear();
 
-    if (_markers_colection.containsKey("default")) {
-      _items_general.addAll(_markers_colection["default"]!);
-    }
-
     _manager_charger.setItemsW(List<items_t.Marker>.of(_items_charger.values), _map!);
     _manager_bicing.setItemsW(List<items_t.Marker>.of(_items_bicing.values), _map!);
     _manager_general.setItemsW(List<items_t.Marker>.of(_items_general.values), _map!);
     _manager_route.setItemsW(List<items_t.Marker>.of(_items_route.values), _map!);
-
-    print(_markers_colection.keys);
-    print(_markers_colection["route"]);
   }
 
   @override
   void clearGroupMarkers(String group) {
     if (_markers_colection.containsKey(group)) {
-      _markers_colection[group] = Map<String, items_t.Marker>();
+      _markers_colection[group]?.clear();
     }else return;
 
     if (_current_displaying.contains(group)) {
@@ -1076,10 +1066,10 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
 
         _map!.onBoundsChanged.listen((event) {
           double? cur_zoom = _map!.zoom?.toDouble();
-          _manager_charger.onCameraMoveW(cur_zoom!);
-          _manager_bicing.onCameraMoveW(cur_zoom);
-          _manager_general.onCameraMoveW(cur_zoom);
-          _manager_route.onCameraMoveW(cur_zoom);
+          _manager_charger.onCameraMoveW(cur_zoom!, _map!);
+          _manager_bicing.onCameraMoveW(cur_zoom, _map!);
+          _manager_general.onCameraMoveW(cur_zoom, _map!);
+          _manager_route.onCameraMoveW(cur_zoom, _map!);
         });
 
         _map!.onIdle.listen((event) {
@@ -1089,6 +1079,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
           _manager_bicing.updateMapW(_map!);
           _manager_general.updateMapW(_map!);
           _manager_route.updateMapW(_map!);
+
         });
 
         _subscriptions.add(_map!.onClick.listen((event) => widget.onTap?.call(event.latLng!.toGeoCoord())));
