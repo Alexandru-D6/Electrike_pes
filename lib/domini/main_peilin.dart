@@ -143,8 +143,10 @@ class _MainPageState extends State<MainPage> {
          */
         routesResponse = await rutesEco.algorismeEco(const GeoCoord(41.274758, 1.940732), const GeoCoord(41.865140, 3.148968), 10, 30);
 
+        print("-+-+-+-+-+-+-+-+-+-+-+-+-");
+        print(routesResponse.waypoints);
         GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.274758, 1.940732), const GeoCoord(41.865140, 3.148968), waypoints: routesResponse.waypoints, color: Colors.amber);
-        GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.274758, 1.940732), const GeoCoord(41.865140, 3.148969), color: Colors.blue);
+        //GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.274758, 1.940732), const GeoCoord(41.865140, 3.148969), color: Colors.blue);
 
       });
     });

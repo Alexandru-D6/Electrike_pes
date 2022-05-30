@@ -28,16 +28,15 @@ class RutesEco {
   Future<RoutesResponse> obtenirRutaCarregador (GeoCoord origen, GeoCoord desti, double bateriaPerc, double consum) async{
     RoutesResponse result = RoutesResponse.buit();
     result = await rutesAmbCarrega.algorismeMillorRuta(origen, desti, bateriaPerc, consum);
-    print("---> Charger coords:");
-    print (result);
     return result;
   }
 
   /// Obtenir waypoints eco propers
   Future<void> getEcoWaypoints(List<GeoCoord> coordRuta) async {
-    double minDist = 0.0, auxDist;
 
-    for (int i = 0; i < coordRuta.length; i+= (coordRuta.length/10) as int) {
+    print(routesResponse.waypoints);
+    for (int i = (coordRuta.length/10).round(); i < (coordRuta.length - (coordRuta.length/10).round()); i+= (coordRuta.length/10).round()) {
+      double minDist = 0.0, auxDist;
       GeoCoord ecoWayPoint = GeoCoord(-1.0, -1.0);
       Map<double, GeoCoord> ecoCoords = await happyLungsAdpt.getEcoPoints(coordRuta[i]); //obtenim els punts ecològics de cada coordenada de la nostra ruta
       for (var eco in ecoCoords.entries) {
@@ -62,6 +61,7 @@ class RutesEco {
       print("---> Get eco points");
       print(routesResponse.waypoints);
     }
+    print(routesResponse.waypoints);
   }
 
   /// Obtenim les distancia, duracio i conjunt de coordenades de la ruta ecologica
@@ -86,7 +86,8 @@ class RutesEco {
   /// Algorisme principal de trobada de ruta eco
   Future<RoutesResponse> algorismeEco (GeoCoord origen, GeoCoord desti, double bateriaPerc, double consum) async{
     RoutesResponse resultAmbCarrega = await obtenirRutaCarregador(origen, desti, bateriaPerc, consum);
-    getEcoWaypoints(resultAmbCarrega.coords);
+    routesResponse.waypoints = resultAmbCarrega.waypoints;
+    await getEcoWaypoints(resultAmbCarrega.coords);
     fillEcoInfo(origen, desti);
     return routesResponse;
   }
