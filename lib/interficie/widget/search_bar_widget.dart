@@ -55,6 +55,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           FloatingSearchBarAction(
             showIfOpened: false,
             child: CircularButton(
+              tooltip: "hola",
               icon: const Icon(Icons.place),
               onPressed: () {
                 setState(() {});
@@ -102,6 +103,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         FloatingSearchBarAction(
           showIfOpened: false,
           child: (ctrlPresentation.destination != "Search...") ? CircularButton(
+            tooltip: "hola",
             icon: const Icon(Icons.directions),
             onPressed: () {
               showInfoRuta(context);
