@@ -10,7 +10,6 @@ class HappyLungsAdpt {
   HappyLungsAdpt();
 
   Future<Map<double, GeoCoord>> getEcoPoints(GeoCoord geoCoord) async{
-    print("-------------->");
     Map<double, GeoCoord> result = {};
     var urlc = urlorg+ geoCoord.latitude.toString() + '/' + geoCoord.longitude.toString() + '/' + radius.toString();
     var aux = (await http.get(Uri.parse(urlc)));
@@ -20,8 +19,6 @@ class HappyLungsAdpt {
         result[coord['distance']] = GeoCoord(double.parse(coord['latitude']), double.parse(coord['longitude']));
       }
     }
-    print(result);
     return result;
   }
-
 }

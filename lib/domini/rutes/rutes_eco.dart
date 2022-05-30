@@ -33,8 +33,6 @@ class RutesEco {
 
   /// Obtenir waypoints eco propers
   Future<void> getEcoWaypoints(List<GeoCoord> coordRuta) async {
-
-    print(routesResponse.waypoints);
     for (int i = (coordRuta.length/10).round(); i < (coordRuta.length - (coordRuta.length/10).round()); i+= (coordRuta.length/10).round()) {
       double minDist = 0.0, auxDist;
       GeoCoord ecoWayPoint = GeoCoord(-1.0, -1.0);
@@ -50,39 +48,36 @@ class RutesEco {
       //només afegir a llistat de waypoints eco si existeix punt ecologic a prop
       if (ecoWayPoint.latitude != -1.0 && ecoWayPoint.longitude != -1.0) {
         routesResponse.waypoints.add(ecoWayPoint);
-        print("--->ECO found:");
-        print(ecoWayPoint);
       }
       else {
         routesResponse.waypoints.add(coordRuta[i]);
-        print("--->ECO not found:");
-        print(coordRuta[i]);
       }
-      print("---> Get eco points");
-      print(routesResponse.waypoints);
     }
-    print(routesResponse.waypoints);
   }
 
   /// Obtenim les distancia, duracio i conjunt de coordenades de la ruta ecologica
   Future<void> fillEcoInfo (GeoCoord origen, GeoCoord desti) async {
-    var myList = routesResponse.coords;
+    var myList = routesResponse.waypoints;
     double totalDist = 0.0, totalDur = 0.0;
     RouteResponse routeInfo;
-    for (int i=1; i<=myList.length; i++) {
+    routeInfo= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(origen, myList[0]);
+    totalDist += routeInfo.distanceMeters!;
+    totalDur += routeInfo.durationMinutes!;
+    for (int i=1; i<myList.length; i++) {
       routeInfo= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(myList[i-1], myList[i]);
       totalDist += routeInfo.distanceMeters!;
       totalDur += routeInfo.durationMinutes!;
       routesResponse.coords.addAll(routeInfo.coords!);
     }
+    routeInfo= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(myList.last, desti);
+    totalDist += routeInfo.distanceMeters!;
+    totalDur += routeInfo.durationMinutes!;
+
     routesResponse.origen = origen;
     routesResponse.destino = desti;
     routesResponse.setDuration(totalDur);
     routesResponse.setDistance(totalDist);
-    print ("--> Routes response ECO: -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-" );
-    print (routesResponse.waypoints);
     routesResponse.waypoints.sort((a,b) => GoogleMap.of(ctrlPresentation.getMapKey())!.getDistance(origen, a).compareTo(GoogleMap.of(ctrlPresentation.getMapKey())!.getDistance(origen, b)));
-    print(routesResponse.waypoints);
   }
 
   /// Algorisme principal de trobada de ruta eco

@@ -128,24 +128,17 @@ class _MainPageState extends State<MainPage> {
     HappyLungsAdpt happyLungsAdpt = HappyLungsAdpt();
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RutesEco rutesEco = RutesEco();
-    RoutesResponse routesResponse = RoutesResponse.buit();
+    RoutesResponse routesResponse1 = RoutesResponse.buit();
+    RoutesResponse routesResponse2 = RoutesResponse.buit();
+
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       //sdffdssdfdsffds
       Future.delayed(const Duration(milliseconds: 5000), () async {
         ctrlDomain.vhselected = VehicleUsuari.buit();
-        /*print("--->");
-        print(ctrlDomain.vhselected);
-        routesResponse = await rutesAmbCarrega.algorismeMillorRuta(const GeoCoord(41.274758, 1.940732), const GeoCoord(41.865140, 3.148968), 10, 30);
-        print("---> Resposta rCarregadors:");
-        print(routesResponse);
-        happyLungsAdpt.getEcoPoints(const GeoCoord(41.366073, 2.118719));
-        rutesEco.getEcoWaypoints(routesResponse.coords);
-         */
-        routesResponse = await rutesEco.algorismeEco(const GeoCoord(41.3745340131314,2.1297464977983225), const GeoCoord(41.865140, 3.148968), 10, 30);
-
-        print("-+-+-+-+-+-+-+-+-+-+-+-+-");
-        print(routesResponse.waypoints);
-        GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.3745340131314,2.1297464977983225), const GeoCoord(41.865140, 3.148968), waypoints: routesResponse.waypoints, color: Colors.green);
+        routesResponse1 = await rutesEco.algorismeEco(const GeoCoord(41.3745340131314,2.1297464977983225), const GeoCoord(41.865140, 3.148968), 10, 30);
+        //routesResponse2 = await rutesAmbCarrega.algorismeMillorRuta(const GeoCoord(41.3745340131314,2.1297464977983225), const GeoCoord(41.865140, 3.148967), 10, 30);
+        //GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.3745340131314,2.1297464977983225), const GeoCoord(41.865140, 3.148967), waypoints: routesResponse2.waypoints, color: Colors.pinkAccent);
+        GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.3745340131314,2.1297464977983225), const GeoCoord(41.865140, 3.148968), waypoints: routesResponse1.waypoints, color: Colors.green);
         GoogleMap.of(ctrlPresentation.getMapKey())?.displayRoute(const GeoCoord(41.3745340131314,2.1297464977983225), const GeoCoord(41.865140, 3.148969), color: Colors.blue);
 
       });

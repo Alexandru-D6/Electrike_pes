@@ -93,12 +93,8 @@ class RutesAmbCarrega {
 
           if (coordCarregadorsPropers.isEmpty) {
             radius += 10.0;
-            print("---> Radius:");
-            print(radius);
           } else {
             coordCharger = await findSuitableCharger(coordCarregadorsPropers, desti);
-            print("---> Coord charger:");
-            print(coordCharger);
             if (coordCharger.longitude != -1.0 && coordCharger.latitude != -1.0) {
               routesResponse.waypoints.add(coordCharger);
               RouteResponse firstTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(origen, coordCharger);

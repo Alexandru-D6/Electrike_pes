@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_project/domini/rutes/rutes_eco.dart';
 import 'package:vector_math/vector_math.dart' as math;
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
@@ -770,6 +771,11 @@ class CtrlDomain {
   Future<RoutesResponse> findSuitableRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
     RutesAmbCarrega rutesAmbCarrega = RutesAmbCarrega();
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
+    return routesResponse;
+  }
+  Future<RoutesResponse> findEcoRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
+    RutesEco rutesEco = RutesEco();
+    RoutesResponse routesResponse = await rutesEco.algorismeEco(origen, destino, bateriaPerc, vhselected.efficiency);
     return routesResponse;
   }
   Future<List<Coordenada>> getNearChargers(double lat, double lon, double radius) async{
