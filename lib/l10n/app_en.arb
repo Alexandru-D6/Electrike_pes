@@ -303,6 +303,8 @@
                  "min": {}
              }
          },
-         "startTravelDescription": "Enter your address of origin and the destination of your trip. If you do not enter any of the origin, the current location will be taken by default. Select the vehicle with which you are going to travel using the arrows or by moving sideways. Now It only remains for you to enter the remaining battery and the type of route you want to do and enjoy the trip."
+         "startTravelDescription": "Enter your address of origin and the destination of your trip. If you do not enter any of the origin, the current location will be taken by default. Select the vehicle with which you are going to travel using the arrows or by moving sideways. Now It only remains for you to enter the remaining battery and the type of route you want to do and enjoy the trip.",
+         "addAtLeastOneDayTitle":"No days selected to notify",
+           "addAtLeastOneDayDesc":"Add at least one day in order to alert can be created."
 
 }

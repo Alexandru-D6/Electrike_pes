@@ -303,6 +303,8 @@
       "placeholders": {
           "min": {}
       }
-  }
+  },
+  "addAtLeastOneDayTitle":"No hay días seleccionados para notificar",
+  "addAtLeastOneDayDesc": "Añade como mínimo un día para que se pueda crear la alerta."
 
 }

@@ -679,4 +679,10 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String get startTravelDescription => 'Introdueix la teva adreça d\'origen i la de destinació del teu viatge. En cas de no posar-ne cap d\'origen es prendrà per defecte la ubicació actual. Selecciona mitjançant les fletxes o desplaçant cap als costats el vehicle amb què viatjaràs. Ara ja només queda que introdueixis la bateria que queda i el tipus de ruta que vols fer i gaudir del viatge.';
+
+  @override
+  String get addAtLeastOneDayTitle => 'No s\'ha seleccionat cap dia per notificar';
+
+  @override
+  String get addAtLeastOneDayDesc => 'Afegeix com a mínim un dia perquè es pugui crear l\'alerta.';
 }

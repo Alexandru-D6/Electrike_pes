@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -142,14 +143,39 @@ class _TimePickerPageState extends State<TimePickerPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(AppLocalizations.of(context).notificationInfoMsg(selectedDays.toString(), selectedTime.hour.toString(), selectedTime.minute.toString()))), // (Peilin) ready for test
-          );
-          List<int> selectedDaysInt = daysToInt(selectedDays, context);
-          ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
-          Future.delayed( Duration(milliseconds: 185*selectedDaysInt.length), () {
-          ctrlPresentation.toNotificationsPage(context, notificationsInfo.latitud, notificationsInfo.longitud, notificationsInfo.title);
-          });
+          if(selectedDays.isEmpty){
+            AwesomeDialog(
+              context: context,
+              width: 500,
+              animType: AnimType.LEFTSLIDE,
+              dialogType: DialogType.NO_HEADER,
+              autoHide: const Duration(seconds: 6),
+              title: AppLocalizations.of(context).addAtLeastOneDayTitle,
+              desc: AppLocalizations.of(context).addAtLeastOneDayDesc,
+              btnOkText:'Ok',
+              btnOkOnPress:(){},
+              headerAnimationLoop: false,
+            ).show();
+          }
+          else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(
+                  AppLocalizations.of(context).notificationInfoMsg(
+                      selectedDays.toString(), selectedTime.hour.toString(),
+                      selectedTime.minute
+                          .toString()))), // (Peilin) ready for test
+            );
+            List<int> selectedDaysInt = daysToInt(selectedDays, context);
+            ctrlPresentation.addNotification(
+                notificationsInfo.latitud, notificationsInfo.longitud,
+                selectedTime.hour, selectedTime.minute, selectedDaysInt);
+            Future.delayed(
+                Duration(milliseconds: 185 * selectedDaysInt.length), () {
+              ctrlPresentation.toNotificationsPage(
+                  context, notificationsInfo.latitud,
+                  notificationsInfo.longitud, notificationsInfo.title);
+            });
+          }
         },
         heroTag: AppLocalizations.of(context).addNoti,// (Peilin) ready for test
         tooltip: AppLocalizations.of(context).addNoti,// (Peilin) ready for test
