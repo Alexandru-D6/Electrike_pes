@@ -75,7 +75,7 @@ class FavsChargersState extends State<FavsChargers> {
                     icon: notificationsOn && !kIsWeb ?
                       (const Icon(Icons.notifications_active)) :
                       (const Icon(Icons.notifications_off)),
-                    onPressed: () {
+                    onPressed: () async {
                       if (kIsWeb) {
                         AwesomeDialog(
                           context: context,
@@ -111,12 +111,40 @@ class FavsChargersState extends State<FavsChargers> {
                         return;
                       }
 
+                      showDialog(
+                        // The user CANNOT close this dialog  by pressing outsite it
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (_) {
+                            return Dialog(
+                              // The background color
+                              backgroundColor: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 20),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    // The loading indicator
+                                    CircularProgressIndicator(),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    // Some text
+                                    Text('Loading...')
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+
                       if (notificationsOn) {
-                        ctrlPresentation.disableAllNotifications(word.latitud, word.longitud);
+                        await ctrlPresentation.disableAllNotifications(word.latitud, word.longitud);
                       }
                       else {
-                        ctrlPresentation.enableAllNotifications(word.latitud, word.longitud);
+                        await ctrlPresentation.enableAllNotifications(word.latitud, word.longitud);
                       }
+
+                      Navigator.of(context, rootNavigator: true).pop();
 
                       setState(() {
                         notificationsOn = ctrlPresentation.notificationsOn(word.latitud, word.longitud);
@@ -144,11 +172,11 @@ class FavsChargersState extends State<FavsChargers> {
                     tooltip: AppLocalizations.of(context).addFavPoints,
                     icon: (const Icon(Icons.favorite)),
                     color: Colors.red,
-                    onPressed: () {
-                      points.removeAt(index);
-                      ctrlPresentation.loveClickedCharger(
+                    onPressed: () async {
+                      await ctrlPresentation.loveClickedCharger(
                           context, word.latitud, word.longitud);
                       setState(() {
+                        points.removeAt(index);
                         //initState();
                       });
                     }

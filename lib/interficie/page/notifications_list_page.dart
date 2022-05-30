@@ -86,12 +86,39 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
               color: Colors.red,
             ),
             onPressed: () async{
-              _removeItem(index,notification, latitud, longitud);
-              Future.delayed(const Duration(milliseconds: 350), () async {
-                ctrlPresentation.removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
-                setState(() {
-                  notification.removeAt(index);
-                });
+              showDialog(
+                // The user CANNOT close this dialog  by pressing outsite it
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (_) {
+                    return Dialog(
+                      // The background color
+                      backgroundColor: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            // The loading indicator
+                            CircularProgressIndicator(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            // Some text
+                            Text('Loading...')
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+
+              await ctrlPresentation.removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+
+              Navigator.of(context, rootNavigator: true).pop();
+
+              setState(() {
+                _removeItem(index,notification, latitud, longitud);
+                notification.removeAt(index);
               });
             },
           ),

@@ -21,6 +21,7 @@ class TimePickerPage extends StatefulWidget {
 class _TimePickerPageState extends State<TimePickerPage> {
   TimeOfDay selectedTime = TimeOfDay.now();
   List<String> selectedDays = <String>[];
+  bool buttonPressed = false;
 
   List<DayInWeek> _days(context) => [
     DayInWeek(AppLocalizations.of(context).lunes),
@@ -141,12 +142,42 @@ class _TimePickerPageState extends State<TimePickerPage> {
 
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(AppLocalizations.of(context).notificationInfoMsg(selectedDays.toString(), selectedTime.hour.toString(), selectedTime.minute.toString()))), // (Peilin) ready for test
           );
+
+          showDialog(
+            // The user CANNOT close this dialog  by pressing outsite it
+              barrierDismissible: false,
+              context: context,
+              builder: (_) {
+                return Dialog(
+                  // The background color
+                  backgroundColor: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        // The loading indicator
+                        CircularProgressIndicator(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        // Some text
+                        Text('Loading...')
+                      ],
+                    ),
+                  ),
+                );
+              });
+
           List<int> selectedDaysInt = daysToInt(selectedDays, context);
-          ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
+          await ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
+          Navigator.of(context, rootNavigator: true).pop();
+
           ctrlPresentation.toNotificationsPage(context, notificationsInfo.latitud, notificationsInfo.longitud, notificationsInfo.title);
         },
         heroTag: AppLocalizations.of(context).addNoti,// (Peilin) ready for test

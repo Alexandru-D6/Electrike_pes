@@ -251,15 +251,13 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
       if (separatedString[2] == "bicing") {
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
         GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers("bicingPoints");
-        ctrlPresentation.moveCameraToSpecificLocation(mapContext!, lat, lng);
-        setState(() {showInfoBicing(mapContext, lat, lng);});
+        setState(() {ctrlPresentation.moveCameraToSpecificLocation(mapContext!, lat, lng); showInfoBicing(mapContext, lat, lng);});
         return;
       }else {
         GoogleMap.of(ctrlPresentation.getMapKey())?.clearChoosenMarkers();
         GoogleMap.of(ctrlPresentation.getMapKey())?.addChoosenMarkers(
             "chargerPoints");
-        ctrlPresentation.moveCameraToSpecificLocation(mapContext!, lat, lng);
-        setState(() {showInfoCharger(mapContext, lat, lng);});
+        setState(() {ctrlPresentation.moveCameraToSpecificLocation(mapContext!, lat, lng); showInfoCharger(mapContext, lat, lng);});
         return;
       }
     } else if (separatedString[1] == "location") {
