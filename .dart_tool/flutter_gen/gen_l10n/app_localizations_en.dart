@@ -665,6 +665,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get defaulttitle => 'Default title';
 
   @override
+  String get searchroute => 'Search a route';
+
+  @override
   String get startTravel => 'Start a travel';
 
   @override
