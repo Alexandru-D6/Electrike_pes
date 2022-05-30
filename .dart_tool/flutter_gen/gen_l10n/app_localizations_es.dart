@@ -620,7 +620,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get eliminaNoti => 'Eliminar notificación';
 
   @override
-  String get anynoti => 'Aún no hay notificaciones. Añade uno...';
+  String get anynoti => 'Aún no hay notificaciones. Añade una...';
 
   @override
   String get edit => 'Editar';
@@ -663,6 +663,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get defaulttitle => 'Default title';
+
+  @override
+  String get searchroute => 'Busca una ruta';
 
   @override
   String get startTravel => 'Empieza un viaje';

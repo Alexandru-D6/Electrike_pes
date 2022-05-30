@@ -256,7 +256,7 @@
 "notiEnableDis": "Activar o desactivar notificaciones de un cargador",
 "confnoti":"Configurar notificaciones del cargador",
 "eliminaNoti":"Eliminar notificación",
-"anynoti":"Aún no hay notificaciones. Añade uno...",
+"anynoti":"Aún no hay notificaciones. Añade una...",
 "edit": "Editar",
 "editCar": "Edita tu vehículo",
 "sorrychart1":"Lo sentimos, este punto no pertenece a Barcelona. Estamos trabajando para ofrecer en un futuro esta información.",
@@ -272,6 +272,7 @@
 
    "textlink":"¡Oye! Mira esta ubicación ",
    "addedclip":"¡La ubicación tocada se ha agregado al portapapeles!",
+   "searchroute":"Busca una ruta",
 
    "defaulttitle" : "Default title",
 
