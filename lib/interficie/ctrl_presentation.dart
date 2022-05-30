@@ -402,6 +402,7 @@ class CtrlPresentation {
 
       String origin = orig.latitude.toString() + "," + orig.longitude.toString();
 
+      print(waypointsRuta);
       GoogleMap.of(getMapKey())?.displayRoute(
         origin,
         destination,
@@ -410,7 +411,7 @@ class CtrlPresentation {
         startInfo: "Origin",
         endLabel: "Destination",
         endInfo: "Destination",
-        color: const Color(0xff3b30cf),
+        color: const Color(0xff48ac9c),
       );
     }
   }
@@ -992,7 +993,35 @@ class CtrlPresentation {
       else if(routeType == 2){
         double bat = double.parse(bateria);
 
+        showDialog(
+          // The user CANNOT close this dialog  by pressing outsite it
+            barrierDismissible: false,
+            context: navigatorKey.currentContext!,
+            builder: (_) {
+              return Dialog(
+                // The background color
+                backgroundColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      // The loading indicator
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      // Some text
+                      Text('Loading...')
+                    ],
+                  ),
+                ),
+              );
+            });
+
         var rutaCharger = await ctrlDomain.findEcoRoute(origen, desti, bat);
+
+        Navigator.of(navigatorKey.currentContext!, rootNavigator: true).pop();
 
         distinkilometers = rutaCharger.distance;
         durationinhours = rutaCharger.duration;
