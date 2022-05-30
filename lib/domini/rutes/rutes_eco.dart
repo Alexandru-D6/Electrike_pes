@@ -79,8 +79,10 @@ class RutesEco {
     routesResponse.destino = desti;
     routesResponse.setDuration(totalDur);
     routesResponse.setDistance(totalDist);
-    print ("--> Routes response ECO:");
+    print ("--> Routes response ECO: -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-" );
     print (routesResponse.waypoints);
+    routesResponse.waypoints.sort((a,b) => GoogleMap.of(ctrlPresentation.getMapKey())!.getDistance(origen, a).compareTo(GoogleMap.of(ctrlPresentation.getMapKey())!.getDistance(origen, b)));
+    print(routesResponse.waypoints);
   }
 
   /// Algorisme principal de trobada de ruta eco
