@@ -55,11 +55,11 @@ class _SearchBarWidget extends State<SearchBarWidget> {
           FloatingSearchBarAction(
             showIfOpened: false,
             child: CircularButton(
-              tooltip: "hola",
+              tooltip:  AppLocalizations.of(context).yourLocation,
               icon: const Icon(Icons.place),
               onPressed: () {
                 setState(() {});
-                ctrlPresentation.actualLocation = AppLocalizations.of(context).yourLocation;
+                ctrlPresentation.actualLocation = "My location";
                 ctrlPresentation.moveCameraToLocation();
                 },
             ),
@@ -103,7 +103,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         FloatingSearchBarAction(
           showIfOpened: false,
           child: (ctrlPresentation.destination != "Search...") ? CircularButton(
-            tooltip: "hola",
+            tooltip: AppLocalizations.of(context).searchroute,
             icon: const Icon(Icons.directions),
             onPressed: () {
               showInfoRuta(context);

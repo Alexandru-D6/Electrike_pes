@@ -1398,6 +1398,12 @@ abstract class AppLocalizations {
   /// **'Default title'**
   String get defaulttitle;
 
+  /// No description provided for @searchroute.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a route'**
+  String get searchroute;
+
   /// No description provided for @startTravel.
   ///
   /// In en, this message translates to:
