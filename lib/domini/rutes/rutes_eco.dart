@@ -37,12 +37,11 @@ class RutesEco {
   Future<void> getEcoWaypoints(List<GeoCoord> coordRuta) async {
     double minDist = 0.0, auxDist;
 
-
-    for (var coord in coordRuta) {
+    for (int i = 0; i < coordRuta.length; i+= (coordRuta.length/10) as int) {
       GeoCoord ecoWayPoint = GeoCoord(-1.0, -1.0);
-      Map<double, GeoCoord> ecoCoords = await happyLungsAdpt.getEcoPoints(coord); //obtenim els punts ecològics de cada coordenada de la nostra ruta
+      Map<double, GeoCoord> ecoCoords = await happyLungsAdpt.getEcoPoints(coordRuta[i]); //obtenim els punts ecològics de cada coordenada de la nostra ruta
       for (var eco in ecoCoords.entries) {
-        auxDist = await GoogleMap.of(ctrlPresentation.getMapKey())!.getDistance(eco.value, coord);
+        auxDist = await GoogleMap.of(ctrlPresentation.getMapKey())!.getDistance(eco.value, coordRuta[i]);
 
         if (auxDist < minDist) { // dins de les coords que ens retornen, només seleccionem aquella que està més a prop de la ruta original
           ecoWayPoint = eco.value;
@@ -51,10 +50,14 @@ class RutesEco {
       }
       //només afegir a llistat de waypoints eco si existeix punt ecologic a prop
       if (ecoWayPoint.latitude != -1.0 && ecoWayPoint.longitude != -1.0) {
-        routesResponse.addWaypoint(ecoWayPoint);
+        routesResponse.waypoints.add(ecoWayPoint);
+        print("--->ECO found:");
+        print(ecoWayPoint);
       }
       else {
-        routesResponse.addWaypoint(coord);
+        routesResponse.waypoints.add(coordRuta[i]);
+        print("--->ECO not found:");
+        print(coordRuta[i]);
       }
       print("---> Get eco points");
       print(routesResponse.waypoints);
@@ -63,7 +66,7 @@ class RutesEco {
 
   /// Obtenim les distancia, duracio i conjunt de coordenades de la ruta ecologica
   Future<void> fillEcoInfo (GeoCoord origen, GeoCoord desti) async {
-    var myList = routesResponse.waypoints;
+    var myList = routesResponse.coords;
     double totalDist = 0.0, totalDur = 0.0;
     RouteResponse routeInfo;
     for (int i=1; i<=myList.length; i++) {
@@ -76,6 +79,8 @@ class RutesEco {
     routesResponse.destino = desti;
     routesResponse.setDuration(totalDur);
     routesResponse.setDistance(totalDist);
+    print ("--> Routes response ECO:");
+    print (routesResponse.waypoints);
   }
 
   /// Algorisme principal de trobada de ruta eco

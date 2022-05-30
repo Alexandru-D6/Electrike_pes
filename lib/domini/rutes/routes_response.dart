@@ -12,6 +12,7 @@ class RoutesResponse {
   RoutesResponse.complete(this.origen, this.destino, this.waypoints, this.distance, this.duration);
   RoutesResponse.buit(){
     waypoints = <GeoCoord>[];
+    coords = <GeoCoord>[];
   }
   void addWaypoint(GeoCoord wayPoint) {
     //Coordenada coord = Coordenada(wayPoint.latitude, wayPoint.longitude);
