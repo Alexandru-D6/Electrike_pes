@@ -255,7 +255,7 @@
        "notiEnableDis": "Activar o desactivar notificacions d'un carregador",
        "confnoti":"Configurar notificacions del carregador",
        "eliminaNoti":"Eliminar notificació",
-       "anynoti":"Encara hi ha notificacions. Afegeix-ne una...",
+       "anynoti":"Encara no hi ha notificacions. Afegeix-ne una...",
        "edit": "Editar",
        "editCar": "Edita el teu vehicle",
        "sorrychart1": "Ho sentim, aquest punt no pertany a Barcelona. Estem treballant per oferir en un futur aquesta informació.",
