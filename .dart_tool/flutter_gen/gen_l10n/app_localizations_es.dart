@@ -407,7 +407,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addAlertDescr => 'Necesitas crear el menos una notificación asociada a este punto de carga.';
 
   @override
-  String get addalertdesc => 'No tienes ninguna notificación asociada a este punto. Agrega al menos uno para recibir notificaciones desde este punto.';
+  String get addalertdesc => 'No tienes ninguna notificación asociada a este punto. Agrega al menos una para recibir notificaciones desde este punto.';
 
   @override
   String get skip => 'SALTAR';

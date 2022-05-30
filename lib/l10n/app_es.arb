@@ -175,7 +175,7 @@
 
    "addAlert": "Añadir notificación",
   "addAlertDescr": "Necesitas crear el menos una notificación asociada a este punto de carga.",
-  "addalertdesc": "No tienes ninguna notificación asociada a este punto. Agrega al menos uno para recibir notificaciones desde este punto.",
+  "addalertdesc": "No tienes ninguna notificación asociada a este punto. Agrega al menos una para recibir notificaciones desde este punto.",
   "skip": "SALTAR",
   "next": "SIGUIENTE",
   "duration": "Tiempo",
