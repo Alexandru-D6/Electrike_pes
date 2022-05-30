@@ -387,17 +387,30 @@ class CtrlPresentation {
       );
     }
     else if (routeType == 2) {
-      //todo: ruta ecologica
-      String origin = curLocation.latitude.toString() + "," + curLocation.longitude.toString();
-      if (actualLocation != "My location") origin = actualLocation;
+      GeoCoord dest = await getMapsService.adressCoding(destination);
+
+      late GeoCoord orig;
+      if (actualLocation != "My location") orig = await getMapsService.adressCoding(actualLocation);
+
+      double bat = double.parse(bateria);
+
+      if (actualLocation == "My location") orig = curLocation;
+
+
+      //RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
+
+
+      String origin = orig.latitude.toString() + "," + orig.longitude.toString();
+
       GoogleMap.of(getMapKey())?.displayRoute(
-          origin,
-          destination,
+        origin,
+        destination,
+        waypoints: waypointsRuta.isEmpty || waypointsRuta.first.latitude == -1.0 ? List<GeoCoord>.empty() : waypointsRuta,
         startLabel: "Origin",
         startInfo: "Origin",
         endLabel: "Destination",
         endInfo: "Destination",
-        color: const Color(0xff48ac9c),
+        color: const Color(0xff3b30cf),
       );
     }
   }
@@ -947,9 +960,16 @@ class CtrlPresentation {
         resDistance = rutaCharger.distance;
       }
       else if(routeType == 2){
-        //todo:calculos necesarios ruta eco
-        resDuration = "0.0";
-        resDistance = "0";
+        double bat = double.parse(bateria);
+
+        var rutaCharger = await ctrlDomain.findEcoRoute(origen, desti, bat);
+
+        distinkilometers = rutaCharger.distance;
+        durationinhours = rutaCharger.duration;
+        waypointsRuta = rutaCharger.waypoints;
+        String origin = origen.latitude.toString() + "," + origen.longitude.toString();
+        resDuration = rutaCharger.duration;
+        resDistance = rutaCharger.distance;
       }
       List<String> res = [resDistance, resDuration];
       return res;
