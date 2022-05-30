@@ -87,10 +87,11 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
             ),
             onPressed: () async{
               _removeItem(index,notification, latitud, longitud);
-              await Future.delayed(const Duration(milliseconds: 350), () {});
-              await ctrlPresentation.removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
-              setState(() {
-                notification.removeAt(index);
+              Future.delayed(const Duration(milliseconds: 350), () async {
+                ctrlPresentation.removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+                setState(() {
+                  notification.removeAt(index);
+                });
               });
             },
           ),

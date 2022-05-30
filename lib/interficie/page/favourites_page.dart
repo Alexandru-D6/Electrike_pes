@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/domini/coordenada.dart';
 import 'package:flutter_project/interficie/constants.dart';
@@ -11,10 +12,10 @@ class FavsChargers extends StatefulWidget {
   const FavsChargers({Key? key}) : super(key: key);
 
   @override
-  State<FavsChargers> createState() => _FavsChargersState();
+  State<FavsChargers> createState() => FavsChargersState();
 }
 
-class _FavsChargersState extends State<FavsChargers> {
+class FavsChargersState extends State<FavsChargers> {
   List<List<String>> points = [];
   bool charging = true;
   @override
@@ -29,7 +30,7 @@ class _FavsChargersState extends State<FavsChargers> {
   }
   @override
   Widget build(BuildContext context) {
-    CtrlPresentation ctrlPresentation = CtrlPresentation();
+
     if(charging) {
       return const CircularProgressIndicator(color: Colors.black26);
     }
@@ -42,13 +43,10 @@ class _FavsChargersState extends State<FavsChargers> {
               double.parse(points[index][0]), double.parse(points[index][1]));
           String title = points[index][2];
 
-          bool hasNotifications = ctrlPresentation.hasNotifications(
-              word.latitud, word.longitud);
-          bool notificationsOn = ctrlPresentation.notificationsOn(
-              word.latitud, word.longitud);
+          bool hasNotifications = ctrlPresentation.hasNotifications(word.latitud, word.longitud);
+          bool notificationsOn = ctrlPresentation.notificationsOn(word.latitud, word.longitud);
 
-          bool esBarcelona = ctrlPresentation.esBarcelona(
-              word.latitud, word.longitud);
+          bool esBarcelona = ctrlPresentation.esBarcelona(word.latitud, word.longitud);
 
           return ListTile(
             title: Text(title),
@@ -73,11 +71,26 @@ class _FavsChargersState extends State<FavsChargers> {
 
                 IconButton(
                     tooltip: AppLocalizations.of(context).notiEnableDis,
-                    color: hasNotifications ? Colors.blue : Colors.black12,
-                    icon: notificationsOn ?
-                    (const Icon(Icons.notifications_active)) :
-                    (const Icon(Icons.notifications_off)),
+                    color: hasNotifications && !kIsWeb ? Colors.blue : Colors.black12,
+                    icon: notificationsOn && !kIsWeb ?
+                      (const Icon(Icons.notifications_active)) :
+                      (const Icon(Icons.notifications_off)),
                     onPressed: () {
+                      if (kIsWeb) {
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.INFO,
+                          animType: AnimType.BOTTOMSLIDE,
+                          title: "Version Web", //TODO: traducir esto porfis
+
+                          desc: "Por limitaciones de librerias actualmente no ofrecemos servicio de notificacion en la version Web de nuestra aplicacion.", //TODO: traducir esto porfis
+
+                          btnOkText: "OK",
+                          btnOkOnPress: () {},
+                          headerAnimationLoop: false,
+                        ).show();
+                        return;
+                      }
                       if (!hasNotifications && esBarcelona) {
                         AwesomeDialog(
                           context: context,
@@ -91,22 +104,22 @@ class _FavsChargersState extends State<FavsChargers> {
                           btnOkOnPress: () {},
                           headerAnimationLoop: false,
                         ).show();
+                        return;
                       }
                       else if (!esBarcelona) {
                         ctrlPresentation.showDialogNotFromBcn(context);
+                        return;
                       }
 
                       if (notificationsOn) {
-                        ctrlPresentation.disableAllNotifications(
-                            word.latitud, word.longitud);
+                        ctrlPresentation.disableAllNotifications(word.latitud, word.longitud);
                       }
                       else {
-                        ctrlPresentation.enableAllNotifications(
-                            word.latitud, word.longitud);
+                        ctrlPresentation.enableAllNotifications(word.latitud, word.longitud);
                       }
+
                       setState(() {
-                        notificationsOn = ctrlPresentation.notificationsOn(
-                            word.latitud, word.longitud);
+                        notificationsOn = ctrlPresentation.notificationsOn(word.latitud, word.longitud);
                       });
                     }
                 ),
@@ -222,6 +235,7 @@ class FilterFavsItems extends StatefulWidget {
 
 class _FilterFavsItemsState extends State<FilterFavsItems> {
   int _selectedIndex = 0;
+
   static const List<Widget> _widgetOptions = <Widget>[
     FavsChargers(),
     FavsBicings(),

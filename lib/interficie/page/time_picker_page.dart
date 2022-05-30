@@ -159,22 +159,11 @@ class _TimePickerPageState extends State<TimePickerPage> {
           }
           else {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(
-                  AppLocalizations.of(context).notificationInfoMsg(
-                      selectedDays.toString(), selectedTime.hour.toString(),
-                      selectedTime.minute
-                          .toString()))), // (Peilin) ready for test
+              SnackBar(content: Text(AppLocalizations.of(context).notificationInfoMsg(selectedDays.toString(), selectedTime.hour.toString(), selectedTime.minute.toString()))), // (Peilin) ready for test
             );
             List<int> selectedDaysInt = daysToInt(selectedDays, context);
-            ctrlPresentation.addNotification(
-                notificationsInfo.latitud, notificationsInfo.longitud,
-                selectedTime.hour, selectedTime.minute, selectedDaysInt);
-            Future.delayed(
-                Duration(milliseconds: 185 * selectedDaysInt.length), () {
-              ctrlPresentation.toNotificationsPage(
-                  context, notificationsInfo.latitud,
-                  notificationsInfo.longitud, notificationsInfo.title);
-            });
+            ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
+            ctrlPresentation.toNotificationsPage(context, notificationsInfo.latitud, notificationsInfo.longitud, notificationsInfo.title);
           }
         },
         heroTag: AppLocalizations.of(context).addNoti,// (Peilin) ready for test
