@@ -96,11 +96,39 @@ class LocalNotificationAdpt {
     } else {
       state = 'Schuko: ' + dadesCargadors[4] + ', Mennekes: ' + dadesCargadors[8] + ', Chademo: ' + dadesCargadors[12] + ' and CCSCombo2: ' + dadesCargadors[16];
     }
+    String title = "";
+    String states = "";
+    if(ctrlDomain.usuari.idiom == "en"){
+      title = "Charger point " + dadesCargadors[1] + " state";
+      if(state == "<unknown>"){
+        states = "This charger doesn't belong to Barcelona, so we don't have the required information to give you the state of the charger";
+      }else {
+        states = "Your charger point has " +state+ " available chargers.";
+      }
+    }
+    if(ctrlDomain.usuari.idiom == "es"){
+      title = "Estado del punto de carga " + dadesCargadors[1];
+      if(state == "<unknown>") {
+        states = "Este cargador no es de Barcelona, por lo que no disponemos de los datos necesarios para darte el estado del cargador";
+      }
+      else{
+        states = "El cargador tiene " +state+ " enchufes disponibles";
+      }
+    }
+    if(ctrlDomain.usuari.idiom == "ca"){
+      title = "Estat del punt de càrrega" + dadesCargadors[1];
+      if(state == "<unknown>"){
+        states="Aquest carregador no pertany a Barcelona, per aquest motiu no disposem de la informació necessària per donar-te l'estat del carregador";
+      }
+      else{
+        states = "El carregador té " +state+ " endolls disponibles";
+      }
+    }
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         apiId,
-        "Charger point " + dadesCargadors[1] + " state", //ToDo: Translate into 3 languages
-        "Your charger point has " +state+ " available chargers.",
+        title,
+        states,
         tz.TZDateTime.from(when, tz.local),
         NotificationDetails(android: _androidNotificationDetails),
         androidAllowWhileIdle: true,
