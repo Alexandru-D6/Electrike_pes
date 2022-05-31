@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/domini/services/service_locator.dart';
 import 'package:flutter_project/interficie/constants.dart';
 import 'package:flutter_project/interficie/ctrl_presentation.dart';
 import 'package:flutter_project/interficie/widget/google_map.dart';
@@ -154,21 +155,31 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
           tooltip: AppLocalizations.of(context).msgAddFav,
-          onPressed: () {
-            setState(() {
+          onPressed: () async {
+            bool temp = await getLoginService.isSignIn();
+            if (!temp) {
 
-              if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
-                GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favChargerPoints");
-              }
-              else {
-                var marker = const MyMap().markerCharger(context, widget.latitude, widget.longitude);
-                GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(marker, group: "favChargerPoints");
-              }
+              ctrlPresentation.showNotLogDialog(context);
+            }else{
+              setState(() {
+                if (ctrlPresentation.isAFavPoint(
+                    widget.latitude, widget.longitude)) {
+                  GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(
+                      GeoCoord(widget.latitude, widget.longitude),
+                      group: "favChargerPoints");
+                }
+                else {
+                  var marker = const MyMap().markerCharger(
+                      context, widget.latitude, widget.longitude);
+                  GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(
+                      marker, group: "favChargerPoints");
+                }
 
-              ctrlPresentation.loveClickedCharger(context, widget.latitude, widget.longitude);
-              Navigator.pop(context);
-
-            });
+                ctrlPresentation.loveClickedCharger(
+                    context, widget.latitude, widget.longitude);
+                Navigator.pop(context);
+              });
+            }
           },
         ),
       ],

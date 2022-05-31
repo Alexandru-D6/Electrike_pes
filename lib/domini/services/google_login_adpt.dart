@@ -57,7 +57,7 @@ class GoogleLoginAdpt {
     return _googleSignIn.disconnect();
   }
 
-  Future<bool> isSignIn() {
+  Future<bool> isSignIn() async {
     var _googleSignIn = _googleSignInWeb;
     if (defaultTargetPlatform == TargetPlatform.android) {
       _googleSignIn = _googleSignInAndroid;
