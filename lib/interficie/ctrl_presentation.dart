@@ -387,12 +387,26 @@ class CtrlPresentation {
       );
     }
     else if (routeType == 2) {
-      //todo: ruta ecologica
-      String origin = curLocation.latitude.toString() + "," + curLocation.longitude.toString();
-      if (actualLocation != "My location") origin = actualLocation;
+      GeoCoord dest = await getMapsService.adressCoding(destination);
+
+      late GeoCoord orig;
+      if (actualLocation != "My location") orig = await getMapsService.adressCoding(actualLocation);
+
+      double bat = double.parse(bateria);
+
+      if (actualLocation == "My location") orig = curLocation;
+
+
+      //RoutesResponse rutaCharger = await ctrlDomain.findSuitableRoute(orig, dest, bat);
+
+
+      String origin = orig.latitude.toString() + "," + orig.longitude.toString();
+
+      print(waypointsRuta);
       GoogleMap.of(getMapKey())?.displayRoute(
-          origin,
-          destination,
+        origin,
+        destination,
+        waypoints: waypointsRuta.isEmpty || waypointsRuta.first.latitude == -1.0 ? List<GeoCoord>.empty() : waypointsRuta,
         startLabel: "Origin",
         startInfo: "Origin",
         endLabel: "Destination",
@@ -428,12 +442,42 @@ class CtrlPresentation {
       showNotLogDialog(context);
     }
     else {
+
+      showDialog(
+        // The user CANNOT close this dialog  by pressing outsite it
+          barrierDismissible: false,
+          context: context,
+          builder: (_) {
+            return Dialog(
+              // The background color
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    // The loading indicator
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    // Some text
+                    Text('Loading...')
+                  ],
+                ),
+              ),
+            );
+          });
+
       if(isAFavPoint(latitud, longitud) && hasNotifications(latitud, longitud)){
         List<List<String>> notifications = getNotifications(latitud, longitud);
         for (var notification in notifications) {
-          removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+          await removeNotification(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
         }
       }
+
+      Navigator.of(context, rootNavigator: true).pop();
+
       ctrlDomain.gestioFavChargers(latitud, longitud);
     }
   }
@@ -885,31 +929,31 @@ class CtrlPresentation {
     return ctrlDomain.currentScheduledNotificationsOfAChargerPoint(latitud,longitud);
   }
 
-  void addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
-    ctrlDomain.addSheduledNotificationsFavoriteChargePoint(latitud, longitud, hour, minute, selectedDays);
+  Future<void> addNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) async {
+    await ctrlDomain.addSheduledNotificationsFavoriteChargePoint(latitud, longitud, hour, minute, selectedDays);
   }
 
-  void removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) {
-    ctrlDomain.removeScheduledNotifications(latitud, longitud, hour, minute, selectedDays);
+  Future<void> removeNotification(double latitud, double longitud, int hour, int minute, List<int> selectedDays) async {
+    await ctrlDomain.removeScheduledNotifications(latitud, longitud, hour, minute, selectedDays);
   }
 
   void showInstantNotification(double lat, double long) {
     ctrlDomain.showInstantNotification(lat, long);
   }
 
-  void disableAllNotifications(double latitud, double longitud) async {
+  Future<void> disableAllNotifications(double latitud, double longitud) async {
     List<List<String>> notifications = getNotifications(latitud, longitud);
     for(int i = 0; i < notifications.length; ++i){
       List<String> notification = notifications[i];
-      ctrlDomain.disableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+      await ctrlDomain.disableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
     }
   }
 
-  void enableAllNotifications(double latitud, double longitud) async{
+  Future<void> enableAllNotifications(double latitud, double longitud) async{
     List<List<String>> notifications = getNotifications(latitud, longitud);
     for(int i = 0; i < notifications.length; ++i){
       List<String> notification = notifications[i];
-      ctrlDomain.enableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
+      await ctrlDomain.enableNotifications(latitud, longitud, int.parse(notification[0].split(":")[0]), int.parse(notification[0].split(":")[1]), notification.sublist(1).map(int.parse).toList());
     }
   }
   
@@ -947,9 +991,44 @@ class CtrlPresentation {
         resDistance = rutaCharger.distance;
       }
       else if(routeType == 2){
-        //todo:calculos necesarios ruta eco
-        resDuration = "0.0";
-        resDistance = "0";
+        double bat = double.parse(bateria);
+
+        showDialog(
+          // The user CANNOT close this dialog  by pressing outsite it
+            barrierDismissible: false,
+            context: navigatorKey.currentContext!,
+            builder: (_) {
+              return Dialog(
+                // The background color
+                backgroundColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      // The loading indicator
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      // Some text
+                      Text('Loading...')
+                    ],
+                  ),
+                ),
+              );
+            });
+
+        var rutaCharger = await ctrlDomain.findEcoRoute(origen, desti, bat);
+
+        Navigator.of(navigatorKey.currentContext!, rootNavigator: true).pop();
+
+        distinkilometers = rutaCharger.distance;
+        durationinhours = rutaCharger.duration;
+        waypointsRuta = rutaCharger.waypoints;
+        String origin = origen.latitude.toString() + "," + origen.longitude.toString();
+        resDuration = rutaCharger.duration;
+        resDistance = rutaCharger.distance;
       }
       List<String> res = [resDistance, resDuration];
       return res;

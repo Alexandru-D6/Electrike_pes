@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_project/domini/rutes/rutes_eco.dart';
 import 'package:vector_math/vector_math.dart' as math;
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
@@ -788,6 +789,11 @@ class CtrlDomain {
     RoutesResponse routesResponse = await rutesAmbCarrega.algorismeMillorRuta(origen, destino, bateriaPerc, vhselected.efficiency);
     return routesResponse;
   }
+  Future<RoutesResponse> findEcoRoute(GeoCoord origen, GeoCoord destino, double bateriaPerc) async {
+    RutesEco rutesEco = RutesEco();
+    RoutesResponse routesResponse = await rutesEco.algorismeEco(origen, destino, bateriaPerc, vhselected.efficiency);
+    return routesResponse;
+  }
   Future<List<Coordenada>> getNearChargers(double lat, double lon, double radius) async{
     var urlc = urlorg+'near_chargers?lat='+ lat.toString() + '&lon=' + lon.toString() + '&dist=' + radius.toString();
     var responseCars = (await http.get(Uri.parse(urlc)));
@@ -840,11 +846,8 @@ class CtrlDomain {
   }
 
   List<Tuple4<List<String>, List<Tuple3<int,int,int>>, double, double >> addNotificationsDBids = List<Tuple4<List<String>, List<Tuple3<int,int,int>>, double, double >>.empty(growable: true);
-  bool addingNotificationsDB = false;
 
   Future<void> addNotificationDB() async {
-
-    addingNotificationsDB = true;
 
     for (var noti in addNotificationsDBids) {
       for (int i = 0; i < noti.item1.length; ++i) {
@@ -869,8 +872,6 @@ class CtrlDomain {
         }
       }
     }
-
-    addingNotificationsDB = false;
   }
 
   /*
@@ -880,7 +881,7 @@ class CtrlDomain {
     2n -> iniHour
     3r -> iniMinute
    */
-  void addListOfSheduledNotificationFavoriteChargePoint(double lat, double long, List<Tuple3<int, int, int>> l) async {
+  Future<void> addListOfSheduledNotificationFavoriteChargePoint(double lat, double long, List<Tuple3<int, int, int>> l) async {
     List<String> ids = List<String>.empty(growable: true);
     for (var notif in l) {
       DateTime firstNotification = _adaptTime(notif.item2, notif.item3, notif.item1, true); //hour --- minute --- dayOfWeek
@@ -889,12 +890,8 @@ class CtrlDomain {
     }
 
     var info = Tuple4(ids, l, lat, long);
-    if (!addingNotificationsDB) {
-      addNotificationsDBids = [info];
-      addNotificationDB();
-    }else {
-      addNotificationsDBids.add(info);
-    }
+    addNotificationsDBids = [info];
+    await addNotificationDB();
   }
 
   //Afegeix tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
@@ -910,31 +907,24 @@ class CtrlDomain {
     }
 
     var info = Tuple4(ids, items, lat, long);
-    if (!addingNotificationsDB) {
-      addNotificationsDBids = [info];
-      addNotificationDB();
-    }else {
-      addNotificationsDBids.add(info);
-    }
+    addNotificationsDBids = [info];
+    await addNotificationDB();
 
   }
 
   List<String> removeNotificationsDBids = List<String>.empty(growable: true);
-  bool removingNotificationsDB = false;
 
-  void removeNotificationsDB() async {
-    removingNotificationsDB = true;
+  Future<void> removeNotificationsDB() async {
     for (var id in removeNotificationsDBids) {
       if (id != "-1") {
         var url = urlorg + 'remove_notification?email=' + usuari.correu + '&id=' + id.toString();
         var response = (await http.post(Uri.parse(url)));
       }
     }
-    removingNotificationsDB = false;
   }
 
   //IMPORTANT: No cridar a funcions de crear una notificació i just desrprés cridar per eliminar-la. Si es fa, la notificació es pot no eliminar! Utilitzar await.
-  void removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) async {
+  Future<void> removeListOfScheduledNotification(double lat, double long, List<Tuple3<int, int, int>> l) async {
     List<String> ids = List<String>.empty(growable: true);
     for (var notif in l) {
       Tuple3<int,int,int> t3 = _convertDayOfTheWeek(notif.item1, notif.item2, notif.item3, false); //hour --- minute --- dayOfWeek
@@ -942,12 +932,8 @@ class CtrlDomain {
       ids.add(id);
     }
 
-    if (!removingNotificationsDB) {
-      removeNotificationsDBids = ids;
-      removeNotificationsDB();
-    }else {
-      removeNotificationsDBids.addAll(ids);
-    }
+    removeNotificationsDBids = ids;
+    await removeNotificationsDB();
   }
 
   /*Elimina tantes notificacions programades com dies de la setmana passats (between 1 (Monday) to 7 (Sunday))
@@ -961,12 +947,8 @@ class CtrlDomain {
       ids.add(id);
     }
 
-    if (!removingNotificationsDB) {
-      removeNotificationsDBids = ids;
-      removeNotificationsDB();
-    }else {
-      removeNotificationsDBids.addAll(ids);
-    }
+    removeNotificationsDBids = ids;
+    await removeNotificationsDB();
 
   }
 
@@ -1049,18 +1031,13 @@ class CtrlDomain {
     return routesResponse;
   }
 
-  List<String> enableNotificationsDBids = List<String>.empty(growable: true);
-  bool enablingNotificationsDB = false;
-
-  Future<void> enableNotificationsDB() async {
-    enablingNotificationsDB = true;
+  Future<void> enableNotificationsDB(List<String> enableNotificationsDBids) async {
     for (var id in enableNotificationsDBids) {
       if (id != "-1") {
         var url = urlorg + 'activate_notification?email=' + usuari.correu + '&id=' + id.toString();
         var response = (await http.post(Uri.parse(url)));
       }
     }
-    enablingNotificationsDB = false;
   }
 
   Future<void> enableNotifications(double lat, double long, int iniHour, int iniMinute, List<int> daysOfTheWeek) async {
@@ -1072,26 +1049,16 @@ class CtrlDomain {
       ids.add(id);
     }
 
-    if (!enablingNotificationsDB) {
-      enableNotificationsDBids = ids;
-      enableNotificationsDB();
-    }else {
-      enableNotificationsDBids.addAll(ids);
-    }
+    await enableNotificationsDB(ids);
   }
 
-  List<String> disableNotificationsDBids = List<String>.empty(growable: true);
-  bool disablingNotificationsDB = false;
-
-  void disableNotificationsDB() async {
-    disablingNotificationsDB = true;
+  Future<void> disableNotificationsDB(List<String> disableNotificationsDBids) async {
     for (var id in disableNotificationsDBids) {
       if (id != "-1") {
         var url = urlorg + 'deactivate_notification?email=' + usuari.correu + '&id=' + id.toString();
         var response = (await http.post(Uri.parse(url)));
       }
     }
-    disablingNotificationsDB = false;
   }
 
   //No s'ha de cridar just després de crear una notificació, sino no es desactivarà bé!
@@ -1103,12 +1070,7 @@ class CtrlDomain {
       ids.add(id);
     }
 
-    if (!disablingNotificationsDB) {
-      disableNotificationsDBids = ids;
-      disableNotificationsDB();
-    }else {
-      disableNotificationsDBids.addAll(ids);
-    }
+    await disableNotificationsDB(ids);
 
   }
 

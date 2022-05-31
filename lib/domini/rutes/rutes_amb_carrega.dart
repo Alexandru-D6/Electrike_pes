@@ -53,10 +53,12 @@ class RutesAmbCarrega {
   }
 
   /// Troba algun carregador compatible dins de la llista donada
-  GeoCoord findSuitableCharger(List<Coordenada> coordCarregadorsPropers) {
+  Future<GeoCoord> findSuitableCharger(List<Coordenada> coordCarregadorsPropers, GeoCoord desti) async {
     GeoCoord result = const GeoCoord(-1.0, -1.0);
+    double auxDist = 0.0, minDist =0.0;
     for (var element in coordCarregadorsPropers) {
       for (var elem2 in carregadorsCompatibles) {
+        // Si troba un carregador compatible, comprova que no hi hagi un altre més a prop del destí final
         if (element.latitud==elem2.latitud && element.longitud == elem2.longitud) {
           result = GeoCoord(elem2.latitud, elem2.longitud);
         }
@@ -91,16 +93,15 @@ class RutesAmbCarrega {
 
           if (coordCarregadorsPropers.isEmpty) {
             radius += 10.0;
-
           } else {
-            coordCharger = findSuitableCharger(coordCarregadorsPropers);
+            coordCharger = await findSuitableCharger(coordCarregadorsPropers, desti);
             if (coordCharger.longitude != -1.0 && coordCharger.latitude != -1.0) {
               routesResponse.waypoints.add(coordCharger);
               RouteResponse firstTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(origen, coordCharger);
               RouteResponse secTram= await GoogleMap.of(ctrlPresentation.getMapKey())!.getInfoRoute(coordCharger, desti);
               double totalDuration = (firstTram.durationMinutes!) + (secTram.durationMinutes!);
               double totalDistance = (firstTram.distanceMeters!) + (secTram.distanceMeters!);
-              routesResponse.coords = (firstTram.coords!) + (secTram.coords!);
+              routesResponse.coords = (firstTram.coords!)..addAll(secTram.coords!);
               routesResponse.setDuration(totalDuration);
               routesResponse.setDistance(totalDistance);
               trobat = true;

@@ -921,7 +921,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
               _markers.putIfAbsent("route", () => Map<String,items_t.Marker>());
               _markers["route"]!.putIfAbsent(element.toString(), () => _markers["chargerPoints"]![element.toString()]!);
             }else {
-              addMarkerRaw(element, "route", icon: "assets/images/me.png");
+              addMarkerRaw(element, "route", icon: "packages/google_maps_cluster_manager/assets/images/defaultMarker.png");
             }
           });
 
