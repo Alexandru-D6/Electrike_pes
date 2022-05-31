@@ -267,7 +267,7 @@ abstract class CustomFunctions {
   double getDistance(GeoCoord a, GeoCoord b);
   Map<String, Map<String, double>> getDistances(Map<String, GeoCoord> coords);
 
-  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, [List<GeoCoord>? waypoints]);
+  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, {List<GeoCoord>? waypoints});
 
   void displayRoute(
     dynamic origin,
