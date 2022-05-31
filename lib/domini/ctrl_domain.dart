@@ -104,6 +104,7 @@ class CtrlDomain {
     if(islogged()) {
       var url = urlorg + 'change_language?email=' + usuari.correu + '&language=' + idiom;
       var response = (await http.post(Uri.parse(url)));
+      usuari.idiom = idiom;
     }
   }
   //Fa el login o signups depenent si esta a la base de dades o no
