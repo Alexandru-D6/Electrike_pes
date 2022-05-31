@@ -981,7 +981,35 @@ class CtrlPresentation {
       else if(routeType == 1){
         double bat = double.parse(bateria);
 
+        showDialog(
+          // The user CANNOT close this dialog  by pressing outsite it
+            barrierDismissible: false,
+            context: navigatorKey.currentContext!,
+            builder: (_) {
+              return Dialog(
+                // The background color
+                backgroundColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      // The loading indicator
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      // Some text
+                      Text('Loading...')
+                    ],
+                  ),
+                ),
+              );
+            });
+
         var rutaCharger = await ctrlDomain.findSuitableRoute(origen, desti, bat);
+
+        Navigator.of(navigatorKey.currentContext!, rootNavigator: true).pop();
 
         distinkilometers = rutaCharger.distance;
         durationinhours = rutaCharger.duration;
