@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -143,42 +144,57 @@ class _TimePickerPageState extends State<TimePickerPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(AppLocalizations.of(context).notificationInfoMsg(selectedDays.toString(), selectedTime.hour.toString(), selectedTime.minute.toString()))), // (Peilin) ready for test
-          );
-
-          showDialog(
-            // The user CANNOT close this dialog  by pressing outsite it
-              barrierDismissible: false,
+          if(selectedDays.isEmpty){
+            AwesomeDialog(
               context: context,
-              builder: (_) {
-                return Dialog(
-                  // The background color
-                  backgroundColor: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        // The loading indicator
-                        CircularProgressIndicator(),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        // Some text
-                        Text('Loading...')
-                      ],
+              width: 500,
+              animType: AnimType.LEFTSLIDE,
+              dialogType: DialogType.NO_HEADER,
+              autoHide: const Duration(seconds: 6),
+              title: AppLocalizations.of(context).addAtLeastOneDayTitle,
+              desc: AppLocalizations.of(context).addAtLeastOneDayDesc,
+              btnOkText:'Ok',
+              btnOkOnPress:(){},
+              headerAnimationLoop: false,
+            ).show();
+          }
+          else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(AppLocalizations.of(context).notificationInfoMsg(selectedDays.toString(), selectedTime.hour.toString(), selectedTime.minute.toString()))), // (Peilin) ready for test
+            );
+
+            showDialog(
+              // The user CANNOT close this dialog  by pressing outsite it
+                barrierDismissible: false,
+                context: context,
+                builder: (_) {
+                  return Dialog(
+                    // The background color
+                    backgroundColor: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          // The loading indicator
+                          CircularProgressIndicator(),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          // Some text
+                          Text('Loading...')
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              });
+                  );
+                });
 
-          List<int> selectedDaysInt = daysToInt(selectedDays, context);
-          await ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
-          Navigator.of(context, rootNavigator: true).pop();
+            List<int> selectedDaysInt = daysToInt(selectedDays, context);
+            await ctrlPresentation.addNotification(notificationsInfo.latitud, notificationsInfo.longitud, selectedTime.hour, selectedTime.minute, selectedDaysInt);
+            Navigator.of(context, rootNavigator: true).pop();
 
-          ctrlPresentation.toNotificationsPage(context, notificationsInfo.latitud, notificationsInfo.longitud, notificationsInfo.title);
+            ctrlPresentation.toNotificationsPage(context, notificationsInfo.latitud, notificationsInfo.longitud, notificationsInfo.title);
+          }
         },
         heroTag: AppLocalizations.of(context).addNoti,// (Peilin) ready for test
         tooltip: AppLocalizations.of(context).addNoti,// (Peilin) ready for test

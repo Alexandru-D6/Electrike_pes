@@ -175,7 +175,7 @@
 
    "addAlert": "Añadir notificación",
   "addAlertDescr": "Necesitas crear el menos una notificación asociada a este punto de carga.",
-  "addalertdesc": "No tienes ninguna notificación asociada a este punto. Agrega al menos uno para recibir notificaciones desde este punto.",
+  "addalertdesc": "No tienes ninguna notificación asociada a este punto. Agrega al menos una para recibir notificaciones desde este punto.",
   "skip": "SALTAR",
   "next": "SIGUIENTE",
   "duration": "Tiempo",
@@ -304,6 +304,8 @@
       "placeholders": {
           "min": {}
       }
-  }
+  },
+  "addAtLeastOneDayTitle":"No hay días seleccionados para notificar",
+  "addAtLeastOneDayDesc": "Añade como mínimo un día para que se pueda crear la alerta."
 
 }

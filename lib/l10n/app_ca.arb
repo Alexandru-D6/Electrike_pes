@@ -287,5 +287,7 @@
              "placeholders": {
                  "min": {}
              }
-         }
+         },
+         "addAtLeastOneDayTitle":"No s'ha seleccionat cap dia per notificar",
+           "addAtLeastOneDayDesc":"Afegeix com a mínim un dia perquè es pugui crear l'alerta."
 }

@@ -1427,6 +1427,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter your address of origin and the destination of your trip. If you do not enter any of the origin, the current location will be taken by default. Select the vehicle with which you are going to travel using the arrows or by moving sideways. Now It only remains for you to enter the remaining battery and the type of route you want to do and enjoy the trip.'**
   String get startTravelDescription;
+
+  /// No description provided for @addAtLeastOneDayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No days selected to notify'**
+  String get addAtLeastOneDayTitle;
+
+  /// No description provided for @addAtLeastOneDayDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one day in order to alert can be created.'**
+  String get addAtLeastOneDayDesc;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
