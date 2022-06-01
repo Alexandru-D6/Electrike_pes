@@ -7,6 +7,8 @@ import 'package:flutter_project/interficie/widget/google_map.dart';
 import 'package:flutter_project/libraries/flutter_google_maps/flutter_google_maps.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../domini/services/service_locator.dart';
+
 
 class BicingPointDetailInformation extends StatelessWidget {
   const BicingPointDetailInformation({
@@ -134,20 +136,25 @@ class _StatefulFavouriteButtonState extends State<StatefulFavouriteButton> {
             color: ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude) ? Colors.red : null,
           ),
           tooltip: AppLocalizations.of(context).addFavPoints, // (Peilin) ready for test
-          onPressed: () {
-            setState(() {
+          onPressed: () async {
+            bool temp = await getLoginService.isSignIn();
+            if (!temp) {
+              ctrlPresentation.showNotLogDialog(context);
+            }else {
+              setState(() {
 
-              if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
-                GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favBicingPoints");
-              }
-              else {
-                var marker = const MyMap().markerBicing(context, widget.latitude, widget.longitude);
-                GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(marker, group: "favBicingPoints");
-              }
+                if(ctrlPresentation.isAFavPoint(widget.latitude, widget.longitude)) {
+                  GoogleMap.of(ctrlPresentation.getMapKey())?.removeMarker(GeoCoord(widget.latitude, widget.longitude), group: "favBicingPoints");
+                }
+                else {
+                  var marker = const MyMap().markerBicing(context, widget.latitude, widget.longitude);
+                  GoogleMap.of(ctrlPresentation.getMapKey())?.addMarker(marker, group: "favBicingPoints");
+                }
 
-              ctrlPresentation.loveClickedBicing(context, widget.latitude, widget.longitude);
-              Navigator.pop(context);
-            });
+                ctrlPresentation.loveClickedBicing(context, widget.latitude, widget.longitude);
+                Navigator.pop(context);
+              });
+            }
           },
         ),
       ],

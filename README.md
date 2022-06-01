@@ -1,4 +1,4 @@
-# PES_Electrike_Hades
+# PES_Electrike
 
 # Miembros
 - Alvaro Rodriguez Rubio : [Alvarorodri](https://github.com/Alvarorodri)

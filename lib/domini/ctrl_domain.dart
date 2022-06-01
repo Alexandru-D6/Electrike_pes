@@ -1152,7 +1152,7 @@ class CtrlDomain {
       http.post(Uri.parse(url));
       for (int i = 6; i < 9; ++i) {
         if (usuari.trofeus[i].unlocked == false &&
-            usuari.trofeus[i].limit <= usuari.co2Estalviat) {
+            usuari.trofeus[i].limit/1000.0 <= usuari.co2Estalviat) {
           //unlock in presentation
           ctrlPresentation.showMyDialog(i.toString());
 

@@ -805,7 +805,7 @@ class GoogleMapState extends gmap.GoogleMapStateBase {
   }
 
   @override
-  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, [List<GeoCoord>? waypoints]) async {
+  Future<RouteResponse> getInfoRoute(dynamic origin, dynamic destination, {List<GeoCoord>? waypoints}) async {
 
     DirectionsRenderer direction = DirectionsRenderer(DirectionsRendererOptions()..suppressMarkers = true);
     direction.map = _map;
