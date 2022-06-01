@@ -89,8 +89,8 @@ const RESOURCES = {
 "assets/assets/brandCars/kia.png": "41de30e74361973f601d6a0204a53bf3",
 "assets/assets/brandCars/audi.png": "7b096aadf1a0fc5844c2357045699ec6",
 "assets/assets/trophies/lockedtrophy1.png": "bccc598f6416171b39e9bf8c7a4508aa",
-"assets/assets/trophies/trophy7.png": "0fdd5442e2e8f7564751aa734126988c",
-"assets/assets/trophies/trophy8.png": "0fdd5442e2e8f7564751aa734126988c",
+"assets/assets/trophies/trophy7.png": "55431ba66191ef533c8b16e02a9bec53",
+"assets/assets/trophies/trophy8.png": "55431ba66191ef533c8b16e02a9bec53",
 "assets/assets/trophies/trophy5.png": "209707d5de04a6d40af9c7533e409373",
 "assets/assets/trophies/trophy3.png": "209707d5de04a6d40af9c7533e409373",
 "assets/assets/trophies/trophy2.png": "593b0bc05bb30b1077dd106411f36c05",
@@ -98,12 +98,12 @@ const RESOURCES = {
 "assets/assets/trophies/lockedtrophy0.png": "bccc598f6416171b39e9bf8c7a4508aa",
 "assets/assets/trophies/trophy4.png": "209707d5de04a6d40af9c7533e409373",
 "assets/assets/trophies/lockedtrophy8.png": "5e66b8f375e39c2842f2d2cce82a5088",
-"assets/assets/trophies/trophy10.png": "edc31ff70181a6c3834692296a2f4e7b",
+"assets/assets/trophies/trophy10.png": "11a8bc520d1cc90f4718ce2eb97c5200",
 "assets/assets/trophies/trophy0.png": "593b0bc05bb30b1077dd106411f36c05",
 "assets/assets/trophies/lockedtrophy7.png": "5e66b8f375e39c2842f2d2cce82a5088",
-"assets/assets/trophies/trophy6.png": "0fdd5442e2e8f7564751aa734126988c",
-"assets/assets/trophies/trophy9.png": "edc31ff70181a6c3834692296a2f4e7b",
-"assets/assets/trophies/trophy11.png": "edc31ff70181a6c3834692296a2f4e7b",
+"assets/assets/trophies/trophy6.png": "55431ba66191ef533c8b16e02a9bec53",
+"assets/assets/trophies/trophy9.png": "11a8bc520d1cc90f4718ce2eb97c5200",
+"assets/assets/trophies/trophy11.png": "11a8bc520d1cc90f4718ce2eb97c5200",
 "assets/assets/trophies/trophy1.png": "593b0bc05bb30b1077dd106411f36c05",
 "assets/assets/trophies/lockedtrophy3.png": "c609e08a0ae64179a387f2465e3364c9",
 "assets/assets/trophies/lockedtrophy2.png": "bccc598f6416171b39e9bf8c7a4508aa",
@@ -179,8 +179,8 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "main.dart.js": "1218b670811b847caafed813cb0e0c20",
-"index.html": "f90ff026d6f3941ada40afd87bb78814",
-"/": "f90ff026d6f3941ada40afd87bb78814"
+"index.html": "7da28272ce65f0ecf9e1516fdd189693",
+"/": "7da28272ce65f0ecf9e1516fdd189693"
 };
 
 // The application shell files that are downloaded before a service worker can
