@@ -36,7 +36,11 @@ class GoogleLoginAdpt {
       user = await _googleSignIn.signIn();
       if (user?.displayName != null) name = user!.displayName.toString();
       if (user?.email != null) email = user!.email.toString();
-      if (user?.photoUrl != null) photoUrl = user!.photoUrl.toString();
+      if (user?.photoUrl != null) {
+        photoUrl = user!.photoUrl.toString();
+      } else {
+        photoUrl = "https://i.stack.imgur.com/34AD2.jpg";
+      }
     }catch(e) {
       print("error: --> " + e.toString());
     }
