@@ -34,7 +34,7 @@ class RutesEco {
   /// Obtenir waypoints eco propers
   Future<void> getEcoWaypoints(List<GeoCoord> coordRuta) async {
     for (int i = (coordRuta.length/10).round(); i < (coordRuta.length - (coordRuta.length/10).round()); i+= (coordRuta.length/10).round()) {
-      double minDist = 0.0, auxDist;
+      double minDist = double.infinity, auxDist;
       GeoCoord ecoWayPoint = const GeoCoord(-1.0, -1.0);
 
       Map<double, GeoCoord> ecoCoords = await happyLungsAdpt.getEcoPoints(coordRuta[i]); //obtenim els punts ecològics de cada coordenada de la nostra ruta

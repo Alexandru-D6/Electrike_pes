@@ -55,12 +55,19 @@ class RutesAmbCarrega {
   /// Troba algun carregador compatible dins de la llista donada
   Future<GeoCoord> findSuitableCharger(List<Coordenada> coordCarregadorsPropers, GeoCoord desti) async {
     GeoCoord result = const GeoCoord(-1.0, -1.0);
-    double auxDist = 0.0, minDist =0.0;
+    double? auxDist = 0.0;
+    double minDist =double.infinity;
     for (var element in coordCarregadorsPropers) {
       for (var elem2 in carregadorsCompatibles) {
         // Si troba un carregador compatible, comprova que no hi hagi un altre més a prop del destí final
         if (element.latitud==elem2.latitud && element.longitud == elem2.longitud) {
-          result = GeoCoord(elem2.latitud, elem2.longitud);
+          GeoCoord c1 = GeoCoord(elem2.latitud, elem2.longitud);
+          auxDist = GoogleMap.of(ctrlPresentation.getMapKey())?.getDistance(c1, desti);
+
+          if (auxDist! < minDist) {
+            minDist = auxDist;
+            result = c1;
+          }
         }
       }
     }
