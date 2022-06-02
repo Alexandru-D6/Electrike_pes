@@ -97757,6 +97757,7 @@ g=i.aq()
 if((g==null?null:g.b)!=null)k.b=i.aq().b
 g=i.aq()
 if((g==null?null:g.d)!=null)j.b=J.aW(i.aq().d)
+else j.b="https://i.stack.imgur.com/34AD2.jpg"
 p=2
 s=6
 break
