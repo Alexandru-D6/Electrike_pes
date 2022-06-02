@@ -60,13 +60,6 @@ class CtrlPresentation {
   void initLocation(BuildContext context) {
     location = Location();
     askForPermission(location, context);
-
-    location.onLocationChanged.listen((event) {
-      double? lat = event.latitude;
-      double? lng = event.longitude;
-      curLocation = GeoCoord(lat!, lng!);
-      ctrlDomain.increaseDistance(lat, lng);
-    });
   }
 
   Future<void> askForPermission(Location location, BuildContext context) async {
@@ -86,6 +79,12 @@ class CtrlPresentation {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted == PermissionStatus.granted) {
+        location.onLocationChanged.listen((event) {
+          double? lat = event.latitude;
+          double? lng = event.longitude;
+          curLocation = GeoCoord(lat!, lng!);
+          ctrlDomain.increaseDistance(lat, lng);
+        });
         ctrlPresentation.toMainPage(context);
       }
     }

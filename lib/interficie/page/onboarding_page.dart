@@ -185,10 +185,16 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
         onPressed: () async{
           final prefs = await SharedPreferences.getInstance();
-          prefs.setBool('showHome', true);
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const MyApp()),
-          );
+
+          final showHome = prefs.getBool('showHome') ?? false;
+          if (showHome) {
+            ctrlPresentation.toMainPage(context);
+          }else {
+            prefs.setBool('showHome', true);
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const MyApp()),
+            );
+          }
         }
     )
           : Container(
