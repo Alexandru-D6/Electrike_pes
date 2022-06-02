@@ -78,7 +78,8 @@ class CtrlPresentation {
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
-      if (_permissionGranted == PermissionStatus.granted) {
+    }
+    if (_permissionGranted == PermissionStatus.granted) {
         location.onLocationChanged.listen((event) {
           double? lat = event.latitude;
           double? lng = event.longitude;
@@ -87,7 +88,6 @@ class CtrlPresentation {
         });
         ctrlPresentation.toMainPage(context);
       }
-    }
   }
   
   //intercambiar vista
